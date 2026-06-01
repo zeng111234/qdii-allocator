@@ -292,6 +292,66 @@
       "minPurchase": 10,
       "status": "active",
       "note": "易方达中概互联"
+    },
+    {
+      "code": "011612",
+      "name": "华夏科创50ETF联接A",
+      "type": "科创50",
+      "shareClass": "A",
+      "feeRate": 0.12,
+      "custodyFee": 0.1,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "科创板龙头指数"
+    },
+    {
+      "code": "011608",
+      "name": "易方达科创50ETF联接A",
+      "type": "科创50",
+      "shareClass": "A",
+      "feeRate": 0.12,
+      "custodyFee": 0.1,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "易方达科创50"
+    },
+    {
+      "code": "202007",
+      "name": "南方中证500ETF联接A",
+      "type": "中证500",
+      "shareClass": "A",
+      "feeRate": 0.12,
+      "custodyFee": 0.1,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "中小盘代表指数"
+    },
+    {
+      "code": "001594",
+      "name": "天弘中证银行A",
+      "type": "中证银行",
+      "shareClass": "A",
+      "feeRate": 0.5,
+      "custodyFee": 0.1,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "银行板块高股息"
+    },
+    {
+      "code": "007466",
+      "name": "华泰柏瑞中证红利低波A",
+      "type": "中证红利",
+      "shareClass": "A",
+      "feeRate": 0.12,
+      "custodyFee": 0.1,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "高股息防守型"
     }
   ],
   "_lastUpdated": "2025-05-27",
