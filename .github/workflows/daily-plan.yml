@@ -67,5 +67,6 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "chore: update history $(date +%Y/%m/%d)"
+            git fetch origin main
             git push --force-with-lease
           fi
