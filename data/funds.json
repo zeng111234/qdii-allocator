@@ -6,7 +6,7 @@
     "minPurchase": 10,
     "topN": 10,
     "historyFile": "data/history.json",
-    "lookbackDays": 250
+    "lookbackDays": 750
   },
   "funds": [
     {
