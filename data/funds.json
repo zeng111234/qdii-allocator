@@ -70,6 +70,18 @@
       "note": "纳指100补充品种"
     },
     {
+      "code": "006479",
+      "name": "南方纳斯达克100QDII-A",
+      "type": "纳指100",
+      "shareClass": "A",
+      "feeRate": 0.8,
+      "custodyFee": 0.2,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "纳指100南方产品"
+    },
+    {
       "code": "161130",
       "name": "易方达纳斯达克100A(QDII-LOF)",
       "type": "纳指100",
@@ -214,6 +226,18 @@
       "note": "欧洲制造业龙头"
     },
     {
+      "code": "002280",
+      "name": "华安德国DAX30ETF联接QDII-A",
+      "type": "德国",
+      "shareClass": "A",
+      "feeRate": 0.8,
+      "custodyFee": 0.2,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "德国DAX ETF联接"
+    },
+    {
       "code": "161126",
       "name": "易方达标普医疗保健A(QDII-LOF)",
       "type": "标普医疗",
@@ -224,6 +248,18 @@
       "minPurchase": 10,
       "status": "active",
       "note": "易方达医疗板块"
+    },
+    {
+      "code": "118002",
+      "name": "易方达医疗保健行业QDII-A",
+      "type": "全球医疗",
+      "shareClass": "A",
+      "feeRate": 1.2,
+      "custodyFee": 0.25,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "全球医疗保健"
     },
     {
       "code": "161129",
@@ -250,6 +286,18 @@
       "note": "石油能源板块"
     },
     {
+      "code": "000988",
+      "name": "华安标普全球石油QDII-A",
+      "type": "石油能源",
+      "shareClass": "A",
+      "feeRate": 0.8,
+      "custodyFee": 0.25,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "全球石油能源"
+    },
+    {
       "code": "002400",
       "name": "南方亚洲美元债A(QDII)",
       "type": "亚洲债",
@@ -274,78 +322,6 @@
       "note": "大宗商品配置"
     },
     {
-      "code": "513050",
-      "name": "易方达中概互联ETF联接A(QDII)",
-      "type": "中概股",
-      "shareClass": "A",
-      "feeRate": 0.6,
-      "custodyFee": 0.15,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "易方达中概互联"
-    },
-    {
-      "code": "011612",
-      "name": "华夏科创50ETF联接A",
-      "type": "科创50",
-      "shareClass": "A",
-      "feeRate": 0.12,
-      "custodyFee": 0.1,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "科创板龙头指数"
-    },
-    {
-      "code": "011608",
-      "name": "易方达科创50ETF联接A",
-      "type": "科创50",
-      "shareClass": "A",
-      "feeRate": 0.12,
-      "custodyFee": 0.1,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "易方达科创50"
-    },
-    {
-      "code": "202007",
-      "name": "南方中证500ETF联接A",
-      "type": "中证500",
-      "shareClass": "A",
-      "feeRate": 0.12,
-      "custodyFee": 0.1,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "中小盘代表指数"
-    },
-    {
-      "code": "001594",
-      "name": "天弘中证银行A",
-      "type": "中证银行",
-      "shareClass": "A",
-      "feeRate": 0.5,
-      "custodyFee": 0.1,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "银行板块高股息"
-    },
-    {
-      "code": "007466",
-      "name": "华泰柏瑞中证红利低波A",
-      "type": "中证红利",
-      "shareClass": "A",
-      "feeRate": 0.12,
-      "custodyFee": 0.1,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "高股息防守型"
-    },
-    {
       "code": "486002",
       "name": "工银全球精选QDII-A",
       "type": "全球精选",
@@ -356,6 +332,18 @@
       "minPurchase": 10,
       "status": "active",
       "note": "全球精选，覆盖美股欧股"
+    },
+    {
+      "code": "005598",
+      "name": "富国蓝筹精选QDII-A",
+      "type": "全球蓝筹",
+      "shareClass": "A",
+      "feeRate": 1.2,
+      "custodyFee": 0.25,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "全球蓝筹精选"
     },
     {
       "code": "206011",
@@ -380,6 +368,18 @@
       "minPurchase": 10,
       "status": "active",
       "note": "亚太市场精选"
+    },
+    {
+      "code": "000369",
+      "name": "广发亚太精选QDII-A",
+      "type": "亚太精选",
+      "shareClass": "A",
+      "feeRate": 1.2,
+      "custodyFee": 0.25,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "亚太市场精选广发"
     },
     {
       "code": "164701",
@@ -467,5 +467,5 @@
     }
   ],
   "_lastUpdated": "2026-06-03",
-  "_updateNote": "expanded pool with more foreign funds, 3yr lookback, top10 ranking"
+  "_updateNote": "removed 6 non-QDII funds, added 6 new limited foreign funds"
 }
