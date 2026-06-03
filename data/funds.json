@@ -1,20 +1,12 @@
 {
   "config": {
-    "defaultBudget": 20,
+    "defaultBudget": 50,
     "defaultStrategy": "dynamic",
     "note": "defaultStrategy: equal|low_fee|scarce|dynamic",
     "minPurchase": 10,
-    "topN": 3,
+    "topN": 10,
     "historyFile": "data/history.json",
-    "budgetScale": {
-      "base": 20,
-      "max": 100,
-      "thresholds": [
-        { "minScore": 10, "budget": 50, "label": "正常机会-加仓" },
-        { "minScore": 7, "budget": 20, "label": "一般机会-定投" },
-        { "minScore": 0, "budget": 10, "label": "弱信号-试探" }
-      ]
-    }
+    "lookbackDays": 250
   },
   "funds": [
     {
@@ -66,6 +58,30 @@
       "note": "纳指跟踪"
     },
     {
+      "code": "539001",
+      "name": "建信纳斯达克100A(QDII)",
+      "type": "纳指100",
+      "shareClass": "A",
+      "feeRate": 0.8,
+      "custodyFee": 0.2,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "纳指100补充品种"
+    },
+    {
+      "code": "161130",
+      "name": "易方达纳斯达克100A(QDII-LOF)",
+      "type": "纳指100",
+      "shareClass": "A",
+      "feeRate": 0.8,
+      "custodyFee": 0.25,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "纳指100易方达产品"
+    },
+    {
       "code": "161125",
       "name": "易方达标普500A(QDII-LOF)",
       "type": "标普500",
@@ -88,6 +104,18 @@
       "minPurchase": 10,
       "status": "active",
       "note": "标普500联接"
+    },
+    {
+      "code": "096001",
+      "name": "大成标普500A(QDII)",
+      "type": "标普500",
+      "shareClass": "A",
+      "feeRate": 0.6,
+      "custodyFee": 0.15,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "标普500低费率"
     },
     {
       "code": "001092",
@@ -130,48 +158,12 @@
       "name": "浦银安盛全球智能科技A(QDII)",
       "type": "全球科技",
       "shareClass": "A",
-      "feeRate": 1,
+      "feeRate": 1.0,
       "custodyFee": 0.2,
       "dailyLimit": 100,
       "minPurchase": 10,
       "status": "active",
       "note": "全球智能科技"
-    },
-    {
-      "code": "539001",
-      "name": "建信纳斯达克100A(QDII)",
-      "type": "纳指100",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.2,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "纳指100补充品种"
-    },
-    {
-      "code": "161130",
-      "name": "易方达纳斯达克100A(QDII-LOF)",
-      "type": "纳指100",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.25,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "纳指100易方达产品"
-    },
-    {
-      "code": "096001",
-      "name": "大成标普500A(QDII)",
-      "type": "标普500",
-      "shareClass": "A",
-      "feeRate": 0.6,
-      "custodyFee": 0.15,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "标普500低费率"
     },
     {
       "code": "000179",
@@ -352,8 +344,128 @@
       "minPurchase": 10,
       "status": "active",
       "note": "高股息防守型"
+    },
+    {
+      "code": "486002",
+      "name": "工银全球精选QDII-A",
+      "type": "全球精选",
+      "shareClass": "A",
+      "feeRate": 1.6,
+      "custodyFee": 0.35,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "全球精选，覆盖美股欧股"
+    },
+    {
+      "code": "206011",
+      "name": "鹏华美国房地产QDII-A",
+      "type": "美国REITs",
+      "shareClass": "A",
+      "feeRate": 1.2,
+      "custodyFee": 0.25,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "美国房地产REITs"
+    },
+    {
+      "code": "050015",
+      "name": "博时亚太精选QDII-A",
+      "type": "亚太精选",
+      "shareClass": "A",
+      "feeRate": 1.5,
+      "custodyFee": 0.25,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "亚太市场精选"
+    },
+    {
+      "code": "164701",
+      "name": "汇添富恒生指数A(QDII-LOF)",
+      "type": "恒生指数",
+      "shareClass": "A",
+      "feeRate": 0.6,
+      "custodyFee": 0.15,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "恒生指数跟踪"
+    },
+    {
+      "code": "002230",
+      "name": "华夏全球股票QDII-A",
+      "type": "全球股票",
+      "shareClass": "A",
+      "feeRate": 1.5,
+      "custodyFee": 0.3,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "全球股票配置"
+    },
+    {
+      "code": "110025",
+      "name": "易方达资源优选混合QDII-A",
+      "type": "全球资源",
+      "shareClass": "A",
+      "feeRate": 1.5,
+      "custodyFee": 0.3,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "全球资源类基金"
+    },
+    {
+      "code": "040018",
+      "name": "华安香港精选QDII-A",
+      "type": "港股精选",
+      "shareClass": "A",
+      "feeRate": 1.5,
+      "custodyFee": 0.25,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "港股市场精选"
+    },
+    {
+      "code": "270023",
+      "name": "广发全球精选QDII-A",
+      "type": "全球精选",
+      "shareClass": "A",
+      "feeRate": 1.6,
+      "custodyFee": 0.3,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "广发全球精选"
+    },
+    {
+      "code": "163208",
+      "name": "诺安全球收益不动产QDII",
+      "type": "全球不动产",
+      "shareClass": "A",
+      "feeRate": 1.4,
+      "custodyFee": 0.3,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "全球不动产基金"
+    },
+    {
+      "code": "160125",
+      "name": "南方香港优选QDII",
+      "type": "港股优选",
+      "shareClass": "A",
+      "feeRate": 1.2,
+      "custodyFee": 0.2,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "港股优选基金"
     }
   ],
-  "_lastUpdated": "2025-05-27",
-  "_updateNote": "dailyLimit和minPurchase会通过API自动更新"
+  "_lastUpdated": "2026-06-03",
+  "_updateNote": "expanded pool with more foreign funds, 3yr lookback, top10 ranking"
 }

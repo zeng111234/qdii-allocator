@@ -90,14 +90,14 @@ async function main() {
     return;
   }
 
-  console.log("[2/4] Allocating...");
+  console.log("[2/4] Ranking...");
+  var lookbackDays = config.lookbackDays || 750;
   var result, textContent;
   if (strategy === "dynamic") {
     result = await dyn.allocateDynamic(budget, funds, {
-      lookbackDays: 30,
+      lookbackDays: lookbackDays,
       topN: topN,
       minPurchase: minPurchase,
-      budgetScale: config.budgetScale || null,
       enableHistory: true
     });
     textContent = dyn.formatDynamicResult(result);
@@ -114,9 +114,13 @@ async function main() {
   var llmModel = process.env.LLM_MODEL;
 
   if (llmApiKey && llmBaseUrl && llmModel) {
-    console.log("[3/4] AI analysis...");
+    console.log("[3/4] AI decision analysis...");
     aiCommentary = await ai.generateCommentary(result, { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel });
-    console.log("AI: " + aiCommentary);
+    if (aiCommentary && aiCommentary.length > 10) {
+      console.log("[AI\u51b3\u7b56\u62a5\u544a] " + aiCommentary.substring(0, 200) + "...");
+    } else {
+      console.log("[AI] " + aiCommentary);
+    }
   } else {
     console.log("[3/4] AI skipped (no LLM_API_KEY)");
   }
@@ -127,7 +131,12 @@ async function main() {
     console.log("");
     console.log("--- preview ---");
     console.log(textContent);
-    if (aiCommentary) { console.log(""); console.log("AI: " + aiCommentary); }
+    if (aiCommentary && aiCommentary.length > 10) {
+      console.log("");
+      console.log("=== AI Decision Report ===");
+      console.log(aiCommentary);
+      console.log("=== End AI Report ===");
+    }
     console.log("--- end ---");
   } else {
     var smtpHost = process.env.SMTP_HOST;
@@ -140,7 +149,7 @@ async function main() {
     } else {
       console.log("[4/4] Sending email...");
       var smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
-      var success = await mail.sendEmail({ to: mailTo, subject: "QDII " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result }, smtpConfig);
+      var success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result }, smtpConfig);
       if (!success) { console.error("[error] email failed"); process.exit(1); }
     }
   }
