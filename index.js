@@ -16,6 +16,7 @@ var dyn = require("./lib/dynamic-strategy");
 var ai = require("./lib/ai-analyst");
 var mail = require("./lib/mailer");
 var backtest = require("./lib/backtest");
+var fundData = require("./lib/fund-data");
 
 var FUNDS_FILE = path.join(__dirname, "data", "funds.json");
 var STRATEGY_MAP = {
@@ -52,6 +53,51 @@ function parseArgs() {
     }
   }
   return opts;
+}
+
+function backfillFollowUp() {
+  var HISTORY_FILE = path.join(__dirname, "data", "history.json");
+  var NAV_CACHE_FILE = path.join(__dirname, "data", "nav-cache.json");
+  try {
+    if (!fs.existsSync(HISTORY_FILE) || !fs.existsSync(NAV_CACHE_FILE)) return;
+    var hist = JSON.parse(fs.readFileSync(HISTORY_FILE, "utf-8"));
+    var cache = JSON.parse(fs.readFileSync(NAV_CACHE_FILE, "utf-8"));
+    if (!hist.records || hist.records.length === 0) return;
+    var changed = false;
+    for (var i = 0; i < hist.records.length; i++) {
+      var rec = hist.records[i];
+      var allocs = rec.allocations || rec.ranked || [];
+      for (var j = 0; j < allocs.length; j++) {
+        var a = allocs[j];
+        if (a.followUp5dReturn !== null && a.followUp10dReturn !== null) continue;
+        var navs = cache[a.code];
+        if (!navs || navs.length === 0) continue;
+        // find the recommendation date in cache
+        var recDate = rec.date.replace(/\//g, "-");
+        var recIdx = -1;
+        for (var k = 0; k < navs.length; k++) {
+          if (navs[k].date === recDate) { recIdx = k; break; }
+        }
+        if (recIdx < 0) continue;
+        // 5d return
+        if (a.followUp5dReturn === null && recIdx + 5 < navs.length) {
+          a.followUp5dReturn = Math.round((navs[recIdx + 5].nav - navs[recIdx].nav) / navs[recIdx].nav * 10000) / 100;
+          changed = true;
+        }
+        // 10d return
+        if (a.followUp10dReturn === null && recIdx + 10 < navs.length) {
+          a.followUp10dReturn = Math.round((navs[recIdx + 10].nav - navs[recIdx].nav) / navs[recIdx].nav * 10000) / 100;
+          changed = true;
+        }
+      }
+    }
+    if (changed) {
+      fs.writeFileSync(HISTORY_FILE, JSON.stringify(hist, null, 2), "utf-8");
+      console.log("[\u5386\u53f2] \u56de\u586b\u4e86\u5386\u53f2\u63a8\u8350\u7684\u5b9e\u9645\u6536\u76ca");
+    }
+  } catch(e) {
+    console.warn("[\u5386\u53f2] \u56de\u586b\u5931\u8d25:", e.message);
+  }
 }
 
 async function main() {
@@ -107,6 +153,29 @@ async function main() {
   }
   console.log(textContent);
   console.log("");
+
+  // 回填历史推荐的实际收益
+  console.log("[3/4] Fetching market data & backfilling history...");
+  backfillFollowUp();
+
+  // 获取实时市场快照和新闻
+  var marketSnapshot = [];
+  var marketNews = [];
+  try {
+    marketSnapshot = await fundData.getMarketSnapshot();
+    marketNews = await fundData.getMarketNews(5);
+    if (marketSnapshot.length > 0) {
+      console.log("[\u5e02\u573a] \u83b7\u53d6" + marketSnapshot.length + "\u4e2a\u6307\u6570\u5b9e\u65f6\u6570\u636e");
+    }
+    if (marketNews.length > 0) {
+      console.log("[\u65b0\u95fb] \u83b7\u53d6" + marketNews.length + "\u6761\u8d22\u7ecf\u5feb\u8baf");
+    }
+  } catch(e) {
+    console.warn("[\u5e02\u573a] \u83b7\u53d6\u5931\u8d25:", e.message);
+  }
+
+  result.marketSnapshot = marketSnapshot;
+  result.marketNews = marketNews;
 
   var aiCommentary = "";
   var llmApiKey = process.env.LLM_API_KEY;
