@@ -31932,5 +31932,4567 @@
    "accNav": 2.274,
    "changeRate": 0.84
   }
+ ],
+ "000834": [
+  {
+   "date": "2023-04-13",
+   "nav": 3.063,
+   "accNav": 3.063,
+   "changeRate": 1.73
+  },
+  {
+   "date": "2023-04-14",
+   "nav": 3.054,
+   "accNav": 3.054,
+   "changeRate": -0.29
+  },
+  {
+   "date": "2023-04-17",
+   "nav": 3.059,
+   "accNav": 3.059,
+   "changeRate": 0.16
+  },
+  {
+   "date": "2023-04-18",
+   "nav": 3.065,
+   "accNav": 3.065,
+   "changeRate": 0.2
+  },
+  {
+   "date": "2023-04-19",
+   "nav": 3.061,
+   "accNav": 3.061,
+   "changeRate": -0.13
+  },
+  {
+   "date": "2023-04-20",
+   "nav": 3.048,
+   "accNav": 3.048,
+   "changeRate": -0.42
+  },
+  {
+   "date": "2023-04-21",
+   "nav": 3.041,
+   "accNav": 3.041,
+   "changeRate": -0.23
+  },
+  {
+   "date": "2023-04-24",
+   "nav": 3.037,
+   "accNav": 3.037,
+   "changeRate": -0.13
+  },
+  {
+   "date": "2023-04-25",
+   "nav": 2.982,
+   "accNav": 2.982,
+   "changeRate": -1.81
+  },
+  {
+   "date": "2023-04-26",
+   "nav": 3.017,
+   "accNav": 3.017,
+   "changeRate": 1.17
+  },
+  {
+   "date": "2023-04-27",
+   "nav": 3.097,
+   "accNav": 3.097,
+   "changeRate": 2.65
+  },
+  {
+   "date": "2023-04-28",
+   "nav": 3.119,
+   "accNav": 3.119,
+   "changeRate": 0.71
+  },
+  {
+   "date": "2023-05-02",
+   "nav": 3.088,
+   "accNav": 3.088,
+   "changeRate": 0
+  },
+  {
+   "date": "2023-05-04",
+   "nav": 3.049,
+   "accNav": 3.049,
+   "changeRate": -2.24
+  },
+  {
+   "date": "2023-05-05",
+   "nav": 3.116,
+   "accNav": 3.116,
+   "changeRate": 2.2
+  },
+  {
+   "date": "2023-05-08",
+   "nav": 3.125,
+   "accNav": 3.125,
+   "changeRate": 0.29
+  },
+  {
+   "date": "2023-05-09",
+   "nav": 3.109,
+   "accNav": 3.109,
+   "changeRate": -0.51
+  },
+  {
+   "date": "2023-05-10",
+   "nav": 3.145,
+   "accNav": 3.145,
+   "changeRate": 1.16
+  },
+  {
+   "date": "2023-05-11",
+   "nav": 3.146,
+   "accNav": 3.146,
+   "changeRate": 0.03
+  },
+  {
+   "date": "2023-05-12",
+   "nav": 3.152,
+   "accNav": 3.152,
+   "changeRate": 0.19
+  },
+  {
+   "date": "2023-05-15",
+   "nav": 3.176,
+   "accNav": 3.176,
+   "changeRate": 0.76
+  },
+  {
+   "date": "2023-05-16",
+   "nav": 3.172,
+   "accNav": 3.172,
+   "changeRate": -0.13
+  },
+  {
+   "date": "2023-05-17",
+   "nav": 3.222,
+   "accNav": 3.222,
+   "changeRate": 1.58
+  },
+  {
+   "date": "2023-05-18",
+   "nav": 3.29,
+   "accNav": 3.29,
+   "changeRate": 2.11
+  },
+  {
+   "date": "2023-05-19",
+   "nav": 3.301,
+   "accNav": 3.301,
+   "changeRate": 0.33
+  },
+  {
+   "date": "2023-05-22",
+   "nav": 3.302,
+   "accNav": 3.302,
+   "changeRate": 0.03
+  },
+  {
+   "date": "2023-05-23",
+   "nav": 3.268,
+   "accNav": 3.268,
+   "changeRate": -1.03
+  },
+  {
+   "date": "2023-05-24",
+   "nav": 3.263,
+   "accNav": 3.263,
+   "changeRate": -0.15
+  },
+  {
+   "date": "2023-05-25",
+   "nav": 3.34,
+   "accNav": 3.34,
+   "changeRate": 2.36
+  },
+  {
+   "date": "2023-05-26",
+   "nav": 3.437,
+   "accNav": 3.437,
+   "changeRate": 2.9
+  },
+  {
+   "date": "2023-05-29",
+   "nav": 3.427,
+   "accNav": 3.427,
+   "changeRate": -0.29
+  },
+  {
+   "date": "2023-05-30",
+   "nav": 3.453,
+   "accNav": 3.453,
+   "changeRate": 0.76
+  },
+  {
+   "date": "2023-05-31",
+   "nav": 3.429,
+   "accNav": 3.429,
+   "changeRate": -0.7
+  },
+  {
+   "date": "2023-06-01",
+   "nav": 3.481,
+   "accNav": 3.481,
+   "changeRate": 1.52
+  },
+  {
+   "date": "2023-06-02",
+   "nav": 3.504,
+   "accNav": 3.504,
+   "changeRate": 0.66
+  },
+  {
+   "date": "2023-06-05",
+   "nav": 3.504,
+   "accNav": 3.504,
+   "changeRate": 0
+  },
+  {
+   "date": "2023-06-06",
+   "nav": 3.513,
+   "accNav": 3.513,
+   "changeRate": 0.26
+  },
+  {
+   "date": "2023-06-07",
+   "nav": 3.458,
+   "accNav": 3.458,
+   "changeRate": -1.57
+  },
+  {
+   "date": "2023-06-08",
+   "nav": 3.506,
+   "accNav": 3.506,
+   "changeRate": 1.39
+  },
+  {
+   "date": "2023-06-09",
+   "nav": 3.508,
+   "accNav": 3.508,
+   "changeRate": 0.06
+  },
+  {
+   "date": "2023-06-12",
+   "nav": 3.573,
+   "accNav": 3.573,
+   "changeRate": 1.85
+  },
+  {
+   "date": "2023-06-13",
+   "nav": 3.615,
+   "accNav": 3.615,
+   "changeRate": 1.18
+  },
+  {
+   "date": "2023-06-14",
+   "nav": 3.644,
+   "accNav": 3.644,
+   "changeRate": 0.8
+  },
+  {
+   "date": "2023-06-15",
+   "nav": 3.681,
+   "accNav": 3.681,
+   "changeRate": 1.02
+  },
+  {
+   "date": "2023-06-16",
+   "nav": 3.647,
+   "accNav": 3.647,
+   "changeRate": -0.92
+  },
+  {
+   "date": "2023-06-19",
+   "nav": 3.642,
+   "accNav": 3.642,
+   "changeRate": -0.14
+  },
+  {
+   "date": "2023-06-20",
+   "nav": 3.659,
+   "accNav": 3.659,
+   "changeRate": 0.47
+  },
+  {
+   "date": "2023-06-21",
+   "nav": 3.62,
+   "accNav": 3.62,
+   "changeRate": -1.07
+  },
+  {
+   "date": "2023-06-26",
+   "nav": 3.589,
+   "accNav": 3.589,
+   "changeRate": -0.86
+  },
+  {
+   "date": "2023-06-27",
+   "nav": 3.653,
+   "accNav": 3.653,
+   "changeRate": 1.78
+  },
+  {
+   "date": "2023-06-28",
+   "nav": 3.658,
+   "accNav": 3.658,
+   "changeRate": 0.14
+  },
+  {
+   "date": "2023-06-29",
+   "nav": 3.658,
+   "accNav": 3.658,
+   "changeRate": 0
+  },
+  {
+   "date": "2023-06-30",
+   "nav": 3.718,
+   "accNav": 3.718,
+   "changeRate": 1.64
+  },
+  {
+   "date": "2023-07-03",
+   "nav": 3.72,
+   "accNav": 3.72,
+   "changeRate": 0.05
+  },
+  {
+   "date": "2023-07-04",
+   "nav": 3.714,
+   "accNav": 3.714,
+   "changeRate": -0.16
+  },
+  {
+   "date": "2023-07-05",
+   "nav": 3.709,
+   "accNav": 3.709,
+   "changeRate": -0.13
+  },
+  {
+   "date": "2023-07-06",
+   "nav": 3.688,
+   "accNav": 3.688,
+   "changeRate": -0.57
+  },
+  {
+   "date": "2023-07-07",
+   "nav": 3.673,
+   "accNav": 3.673,
+   "changeRate": -0.41
+  },
+  {
+   "date": "2023-07-10",
+   "nav": 3.669,
+   "accNav": 3.669,
+   "changeRate": -0.11
+  },
+  {
+   "date": "2023-07-11",
+   "nav": 3.684,
+   "accNav": 3.684,
+   "changeRate": 0.41
+  },
+  {
+   "date": "2023-07-12",
+   "nav": 3.723,
+   "accNav": 3.723,
+   "changeRate": 1.06
+  },
+  {
+   "date": "2023-07-13",
+   "nav": 3.774,
+   "accNav": 3.774,
+   "changeRate": 1.37
+  },
+  {
+   "date": "2023-07-14",
+   "nav": 3.762,
+   "accNav": 3.762,
+   "changeRate": -0.32
+  },
+  {
+   "date": "2023-07-17",
+   "nav": 3.797,
+   "accNav": 3.797,
+   "changeRate": 0.93
+  },
+  {
+   "date": "2023-07-18",
+   "nav": 3.834,
+   "accNav": 3.834,
+   "changeRate": 0.97
+  },
+  {
+   "date": "2023-07-19",
+   "nav": 3.832,
+   "accNav": 3.832,
+   "changeRate": -0.05
+  },
+  {
+   "date": "2023-07-20",
+   "nav": 3.747,
+   "accNav": 3.747,
+   "changeRate": -2.22
+  },
+  {
+   "date": "2023-07-21",
+   "nav": 3.736,
+   "accNav": 3.736,
+   "changeRate": -0.29
+  },
+  {
+   "date": "2023-07-24",
+   "nav": 3.743,
+   "accNav": 3.743,
+   "changeRate": 0.19
+  },
+  {
+   "date": "2023-07-25",
+   "nav": 3.768,
+   "accNav": 3.768,
+   "changeRate": 0.67
+  },
+  {
+   "date": "2023-07-26",
+   "nav": 3.748,
+   "accNav": 3.748,
+   "changeRate": -0.53
+  },
+  {
+   "date": "2023-07-27",
+   "nav": 3.737,
+   "accNav": 3.737,
+   "changeRate": -0.29
+  },
+  {
+   "date": "2023-07-28",
+   "nav": 3.807,
+   "accNav": 3.807,
+   "changeRate": 1.87
+  },
+  {
+   "date": "2023-07-31",
+   "nav": 3.807,
+   "accNav": 3.807,
+   "changeRate": 0
+  },
+  {
+   "date": "2023-08-01",
+   "nav": 3.797,
+   "accNav": 3.797,
+   "changeRate": -0.26
+  },
+  {
+   "date": "2023-08-02",
+   "nav": 3.72,
+   "accNav": 3.72,
+   "changeRate": -2.03
+  },
+  {
+   "date": "2023-08-03",
+   "nav": 3.721,
+   "accNav": 3.721,
+   "changeRate": 0.03
+  },
+  {
+   "date": "2023-08-04",
+   "nav": 3.698,
+   "accNav": 3.698,
+   "changeRate": -0.62
+  },
+  {
+   "date": "2023-08-07",
+   "nav": 3.727,
+   "accNav": 3.727,
+   "changeRate": 0.78
+  },
+  {
+   "date": "2023-08-08",
+   "nav": 3.704,
+   "accNav": 3.704,
+   "changeRate": -0.62
+  },
+  {
+   "date": "2023-08-09",
+   "nav": 3.664,
+   "accNav": 3.664,
+   "changeRate": -1.08
+  },
+  {
+   "date": "2023-08-10",
+   "nav": 3.67,
+   "accNav": 3.67,
+   "changeRate": 0.16
+  },
+  {
+   "date": "2023-08-11",
+   "nav": 3.646,
+   "accNav": 3.646,
+   "changeRate": -0.65
+  },
+  {
+   "date": "2023-08-14",
+   "nav": 3.693,
+   "accNav": 3.693,
+   "changeRate": 1.29
+  },
+  {
+   "date": "2023-08-15",
+   "nav": 3.657,
+   "accNav": 3.657,
+   "changeRate": -0.97
+  },
+  {
+   "date": "2023-08-16",
+   "nav": 3.629,
+   "accNav": 3.629,
+   "changeRate": -0.77
+  },
+  {
+   "date": "2023-08-17",
+   "nav": 3.595,
+   "accNav": 3.595,
+   "changeRate": -0.94
+  },
+  {
+   "date": "2023-08-18",
+   "nav": 3.586,
+   "accNav": 3.586,
+   "changeRate": -0.25
+  },
+  {
+   "date": "2023-08-21",
+   "nav": 3.643,
+   "accNav": 3.643,
+   "changeRate": 1.59
+  },
+  {
+   "date": "2023-08-22",
+   "nav": 3.636,
+   "accNav": 3.636,
+   "changeRate": -0.19
+  },
+  {
+   "date": "2023-08-23",
+   "nav": 3.693,
+   "accNav": 3.693,
+   "changeRate": 1.57
+  },
+  {
+   "date": "2023-08-24",
+   "nav": 3.61,
+   "accNav": 3.61,
+   "changeRate": -2.25
+  },
+  {
+   "date": "2023-08-25",
+   "nav": 3.639,
+   "accNav": 3.639,
+   "changeRate": 0.8
+  },
+  {
+   "date": "2023-08-28",
+   "nav": 3.664,
+   "accNav": 3.664,
+   "changeRate": 0.69
+  },
+  {
+   "date": "2023-08-29",
+   "nav": 3.74,
+   "accNav": 3.74,
+   "changeRate": 2.07
+  },
+  {
+   "date": "2023-08-30",
+   "nav": 3.759,
+   "accNav": 3.759,
+   "changeRate": 0.51
+  },
+  {
+   "date": "2023-08-31",
+   "nav": 3.769,
+   "accNav": 3.769,
+   "changeRate": 0.27
+  },
+  {
+   "date": "2023-09-01",
+   "nav": 3.765,
+   "accNav": 3.765,
+   "changeRate": -0.11
+  },
+  {
+   "date": "2023-09-04",
+   "nav": 3.764,
+   "accNav": 3.764,
+   "changeRate": -0.03
+  },
+  {
+   "date": "2023-09-05",
+   "nav": 3.768,
+   "accNav": 3.768,
+   "changeRate": 0.11
+  },
+  {
+   "date": "2023-09-06",
+   "nav": 3.744,
+   "accNav": 3.744,
+   "changeRate": -0.64
+  },
+  {
+   "date": "2023-09-07",
+   "nav": 3.718,
+   "accNav": 3.718,
+   "changeRate": -0.69
+  },
+  {
+   "date": "2023-09-08",
+   "nav": 3.73,
+   "accNav": 3.73,
+   "changeRate": 0.32
+  },
+  {
+   "date": "2023-09-11",
+   "nav": 3.772,
+   "accNav": 3.772,
+   "changeRate": 1.13
+  },
+  {
+   "date": "2023-09-12",
+   "nav": 3.725,
+   "accNav": 3.725,
+   "changeRate": -1.25
+  },
+  {
+   "date": "2023-09-13",
+   "nav": 3.734,
+   "accNav": 3.734,
+   "changeRate": 0.24
+  },
+  {
+   "date": "2023-09-14",
+   "nav": 3.763,
+   "accNav": 3.763,
+   "changeRate": 0.78
+  },
+  {
+   "date": "2023-09-15",
+   "nav": 3.697,
+   "accNav": 3.697,
+   "changeRate": -1.75
+  },
+  {
+   "date": "2023-09-18",
+   "nav": 3.7,
+   "accNav": 3.7,
+   "changeRate": 0.08
+  },
+  {
+   "date": "2023-09-19",
+   "nav": 3.689,
+   "accNav": 3.689,
+   "changeRate": -0.3
+  },
+  {
+   "date": "2023-09-20",
+   "nav": 3.641,
+   "accNav": 3.641,
+   "changeRate": -1.3
+  },
+  {
+   "date": "2023-09-21",
+   "nav": 3.578,
+   "accNav": 3.578,
+   "changeRate": -1.73
+  },
+  {
+   "date": "2023-09-22",
+   "nav": 3.58,
+   "accNav": 3.58,
+   "changeRate": 0.06
+  },
+  {
+   "date": "2023-09-25",
+   "nav": 3.596,
+   "accNav": 3.596,
+   "changeRate": 0.45
+  },
+  {
+   "date": "2023-09-26",
+   "nav": 3.544,
+   "accNav": 3.544,
+   "changeRate": -1.45
+  },
+  {
+   "date": "2023-09-27",
+   "nav": 3.552,
+   "accNav": 3.552,
+   "changeRate": 0.23
+  },
+  {
+   "date": "2023-09-28",
+   "nav": 3.585,
+   "accNav": 3.585,
+   "changeRate": 0.93
+  },
+  {
+   "date": "2023-10-09",
+   "nav": 3.667,
+   "accNav": 3.667,
+   "changeRate": 2.29
+  },
+  {
+   "date": "2023-10-10",
+   "nav": 3.687,
+   "accNav": 3.687,
+   "changeRate": 0.55
+  },
+  {
+   "date": "2023-10-11",
+   "nav": 3.711,
+   "accNav": 3.711,
+   "changeRate": 0.65
+  },
+  {
+   "date": "2023-10-12",
+   "nav": 3.696,
+   "accNav": 3.696,
+   "changeRate": -0.4
+  },
+  {
+   "date": "2023-10-13",
+   "nav": 3.651,
+   "accNav": 3.651,
+   "changeRate": -1.22
+  },
+  {
+   "date": "2023-10-16",
+   "nav": 3.693,
+   "accNav": 3.693,
+   "changeRate": 1.15
+  },
+  {
+   "date": "2023-10-17",
+   "nav": 3.681,
+   "accNav": 3.681,
+   "changeRate": -0.32
+  },
+  {
+   "date": "2023-10-18",
+   "nav": 3.631,
+   "accNav": 3.631,
+   "changeRate": -1.36
+  },
+  {
+   "date": "2023-10-19",
+   "nav": 3.601,
+   "accNav": 3.601,
+   "changeRate": -0.83
+  },
+  {
+   "date": "2023-10-20",
+   "nav": 3.55,
+   "accNav": 3.55,
+   "changeRate": -1.42
+  },
+  {
+   "date": "2023-10-23",
+   "nav": 3.561,
+   "accNav": 3.561,
+   "changeRate": 0.31
+  },
+  {
+   "date": "2023-10-24",
+   "nav": 3.593,
+   "accNav": 3.593,
+   "changeRate": 0.9
+  },
+  {
+   "date": "2023-10-25",
+   "nav": 3.507,
+   "accNav": 3.507,
+   "changeRate": -2.39
+  },
+  {
+   "date": "2023-10-26",
+   "nav": 3.443,
+   "accNav": 3.443,
+   "changeRate": -1.82
+  },
+  {
+   "date": "2023-10-27",
+   "nav": 3.459,
+   "accNav": 3.459,
+   "changeRate": 0.46
+  },
+  {
+   "date": "2023-10-30",
+   "nav": 3.498,
+   "accNav": 3.498,
+   "changeRate": 1.13
+  },
+  {
+   "date": "2023-10-31",
+   "nav": 3.516,
+   "accNav": 3.516,
+   "changeRate": 0.51
+  },
+  {
+   "date": "2023-11-01",
+   "nav": 3.574,
+   "accNav": 3.574,
+   "changeRate": 1.65
+  },
+  {
+   "date": "2023-11-02",
+   "nav": 3.633,
+   "accNav": 3.633,
+   "changeRate": 1.65
+  },
+  {
+   "date": "2023-11-03",
+   "nav": 3.675,
+   "accNav": 3.675,
+   "changeRate": 1.16
+  },
+  {
+   "date": "2023-11-06",
+   "nav": 3.685,
+   "accNav": 3.685,
+   "changeRate": 0.27
+  },
+  {
+   "date": "2023-11-07",
+   "nav": 3.716,
+   "accNav": 3.716,
+   "changeRate": 0.84
+  },
+  {
+   "date": "2023-11-08",
+   "nav": 3.721,
+   "accNav": 3.721,
+   "changeRate": 0.13
+  },
+  {
+   "date": "2023-11-09",
+   "nav": 3.691,
+   "accNav": 3.691,
+   "changeRate": -0.81
+  },
+  {
+   "date": "2023-11-10",
+   "nav": 3.771,
+   "accNav": 3.771,
+   "changeRate": 2.17
+  },
+  {
+   "date": "2023-11-13",
+   "nav": 3.76,
+   "accNav": 3.76,
+   "changeRate": -0.29
+  },
+  {
+   "date": "2023-11-14",
+   "nav": 3.841,
+   "accNav": 3.841,
+   "changeRate": 2.15
+  },
+  {
+   "date": "2023-11-15",
+   "nav": 3.842,
+   "accNav": 3.842,
+   "changeRate": 0.03
+  },
+  {
+   "date": "2023-11-16",
+   "nav": 3.844,
+   "accNav": 3.844,
+   "changeRate": 0.05
+  },
+  {
+   "date": "2023-11-17",
+   "nav": 3.843,
+   "accNav": 3.843,
+   "changeRate": -0.03
+  },
+  {
+   "date": "2023-11-20",
+   "nav": 3.882,
+   "accNav": 3.882,
+   "changeRate": 1.01
+  },
+  {
+   "date": "2023-11-21",
+   "nav": 3.849,
+   "accNav": 3.849,
+   "changeRate": -0.85
+  },
+  {
+   "date": "2023-11-22",
+   "nav": 3.858,
+   "accNav": 3.858,
+   "changeRate": 0.23
+  },
+  {
+   "date": "2023-11-23",
+   "nav": 3.855,
+   "accNav": 3.855,
+   "changeRate": -0.08
+  },
+  {
+   "date": "2023-11-24",
+   "nav": 3.846,
+   "accNav": 3.846,
+   "changeRate": -0.23
+  },
+  {
+   "date": "2023-11-27",
+   "nav": 3.842,
+   "accNav": 3.842,
+   "changeRate": -0.1
+  },
+  {
+   "date": "2023-11-28",
+   "nav": 3.852,
+   "accNav": 3.852,
+   "changeRate": 0.26
+  },
+  {
+   "date": "2023-11-29",
+   "nav": 3.842,
+   "accNav": 3.842,
+   "changeRate": -0.26
+  },
+  {
+   "date": "2023-11-30",
+   "nav": 3.832,
+   "accNav": 3.832,
+   "changeRate": -0.26
+  },
+  {
+   "date": "2023-12-01",
+   "nav": 3.848,
+   "accNav": 3.848,
+   "changeRate": 0.42
+  },
+  {
+   "date": "2023-12-04",
+   "nav": 3.806,
+   "accNav": 3.806,
+   "changeRate": -1.09
+  },
+  {
+   "date": "2023-12-05",
+   "nav": 3.821,
+   "accNav": 3.821,
+   "changeRate": 0.39
+  },
+  {
+   "date": "2023-12-06",
+   "nav": 3.8,
+   "accNav": 3.8,
+   "changeRate": -0.55
+  },
+  {
+   "date": "2023-12-07",
+   "nav": 3.857,
+   "accNav": 3.857,
+   "changeRate": 1.5
+  },
+  {
+   "date": "2023-12-08",
+   "nav": 3.869,
+   "accNav": 3.869,
+   "changeRate": 0.31
+  },
+  {
+   "date": "2023-12-11",
+   "nav": 3.903,
+   "accNav": 3.903,
+   "changeRate": 0.88
+  },
+  {
+   "date": "2023-12-12",
+   "nav": 3.934,
+   "accNav": 3.934,
+   "changeRate": 0.79
+  },
+  {
+   "date": "2023-12-13",
+   "nav": 3.98,
+   "accNav": 3.98,
+   "changeRate": 1.17
+  },
+  {
+   "date": "2023-12-14",
+   "nav": 3.973,
+   "accNav": 3.973,
+   "changeRate": -0.18
+  },
+  {
+   "date": "2023-12-15",
+   "nav": 3.985,
+   "accNav": 3.985,
+   "changeRate": 0.3
+  },
+  {
+   "date": "2023-12-18",
+   "nav": 4.01,
+   "accNav": 4.01,
+   "changeRate": 0.63
+  },
+  {
+   "date": "2023-12-19",
+   "nav": 4.032,
+   "accNav": 4.032,
+   "changeRate": 0.55
+  },
+  {
+   "date": "2023-12-20",
+   "nav": 3.972,
+   "accNav": 3.972,
+   "changeRate": -1.49
+  },
+  {
+   "date": "2023-12-21",
+   "nav": 4.021,
+   "accNav": 4.021,
+   "changeRate": 1.23
+  },
+  {
+   "date": "2023-12-22",
+   "nav": 4.023,
+   "accNav": 4.023,
+   "changeRate": 0.05
+  },
+  {
+   "date": "2023-12-25",
+   "nav": 4.026,
+   "accNav": 4.026,
+   "changeRate": 0.07
+  },
+  {
+   "date": "2023-12-26",
+   "nav": 4.046,
+   "accNav": 4.046,
+   "changeRate": 0.5
+  },
+  {
+   "date": "2023-12-27",
+   "nav": 4.054,
+   "accNav": 4.054,
+   "changeRate": 0.2
+  },
+  {
+   "date": "2023-12-28",
+   "nav": 4.05,
+   "accNav": 4.05,
+   "changeRate": -0.1
+  },
+  {
+   "date": "2023-12-29",
+   "nav": 4.026,
+   "accNav": 4.026,
+   "changeRate": -0.59
+  },
+  {
+   "date": "2023-12-31",
+   "nav": 4.026,
+   "accNav": 4.026,
+   "changeRate": 0
+  },
+  {
+   "date": "2024-01-02",
+   "nav": 3.957,
+   "accNav": 3.957,
+   "changeRate": -1.71
+  },
+  {
+   "date": "2024-01-03",
+   "nav": 3.927,
+   "accNav": 3.927,
+   "changeRate": -0.76
+  },
+  {
+   "date": "2024-01-04",
+   "nav": 3.906,
+   "accNav": 3.906,
+   "changeRate": -0.53
+  },
+  {
+   "date": "2024-01-05",
+   "nav": 3.913,
+   "accNav": 3.913,
+   "changeRate": 0.18
+  },
+  {
+   "date": "2024-01-08",
+   "nav": 3.993,
+   "accNav": 3.993,
+   "changeRate": 2.04
+  },
+  {
+   "date": "2024-01-09",
+   "nav": 4,
+   "accNav": 4,
+   "changeRate": 0.18
+  },
+  {
+   "date": "2024-01-10",
+   "nav": 4.029,
+   "accNav": 4.029,
+   "changeRate": 0.72
+  },
+  {
+   "date": "2024-01-11",
+   "nav": 4.036,
+   "accNav": 4.036,
+   "changeRate": 0.17
+  },
+  {
+   "date": "2024-01-12",
+   "nav": 4.037,
+   "accNav": 4.037,
+   "changeRate": 0.02
+  },
+  {
+   "date": "2024-01-15",
+   "nav": 4.039,
+   "accNav": 4.039,
+   "changeRate": 0.05
+  },
+  {
+   "date": "2024-01-16",
+   "nav": 4.04,
+   "accNav": 4.04,
+   "changeRate": 0.02
+  },
+  {
+   "date": "2024-01-17",
+   "nav": 4.02,
+   "accNav": 4.02,
+   "changeRate": -0.5
+  },
+  {
+   "date": "2024-01-18",
+   "nav": 4.076,
+   "accNav": 4.076,
+   "changeRate": 1.39
+  },
+  {
+   "date": "2024-01-19",
+   "nav": 4.154,
+   "accNav": 4.154,
+   "changeRate": 1.91
+  },
+  {
+   "date": "2024-01-22",
+   "nav": 4.155,
+   "accNav": 4.155,
+   "changeRate": 0.02
+  },
+  {
+   "date": "2024-01-23",
+   "nav": 4.172,
+   "accNav": 4.172,
+   "changeRate": 0.41
+  },
+  {
+   "date": "2024-01-24",
+   "nav": 4.19,
+   "accNav": 4.19,
+   "changeRate": 0.43
+  },
+  {
+   "date": "2024-01-25",
+   "nav": 4.193,
+   "accNav": 4.193,
+   "changeRate": 0.07
+  },
+  {
+   "date": "2024-01-26",
+   "nav": 4.172,
+   "accNav": 4.172,
+   "changeRate": -0.5
+  },
+  {
+   "date": "2024-01-29",
+   "nav": 4.214,
+   "accNav": 4.214,
+   "changeRate": 1.01
+  },
+  {
+   "date": "2024-01-30",
+   "nav": 4.185,
+   "accNav": 4.185,
+   "changeRate": -0.69
+  },
+  {
+   "date": "2024-01-31",
+   "nav": 4.106,
+   "accNav": 4.106,
+   "changeRate": -1.89
+  },
+  {
+   "date": "2024-02-01",
+   "nav": 4.152,
+   "accNav": 4.152,
+   "changeRate": 1.12
+  },
+  {
+   "date": "2024-02-02",
+   "nav": 4.217,
+   "accNav": 4.217,
+   "changeRate": 1.57
+  },
+  {
+   "date": "2024-02-05",
+   "nav": 4.213,
+   "accNav": 4.213,
+   "changeRate": -0.09
+  },
+  {
+   "date": "2024-02-06",
+   "nav": 4.202,
+   "accNav": 4.202,
+   "changeRate": -0.26
+  },
+  {
+   "date": "2024-02-07",
+   "nav": 4.239,
+   "accNav": 4.239,
+   "changeRate": 0.88
+  },
+  {
+   "date": "2024-02-08",
+   "nav": 4.246,
+   "accNav": 4.246,
+   "changeRate": 0.17
+  },
+  {
+   "date": "2024-02-19",
+   "nav": 4.221,
+   "accNav": 4.221,
+   "changeRate": -0.59
+  },
+  {
+   "date": "2024-02-20",
+   "nav": 4.191,
+   "accNav": 4.191,
+   "changeRate": -0.71
+  },
+  {
+   "date": "2024-02-21",
+   "nav": 4.173,
+   "accNav": 4.173,
+   "changeRate": -0.43
+  },
+  {
+   "date": "2024-02-22",
+   "nav": 4.292,
+   "accNav": 4.292,
+   "changeRate": 2.85
+  },
+  {
+   "date": "2024-02-23",
+   "nav": 4.28,
+   "accNav": 4.28,
+   "changeRate": -0.28
+  },
+  {
+   "date": "2024-02-26",
+   "nav": 4.279,
+   "accNav": 4.279,
+   "changeRate": -0.02
+  },
+  {
+   "date": "2024-02-27",
+   "nav": 4.286,
+   "accNav": 4.286,
+   "changeRate": 0.16
+  },
+  {
+   "date": "2024-02-28",
+   "nav": 4.264,
+   "accNav": 4.264,
+   "changeRate": -0.51
+  },
+  {
+   "date": "2024-02-29",
+   "nav": 4.301,
+   "accNav": 4.301,
+   "changeRate": 0.87
+  },
+  {
+   "date": "2024-03-01",
+   "nav": 4.362,
+   "accNav": 4.362,
+   "changeRate": 1.42
+  },
+  {
+   "date": "2024-03-04",
+   "nav": 4.342,
+   "accNav": 4.342,
+   "changeRate": -0.46
+  },
+  {
+   "date": "2024-03-05",
+   "nav": 4.267,
+   "accNav": 4.267,
+   "changeRate": -1.73
+  },
+  {
+   "date": "2024-03-06",
+   "nav": 4.293,
+   "accNav": 4.293,
+   "changeRate": 0.61
+  },
+  {
+   "date": "2024-03-07",
+   "nav": 4.355,
+   "accNav": 4.355,
+   "changeRate": 1.44
+  },
+  {
+   "date": "2024-03-08",
+   "nav": 4.291,
+   "accNav": 4.291,
+   "changeRate": -1.47
+  },
+  {
+   "date": "2024-03-11",
+   "nav": 4.273,
+   "accNav": 4.273,
+   "changeRate": -0.42
+  },
+  {
+   "date": "2024-03-12",
+   "nav": 4.333,
+   "accNav": 4.333,
+   "changeRate": 1.4
+  },
+  {
+   "date": "2024-03-13",
+   "nav": 4.297,
+   "accNav": 4.297,
+   "changeRate": -0.83
+  },
+  {
+   "date": "2024-03-14",
+   "nav": 4.288,
+   "accNav": 4.288,
+   "changeRate": -0.21
+  },
+  {
+   "date": "2024-03-15",
+   "nav": 4.24,
+   "accNav": 4.24,
+   "changeRate": -1.12
+  },
+  {
+   "date": "2024-03-18",
+   "nav": 4.279,
+   "accNav": 4.279,
+   "changeRate": 0.92
+  },
+  {
+   "date": "2024-03-19",
+   "nav": 4.291,
+   "accNav": 4.291,
+   "changeRate": 0.28
+  },
+  {
+   "date": "2024-03-20",
+   "nav": 4.339,
+   "accNav": 4.339,
+   "changeRate": 1.12
+  },
+  {
+   "date": "2024-03-21",
+   "nav": 4.356,
+   "accNav": 4.356,
+   "changeRate": 0.39
+  },
+  {
+   "date": "2024-03-22",
+   "nav": 4.362,
+   "accNav": 4.362,
+   "changeRate": 0.14
+  },
+  {
+   "date": "2024-03-25",
+   "nav": 4.347,
+   "accNav": 4.347,
+   "changeRate": -0.34
+  },
+  {
+   "date": "2024-03-26",
+   "nav": 4.33,
+   "accNav": 4.33,
+   "changeRate": -0.39
+  },
+  {
+   "date": "2024-03-27",
+   "nav": 4.345,
+   "accNav": 4.345,
+   "changeRate": 0.35
+  },
+  {
+   "date": "2024-03-28",
+   "nav": 4.339,
+   "accNav": 4.339,
+   "changeRate": -0.14
+  },
+  {
+   "date": "2024-03-29",
+   "nav": 4.339,
+   "accNav": 4.339,
+   "changeRate": 0
+  },
+  {
+   "date": "2024-04-01",
+   "nav": 4.346,
+   "accNav": 4.346,
+   "changeRate": 0.16
+  },
+  {
+   "date": "2024-04-02",
+   "nav": 4.309,
+   "accNav": 4.309,
+   "changeRate": -0.85
+  },
+  {
+   "date": "2024-04-03",
+   "nav": 4.317,
+   "accNav": 4.317,
+   "changeRate": 0.19
+  },
+  {
+   "date": "2024-04-08",
+   "nav": 4.302,
+   "accNav": 4.302,
+   "changeRate": -0.35
+  },
+  {
+   "date": "2024-04-09",
+   "nav": 4.318,
+   "accNav": 4.318,
+   "changeRate": 0.37
+  },
+  {
+   "date": "2024-04-10",
+   "nav": 4.281,
+   "accNav": 4.281,
+   "changeRate": -0.86
+  },
+  {
+   "date": "2024-04-11",
+   "nav": 4.35,
+   "accNav": 4.35,
+   "changeRate": 1.61
+  },
+  {
+   "date": "2024-04-12",
+   "nav": 4.279,
+   "accNav": 4.279,
+   "changeRate": -1.63
+  },
+  {
+   "date": "2024-04-15",
+   "nav": 4.211,
+   "accNav": 4.211,
+   "changeRate": -1.59
+  },
+  {
+   "date": "2024-04-16",
+   "nav": 4.214,
+   "accNav": 4.214,
+   "changeRate": 0.07
+  },
+  {
+   "date": "2024-04-17",
+   "nav": 4.1621,
+   "accNav": 4.1621,
+   "changeRate": -1.23
+  },
+  {
+   "date": "2024-04-18",
+   "nav": 4.1382,
+   "accNav": 4.1382,
+   "changeRate": -0.57
+  },
+  {
+   "date": "2024-04-19",
+   "nav": 4.0557,
+   "accNav": 4.0557,
+   "changeRate": -1.99
+  },
+  {
+   "date": "2024-04-22",
+   "nav": 4.0949,
+   "accNav": 4.0949,
+   "changeRate": 0.97
+  },
+  {
+   "date": "2024-04-23",
+   "nav": 4.1565,
+   "accNav": 4.1565,
+   "changeRate": 1.5
+  },
+  {
+   "date": "2024-04-24",
+   "nav": 4.1694,
+   "accNav": 4.1694,
+   "changeRate": 0.31
+  },
+  {
+   "date": "2024-04-25",
+   "nav": 4.1466,
+   "accNav": 4.1466,
+   "changeRate": -0.55
+  },
+  {
+   "date": "2024-04-26",
+   "nav": 4.2108,
+   "accNav": 4.2108,
+   "changeRate": 1.55
+  },
+  {
+   "date": "2024-04-29",
+   "nav": 4.2252,
+   "accNav": 4.2252,
+   "changeRate": 0.34
+  },
+  {
+   "date": "2024-04-30",
+   "nav": 4.1468,
+   "accNav": 4.1468,
+   "changeRate": -1.86
+  },
+  {
+   "date": "2024-05-06",
+   "nav": 4.2918,
+   "accNav": 4.2918,
+   "changeRate": 3.5
+  },
+  {
+   "date": "2024-05-07",
+   "nav": 4.2919,
+   "accNav": 4.2919,
+   "changeRate": 0
+  },
+  {
+   "date": "2024-05-08",
+   "nav": 4.291,
+   "accNav": 4.291,
+   "changeRate": -0.02
+  },
+  {
+   "date": "2024-05-09",
+   "nav": 4.2984,
+   "accNav": 4.2984,
+   "changeRate": 0.17
+  },
+  {
+   "date": "2024-05-10",
+   "nav": 4.3084,
+   "accNav": 4.3084,
+   "changeRate": 0.23
+  },
+  {
+   "date": "2024-05-13",
+   "nav": 4.3178,
+   "accNav": 4.3178,
+   "changeRate": 0.22
+  },
+  {
+   "date": "2024-05-14",
+   "nav": 4.3477,
+   "accNav": 4.3477,
+   "changeRate": 0.69
+  },
+  {
+   "date": "2024-05-15",
+   "nav": 4.4118,
+   "accNav": 4.4118,
+   "changeRate": 1.47
+  },
+  {
+   "date": "2024-05-16",
+   "nav": 4.4017,
+   "accNav": 4.4017,
+   "changeRate": -0.23
+  },
+  {
+   "date": "2024-05-17",
+   "nav": 4.4,
+   "accNav": 4.4,
+   "changeRate": -0.04
+  },
+  {
+   "date": "2024-05-20",
+   "nav": 4.4289,
+   "accNav": 4.4289,
+   "changeRate": 0.66
+  },
+  {
+   "date": "2024-05-21",
+   "nav": 4.4393,
+   "accNav": 4.4393,
+   "changeRate": 0.23
+  },
+  {
+   "date": "2024-05-22",
+   "nav": 4.4373,
+   "accNav": 4.4373,
+   "changeRate": -0.05
+  },
+  {
+   "date": "2024-05-23",
+   "nav": 4.4181,
+   "accNav": 4.4181,
+   "changeRate": -0.43
+  },
+  {
+   "date": "2024-05-24",
+   "nav": 4.46,
+   "accNav": 4.46,
+   "changeRate": 0.95
+  },
+  {
+   "date": "2024-05-27",
+   "nav": 4.4593,
+   "accNav": 4.4593,
+   "changeRate": -0.02
+  },
+  {
+   "date": "2024-05-28",
+   "nav": 4.4737,
+   "accNav": 4.4737,
+   "changeRate": 0.32
+  },
+  {
+   "date": "2024-05-29",
+   "nav": 4.4423,
+   "accNav": 4.4423,
+   "changeRate": -0.7
+  },
+  {
+   "date": "2024-05-30",
+   "nav": 4.397,
+   "accNav": 4.397,
+   "changeRate": -1.02
+  },
+  {
+   "date": "2024-05-31",
+   "nav": 4.3949,
+   "accNav": 4.3949,
+   "changeRate": -0.05
+  },
+  {
+   "date": "2024-06-03",
+   "nav": 4.4087,
+   "accNav": 4.4087,
+   "changeRate": 0.31
+  },
+  {
+   "date": "2024-06-04",
+   "nav": 4.4207,
+   "accNav": 4.4207,
+   "changeRate": 0.27
+  },
+  {
+   "date": "2024-06-05",
+   "nav": 4.5092,
+   "accNav": 4.5092,
+   "changeRate": 2
+  },
+  {
+   "date": "2024-06-06",
+   "nav": 4.5064,
+   "accNav": 4.5064,
+   "changeRate": -0.06
+  },
+  {
+   "date": "2024-06-07",
+   "nav": 4.5016,
+   "accNav": 4.5016,
+   "changeRate": -0.11
+  },
+  {
+   "date": "2024-06-11",
+   "nav": 4.5512,
+   "accNav": 4.5512,
+   "changeRate": 1.1
+  },
+  {
+   "date": "2024-06-12",
+   "nav": 4.6096,
+   "accNav": 4.6096,
+   "changeRate": 1.28
+  },
+  {
+   "date": "2024-06-13",
+   "nav": 4.6345,
+   "accNav": 4.6345,
+   "changeRate": 0.54
+  },
+  {
+   "date": "2024-06-14",
+   "nav": 4.6565,
+   "accNav": 4.6565,
+   "changeRate": 0.47
+  },
+  {
+   "date": "2024-06-17",
+   "nav": 4.7112,
+   "accNav": 4.7112,
+   "changeRate": 1.17
+  },
+  {
+   "date": "2024-06-18",
+   "nav": 4.7089,
+   "accNav": 4.7089,
+   "changeRate": -0.05
+  },
+  {
+   "date": "2024-06-19",
+   "nav": 4.7093,
+   "accNav": 4.7093,
+   "changeRate": 0.01
+  },
+  {
+   "date": "2024-06-20",
+   "nav": 4.6742,
+   "accNav": 4.6742,
+   "changeRate": -0.75
+  },
+  {
+   "date": "2024-06-21",
+   "nav": 4.6625,
+   "accNav": 4.6625,
+   "changeRate": -0.25
+  },
+  {
+   "date": "2024-06-24",
+   "nav": 4.6102,
+   "accNav": 4.6102,
+   "changeRate": -1.12
+  },
+  {
+   "date": "2024-06-25",
+   "nav": 4.6628,
+   "accNav": 4.6628,
+   "changeRate": 1.14
+  },
+  {
+   "date": "2024-06-26",
+   "nav": 4.6747,
+   "accNav": 4.6747,
+   "changeRate": 0.26
+  },
+  {
+   "date": "2024-06-27",
+   "nav": 4.6831,
+   "accNav": 4.6831,
+   "changeRate": 0.18
+  },
+  {
+   "date": "2024-06-28",
+   "nav": 4.6583,
+   "accNav": 4.6583,
+   "changeRate": -0.53
+  },
+  {
+   "date": "2024-06-30",
+   "nav": 4.6583,
+   "accNav": 4.6583,
+   "changeRate": 0
+  },
+  {
+   "date": "2024-07-01",
+   "nav": 4.6874,
+   "accNav": 4.6874,
+   "changeRate": 0.62
+  },
+  {
+   "date": "2024-07-02",
+   "nav": 4.7349,
+   "accNav": 4.7349,
+   "changeRate": 1.01
+  },
+  {
+   "date": "2024-07-03",
+   "nav": 4.7751,
+   "accNav": 4.7751,
+   "changeRate": 0.85
+  },
+  {
+   "date": "2024-07-04",
+   "nav": 4.7744,
+   "accNav": 4.7744,
+   "changeRate": -0.01
+  },
+  {
+   "date": "2024-07-05",
+   "nav": 4.8214,
+   "accNav": 4.8214,
+   "changeRate": 0.98
+  },
+  {
+   "date": "2024-07-08",
+   "nav": 4.8312,
+   "accNav": 4.8312,
+   "changeRate": 0.2
+  },
+  {
+   "date": "2024-07-09",
+   "nav": 4.8357,
+   "accNav": 4.8357,
+   "changeRate": 0.09
+  },
+  {
+   "date": "2024-07-10",
+   "nav": 4.8853,
+   "accNav": 4.8853,
+   "changeRate": 1.03
+  },
+  {
+   "date": "2024-07-11",
+   "nav": 4.7816,
+   "accNav": 4.7816,
+   "changeRate": -2.12
+  },
+  {
+   "date": "2024-07-12",
+   "nav": 4.8042,
+   "accNav": 4.8042,
+   "changeRate": 0.47
+  },
+  {
+   "date": "2024-07-15",
+   "nav": 4.816,
+   "accNav": 4.816,
+   "changeRate": 0.25
+  },
+  {
+   "date": "2024-07-16",
+   "nav": 4.8193,
+   "accNav": 4.8193,
+   "changeRate": 0.07
+  },
+  {
+   "date": "2024-07-17",
+   "nav": 4.683,
+   "accNav": 4.683,
+   "changeRate": -2.83
+  },
+  {
+   "date": "2024-07-18",
+   "nav": 4.6589,
+   "accNav": 4.6589,
+   "changeRate": -0.51
+  },
+  {
+   "date": "2024-07-19",
+   "nav": 4.6184,
+   "accNav": 4.6184,
+   "changeRate": -0.87
+  },
+  {
+   "date": "2024-07-22",
+   "nav": 4.6879,
+   "accNav": 4.6879,
+   "changeRate": 1.5
+  },
+  {
+   "date": "2024-07-23",
+   "nav": 4.6716,
+   "accNav": 4.6716,
+   "changeRate": -0.35
+  },
+  {
+   "date": "2024-07-24",
+   "nav": 4.506,
+   "accNav": 4.506,
+   "changeRate": -3.54
+  },
+  {
+   "date": "2024-07-25",
+   "nav": 4.4572,
+   "accNav": 4.4572,
+   "changeRate": -1.08
+  },
+  {
+   "date": "2024-07-26",
+   "nav": 4.4987,
+   "accNav": 4.4987,
+   "changeRate": 0.93
+  },
+  {
+   "date": "2024-07-29",
+   "nav": 4.5092,
+   "accNav": 4.5092,
+   "changeRate": 0.23
+  },
+  {
+   "date": "2024-07-30",
+   "nav": 4.4495,
+   "accNav": 4.4495,
+   "changeRate": -1.32
+  },
+  {
+   "date": "2024-07-31",
+   "nav": 4.5816,
+   "accNav": 4.5816,
+   "changeRate": 2.97
+  },
+  {
+   "date": "2024-08-01",
+   "nav": 4.4693,
+   "accNav": 4.4693,
+   "changeRate": -2.45
+  },
+  {
+   "date": "2024-08-02",
+   "nav": 4.3657,
+   "accNav": 4.3657,
+   "changeRate": -2.32
+  },
+  {
+   "date": "2024-08-05",
+   "nav": 4.2369,
+   "accNav": 4.2369,
+   "changeRate": -2.95
+  },
+  {
+   "date": "2024-08-06",
+   "nav": 4.2803,
+   "accNav": 4.2803,
+   "changeRate": 1.02
+  },
+  {
+   "date": "2024-08-07",
+   "nav": 4.2365,
+   "accNav": 4.2365,
+   "changeRate": -1.02
+  },
+  {
+   "date": "2024-08-08",
+   "nav": 4.366,
+   "accNav": 4.366,
+   "changeRate": 3.06
+  },
+  {
+   "date": "2024-08-09",
+   "nav": 4.3879,
+   "accNav": 4.3879,
+   "changeRate": 0.5
+  },
+  {
+   "date": "2024-08-12",
+   "nav": 4.3947,
+   "accNav": 4.3947,
+   "changeRate": 0.15
+  },
+  {
+   "date": "2024-08-13",
+   "nav": 4.5025,
+   "accNav": 4.5025,
+   "changeRate": 2.45
+  },
+  {
+   "date": "2024-08-14",
+   "nav": 4.5026,
+   "accNav": 4.5026,
+   "changeRate": 0
+  },
+  {
+   "date": "2024-08-15",
+   "nav": 4.609,
+   "accNav": 4.609,
+   "changeRate": 2.36
+  },
+  {
+   "date": "2024-08-16",
+   "nav": 4.6173,
+   "accNav": 4.6173,
+   "changeRate": 0.18
+  },
+  {
+   "date": "2024-08-19",
+   "nav": 4.6731,
+   "accNav": 4.6731,
+   "changeRate": 1.21
+  },
+  {
+   "date": "2024-08-20",
+   "nav": 4.6575,
+   "accNav": 4.6575,
+   "changeRate": -0.33
+  },
+  {
+   "date": "2024-08-21",
+   "nav": 4.6802,
+   "accNav": 4.6802,
+   "changeRate": 0.49
+  },
+  {
+   "date": "2024-08-22",
+   "nav": 4.6,
+   "accNav": 4.6,
+   "changeRate": -1.71
+  },
+  {
+   "date": "2024-08-23",
+   "nav": 4.658,
+   "accNav": 4.658,
+   "changeRate": 1.26
+  },
+  {
+   "date": "2024-08-26",
+   "nav": 4.6001,
+   "accNav": 4.6001,
+   "changeRate": -1.24
+  },
+  {
+   "date": "2024-08-27",
+   "nav": 4.6202,
+   "accNav": 4.6202,
+   "changeRate": 0.44
+  },
+  {
+   "date": "2024-08-28",
+   "nav": 4.5656,
+   "accNav": 4.5656,
+   "changeRate": -1.18
+  },
+  {
+   "date": "2024-08-29",
+   "nav": 4.5638,
+   "accNav": 4.5638,
+   "changeRate": -0.04
+  },
+  {
+   "date": "2024-08-30",
+   "nav": 4.6114,
+   "accNav": 4.6114,
+   "changeRate": 1.04
+  },
+  {
+   "date": "2024-09-02",
+   "nav": 4.6063,
+   "accNav": 4.6063,
+   "changeRate": -0.11
+  },
+  {
+   "date": "2024-09-03",
+   "nav": 4.4687,
+   "accNav": 4.4687,
+   "changeRate": -2.99
+  },
+  {
+   "date": "2024-09-04",
+   "nav": 4.4612,
+   "accNav": 4.4612,
+   "changeRate": -0.17
+  },
+  {
+   "date": "2024-09-05",
+   "nav": 4.4553,
+   "accNav": 4.4553,
+   "changeRate": -0.13
+  },
+  {
+   "date": "2024-09-06",
+   "nav": 4.3354,
+   "accNav": 4.3354,
+   "changeRate": -2.69
+  },
+  {
+   "date": "2024-09-09",
+   "nav": 4.3934,
+   "accNav": 4.3934,
+   "changeRate": 1.34
+  },
+  {
+   "date": "2024-09-10",
+   "nav": 4.4394,
+   "accNav": 4.4394,
+   "changeRate": 1.05
+  },
+  {
+   "date": "2024-09-11",
+   "nav": 4.5354,
+   "accNav": 4.5354,
+   "changeRate": 2.16
+  },
+  {
+   "date": "2024-09-12",
+   "nav": 4.579,
+   "accNav": 4.579,
+   "changeRate": 0.96
+  },
+  {
+   "date": "2024-09-13",
+   "nav": 4.59,
+   "accNav": 4.59,
+   "changeRate": 0.24
+  },
+  {
+   "date": "2024-09-18",
+   "nav": 4.5419,
+   "accNav": 4.5419,
+   "changeRate": -1.05
+  },
+  {
+   "date": "2024-09-19",
+   "nav": 4.6622,
+   "accNav": 4.6622,
+   "changeRate": 2.65
+  },
+  {
+   "date": "2024-09-20",
+   "nav": 4.6326,
+   "accNav": 4.6326,
+   "changeRate": -0.63
+  },
+  {
+   "date": "2024-09-23",
+   "nav": 4.6394,
+   "accNav": 4.6394,
+   "changeRate": 0.15
+  },
+  {
+   "date": "2024-09-24",
+   "nav": 4.6587,
+   "accNav": 4.6587,
+   "changeRate": 0.42
+  },
+  {
+   "date": "2024-09-25",
+   "nav": 4.6483,
+   "accNav": 4.6483,
+   "changeRate": -0.22
+  },
+  {
+   "date": "2024-09-26",
+   "nav": 4.6894,
+   "accNav": 4.6894,
+   "changeRate": 0.88
+  },
+  {
+   "date": "2024-09-27",
+   "nav": 4.6504,
+   "accNav": 4.6504,
+   "changeRate": -0.83
+  },
+  {
+   "date": "2024-09-30",
+   "nav": 4.6592,
+   "accNav": 4.6592,
+   "changeRate": 0.19
+  },
+  {
+   "date": "2024-10-08",
+   "nav": 4.7033,
+   "accNav": 4.7033,
+   "changeRate": 0.95
+  },
+  {
+   "date": "2024-10-09",
+   "nav": 4.7309,
+   "accNav": 4.7309,
+   "changeRate": 0.59
+  },
+  {
+   "date": "2024-10-10",
+   "nav": 4.7333,
+   "accNav": 4.7333,
+   "changeRate": 0.05
+  },
+  {
+   "date": "2024-10-11",
+   "nav": 4.7387,
+   "accNav": 4.7387,
+   "changeRate": 0.11
+  },
+  {
+   "date": "2024-10-14",
+   "nav": 4.7756,
+   "accNav": 4.7756,
+   "changeRate": 0.78
+  },
+  {
+   "date": "2024-10-15",
+   "nav": 4.7182,
+   "accNav": 4.7182,
+   "changeRate": -1.2
+  },
+  {
+   "date": "2024-10-16",
+   "nav": 4.7417,
+   "accNav": 4.7417,
+   "changeRate": 0.5
+  },
+  {
+   "date": "2024-10-17",
+   "nav": 4.7471,
+   "accNav": 4.7471,
+   "changeRate": 0.11
+  },
+  {
+   "date": "2024-10-18",
+   "nav": 4.7794,
+   "accNav": 4.7794,
+   "changeRate": 0.68
+  },
+  {
+   "date": "2024-10-21",
+   "nav": 4.7705,
+   "accNav": 4.7705,
+   "changeRate": -0.19
+  },
+  {
+   "date": "2024-10-22",
+   "nav": 4.7895,
+   "accNav": 4.7895,
+   "changeRate": 0.4
+  },
+  {
+   "date": "2024-10-23",
+   "nav": 4.718,
+   "accNav": 4.718,
+   "changeRate": -1.49
+  },
+  {
+   "date": "2024-10-24",
+   "nav": 4.7579,
+   "accNav": 4.7579,
+   "changeRate": 0.85
+  },
+  {
+   "date": "2024-10-25",
+   "nav": 4.7736,
+   "accNav": 4.7736,
+   "changeRate": 0.33
+  },
+  {
+   "date": "2024-10-28",
+   "nav": 4.7859,
+   "accNav": 4.7859,
+   "changeRate": 0.26
+  },
+  {
+   "date": "2024-10-29",
+   "nav": 4.8302,
+   "accNav": 4.8302,
+   "changeRate": 0.93
+  },
+  {
+   "date": "2024-10-30",
+   "nav": 4.7992,
+   "accNav": 4.7992,
+   "changeRate": -0.64
+  },
+  {
+   "date": "2024-10-31",
+   "nav": 4.6755,
+   "accNav": 4.6755,
+   "changeRate": -2.58
+  },
+  {
+   "date": "2024-11-01",
+   "nav": 4.701,
+   "accNav": 4.701,
+   "changeRate": 0.55
+  },
+  {
+   "date": "2024-11-04",
+   "nav": 4.6889,
+   "accNav": 4.6889,
+   "changeRate": -0.26
+  },
+  {
+   "date": "2024-11-05",
+   "nav": 4.7379,
+   "accNav": 4.7379,
+   "changeRate": 1.05
+  },
+  {
+   "date": "2024-11-06",
+   "nav": 4.8646,
+   "accNav": 4.8646,
+   "changeRate": 2.67
+  },
+  {
+   "date": "2024-11-07",
+   "nav": 4.9809,
+   "accNav": 4.9809,
+   "changeRate": 2.39
+  },
+  {
+   "date": "2024-11-08",
+   "nav": 4.9701,
+   "accNav": 4.9701,
+   "changeRate": -0.22
+  },
+  {
+   "date": "2024-11-11",
+   "nav": 4.9894,
+   "accNav": 4.9894,
+   "changeRate": 0.39
+  },
+  {
+   "date": "2024-11-12",
+   "nav": 4.99,
+   "accNav": 4.99,
+   "changeRate": 0.01
+  },
+  {
+   "date": "2024-11-13",
+   "nav": 4.9855,
+   "accNav": 4.9855,
+   "changeRate": -0.09
+  },
+  {
+   "date": "2024-11-14",
+   "nav": 4.9511,
+   "accNav": 4.9511,
+   "changeRate": -0.69
+  },
+  {
+   "date": "2024-11-15",
+   "nav": 4.8354,
+   "accNav": 4.8354,
+   "changeRate": -2.34
+  },
+  {
+   "date": "2024-11-18",
+   "nav": 4.8628,
+   "accNav": 4.8628,
+   "changeRate": 0.57
+  },
+  {
+   "date": "2024-11-19",
+   "nav": 4.8941,
+   "accNav": 4.8941,
+   "changeRate": 0.64
+  },
+  {
+   "date": "2024-11-20",
+   "nav": 4.8906,
+   "accNav": 4.8906,
+   "changeRate": -0.07
+  },
+  {
+   "date": "2024-11-21",
+   "nav": 4.9093,
+   "accNav": 4.9093,
+   "changeRate": 0.38
+  },
+  {
+   "date": "2024-11-22",
+   "nav": 4.916,
+   "accNav": 4.916,
+   "changeRate": 0.14
+  },
+  {
+   "date": "2024-11-25",
+   "nav": 4.9221,
+   "accNav": 4.9221,
+   "changeRate": 0.12
+  },
+  {
+   "date": "2024-11-26",
+   "nav": 4.9482,
+   "accNav": 4.9482,
+   "changeRate": 0.53
+  },
+  {
+   "date": "2024-11-27",
+   "nav": 4.9115,
+   "accNav": 4.9115,
+   "changeRate": -0.74
+  },
+  {
+   "date": "2024-11-28",
+   "nav": 4.9057,
+   "accNav": 4.9057,
+   "changeRate": -0.12
+  },
+  {
+   "date": "2024-11-29",
+   "nav": 4.9475,
+   "accNav": 4.9475,
+   "changeRate": 0.85
+  },
+  {
+   "date": "2024-12-02",
+   "nav": 5.0006,
+   "accNav": 5.0006,
+   "changeRate": 1.07
+  },
+  {
+   "date": "2024-12-03",
+   "nav": 5.0232,
+   "accNav": 5.0232,
+   "changeRate": 0.45
+  },
+  {
+   "date": "2024-12-04",
+   "nav": 5.0799,
+   "accNav": 5.0799,
+   "changeRate": 1.13
+  },
+  {
+   "date": "2024-12-05",
+   "nav": 5.061,
+   "accNav": 5.061,
+   "changeRate": -0.37
+  },
+  {
+   "date": "2024-12-06",
+   "nav": 5.1043,
+   "accNav": 5.1043,
+   "changeRate": 0.86
+  },
+  {
+   "date": "2024-12-09",
+   "nav": 5.0651,
+   "accNav": 5.0651,
+   "changeRate": -0.77
+  },
+  {
+   "date": "2024-12-10",
+   "nav": 5.0499,
+   "accNav": 5.0499,
+   "changeRate": -0.3
+  },
+  {
+   "date": "2024-12-11",
+   "nav": 5.1369,
+   "accNav": 5.1369,
+   "changeRate": 1.72
+  },
+  {
+   "date": "2024-12-12",
+   "nav": 5.1041,
+   "accNav": 5.1041,
+   "changeRate": -0.64
+  },
+  {
+   "date": "2024-12-13",
+   "nav": 5.1426,
+   "accNav": 5.1426,
+   "changeRate": 0.75
+  },
+  {
+   "date": "2024-12-16",
+   "nav": 5.2145,
+   "accNav": 5.2145,
+   "changeRate": 1.4
+  },
+  {
+   "date": "2024-12-17",
+   "nav": 5.1931,
+   "accNav": 5.1931,
+   "changeRate": -0.41
+  },
+  {
+   "date": "2024-12-18",
+   "nav": 5.0102,
+   "accNav": 5.0102,
+   "changeRate": -3.52
+  },
+  {
+   "date": "2024-12-19",
+   "nav": 4.9874,
+   "accNav": 4.9874,
+   "changeRate": -0.46
+  },
+  {
+   "date": "2024-12-20",
+   "nav": 5.0276,
+   "accNav": 5.0276,
+   "changeRate": 0.81
+  },
+  {
+   "date": "2024-12-23",
+   "nav": 5.0801,
+   "accNav": 5.0801,
+   "changeRate": 1.04
+  },
+  {
+   "date": "2024-12-24",
+   "nav": 5.1462,
+   "accNav": 5.1462,
+   "changeRate": 1.3
+  },
+  {
+   "date": "2024-12-25",
+   "nav": 5.1458,
+   "accNav": 5.1458,
+   "changeRate": -0.01
+  },
+  {
+   "date": "2024-12-26",
+   "nav": 5.1413,
+   "accNav": 5.1413,
+   "changeRate": -0.09
+  },
+  {
+   "date": "2024-12-27",
+   "nav": 5.0723,
+   "accNav": 5.0723,
+   "changeRate": -1.34
+  },
+  {
+   "date": "2024-12-30",
+   "nav": 5.0051,
+   "accNav": 5.0051,
+   "changeRate": -1.32
+  },
+  {
+   "date": "2024-12-31",
+   "nav": 4.9549,
+   "accNav": 4.9549,
+   "changeRate": -1
+  },
+  {
+   "date": "2025-01-02",
+   "nav": 4.9449,
+   "accNav": 4.9449,
+   "changeRate": -0.2
+  },
+  {
+   "date": "2025-01-03",
+   "nav": 5.026,
+   "accNav": 5.026,
+   "changeRate": 1.64
+  },
+  {
+   "date": "2025-01-06",
+   "nav": 5.0788,
+   "accNav": 5.0788,
+   "changeRate": 1.05
+  },
+  {
+   "date": "2025-01-07",
+   "nav": 4.9915,
+   "accNav": 4.9915,
+   "changeRate": -1.72
+  },
+  {
+   "date": "2025-01-08",
+   "nav": 4.9936,
+   "accNav": 4.9936,
+   "changeRate": 0.04
+  },
+  {
+   "date": "2025-01-09",
+   "nav": 4.9933,
+   "accNav": 4.9933,
+   "changeRate": -0.01
+  },
+  {
+   "date": "2025-01-10",
+   "nav": 4.9193,
+   "accNav": 4.9193,
+   "changeRate": -1.48
+  },
+  {
+   "date": "2025-01-13",
+   "nav": 4.9051,
+   "accNav": 4.9051,
+   "changeRate": -0.29
+  },
+  {
+   "date": "2025-01-14",
+   "nav": 4.8985,
+   "accNav": 4.8985,
+   "changeRate": -0.13
+  },
+  {
+   "date": "2025-01-15",
+   "nav": 5.0047,
+   "accNav": 5.0047,
+   "changeRate": 2.17
+  },
+  {
+   "date": "2025-01-16",
+   "nav": 4.9721,
+   "accNav": 4.9721,
+   "changeRate": -0.65
+  },
+  {
+   "date": "2025-01-17",
+   "nav": 5.0492,
+   "accNav": 5.0492,
+   "changeRate": 1.55
+  },
+  {
+   "date": "2025-01-20",
+   "nav": 5.0489,
+   "accNav": 5.0489,
+   "changeRate": -0.01
+  },
+  {
+   "date": "2025-01-21",
+   "nav": 5.0637,
+   "accNav": 5.0637,
+   "changeRate": 0.29
+  },
+  {
+   "date": "2025-01-22",
+   "nav": 5.1243,
+   "accNav": 5.1243,
+   "changeRate": 1.2
+  },
+  {
+   "date": "2025-01-23",
+   "nav": 5.1316,
+   "accNav": 5.1316,
+   "changeRate": 0.14
+  },
+  {
+   "date": "2025-01-24",
+   "nav": 5.1015,
+   "accNav": 5.1015,
+   "changeRate": -0.59
+  },
+  {
+   "date": "2025-01-27",
+   "nav": 4.9499,
+   "accNav": 4.9499,
+   "changeRate": -2.97
+  },
+  {
+   "date": "2025-02-05",
+   "nav": 5.0659,
+   "accNav": 5.0659,
+   "changeRate": 2.34
+  },
+  {
+   "date": "2025-02-06",
+   "nav": 5.0879,
+   "accNav": 5.0879,
+   "changeRate": 0.43
+  },
+  {
+   "date": "2025-02-07",
+   "nav": 5.0192,
+   "accNav": 5.0192,
+   "changeRate": -1.35
+  },
+  {
+   "date": "2025-02-10",
+   "nav": 5.0805,
+   "accNav": 5.0805,
+   "changeRate": 1.22
+  },
+  {
+   "date": "2025-02-11",
+   "nav": 5.0667,
+   "accNav": 5.0667,
+   "changeRate": -0.27
+  },
+  {
+   "date": "2025-02-12",
+   "nav": 5.0723,
+   "accNav": 5.0723,
+   "changeRate": 0.11
+  },
+  {
+   "date": "2025-02-13",
+   "nav": 5.1434,
+   "accNav": 5.1434,
+   "changeRate": 1.4
+  },
+  {
+   "date": "2025-02-14",
+   "nav": 5.162,
+   "accNav": 5.162,
+   "changeRate": 0.36
+  },
+  {
+   "date": "2025-02-17",
+   "nav": 5.1616,
+   "accNav": 5.1616,
+   "changeRate": -0.01
+  },
+  {
+   "date": "2025-02-18",
+   "nav": 5.1715,
+   "accNav": 5.1715,
+   "changeRate": 0.19
+  },
+  {
+   "date": "2025-02-19",
+   "nav": 5.1751,
+   "accNav": 5.1751,
+   "changeRate": 0.07
+  },
+  {
+   "date": "2025-02-20",
+   "nav": 5.1513,
+   "accNav": 5.1513,
+   "changeRate": -0.46
+  },
+  {
+   "date": "2025-02-21",
+   "nav": 5.0456,
+   "accNav": 5.0456,
+   "changeRate": -2.05
+  },
+  {
+   "date": "2025-02-24",
+   "nav": 4.9862,
+   "accNav": 4.9862,
+   "changeRate": -1.18
+  },
+  {
+   "date": "2025-02-25",
+   "nav": 4.9257,
+   "accNav": 4.9257,
+   "changeRate": -1.21
+  },
+  {
+   "date": "2025-02-26",
+   "nav": 4.936,
+   "accNav": 4.936,
+   "changeRate": 0.21
+  },
+  {
+   "date": "2025-02-27",
+   "nav": 4.8038,
+   "accNav": 4.8038,
+   "changeRate": -2.68
+  },
+  {
+   "date": "2025-02-28",
+   "nav": 4.8789,
+   "accNav": 4.8789,
+   "changeRate": 1.56
+  },
+  {
+   "date": "2025-03-03",
+   "nav": 4.7739,
+   "accNav": 4.7739,
+   "changeRate": -2.15
+  },
+  {
+   "date": "2025-03-04",
+   "nav": 4.7571,
+   "accNav": 4.7571,
+   "changeRate": -0.35
+  },
+  {
+   "date": "2025-03-05",
+   "nav": 4.8185,
+   "accNav": 4.8185,
+   "changeRate": 1.29
+  },
+  {
+   "date": "2025-03-06",
+   "nav": 4.6859,
+   "accNav": 4.6859,
+   "changeRate": -2.75
+  },
+  {
+   "date": "2025-03-07",
+   "nav": 4.7206,
+   "accNav": 4.7206,
+   "changeRate": 0.74
+  },
+  {
+   "date": "2025-03-10",
+   "nav": 4.5455,
+   "accNav": 4.5455,
+   "changeRate": -3.71
+  },
+  {
+   "date": "2025-03-11",
+   "nav": 4.5336,
+   "accNav": 4.5336,
+   "changeRate": -0.26
+  },
+  {
+   "date": "2025-03-12",
+   "nav": 4.5818,
+   "accNav": 4.5818,
+   "changeRate": 1.06
+  },
+  {
+   "date": "2025-03-13",
+   "nav": 4.4992,
+   "accNav": 4.4992,
+   "changeRate": -1.8
+  },
+  {
+   "date": "2025-03-14",
+   "nav": 4.6076,
+   "accNav": 4.6076,
+   "changeRate": 2.41
+  },
+  {
+   "date": "2025-03-17",
+   "nav": 4.6299,
+   "accNav": 4.6299,
+   "changeRate": 0.48
+  },
+  {
+   "date": "2025-03-18",
+   "nav": 4.5587,
+   "accNav": 4.5587,
+   "changeRate": -1.54
+  },
+  {
+   "date": "2025-03-19",
+   "nav": 4.6127,
+   "accNav": 4.6127,
+   "changeRate": 1.18
+  },
+  {
+   "date": "2025-03-20",
+   "nav": 4.602,
+   "accNav": 4.602,
+   "changeRate": -0.23
+  },
+  {
+   "date": "2025-03-21",
+   "nav": 4.6175,
+   "accNav": 4.6175,
+   "changeRate": 0.34
+  },
+  {
+   "date": "2025-03-24",
+   "nav": 4.7068,
+   "accNav": 4.7068,
+   "changeRate": 1.93
+  },
+  {
+   "date": "2025-03-25",
+   "nav": 4.7304,
+   "accNav": 4.7304,
+   "changeRate": 0.5
+  },
+  {
+   "date": "2025-03-26",
+   "nav": 4.6458,
+   "accNav": 4.6458,
+   "changeRate": -1.79
+  },
+  {
+   "date": "2025-03-27",
+   "nav": 4.6182,
+   "accNav": 4.6182,
+   "changeRate": -0.59
+  },
+  {
+   "date": "2025-03-28",
+   "nav": 4.4965,
+   "accNav": 4.4965,
+   "changeRate": -2.64
+  },
+  {
+   "date": "2025-03-31",
+   "nav": 4.496,
+   "accNav": 4.496,
+   "changeRate": -0.01
+  },
+  {
+   "date": "2025-04-01",
+   "nav": 4.5314,
+   "accNav": 4.5314,
+   "changeRate": 0.79
+  },
+  {
+   "date": "2025-04-02",
+   "nav": 4.5677,
+   "accNav": 4.5677,
+   "changeRate": 0.8
+  },
+  {
+   "date": "2025-04-03",
+   "nav": 4.3314,
+   "accNav": 4.3314,
+   "changeRate": -5.17
+  },
+  {
+   "date": "2025-04-07",
+   "nav": 4.07,
+   "accNav": 4.07,
+   "changeRate": -6.04
+  },
+  {
+   "date": "2025-04-08",
+   "nav": 3.999,
+   "accNav": 3.999,
+   "changeRate": -1.74
+  },
+  {
+   "date": "2025-04-09",
+   "nav": 4.4414,
+   "accNav": 4.4414,
+   "changeRate": 11.06
+  },
+  {
+   "date": "2025-04-10",
+   "nav": 4.2803,
+   "accNav": 4.2803,
+   "changeRate": -3.63
+  },
+  {
+   "date": "2025-04-11",
+   "nav": 4.3525,
+   "accNav": 4.3525,
+   "changeRate": 1.69
+  },
+  {
+   "date": "2025-04-14",
+   "nav": 4.3779,
+   "accNav": 4.3779,
+   "changeRate": 0.58
+  },
+  {
+   "date": "2025-04-15",
+   "nav": 4.3836,
+   "accNav": 4.3836,
+   "changeRate": 0.13
+  },
+  {
+   "date": "2025-04-16",
+   "nav": 4.2598,
+   "accNav": 4.2598,
+   "changeRate": -2.82
+  },
+  {
+   "date": "2025-04-17",
+   "nav": 4.2573,
+   "accNav": 4.2573,
+   "changeRate": -0.06
+  },
+  {
+   "date": "2025-04-18",
+   "nav": 4.2563,
+   "accNav": 4.2563,
+   "changeRate": -0.02
+  },
+  {
+   "date": "2025-04-21",
+   "nav": 4.1556,
+   "accNav": 4.1556,
+   "changeRate": -2.37
+  },
+  {
+   "date": "2025-04-22",
+   "nav": 4.2586,
+   "accNav": 4.2586,
+   "changeRate": 2.48
+  },
+  {
+   "date": "2025-04-23",
+   "nav": 4.3526,
+   "accNav": 4.3526,
+   "changeRate": 2.21
+  },
+  {
+   "date": "2025-04-24",
+   "nav": 4.4668,
+   "accNav": 4.4668,
+   "changeRate": 2.62
+  },
+  {
+   "date": "2025-04-25",
+   "nav": 4.5128,
+   "accNav": 4.5128,
+   "changeRate": 1.03
+  },
+  {
+   "date": "2025-04-28",
+   "nav": 4.5101,
+   "accNav": 4.5101,
+   "changeRate": -0.06
+  },
+  {
+   "date": "2025-04-29",
+   "nav": 4.5363,
+   "accNav": 4.5363,
+   "changeRate": 0.58
+  },
+  {
+   "date": "2025-04-30",
+   "nav": 4.541,
+   "accNav": 4.541,
+   "changeRate": 0.1
+  },
+  {
+   "date": "2025-05-06",
+   "nav": 4.5894,
+   "accNav": 4.5894,
+   "changeRate": 1.07
+  },
+  {
+   "date": "2025-05-07",
+   "nav": 4.607,
+   "accNav": 4.607,
+   "changeRate": 0.38
+  },
+  {
+   "date": "2025-05-08",
+   "nav": 4.6539,
+   "accNav": 4.6539,
+   "changeRate": 1.02
+  },
+  {
+   "date": "2025-05-09",
+   "nav": 4.6538,
+   "accNav": 4.6538,
+   "changeRate": 0
+  },
+  {
+   "date": "2025-05-12",
+   "nav": 4.8347,
+   "accNav": 4.8347,
+   "changeRate": 3.89
+  },
+  {
+   "date": "2025-05-13",
+   "nav": 4.9045,
+   "accNav": 4.9045,
+   "changeRate": 1.44
+  },
+  {
+   "date": "2025-05-14",
+   "nav": 4.9298,
+   "accNav": 4.9298,
+   "changeRate": 0.52
+  },
+  {
+   "date": "2025-05-15",
+   "nav": 4.9338,
+   "accNav": 4.9338,
+   "changeRate": 0.08
+  },
+  {
+   "date": "2025-05-16",
+   "nav": 4.9549,
+   "accNav": 4.9549,
+   "changeRate": 0.43
+  },
+  {
+   "date": "2025-05-19",
+   "nav": 4.958,
+   "accNav": 4.958,
+   "changeRate": 0.06
+  },
+  {
+   "date": "2025-05-20",
+   "nav": 4.9412,
+   "accNav": 4.9412,
+   "changeRate": -0.34
+  },
+  {
+   "date": "2025-05-21",
+   "nav": 4.8766,
+   "accNav": 4.8766,
+   "changeRate": -1.31
+  },
+  {
+   "date": "2025-05-22",
+   "nav": 4.8812,
+   "accNav": 4.8812,
+   "changeRate": 0.09
+  },
+  {
+   "date": "2025-05-23",
+   "nav": 4.8372,
+   "accNav": 4.8372,
+   "changeRate": -0.9
+  },
+  {
+   "date": "2025-05-26",
+   "nav": 4.8323,
+   "accNav": 4.8323,
+   "changeRate": -0.1
+  },
+  {
+   "date": "2025-05-27",
+   "nav": 4.9457,
+   "accNav": 4.9457,
+   "changeRate": 2.35
+  },
+  {
+   "date": "2025-05-28",
+   "nav": 4.9252,
+   "accNav": 4.9252,
+   "changeRate": -0.41
+  },
+  {
+   "date": "2025-05-29",
+   "nav": 4.9351,
+   "accNav": 4.9351,
+   "changeRate": 0.2
+  },
+  {
+   "date": "2025-05-30",
+   "nav": 4.9265,
+   "accNav": 4.9265,
+   "changeRate": -0.17
+  },
+  {
+   "date": "2025-06-03",
+   "nav": 5.0015,
+   "accNav": 5.0015,
+   "changeRate": 1.52
+  },
+  {
+   "date": "2025-06-04",
+   "nav": 5.0169,
+   "accNav": 5.0169,
+   "changeRate": 0.31
+  },
+  {
+   "date": "2025-06-05",
+   "nav": 4.9753,
+   "accNav": 4.9753,
+   "changeRate": -0.83
+  },
+  {
+   "date": "2025-06-06",
+   "nav": 5.0211,
+   "accNav": 5.0211,
+   "changeRate": 0.92
+  },
+  {
+   "date": "2025-06-09",
+   "nav": 5.0304,
+   "accNav": 5.0304,
+   "changeRate": 0.19
+  },
+  {
+   "date": "2025-06-10",
+   "nav": 5.0617,
+   "accNav": 5.0617,
+   "changeRate": 0.62
+  },
+  {
+   "date": "2025-06-11",
+   "nav": 5.042,
+   "accNav": 5.042,
+   "changeRate": -0.39
+  },
+  {
+   "date": "2025-06-12",
+   "nav": 5.0528,
+   "accNav": 5.0528,
+   "changeRate": 0.21
+  },
+  {
+   "date": "2025-06-13",
+   "nav": 4.9868,
+   "accNav": 4.9868,
+   "changeRate": -1.31
+  },
+  {
+   "date": "2025-06-16",
+   "nav": 5.0563,
+   "accNav": 5.0563,
+   "changeRate": 1.39
+  },
+  {
+   "date": "2025-06-17",
+   "nav": 5.0047,
+   "accNav": 5.0047,
+   "changeRate": -1.02
+  },
+  {
+   "date": "2025-06-18",
+   "nav": 5.0052,
+   "accNav": 5.0052,
+   "changeRate": 0.01
+  },
+  {
+   "date": "2025-06-19",
+   "nav": 5.003,
+   "accNav": 5.003,
+   "changeRate": -0.04
+  },
+  {
+   "date": "2025-06-20",
+   "nav": 4.9797,
+   "accNav": 4.9797,
+   "changeRate": -0.47
+  },
+  {
+   "date": "2025-06-23",
+   "nav": 5.0325,
+   "accNav": 5.0325,
+   "changeRate": 1.06
+  },
+  {
+   "date": "2025-06-24",
+   "nav": 5.1052,
+   "accNav": 5.1052,
+   "changeRate": 1.44
+  },
+  {
+   "date": "2025-06-25",
+   "nav": 5.1167,
+   "accNav": 5.1167,
+   "changeRate": 0.23
+  },
+  {
+   "date": "2025-06-26",
+   "nav": 5.1616,
+   "accNav": 5.1616,
+   "changeRate": 0.88
+  },
+  {
+   "date": "2025-06-27",
+   "nav": 5.1814,
+   "accNav": 5.1814,
+   "changeRate": 0.38
+  },
+  {
+   "date": "2025-06-30",
+   "nav": 5.2117,
+   "accNav": 5.2117,
+   "changeRate": 0.58
+  },
+  {
+   "date": "2025-07-01",
+   "nav": 5.1633,
+   "accNav": 5.1633,
+   "changeRate": -0.93
+  },
+  {
+   "date": "2025-07-02",
+   "nav": 5.2003,
+   "accNav": 5.2003,
+   "changeRate": 0.72
+  },
+  {
+   "date": "2025-07-03",
+   "nav": 5.2495,
+   "accNav": 5.2495,
+   "changeRate": 0.95
+  },
+  {
+   "date": "2025-07-04",
+   "nav": 5.2503,
+   "accNav": 5.2503,
+   "changeRate": 0.02
+  },
+  {
+   "date": "2025-07-07",
+   "nav": 5.2072,
+   "accNav": 5.2072,
+   "changeRate": -0.82
+  },
+  {
+   "date": "2025-07-08",
+   "nav": 5.2124,
+   "accNav": 5.2124,
+   "changeRate": 0.1
+  },
+  {
+   "date": "2025-07-09",
+   "nav": 5.2489,
+   "accNav": 5.2489,
+   "changeRate": 0.7
+  },
+  {
+   "date": "2025-07-10",
+   "nav": 5.2386,
+   "accNav": 5.2386,
+   "changeRate": -0.2
+  },
+  {
+   "date": "2025-07-11",
+   "nav": 5.2249,
+   "accNav": 5.2249,
+   "changeRate": -0.26
+  },
+  {
+   "date": "2025-07-14",
+   "nav": 5.2427,
+   "accNav": 5.2427,
+   "changeRate": 0.34
+  },
+  {
+   "date": "2025-07-15",
+   "nav": 5.2491,
+   "accNav": 5.2491,
+   "changeRate": 0.12
+  },
+  {
+   "date": "2025-07-16",
+   "nav": 5.2558,
+   "accNav": 5.2558,
+   "changeRate": 0.13
+  },
+  {
+   "date": "2025-07-17",
+   "nav": 5.2903,
+   "accNav": 5.2903,
+   "changeRate": 0.66
+  },
+  {
+   "date": "2025-07-18",
+   "nav": 5.2889,
+   "accNav": 5.2889,
+   "changeRate": -0.03
+  },
+  {
+   "date": "2025-07-21",
+   "nav": 5.3166,
+   "accNav": 5.3166,
+   "changeRate": 0.52
+  },
+  {
+   "date": "2025-07-22",
+   "nav": 5.286,
+   "accNav": 5.286,
+   "changeRate": -0.58
+  },
+  {
+   "date": "2025-07-23",
+   "nav": 5.3046,
+   "accNav": 5.3046,
+   "changeRate": 0.35
+  },
+  {
+   "date": "2025-07-24",
+   "nav": 5.3162,
+   "accNav": 5.3162,
+   "changeRate": 0.22
+  },
+  {
+   "date": "2025-07-25",
+   "nav": 5.3297,
+   "accNav": 5.3297,
+   "changeRate": 0.25
+  },
+  {
+   "date": "2025-07-28",
+   "nav": 5.351,
+   "accNav": 5.351,
+   "changeRate": 0.4
+  },
+  {
+   "date": "2025-07-29",
+   "nav": 5.3434,
+   "accNav": 5.3434,
+   "changeRate": -0.14
+  },
+  {
+   "date": "2025-07-30",
+   "nav": 5.3466,
+   "accNav": 5.3466,
+   "changeRate": 0.06
+  },
+  {
+   "date": "2025-07-31",
+   "nav": 5.3218,
+   "accNav": 5.3218,
+   "changeRate": -0.46
+  },
+  {
+   "date": "2025-08-01",
+   "nav": 5.2173,
+   "accNav": 5.2173,
+   "changeRate": -1.96
+  },
+  {
+   "date": "2025-08-04",
+   "nav": 5.3071,
+   "accNav": 5.3071,
+   "changeRate": 1.72
+  },
+  {
+   "date": "2025-08-05",
+   "nav": 5.2663,
+   "accNav": 5.2663,
+   "changeRate": -0.77
+  },
+  {
+   "date": "2025-08-06",
+   "nav": 5.3364,
+   "accNav": 5.3364,
+   "changeRate": 1.33
+  },
+  {
+   "date": "2025-08-07",
+   "nav": 5.3491,
+   "accNav": 5.3491,
+   "changeRate": 0.24
+  },
+  {
+   "date": "2025-08-08",
+   "nav": 5.4014,
+   "accNav": 5.4014,
+   "changeRate": 0.98
+  },
+  {
+   "date": "2025-08-11",
+   "nav": 5.3843,
+   "accNav": 5.3843,
+   "changeRate": -0.32
+  },
+  {
+   "date": "2025-08-12",
+   "nav": 5.4548,
+   "accNav": 5.4548,
+   "changeRate": 1.31
+  },
+  {
+   "date": "2025-08-13",
+   "nav": 5.4524,
+   "accNav": 5.4524,
+   "changeRate": -0.04
+  },
+  {
+   "date": "2025-08-14",
+   "nav": 5.4471,
+   "accNav": 5.4471,
+   "changeRate": -0.1
+  },
+  {
+   "date": "2025-08-15",
+   "nav": 5.4219,
+   "accNav": 5.4219,
+   "changeRate": -0.46
+  },
+  {
+   "date": "2025-08-18",
+   "nav": 5.4181,
+   "accNav": 5.4181,
+   "changeRate": -0.07
+  },
+  {
+   "date": "2025-08-19",
+   "nav": 5.3462,
+   "accNav": 5.3462,
+   "changeRate": -1.33
+  },
+  {
+   "date": "2025-08-20",
+   "nav": 5.3166,
+   "accNav": 5.3166,
+   "changeRate": -0.55
+  },
+  {
+   "date": "2025-08-21",
+   "nav": 5.2869,
+   "accNav": 5.2869,
+   "changeRate": -0.56
+  },
+  {
+   "date": "2025-08-22",
+   "nav": 5.3693,
+   "accNav": 5.3693,
+   "changeRate": 1.56
+  },
+  {
+   "date": "2025-08-25",
+   "nav": 5.3421,
+   "accNav": 5.3421,
+   "changeRate": -0.51
+  },
+  {
+   "date": "2025-08-26",
+   "nav": 5.3652,
+   "accNav": 5.3652,
+   "changeRate": 0.43
+  },
+  {
+   "date": "2025-08-27",
+   "nav": 5.3688,
+   "accNav": 5.3688,
+   "changeRate": 0.07
+  },
+  {
+   "date": "2025-08-28",
+   "nav": 5.3964,
+   "accNav": 5.3964,
+   "changeRate": 0.51
+  },
+  {
+   "date": "2025-08-29",
+   "nav": 5.3295,
+   "accNav": 5.3295,
+   "changeRate": -1.24
+  },
+  {
+   "date": "2025-09-01",
+   "nav": 5.332,
+   "accNav": 5.332,
+   "changeRate": 0.05
+  },
+  {
+   "date": "2025-09-02",
+   "nav": 5.2921,
+   "accNav": 5.2921,
+   "changeRate": -0.75
+  },
+  {
+   "date": "2025-09-03",
+   "nav": 5.334,
+   "accNav": 5.334,
+   "changeRate": 0.79
+  },
+  {
+   "date": "2025-09-04",
+   "nav": 5.3797,
+   "accNav": 5.3797,
+   "changeRate": 0.86
+  },
+  {
+   "date": "2025-09-05",
+   "nav": 5.3849,
+   "accNav": 5.3849,
+   "changeRate": 0.1
+  },
+  {
+   "date": "2025-09-08",
+   "nav": 5.4078,
+   "accNav": 5.4078,
+   "changeRate": 0.43
+  },
+  {
+   "date": "2025-09-09",
+   "nav": 5.4234,
+   "accNav": 5.4234,
+   "changeRate": 0.29
+  },
+  {
+   "date": "2025-09-10",
+   "nav": 5.4285,
+   "accNav": 5.4285,
+   "changeRate": 0.09
+  },
+  {
+   "date": "2025-09-11",
+   "nav": 5.4588,
+   "accNav": 5.4588,
+   "changeRate": 0.56
+  },
+  {
+   "date": "2025-09-12",
+   "nav": 5.48,
+   "accNav": 5.48,
+   "changeRate": 0.39
+  },
+  {
+   "date": "2025-09-15",
+   "nav": 5.524,
+   "accNav": 5.524,
+   "changeRate": 0.8
+  },
+  {
+   "date": "2025-09-16",
+   "nav": 5.5171,
+   "accNav": 5.5171,
+   "changeRate": -0.12
+  },
+  {
+   "date": "2025-09-17",
+   "nav": 5.5042,
+   "accNav": 5.5042,
+   "changeRate": -0.23
+  },
+  {
+   "date": "2025-09-18",
+   "nav": 5.5613,
+   "accNav": 5.5613,
+   "changeRate": 1.04
+  },
+  {
+   "date": "2025-09-19",
+   "nav": 5.6022,
+   "accNav": 5.6022,
+   "changeRate": 0.74
+  },
+  {
+   "date": "2025-09-22",
+   "nav": 5.6314,
+   "accNav": 5.6314,
+   "changeRate": 0.52
+  },
+  {
+   "date": "2025-09-23",
+   "nav": 5.5878,
+   "accNav": 5.5878,
+   "changeRate": -0.77
+  },
+  {
+   "date": "2025-09-24",
+   "nav": 5.5713,
+   "accNav": 5.5713,
+   "changeRate": -0.3
+  },
+  {
+   "date": "2025-09-25",
+   "nav": 5.5498,
+   "accNav": 5.5498,
+   "changeRate": -0.39
+  },
+  {
+   "date": "2025-09-26",
+   "nav": 5.5753,
+   "accNav": 5.5753,
+   "changeRate": 0.46
+  },
+  {
+   "date": "2025-09-29",
+   "nav": 5.5949,
+   "accNav": 5.5949,
+   "changeRate": 0.35
+  },
+  {
+   "date": "2025-09-30",
+   "nav": 5.6082,
+   "accNav": 5.6082,
+   "changeRate": 0.24
+  },
+  {
+   "date": "2025-10-09",
+   "nav": 5.7022,
+   "accNav": 5.7022,
+   "changeRate": 1.68
+  },
+  {
+   "date": "2025-10-10",
+   "nav": 5.5004,
+   "accNav": 5.5004,
+   "changeRate": -3.54
+  },
+  {
+   "date": "2025-10-13",
+   "nav": 5.616,
+   "accNav": 5.616,
+   "changeRate": 2.1
+  },
+  {
+   "date": "2025-10-14",
+   "nav": 5.5788,
+   "accNav": 5.5788,
+   "changeRate": -0.66
+  },
+  {
+   "date": "2025-10-15",
+   "nav": 5.6146,
+   "accNav": 5.6146,
+   "changeRate": 0.64
+  },
+  {
+   "date": "2025-10-16",
+   "nav": 5.5926,
+   "accNav": 5.5926,
+   "changeRate": -0.39
+  },
+  {
+   "date": "2025-10-17",
+   "nav": 5.6275,
+   "accNav": 5.6275,
+   "changeRate": 0.62
+  },
+  {
+   "date": "2025-10-20",
+   "nav": 5.7008,
+   "accNav": 5.7008,
+   "changeRate": 1.3
+  },
+  {
+   "date": "2025-10-21",
+   "nav": 5.695,
+   "accNav": 5.695,
+   "changeRate": -0.1
+  },
+  {
+   "date": "2025-10-22",
+   "nav": 5.6403,
+   "accNav": 5.6403,
+   "changeRate": -0.96
+  },
+  {
+   "date": "2025-10-23",
+   "nav": 5.6867,
+   "accNav": 5.6867,
+   "changeRate": 0.82
+  },
+  {
+   "date": "2025-10-24",
+   "nav": 5.7447,
+   "accNav": 5.7447,
+   "changeRate": 1.02
+  },
+  {
+   "date": "2025-10-27",
+   "nav": 5.8439,
+   "accNav": 5.8439,
+   "changeRate": 1.73
+  },
+  {
+   "date": "2025-10-28",
+   "nav": 5.8851,
+   "accNav": 5.8851,
+   "changeRate": 0.71
+  },
+  {
+   "date": "2025-10-29",
+   "nav": 5.9076,
+   "accNav": 5.9076,
+   "changeRate": 0.38
+  },
+  {
+   "date": "2025-10-30",
+   "nav": 5.8235,
+   "accNav": 5.8235,
+   "changeRate": -1.42
+  },
+  {
+   "date": "2025-10-31",
+   "nav": 5.8521,
+   "accNav": 5.8521,
+   "changeRate": 0.49
+  },
+  {
+   "date": "2025-11-03",
+   "nav": 5.8754,
+   "accNav": 5.8754,
+   "changeRate": 0.4
+  },
+  {
+   "date": "2025-11-04",
+   "nav": 5.7574,
+   "accNav": 5.7574,
+   "changeRate": -2.01
+  },
+  {
+   "date": "2025-11-05",
+   "nav": 5.7987,
+   "accNav": 5.7987,
+   "changeRate": 0.72
+  },
+  {
+   "date": "2025-11-06",
+   "nav": 5.6861,
+   "accNav": 5.6861,
+   "changeRate": -1.94
+  },
+  {
+   "date": "2025-11-07",
+   "nav": 5.6682,
+   "accNav": 5.6682,
+   "changeRate": -0.31
+  },
+  {
+   "date": "2025-11-10",
+   "nav": 5.7921,
+   "accNav": 5.7921,
+   "changeRate": 2.19
+  },
+  {
+   "date": "2025-11-11",
+   "nav": 5.7753,
+   "accNav": 5.7753,
+   "changeRate": -0.29
+  },
+  {
+   "date": "2025-11-12",
+   "nav": 5.7699,
+   "accNav": 5.7699,
+   "changeRate": -0.09
+  },
+  {
+   "date": "2025-11-13",
+   "nav": 5.6552,
+   "accNav": 5.6552,
+   "changeRate": -1.99
+  },
+  {
+   "date": "2025-11-14",
+   "nav": 5.6551,
+   "accNav": 5.6551,
+   "changeRate": 0
+  },
+  {
+   "date": "2025-11-17",
+   "nav": 5.6077,
+   "accNav": 5.6077,
+   "changeRate": -0.84
+  },
+  {
+   "date": "2025-11-18",
+   "nav": 5.545,
+   "accNav": 5.545,
+   "changeRate": -1.12
+  },
+  {
+   "date": "2025-11-19",
+   "nav": 5.5759,
+   "accNav": 5.5759,
+   "changeRate": 0.56
+  },
+  {
+   "date": "2025-11-20",
+   "nav": 5.4481,
+   "accNav": 5.4481,
+   "changeRate": -2.29
+  },
+  {
+   "date": "2025-11-21",
+   "nav": 5.487,
+   "accNav": 5.487,
+   "changeRate": 0.71
+  },
+  {
+   "date": "2025-11-24",
+   "nav": 5.6263,
+   "accNav": 5.6263,
+   "changeRate": 2.54
+  },
+  {
+   "date": "2025-11-25",
+   "nav": 5.6567,
+   "accNav": 5.6567,
+   "changeRate": 0.54
+  },
+  {
+   "date": "2025-11-26",
+   "nav": 5.7033,
+   "accNav": 5.7033,
+   "changeRate": 0.82
+  },
+  {
+   "date": "2025-11-27",
+   "nav": 5.7019,
+   "accNav": 5.7019,
+   "changeRate": -0.02
+  },
+  {
+   "date": "2025-11-28",
+   "nav": 5.7455,
+   "accNav": 5.7455,
+   "changeRate": 0.76
+  },
+  {
+   "date": "2025-12-01",
+   "nav": 5.7229,
+   "accNav": 5.7229,
+   "changeRate": -0.39
+  },
+  {
+   "date": "2025-12-02",
+   "nav": 5.772,
+   "accNav": 5.772,
+   "changeRate": 0.86
+  },
+  {
+   "date": "2025-12-03",
+   "nav": 5.7808,
+   "accNav": 5.7808,
+   "changeRate": 0.15
+  },
+  {
+   "date": "2025-12-04",
+   "nav": 5.7732,
+   "accNav": 5.7732,
+   "changeRate": -0.13
+  },
+  {
+   "date": "2025-12-05",
+   "nav": 5.799,
+   "accNav": 5.799,
+   "changeRate": 0.45
+  },
+  {
+   "date": "2025-12-08",
+   "nav": 5.785,
+   "accNav": 5.785,
+   "changeRate": -0.24
+  },
+  {
+   "date": "2025-12-09",
+   "nav": 5.7939,
+   "accNav": 5.7939,
+   "changeRate": 0.15
+  },
+  {
+   "date": "2025-12-10",
+   "nav": 5.8154,
+   "accNav": 5.8154,
+   "changeRate": 0.37
+  },
+  {
+   "date": "2025-12-11",
+   "nav": 5.7913,
+   "accNav": 5.7913,
+   "changeRate": -0.41
+  },
+  {
+   "date": "2025-12-12",
+   "nav": 5.6785,
+   "accNav": 5.6785,
+   "changeRate": -1.95
+  },
+  {
+   "date": "2025-12-15",
+   "nav": 5.6507,
+   "accNav": 5.6507,
+   "changeRate": -0.49
+  },
+  {
+   "date": "2025-12-16",
+   "nav": 5.6599,
+   "accNav": 5.6599,
+   "changeRate": 0.16
+  },
+  {
+   "date": "2025-12-17",
+   "nav": 5.5504,
+   "accNav": 5.5504,
+   "changeRate": -1.93
+  },
+  {
+   "date": "2025-12-18",
+   "nav": 5.633,
+   "accNav": 5.633,
+   "changeRate": 1.49
+  },
+  {
+   "date": "2025-12-19",
+   "nav": 5.7025,
+   "accNav": 5.7025,
+   "changeRate": 1.23
+  },
+  {
+   "date": "2025-12-22",
+   "nav": 5.7304,
+   "accNav": 5.7304,
+   "changeRate": 0.49
+  },
+  {
+   "date": "2025-12-23",
+   "nav": 5.7582,
+   "accNav": 5.7582,
+   "changeRate": 0.49
+  },
+  {
+   "date": "2025-12-24",
+   "nav": 5.7702,
+   "accNav": 5.7702,
+   "changeRate": 0.21
+  },
+  {
+   "date": "2025-12-25",
+   "nav": 5.7649,
+   "accNav": 5.7649,
+   "changeRate": -0.09
+  },
+  {
+   "date": "2025-12-26",
+   "nav": 5.7597,
+   "accNav": 5.7597,
+   "changeRate": -0.09
+  },
+  {
+   "date": "2025-12-29",
+   "nav": 5.731,
+   "accNav": 5.731,
+   "changeRate": -0.5
+  },
+  {
+   "date": "2025-12-30",
+   "nav": 5.718,
+   "accNav": 5.718,
+   "changeRate": -0.23
+  },
+  {
+   "date": "2025-12-31",
+   "nav": 5.6666,
+   "accNav": 5.6666,
+   "changeRate": -0.9
+  },
+  {
+   "date": "2026-01-05",
+   "nav": 5.6947,
+   "accNav": 5.6947,
+   "changeRate": 0.5
+  },
+  {
+   "date": "2026-01-06",
+   "nav": 5.7443,
+   "accNav": 5.7443,
+   "changeRate": 0.87
+  },
+  {
+   "date": "2026-01-07",
+   "nav": 5.7488,
+   "accNav": 5.7488,
+   "changeRate": 0.08
+  },
+  {
+   "date": "2026-01-08",
+   "nav": 5.7163,
+   "accNav": 5.7163,
+   "changeRate": -0.57
+  },
+  {
+   "date": "2026-01-09",
+   "nav": 5.7692,
+   "accNav": 5.7692,
+   "changeRate": 0.93
+  },
+  {
+   "date": "2026-01-12",
+   "nav": 5.7723,
+   "accNav": 5.7723,
+   "changeRate": 0.05
+  },
+  {
+   "date": "2026-01-13",
+   "nav": 5.7613,
+   "accNav": 5.7613,
+   "changeRate": -0.19
+  },
+  {
+   "date": "2026-01-14",
+   "nav": 5.7014,
+   "accNav": 5.7014,
+   "changeRate": -1.04
+  },
+  {
+   "date": "2026-01-15",
+   "nav": 5.7153,
+   "accNav": 5.7153,
+   "changeRate": 0.24
+  },
+  {
+   "date": "2026-01-16",
+   "nav": 5.7122,
+   "accNav": 5.7122,
+   "changeRate": -0.05
+  },
+  {
+   "date": "2026-01-19",
+   "nav": 5.71,
+   "accNav": 5.71,
+   "changeRate": -0.04
+  },
+  {
+   "date": "2026-01-20",
+   "nav": 5.5835,
+   "accNav": 5.5835,
+   "changeRate": -2.22
+  },
+  {
+   "date": "2026-01-21",
+   "nav": 5.6606,
+   "accNav": 5.6606,
+   "changeRate": 1.38
+  },
+  {
+   "date": "2026-01-22",
+   "nav": 5.7054,
+   "accNav": 5.7054,
+   "changeRate": 0.79
+  },
+  {
+   "date": "2026-01-23",
+   "nav": 5.7183,
+   "accNav": 5.7183,
+   "changeRate": 0.23
+  },
+  {
+   "date": "2026-01-26",
+   "nav": 5.7365,
+   "accNav": 5.7365,
+   "changeRate": 0.32
+  },
+  {
+   "date": "2026-01-27",
+   "nav": 5.7874,
+   "accNav": 5.7874,
+   "changeRate": 0.89
+  },
+  {
+   "date": "2026-01-28",
+   "nav": 5.799,
+   "accNav": 5.799,
+   "changeRate": 0.2
+  },
+  {
+   "date": "2026-01-29",
+   "nav": 5.7682,
+   "accNav": 5.7682,
+   "changeRate": -0.53
+  },
+  {
+   "date": "2026-01-30",
+   "nav": 5.6895,
+   "accNav": 5.6895,
+   "changeRate": -1.36
+  },
+  {
+   "date": "2026-02-02",
+   "nav": 5.7308,
+   "accNav": 5.7308,
+   "changeRate": 0.73
+  },
+  {
+   "date": "2026-02-03",
+   "nav": 5.6371,
+   "accNav": 5.6371,
+   "changeRate": -1.64
+  },
+  {
+   "date": "2026-02-04",
+   "nav": 5.5335,
+   "accNav": 5.5335,
+   "changeRate": -1.84
+  },
+  {
+   "date": "2026-02-05",
+   "nav": 5.4595,
+   "accNav": 5.4595,
+   "changeRate": -1.34
+  },
+  {
+   "date": "2026-02-06",
+   "nav": 5.5759,
+   "accNav": 5.5759,
+   "changeRate": 2.13
+  },
+  {
+   "date": "2026-02-09",
+   "nav": 5.6139,
+   "accNav": 5.6139,
+   "changeRate": 0.68
+  },
+  {
+   "date": "2026-02-10",
+   "nav": 5.5792,
+   "accNav": 5.5792,
+   "changeRate": -0.62
+  },
+  {
+   "date": "2026-02-11",
+   "nav": 5.5937,
+   "accNav": 5.5937,
+   "changeRate": 0.26
+  },
+  {
+   "date": "2026-02-12",
+   "nav": 5.4814,
+   "accNav": 5.4814,
+   "changeRate": -2.01
+  },
+  {
+   "date": "2026-02-13",
+   "nav": 5.4872,
+   "accNav": 5.4872,
+   "changeRate": 0.11
+  },
+  {
+   "date": "2026-02-24",
+   "nav": 5.5407,
+   "accNav": 5.5407,
+   "changeRate": 0.97
+  },
+  {
+   "date": "2026-02-25",
+   "nav": 5.6124,
+   "accNav": 5.6124,
+   "changeRate": 1.29
+  },
+  {
+   "date": "2026-02-26",
+   "nav": 5.5415,
+   "accNav": 5.5415,
+   "changeRate": -1.26
+  },
+  {
+   "date": "2026-02-27",
+   "nav": 5.5255,
+   "accNav": 5.5255,
+   "changeRate": -0.29
+  },
+  {
+   "date": "2026-03-02",
+   "nav": 5.5321,
+   "accNav": 5.5321,
+   "changeRate": 0.12
+  },
+  {
+   "date": "2026-03-03",
+   "nav": 5.4626,
+   "accNav": 5.4626,
+   "changeRate": -1.26
+  },
+  {
+   "date": "2026-03-04",
+   "nav": 5.547,
+   "accNav": 5.547,
+   "changeRate": 1.55
+  },
+  {
+   "date": "2026-03-05",
+   "nav": 5.5232,
+   "accNav": 5.5232,
+   "changeRate": -0.43
+  },
+  {
+   "date": "2026-03-06",
+   "nav": 5.4416,
+   "accNav": 5.4416,
+   "changeRate": -1.48
+  },
+  {
+   "date": "2026-03-09",
+   "nav": 5.5211,
+   "accNav": 5.5211,
+   "changeRate": 1.46
+  },
+  {
+   "date": "2026-03-10",
+   "nav": 5.5072,
+   "accNav": 5.5072,
+   "changeRate": -0.25
+  },
+  {
+   "date": "2026-03-11",
+   "nav": 5.5046,
+   "accNav": 5.5046,
+   "changeRate": -0.05
+  },
+  {
+   "date": "2026-03-12",
+   "nav": 5.4126,
+   "accNav": 5.4126,
+   "changeRate": -1.67
+  },
+  {
+   "date": "2026-03-13",
+   "nav": 5.3817,
+   "accNav": 5.3817,
+   "changeRate": -0.57
+  },
+  {
+   "date": "2026-03-16",
+   "nav": 5.4457,
+   "accNav": 5.4457,
+   "changeRate": 1.19
+  },
+  {
+   "date": "2026-03-17",
+   "nav": 5.4665,
+   "accNav": 5.4665,
+   "changeRate": 0.38
+  },
+  {
+   "date": "2026-03-18",
+   "nav": 5.3847,
+   "accNav": 5.3847,
+   "changeRate": -1.5
+  },
+  {
+   "date": "2026-03-19",
+   "nav": 5.3735,
+   "accNav": 5.3735,
+   "changeRate": -0.21
+  },
+  {
+   "date": "2026-03-20",
+   "nav": 5.2673,
+   "accNav": 5.2673,
+   "changeRate": -1.98
+  },
+  {
+   "date": "2026-03-23",
+   "nav": 5.3406,
+   "accNav": 5.3406,
+   "changeRate": 1.39
+  },
+  {
+   "date": "2026-03-24",
+   "nav": 5.2925,
+   "accNav": 5.2925,
+   "changeRate": -0.9
+  },
+  {
+   "date": "2026-03-25",
+   "nav": 5.3255,
+   "accNav": 5.3255,
+   "changeRate": 0.62
+  },
+  {
+   "date": "2026-03-26",
+   "nav": 5.2079,
+   "accNav": 5.2079,
+   "changeRate": -2.21
+  },
+  {
+   "date": "2026-03-27",
+   "nav": 5.1149,
+   "accNav": 5.1149,
+   "changeRate": -1.79
+  },
+  {
+   "date": "2026-03-30",
+   "nav": 5.0801,
+   "accNav": 5.0801,
+   "changeRate": -0.68
+  },
+  {
+   "date": "2026-03-31",
+   "nav": 5.2494,
+   "accNav": 5.2494,
+   "changeRate": 3.33
+  },
+  {
+   "date": "2026-04-01",
+   "nav": 5.3003,
+   "accNav": 5.3003,
+   "changeRate": 0.97
+  },
+  {
+   "date": "2026-04-02",
+   "nav": 5.2957,
+   "accNav": 5.2957,
+   "changeRate": -0.09
+  },
+  {
+   "date": "2026-04-03",
+   "nav": 5.299,
+   "accNav": 5.299,
+   "changeRate": 0.06
+  },
+  {
+   "date": "2026-04-07",
+   "nav": 5.3276,
+   "accNav": 5.3276,
+   "changeRate": 0.54
+  },
+  {
+   "date": "2026-04-08",
+   "nav": 5.4678,
+   "accNav": 5.4678,
+   "changeRate": 2.63
+  },
+  {
+   "date": "2026-04-09",
+   "nav": 5.5041,
+   "accNav": 5.5041,
+   "changeRate": 0.66
+  },
+  {
+   "date": "2026-04-10",
+   "nav": 5.5116,
+   "accNav": 5.5116,
+   "changeRate": 0.14
+  },
+  {
+   "date": "2026-04-13",
+   "nav": 5.5692,
+   "accNav": 5.5692,
+   "changeRate": 1.05
+  },
+  {
+   "date": "2026-04-14",
+   "nav": 5.6635,
+   "accNav": 5.6635,
+   "changeRate": 1.69
+  },
+  {
+   "date": "2026-04-15",
+   "nav": 5.7416,
+   "accNav": 5.7416,
+   "changeRate": 1.38
+  },
+  {
+   "date": "2026-04-16",
+   "nav": 5.7717,
+   "accNav": 5.7717,
+   "changeRate": 0.52
+  },
+  {
+   "date": "2026-04-17",
+   "nav": 5.8454,
+   "accNav": 5.8454,
+   "changeRate": 1.28
+  },
+  {
+   "date": "2026-04-20",
+   "nav": 5.8298,
+   "accNav": 5.8298,
+   "changeRate": -0.27
+  },
+  {
+   "date": "2026-04-21",
+   "nav": 5.8017,
+   "accNav": 5.8017,
+   "changeRate": -0.48
+  },
+  {
+   "date": "2026-04-22",
+   "nav": 5.9007,
+   "accNav": 5.9007,
+   "changeRate": 1.71
+  },
+  {
+   "date": "2026-04-23",
+   "nav": 5.8694,
+   "accNav": 5.8694,
+   "changeRate": -0.53
+  },
+  {
+   "date": "2026-04-24",
+   "nav": 5.9816,
+   "accNav": 5.9816,
+   "changeRate": 1.91
+  },
+  {
+   "date": "2026-04-27",
+   "nav": 5.9718,
+   "accNav": 5.9718,
+   "changeRate": -0.16
+  },
+  {
+   "date": "2026-04-28",
+   "nav": 5.9136,
+   "accNav": 5.9136,
+   "changeRate": -0.97
+  },
+  {
+   "date": "2026-04-29",
+   "nav": 5.947,
+   "accNav": 5.947,
+   "changeRate": 0.56
+  },
+  {
+   "date": "2026-04-30",
+   "nav": 6.0044,
+   "accNav": 6.0044,
+   "changeRate": 0.97
+  },
+  {
+   "date": "2026-05-06",
+   "nav": 6.2381,
+   "accNav": 6.2381,
+   "changeRate": 3.89
+  },
+  {
+   "date": "2026-05-07",
+   "nav": 6.2253,
+   "accNav": 6.2253,
+   "changeRate": -0.21
+  },
+  {
+   "date": "2026-05-08",
+   "nav": 6.3639,
+   "accNav": 6.3639,
+   "changeRate": 2.23
+  },
+  {
+   "date": "2026-05-11",
+   "nav": 6.3789,
+   "accNav": 6.3789,
+   "changeRate": 0.24
+  },
+  {
+   "date": "2026-05-12",
+   "nav": 6.3215,
+   "accNav": 6.3215,
+   "changeRate": -0.9
+  },
+  {
+   "date": "2026-05-13",
+   "nav": 6.3861,
+   "accNav": 6.3861,
+   "changeRate": 1.02
+  },
+  {
+   "date": "2026-05-14",
+   "nav": 6.4293,
+   "accNav": 6.4293,
+   "changeRate": 0.68
+  },
+  {
+   "date": "2026-05-15",
+   "nav": 6.3283,
+   "accNav": 6.3283,
+   "changeRate": -1.57
+  },
+  {
+   "date": "2026-05-18",
+   "nav": 6.3022,
+   "accNav": 6.3022,
+   "changeRate": -0.41
+  },
+  {
+   "date": "2026-05-19",
+   "nav": 6.2581,
+   "accNav": 6.2581,
+   "changeRate": -0.7
+  },
+  {
+   "date": "2026-05-20",
+   "nav": 6.3615,
+   "accNav": 6.3615,
+   "changeRate": 1.65
+  },
+  {
+   "date": "2026-05-21",
+   "nav": 6.365,
+   "accNav": 6.365,
+   "changeRate": 0.06
+  },
+  {
+   "date": "2026-05-22",
+   "nav": 6.3949,
+   "accNav": 6.3949,
+   "changeRate": 0.47
+  },
+  {
+   "date": "2026-05-25",
+   "nav": 6.3901,
+   "accNav": 6.3901,
+   "changeRate": -0.08
+  },
+  {
+   "date": "2026-05-26",
+   "nav": 6.4971,
+   "accNav": 6.4971,
+   "changeRate": 1.67
+  },
+  {
+   "date": "2026-05-27",
+   "nav": 6.4892,
+   "accNav": 6.4892,
+   "changeRate": -0.12
+  },
+  {
+   "date": "2026-05-28",
+   "nav": 6.5391,
+   "accNav": 6.5391,
+   "changeRate": 0.77
+  },
+  {
+   "date": "2026-05-29",
+   "nav": 6.5561,
+   "accNav": 6.5561,
+   "changeRate": 0.26
+  },
+  {
+   "date": "2026-06-01",
+   "nav": 6.5897,
+   "accNav": 6.5897,
+   "changeRate": 0.51
+  }
  ]
 }
