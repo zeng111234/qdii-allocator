@@ -163,7 +163,7 @@ async function main() {
   var marketNews = [];
   try {
     marketSnapshot = await fundData.getMarketSnapshot();
-    marketNews = await fundData.getMarketNews(5);
+    marketNews = await fundData.getMarketSentiment(5);
     if (marketSnapshot.length > 0) {
       console.log("[\u5e02\u573a] \u83b7\u53d6" + marketSnapshot.length + "\u4e2a\u6307\u6570\u5b9e\u65f6\u6570\u636e");
     }
