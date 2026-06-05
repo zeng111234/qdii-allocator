@@ -130,6 +130,30 @@
       "note": "标普500低费率"
     },
     {
+      "code": "007571",
+      "name": "华夏标普500ETF联接A(QDII)",
+      "type": "标普500",
+      "shareClass": "A",
+      "feeRate": 0.6,
+      "custodyFee": 0.15,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "华夏标普500联接"
+    },
+    {
+      "code": "004070",
+      "name": "南方标普美国精选REIT(QDII)A",
+      "type": "标普REITs",
+      "shareClass": "A",
+      "feeRate": 0.8,
+      "custodyFee": 0.2,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "标普REITs"
+    },
+    {
       "code": "001092",
       "name": "广发纳斯达克生物科技A(QDII)",
       "type": "纳指生物科技",
