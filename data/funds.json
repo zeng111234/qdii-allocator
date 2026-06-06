@@ -6,7 +6,10 @@
     "minPurchase": 10,
     "topN": 10,
     "historyFile": "data/history.json",
-    "lookbackDays": 750
+    "lookbackDays": 750,
+    "xSourceUrl": "https://x.com/aleabitoreddit",
+    "enableExternalSignals": true,
+    "externalSignalMaxScore": 3
   },
   "funds": [
     {

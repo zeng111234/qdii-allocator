@@ -17,6 +17,7 @@ var ai = require("./lib/ai-analyst");
 var mail = require("./lib/mailer");
 var backtest = require("./lib/backtest");
 var fundData = require("./lib/fund-data");
+var externalSignalData = require("./lib/external-signals");
 
 var FUNDS_FILE = path.join(__dirname, "data", "funds.json");
 var STRATEGY_MAP = {
@@ -136,6 +137,38 @@ async function main() {
     return;
   }
 
+  var marketSnapshot = [];
+  var marketNews = [];
+  var externalSignals = null;
+
+  if (strategy === "dynamic") {
+    console.log("[2/4] Fetching market/X signals...");
+    try {
+      marketSnapshot = await fundData.getMarketSnapshot();
+      marketNews = await fundData.getMarketSentiment(5);
+      if (marketSnapshot.length > 0) {
+        console.log("[market] fetched " + marketSnapshot.length + " realtime indices");
+      }
+      if (marketNews.length > 0) {
+        console.log("[news] fetched " + marketNews.length + " market items");
+      }
+    } catch(e) {
+      console.warn("[market] fetch failed:", e.message);
+    }
+    if (config.enableExternalSignals !== false) {
+      externalSignals = await externalSignalData.fetchExternalSignals({
+        sourceUrl: config.xSourceUrl || "https://x.com/aleabitoreddit",
+        maxScore: config.externalSignalMaxScore || 3
+      });
+      if (externalSignals.status === "ok") {
+        console.log("[X] fetched " + externalSignals.items.length + " external posts for scoring");
+      } else {
+        console.warn("[X] " + externalSignals.error);
+      }
+    }
+    console.log("");
+  }
+
   console.log("[2/4] Ranking...");
   var lookbackDays = config.lookbackDays || 750;
   var result, textContent;
@@ -144,7 +177,9 @@ async function main() {
       lookbackDays: lookbackDays,
       topN: topN,
       minPurchase: minPurchase,
-      enableHistory: true
+      enableHistory: true,
+      externalSignals: externalSignals,
+      externalSignalMaxScore: config.externalSignalMaxScore || 3
     });
     textContent = dyn.formatDynamicResult(result);
   } else {
@@ -160,22 +195,24 @@ async function main() {
 
   // 获取实时市场快照和新闻
   var marketSnapshot = [];
-  var marketNews = [];
-  try {
-    marketSnapshot = await fundData.getMarketSnapshot();
-    marketNews = await fundData.getMarketSentiment(5);
-    if (marketSnapshot.length > 0) {
-      console.log("[\u5e02\u573a] \u83b7\u53d6" + marketSnapshot.length + "\u4e2a\u6307\u6570\u5b9e\u65f6\u6570\u636e");
+  if (strategy !== "dynamic") {
+    try {
+      marketSnapshot = await fundData.getMarketSnapshot();
+      marketNews = await fundData.getMarketSentiment(5);
+      if (marketSnapshot.length > 0) {
+        console.log("[market] fetched " + marketSnapshot.length + " realtime indices");
+      }
+      if (marketNews.length > 0) {
+        console.log("[news] fetched " + marketNews.length + " market items");
+      }
+    } catch(e) {
+      console.warn("[market] fetch failed:", e.message);
     }
-    if (marketNews.length > 0) {
-      console.log("[\u65b0\u95fb] \u83b7\u53d6" + marketNews.length + "\u6761\u8d22\u7ecf\u5feb\u8baf");
-    }
-  } catch(e) {
-    console.warn("[\u5e02\u573a] \u83b7\u53d6\u5931\u8d25:", e.message);
   }
 
   result.marketSnapshot = marketSnapshot;
   result.marketNews = marketNews;
+  result.externalSignals = externalSignals;
 
   var aiCommentary = "";
   var llmApiKey = process.env.LLM_API_KEY;
