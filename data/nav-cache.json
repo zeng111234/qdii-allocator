@@ -7542,5 +7542,127 @@
    "accNav": 4.3281,
    "changeRate": -6.93
   }
+ ],
+ "017641": [
+  {
+   "date": "2026-05-11",
+   "nav": 1.6626,
+   "accNav": 1.6626,
+   "changeRate": 0.13
+  },
+  {
+   "date": "2026-05-12",
+   "nav": 1.6589,
+   "accNav": 1.6589,
+   "changeRate": -0.22
+  },
+  {
+   "date": "2026-05-13",
+   "nav": 1.6691,
+   "accNav": 1.6691,
+   "changeRate": 0.61
+  },
+  {
+   "date": "2026-05-14",
+   "nav": 1.6808,
+   "accNav": 1.6808,
+   "changeRate": 0.7
+  },
+  {
+   "date": "2026-05-15",
+   "nav": 1.662,
+   "accNav": 1.662,
+   "changeRate": -1.12
+  },
+  {
+   "date": "2026-05-18",
+   "nav": 1.6607,
+   "accNav": 1.6607,
+   "changeRate": -0.08
+  },
+  {
+   "date": "2026-05-19",
+   "nav": 1.6493,
+   "accNav": 1.6493,
+   "changeRate": -0.69
+  },
+  {
+   "date": "2026-05-20",
+   "nav": 1.6664,
+   "accNav": 1.6664,
+   "changeRate": 1.04
+  },
+  {
+   "date": "2026-05-21",
+   "nav": 1.6679,
+   "accNav": 1.6679,
+   "changeRate": 0.09
+  },
+  {
+   "date": "2026-05-22",
+   "nav": 1.674,
+   "accNav": 1.674,
+   "changeRate": 0.37
+  },
+  {
+   "date": "2026-05-25",
+   "nav": 1.6726,
+   "accNav": 1.6726,
+   "changeRate": -0.08
+  },
+  {
+   "date": "2026-05-26",
+   "nav": 1.6816,
+   "accNav": 1.6816,
+   "changeRate": 0.54
+  },
+  {
+   "date": "2026-05-27",
+   "nav": 1.6824,
+   "accNav": 1.6824,
+   "changeRate": 0.05
+  },
+  {
+   "date": "2026-05-28",
+   "nav": 1.6902,
+   "accNav": 1.6902,
+   "changeRate": 0.46
+  },
+  {
+   "date": "2026-05-29",
+   "nav": 1.6919,
+   "accNav": 1.6919,
+   "changeRate": 0.1
+  },
+  {
+   "date": "2026-06-01",
+   "nav": 1.6963,
+   "accNav": 1.6963,
+   "changeRate": 0.26
+  },
+  {
+   "date": "2026-06-02",
+   "nav": 1.6988,
+   "accNav": 1.6988,
+   "changeRate": 0.15
+  },
+  {
+   "date": "2026-06-03",
+   "nav": 1.6871,
+   "accNav": 1.6871,
+   "changeRate": -0.69
+  },
+  {
+   "date": "2026-06-04",
+   "nav": 1.6932,
+   "accNav": 1.6932,
+   "changeRate": 0.36
+  },
+  {
+   "date": "2026-06-05",
+   "nav": 1.6507,
+   "accNav": 1.6507,
+   "changeRate": -2.51
+  }
  ]
 }
