@@ -169,6 +169,7 @@ async function main() {
         sourceUrl: config.xSourceUrl || "https://x.com/aleabitoreddit",
         maxScore: config.externalSignalMaxScore || 3,
         xMirrorWhitelist: config.xMirrorWhitelist || [],
+        rsshubUrl: config.rsshubUrl || "",
         cacheFile: path.join(__dirname, "data", "external-signals-cache.json")
       });
       if (externalSignals.status === "ok" || externalSignals.status === "cached") {

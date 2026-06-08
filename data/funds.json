@@ -2,14 +2,15 @@
   "config": {
     "defaultBudget": 50,
     "defaultStrategy": "dynamic",
-    "note": "defaultStrategy: equal|low_fee|scarce|dynamic | 可新增 xMirrorWhitelist 以配置外部信号镜像",
+    "note": "defaultStrategy: equal|low_fee|scarce|dynamic | rsshubUrl 填自建 RSSHub 地址",
     "minPurchase": 10,
     "topN": 10,
     "historyFile": "data/history.json",
     "lookbackDays": 750,
     "xSourceUrl": "https://x.com/aleabitoreddit",
     "enableExternalSignals": true,
-    "externalSignalMaxScore": 3
+    "externalSignalMaxScore": 3,
+    "rsshubUrl": "https://my-rsshub-z6ig.onrender.com"
   },
   "funds": [
     {
@@ -197,7 +198,7 @@
       "name": "浦银安盛全球智能科技A(QDII)",
       "type": "全球科技",
       "shareClass": "A",
-      "feeRate": 1.0,
+      "feeRate": 1,
       "custodyFee": 0.2,
       "dailyLimit": 100,
       "minPurchase": 10,
