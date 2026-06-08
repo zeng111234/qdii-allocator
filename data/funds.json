@@ -197,6 +197,15 @@
       "settleDays": 2
     },
     {
+      "code": "012920",
+      "name": "景顺长城纳斯达克科技市值加权指数(QDII)A",
+      "type": "纳指科技",
+      "feeRate": 1.05,
+      "dailyLimit": 100,
+      "status": "active",
+      "settleDays": 2
+    },
+    {
       "code": "015204",
       "name": "银华全球新能源车量化优选(QDII)A",
       "type": "新能源车",
