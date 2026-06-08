@@ -24,6 +24,13 @@
           "amount": 16,
           "nav": 4.646,
           "shares": 3.4438
+        },
+        {
+          "date": "2026-05-28",
+          "settleDate": "2026-06-01",
+          "amount": 40,
+          "nav": 4.646,
+          "shares": 8.6096
         }
       ]
     },
@@ -134,6 +141,27 @@
       "code": "270042",
       "name": "广发纳斯达克100A(QDII)",
       "buys": [
+        {
+          "date": "2026-05-28",
+          "settleDate": "2026-06-01",
+          "amount": 20,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-01",
+          "settleDate": "2026-06-03",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-03",
+          "settleDate": "2026-06-05",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
         {
           "date": "2026-06-04",
           "settleDate": "2026-06-08",
@@ -274,6 +302,33 @@
           "amount": 10,
           "nav": 1.6444,
           "shares": 6.0812
+        }
+      ]
+    },
+    {
+      "code": "096001",
+      "name": "大成标普500A(QDII)",
+      "buys": [
+        {
+          "date": "2026-06-03",
+          "settleDate": "2026-06-05",
+          "amount": 50,
+          "nav": 2.7134,
+          "shares": 18.4271
+        },
+        {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-09",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-08",
+          "settleDate": "2026-06-10",
+          "amount": 10,
+          "nav": null,
+          "shares": null
         }
       ]
     }

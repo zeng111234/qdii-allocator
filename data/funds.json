@@ -587,6 +587,15 @@
       "status": "active",
       "note": "纳指100补充品种",
       "settleDays": 2
+    },
+    {
+      "code": "539002",
+      "name": "建信纳斯达克100指数(QDII)C",
+      "type": "纳指100",
+      "feeRate": 0.8,
+      "dailyLimit": 100,
+      "status": "active",
+      "settleDays": 2
     }
   ],
   "_lastUpdated": "2026-06-03",
