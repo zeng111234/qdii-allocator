@@ -1,4 +1,18 @@
 {
+ "110025": {
+  "status": "active",
+  "limit": 100000000000,
+  "minPurchase": 10,
+  "rawStatus": "开放申购",
+  "premiumRate": 0,
+  "premiumStale": false,
+  "gzTime": "",
+  "nav": 2.355,
+  "realNav": 0,
+  "yearReturn": 77.87,
+  "threeYearReturn": 102.32,
+  "_cachedAt": 1780895525371
+ },
  "118002": {
   "status": "active",
   "limit": 100000000000,
@@ -170,6 +184,20 @@
   "yearReturn": 24.17,
   "threeYearReturn": 104.41,
   "_cachedAt": 1780891534015
+ },
+ "206011": {
+  "status": "limited",
+  "limit": 100000,
+  "minPurchase": 10,
+  "rawStatus": "限大额",
+  "premiumRate": 0,
+  "premiumStale": false,
+  "gzTime": "",
+  "nav": 0.918,
+  "realNav": 0,
+  "yearReturn": -5.36,
+  "threeYearReturn": -1.5,
+  "_cachedAt": 1780895524511
  },
  "270023": {
   "status": "limited",
