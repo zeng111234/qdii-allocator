@@ -76,9 +76,9 @@ function parseArgs() {
       console.log("  --backtest             run backtest mode");
       console.log("  --backtest-days <n>    backtest period (default 60)");
       console.log("  --portfolio            view current holdings");
-      console.log("  --buy <code> <amount> [nav] [date]  record a buy (date: YYYY-MM-DD, auto-calculates settlement date T+2)");
-      console.log("  --quick-add \"code amt [nav] [date], ...\"  batch record buys (auto-settlement)");
-      console.log("  --import-file [path]   import buys from text file (default data/buys.txt, auto-settlement T+2)");
+      console.log("  --buy <code> <amount> [nav] [date]  record a buy (date: YYYY-MM-DD, auto-calculates T+2 trading days)");
+      console.log("  --quick-add \"code amt [nav] [date], ...\"  batch record buys (auto-settlement T+2 trading days)");
+      console.log("  --import-file [path]   import buys from text file (default data/buys.txt, auto-settlement T+2 trading days)");
       console.log("  --today                show today's recommended funds with buy commands");
       console.log("  --optimize-weights     run weight optimization");
       process.exit(0);

@@ -10,7 +10,8 @@
     "xSourceUrl": "https://x.com/aleabitoreddit",
     "enableExternalSignals": true,
     "externalSignalMaxScore": 3,
-    "rsshubUrl": "https://my-rsshub-z6ig.onrender.com"
+    "rsshubUrl": "https://my-rsshub-z6ig.onrender.com",
+    "holidayCalendar": "CN"
   },
   "funds": [
     {
