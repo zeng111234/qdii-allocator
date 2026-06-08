@@ -174,6 +174,12 @@ async function main() {
       });
       if (externalSignals.status === "ok" || externalSignals.status === "cached") {
         console.log("[X] fetched " + externalSignals.items.length + " external posts for scoring (" + (externalSignals.fetchUrl || "cache") + ")");
+        // 分析新投资方向
+        var directions = externalSignalData.analyzeNewDirections(externalSignals.tickerOpinions || [], funds);
+        externalSignals.newDirections = directions;
+        if (directions.gapSummary) {
+          console.log("[X] 新投资方向缺口: " + directions.gapSummary);
+        }
       } else {
         console.warn("[X] " + externalSignals.error);
         if (externalSignals.attempts && externalSignals.attempts.length > 0) {
