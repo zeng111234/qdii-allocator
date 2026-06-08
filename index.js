@@ -18,6 +18,9 @@ var mail = require("./lib/mailer");
 var backtest = require("./lib/backtest");
 var fundData = require("./lib/fund-data");
 var externalSignalData = require("./lib/external-signals");
+var portfolio = require("./lib/portfolio");
+var risk = require("./lib/risk");
+var alternatives = require("./lib/alternatives");
 
 var FUNDS_FILE = path.join(__dirname, "data", "funds.json");
 var STRATEGY_MAP = {
@@ -36,20 +39,26 @@ function loadFunds() {
 
 function parseArgs() {
   var args = process.argv.slice(2);
-  var opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60 };
+  var opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, portfolio: false, buy: null, optimizeWeights: false };
   for (var i = 0; i < args.length; i++) {
     if (args[i] === "--dry-run") opts.dryRun = true;
     else if (args[i] === "--strategy") opts.strategy = args[++i];
     else if (args[i] === "--budget") opts.budget = parseFloat(args[++i]);
     else if (args[i] === "--backtest") opts.backtest = true;
     else if (args[i] === "--backtest-days") opts.backtestDays = parseInt(args[++i]) || 60;
+    else if (args[i] === "--portfolio") opts.portfolio = true;
+    else if (args[i] === "--buy") { opts.buy = { code: args[++i], amount: parseFloat(args[++i]), nav: args[i + 1] && !isNaN(parseFloat(args[i + 1])) ? parseFloat(args[++i]) : null }; }
+    else if (args[i] === "--optimize-weights") opts.optimizeWeights = true;
     else if (args[i] === "--help") {
       console.log("QDII Fund Allocator");
-      console.log("  --dry-run            dry run mode");
-      console.log("  --strategy <s>       equal|low_fee|scarce|dynamic");
-      console.log("  --budget <n>         daily budget");
-      console.log("  --backtest           run backtest mode");
-      console.log("  --backtest-days <n>  backtest period (default 60)");
+      console.log("  --dry-run              dry run mode");
+      console.log("  --strategy <s>         equal|low_fee|scarce|dynamic");
+      console.log("  --budget <n>           daily budget");
+      console.log("  --backtest             run backtest mode");
+      console.log("  --backtest-days <n>    backtest period (default 60)");
+      console.log("  --portfolio            view current holdings");
+      console.log("  --buy <code> <amount> [nav]  record a buy");
+      console.log("  --optimize-weights     run weight optimization");
       process.exit(0);
     }
   }
@@ -117,6 +126,40 @@ async function main() {
   console.log("");
 
   var opts = parseArgs();
+
+  // 快捷命令：查看持仓
+  if (opts.portfolio) {
+    var calcResult = portfolio.calcPortfolioSummary();
+    console.log(portfolio.formatPortfolioReport(calcResult));
+    return;
+  }
+
+  // 快捷命令：记录买入
+  if (opts.buy) {
+    var buyData = loadFunds();
+    var fund = buyData.funds.find(function(f) { return f.code === opts.buy.code; });
+    var fundName = fund ? fund.name : opts.buy.code;
+    portfolio.recordBuy(opts.buy.code, fundName, opts.buy.amount, opts.buy.nav);
+    console.log("");
+    var buyCalcResult = portfolio.calcPortfolioSummary();
+    console.log(portfolio.formatPortfolioReport(buyCalcResult));
+    return;
+  }
+
+  // 快捷命令：权重优化
+  if (opts.optimizeWeights) {
+    var optData = loadFunds();
+    var optConfig = optData.config || {};
+    var btConfig = {
+      lookbackDays: optConfig.lookbackDays || 30,
+      topN: optConfig.topN || 3,
+      minPurchase: optConfig.minPurchase || 10,
+      backtestDays: 90
+    };
+    await backtest.runWeightOptimization(optData.funds, btConfig);
+    return;
+  }
+
   console.log("[1/4] Loading funds...");
   var data = loadFunds();
   var funds = data.funds;
@@ -239,6 +282,38 @@ async function main() {
   result.marketSnapshot = marketSnapshot;
   result.marketNews = marketNews;
   result.externalSignals = externalSignals;
+
+  // 计算持仓盈亏
+  var portfolioResult = portfolio.calcPortfolioSummary();
+  result.portfolio = portfolioResult;
+  if (!portfolioResult.empty) {
+    console.log("[持仓] " + portfolioResult.summary.holdingCount + "只基金, 总投入" + portfolioResult.summary.totalInvested + "元, 盈亏" + (portfolioResult.summary.totalPnl >= 0 ? "+" : "") + portfolioResult.summary.totalPnl + "元");
+
+    // 计算组合风险
+    try {
+      var riskResult = risk.calcPortfolioRisk(portfolioResult.holdings);
+      var corrResult = risk.calcCorrelationMatrix(portfolioResult.holdings, 60);
+      result.risk = riskResult;
+      result.correlation = corrResult;
+      if (riskResult) {
+        console.log("[风控] 健康度" + riskResult.healthScore + "/100, 夏普" + riskResult.portfolioSharpe + ", 回撤" + riskResult.portfolioMaxDrawdown + "%");
+        if (riskResult.concentration.dominantWeight > 70) {
+          console.log("[风控] ⚠️ " + riskResult.concentration.dominantType + "占比" + riskResult.concentration.dominantWeight + "%，过于集中");
+        }
+      }
+    } catch(e) {
+      console.warn("[风控] 计算失败:", e.message);
+    }
+  }
+
+  // 替代方案分析（针对不可买的基金）
+  if (result.suspended && result.suspended.length > 0) {
+    var altSuggestions = alternatives.analyzeAlternatives(result.suspended);
+    result.alternatives = altSuggestions;
+    if (altSuggestions.length > 0) {
+      console.log("[替代] " + altSuggestions.length + "只不可买基金有替代方案");
+    }
+  }
 
   var aiCommentary = "";
   var llmApiKey = process.env.LLM_API_KEY;
