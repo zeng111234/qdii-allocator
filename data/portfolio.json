@@ -1,21 +1,35 @@
 {
   "holdings": [
     {
+      "code": "160213",
+      "name": "国泰纳斯达克100(QDII)",
+      "buys": [
+        {
+          "date": "2026-05-27",
+          "settleDate": "2026-05-29",
+          "amount": 10,
+          "nav": 4.621,
+          "shares": 2.164
+        },
+        {
+          "date": "2026-05-28",
+          "settleDate": "2026-06-01",
+          "amount": 10,
+          "nav": 4.646,
+          "shares": 2.1524
+        }
+      ]
+    },
+    {
       "code": "270042",
       "name": "广发纳斯达克100A(QDII)",
       "buys": [
         {
           "date": "2026-06-08",
-          "amount": 10,
-          "nav": 8.5243,
-          "shares": 1.1731
-        },
-        {
-          "date": "2026-06-08",
           "settleDate": null,
-          "amount": 50,
+          "amount": 10,
           "nav": 8.1154,
-          "shares": 6.1611
+          "shares": 1.2322
         }
       ]
     },
@@ -25,6 +39,7 @@
       "buys": [
         {
           "date": "2026-06-08",
+          "settleDate": null,
           "amount": 20,
           "nav": 8.1467,
           "shares": 2.455
@@ -37,6 +52,7 @@
       "buys": [
         {
           "date": "2026-06-08",
+          "settleDate": null,
           "amount": 15,
           "nav": 4.3851,
           "shares": 3.4207
@@ -44,5 +60,5 @@
       ]
     }
   ],
-  "startDate": "2026-06-08"
+  "startDate": "2026-05-27"
 }

@@ -227,11 +227,13 @@
   "minPurchase": 10,
   "rawStatus": "限大额",
   "premiumRate": 0,
-  "nav": 6.8709,
+  "premiumStale": false,
+  "gzTime": "",
+  "nav": 6.5048,
   "realNav": 0,
-  "yearReturn": 69.85,
-  "threeYearReturn": 168.92,
-  "_cachedAt": 1780891213712
+  "yearReturn": 61.79,
+  "threeYearReturn": 153.8,
+  "_cachedAt": 1780930981643
  },
  "270042": {
   "status": "limited",
