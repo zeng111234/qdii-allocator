@@ -46,6 +46,20 @@
           "shares": 1.1653
         },
         {
+          "date": "2026-05-28",
+          "settleDate": "2026-06-01",
+          "amount": 10,
+          "nav": 8.5813,
+          "shares": 1.1653
+        },
+        {
+          "date": "2026-05-29",
+          "settleDate": "2026-06-02",
+          "amount": 10,
+          "nav": 8.6249,
+          "shares": 1.1594
+        },
+        {
           "date": "2026-05-29",
           "settleDate": "2026-06-02",
           "amount": 10,
@@ -65,6 +79,13 @@
           "amount": 10,
           "nav": 8.558,
           "shares": 1.1685
+        },
+        {
+          "date": "2026-06-03",
+          "settleDate": "2026-06-05",
+          "amount": 10,
+          "nav": 8.1467,
+          "shares": 1.2275
         },
         {
           "date": "2026-06-03",
@@ -152,22 +173,22 @@
           "date": "2026-05-28",
           "settleDate": "2026-06-01",
           "amount": 20,
-          "nav": null,
-          "shares": null
+          "nav": 8.5489,
+          "shares": 2.3395
         },
         {
           "date": "2026-06-01",
           "settleDate": "2026-06-03",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 8.5667,
+          "shares": 1.1673
         },
         {
           "date": "2026-06-03",
           "settleDate": "2026-06-05",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 8.1154,
+          "shares": 1.2322
         },
         {
           "date": "2026-06-04",
@@ -261,33 +282,6 @@
       ]
     },
     {
-      "code": "017888",
-      "name": "017888",
-      "buys": [
-        {
-          "date": "2026-06-04",
-          "settleDate": "2026-06-08",
-          "amount": 10,
-          "nav": 1.0514,
-          "shares": 9.5111
-        },
-        {
-          "date": "2026-06-05",
-          "settleDate": "2026-06-09",
-          "amount": 10,
-          "nav": null,
-          "shares": null
-        },
-        {
-          "date": "2026-06-08",
-          "settleDate": "2026-06-10",
-          "amount": 10,
-          "nav": null,
-          "shares": null
-        }
-      ]
-    },
-    {
       "code": "001092",
       "name": "广发纳斯达克生物科技A(QDII)",
       "buys": [
@@ -295,8 +289,8 @@
           "date": "2026-05-29",
           "settleDate": "2026-06-02",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 1.406,
+          "shares": 7.1124
         }
       ]
     },
@@ -368,6 +362,100 @@
           "date": "2026-06-02",
           "settleDate": "2026-06-04",
           "amount": 20,
+          "nav": 1.9673,
+          "shares": 10.1662
+        }
+      ]
+    },
+    {
+      "code": "016664",
+      "name": "天弘全球高端制造QDII-A",
+      "buys": [
+        {
+          "date": "2026-06-04",
+          "settleDate": "2026-06-08",
+          "amount": 30,
+          "nav": null,
+          "shares": null
+        }
+      ]
+    },
+    {
+      "code": "539002",
+      "name": "建信新兴市场优选QDII-A",
+      "buys": [
+        {
+          "date": "2026-06-01",
+          "settleDate": "2026-06-03",
+          "amount": 20,
+          "nav": 2.766,
+          "shares": 7.2307
+        },
+        {
+          "date": "2026-06-04",
+          "settleDate": "2026-06-08",
+          "amount": 20,
+          "nav": null,
+          "shares": null
+        }
+      ]
+    },
+    {
+      "code": "012920",
+      "name": "易方达全球成长精选QDII-A",
+      "buys": [
+        {
+          "date": "2026-06-01",
+          "settleDate": "2026-06-03",
+          "amount": 20,
+          "nav": 4.6963,
+          "shares": 4.2587
+        },
+        {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-09",
+          "amount": 20,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-09",
+          "amount": 20,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-08",
+          "settleDate": "2026-06-10",
+          "amount": 20,
+          "nav": null,
+          "shares": null
+        }
+      ]
+    },
+    {
+      "code": "017641",
+      "name": "摩根标普500指数(QDII)A",
+      "buys": [
+        {
+          "date": "2026-06-04",
+          "settleDate": "2026-06-08",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-09",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-08",
+          "settleDate": "2026-06-10",
+          "amount": 10,
           "nav": null,
           "shares": null
         }
