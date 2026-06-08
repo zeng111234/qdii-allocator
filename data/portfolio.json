@@ -262,7 +262,7 @@
     },
     {
       "code": "017888",
-      "name": "摩根标普500指数(QDII)A",
+      "name": "017888",
       "buys": [
         {
           "date": "2026-06-04",
@@ -270,6 +270,13 @@
           "amount": 10,
           "nav": 1.0514,
           "shares": 9.5111
+        },
+        {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-09",
+          "amount": 10,
+          "nav": null,
+          "shares": null
         },
         {
           "date": "2026-06-08",
@@ -348,6 +355,19 @@
           "date": "2026-06-08",
           "settleDate": "2026-06-10",
           "amount": 10,
+          "nav": null,
+          "shares": null
+        }
+      ]
+    },
+    {
+      "code": "000614",
+      "name": "华安德国DAX30A(QDII)",
+      "buys": [
+        {
+          "date": "2026-06-02",
+          "settleDate": "2026-06-04",
+          "amount": 20,
           "nav": null,
           "shares": null
         }

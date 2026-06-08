@@ -224,6 +224,15 @@
       "settleDays": 2
     },
     {
+      "code": "016664",
+      "name": "天弘全球高端制造QDII-A",
+      "type": "全球制造",
+      "feeRate": 1.2,
+      "dailyLimit": 100,
+      "status": "active",
+      "settleDays": 2
+    },
+    {
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "type": "标普500",
