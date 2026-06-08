@@ -88,6 +88,47 @@
           "shares": null
         }
       ]
+    },
+    {
+      "code": "000834",
+      "name": "大成纳斯达克100(QDII)",
+      "buys": [
+        {
+          "date": "2026-05-28",
+          "settleDate": "2026-06-01",
+          "amount": 10,
+          "nav": 6.5897,
+          "shares": 1.5175
+        },
+        {
+          "date": "2026-06-02",
+          "settleDate": "2026-06-04",
+          "amount": 10,
+          "nav": 6.5715,
+          "shares": 1.5217
+        },
+        {
+          "date": "2026-06-04",
+          "settleDate": "2026-06-08",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-09",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-08",
+          "settleDate": "2026-06-10",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        }
+      ]
     }
   ],
   "startDate": "2026-05-27"
