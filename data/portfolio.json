@@ -11,8 +11,31 @@
           "shares": 1.1731
         }
       ]
+    },
+    {
+      "code": "040046",
+      "name": "华安纳斯达克100A(QDII)",
+      "buys": [
+        {
+          "date": "2026-06-08",
+          "amount": 20,
+          "nav": 8.1467,
+          "shares": 2.455
+        }
+      ]
+    },
+    {
+      "code": "161130",
+      "name": "易方达纳斯达克100A(QDII-LOF)",
+      "buys": [
+        {
+          "date": "2026-06-08",
+          "amount": 15,
+          "nav": 4.3851,
+          "shares": 3.4207
+        }
+      ]
     }
   ],
-  "startDate": "2026-06-08",
-  "_note": "每次买入后手动添加记录。字段说明：code=基金代码, name=基金名称, buys=买入记录数组。每笔买入：date=买入日期(YYYY-MM-DD), amount=买入金额(元), nav=买入净值(确认净值), shares=确认份额(可选,不填则用amount/nav计算)"
+  "startDate": "2026-06-08"
 }

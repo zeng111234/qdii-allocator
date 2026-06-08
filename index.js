@@ -39,7 +39,7 @@ function loadFunds() {
 
 function parseArgs() {
   var args = process.argv.slice(2);
-  var opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, portfolio: false, buy: null, optimizeWeights: false };
+  var opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false };
   for (var i = 0; i < args.length; i++) {
     if (args[i] === "--dry-run") opts.dryRun = true;
     else if (args[i] === "--strategy") opts.strategy = args[++i];
@@ -49,6 +49,9 @@ function parseArgs() {
     else if (args[i] === "--portfolio") opts.portfolio = true;
     else if (args[i] === "--buy") { opts.buy = { code: args[++i], amount: parseFloat(args[++i]), nav: args[i + 1] && !isNaN(parseFloat(args[i + 1])) ? parseFloat(args[++i]) : null }; }
     else if (args[i] === "--optimize-weights") opts.optimizeWeights = true;
+    else if (args[i] === "--quick-add") opts.quickAdd = args[++i];
+    else if (args[i] === "--import-file") opts.importFile = args[++i] || "data/buys.txt";
+    else if (args[i] === "--today") opts.today = true;
     else if (args[i] === "--help") {
       console.log("QDII Fund Allocator");
       console.log("  --dry-run              dry run mode");
@@ -58,6 +61,9 @@ function parseArgs() {
       console.log("  --backtest-days <n>    backtest period (default 60)");
       console.log("  --portfolio            view current holdings");
       console.log("  --buy <code> <amount> [nav]  record a buy");
+      console.log("  --quick-add \"code1 amt1, code2 amt2\"  batch record buys");
+      console.log("  --import-file [path]   import buys from text file (default data/buys.txt)");
+      console.log("  --today                show today's recommended funds with buy commands");
       console.log("  --optimize-weights     run weight optimization");
       process.exit(0);
     }
@@ -143,6 +149,69 @@ async function main() {
     console.log("");
     var buyCalcResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(buyCalcResult));
+    return;
+  }
+
+  // 快捷命令：批量快速录入
+  if (opts.quickAdd) {
+    var qaData = loadFunds();
+    var entries = opts.quickAdd.split(",").map(function(s) { return s.trim(); }).filter(Boolean);
+    var qaCount = 0;
+    for (var qi = 0; qi < entries.length; qi++) {
+      var parts = entries[qi].split(/\s+/);
+      if (parts.length < 2) { console.log("[跳过] 格式错误: " + entries[qi]); continue; }
+      var qaCode = parts[0];
+      var qaAmount = parseFloat(parts[1]);
+      var qaNav = parts[2] ? parseFloat(parts[2]) : null;
+      if (isNaN(qaAmount) || qaAmount <= 0) { console.log("[跳过] 金额错误: " + entries[qi]); continue; }
+      var qaFund = qaData.funds.find(function(f) { return f.code === qaCode; });
+      var qaName = qaFund ? qaFund.name : qaCode;
+      portfolio.recordBuy(qaCode, qaName, qaAmount, qaNav);
+      qaCount++;
+    }
+    console.log("");
+    console.log("[批量录入] 成功录入 " + qaCount + " 笔");
+    var qaCalcResult = portfolio.calcPortfolioSummary();
+    console.log(portfolio.formatPortfolioReport(qaCalcResult));
+    return;
+  }
+
+  // 快捷命令：从文件导入交易记录
+  if (opts.importFile) {
+    var importPath = path.resolve(opts.importFile);
+    if (!fs.existsSync(importPath)) {
+      console.error("[导入] 文件不存在: " + importPath);
+      console.log("请创建文件，每行格式: 基金代码 买入金额 [确认净值]");
+      console.log("示例:");
+      console.log("  270042 10 8.5243");
+      console.log("  040046 20");
+      console.log("  161130 15 1.2345");
+      process.exit(1);
+    }
+    var fileContent = fs.readFileSync(importPath, "utf-8");
+    var importData = loadFunds();
+    var importResult = portfolio.importFromText(fileContent, importData.funds);
+    console.log("");
+    console.log("[导入] 解析 " + importResult.total + " 行, 成功导入 " + importResult.imported + " 笔");
+    if (importResult.errors.length > 0) {
+      console.log("[导入] 跳过 " + importResult.errors.length + " 行:");
+      for (var ei = 0; ei < importResult.errors.length; ei++) {
+        console.log("  " + importResult.errors[ei]);
+      }
+    }
+    if (importResult.imported > 0) {
+      var importCalcResult = portfolio.calcPortfolioSummary();
+      console.log("");
+      console.log(portfolio.formatPortfolioReport(importCalcResult));
+    }
+    return;
+  }
+
+  // 快捷命令：显示今日推荐和买入指令
+  if (opts.today) {
+    var todayData = loadFunds();
+    var todayCalcResult = portfolio.calcPortfolioSummary();
+    portfolio.showTodayBuyCommands(todayData.funds, todayCalcResult);
     return;
   }
 
