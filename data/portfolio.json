@@ -149,6 +149,20 @@
           "shares": null
         },
         {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-09",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-08",
+          "settleDate": "2026-06-10",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
           "date": "2026-06-08",
           "settleDate": "2026-06-10",
           "amount": 10,
