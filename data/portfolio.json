@@ -28,41 +28,15 @@
       ]
     },
     {
-      "code": "270042",
-      "name": "广发纳斯达克100A(QDII)",
-      "buys": [
-        {
-          "date": "2026-06-08",
-          "settleDate": null,
-          "amount": 10,
-          "nav": 8.1154,
-          "shares": 1.2322
-        }
-      ]
-    },
-    {
       "code": "040046",
       "name": "华安纳斯达克100A(QDII)",
       "buys": [
         {
-          "date": "2026-06-08",
-          "settleDate": null,
-          "amount": 20,
-          "nav": 8.1467,
-          "shares": 2.455
-        }
-      ]
-    },
-    {
-      "code": "161130",
-      "name": "易方达纳斯达克100A(QDII-LOF)",
-      "buys": [
-        {
-          "date": "2026-06-08",
-          "settleDate": null,
-          "amount": 15,
-          "nav": 4.3851,
-          "shares": 3.4207
+          "date": "2026-05-28",
+          "settleDate": "2026-06-01",
+          "amount": 10,
+          "nav": 8.5813,
+          "shares": 1.1653
         }
       ]
     }
