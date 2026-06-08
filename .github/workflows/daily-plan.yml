@@ -27,7 +27,7 @@ on:
 jobs:
   generate-plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
@@ -58,15 +58,15 @@ jobs:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
-      - name: Commit updated history
+      - name: Commit updated cache and history
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/history.json
+          git add data/history.json data/nav-cache.json data/fund-info-cache.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore: update history $(date +%Y/%m/%d)"
+            git commit -m "chore: update cache & history $(date +%Y/%m/%d)"
             git fetch origin main
             git push --force-with-lease
           fi
