@@ -1608,21 +1608,21 @@
         },
         {
           "rank": 10,
-          "code": "096001",
-          "name": "大成标普500A(QDII)",
-          "type": "标普500",
-          "score": 27.69,
-          "reason": "1年涨12.07%加3.6分，3年累计38.6%加1.9分，夏普0.61加2.4分，最大回撤-19.56%扣2.3分，长期牛市+3分，低于MA10加1.2分，多头排列+2分，费率0.6%扣0.5分，连续推荐1天扣1分，稳定收益+1.5分，限购10元极品稀缺+6分，External signal +0.5 pts(equity)",
-          "yearReturn": 12.07,
+          "code": "486002",
+          "name": "工银全球精选QDII-A",
+          "type": "全球精选",
+          "score": 27.68,
+          "reason": "1年涨13.32%加4分，3年累计60.68%加3分，夏普1.45加5.8分，最大回撤-11.14%扣1.3分，长期牛市+3分，低于MA10加0.5分，多头排列+2分，费率1.6%扣1.3分，连续推荐1天扣1分，稳定收益+1.4分，限购100元稀缺+2分",
+          "yearReturn": 13.32,
           "indicators": {
-            "drawdown": 0,
-            "maDeviation": 0.98,
-            "recent5Change": 0.93,
-            "volatility": 0.49,
-            "annualizedReturn": 9.72,
-            "threeYearReturn": 38.6,
-            "sharpeRatio": 0.61,
-            "maxDrawdown": -19.56,
+            "drawdown": -0.11,
+            "maDeviation": 0.42,
+            "recent5Change": -0.04,
+            "volatility": 0.64,
+            "annualizedReturn": 19.54,
+            "threeYearReturn": 60.68,
+            "sharpeRatio": 1.45,
+            "maxDrawdown": -11.14,
             "longTermTrend": "bull"
           },
           "followUp5dReturn": null,
@@ -1687,7 +1687,7 @@
         {
           "code": "096001",
           "name": "大成标普500A(QDII)",
-          "score": 27.69,
+          "score": 26.69,
           "status": "active"
         },
         {
@@ -1801,7 +1801,7 @@
         {
           "code": "486002",
           "name": "工银全球精选QDII-A",
-          "score": 26.68,
+          "score": 27.68,
           "status": "active"
         },
         {
