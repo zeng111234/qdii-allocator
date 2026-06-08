@@ -1,4 +1,18 @@
 {
+ "110025": {
+  "status": "active",
+  "limit": 100000000000,
+  "minPurchase": 10,
+  "rawStatus": "开放申购",
+  "premiumRate": 0,
+  "premiumStale": false,
+  "gzTime": "",
+  "nav": 2.355,
+  "realNav": 0,
+  "yearReturn": 77.87,
+  "threeYearReturn": 102.32,
+  "_cachedAt": 1780894745071
+ },
  "118002": {
   "status": "active",
   "limit": 100000000000,
