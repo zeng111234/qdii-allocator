@@ -84,6 +84,24 @@ node index.js
 | 稀缺额度优先 | `scarce` | 先买限额最小的基金（稀缺货），再买限额大的 |
 | 低费率优先 | `low_fee` | 管理费低的基金优先买满 |
 | 平均主义 | `equal` | 预算平均分给所有可申购基金 |
+| 智能动态 | `dynamic` | 综合净值走势、限购、外部信号和AI判断做TopN排名 |
+
+### 外部信号配置（X / RSS）
+
+在 `data/funds.json` 的 `config` 中可新增以下字段：
+
+- `xSourceUrl`: 目标 X 账号地址（默认 `https://x.com/aleabitoreddit`）
+- `xMirrorWhitelist`: 自定义镜像列表，支持 `{handle}` 占位符，留空则使用内置 RSSHub 镜像
+- `enableExternalSignals`: 是否启用外部信号（默认 true）
+- `externalSignalMaxScore`: 外部信号对总分的最大影响（默认 3）
+
+建议在网络受限环境下配置 `xMirrorWhitelist` 或使用代理环境变量 `HTTP_PROXY` / `EXTERNAL_PROXY_AUTO`。新增可用环境变量：
+
+| 变量 | 说明 |
+|------|------|
+| `EXTERNAL_PROXY_AUTO` | 设置后启用代理自动回退（默认关闭） |
+| `EXTERNAL_PROXY_DISABLED` | 设置后完全禁用代理逻辑 |
+| `HTTP_PROXY` / `HTTPS_PROXY` / `ALL_PROXY` | 标准代理地址，启用代理回退 |
 
 ## 每日操作流程
 

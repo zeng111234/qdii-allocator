@@ -2,7 +2,7 @@
   "config": {
     "defaultBudget": 50,
     "defaultStrategy": "dynamic",
-    "note": "defaultStrategy: equal|low_fee|scarce|dynamic",
+    "note": "defaultStrategy: equal|low_fee|scarce|dynamic | 可新增 xMirrorWhitelist 以配置外部信号镜像",
     "minPurchase": 10,
     "topN": 10,
     "historyFile": "data/history.json",

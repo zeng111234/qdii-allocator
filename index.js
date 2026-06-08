@@ -56,6 +56,16 @@ function parseArgs() {
   return opts;
 }
 
+function normalizeDate(dateStr) {
+  // Convert "2026/6/3" or "2026/06/03" to "2026-06-03"
+  if (!dateStr) return "";
+  var parts = dateStr.replace(/\//g, "-").split("-");
+  if (parts.length === 3) {
+    return parts[0] + "-" + ("0" + parts[1]).slice(-2) + "-" + ("0" + parts[2]).slice(-2);
+  }
+  return dateStr.replace(/\//g, "-");
+}
+
 function backfillFollowUp() {
   var HISTORY_FILE = path.join(__dirname, "data", "history.json");
   var NAV_CACHE_FILE = path.join(__dirname, "data", "nav-cache.json");
@@ -73,8 +83,7 @@ function backfillFollowUp() {
         if (a.followUp5dReturn !== null && a.followUp10dReturn !== null) continue;
         var navs = cache[a.code];
         if (!navs || navs.length === 0) continue;
-        // find the recommendation date in cache
-        var recDate = rec.date.replace(/\//g, "-");
+        var recDate = normalizeDate(rec.date);
         var recIdx = -1;
         for (var k = 0; k < navs.length; k++) {
           if (navs[k].date === recDate) { recIdx = k; break; }
@@ -158,12 +167,22 @@ async function main() {
     if (config.enableExternalSignals !== false) {
       externalSignals = await externalSignalData.fetchExternalSignals({
         sourceUrl: config.xSourceUrl || "https://x.com/aleabitoreddit",
-        maxScore: config.externalSignalMaxScore || 3
+        maxScore: config.externalSignalMaxScore || 3,
+        xMirrorWhitelist: config.xMirrorWhitelist || [],
+        cacheFile: path.join(__dirname, "data", "external-signals-cache.json")
       });
-      if (externalSignals.status === "ok") {
-        console.log("[X] fetched " + externalSignals.items.length + " external posts for scoring");
+      if (externalSignals.status === "ok" || externalSignals.status === "cached") {
+        console.log("[X] fetched " + externalSignals.items.length + " external posts for scoring (" + (externalSignals.fetchUrl || "cache") + ")");
       } else {
         console.warn("[X] " + externalSignals.error);
+        if (externalSignals.attempts && externalSignals.attempts.length > 0) {
+          for (var si = 0; si < externalSignals.attempts.length; si++) {
+            var sa = externalSignals.attempts[si];
+            if (sa.status !== "ok") {
+              console.warn("[X]   " + sa.status + ": " + sa.url.substring(0, 60) + " (" + (sa.error || "unknown") + ")");
+            }
+          }
+        }
       }
     }
     console.log("");
