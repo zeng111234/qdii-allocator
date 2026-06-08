@@ -47,7 +47,23 @@ function parseArgs() {
     else if (args[i] === "--backtest") opts.backtest = true;
     else if (args[i] === "--backtest-days") opts.backtestDays = parseInt(args[++i]) || 60;
     else if (args[i] === "--portfolio") opts.portfolio = true;
-    else if (args[i] === "--buy") { opts.buy = { code: args[++i], amount: parseFloat(args[++i]), nav: args[i + 1] && !isNaN(parseFloat(args[i + 1])) ? parseFloat(args[++i]) : null }; }
+    else if (args[i] === "--buy") {
+      var buyCode = args[++i];
+      var buyAmount = parseFloat(args[++i]);
+      var buyNav = null;
+      var buyDate = null;
+      // 解析可选的 nav 和 date 参数（先检查日期格式，因为 parseFloat 会把日期解析为数字）
+      if (args[i + 1] && /^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}$/.test(args[i + 1])) {
+        buyDate = normalizeDate(args[++i]);
+      } else if (args[i + 1] && !isNaN(parseFloat(args[i + 1])) && !/^\d{4}[-\/]/.test(args[i + 1])) {
+        buyNav = parseFloat(args[++i]);
+        // nav 之后可能还有日期
+        if (args[i + 1] && /^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}$/.test(args[i + 1])) {
+          buyDate = normalizeDate(args[++i]);
+        }
+      }
+      opts.buy = { code: buyCode, amount: buyAmount, nav: buyNav, date: buyDate };
+    }
     else if (args[i] === "--optimize-weights") opts.optimizeWeights = true;
     else if (args[i] === "--quick-add") opts.quickAdd = args[++i];
     else if (args[i] === "--import-file") opts.importFile = args[++i] || "data/buys.txt";
@@ -60,9 +76,9 @@ function parseArgs() {
       console.log("  --backtest             run backtest mode");
       console.log("  --backtest-days <n>    backtest period (default 60)");
       console.log("  --portfolio            view current holdings");
-      console.log("  --buy <code> <amount> [nav]  record a buy");
-      console.log("  --quick-add \"code1 amt1, code2 amt2\"  batch record buys");
-      console.log("  --import-file [path]   import buys from text file (default data/buys.txt)");
+      console.log("  --buy <code> <amount> [nav] [date]  record a buy (date: YYYY-MM-DD, auto-calculates settlement date T+2)");
+      console.log("  --quick-add \"code amt [nav] [date], ...\"  batch record buys (auto-settlement)");
+      console.log("  --import-file [path]   import buys from text file (default data/buys.txt, auto-settlement T+2)");
       console.log("  --today                show today's recommended funds with buy commands");
       console.log("  --optimize-weights     run weight optimization");
       process.exit(0);
@@ -145,7 +161,8 @@ async function main() {
     var buyData = loadFunds();
     var fund = buyData.funds.find(function(f) { return f.code === opts.buy.code; });
     var fundName = fund ? fund.name : opts.buy.code;
-    portfolio.recordBuy(opts.buy.code, fundName, opts.buy.amount, opts.buy.nav);
+    var settleDays = fund ? fund.settleDays : 2;
+    portfolio.recordBuy(opts.buy.code, fundName, opts.buy.amount, opts.buy.nav, opts.buy.date, settleDays);
     console.log("");
     var buyCalcResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(buyCalcResult));
@@ -162,11 +179,23 @@ async function main() {
       if (parts.length < 2) { console.log("[跳过] 格式错误: " + entries[qi]); continue; }
       var qaCode = parts[0];
       var qaAmount = parseFloat(parts[1]);
-      var qaNav = parts[2] ? parseFloat(parts[2]) : null;
+      var qaNav = null;
+      var qaDate = null;
+      // 解析可选的 nav 和 date 参数
+      if (parts[2] && !isNaN(parseFloat(parts[2]))) {
+        qaNav = parseFloat(parts[2]);
+      }
+      if (parts[3] && /^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}$/.test(parts[3])) {
+        qaDate = normalizeDate(parts[3]);
+      } else if (parts[2] && /^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}$/.test(parts[2]) && isNaN(parseFloat(parts[2]))) {
+        // 如果第三个参数是日期格式而不是数字
+        qaDate = normalizeDate(parts[2]);
+      }
       if (isNaN(qaAmount) || qaAmount <= 0) { console.log("[跳过] 金额错误: " + entries[qi]); continue; }
       var qaFund = qaData.funds.find(function(f) { return f.code === qaCode; });
       var qaName = qaFund ? qaFund.name : qaCode;
-      portfolio.recordBuy(qaCode, qaName, qaAmount, qaNav);
+      var qaSettleDays = qaFund ? qaFund.settleDays : 2;
+      portfolio.recordBuy(qaCode, qaName, qaAmount, qaNav, qaDate, qaSettleDays);
       qaCount++;
     }
     console.log("");

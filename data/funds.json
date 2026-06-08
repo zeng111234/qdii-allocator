@@ -20,10 +20,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 10,
       "minPurchase": 10,
       "status": "active",
-      "note": "纳指核心仓位"
+      "note": "纳指核心仓位",
+      "settleDays": 2
     },
     {
       "code": "040046",
@@ -32,10 +33,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 10,
       "minPurchase": 10,
       "status": "active",
-      "note": "纳指老牌产品"
+      "note": "纳指老牌产品",
+      "settleDays": 2
     },
     {
       "code": "160213",
@@ -44,10 +46,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 0,
       "minPurchase": 10,
-      "status": "active",
-      "note": "LOF品种"
+      "status": "suspended",
+      "note": "LOF品种",
+      "settleDays": 2
     },
     {
       "code": "000834",
@@ -56,10 +59,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 10,
       "minPurchase": 10,
       "status": "active",
-      "note": "纳指跟踪"
+      "note": "纳指跟踪",
+      "settleDays": 2
     },
     {
       "code": "539001",
@@ -71,7 +75,8 @@
       "dailyLimit": 100,
       "minPurchase": 10,
       "status": "active",
-      "note": "纳指100补充品种"
+      "note": "纳指100补充品种",
+      "settleDays": 2
     },
     {
       "code": "006479",
@@ -80,10 +85,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 10,
       "minPurchase": 10,
       "status": "active",
-      "note": "纳指100南方产品"
+      "note": "纳指100南方产品",
+      "settleDays": 2
     },
     {
       "code": "161130",
@@ -92,10 +98,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 0,
       "minPurchase": 10,
-      "status": "active",
-      "note": "纳指100易方达产品"
+      "status": "suspended",
+      "note": "纳指100易方达产品",
+      "settleDays": 2
     },
     {
       "code": "161125",
@@ -104,10 +111,11 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 0,
       "minPurchase": 10,
-      "status": "active",
-      "note": "标普500，费率较低"
+      "status": "suspended",
+      "note": "标普500，费率较低",
+      "settleDays": 2
     },
     {
       "code": "050025",
@@ -116,10 +124,11 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.15,
-      "dailyLimit": 100,
+      "dailyLimit": 0,
       "minPurchase": 10,
-      "status": "active",
-      "note": "标普500联接"
+      "status": "suspended",
+      "note": "标普500联接",
+      "settleDays": 2
     },
     {
       "code": "096001",
@@ -128,10 +137,11 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.15,
-      "dailyLimit": 100,
+      "dailyLimit": 10,
       "minPurchase": 10,
       "status": "active",
-      "note": "标普500低费率"
+      "note": "标普500低费率",
+      "settleDays": 2
     },
     {
       "code": "007571",
@@ -140,10 +150,11 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.15,
-      "dailyLimit": 100,
+      "dailyLimit": 100000000000,
       "minPurchase": 10,
       "status": "active",
-      "note": "华夏标普500联接"
+      "note": "华夏标普500联接",
+      "settleDays": 2
     },
     {
       "code": "004070",
@@ -152,10 +163,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 100000000000,
       "minPurchase": 10,
       "status": "active",
-      "note": "标普REITs"
+      "note": "标普REITs",
+      "settleDays": 2
     },
     {
       "code": "001092",
@@ -164,10 +176,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 10,
       "minPurchase": 10,
       "status": "active",
-      "note": "生物科技赛道"
+      "note": "生物科技赛道",
+      "settleDays": 2
     },
     {
       "code": "161127",
@@ -176,10 +189,11 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 0,
       "minPurchase": 10,
-      "status": "active",
-      "note": "偏科技龙头"
+      "status": "suspended",
+      "note": "偏科技龙头",
+      "settleDays": 2
     },
     {
       "code": "161128",
@@ -188,10 +202,11 @@
       "shareClass": "A",
       "feeRate": 1.2,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 0,
       "minPurchase": 10,
-      "status": "active",
-      "note": "全球成长股"
+      "status": "suspended",
+      "note": "全球成长股",
+      "settleDays": 2
     },
     {
       "code": "006861",
@@ -200,10 +215,11 @@
       "shareClass": "A",
       "feeRate": 1,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 1000000,
       "minPurchase": 10,
       "status": "active",
-      "note": "全球智能科技"
+      "note": "全球智能科技",
+      "settleDays": 2
     },
     {
       "code": "000179",
@@ -212,10 +228,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 1000,
       "minPurchase": 10,
       "status": "active",
-      "note": "美国房地产信托"
+      "note": "美国房地产信托",
+      "settleDays": 2
     },
     {
       "code": "162415",
@@ -224,10 +241,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 1000,
       "minPurchase": 10,
       "status": "active",
-      "note": "美股消费龙头"
+      "note": "美股消费龙头",
+      "settleDays": 2
     },
     {
       "code": "050030",
@@ -236,10 +254,11 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.15,
-      "dailyLimit": 100,
+      "dailyLimit": 2000,
       "minPurchase": 10,
       "status": "active",
-      "note": "亚洲债券低波动"
+      "note": "亚洲债券低波动",
+      "settleDays": 2
     },
     {
       "code": "000614",
@@ -248,10 +267,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 300,
       "minPurchase": 10,
       "status": "active",
-      "note": "欧洲制造业龙头"
+      "note": "欧洲制造业龙头",
+      "settleDays": 2
     },
     {
       "code": "002280",
@@ -260,10 +280,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 100000000000,
       "minPurchase": 10,
       "status": "active",
-      "note": "德国DAX ETF联接"
+      "note": "德国DAX ETF联接",
+      "settleDays": 2
     },
     {
       "code": "161126",
@@ -272,10 +293,11 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 0,
       "minPurchase": 10,
-      "status": "active",
-      "note": "易方达医疗板块"
+      "status": "suspended",
+      "note": "易方达医疗板块",
+      "settleDays": 2
     },
     {
       "code": "118002",
@@ -284,10 +306,11 @@
       "shareClass": "A",
       "feeRate": 1.2,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 100000000000,
       "minPurchase": 10,
       "status": "active",
-      "note": "全球医疗保健"
+      "note": "全球医疗保健",
+      "settleDays": 2
     },
     {
       "code": "161129",
@@ -296,10 +319,11 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 0,
       "minPurchase": 10,
-      "status": "active",
-      "note": "易方达消费板块"
+      "status": "suspended",
+      "note": "易方达消费板块",
+      "settleDays": 2
     },
     {
       "code": "160421",
@@ -308,10 +332,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 100000000000,
       "minPurchase": 10,
       "status": "active",
-      "note": "石油能源板块"
+      "note": "石油能源板块",
+      "settleDays": 2
     },
     {
       "code": "000988",
@@ -323,7 +348,8 @@
       "dailyLimit": 100,
       "minPurchase": 10,
       "status": "active",
-      "note": "全球石油能源"
+      "note": "全球石油能源",
+      "settleDays": 2
     },
     {
       "code": "002400",
@@ -332,10 +358,11 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.15,
-      "dailyLimit": 100,
+      "dailyLimit": 200000,
       "minPurchase": 10,
       "status": "active",
-      "note": "亚洲债券低波动"
+      "note": "亚洲债券低波动",
+      "settleDays": 2
     },
     {
       "code": "160216",
@@ -344,10 +371,11 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 1000,
       "minPurchase": 10,
       "status": "active",
-      "note": "大宗商品配置"
+      "note": "大宗商品配置",
+      "settleDays": 2
     },
     {
       "code": "486002",
@@ -359,7 +387,8 @@
       "dailyLimit": 100,
       "minPurchase": 10,
       "status": "active",
-      "note": "全球精选，覆盖美股欧股"
+      "note": "全球精选，覆盖美股欧股",
+      "settleDays": 2
     },
     {
       "code": "005598",
@@ -368,10 +397,11 @@
       "shareClass": "A",
       "feeRate": 1.2,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 99999999999,
       "minPurchase": 10,
       "status": "active",
-      "note": "全球蓝筹精选"
+      "note": "全球蓝筹精选",
+      "settleDays": 2
     },
     {
       "code": "206011",
@@ -380,10 +410,11 @@
       "shareClass": "A",
       "feeRate": 1.2,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 100000,
       "minPurchase": 10,
       "status": "active",
-      "note": "美国房地产REITs"
+      "note": "美国房地产REITs",
+      "settleDays": 2
     },
     {
       "code": "050015",
@@ -392,10 +423,11 @@
       "shareClass": "A",
       "feeRate": 1.5,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 1000000,
       "minPurchase": 10,
       "status": "active",
-      "note": "亚太市场精选"
+      "note": "亚太市场精选",
+      "settleDays": 2
     },
     {
       "code": "000369",
@@ -407,7 +439,8 @@
       "dailyLimit": 100,
       "minPurchase": 10,
       "status": "active",
-      "note": "亚太市场精选广发"
+      "note": "亚太市场精选广发",
+      "settleDays": 2
     },
     {
       "code": "164701",
@@ -416,10 +449,11 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.15,
-      "dailyLimit": 100,
+      "dailyLimit": 500,
       "minPurchase": 10,
       "status": "active",
-      "note": "恒生指数跟踪"
+      "note": "恒生指数跟踪",
+      "settleDays": 2
     },
     {
       "code": "002230",
@@ -428,10 +462,11 @@
       "shareClass": "A",
       "feeRate": 1.5,
       "custodyFee": 0.3,
-      "dailyLimit": 100,
+      "dailyLimit": 100000,
       "minPurchase": 10,
       "status": "active",
-      "note": "全球股票配置"
+      "note": "全球股票配置",
+      "settleDays": 2
     },
     {
       "code": "110025",
@@ -440,10 +475,11 @@
       "shareClass": "A",
       "feeRate": 1.5,
       "custodyFee": 0.3,
-      "dailyLimit": 100,
+      "dailyLimit": 100000000000,
       "minPurchase": 10,
       "status": "active",
-      "note": "全球资源类基金"
+      "note": "全球资源类基金",
+      "settleDays": 2
     },
     {
       "code": "040018",
@@ -452,10 +488,11 @@
       "shareClass": "A",
       "feeRate": 1.5,
       "custodyFee": 0.25,
-      "dailyLimit": 100,
+      "dailyLimit": 10000000000,
       "minPurchase": 10,
       "status": "active",
-      "note": "港股市场精选"
+      "note": "港股市场精选",
+      "settleDays": 2
     },
     {
       "code": "270023",
@@ -467,7 +504,8 @@
       "dailyLimit": 100,
       "minPurchase": 10,
       "status": "active",
-      "note": "广发全球精选"
+      "note": "广发全球精选",
+      "settleDays": 2
     },
     {
       "code": "163208",
@@ -476,10 +514,11 @@
       "shareClass": "A",
       "feeRate": 1.4,
       "custodyFee": 0.3,
-      "dailyLimit": 100,
+      "dailyLimit": 0,
       "minPurchase": 10,
-      "status": "active",
-      "note": "全球不动产基金"
+      "status": "suspended",
+      "note": "全球不动产基金",
+      "settleDays": 2
     },
     {
       "code": "160125",
@@ -488,10 +527,11 @@
       "shareClass": "A",
       "feeRate": 1.2,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 100000000000,
       "minPurchase": 10,
       "status": "active",
-      "note": "港股优选基金"
+      "note": "港股优选基金",
+      "settleDays": 2
     }
   ],
   "_lastUpdated": "2026-06-03",
