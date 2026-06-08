@@ -569,6 +569,15 @@
       "dailyLimit": 100,
       "status": "active",
       "settleDays": 2
+    },
+    {
+      "code": "015204",
+      "name": "银华全球新能源车量化优选(QDII)A",
+      "type": "新能源车",
+      "feeRate": 1.2,
+      "dailyLimit": 100,
+      "status": "active",
+      "settleDays": 2
     }
   ],
   "_lastUpdated": "2026-06-03",

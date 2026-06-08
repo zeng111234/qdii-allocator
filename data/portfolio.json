@@ -237,6 +237,32 @@
           "shares": null
         }
       ]
+    },
+    {
+      "code": "001092",
+      "name": "广发纳斯达克生物科技A(QDII)",
+      "buys": [
+        {
+          "date": "2026-05-29",
+          "settleDate": "2026-06-02",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        }
+      ]
+    },
+    {
+      "code": "015558",
+      "name": "大成标普500ETF联接A(QDII)",
+      "buys": [
+        {
+          "date": "2026-06-04",
+          "settleDate": "2026-06-08",
+          "amount": 10,
+          "nav": 1.5195,
+          "shares": 6.5811
+        }
+      ]
     }
   ],
   "startDate": "2026-05-27"
