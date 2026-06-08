@@ -198,8 +198,8 @@
     },
     {
       "code": "012920",
-      "name": "景顺长城纳斯达克科技市值加权指数(QDII)A",
-      "type": "纳指科技",
+      "name": "易方达全球成长精选QDII-A",
+      "type": "全球成长",
       "feeRate": 1.05,
       "dailyLimit": 100,
       "status": "active",
@@ -590,8 +590,8 @@
     },
     {
       "code": "539002",
-      "name": "建信纳斯达克100指数(QDII)C",
-      "type": "纳指100",
+      "name": "建信新兴市场优选QDII-A",
+      "type": "新兴市场",
       "feeRate": 0.8,
       "dailyLimit": 100,
       "status": "active",
