@@ -37,6 +37,55 @@
           "amount": 10,
           "nav": 8.5813,
           "shares": 1.1653
+        },
+        {
+          "date": "2026-05-29",
+          "settleDate": "2026-06-02",
+          "amount": 10,
+          "nav": 8.6249,
+          "shares": 1.1594
+        },
+        {
+          "date": "2026-05-29",
+          "settleDate": "2026-06-02",
+          "amount": 10,
+          "nav": 8.6249,
+          "shares": 1.1594
+        },
+        {
+          "date": "2026-06-02",
+          "settleDate": "2026-06-04",
+          "amount": 10,
+          "nav": 8.558,
+          "shares": 1.1685
+        },
+        {
+          "date": "2026-06-03",
+          "settleDate": "2026-06-05",
+          "amount": 10,
+          "nav": 8.1467,
+          "shares": 1.2275
+        },
+        {
+          "date": "2026-06-04",
+          "settleDate": "2026-06-08",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-08",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-08",
+          "settleDate": "2026-06-08",
+          "amount": 10,
+          "nav": null,
+          "shares": null
         }
       ]
     }
