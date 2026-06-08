@@ -183,6 +183,60 @@
           "shares": 39.6983
         }
       ]
+    },
+    {
+      "code": "019524",
+      "name": "华泰柏瑞纳斯达克100指数(QDII)A",
+      "buys": [
+        {
+          "date": "2026-06-03",
+          "settleDate": "2026-06-05",
+          "amount": 10,
+          "nav": 1.6292,
+          "shares": 6.138
+        },
+        {
+          "date": "2026-06-04",
+          "settleDate": "2026-06-08",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-09",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        },
+        {
+          "date": "2026-06-08",
+          "settleDate": "2026-06-10",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        }
+      ]
+    },
+    {
+      "code": "017888",
+      "name": "摩根标普500指数(QDII)A",
+      "buys": [
+        {
+          "date": "2026-06-04",
+          "settleDate": "2026-06-08",
+          "amount": 10,
+          "nav": 1.0514,
+          "shares": 9.5111
+        },
+        {
+          "date": "2026-06-08",
+          "settleDate": "2026-06-10",
+          "amount": 10,
+          "nav": null,
+          "shares": null
+        }
+      ]
     }
   ],
   "startDate": "2026-05-27"

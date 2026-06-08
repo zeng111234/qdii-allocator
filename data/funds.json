@@ -560,6 +560,15 @@
       "dailyLimit": 100,
       "status": "active",
       "settleDays": 2
+    },
+    {
+      "code": "015558",
+      "name": "大成标普500ETF联接A(QDII)",
+      "type": "标普500",
+      "feeRate": 0.8,
+      "dailyLimit": 100,
+      "status": "active",
+      "settleDays": 2
     }
   ],
   "_lastUpdated": "2026-06-03",
