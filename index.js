@@ -21,6 +21,7 @@ var externalSignalData = require("./lib/external-signals");
 var portfolio = require("./lib/portfolio");
 var risk = require("./lib/risk");
 var alternatives = require("./lib/alternatives");
+var webServer = require("./lib/web-server");
 
 var FUNDS_FILE = path.join(__dirname, "data", "funds.json");
 var STRATEGY_MAP = {
@@ -39,7 +40,7 @@ function loadFunds() {
 
 function parseArgs() {
   var args = process.argv.slice(2);
-  var opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false };
+  var opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000 };
   for (var i = 0; i < args.length; i++) {
     if (args[i] === "--dry-run") opts.dryRun = true;
     else if (args[i] === "--strategy") opts.strategy = args[++i];
@@ -47,6 +48,7 @@ function parseArgs() {
     else if (args[i] === "--backtest") opts.backtest = true;
     else if (args[i] === "--backtest-days") opts.backtestDays = parseInt(args[++i]) || 60;
     else if (args[i] === "--portfolio") opts.portfolio = true;
+    else if (args[i] === "--web") { opts.web = true; if (args[i + 1] && /^\d+$/.test(args[i + 1])) { opts.webPort = parseInt(args[++i]); } }
     else if (args[i] === "--buy") {
       var buyCode = args[++i];
       var buyAmount = parseFloat(args[++i]);
@@ -68,6 +70,8 @@ function parseArgs() {
     else if (args[i] === "--quick-add") opts.quickAdd = args[++i];
     else if (args[i] === "--import-file") opts.importFile = args[++i] || "data/buys.txt";
     else if (args[i] === "--today") opts.today = true;
+    else if (args[i] === "--delete") opts.delete = args[++i];
+    else if (args[i] === "--delete-all") opts.deleteAll = true;
     else if (args[i] === "--help") {
       console.log("QDII Fund Allocator");
       console.log("  --dry-run              dry run mode");
@@ -81,6 +85,9 @@ function parseArgs() {
       console.log("  --import-file [path]   import buys from text file (default data/buys.txt, auto-settlement T+2 trading days)");
       console.log("  --today                show today's recommended funds with buy commands");
       console.log("  --optimize-weights     run weight optimization");
+      console.log("  --web [port]           start web UI (default port 3000)");
+      console.log("  --delete <code>        delete all buys for a fund code");
+      console.log("  --delete-all           delete all holdings (reset portfolio)");
       process.exit(0);
     }
   }
@@ -241,6 +248,41 @@ async function main() {
     var todayData = loadFunds();
     var todayCalcResult = portfolio.calcPortfolioSummary();
     portfolio.showTodayBuyCommands(todayData.funds, todayCalcResult);
+    return;
+  }
+
+  // 快捷命令：删除某只基金的所有买入记录
+  if (opts.delete) {
+    var p = portfolio.loadPortfolio();
+    var targetCode = opts.delete;
+    var target = p.holdings.find(function(h) { return h.code === targetCode; });
+    if (!target) {
+      console.log("[删除] 未找到基金 " + targetCode + " 的持仓记录");
+    } else {
+      var buyCount = target.buys.length;
+      p.holdings = p.holdings.filter(function(h) { return h.code !== targetCode; });
+      // 更新 startDate
+      var allDates = [];
+      p.holdings.forEach(function(h) { h.buys.forEach(function(b) { allDates.push(b.date); }); });
+      p.startDate = allDates.length > 0 ? allDates.sort()[0] : null;
+      portfolio.savePortfolio(p);
+      console.log("[删除] 已删除 " + target.name + "(" + targetCode + ") 的 " + buyCount + " 笔买入记录");
+    }
+    var delResult = portfolio.calcPortfolioSummary();
+    console.log(portfolio.formatPortfolioReport(delResult));
+    return;
+  }
+
+  // 快捷命令：清空所有持仓
+  if (opts.deleteAll) {
+    portfolio.savePortfolio({ holdings: [], startDate: null });
+    console.log("[删除] 已清空所有持仓记录");
+    return;
+  }
+
+  // 快捷命令：启动 Web UI
+  if (opts.web) {
+    webServer.startWebServer(opts.webPort);
     return;
   }
 

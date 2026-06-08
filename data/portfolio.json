@@ -9,6 +9,13 @@
           "amount": 10,
           "nav": 8.5243,
           "shares": 1.1731
+        },
+        {
+          "date": "2026-06-08",
+          "settleDate": null,
+          "amount": 50,
+          "nav": 8.1154,
+          "shares": 6.1611
         }
       ]
     },
