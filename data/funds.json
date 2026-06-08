@@ -533,6 +533,15 @@
       "status": "active",
       "note": "港股优选基金",
       "settleDays": 2
+    },
+    {
+      "code": "019067",
+      "name": "万家纳斯达克100指数(QDII)A",
+      "type": "纳指100",
+      "feeRate": 1,
+      "dailyLimit": 100,
+      "status": "active",
+      "settleDays": 2
     }
   ],
   "_lastUpdated": "2026-06-03",
