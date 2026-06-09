@@ -379,7 +379,7 @@ async function main() {
   }
 
   console.log("[2/4] Ranking...");
-  var lookbackDays = config.lookbackDays || 250; // 默认1年，回测时可设750
+  var lookbackDays = config.lookbackDays || 750; // 3年数据，足够计算MA250和长期趋势
   var result, textContent;
   try {
     if (strategy === "dynamic") {
