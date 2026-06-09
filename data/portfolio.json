@@ -98,15 +98,17 @@
           "date": "2026-06-04",
           "settleDate": "2026-06-08",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 8.2687,
+          "shares": 1.2094,
+          "estimated": true
         },
         {
           "date": "2026-06-05",
           "settleDate": "2026-06-09",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 8.2687,
+          "shares": 1.2094,
+          "estimated": true
         },
         {
           "date": "2026-06-08",
@@ -146,15 +148,17 @@
           "date": "2026-06-04",
           "settleDate": "2026-06-08",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 6.3505,
+          "shares": 1.5747,
+          "estimated": true
         },
         {
           "date": "2026-06-05",
           "settleDate": "2026-06-09",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 6.3505,
+          "shares": 1.5747,
+          "estimated": true
         },
         {
           "date": "2026-06-08",
@@ -194,22 +198,25 @@
           "date": "2026-06-04",
           "settleDate": "2026-06-08",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 8.237,
+          "shares": 1.214,
+          "estimated": true
         },
         {
           "date": "2026-06-05",
           "settleDate": "2026-06-09",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 8.237,
+          "shares": 1.214,
+          "estimated": true
         },
         {
           "date": "2026-06-05",
           "settleDate": "2026-06-09",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 8.237,
+          "shares": 1.214,
+          "estimated": true
         },
         {
           "date": "2026-06-08",
@@ -262,15 +269,17 @@
           "date": "2026-06-04",
           "settleDate": "2026-06-08",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 1.6536,
+          "shares": 6.0474,
+          "estimated": true
         },
         {
           "date": "2026-06-05",
           "settleDate": "2026-06-09",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 1.6536,
+          "shares": 6.0474,
+          "estimated": true
         },
         {
           "date": "2026-06-08",
@@ -342,8 +351,9 @@
           "date": "2026-06-05",
           "settleDate": "2026-06-09",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 2.7094,
+          "shares": 3.6909,
+          "estimated": true
         },
         {
           "date": "2026-06-08",
@@ -375,8 +385,9 @@
           "date": "2026-06-04",
           "settleDate": "2026-06-08",
           "amount": 30,
-          "nav": null,
-          "shares": null
+          "nav": 3.346,
+          "shares": 8.9659,
+          "estimated": true
         }
       ]
     },
@@ -395,8 +406,9 @@
           "date": "2026-06-04",
           "settleDate": "2026-06-08",
           "amount": 20,
-          "nav": null,
-          "shares": null
+          "nav": 2.4589,
+          "shares": 8.1337,
+          "estimated": true
         }
       ]
     },
@@ -415,15 +427,17 @@
           "date": "2026-06-05",
           "settleDate": "2026-06-09",
           "amount": 20,
-          "nav": null,
-          "shares": null
+          "nav": 4.3249,
+          "shares": 4.6244,
+          "estimated": true
         },
         {
           "date": "2026-06-05",
           "settleDate": "2026-06-09",
           "amount": 20,
-          "nav": null,
-          "shares": null
+          "nav": 4.3249,
+          "shares": 4.6244,
+          "estimated": true
         },
         {
           "date": "2026-06-08",
@@ -442,15 +456,17 @@
           "date": "2026-06-04",
           "settleDate": "2026-06-08",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 1.6483,
+          "shares": 6.0669,
+          "estimated": true
         },
         {
           "date": "2026-06-05",
           "settleDate": "2026-06-09",
           "amount": 10,
-          "nav": null,
-          "shares": null
+          "nav": 1.6483,
+          "shares": 6.0669,
+          "estimated": true
         },
         {
           "date": "2026-06-08",
