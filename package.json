@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "start": "cmd /c \"chcp 65001 >nul & node index.js\"",
-    "test": "cmd /c \"chcp 65001 >nul & node index.js --dry-run\""
+    "test": "cmd /c \"chcp 65001 >nul & node index.js --dry-run\"",
+    "wechat": "node wechat.js"
   },
   "keywords": [
     "qdii",
@@ -19,6 +20,7 @@
     "dotenv": "^16.4.5",
     "express": "^5.2.1",
     "iconv-lite": "^0.7.2",
-    "nodemailer": "^6.9.8"
+    "nodemailer": "^6.9.8",
+    "wechatferry": "^0.0.26"
   }
 }
