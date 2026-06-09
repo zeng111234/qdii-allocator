@@ -53,7 +53,7 @@
   "realNav": 0,
   "yearReturn": 26.7,
   "threeYearReturn": 87.49,
-  "_cachedAt": 1780920951195
+  "_cachedAt": 1780986538059
  },
  "160216": {
   "status": "limited",
@@ -151,7 +151,7 @@
   "realNav": 0,
   "yearReturn": 52.54,
   "threeYearReturn": 58.13,
-  "_cachedAt": 1780918098834
+  "_cachedAt": 1780986538919
  },
  "161130": {
   "status": "suspended",
@@ -207,7 +207,7 @@
   "realNav": 0,
   "yearReturn": 20.03,
   "threeYearReturn": 96.52,
-  "_cachedAt": 1780918100110
+  "_cachedAt": 1780986539782
  },
  "206011": {
   "status": "limited",
@@ -292,6 +292,20 @@
   "yearReturn": 24.4,
   "threeYearReturn": 84.77,
   "_cachedAt": 1780983703014
+ },
+ "539002": {
+  "status": "limited",
+  "limit": 30,
+  "minPurchase": 10,
+  "rawStatus": "限大额",
+  "premiumRate": 0,
+  "premiumStale": false,
+  "gzTime": "",
+  "nav": 2.461,
+  "realNav": 0,
+  "yearReturn": 133.05,
+  "threeYearReturn": 225.1,
+  "_cachedAt": 1780986540610
  },
  "040046": {
   "status": "limited",
@@ -449,11 +463,13 @@
   "minPurchase": 10,
   "rawStatus": "限大额",
   "premiumRate": 0,
-  "nav": 2.7529,
+  "premiumStale": false,
+  "gzTime": "",
+  "nav": 2.7134,
   "realNav": 0,
-  "yearReturn": 12.07,
-  "threeYearReturn": 38.6,
-  "_cachedAt": 1780891531091
+  "yearReturn": 10.74,
+  "threeYearReturn": 37.11,
+  "_cachedAt": 1780986537199
  },
  "040018": {
   "status": "active",
@@ -481,7 +497,7 @@
   "realNav": 0,
   "yearReturn": -4.19,
   "threeYearReturn": 45.36,
-  "_cachedAt": 1780930979382
+  "_cachedAt": 1780986532860
  },
  "000369": {
   "status": "limited",
@@ -509,7 +525,7 @@
   "realNav": 0,
   "yearReturn": 17.48,
   "threeYearReturn": 60.78,
-  "_cachedAt": 1780918096933
+  "_cachedAt": 1780986536337
  },
  "006861": {
   "status": "limited",
@@ -537,7 +553,7 @@
   "realNav": 0,
   "yearReturn": 11.83,
   "threeYearReturn": 13.93,
-  "_cachedAt": 1780930979953
+  "_cachedAt": 1780986533773
  },
  "000988": {
   "status": "limited",
@@ -776,5 +792,33 @@
   "yearReturn": 6.77,
   "threeYearReturn": 16.86,
   "_cachedAt": 1780983697713
+ },
+ "012920": {
+  "status": "limited",
+  "limit": 20,
+  "minPurchase": 10,
+  "rawStatus": "限大额",
+  "premiumRate": 0,
+  "premiumStale": false,
+  "gzTime": "",
+  "nav": 4.3281,
+  "realNav": 0,
+  "yearReturn": 194.77,
+  "threeYearReturn": 324.78,
+  "_cachedAt": 1780986534618
+ },
+ "015204": {
+  "status": "active",
+  "limit": 100000000000,
+  "minPurchase": 10,
+  "rawStatus": "开放申购",
+  "premiumRate": 0,
+  "premiumStale": false,
+  "gzTime": "",
+  "nav": 1.5474,
+  "realNav": 0,
+  "yearReturn": 27.28,
+  "threeYearReturn": 64.28,
+  "_cachedAt": 1780986535478
  }
 }
