@@ -379,21 +379,27 @@ async function main() {
   }
 
   console.log("[2/4] Ranking...");
-  var lookbackDays = config.lookbackDays || 750;
+  var lookbackDays = config.lookbackDays || 250; // 默认1年，回测时可设750
   var result, textContent;
-  if (strategy === "dynamic") {
-    result = await dyn.allocateDynamic(budget, funds, {
-      lookbackDays: lookbackDays,
-      topN: topN,
-      minPurchase: minPurchase,
-      enableHistory: true,
-      externalSignals: externalSignals,
-      externalSignalMaxScore: config.externalSignalMaxScore || 3
-    });
-    textContent = dyn.formatDynamicResult(result);
-  } else {
-    result = alloc.allocate(budget, funds, strategy, minPurchase);
-    textContent = alloc.formatResult(result);
+  try {
+    if (strategy === "dynamic") {
+      result = await dyn.allocateDynamic(budget, funds, {
+        lookbackDays: lookbackDays,
+        topN: topN,
+        minPurchase: minPurchase,
+        enableHistory: true,
+        externalSignals: externalSignals,
+        externalSignalMaxScore: config.externalSignalMaxScore || 3
+      });
+      textContent = dyn.formatDynamicResult(result);
+    } else {
+      result = alloc.allocate(budget, funds, strategy, minPurchase);
+      textContent = alloc.formatResult(result);
+    }
+  } catch(err) {
+    console.error("[策略执行失败]", err.message);
+    result = { budget: budget, strategy: strategy, date: new Date().toISOString().slice(0,10), ranked: [], error: err.message };
+    textContent = "策略执行失败: " + err.message + "\n\n请检查网络连接或减少基金数量。";
   }
   console.log(textContent);
   console.log("");
