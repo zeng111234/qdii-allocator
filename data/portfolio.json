@@ -409,6 +409,20 @@
           "nav": 2.4589,
           "shares": 8.1337,
           "estimated": true
+        },
+        {
+          "date": "2026-06-09",
+          "settleDate": null,
+          "amount": 30,
+          "nav": 2.461,
+          "shares": 12.1902
+        },
+        {
+          "date": "2026-06-09",
+          "settleDate": null,
+          "amount": 30,
+          "nav": 2.461,
+          "shares": 12.1902
         }
       ]
     },
@@ -445,6 +459,20 @@
           "amount": 20,
           "nav": null,
           "shares": null
+        },
+        {
+          "date": "2026-06-09",
+          "settleDate": null,
+          "amount": 20,
+          "nav": 4.3281,
+          "shares": 4.621
+        },
+        {
+          "date": "2026-06-09",
+          "settleDate": null,
+          "amount": 20,
+          "nav": 4.3281,
+          "shares": 4.621
         }
       ]
     },
@@ -474,6 +502,26 @@
           "amount": 10,
           "nav": null,
           "shares": null
+        }
+      ]
+    },
+    {
+      "code": "270023",
+      "name": "广发全球精选QDII-A",
+      "buys": [
+        {
+          "date": "2026-06-09",
+          "settleDate": null,
+          "amount": 10,
+          "nav": 6.5048,
+          "shares": 1.5373
+        },
+        {
+          "date": "2026-06-09",
+          "settleDate": null,
+          "amount": 10,
+          "nav": 6.5048,
+          "shares": 1.5373
         }
       ]
     }
