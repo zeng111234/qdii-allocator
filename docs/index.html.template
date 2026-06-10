@@ -284,6 +284,7 @@
     // 嵌入数据
     var portfolioData = PORTFOLIO_DATA;
     var fundsData = FUNDS_DATA;
+    var navCacheData = NAV_CACHE_DATA;
 
     function showToast(text, isError) {
       var el = document.getElementById("toast");
@@ -313,12 +314,25 @@
       var totalValue = 0;
       
       portfolioData.holdings.forEach(function(h) {
+        var holdingAmount = 0;
+        var holdingShares = 0;
+        
         h.buys.forEach(function(b) {
           totalInvested += b.amount || 0;
-          if (b.shares && b.nav) {
-            totalValue += b.shares * b.nav;
+          holdingAmount += b.amount || 0;
+          if (b.shares) {
+            holdingShares += b.shares;
           }
         });
+        
+        // 使用最新净值计算市值
+        var latestNav = navCacheData[h.code] ? navCacheData[h.code].nav : null;
+        if (latestNav && holdingShares > 0) {
+          totalValue += holdingShares * latestNav;
+        } else {
+          // 没有最新净值，使用买入净值
+          totalValue += holdingAmount;
+        }
       });
       
       return {
