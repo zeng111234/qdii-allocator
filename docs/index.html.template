@@ -267,6 +267,10 @@
             <input type="number" id="nav" step="0.0001" placeholder="自动查询">
           </div>
         </div>
+        <div class="form-group">
+          <label>买入日期 (默认今天)</label>
+          <input type="date" id="buyDate">
+        </div>
         <button class="btn btn-primary" onclick="addBuy()">确认买入</button>
         <div id="buyResult" style="margin-top:12px;font-size:13px"></div>
       </div>
@@ -397,6 +401,8 @@
     function addBuy() {
       var code = document.getElementById('fundSelect').value;
       var amount = parseFloat(document.getElementById('amount').value);
+      var nav = document.getElementById('nav').value ? parseFloat(document.getElementById('nav').value) : null;
+      var buyDate = document.getElementById('buyDate').value || new Date().toISOString().slice(0, 10);
       
       if (!code) {
         showToast('请选择基金', true);
@@ -409,7 +415,7 @@
       
       var fund = fundsData.funds.find(function(f) { return f.code === code; });
       var name = fund ? fund.name : code;
-      var date = new Date().toISOString().slice(0, 10);
+      var shares = nav ? Math.round(amount / nav * 10000) / 10000 : null;
       
       // 查找或创建持仓
       var holding = portfolioData.holdings.find(function(h) { return h.code === code; });
@@ -420,15 +426,15 @@
       
       // 添加买入记录
       holding.buys.push({
-        date: date,
+        date: buyDate,
         amount: amount,
-        nav: null,
-        shares: null,
+        nav: nav,
+        shares: shares,
         settleDate: null
       });
       
-      if (!portfolioData.startDate || date < portfolioData.startDate) {
-        portfolioData.startDate = date;
+      if (!portfolioData.startDate || buyDate < portfolioData.startDate) {
+        portfolioData.startDate = buyDate;
       }
       
       updateSummary();
