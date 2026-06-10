@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>QDII 基金定投助手</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --danger: #ef4444;
+      --success: #10b981;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      background: var(--bg); 
+      color: var(--text); 
+      min-height: 100vh;
+      padding-bottom: 80px;
+    }
+    .header {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header h1 { font-size: 18px; font-weight: 600; }
+    .header p { font-size: 12px; opacity: 0.9; margin-top: 4px; }
+    .container { max-width: 640px; margin: 0 auto; padding: 12px; }
+    
+    .card { 
+      background: var(--card); 
+      border-radius: 12px; 
+      padding: 16px; 
+      margin-bottom: 12px; 
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+      border: 1px solid var(--border);
+    }
+    .card-title { 
+      font-size: 13px; 
+      font-weight: 600; 
+      color: var(--text-secondary); 
+      margin-bottom: 12px;
+    }
+    
+    .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .summary-item { 
+      padding: 12px; 
+      background: linear-gradient(135deg, #f0f4ff 0%, #e8ecf8 100%);
+      border-radius: 8px; 
+      text-align: center;
+    }
+    .summary-item .label { font-size: 11px; color: var(--text-muted); }
+    .summary-item .value { font-size: 18px; font-weight: 700; margin-top: 2px; }
+    .summary-item .value.positive { color: var(--danger); }
+    .summary-item .value.negative { color: var(--success); }
+    
+    .holding-card { 
+      border: 1px solid var(--border); 
+      border-radius: 8px; 
+      padding: 12px; 
+      margin-bottom: 8px; 
+    }
+    .holding-header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      margin-bottom: 8px; 
+    }
+    .holding-name { font-weight: 600; font-size: 14px; }
+    .holding-code { 
+      font-size: 11px; 
+      color: var(--text-muted); 
+      background: #f1f5f9; 
+      padding: 2px 6px; 
+      border-radius: 4px; 
+    }
+    .pnl-positive { color: var(--danger); font-weight: 600; }
+    .pnl-negative { color: var(--success); font-weight: 600; }
+    
+    .form-group { margin-bottom: 12px; }
+    .form-group label { 
+      display: block; 
+      font-size: 12px; 
+      font-weight: 500;
+      color: var(--text-secondary); 
+      margin-bottom: 6px; 
+    }
+    .form-group select, .form-group input { 
+      width: 100%;
+      padding: 10px 12px; 
+      border: 1.5px solid var(--border); 
+      border-radius: 8px; 
+      font-size: 14px;
+      background: white;
+    }
+    .form-group select:focus, .form-group input:focus { 
+      outline: none; 
+      border-color: var(--primary);
+    }
+    .form-row { display: flex; gap: 8px; }
+    .form-row .form-group { flex: 1; }
+    
+    .btn { 
+      display: block;
+      width: 100%;
+      padding: 12px; 
+      border: none; 
+      border-radius: 8px; 
+      font-size: 14px; 
+      font-weight: 600;
+      cursor: pointer; 
+      transition: all 0.2s; 
+    }
+    .btn-primary { 
+      background: var(--primary); 
+      color: white; 
+    }
+    .btn-primary:hover { background: var(--primary-light); }
+    .btn-primary:disabled { background: #94a3b8; cursor: not-allowed; }
+    
+    .tabs { 
+      display: flex; 
+      border-bottom: 2px solid var(--border); 
+      margin-bottom: 12px; 
+    }
+    .tab { 
+      flex: 1; 
+      padding: 10px; 
+      text-align: center; 
+      cursor: pointer; 
+      font-size: 13px; 
+      font-weight: 500;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+    .tab.active { 
+      color: var(--primary); 
+      border-bottom-color: var(--primary); 
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--border);
+      display: flex;
+      padding: 8px 0;
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+      z-index: 100;
+    }
+    .nav-item {
+      flex: 1;
+      text-align: center;
+      padding: 8px 0;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 11px;
+    }
+    .nav-item.active { color: var(--primary); }
+    .nav-item .icon { font-size: 20px; margin-bottom: 2px; }
+    
+    .page { display: none; }
+    .page.active { display: block; }
+    
+    .toast { 
+      position: fixed; 
+      top: 80px; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      padding: 10px 20px; 
+      border-radius: 8px; 
+      font-size: 13px; 
+      z-index: 1000; 
+      opacity: 0; 
+      transition: opacity 0.3s; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .toast.show { opacity: 1; }
+    .toast.success { background: var(--success); color: white; }
+    .toast.error { background: var(--danger); color: white; }
+    
+    .empty-state { 
+      text-align: center; 
+      padding: 30px 20px; 
+      color: var(--text-muted); 
+    }
+    .empty-state .icon { font-size: 40px; margin-bottom: 8px; }
+    
+    .token-input {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .token-input label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #92400e;
+      margin-bottom: 6px;
+      display: block;
+    }
+    .token-input input {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #f59e0b;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+    .token-input .hint {
+      font-size: 11px;
+      color: #92400e;
+      margin-top: 4px;
+    }
+    
+    @media (min-width: 768px) {
+      .container { padding: 20px; }
+      .card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📊 QDII 基金定投助手</h1>
+    <p>手机/电脑同步 · GitHub Pages</p>
+  </div>
+
+  <!-- 首页 -->
+  <div id="page-home" class="page active">
+    <div class="container">
+      <div class="token-input" id="tokenSection">
+        <label>🔑 GitHub Token</label>
+        <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxx" 
+               oninput="saveToken()">
+        <div class="hint">在 GitHub Settings → Developer settings → Personal access tokens 创建</div>
+      </div>
+      
+      <div class="card">
+        <div class="card-title">持仓概览</div>
+        <div id="summary" class="summary-grid">
+          <div class="summary-item">
+            <div class="label">总投入</div>
+            <div class="value" id="totalInvested">--</div>
+          </div>
+          <div class="summary-item">
+            <div class="label">当前市值</div>
+            <div class="value" id="totalValue">--</div>
+          </div>
+          <div class="summary-item">
+            <div class="label">总盈亏</div>
+            <div class="value" id="totalPnl">--</div>
+          </div>
+          <div class="summary-item">
+            <div class="label">持有基金</div>
+            <div class="value" id="holdingCount">--</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-title">快速买入</div>
+        <div class="form-group">
+          <label>选择基金</label>
+          <select id="fundSelect">
+            <option value="">加载中...</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>金额(元)</label>
+            <input type="number" id="buyAmount" value="10" min="1">
+          </div>
+          <div class="form-group">
+            <label>净值(可选)</label>
+            <input type="number" id="buyNav" step="0.0001" placeholder="自动">
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="submitBuy()" id="buyBtn">
+          确认买入
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 持仓页 -->
+  <div id="page-portfolio" class="page">
+    <div class="container">
+      <div class="card">
+        <div class="card-title">持仓明细</div>
+        <div id="holdings">
+          <div class="empty-state">
+            <div class="icon">📭</div>
+            <div>暂无持仓记录</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 设置页 -->
+  <div id="page-settings" class="page">
+    <div class="container">
+      <div class="card">
+        <div class="card-title">数据同步</div>
+        <p style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;">
+          数据存储在 GitHub 仓库的 data/portfolio.json 文件中，手机和电脑访问同一 URL 自动同步。
+        </p>
+        <button class="btn btn-primary" onclick="forceSync()" style="margin-bottom:8px">
+          强制同步数据
+        </button>
+        <button class="btn" style="background:#f1f5f9;color:var(--text)" onclick="clearToken()">
+          清除 Token
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部导航 -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="switchPage('home')">
+      <div class="icon">🏠</div>
+      <div>首页</div>
+    </div>
+    <div class="nav-item" onclick="switchPage('portfolio')">
+      <div class="icon">📊</div>
+      <div>持仓</div>
+    </div>
+    <div class="nav-item" onclick="switchPage('settings')">
+      <div class="icon">⚙️</div>
+      <div>设置</div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // ========== 配置 ==========
+    const REPO_OWNER = 'zeng111234';
+    const REPO_NAME = 'trade';
+    const PORTFOLIO_PATH = 'data/portfolio.json';
+    const FUNDS_PATH = 'data/funds.json';
+    
+    let token = localStorage.getItem('github_token') || '';
+    let portfolioData = { holdings: [], startDate: null };
+    let fundsData = { funds: [] };
+
+    // ========== 初始化 ==========
+    window.onload = function() {
+      document.getElementById('githubToken').value = token;
+      if (token) {
+        loadData();
+      } else {
+        showToast('请先输入 GitHub Token', true);
+      }
+    };
+
+    // ========== Token 管理 ==========
+    function saveToken() {
+      token = document.getElementById('githubToken').value.trim();
+      localStorage.setItem('github_token', token);
+      if (token) {
+        loadData();
+      }
+    }
+
+    function clearToken() {
+      token = '';
+      localStorage.removeItem('github_token');
+      document.getElementById('githubToken').value = '';
+      showToast('Token 已清除');
+    }
+
+    // ========== GitHub API ==========
+    async function githubGet(path) {
+      const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
+        headers: {
+          'Authorization': `token ${token}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
+      if (!res.ok) throw new Error(`获取失败: ${res.status}`);
+      const data = await res.json();
+      return {
+        content: JSON.parse(atob(data.content)),
+        sha: data.sha
+      };
+    }
+
+    async function githubPut(path, content, sha) {
+      const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${path}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `token ${token}`,
+          'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify({
+          message: `Update ${path} via web`,
+          content: btoa(JSON.stringify(content, null, 2)),
+          sha: sha
+        })
+      });
+      if (!res.ok) throw new Error(`保存失败: ${res.status}`);
+      return await res.json();
+    }
+
+    // ========== 数据加载 ==========
+    async function loadData() {
+      try {
+        // 加载持仓
+        const portfolio = await githubGet(PORTFOLIO_PATH);
+        portfolioData = portfolio.content;
+        window._portfolioSha = portfolio.sha;
+        
+        // 加载基金列表
+        const funds = await githubGet(FUNDS_PATH);
+        fundsData = funds.content;
+        
+        updateUI();
+        loadFundOptions();
+        showToast('数据加载成功');
+      } catch (err) {
+        console.error(err);
+        showToast('加载失败: ' + err.message, true);
+      }
+    }
+
+    // ========== UI 更新 ==========
+    function updateUI() {
+      const summary = calcSummary();
+      
+      document.getElementById('totalInvested').textContent = summary.totalInvested + '元';
+      document.getElementById('totalValue').textContent = summary.totalValue + '元';
+      
+      const pnlEl = document.getElementById('totalPnl');
+      pnlEl.textContent = (summary.totalPnl >= 0 ? '+' : '') + summary.totalPnl + '元';
+      pnlEl.className = 'value ' + (summary.totalPnl >= 0 ? 'positive' : 'negative');
+      
+      document.getElementById('holdingCount').textContent = summary.holdingCount + '只';
+      
+      updateHoldingsList();
+    }
+
+    function calcSummary() {
+      if (!portfolioData.holdings || portfolioData.holdings.length === 0) {
+        return { totalInvested: 0, totalValue: 0, totalPnl: 0, holdingCount: 0 };
+      }
+      
+      let totalInvested = 0;
+      let totalValue = 0;
+      
+      portfolioData.holdings.forEach(h => {
+        h.buys.forEach(b => {
+          totalInvested += b.amount || 0;
+          if (b.shares && b.nav) {
+            totalValue += b.shares * b.nav;
+          }
+        });
+      });
+      
+      return {
+        totalInvested: Math.round(totalInvested * 100) / 100,
+        totalValue: Math.round(totalValue * 100) / 100,
+        totalPnl: Math.round((totalValue - totalInvested) * 100) / 100,
+        holdingCount: portfolioData.holdings.length
+      };
+    }
+
+    function updateHoldingsList() {
+      const container = document.getElementById('holdings');
+      
+      if (!portfolioData.holdings || portfolioData.holdings.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><div>暂无持仓记录</div></div>';
+        return;
+      }
+      
+      let html = '';
+      portfolioData.holdings.forEach(h => {
+        const totalAmount = h.buys.reduce((sum, b) => sum + (b.amount || 0), 0);
+        const totalShares = h.buys.reduce((sum, b) => sum + (b.shares || 0), 0);
+        
+        html += `
+          <div class="holding-card">
+            <div class="holding-header">
+              <div>
+                <span class="holding-name">${h.name}</span>
+                <span class="holding-code">${h.code}</span>
+              </div>
+              <div style="font-size:13px;color:var(--text-secondary)">
+                投入 ${totalAmount}元
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text-muted)">
+              ${h.buys.length}笔买入 · ${totalShares.toFixed(2)}份
+            </div>
+          </div>
+        `;
+      });
+      
+      container.innerHTML = html;
+    }
+
+    function loadFundOptions() {
+      const select = document.getElementById('fundSelect');
+      const activeFunds = fundsData.funds.filter(f => f.status === 'active');
+      
+      // 按类型分组
+      const groups = {};
+      activeFunds.forEach(f => {
+        const type = f.type || '其他';
+        if (!groups[type]) groups[type] = [];
+        groups[type].push(f);
+      });
+      
+      let html = '<option value="">-- 请选择基金 --</option>';
+      Object.keys(groups).sort().forEach(type => {
+        html += `<optgroup label="${type}">`;
+        groups[type].forEach(f => {
+          const limit = f.dailyLimit && f.dailyLimit < 10000 ? ` (限${f.dailyLimit}元)` : '';
+          html += `<option value="${f.code}">${f.code} ${f.name}${limit}</option>`;
+        });
+        html += '</optgroup>';
+      });
+      
+      select.innerHTML = html;
+    }
+
+    // ========== 买入操作 ==========
+    async function submitBuy() {
+      const code = document.getElementById('fundSelect').value;
+      const amount = parseFloat(document.getElementById('buyAmount').value);
+      const nav = document.getElementById('buyNav').value ? parseFloat(document.getElementById('buyNav').value) : null;
+      
+      if (!code) {
+        showToast('请选择基金', true);
+        return;
+      }
+      if (!amount || amount <= 0) {
+        showToast('请输入有效金额', true);
+        return;
+      }
+      
+      const btn = document.getElementById('buyBtn');
+      btn.disabled = true;
+      btn.textContent = '保存中...';
+      
+      try {
+        const fund = fundsData.funds.find(f => f.code === code);
+        const name = fund ? fund.name : code;
+        const date = new Date().toISOString().slice(0, 10);
+        
+        // 查找或创建持仓
+        let holding = portfolioData.holdings.find(h => h.code === code);
+        if (!holding) {
+          holding = { code, name, buys: [] };
+          portfolioData.holdings.push(holding);
+        }
+        
+        // 添加买入记录
+        holding.buys.push({
+          date,
+          amount,
+          nav: nav || null,
+          shares: nav ? Math.round(amount / nav * 10000) / 10000 : null,
+          settleDate: null
+        });
+        
+        if (!portfolioData.startDate || date < portfolioData.startDate) {
+          portfolioData.startDate = date;
+        }
+        
+        // 保存到 GitHub
+        await githubPut(PORTFOLIO_PATH, portfolioData, window._portfolioSha);
+        
+        showToast(`买入成功: ${name} ${amount}元`);
+        updateUI();
+        
+        // 清空表单
+        document.getElementById('buyAmount').value = '10';
+        document.getElementById('buyNav').value = '';
+      } catch (err) {
+        console.error(err);
+        showToast('保存失败: ' + err.message, true);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '确认买入';
+      }
+    }
+
+    // ========== 同步 ==========
+    async function forceSync() {
+      try {
+        await loadData();
+        showToast('同步成功');
+      } catch (err) {
+        showToast('同步失败: ' + err.message, true);
+      }
+    }
+
+    // ========== 页面切换 ==========
+    function switchPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      
+      document.getElementById(`page-${page}`).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // ========== Toast ==========
+    function showToast(text, isError) {
+      const el = document.getElementById('toast');
+      el.textContent = text;
+      el.className = 'toast show ' + (isError ? 'error' : 'success');
+      setTimeout(() => el.className = 'toast', 3000);
+    }
+  </script>
+</body>
+</html>
