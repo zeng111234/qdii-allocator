@@ -113,39 +113,68 @@ function backfillFollowUp() {
     var cache = JSON.parse(fs.readFileSync(NAV_CACHE_FILE, "utf-8"));
     if (!hist.records || hist.records.length === 0) return;
     var changed = false;
+    var backfilled = 0;
+
     for (var i = 0; i < hist.records.length; i++) {
       var rec = hist.records[i];
+      // 标准化日期格式
+      var recDate = normalizeDate(rec.date);
+      if (recDate !== rec.date) {
+        rec.date = recDate;
+        changed = true;
+      }
+
       var allocs = rec.allocations || rec.ranked || [];
       for (var j = 0; j < allocs.length; j++) {
         var a = allocs[j];
         if (a.followUp5dReturn !== null && a.followUp10dReturn !== null) continue;
         var navs = cache[a.code];
         if (!navs || navs.length === 0) continue;
-        var recDate = normalizeDate(rec.date);
-        var recIdx = -1;
-        for (var k = 0; k < navs.length; k++) {
-          if (navs[k].date === recDate) { recIdx = k; break; }
+
+        // 用日期查找推荐日净值（而非索引）
+        var recNav = navs.find(function(n) { return n.date === recDate; });
+        if (!recNav) continue;
+
+        // 5d return：找推荐日后4-7个交易日的净值
+        if (a.followUp5dReturn === null) {
+          for (var k = 0; k < navs.length; k++) {
+            var diff5 = daysBetweenDates(recDate, navs[k].date);
+            if (diff5 >= 4 && diff5 <= 7) {
+              a.followUp5dReturn = Math.round((navs[k].nav - recNav.nav) / recNav.nav * 10000) / 100;
+              changed = true;
+              backfilled++;
+              break;
+            }
+          }
         }
-        if (recIdx < 0) continue;
-        // 5d return
-        if (a.followUp5dReturn === null && recIdx + 5 < navs.length) {
-          a.followUp5dReturn = Math.round((navs[recIdx + 5].nav - navs[recIdx].nav) / navs[recIdx].nav * 10000) / 100;
-          changed = true;
-        }
-        // 10d return
-        if (a.followUp10dReturn === null && recIdx + 10 < navs.length) {
-          a.followUp10dReturn = Math.round((navs[recIdx + 10].nav - navs[recIdx].nav) / navs[recIdx].nav * 10000) / 100;
-          changed = true;
+
+        // 10d return：找推荐日后9-14个交易日的净值
+        if (a.followUp10dReturn === null) {
+          for (var m = 0; m < navs.length; m++) {
+            var diff10 = daysBetweenDates(recDate, navs[m].date);
+            if (diff10 >= 9 && diff10 <= 14) {
+              a.followUp10dReturn = Math.round((navs[m].nav - recNav.nav) / recNav.nav * 10000) / 100;
+              changed = true;
+              backfilled++;
+              break;
+            }
+          }
         }
       }
     }
     if (changed) {
       fs.writeFileSync(HISTORY_FILE, JSON.stringify(hist, null, 2), "utf-8");
-      console.log("[\u5386\u53f2] \u56de\u586b\u4e86\u5386\u53f2\u63a8\u8350\u7684\u5b9e\u9645\u6536\u76ca");
+      console.log("[\u5386\u53f2] \u56de\u586b\u4e86" + backfilled + "\u6761\u5386\u53f2\u63a8\u8350\u7684\u5b9e\u9645\u6536\u76ca\uff0c\u65e5\u671f\u683c\u5f0f\u5df2\u6807\u51c6\u5316");
     }
   } catch(e) {
     console.warn("[\u5386\u53f2] \u56de\u586b\u5931\u8d25:", e.message);
   }
+}
+
+function daysBetweenDates(d1, d2) {
+  var dt1 = new Date(d1 + "T00:00:00");
+  var dt2 = new Date(d2 + "T00:00:00");
+  return Math.round((dt2 - dt1) / 86400000);
 }
 
 async function main() {
@@ -304,6 +333,11 @@ async function main() {
   var data = loadFunds();
   var funds = data.funds;
   var config = data.config || {};
+
+  // 清理陈旧的nav-cache数据
+  try {
+    fundData.cleanStaleCache();
+  } catch(e) {}
 
   var budget = opts.budget || config.defaultBudget || 20;
   var strategyKey = opts.strategy || config.defaultStrategy || "scarce";

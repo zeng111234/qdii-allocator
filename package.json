@@ -6,8 +6,10 @@
   "main": "index.js",
   "scripts": {
     "start": "cmd /c \"chcp 65001 >nul & node index.js\"",
-    "test": "cmd /c \"chcp 65001 >nul & node index.js --dry-run\"",
-    "wechat": "node wechat.js"
+    "test": "node --test tests/**/*.test.js",
+    "wechat": "node wechat.js",
+    "telegram": "node telegram.js",
+    "feishu": "node feishu.js"
   },
   "keywords": [
     "qdii",
@@ -17,9 +19,11 @@
   ],
   "license": "MIT",
   "dependencies": {
+    "@larksuiteoapi/node-sdk": "^1.66.1",
     "dotenv": "^16.4.5",
     "express": "^5.2.1",
     "iconv-lite": "^0.7.2",
+    "node-telegram-bot-api": "^0.67.0",
     "nodemailer": "^6.9.8",
     "wechatferry": "^0.0.26"
   }

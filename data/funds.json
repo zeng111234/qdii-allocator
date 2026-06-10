@@ -200,64 +200,92 @@
       "code": "012920",
       "name": "易方达全球成长精选QDII-A",
       "type": "全球成长",
+      "shareClass": "A",
       "feeRate": 1.05,
-      "dailyLimit": 100,
+      "custodyFee": 0.2,
+      "dailyLimit": 20,
       "status": "active",
-      "settleDays": 2
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "全球成长股精选"
     },
     {
       "code": "015204",
       "name": "银华全球新能源车量化优选(QDII)A",
       "type": "新能源车",
+      "shareClass": "A",
       "feeRate": 1.2,
-      "dailyLimit": 100,
+      "custodyFee": 0.25,
+      "dailyLimit": 100000000000,
       "status": "active",
-      "settleDays": 2
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "新能源车主题QDII"
     },
     {
       "code": "015558",
       "name": "大成标普500ETF联接A(QDII)",
       "type": "标普500",
+      "shareClass": "A",
       "feeRate": 0.8,
-      "dailyLimit": 100,
+      "custodyFee": 0.15,
+      "dailyLimit": 1000000,
       "status": "active",
-      "settleDays": 2
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "标普500 ETF联接"
     },
     {
       "code": "016664",
       "name": "天弘全球高端制造QDII-A",
       "type": "全球制造",
+      "shareClass": "A",
       "feeRate": 1.2,
+      "custodyFee": 0.2,
       "dailyLimit": 100,
       "status": "active",
-      "settleDays": 2
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "全球高端制造主题"
     },
     {
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "type": "标普500",
+      "shareClass": "A",
       "feeRate": 1,
-      "dailyLimit": 100,
+      "custodyFee": 0.2,
+      "dailyLimit": 10,
       "status": "active",
-      "settleDays": 2
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "摩根标普500指数"
     },
     {
       "code": "019067",
       "name": "万家纳斯达克100指数(QDII)A",
       "type": "纳指100",
+      "shareClass": "A",
       "feeRate": 1,
-      "dailyLimit": 100,
+      "custodyFee": 0.2,
+      "dailyLimit": 100000000000,
       "status": "active",
-      "settleDays": 2
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "纳指100万家产品"
     },
     {
       "code": "019524",
       "name": "华泰柏瑞纳斯达克100指数(QDII)A",
       "type": "纳指100",
+      "shareClass": "A",
       "feeRate": 1.05,
-      "dailyLimit": 100,
+      "custodyFee": 0.2,
+      "dailyLimit": 10,
       "status": "active",
-      "settleDays": 2
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "华泰柏瑞纳指100"
     },
     {
       "code": "040018",
@@ -601,10 +629,14 @@
       "code": "539002",
       "name": "建信新兴市场优选QDII-A",
       "type": "新兴市场",
+      "shareClass": "A",
       "feeRate": 0.8,
-      "dailyLimit": 100,
+      "custodyFee": 0.2,
+      "dailyLimit": 30,
       "status": "active",
-      "settleDays": 2
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "新兴市场优选"
     }
   ],
   "_lastUpdated": "2026-06-03",
