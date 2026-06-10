@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>QDII Fund Allocator</title>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --danger: #ef4444;
+      --success: #10b981;
+      --bg: #f8fafc;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1e293b;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      background: var(--bg); 
+      color: var(--text); 
+      min-height: 100vh;
+    }
+    .header {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+      padding: 24px 20px;
+      text-align: center;
+    }
+    .header h1 { font-size: 20px; font-weight: 600; }
+    .header p { font-size: 13px; opacity: 0.9; margin-top: 4px; }
+    .container { max-width: 640px; margin: 0 auto; padding: 16px; }
+    
+    .card { 
+      background: var(--card); 
+      border-radius: 16px; 
+      padding: 20px; 
+      margin-bottom: 16px; 
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05); 
+      border: 1px solid var(--border);
+    }
+    .card-title { 
+      font-size: 14px; 
+      font-weight: 600; 
+      color: var(--text-secondary); 
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .summary-item { 
+      padding: 16px; 
+      background: linear-gradient(135deg, #f0f4ff 0%, #e8ecf8 100%);
+      border-radius: 12px; 
+      text-align: center;
+    }
+    .summary-item .label { font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+    .summary-item .value { font-size: 22px; font-weight: 700; }
+    .summary-item .value.positive { color: var(--danger); }
+    .summary-item .value.negative { color: var(--success); }
+    .summary-item .value.neutral { color: var(--text); }
+    
+    .holding-card { 
+      background: var(--card); 
+      border: 1px solid var(--border); 
+      border-radius: 12px; 
+      padding: 16px; 
+      margin-bottom: 12px; 
+    }
+    .holding-header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: flex-start; 
+      margin-bottom: 12px; 
+    }
+    .holding-name { font-weight: 600; font-size: 15px; }
+    .holding-code { 
+      font-size: 12px; 
+      color: var(--text-muted); 
+      background: #f1f5f9; 
+      padding: 2px 8px; 
+      border-radius: 4px; 
+      margin-left: 8px; 
+    }
+    .holding-stats { 
+      font-size: 12px; 
+      color: var(--text-secondary); 
+      display: flex; 
+      gap: 12px; 
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+    .holding-stats span { display: flex; align-items: center; gap: 4px; }
+    .pnl-box { 
+      text-align: right; 
+      min-width: 100px; 
+    }
+    .pnl-amount { 
+      font-weight: 700; 
+      font-size: 18px; 
+    }
+    .pnl-rate { 
+      font-size: 12px; 
+      margin-top: 2px; 
+    }
+    .pnl-positive { color: var(--danger); }
+    .pnl-negative { color: var(--success); }
+    .pnl-neutral { color: var(--text-muted); }
+    
+    .buy-list { 
+      background: #f8fafc; 
+      border-radius: 8px; 
+      padding: 12px; 
+      margin-top: 12px; 
+    }
+    .buy-item { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      padding: 8px 0; 
+      border-bottom: 1px solid var(--border); 
+      font-size: 13px; 
+    }
+    .buy-item:last-child { border-bottom: none; }
+    .buy-detail { color: var(--text-secondary); }
+    
+    .empty-state { 
+      text-align: center; 
+      padding: 40px 20px; 
+      color: var(--text-muted); 
+    }
+    .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+    
+    .footer { 
+      text-align: center; 
+      padding: 20px; 
+      font-size: 12px; 
+      color: var(--text-muted); 
+    }
+    
+    .tabs { 
+      display: flex; 
+      border-bottom: 2px solid var(--border); 
+      margin-bottom: 16px; 
+    }
+    .tab { 
+      flex: 1; 
+      padding: 10px; 
+      text-align: center; 
+      cursor: pointer; 
+      font-size: 14px; 
+      font-weight: 500;
+      color: var(--text-muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+    .tab.active { 
+      color: var(--primary); 
+      border-bottom-color: var(--primary); 
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    .form-group { margin-bottom: 12px; }
+    .form-group label { 
+      display: block; 
+      font-size: 12px; 
+      font-weight: 500;
+      color: var(--text-secondary); 
+      margin-bottom: 6px; 
+    }
+    .form-group select, .form-group input { 
+      width: 100%;
+      padding: 10px 12px; 
+      border: 1.5px solid var(--border); 
+      border-radius: 10px; 
+      font-size: 14px;
+      background: white;
+    }
+    .form-group select:focus, .form-group input:focus { 
+      outline: none; 
+      border-color: var(--primary);
+    }
+    .form-row { display: flex; gap: 10px; }
+    .form-row .form-group { flex: 1; }
+    
+    .btn { 
+      display: block;
+      width: 100%;
+      padding: 12px; 
+      border: none; 
+      border-radius: 10px; 
+      font-size: 14px; 
+      font-weight: 600;
+      cursor: pointer; 
+    }
+    .btn-primary { 
+      background: var(--primary); 
+      color: white; 
+    }
+    .btn-primary:hover { background: var(--primary-light); }
+    
+    .toast { 
+      position: fixed; 
+      top: 20px; 
+      left: 50%; 
+      transform: translateX(-50%); 
+      padding: 12px 24px; 
+      border-radius: 10px; 
+      font-size: 14px; 
+      z-index: 1000; 
+      opacity: 0; 
+      transition: opacity 0.3s; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    .toast.show { opacity: 1; }
+    .toast.success { background: var(--success); color: white; }
+    .toast.error { background: var(--danger); color: white; }
+    
+    @media (max-width: 480px) {
+      .form-row { flex-direction: column; }
+      .summary-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>QDII Fund Allocator</h1>
+    <p>智能基金投资管理系统</p>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <div class="card-title">持仓概览</div>
+      <div id="summary" class="summary-grid"></div>
+    </div>
+
+    <div class="card">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('portfolio')">持仓明细</div>
+        <div class="tab" onclick="switchTab('buy')">买入基金</div>
+      </div>
+      
+      <div id="tab-portfolio" class="tab-content active">
+        <div id="holdings"></div>
+      </div>
+      
+      <div id="tab-buy" class="tab-content">
+        <div class="form-group">
+          <label>选择基金</label>
+          <select id="fundSelect">
+            <option value="">-- 请选择 --</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>金额(元)</label>
+            <input type="number" id="amount" min="1" step="0.01" value="10">
+          </div>
+          <div class="form-group">
+            <label>净值 (可选)</label>
+            <input type="number" id="nav" step="0.0001" placeholder="自动查询">
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="addBuy()">确认买入</button>
+        <div id="buyResult" style="margin-top:12px;font-size:13px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">QDII Fund Allocator - 数据仅供参考，投资需谨慎</div>
+  <div id="toast" class="toast"></div>
+
+  <script>
+    // 嵌入数据
+    var portfolioData = PORTFOLIO_DATA;
+    var fundsData = FUNDS_DATA;
+
+    function showToast(text, isError) {
+      var el = document.getElementById("toast");
+      el.textContent = text;
+      el.className = "toast show " + (isError ? "error" : "success");
+      setTimeout(function() { el.className = "toast"; }, 3000);
+    }
+
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
+      if (tab === 'portfolio') {
+        document.querySelectorAll('.tab')[0].classList.add('active');
+        document.getElementById('tab-portfolio').classList.add('active');
+      } else {
+        document.querySelectorAll('.tab')[1].classList.add('active');
+        document.getElementById('tab-buy').classList.add('active');
+      }
+    }
+
+    function calcSummary() {
+      if (!portfolioData.holdings || portfolioData.holdings.length === 0) {
+        return { totalInvested: 0, totalValue: 0, totalPnl: 0, holdingCount: 0 };
+      }
+      
+      var totalInvested = 0;
+      var totalValue = 0;
+      
+      portfolioData.holdings.forEach(function(h) {
+        h.buys.forEach(function(b) {
+          totalInvested += b.amount || 0;
+          if (b.shares && b.nav) {
+            totalValue += b.shares * b.nav;
+          }
+        });
+      });
+      
+      return {
+        totalInvested: Math.round(totalInvested * 100) / 100,
+        totalValue: Math.round(totalValue * 100) / 100,
+        totalPnl: Math.round((totalValue - totalInvested) * 100) / 100,
+        holdingCount: portfolioData.holdings.length
+      };
+    }
+
+    function updateSummary() {
+      var s = calcSummary();
+      var pnlClass = s.totalPnl >= 0 ? 'positive' : 'negative';
+      var pnlSign = s.totalPnl >= 0 ? '+' : '';
+      
+      document.getElementById('summary').innerHTML = 
+        '<div class="summary-item"><div class="label">总投入</div><div class="value">' + s.totalInvested + '</div></div>' +
+        '<div class="summary-item"><div class="label">当前市值</div><div class="value">' + s.totalValue + '</div></div>' +
+        '<div class="summary-item"><div class="label">总盈亏</div><div class="value ' + pnlClass + '">' + pnlSign + s.totalPnl + '</div></div>' +
+        '<div class="summary-item"><div class="label">持有基金</div><div class="value">' + s.holdingCount + '只</div></div>';
+    }
+
+    function updateHoldings() {
+      var container = document.getElementById('holdings');
+      
+      if (!portfolioData.holdings || portfolioData.holdings.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">📭</div><div>暂无持仓记录</div></div>';
+        return;
+      }
+      
+      var html = '';
+      portfolioData.holdings.forEach(function(h) {
+        var totalAmount = 0;
+        var totalShares = 0;
+        h.buys.forEach(function(b) {
+          totalAmount += b.amount || 0;
+          totalShares += b.shares || 0;
+        });
+        
+        html += '<div class="holding-card">';
+        html += '<div class="holding-header">';
+        html += '<div><span class="holding-name">' + h.name + '</span><span class="holding-code">' + h.code + '</span></div>';
+        html += '<div class="pnl-box"><div class="pnl-amount">' + totalAmount + '元</div>';
+        html += '<div class="pnl-rate">' + totalShares.toFixed(2) + '份</div></div>';
+        html += '</div>';
+        html += '<div class="holding-stats">';
+        html += '<span>买入 ' + h.buys.length + ' 笔</span>';
+        html += '</div>';
+        
+        // 买入明细
+        html += '<div class="buy-list">';
+        h.buys.forEach(function(b) {
+          html += '<div class="buy-item">';
+          html += '<span class="buy-detail">' + b.date + ' 买入' + b.amount + '元';
+          if (b.nav) html += ' 净值' + b.nav;
+          if (b.shares) html += ' ' + b.shares + '份';
+          html += '</span>';
+          html += '</div>';
+        });
+        html += '</div>';
+        html += '</div>';
+      });
+      
+      container.innerHTML = html;
+    }
+
+    function loadFundOptions() {
+      var select = document.getElementById('fundSelect');
+      var activeFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
+      
+      var html = '<option value="">-- 请选择基金 --</option>';
+      activeFunds.forEach(function(f) {
+        var limit = f.dailyLimit && f.dailyLimit < 10000 ? ' (限' + f.dailyLimit + '元)' : '';
+        html += '<option value="' + f.code + '">' + f.code + ' ' + f.name + limit + '</option>';
+      });
+      
+      select.innerHTML = html;
+    }
+
+    function addBuy() {
+      var code = document.getElementById('fundSelect').value;
+      var amount = parseFloat(document.getElementById('amount').value);
+      
+      if (!code) {
+        showToast('请选择基金', true);
+        return;
+      }
+      if (!amount || amount <= 0) {
+        showToast('请输入有效金额', true);
+        return;
+      }
+      
+      var fund = fundsData.funds.find(function(f) { return f.code === code; });
+      var name = fund ? fund.name : code;
+      var date = new Date().toISOString().slice(0, 10);
+      
+      // 查找或创建持仓
+      var holding = portfolioData.holdings.find(function(h) { return h.code === code; });
+      if (!holding) {
+        holding = { code: code, name: name, buys: [] };
+        portfolioData.holdings.push(holding);
+      }
+      
+      // 添加买入记录
+      holding.buys.push({
+        date: date,
+        amount: amount,
+        nav: null,
+        shares: null,
+        settleDate: null
+      });
+      
+      if (!portfolioData.startDate || date < portfolioData.startDate) {
+        portfolioData.startDate = date;
+      }
+      
+      updateSummary();
+      updateHoldings();
+      showToast('买入成功: ' + name + ' ' + amount + '元');
+      
+      // 显示提示
+      document.getElementById('buyResult').innerHTML = 
+        '<div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:12px;margin-top:8px">' +
+        '<strong>提示：</strong>此页面为只读展示，买入记录仅保存在当前浏览器。' +
+        '<br>如需同步数据，请使用 <code>node index.js --buy ' + code + ' ' + amount + '</code></div>';
+    }
+
+    // 初始化
+    updateSummary();
+    updateHoldings();
+    loadFundOptions();
+  </script>
+</body>
+</html>
