@@ -682,7 +682,31 @@
         }
       } catch(e) {}
     }
+    
+    // 自动补全没有净值的记录
+    function autoFillNav() {
+      var updated = false;
+      portfolioData.holdings.forEach(function(h) {
+        h.buys.forEach(function(b) {
+          if (!b.nav) {
+            // 根据买入日期查找净值
+            var navInfo = navCacheData[h.code];
+            if (navInfo && navInfo.date >= b.date) {
+              b.nav = navInfo.nav;
+              b.shares = Math.round(b.amount / b.nav * 10000) / 10000;
+              updated = true;
+            }
+          }
+        });
+      });
+      if (updated) {
+        saveLocal();
+        showToast('净值已自动更新');
+      }
+    }
+    
     loadLocal();
+    autoFillNav();
     updateSummary();
     updateHoldings();
     loadFundOptions();
