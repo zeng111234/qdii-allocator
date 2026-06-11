@@ -6,4 +6,5 @@ docs/index.html
 data/*.test-backup
 data/nav-cache.db
 data/portfolio.*.json
+data/review-report.md
 nul

@@ -306,8 +306,12 @@
             <input type="number" id="nav" step="0.0001" placeholder="">
           </div>
           <div class="form-group">
-            <label>买入日期 (默认下一交易日)</label>
-            <input type="date" id="buyDate">
+            <label>买入日期</label>
+            <div style="display:flex;gap:6px;align-items:center">
+              <input type="date" id="buyDate" style="flex:1">
+              <button type="button" class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe;font-size:11px;padding:5px 8px;white-space:nowrap" onclick="document.getElementById('buyDate').value=fmtDate(new Date())">今天</button>
+              <button type="button" class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe;font-size:11px;padding:5px 8px;white-space:nowrap" onclick="setYesterday()">昨天</button>
+            </div>
           </div>
         </div>
         <button class="btn btn-primary" onclick="addBuy()">确认买入</button>
@@ -317,13 +321,18 @@
         <div class="form-row" style="align-items:center">
           <div class="form-group" style="flex:1">
             <label>选择日期查看</label>
-            <input type="date" id="dailyDate" onchange="loadDaily()">
+            <div style="display:flex;gap:6px;align-items:center">
+              <button class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe;font-size:14px;padding:8px 10px" onclick="dailyPrev()">◀</button>
+              <input type="date" id="dailyDate" onchange="updateWeekdayDisplay(); loadDaily()" style="flex:1">
+              <button class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe;font-size:14px;padding:8px 10px" onclick="dailyNext()">▶</button>
+            </div>
           </div>
-          <div style="display:flex;gap:6px;margin-top:18px">
-            <button class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe" onclick="dailyPrev()">◀ 前一天</button>
-            <button class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe" onclick="dailyToday()">今天</button>
-            <button class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe" onclick="dailyNext()">后一天 ▶</button>
-          </div>
+        </div>
+        <div id="dailyWeekday" style="text-align:center;font-size:13px;color:#6366f1;font-weight:600;margin-bottom:8px"></div>
+        <div style="display:flex;gap:6px;justify-content:center;margin-bottom:12px;flex-wrap:wrap">
+          <button class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe" onclick="dailyToday()">今天</button>
+          <button class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe" onclick="dailyWeekStart()">本周一</button>
+          <button class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe" onclick="dailyLastWeek()">上周一</button>
         </div>
         <div id="dailySummary" style="margin-top:8px"></div>
         <div id="dailyList" style="margin-top:12px"></div>
@@ -360,12 +369,17 @@
       if (tab === 'single') {
         document.querySelectorAll('.tab')[0].classList.add('active');
         document.getElementById('tab-single').classList.add('active');
+        // 默认买入日期为今天
+        if (!document.getElementById('buyDate').value) {
+          document.getElementById('buyDate').value = fmtDate(new Date());
+        }
       } else {
         document.querySelectorAll('.tab')[1].classList.add('active');
         document.getElementById('tab-daily').classList.add('active');
         if (!document.getElementById('dailyDate').value) {
-          document.getElementById('dailyDate').value = new Date().toISOString().slice(0,10);
+          document.getElementById('dailyDate').value = fmtDate(new Date());
         }
+        updateWeekdayDisplay();
         loadDaily();
       }
     }
@@ -377,6 +391,46 @@
       return y + '-' + m + '-' + day;
     }
 
+    const WEEKDAYS = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+    function getWeekday(dateStr) {
+      let parts = dateStr.split('-');
+      let d = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
+      return WEEKDAYS[d.getDay()];
+    }
+
+    function setYesterday() {
+      let d = new Date();
+      d.setDate(d.getDate() - 1);
+      document.getElementById('buyDate').value = fmtDate(d);
+    }
+
+    function updateWeekdayDisplay() {
+      let date = document.getElementById('dailyDate').value;
+      let el = document.getElementById('dailyWeekday');
+      if (date && el) {
+        el.textContent = getWeekday(date);
+      }
+    }
+
+    function dailyWeekStart() {
+      let d = new Date();
+      let day = d.getDay();
+      let diff = day === 0 ? 6 : day - 1; // 周一
+      d.setDate(d.getDate() - diff);
+      document.getElementById('dailyDate').value = fmtDate(d);
+      updateWeekdayDisplay();
+      loadDaily();
+    }
+    function dailyLastWeek() {
+      let d = new Date();
+      let day = d.getDay();
+      let diff = day === 0 ? 6 : day - 1;
+      d.setDate(d.getDate() - diff - 7);
+      document.getElementById('dailyDate').value = fmtDate(d);
+      updateWeekdayDisplay();
+      loadDaily();
+    }
+
     function dailyPrev() {
       let d = document.getElementById('dailyDate').value;
       if (!d) d = fmtDate(new Date());
@@ -384,6 +438,7 @@
       let dt = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
       dt.setDate(dt.getDate() - 1);
       document.getElementById('dailyDate').value = fmtDate(dt);
+      updateWeekdayDisplay();
       loadDaily();
     }
     function dailyNext() {
@@ -393,10 +448,12 @@
       let dt = new Date(parseInt(parts[0]), parseInt(parts[1])-1, parseInt(parts[2]));
       dt.setDate(dt.getDate() + 1);
       document.getElementById('dailyDate').value = fmtDate(dt);
+      updateWeekdayDisplay();
       loadDaily();
     }
     function dailyToday() {
       document.getElementById('dailyDate').value = fmtDate(new Date());
+      updateWeekdayDisplay();
       loadDaily();
     }
 
@@ -437,7 +494,7 @@
         });
 
         if (dayBuys.length === 0) {
-          summaryEl.innerHTML = '<div class="empty-state">📅 ' + date + ' 没有买入记录</div>';
+          summaryEl.innerHTML = '<div class="empty-state">📅 ' + date + ' ' + getWeekday(date) + ' 没有买入记录</div>';
           listEl.innerHTML = '';
           totalEl.innerHTML = '';
           return;
@@ -451,7 +508,7 @@
           fundMap[b.code].total += b.amount;
         });
 
-        summaryEl.innerHTML = '<div style="font-size:14px;font-weight:600;color:#1e293b">📅 ' + date + ' 买入 ' + dayBuys.length + ' 笔，共 ' + dayTotal + '元</div>';
+        summaryEl.innerHTML = '<div style="font-size:14px;font-weight:600;color:#1e293b">📅 ' + date + ' ' + getWeekday(date) + ' 买入 ' + dayBuys.length + ' 笔，共 ' + dayTotal + '元</div>';
 
         let html = '';
         Object.keys(fundMap).forEach(function(code) {
