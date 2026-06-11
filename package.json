@@ -6,11 +6,14 @@
   "main": "index.js",
   "scripts": {
     "start": "cmd /c \"chcp 65001 >nul & node index.js\"",
-    "test": "node --test tests/**/*.test.js",
+    "test": "node run-tests.js",
     "wechat": "node wechat.js",
     "telegram": "node telegram.js",
     "feishu": "node feishu.js",
-    "sync": "node sync.js"
+    "sync": "node sync.js",
+    "lint": "eslint lib/ index.js telegram.js wechat.js sync.js build-pages.js",
+    "lint:fix": "eslint --fix lib/ index.js telegram.js wechat.js sync.js build-pages.js",
+    "format": "prettier --write \"lib/**/*.js\" \"*.js\""
   },
   "keywords": [
     "qdii",
@@ -27,5 +30,10 @@
     "node-telegram-bot-api": "^0.67.0",
     "nodemailer": "^6.9.8",
     "wechatferry": "^0.0.26"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.4"
   }
 }
