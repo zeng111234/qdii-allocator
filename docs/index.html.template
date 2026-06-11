@@ -249,6 +249,7 @@
       <div class="tabs">
         <div class="tab active" onclick="switchTab('portfolio')">持仓明细</div>
         <div class="tab" onclick="switchTab('buy')">买入基金</div>
+        <div class="tab" onclick="switchTab('batch')">批量添加</div>
         <div class="tab" onclick="switchTab('diary')">投资日记</div>
       </div>
       
@@ -279,6 +280,21 @@
         </div>
         <button class="btn btn-primary" onclick="addBuy()">确认买入</button>
         <div id="buyResult" style="margin-top:12px;font-size:13px"></div>
+      </div>
+
+      <div id="tab-batch" class="tab-content">
+        <div style="margin-bottom:12px">
+          <label style="font-size:13px;color:#64748b;font-weight:500">买入日期 (默认今天)</label>
+          <div style="display:flex;gap:6px;align-items:center;margin-top:6px">
+            <input type="date" id="batchDate" style="flex:1">
+            <button type="button" class="btn" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe;font-size:11px;padding:5px 8px;white-space:nowrap" onclick="document.getElementById('batchDate').value=new Date().toISOString().slice(0,10)">今天</button>
+          </div>
+        </div>
+        <div id="batchList"></div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1.5px solid #c7d2fe;flex:1" onclick="addBatchRow()">+ 添加一行</button>
+          <button class="btn btn-primary" style="flex:1" onclick="submitBatch()">批量提交</button>
+        </div>
       </div>
       
       <div id="tab-diary" class="tab-content">
@@ -314,10 +330,100 @@
       } else if (tab === 'buy') {
         document.querySelectorAll('.tab')[1].classList.add('active');
         document.getElementById('tab-buy').classList.add('active');
-      } else if (tab === 'diary') {
+      } else if (tab === 'batch') {
         document.querySelectorAll('.tab')[2].classList.add('active');
+        document.getElementById('tab-batch').classList.add('active');
+        if (!document.getElementById('batchDate').value) {
+          document.getElementById('batchDate').value = new Date().toISOString().slice(0, 10);
+        }
+        addBatchRow();
+      } else if (tab === 'diary') {
+        document.querySelectorAll('.tab')[3].classList.add('active');
         document.getElementById('tab-diary').classList.add('active');
       }
+    }
+
+    function addBatchRow() {
+      var list = document.getElementById('batchList');
+      var activeFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
+      
+      // 按 type 分组
+      var grouped = {};
+      activeFunds.forEach(function(f) {
+        var type = f.type || '其他';
+        if (!grouped[type]) grouped[type] = [];
+        grouped[type].push(f);
+      });
+      
+      var options = '<option value="">-- 选择基金 --</option>';
+      Object.keys(grouped).forEach(function(type) {
+        options += '<optgroup label="' + type + '">';
+        grouped[type].forEach(function(f) {
+          var limit = f.dailyLimit && f.dailyLimit < 10000 ? ' (限' + f.dailyLimit + '元)' : '';
+          options += '<option value="' + f.code + '">' + f.code + ' ' + f.name + limit + '</option>';
+        });
+        options += '</optgroup>';
+      });
+      
+      var row = document.createElement('div');
+      row.className = 'batch-row';
+      row.style = 'display:flex;gap:8px;margin-bottom:8px;align-items:center';
+      row.innerHTML = '<select class="batch-fund" style="flex:2;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px">' + options + '</select>' +
+        '<input type="number" class="batch-amount" min="1" step="0.01" value="10" placeholder="金额" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px">' +
+        '<button type="button" class="btn" style="background:#fef2f2;color:#ef4444;border-color:#fecaca;padding:6px 10px;font-size:16px" onclick="removeBatchRow(this)">×</button>';
+      list.appendChild(row);
+    }
+
+    function removeBatchRow(btn) {
+      var list = document.getElementById('batchList');
+      if (list.children.length > 1) {
+        btn.closest('.batch-row').remove();
+      }
+    }
+
+    function submitBatch() {
+      var date = document.getElementById('batchDate').value;
+      var rows = document.querySelectorAll('.batch-row');
+      var items = [];
+      rows.forEach(function(row) {
+        var code = row.querySelector('.batch-fund').value;
+        var amount = parseFloat(row.querySelector('.batch-amount').value);
+        if (code && amount > 0) {
+          items.push({ code: code, amount: amount, date: date });
+        }
+      });
+      if (items.length === 0) {
+        showToast("请至少添加一笔买入记录", true);
+        return;
+      }
+      
+      // 本地处理批量添加
+      items.forEach(function(item) {
+        var fund = fundsData.funds.find(function(f) { return f.code === item.code; });
+        var name = fund ? fund.name : item.code;
+        var shares = null;
+        
+        // 查找或创建持仓
+        var holding = portfolioData.holdings.find(function(h) { return h.code === item.code; });
+        if (!holding) {
+          holding = { code: item.code, name: name, buys: [] };
+          portfolioData.holdings.push(holding);
+        }
+        
+        // 添加买入记录
+        holding.buys.push({
+          date: item.date,
+          amount: item.amount,
+          nav: null,
+          shares: shares
+        });
+      });
+      
+      showToast("批量添加成功: " + items.length + " 笔记录");
+      document.getElementById('batchList').innerHTML = '';
+      addBatchRow();
+      document.getElementById('batchDate').value = new Date().toISOString().slice(0, 10);
+      renderPortfolio();
     }
 
     function calcSummary() {
@@ -418,10 +524,22 @@
       var select = document.getElementById('fundSelect');
       var activeFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
       
-      var html = '<option value="">-- 请选择基金 --</option>';
+      // 按 type 分组
+      var grouped = {};
       activeFunds.forEach(function(f) {
-        var limit = f.dailyLimit && f.dailyLimit < 10000 ? ' (限' + f.dailyLimit + '元)' : '';
-        html += '<option value="' + f.code + '">' + f.code + ' ' + f.name + limit + '</option>';
+        var type = f.type || '其他';
+        if (!grouped[type]) grouped[type] = [];
+        grouped[type].push(f);
+      });
+      
+      var html = '<option value="">-- 请选择基金 --</option>';
+      Object.keys(grouped).forEach(function(type) {
+        html += '<optgroup label="' + type + '">';
+        grouped[type].forEach(function(f) {
+          var limit = f.dailyLimit && f.dailyLimit < 10000 ? ' (限' + f.dailyLimit + '元)' : '';
+          html += '<option value="' + f.code + '">' + f.code + ' ' + f.name + limit + '</option>';
+        });
+        html += '</optgroup>';
       });
       
       select.innerHTML = html;
