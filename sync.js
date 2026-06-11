@@ -1,7 +1,7 @@
 /**
  * 一键同步脚本
  * 把电脑上的持仓/买入/净值数据同步到 GitHub Pages
- * 
+ *
  * 使用方法：
  *   node sync.js
  *   npm run sync
@@ -40,7 +40,7 @@ function main() {
   // Step 2: Git add & commit
   console.log('[2/3] 提交更改...');
   run('git add data/portfolio.json data/nav-cache.json data/history.json data/fund-info-cache.json data/external-signals-cache.json docs/index.html');
-  
+
   try {
     execSync('git diff --cached --quiet', { cwd: ROOT });
     console.log('[sync] 没有新的更改需要提交');

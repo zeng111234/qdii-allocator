@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Quick Add - QDII</title>
+  <style>
+    :root { --primary: #6366f1; --danger: #ef4444; --success: #10b981; --bg: #f8fafc; --card: #fff; --border: #e2e8f0; --text: #1e293b; --text2: #64748b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 16px; padding-bottom: 100px; }
+    .header { text-align: center; padding: 12px 0 20px; }
+    .header h1 { font-size: 20px; color: var(--primary); }
+    .header p { font-size: 12px; color: var(--text2); margin-top: 4px; }
+    .input-area { position: fixed; bottom: 0; left: 0; right: 0; background: var(--card); border-top: 1px solid var(--border); padding: 12px 16px; display: flex; gap: 8px; z-index: 10; }
+    .input-area input { flex: 1; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 12px; font-size: 16px; outline: none; }
+    .input-area input:focus { border-color: var(--primary); }
+    .input-area button { padding: 12px 20px; background: var(--primary); color: #fff; border: none; border-radius: 12px; font-size: 15px; font-weight: 600; white-space: nowrap; }
+    .input-area button:active { opacity: 0.8; }
+    .history { margin-top: 8px; }
+    .msg { padding: 14px 16px; border-radius: 12px; margin-bottom: 10px; font-size: 14px; line-height: 1.5; }
+    .msg.ok { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
+    .msg.err { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+    .msg .time { font-size: 11px; color: #94a3b8; margin-bottom: 4px; }
+    .msg .detail { font-weight: 600; }
+    .empty { text-align: center; color: #94a3b8; padding: 40px 0; font-size: 14px; }
+    .summary { background: linear-gradient(135deg, #f0f4ff, #e8ecf8); border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+    .summary .row { display: flex; justify-content: space-between; font-size: 13px; color: #64748b; margin-bottom: 4px; }
+    .summary .row:last-child { margin-bottom: 0; }
+    .summary .val { font-weight: 600; color: #1e293b; }
+    .quick-btns { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+    .quick-btns button { padding: 6px 12px; border: 1px solid var(--border); border-radius: 8px; background: #fff; font-size: 12px; color: #64748b; }
+    .quick-btns button:active { background: #f1f5f9; }
+    .nav-link { text-align: center; margin-top: 16px; }
+    .nav-link a { color: var(--primary); font-size: 13px; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>Quick Add</h1>
+    <p>输入 基金代码 金额 [净值]</p>
+  </div>
+
+  <div id="summary"></div>
+
+  <div class="quick-btns" id="quickBtns"></div>
+
+  <div class="history" id="history">
+    <div class="empty">输入命令开始记录</div>
+  </div>
+
+  <div class="input-area">
+    <input type="text" id="cmd" placeholder="270042 10" autocomplete="off" autocapitalize="off">
+    <button onclick="submit()">Add</button>
+  </div>
+
+  <div class="nav-link"><a href="/">Full UI</a></div>
+
+  <script>
+    let input = document.getElementById("cmd");
+    let history = document.getElementById("history");
+
+    function timeStr() {
+      let d = new Date();
+      return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+    }
+
+    function addMsg(text, isOk) {
+      let div = document.createElement("div");
+      div.className = "msg " + (isOk ? "ok" : "err");
+      div.innerHTML = '<div class="time">' + timeStr() + '</div>' + text;
+      history.insertBefore(div, history.firstChild);
+    }
+
+    function submit() {
+      let text = input.value.trim();
+      if (!text) return;
+
+      fetch("/api/quick-add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: text })
+      }).then(function(r) { return r.json(); }).then(function(data) {
+        if (data.error) {
+          addMsg(data.error, false);
+        } else {
+          data.results.forEach(function(r) {
+            if (r.ok) {
+              let s = '<div class="detail">' + r.name + '</div>';
+              s += r.amount + '元';
+              if (r.nav) s += ' | NAV ' + r.nav;
+              if (r.shares) s += ' | ' + r.shares + '份';
+              addMsg(s, true);
+            } else {
+              addMsg((r.name || r.input) + ': ' + r.error, false);
+            }
+          });
+        }
+        input.value = "";
+        loadSummary();
+        loadQuickBtns();
+      }).catch(function(e) {
+        addMsg("Network error", false);
+      });
+    }
+
+    input.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") submit();
+    });
+
+    function loadSummary() {
+      fetch("/api/buys").then(function(r) { return r.json(); }).then(function(data) {
+        let el = document.getElementById("summary");
+        if (data.empty) { el.innerHTML = ""; return; }
+        let s = data.summary;
+        let pnl = s.totalPnl >= 0 ? '+' + s.totalPnl : s.totalPnl;
+        let rate = s.totalPnlRate >= 0 ? '+' + s.totalPnlRate : s.totalPnlRate;
+        el.innerHTML = '<div class="summary">' +
+          '<div class="row"><span>Invested</span><span class="val">' + s.totalInvested + '</span></div>' +
+          '<div class="row"><span>Value</span><span class="val">' + s.totalValue + '</span></div>' +
+          '<div class="row"><span>P&L</span><span class="val" style="color:' + (s.totalPnl >= 0 ? '#ef4444' : '#10b981') + '">' + pnl + ' (' + rate + '%)</span></div>' +
+          '<div class="row"><span>Holdings</span><span class="val">' + s.holdingCount + '</span></div>' +
+          '</div>';
+      });
+    }
+
+    function loadQuickBtns() {
+      fetch("/api/buys").then(function(r) { return r.json(); }).then(function(data) {
+        let el = document.getElementById("quickBtns");
+        if (data.empty) { el.innerHTML = ""; return; }
+        let html = "";
+        data.holdings.forEach(function(h) {
+          html += '<button onclick="quickBuy(\\'' + h.code + '\\')">' + h.name.split('(')[0].substring(0, 6) + '</button>';
+        });
+        el.innerHTML = html;
+      });
+    }
+
+    function quickBuy(code) {
+      input.value = code + " 10";
+      input.focus();
+    }
+
+    loadSummary();
+    loadQuickBtns();
+  </script>
+</body>
+</html>

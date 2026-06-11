@@ -1,7 +1,7 @@
 require("dotenv").config();
-var fs = require("fs");
-var path = require("path");
-var { execSync } = require("child_process");
+const fs = require("fs");
+const path = require("path");
+const { execSync } = require("child_process");
 
 // 修复Windows终端中文乱码
 try {
@@ -11,20 +11,22 @@ try {
     process.stderr.setDefaultEncoding("utf8");
   }
 } catch(e) {}
-var alloc = require("./lib/allocator");
-var dyn = require("./lib/dynamic-strategy");
-var ai = require("./lib/ai-analyst");
-var mail = require("./lib/mailer");
-var backtest = require("./lib/backtest");
-var fundData = require("./lib/fund-data");
-var externalSignalData = require("./lib/external-signals");
-var portfolio = require("./lib/portfolio");
-var risk = require("./lib/risk");
-var alternatives = require("./lib/alternatives");
-var webServer = require("./lib/web-server");
+const alloc = require("./lib/allocator");
+const dyn = require("./lib/dynamic-strategy");
+const ai = require("./lib/ai-analyst");
+const mail = require("./lib/mailer");
+const backtest = require("./lib/backtest");
+const fundData = require("./lib/fund-data");
+const externalSignalData = require("./lib/external-signals");
+const portfolio = require("./lib/portfolio");
+const risk = require("./lib/risk");
+const alternatives = require("./lib/alternatives");
+const webServer = require("./lib/web-server");
+const { normalizeDate, archiveOldHistory } = require("./lib/utils");
+const { validateConfig } = require("./lib/config");
 
-var FUNDS_FILE = path.join(__dirname, "data", "funds.json");
-var STRATEGY_MAP = {
+const FUNDS_FILE = path.join(__dirname, "data", "funds.json");
+const STRATEGY_MAP = {
   "equal": alloc.Strategy.EQUAL,
   "low_fee": alloc.Strategy.LOW_FEE,
   "scarce": alloc.Strategy.SCARCE_FIRST,
@@ -33,15 +35,15 @@ var STRATEGY_MAP = {
 
 function loadFunds() {
   if (!fs.existsSync(FUNDS_FILE)) { console.error("[error] funds.json not found"); process.exit(1); }
-  var data = JSON.parse(fs.readFileSync(FUNDS_FILE, "utf-8"));
+  const data = JSON.parse(fs.readFileSync(FUNDS_FILE, "utf-8"));
   if (!data.funds || data.funds.length === 0) { console.error("[error] funds pool empty"); process.exit(1); }
   return data;
 }
 
 function parseArgs() {
-  var args = process.argv.slice(2);
-  var opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000 };
-  for (var i = 0; i < args.length; i++) {
+  const args = process.argv.slice(2);
+  const opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000 };
+  for (let i = 0; i < args.length; i++) {
     if (args[i] === "--dry-run") opts.dryRun = true;
     else if (args[i] === "--strategy") opts.strategy = args[++i];
     else if (args[i] === "--budget") opts.budget = parseFloat(args[++i]);
@@ -50,17 +52,17 @@ function parseArgs() {
     else if (args[i] === "--portfolio") opts.portfolio = true;
     else if (args[i] === "--web") { opts.web = true; if (args[i + 1] && /^\d+$/.test(args[i + 1])) { opts.webPort = parseInt(args[++i]); } }
     else if (args[i] === "--buy") {
-      var buyCode = args[++i];
-      var buyAmount = parseFloat(args[++i]);
-      var buyNav = null;
-      var buyDate = null;
+      const buyCode = args[++i];
+      const buyAmount = parseFloat(args[++i]);
+      let buyNav = null;
+      let buyDate = null;
       // 解析可选的 nav 和 date 参数（先检查日期格式，因为 parseFloat 会把日期解析为数字）
-      if (args[i + 1] && /^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}$/.test(args[i + 1])) {
+      if (args[i + 1] && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(args[i + 1])) {
         buyDate = normalizeDate(args[++i]);
-      } else if (args[i + 1] && !isNaN(parseFloat(args[i + 1])) && !/^\d{4}[-\/]/.test(args[i + 1])) {
+      } else if (args[i + 1] && !isNaN(parseFloat(args[i + 1])) && !/^\d{4}[-/]/.test(args[i + 1])) {
         buyNav = parseFloat(args[++i]);
         // nav 之后可能还有日期
-        if (args[i + 1] && /^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}$/.test(args[i + 1])) {
+        if (args[i + 1] && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(args[i + 1])) {
           buyDate = normalizeDate(args[++i]);
         }
       }
@@ -70,6 +72,21 @@ function parseArgs() {
     else if (args[i] === "--quick-add") opts.quickAdd = args[++i];
     else if (args[i] === "--import-file") opts.importFile = args[++i] || "data/buys.txt";
     else if (args[i] === "--today") opts.today = true;
+    else if (args[i] === "--sell") {
+      const sellCode = args[++i];
+      const sellAmount = parseFloat(args[++i]);
+      let sellNav = null;
+      let sellDate = null;
+      if (args[i + 1] && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(args[i + 1])) {
+        sellDate = normalizeDate(args[++i]);
+      } else if (args[i + 1] && !isNaN(parseFloat(args[i + 1])) && !/^\d{4}[-/]/.test(args[i + 1])) {
+        sellNav = parseFloat(args[++i]);
+        if (args[i + 1] && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(args[i + 1])) {
+          sellDate = normalizeDate(args[++i]);
+        }
+      }
+      opts.sell = { code: sellCode, amount: sellAmount, nav: sellNav, date: sellDate };
+    }
     else if (args[i] === "--delete") opts.delete = args[++i];
     else if (args[i] === "--delete-all") opts.deleteAll = true;
     else if (args[i] === "--help") {
@@ -81,6 +98,7 @@ function parseArgs() {
       console.log("  --backtest-days <n>    backtest period (default 60)");
       console.log("  --portfolio            view current holdings");
       console.log("  --buy <code> <amount> [nav] [date]  record a buy (date: YYYY-MM-DD, auto-calculates T+2 trading days)");
+      console.log("  --sell <code> <amount> [nav] [date]  record a sell/redemption (realized P&L)");
       console.log("  --quick-add \"code amt [nav] [date], ...\"  batch record buys (auto-settlement T+2 trading days)");
       console.log("  --import-file [path]   import buys from text file (default data/buys.txt, auto-settlement T+2 trading days)");
       console.log("  --today                show today's recommended funds with buy commands");
@@ -94,51 +112,41 @@ function parseArgs() {
   return opts;
 }
 
-function normalizeDate(dateStr) {
-  // Convert "2026/6/3" or "2026/06/03" to "2026-06-03"
-  if (!dateStr) return "";
-  var parts = dateStr.replace(/\//g, "-").split("-");
-  if (parts.length === 3) {
-    return parts[0] + "-" + ("0" + parts[1]).slice(-2) + "-" + ("0" + parts[2]).slice(-2);
-  }
-  return dateStr.replace(/\//g, "-");
-}
-
 function backfillFollowUp() {
-  var HISTORY_FILE = path.join(__dirname, "data", "history.json");
-  var NAV_CACHE_FILE = path.join(__dirname, "data", "nav-cache.json");
+  const HISTORY_FILE = path.join(__dirname, "data", "history.json");
+  const NAV_CACHE_FILE = path.join(__dirname, "data", "nav-cache.json");
   try {
     if (!fs.existsSync(HISTORY_FILE) || !fs.existsSync(NAV_CACHE_FILE)) return;
-    var hist = JSON.parse(fs.readFileSync(HISTORY_FILE, "utf-8"));
-    var cache = JSON.parse(fs.readFileSync(NAV_CACHE_FILE, "utf-8"));
+    const hist = JSON.parse(fs.readFileSync(HISTORY_FILE, "utf-8"));
+    const cache = JSON.parse(fs.readFileSync(NAV_CACHE_FILE, "utf-8"));
     if (!hist.records || hist.records.length === 0) return;
-    var changed = false;
-    var backfilled = 0;
+    let changed = false;
+    let backfilled = 0;
 
-    for (var i = 0; i < hist.records.length; i++) {
-      var rec = hist.records[i];
+    for (let i = 0; i < hist.records.length; i++) {
+      const rec = hist.records[i];
       // 标准化日期格式
-      var recDate = normalizeDate(rec.date);
+      const recDate = normalizeDate(rec.date);
       if (recDate !== rec.date) {
         rec.date = recDate;
         changed = true;
       }
 
-      var allocs = rec.allocations || rec.ranked || [];
-      for (var j = 0; j < allocs.length; j++) {
-        var a = allocs[j];
+      const allocs = rec.allocations || rec.ranked || [];
+      for (let j = 0; j < allocs.length; j++) {
+        const a = allocs[j];
         if (a.followUp5dReturn !== null && a.followUp10dReturn !== null) continue;
-        var navs = cache[a.code];
+        const navs = cache[a.code];
         if (!navs || navs.length === 0) continue;
 
         // 用日期查找推荐日净值（而非索引）
-        var recNav = navs.find(function(n) { return n.date === recDate; });
+        const recNav = navs.find(function(n) { return n.date === recDate; });
         if (!recNav) continue;
 
         // 5d return：找推荐日后4-7个交易日的净值
         if (a.followUp5dReturn === null) {
-          for (var k = 0; k < navs.length; k++) {
-            var diff5 = daysBetweenDates(recDate, navs[k].date);
+          for (let k = 0; k < navs.length; k++) {
+            const diff5 = daysBetweenDates(recDate, navs[k].date);
             if (diff5 >= 4 && diff5 <= 7) {
               a.followUp5dReturn = Math.round((navs[k].nav - recNav.nav) / recNav.nav * 10000) / 100;
               changed = true;
@@ -150,8 +158,8 @@ function backfillFollowUp() {
 
         // 10d return：找推荐日后9-14个交易日的净值
         if (a.followUp10dReturn === null) {
-          for (var m = 0; m < navs.length; m++) {
-            var diff10 = daysBetweenDates(recDate, navs[m].date);
+          for (let m = 0; m < navs.length; m++) {
+            const diff10 = daysBetweenDates(recDate, navs[m].date);
             if (diff10 >= 9 && diff10 <= 14) {
               a.followUp10dReturn = Math.round((navs[m].nav - recNav.nav) / recNav.nav * 10000) / 100;
               changed = true;
@@ -172,8 +180,8 @@ function backfillFollowUp() {
 }
 
 function daysBetweenDates(d1, d2) {
-  var dt1 = new Date(d1 + "T00:00:00");
-  var dt2 = new Date(d2 + "T00:00:00");
+  const dt1 = new Date(d1 + "T00:00:00");
+  const dt2 = new Date(d2 + "T00:00:00");
   return Math.round((dt2 - dt1) / 86400000);
 }
 
@@ -183,67 +191,84 @@ async function main() {
   console.log("========================================");
   console.log("");
 
-  var opts = parseArgs();
+  validateConfig();
+  archiveOldHistory(180); // 归档 180 天前的历史记录
+  await fundData.initNavDb(); // 初始化 SQLite nav-cache
+  console.log("");
+
+  const opts = parseArgs();
 
   // 快捷命令：查看持仓
   if (opts.portfolio) {
-    var calcResult = portfolio.calcPortfolioSummary();
+    const calcResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(calcResult));
     return;
   }
 
   // 快捷命令：记录买入
   if (opts.buy) {
-    var buyData = loadFunds();
-    var fund = buyData.funds.find(function(f) { return f.code === opts.buy.code; });
-    var fundName = fund ? fund.name : opts.buy.code;
-    var settleDays = fund ? fund.settleDays : 2;
+    const buyData = loadFunds();
+    const fund = buyData.funds.find(function(f) { return f.code === opts.buy.code; });
+    const fundName = fund ? fund.name : opts.buy.code;
+    const settleDays = fund ? fund.settleDays : 2;
     portfolio.recordBuy(opts.buy.code, fundName, opts.buy.amount, opts.buy.nav, opts.buy.date, settleDays);
     console.log("");
-    var buyCalcResult = portfolio.calcPortfolioSummary();
+    const buyCalcResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(buyCalcResult));
+    return;
+  }
+
+  // 快捷命令：记录卖出
+  if (opts.sell) {
+    const sellData = loadFunds();
+    const sellFund = sellData.funds.find(function(f) { return f.code === opts.sell.code; });
+    const sellFundName = sellFund ? sellFund.name : opts.sell.code;
+    portfolio.recordSell(opts.sell.code, sellFundName, opts.sell.amount, opts.sell.nav, opts.sell.date);
+    console.log("");
+    const sellCalcResult = portfolio.calcPortfolioSummary();
+    console.log(portfolio.formatPortfolioReport(sellCalcResult));
     return;
   }
 
   // 快捷命令：批量快速录入
   if (opts.quickAdd) {
-    var qaData = loadFunds();
-    var entries = opts.quickAdd.split(",").map(function(s) { return s.trim(); }).filter(Boolean);
-    var qaCount = 0;
-    for (var qi = 0; qi < entries.length; qi++) {
-      var parts = entries[qi].split(/\s+/);
+    const qaData = loadFunds();
+    const entries = opts.quickAdd.split(",").map(function(s) { return s.trim(); }).filter(Boolean);
+    let qaCount = 0;
+    for (let qi = 0; qi < entries.length; qi++) {
+      const parts = entries[qi].split(/\s+/);
       if (parts.length < 2) { console.log("[跳过] 格式错误: " + entries[qi]); continue; }
-      var qaCode = parts[0];
-      var qaAmount = parseFloat(parts[1]);
-      var qaNav = null;
-      var qaDate = null;
+      const qaCode = parts[0];
+      const qaAmount = parseFloat(parts[1]);
+      let qaNav = null;
+      let qaDate = null;
       // 解析可选的 nav 和 date 参数
       if (parts[2] && !isNaN(parseFloat(parts[2]))) {
         qaNav = parseFloat(parts[2]);
       }
-      if (parts[3] && /^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}$/.test(parts[3])) {
+      if (parts[3] && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(parts[3])) {
         qaDate = normalizeDate(parts[3]);
-      } else if (parts[2] && /^\d{4}[-\/]\d{1,2}[-\/]\d{1,2}$/.test(parts[2]) && isNaN(parseFloat(parts[2]))) {
+      } else if (parts[2] && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(parts[2]) && isNaN(parseFloat(parts[2]))) {
         // 如果第三个参数是日期格式而不是数字
         qaDate = normalizeDate(parts[2]);
       }
       if (isNaN(qaAmount) || qaAmount <= 0) { console.log("[跳过] 金额错误: " + entries[qi]); continue; }
-      var qaFund = qaData.funds.find(function(f) { return f.code === qaCode; });
-      var qaName = qaFund ? qaFund.name : qaCode;
-      var qaSettleDays = qaFund ? qaFund.settleDays : 2;
+      const qaFund = qaData.funds.find(function(f) { return f.code === qaCode; });
+      const qaName = qaFund ? qaFund.name : qaCode;
+      const qaSettleDays = qaFund ? qaFund.settleDays : 2;
       portfolio.recordBuy(qaCode, qaName, qaAmount, qaNav, qaDate, qaSettleDays);
       qaCount++;
     }
     console.log("");
     console.log("[批量录入] 成功录入 " + qaCount + " 笔");
-    var qaCalcResult = portfolio.calcPortfolioSummary();
+    const qaCalcResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(qaCalcResult));
     return;
   }
 
   // 快捷命令：从文件导入交易记录
   if (opts.importFile) {
-    var importPath = path.resolve(opts.importFile);
+    const importPath = path.resolve(opts.importFile);
     if (!fs.existsSync(importPath)) {
       console.error("[导入] 文件不存在: " + importPath);
       console.log("请创建文件，每行格式: 基金代码 买入金额 [确认净值]");
@@ -253,19 +278,19 @@ async function main() {
       console.log("  161130 15 1.2345");
       process.exit(1);
     }
-    var fileContent = fs.readFileSync(importPath, "utf-8");
-    var importData = loadFunds();
-    var importResult = portfolio.importFromText(fileContent, importData.funds);
+    const fileContent = fs.readFileSync(importPath, "utf-8");
+    const importData = loadFunds();
+    const importResult = portfolio.importFromText(fileContent, importData.funds);
     console.log("");
     console.log("[导入] 解析 " + importResult.total + " 行, 成功导入 " + importResult.imported + " 笔");
     if (importResult.errors.length > 0) {
       console.log("[导入] 跳过 " + importResult.errors.length + " 行:");
-      for (var ei = 0; ei < importResult.errors.length; ei++) {
+      for (let ei = 0; ei < importResult.errors.length; ei++) {
         console.log("  " + importResult.errors[ei]);
       }
     }
     if (importResult.imported > 0) {
-      var importCalcResult = portfolio.calcPortfolioSummary();
+      const importCalcResult = portfolio.calcPortfolioSummary();
       console.log("");
       console.log(portfolio.formatPortfolioReport(importCalcResult));
     }
@@ -274,30 +299,30 @@ async function main() {
 
   // 快捷命令：显示今日推荐和买入指令
   if (opts.today) {
-    var todayData = loadFunds();
-    var todayCalcResult = portfolio.calcPortfolioSummary();
+    const todayData = loadFunds();
+    const todayCalcResult = portfolio.calcPortfolioSummary();
     portfolio.showTodayBuyCommands(todayData.funds, todayCalcResult);
     return;
   }
 
   // 快捷命令：删除某只基金的所有买入记录
   if (opts.delete) {
-    var p = portfolio.loadPortfolio();
-    var targetCode = opts.delete;
-    var target = p.holdings.find(function(h) { return h.code === targetCode; });
+    const p = portfolio.loadPortfolio();
+    const targetCode = opts.delete;
+    const target = p.holdings.find(function(h) { return h.code === targetCode; });
     if (!target) {
       console.log("[删除] 未找到基金 " + targetCode + " 的持仓记录");
     } else {
-      var buyCount = target.buys.length;
+      const buyCount = target.buys.length;
       p.holdings = p.holdings.filter(function(h) { return h.code !== targetCode; });
       // 更新 startDate
-      var allDates = [];
+      const allDates = [];
       p.holdings.forEach(function(h) { h.buys.forEach(function(b) { allDates.push(b.date); }); });
       p.startDate = allDates.length > 0 ? allDates.sort()[0] : null;
       portfolio.savePortfolio(p);
       console.log("[删除] 已删除 " + target.name + "(" + targetCode + ") 的 " + buyCount + " 笔买入记录");
     }
-    var delResult = portfolio.calcPortfolioSummary();
+    const delResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(delResult));
     return;
   }
@@ -317,9 +342,9 @@ async function main() {
 
   // 快捷命令：权重优化
   if (opts.optimizeWeights) {
-    var optData = loadFunds();
-    var optConfig = optData.config || {};
-    var btConfig = {
+    const optData = loadFunds();
+    const optConfig = optData.config || {};
+    const btConfig = {
       lookbackDays: optConfig.lookbackDays || 30,
       topN: optConfig.topN || 3,
       minPurchase: optConfig.minPurchase || 10,
@@ -330,24 +355,24 @@ async function main() {
   }
 
   console.log("[1/4] Loading funds...");
-  var data = loadFunds();
-  var funds = data.funds;
-  var config = data.config || {};
+  const data = loadFunds();
+  const funds = data.funds;
+  const config = data.config || {};
 
   // 清理陈旧的nav-cache数据
   try {
     fundData.cleanStaleCache();
   } catch(e) {}
 
-  var budget = opts.budget || config.defaultBudget || 20;
-  var strategyKey = opts.strategy || config.defaultStrategy || "scarce";
-  var strategy = STRATEGY_MAP[strategyKey] || alloc.Strategy.SCARCE_FIRST;
+  const budget = opts.budget || config.defaultBudget || 20;
+  const strategyKey = opts.strategy || config.defaultStrategy || "scarce";
+  const strategy = STRATEGY_MAP[strategyKey] || alloc.Strategy.SCARCE_FIRST;
 
   console.log("  " + funds.length + " funds, budget=" + budget + ", strategy=" + strategyKey);
   console.log("");
 
-  var minPurchase = config.minPurchase || 10;
-  var topN = config.topN || 3;
+  const minPurchase = config.minPurchase || 10;
+  const topN = config.topN || 3;
 
   if (opts.backtest) {
     console.log("[回测模式] 启动策略回测...");
@@ -363,9 +388,9 @@ async function main() {
     return;
   }
 
-  var marketSnapshot = [];
-  var marketNews = [];
-  var externalSignals = null;
+  let marketSnapshot = [];
+  let marketNews = [];
+  let externalSignals = null;
 
   if (strategy === "dynamic") {
     console.log("[2/4] Fetching market/X signals...");
@@ -392,7 +417,7 @@ async function main() {
       if (externalSignals.status === "ok" || externalSignals.status === "cached") {
         console.log("[X] fetched " + externalSignals.items.length + " external posts for scoring (" + (externalSignals.fetchUrl || "cache") + ")");
         // 分析新投资方向
-        var directions = externalSignalData.analyzeNewDirections(externalSignals.tickerOpinions || [], funds);
+        const directions = externalSignalData.analyzeNewDirections(externalSignals.tickerOpinions || [], funds);
         externalSignals.newDirections = directions;
         if (directions.gapSummary) {
           console.log("[X] 新投资方向缺口: " + directions.gapSummary);
@@ -400,8 +425,8 @@ async function main() {
       } else {
         console.warn("[X] " + externalSignals.error);
         if (externalSignals.attempts && externalSignals.attempts.length > 0) {
-          for (var si = 0; si < externalSignals.attempts.length; si++) {
-            var sa = externalSignals.attempts[si];
+          for (let si = 0; si < externalSignals.attempts.length; si++) {
+            const sa = externalSignals.attempts[si];
             if (sa.status !== "ok") {
               console.warn("[X]   " + sa.status + ": " + sa.url.substring(0, 60) + " (" + (sa.error || "unknown") + ")");
             }
@@ -413,8 +438,8 @@ async function main() {
   }
 
   console.log("[2/4] Ranking...");
-  var lookbackDays = config.lookbackDays || 750; // 3年数据，足够计算MA250和长期趋势
-  var result, textContent;
+  const lookbackDays = config.lookbackDays || 750; // 3年数据，足够计算MA250和长期趋势
+  let result, textContent;
   try {
     if (strategy === "dynamic") {
       result = await dyn.allocateDynamic(budget, funds, {
@@ -443,7 +468,6 @@ async function main() {
   backfillFollowUp();
 
   // 获取实时市场快照和新闻
-  var marketSnapshot = [];
   if (strategy !== "dynamic") {
     try {
       marketSnapshot = await fundData.getMarketSnapshot();
@@ -464,15 +488,15 @@ async function main() {
   result.externalSignals = externalSignals;
 
   // 计算持仓盈亏
-  var portfolioResult = portfolio.calcPortfolioSummary();
+  const portfolioResult = portfolio.calcPortfolioSummary();
   result.portfolio = portfolioResult;
   if (!portfolioResult.empty) {
     console.log("[持仓] " + portfolioResult.summary.holdingCount + "只基金, 总投入" + portfolioResult.summary.totalInvested + "元, 盈亏" + (portfolioResult.summary.totalPnl >= 0 ? "+" : "") + portfolioResult.summary.totalPnl + "元");
 
     // 计算组合风险
     try {
-      var riskResult = risk.calcPortfolioRisk(portfolioResult.holdings);
-      var corrResult = risk.calcCorrelationMatrix(portfolioResult.holdings, 60);
+      const riskResult = risk.calcPortfolioRisk(portfolioResult.holdings);
+      const corrResult = risk.calcCorrelationMatrix(portfolioResult.holdings, 60);
       result.risk = riskResult;
       result.correlation = corrResult;
       if (riskResult) {
@@ -488,17 +512,17 @@ async function main() {
 
   // 替代方案分析（针对不可买的基金）
   if (result.suspended && result.suspended.length > 0) {
-    var altSuggestions = alternatives.analyzeAlternatives(result.suspended);
+    const altSuggestions = alternatives.analyzeAlternatives(result.suspended);
     result.alternatives = altSuggestions;
     if (altSuggestions.length > 0) {
       console.log("[替代] " + altSuggestions.length + "只不可买基金有替代方案");
     }
   }
 
-  var aiCommentary = "";
-  var llmApiKey = process.env.LLM_API_KEY;
-  var llmBaseUrl = process.env.LLM_BASE_URL;
-  var llmModel = process.env.LLM_MODEL;
+  let aiCommentary = "";
+  const llmApiKey = process.env.LLM_API_KEY;
+  const llmBaseUrl = process.env.LLM_BASE_URL;
+  const llmModel = process.env.LLM_MODEL;
 
   if (llmApiKey && llmBaseUrl && llmModel) {
     console.log("[3/4] AI decision analysis...");
@@ -526,17 +550,17 @@ async function main() {
     }
     console.log("--- end ---");
   } else {
-    var smtpHost = process.env.SMTP_HOST;
-    var smtpPort = parseInt(process.env.SMTP_PORT || "465");
-    var smtpUser = process.env.SMTP_USER;
-    var smtpPass = process.env.SMTP_PASS;
-    var mailTo = process.env.MAIL_TO;
+    const smtpHost = process.env.SMTP_HOST;
+    const smtpPort = parseInt(process.env.SMTP_PORT || "465");
+    const smtpUser = process.env.SMTP_USER;
+    const smtpPass = process.env.SMTP_PASS;
+    const mailTo = process.env.MAIL_TO;
     if (!smtpHost || !smtpUser || !smtpPass || !mailTo) {
       console.log("[4/4] email skipped (SMTP not configured)");
     } else {
       console.log("[4/4] Sending email...");
-      var smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
-      var success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result }, smtpConfig);
+      const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
+      const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result }, smtpConfig);
       if (!success) { console.error("[error] email failed"); process.exit(1); }
     }
   }

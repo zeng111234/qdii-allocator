@@ -1,3 +1,9 @@
 node_modules/
 .env
 *.log
+coverage/
+docs/index.html
+data/*.test-backup
+data/nav-cache.db
+data/portfolio.*.json
+nul
