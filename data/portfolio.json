@@ -46,6 +46,27 @@
           "shares": 1.1653
         },
         {
+          "date": "2026-05-28",
+          "settleDate": "2026-06-01",
+          "amount": 10,
+          "nav": 8.5813,
+          "shares": 1.1653
+        },
+        {
+          "date": "2026-05-29",
+          "settleDate": "2026-06-02",
+          "amount": 10,
+          "nav": 8.6249,
+          "shares": 1.1594
+        },
+        {
+          "date": "2026-05-29",
+          "settleDate": "2026-06-02",
+          "amount": 10,
+          "nav": 8.6249,
+          "shares": 1.1594
+        },
+        {
           "date": "2026-05-29",
           "settleDate": "2026-06-02",
           "amount": 10,
@@ -58,6 +79,13 @@
           "amount": 10,
           "nav": 8.558,
           "shares": 1.1685
+        },
+        {
+          "date": "2026-06-03",
+          "settleDate": "2026-06-05",
+          "amount": 10,
+          "nav": 8.1467,
+          "shares": 1.2275
         },
         {
           "date": "2026-06-03",
@@ -95,6 +123,13 @@
       "code": "000834",
       "name": "大成纳斯达克100(QDII)",
       "buys": [
+        {
+          "date": "2026-05-28",
+          "settleDate": "2026-06-01",
+          "amount": 10,
+          "nav": 6.5897,
+          "shares": 1.5175
+        },
         {
           "date": "2026-05-28",
           "settleDate": "2026-06-01",
@@ -174,6 +209,21 @@
           "nav": 8.1154,
           "shares": 1.2322,
           "estimated": false
+        },
+        {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-09",
+          "amount": 10,
+          "nav": 8.1154,
+          "shares": 1.2322,
+          "estimated": false
+        },
+        {
+          "date": "2026-06-08",
+          "settleDate": "2026-06-10",
+          "amount": 10,
+          "nav": null,
+          "shares": null
         },
         {
           "date": "2026-06-08",
@@ -276,6 +326,13 @@
           "amount": 10,
           "nav": 1.6444,
           "shares": 6.0812
+        },
+        {
+          "date": "2026-06-01",
+          "settleDate": "2026-06-03",
+          "amount": 10,
+          "nav": 1.6444,
+          "shares": 6.0812
         }
       ]
     },
@@ -365,6 +422,14 @@
           "amount": 20,
           "nav": 4.6963,
           "shares": 4.2587
+        },
+        {
+          "date": "2026-06-05",
+          "settleDate": "2026-06-09",
+          "amount": 20,
+          "nav": 4.3281,
+          "shares": 4.621,
+          "estimated": false
         },
         {
           "date": "2026-06-05",
