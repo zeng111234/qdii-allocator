@@ -485,7 +485,7 @@
       }
       
       var html = '';
-      portfolioData.holdings.forEach(function(h) {
+      portfolioData.holdings.forEach(function(h, idx) {
         var totalAmount = 0;
         var totalShares = 0;
         h.buys.forEach(function(b) {
@@ -494,17 +494,20 @@
         });
         
         html += '<div class="holding-card">';
-        html += '<div class="holding-header">';
+        html += '<div class="holding-header" onclick="toggleDetail(' + idx + ')" style="cursor:pointer">';
         html += '<div><span class="holding-name">' + h.name + '</span><span class="holding-code">' + h.code + '</span></div>';
+        html += '<div style="display:flex;align-items:center;gap:12px">';
         html += '<div class="pnl-box"><div class="pnl-amount">' + totalAmount + '元</div>';
         html += '<div class="pnl-rate">' + totalShares.toFixed(2) + '份</div></div>';
+        html += '<span id="arrow-' + idx + '" style="font-size:12px;color:#94a3b8;transition:transform 0.2s">▶</span>';
+        html += '</div>';
         html += '</div>';
         html += '<div class="holding-stats">';
         html += '<span>买入 ' + h.buys.length + ' 笔</span>';
         html += '</div>';
         
-        // 买入明细
-        html += '<div class="buy-list">';
+        // 买入明细（默认折叠）
+        html += '<div id="detail-' + idx + '" class="buy-list" style="display:none">';
         h.buys.forEach(function(b) {
           html += '<div class="buy-item">';
           html += '<span class="buy-detail">' + b.date + ' 买入' + b.amount + '元';
@@ -518,6 +521,18 @@
       });
       
       container.innerHTML = html;
+    }
+
+    function toggleDetail(idx) {
+      var detail = document.getElementById('detail-' + idx);
+      var arrow = document.getElementById('arrow-' + idx);
+      if (detail.style.display === 'none') {
+        detail.style.display = 'block';
+        arrow.style.transform = 'rotate(90deg)';
+      } else {
+        detail.style.display = 'none';
+        arrow.style.transform = 'rotate(0deg)';
+      }
     }
 
     function loadFundOptions() {
