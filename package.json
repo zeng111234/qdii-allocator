@@ -11,8 +11,8 @@
     "telegram": "node telegram.js",
     "feishu": "node feishu.js",
     "sync": "node sync.js",
-    "lint": "eslint lib/ index.js telegram.js wechat.js sync.js build-pages.js",
-    "lint:fix": "eslint --fix lib/ index.js telegram.js wechat.js sync.js build-pages.js",
+    "lint": "eslint lib/ index.js sync.js build-pages.js",
+    "lint:fix": "eslint --fix lib/ index.js sync.js build-pages.js",
     "format": "prettier --write \"lib/**/*.js\" \"*.js\""
   },
   "keywords": [
