@@ -347,18 +347,18 @@
       var list = document.getElementById('batchList');
       var activeFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
       
-      // 按 type 分组
+      // 按基金公司分组
       var grouped = {};
       activeFunds.forEach(function(f) {
-        var type = f.type || '其他';
-        if (!grouped[type]) grouped[type] = [];
-        grouped[type].push(f);
+        var corp = extractCorp(f.name);
+        if (!grouped[corp]) grouped[corp] = [];
+        grouped[corp].push(f);
       });
       
       var options = '<option value="">-- 选择基金 --</option>';
-      Object.keys(grouped).forEach(function(type) {
-        options += '<optgroup label="' + type + '">';
-        grouped[type].forEach(function(f) {
+      Object.keys(grouped).sort().forEach(function(corp) {
+        options += '<optgroup label="' + corp + '（' + grouped[corp].length + '）">';
+        grouped[corp].forEach(function(f) {
           var limit = f.dailyLimit && f.dailyLimit < 10000 ? ' (限' + f.dailyLimit + '元)' : '';
           options += '<option value="' + f.code + '">' + f.code + ' ' + f.name + limit + '</option>';
         });
@@ -562,22 +562,27 @@
       updateHoldings();
     }
 
+    function extractCorp(name) {
+      var m = name.match(/^(广发|易方达|华泰柏瑞|华夏|南方|华安|嘉实|大成|博时|工银|招商|天弘|富国|银华|万家|浦银安盛|摩根|景顺长城|国泰|汇添富|鹏华|建信|中银|交银|兴全|睿远|中欧|诺安|长城|融通|泰达宏利|信诚|海富通|上投摩根|长盛|国富|光大保德信|中邮|东方|新华|民生加银|兴业|安信|宝盈|创金合信|前海开源|永赢|太平|财通|中金|红土创新)/);
+      return m ? m[1] : name.substring(0, 2);
+    }
+
     function loadFundOptions() {
       var select = document.getElementById('fundSelect');
       var activeFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
       
-      // 按 type 分组
+      // 按基金公司分组
       var grouped = {};
       activeFunds.forEach(function(f) {
-        var type = f.type || '其他';
-        if (!grouped[type]) grouped[type] = [];
-        grouped[type].push(f);
+        var corp = extractCorp(f.name);
+        if (!grouped[corp]) grouped[corp] = [];
+        grouped[corp].push(f);
       });
       
       var html = '<option value="">-- 请选择基金 --</option>';
-      Object.keys(grouped).forEach(function(type) {
-        html += '<optgroup label="' + type + '">';
-        grouped[type].forEach(function(f) {
+      Object.keys(grouped).sort().forEach(function(corp) {
+        html += '<optgroup label="' + corp + '（' + grouped[corp].length + '）">';
+        grouped[corp].forEach(function(f) {
           var limit = f.dailyLimit && f.dailyLimit < 10000 ? ' (限' + f.dailyLimit + '元)' : '';
           html += '<option value="' + f.code + '">' + f.code + ' ' + f.name + limit + '</option>';
         });
