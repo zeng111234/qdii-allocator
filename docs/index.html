@@ -423,6 +423,7 @@
       document.getElementById('batchList').innerHTML = '';
       addBatchRow();
       document.getElementById('batchDate').value = new Date().toISOString().slice(0, 10);
+      saveLocal();
       renderPortfolio();
     }
 
@@ -542,6 +543,7 @@
       if (!confirm('确认删除「' + h.name + '」的所有买入记录？')) return;
       portfolioData.holdings.splice(idx, 1);
       showToast('已删除 ' + h.name);
+      saveLocal();
       updateSummary();
       updateHoldings();
     }
@@ -555,6 +557,7 @@
         portfolioData.holdings.splice(hIdx, 1);
       }
       showToast('已删除');
+      saveLocal();
       updateSummary();
       updateHoldings();
     }
@@ -625,16 +628,32 @@
       
       updateSummary();
       updateHoldings();
+      saveLocal();
       showToast('买入成功: ' + name + ' ' + amount + '元');
       
       // 显示提示
       document.getElementById('buyResult').innerHTML = 
-        '<div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:8px;padding:12px;margin-top:8px">' +
-        '<strong>提示：</strong>此页面为只读展示，买入记录仅保存在当前浏览器。' +
-        '<br>如需同步数据，请使用 <code>node index.js --buy ' + code + ' ' + amount + '</code></div>';
+        '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:12px;margin-top:8px">' +
+        '<strong>✅ 已保存到浏览器</strong> 刷新页面数据不会丢失。</div>';
     }
 
-    // 初始化
+    // 初始化 - 从 localStorage 恢复数据
+    var STORAGE_KEY = 'qdii-portfolio';
+    function saveLocal() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(portfolioData)); } catch(e) {}
+    }
+    function loadLocal() {
+      try {
+        var saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          var parsed = JSON.parse(saved);
+          if (parsed && parsed.holdings && parsed.holdings.length > 0) {
+            portfolioData = parsed;
+          }
+        }
+      } catch(e) {}
+    }
+    loadLocal();
     updateSummary();
     updateHoldings();
     loadFundOptions();
