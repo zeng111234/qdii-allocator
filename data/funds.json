@@ -29,15 +29,15 @@
     },
     {
       "code": "000369",
-      "name": "广发亚太精选QDII-A",
-      "type": "亚太精选",
+      "name": "广发全球医疗保健指数(QDII)A",
+      "type": "全球医疗",
       "shareClass": "A",
-      "feeRate": 1.2,
-      "custodyFee": 0.25,
+      "feeRate": 0.8,
+      "custodyFee": 0.2,
       "dailyLimit": 100,
       "minPurchase": 10,
       "status": "active",
-      "note": "亚太市场精选广发",
+      "note": "全球医疗保健指数，防守型配置",
       "settleDays": 2
     },
     {
@@ -637,8 +637,47 @@
       "settleDays": 2,
       "minPurchase": 10,
       "note": "新兴市场优选"
+    },
+    {
+      "code": "007280",
+      "name": "摩根日本精选股票(QDII)A",
+      "type": "日本",
+      "shareClass": "A",
+      "feeRate": 1.0,
+      "custodyFee": 0.2,
+      "dailyLimit": 500,
+      "status": "active",
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "日本市场，填补地域空白"
+    },
+    {
+      "code": "008763",
+      "name": "天弘越南市场股票(QDII)A",
+      "type": "越南",
+      "shareClass": "A",
+      "feeRate": 1.2,
+      "custodyFee": 0.25,
+      "dailyLimit": 100,
+      "status": "active",
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "越南市场，前沿高增长"
+    },
+    {
+      "code": "539003",
+      "name": "建信富时100指数(QDII)A",
+      "type": "英国",
+      "shareClass": "A",
+      "feeRate": 0.8,
+      "custodyFee": 0.2,
+      "dailyLimit": 10,
+      "status": "active",
+      "settleDays": 2,
+      "minPurchase": 10,
+      "note": "英国富时100，欧洲发达市场"
     }
   ],
-  "_lastUpdated": "2026-06-03",
-  "_updateNote": "removed 6 non-QDII funds, added 6 new limited foreign funds"
+  "_lastUpdated": "2026-06-11",
+  "_updateNote": "added 007280 Japan, 008763 Vietnam, 539003 UK. Fixed 000369 name to global healthcare"
 }
