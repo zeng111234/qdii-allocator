@@ -530,7 +530,7 @@
         // 每日记录的删除按钮
         totalEl.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center">' +
           '<div style="font-size:13px;color:#64748b">合计 <b style="color:#1e293b">' + dayTotal + '元</b></div>' +
-          '<button class="btn btn-danger-sm" onclick="deleteDayBuys(\\'' + date + '\\')">删除当日所有记录</button>' +
+          '<button class="btn btn-danger-sm" onclick="deleteDayBuys(\'' + date + '\')">删除当日所有记录</button>' +
           '</div>';
       });
     }
@@ -737,15 +737,15 @@
             html += '<span class="buy-detail">' + detail + '</span>';
             html += '<span>';
             if (!b.settled) {
-              html += '<span class="delete-btn" onclick="updateNav(\\''+h.code+'\\','+idx+','+ (b.nav||'null') +')" title="更新净值" style="color:#6366f1;margin-right:8px">✎</span>';
+              html += '<span class="delete-btn" onclick="updateNav(\''+h.code+'\','+idx+','+ (b.nav||'null') +')" title="更新净值" style="color:#6366f1;margin-right:8px">\u270e</span>';
             }
-            html += '<span class="delete-btn" onclick="deleteBuy(\\''+h.code+'\\','+idx+')" title="删除">✕</span>';
+            html += '<span class="delete-btn" onclick="deleteBuy(\''+h.code+'\','+idx+')" title="删除">\u2715</span>';
             html += '</span></div>';
           });
           html += '</div>';
 
           html += '<div style="text-align:right;margin-top:12px">';
-          html += '<button class="btn btn-danger-sm" onclick="deleteHolding(\\''+h.code+'\\',\\''+h.name.replace(/'/g,"")+'\\')">删除 ' + h.name.split('(')[0].substring(0,8) + '</button>';
+          html += '<button class="btn btn-danger-sm" onclick="deleteHolding(\''+h.code+'\',\''+h.name.replace(/'/g,"")+'\')">删除 ' + h.name.split('(')[0].substring(0,8) + '</button>';
           html += '</div>';
 
           html += '</div>';
