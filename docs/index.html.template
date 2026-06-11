@@ -235,6 +235,11 @@
   </div>
 
   <div class="container">
+    <div class="card" id="brief-card" style="display:none">
+      <div class="card-title">📊 今日早报</div>
+      <div id="daily-brief" style="white-space:pre-wrap;font-size:14px;line-height:1.6"></div>
+    </div>
+
     <div class="card">
       <div class="card-title">持仓概览</div>
       <div id="summary" class="summary-grid"></div>
@@ -244,6 +249,7 @@
       <div class="tabs">
         <div class="tab active" onclick="switchTab('portfolio')">持仓明细</div>
         <div class="tab" onclick="switchTab('buy')">买入基金</div>
+        <div class="tab" onclick="switchTab('diary')">投资日记</div>
       </div>
       
       <div id="tab-portfolio" class="tab-content active">
@@ -274,6 +280,10 @@
         <button class="btn btn-primary" onclick="addBuy()">确认买入</button>
         <div id="buyResult" style="margin-top:12px;font-size:13px"></div>
       </div>
+      
+      <div id="tab-diary" class="tab-content">
+        <div id="diary-list"></div>
+      </div>
     </div>
   </div>
 
@@ -285,6 +295,8 @@
     var portfolioData = PORTFOLIO_DATA;
     var fundsData = FUNDS_DATA;
     var navCacheData = NAV_CACHE_DATA;
+    var dailyBriefData = DAILY_BRIEF_DATA;
+    var diaryData = DIARY_DATA;
 
     function showToast(text, isError) {
       var el = document.getElementById("toast");
@@ -299,9 +311,12 @@
       if (tab === 'portfolio') {
         document.querySelectorAll('.tab')[0].classList.add('active');
         document.getElementById('tab-portfolio').classList.add('active');
-      } else {
+      } else if (tab === 'buy') {
         document.querySelectorAll('.tab')[1].classList.add('active');
         document.getElementById('tab-buy').classList.add('active');
+      } else if (tab === 'diary') {
+        document.querySelectorAll('.tab')[2].classList.add('active');
+        document.getElementById('tab-diary').classList.add('active');
       }
     }
 
@@ -466,6 +481,36 @@
     updateSummary();
     updateHoldings();
     loadFundOptions();
+    
+    // 显示早报
+    if (dailyBriefData && dailyBriefData.content) {
+      document.getElementById('brief-card').style.display = 'block';
+      document.getElementById('daily-brief').textContent = dailyBriefData.content;
+    }
+    
+    // 显示投资日记
+    function updateDiary() {
+      var container = document.getElementById('diary-list');
+      if (!diaryData || !diaryData.entries || diaryData.entries.length === 0) {
+        container.innerHTML = '<div class="empty-state"><div class="icon">📝</div><div>暂无投资日记</div></div>';
+        return;
+      }
+      
+      var html = '';
+      var entries = diaryData.entries.slice().reverse();
+      entries.forEach(function(e) {
+        var emoji = e.type === 'buy' ? '💰' : '📤';
+        html += '<div class="holding-card">';
+        html += '<div class="holding-header">';
+        html += '<div><span class="holding-name">' + emoji + ' ' + e.fund.name + '</span>';
+        html += '<span class="holding-code">' + e.date + '</span></div>';
+        html += '</div>';
+        html += '<div style="font-size:13px;line-height:1.6;white-space:pre-wrap">' + e.content + '</div>';
+        html += '</div>';
+      });
+      container.innerHTML = html;
+    }
+    updateDiary();
   </script>
 </body>
 </html>

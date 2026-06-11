@@ -36,6 +36,12 @@ jobs:
         with:
           node-version: '20'
       - run: npm install
+      - name: Generate AI Daily Brief
+        run: node -e "var db = require('./lib/daily-brief'); db.generateDailyBrief({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL }).then(function() { console.log('Daily brief generated'); }).catch(function(e) { console.warn('Daily brief failed:', e.message); });"
+        env:
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
       - run: |
           CMD="node index.js"
           STRATEGY="${{ inputs.strategy }}"
@@ -64,7 +70,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/history.json data/nav-cache.json data/fund-info-cache.json data/portfolio.json data/external-signals-cache.json docs/index.html
+          git add data/history.json data/nav-cache.json data/fund-info-cache.json data/portfolio.json data/external-signals-cache.json data/daily-brief.json docs/index.html
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
