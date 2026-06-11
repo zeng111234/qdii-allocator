@@ -58,15 +58,17 @@ jobs:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
-      - name: Commit updated cache and history
+      - name: Build GitHub Pages
+        run: node build-pages.js
+      - name: Commit updated data and pages
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/history.json data/nav-cache.json data/fund-info-cache.json
+          git add data/history.json data/nav-cache.json data/fund-info-cache.json data/portfolio.json data/external-signals-cache.json docs/index.html
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "chore: update cache & history $(date +%Y/%m/%d)"
+            git commit -m "chore: update data & pages $(date +%Y/%m/%d)"
             git fetch origin main
             git push --force-with-lease
           fi

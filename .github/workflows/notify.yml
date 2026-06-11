@@ -1,0 +1,74 @@
+name: Daily Notify
+
+on:
+  workflow_run:
+    workflows: ["QDII"]
+    types:
+      - completed
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      issues: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Create notification issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const date = new Date().toISOString().slice(0, 10);
+            
+            // 读取历史记录获取最新排名
+            let topFunds = '';
+            try {
+              const history = JSON.parse(fs.readFileSync('data/history.json', 'utf-8'));
+              const records = history.records || [];
+              const latest = records[records.length - 1];
+              if (latest && latest.ranked) {
+                const top3 = latest.ranked.slice(0, 3);
+                topFunds = top3.map((f, i) => 
+                  `${i + 1}. **${f.name}** (${f.code}) - 得分 ${f.score} | ${f.type || ''}`
+                ).join('\n');
+              }
+            } catch (e) {
+              topFunds = '(读取排名数据失败)';
+            }
+            
+            // 读取持仓摘要
+            let portfolioSummary = '';
+            try {
+              const portfolio = JSON.parse(fs.readFileSync('data/portfolio.json', 'utf-8'));
+              const holdings = portfolio.holdings || [];
+              portfolioSummary = `持仓 ${holdings.length} 只基金`;
+            } catch (e) {
+              portfolioSummary = '(读取持仓数据失败)';
+            }
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `📊 QDII 每日报告 ${date}`,
+              body: `## QDII 基金每日分析报告
+            
+            **日期**: ${date}
+            **状态**: ✅ 分析完成
+            **持仓**: ${portfolioSummary}
+            
+            ### Top 3 推荐基金
+            
+            ${topFunds}
+            
+            ### 操作建议
+            
+            查看完整报告：
+            - 📱 手机: https://zeng111234.github.io/trade/
+            - 💻 电脑: \`node index.js --strategy dynamic\`
+            
+            ---
+            *此 Issue 由 GitHub Actions 自动生成*
+            `,
+              labels: ['daily-report']
+            });

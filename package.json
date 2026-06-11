@@ -9,7 +9,8 @@
     "test": "node --test tests/**/*.test.js",
     "wechat": "node wechat.js",
     "telegram": "node telegram.js",
-    "feishu": "node feishu.js"
+    "feishu": "node feishu.js",
+    "sync": "node sync.js"
   },
   "keywords": [
     "qdii",
