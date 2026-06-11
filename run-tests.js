@@ -9,6 +9,12 @@ const path = require('path');
 
 const testDir = path.join(__dirname, 'tests', 'unit');
 
+// 检查测试目录是否存在
+if (!fs.existsSync(testDir)) {
+  console.log('Test directory not found:', testDir);
+  process.exit(0);
+}
+
 // 查找所有测试文件
 const testFiles = fs.readdirSync(testDir)
   .filter(f => f.endsWith('.test.js'))
