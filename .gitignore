@@ -8,3 +8,4 @@ data/nav-cache.db
 data/portfolio.*.json
 data/review-report.md
 nul
+reasonix.toml
