@@ -17,14 +17,32 @@ function backupPortfolio() {
 }
 
 function restorePortfolio() {
-  if (fs.existsSync(BACKUP_FILE)) {
-    fs.copyFileSync(BACKUP_FILE, PORTFOLIO_FILE);
-    fs.unlinkSync(BACKUP_FILE);
+  for (var attempt = 0; attempt < 5; attempt++) {
+    try {
+      if (fs.existsSync(BACKUP_FILE)) {
+        fs.copyFileSync(BACKUP_FILE, PORTFOLIO_FILE);
+        fs.unlinkSync(BACKUP_FILE);
+      }
+      return;
+    } catch (e) {
+      if (attempt < 4) {
+        var start = Date.now(); while (Date.now() - start < 300) {}
+      }
+    }
   }
 }
 
 function resetPortfolio() {
-  fs.writeFileSync(PORTFOLIO_FILE, JSON.stringify({ holdings: [], startDate: null }), 'utf-8');
+  for (var attempt = 0; attempt < 5; attempt++) {
+    try {
+      fs.writeFileSync(PORTFOLIO_FILE, JSON.stringify({ holdings: [], startDate: null }), 'utf-8');
+      return;
+    } catch (e) {
+      if (attempt < 4) {
+        var start = Date.now(); while (Date.now() - start < 300) {}
+      }
+    }
+  }
 }
 
 test('recordSell - basic sell with nav', function() {

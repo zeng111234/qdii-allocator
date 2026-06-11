@@ -29,7 +29,7 @@ console.log(`Found ${testFiles.length} test file(s)`);
 
 // 运行测试
 try {
-  const cmd = `node --test ${testFiles.join(' ')}`;
+  const cmd = `node --test --test-concurrency=1 ${testFiles.join(' ')}`;
   console.log(`Running: ${cmd}\n`);
   execSync(cmd, { stdio: 'inherit' });
   process.exit(0);
