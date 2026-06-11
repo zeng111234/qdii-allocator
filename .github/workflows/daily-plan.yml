@@ -37,7 +37,19 @@ jobs:
           node-version: '20'
       - run: npm install
       - name: Generate AI Daily Brief
-        run: node -e "var db = require('./lib/daily-brief'); db.generateDailyBrief({ apiKey: process.env.LLM_API_KEY, baseUrl: process.env.LLM_BASE_URL, model: process.env.LLM_MODEL }).then(function() { console.log('Daily brief generated'); }).catch(function(e) { console.warn('Daily brief failed:', e.message); });"
+        run: |
+          node -e "
+            var db = require('./lib/daily-brief');
+            db.generateDailyBrief({
+              apiKey: process.env.LLM_API_KEY,
+              baseUrl: process.env.LLM_BASE_URL,
+              model: process.env.LLM_MODEL
+            }).then(function() {
+              console.log('Daily brief generated');
+            }).catch(function(e) {
+              console.warn('Daily brief failed:', e.message);
+            });
+          "
         env:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
