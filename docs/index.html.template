@@ -504,16 +504,18 @@
         html += '</div>';
         html += '<div class="holding-stats">';
         html += '<span>买入 ' + h.buys.length + ' 笔</span>';
+        html += '<span style="margin-left:auto;cursor:pointer;color:#ef4444;font-size:12px" onclick="event.stopPropagation();deleteHolding(' + idx + ')">🗑 删除全部</span>';
         html += '</div>';
         
         // 买入明细（默认折叠）
         html += '<div id="detail-' + idx + '" class="buy-list" style="display:none">';
-        h.buys.forEach(function(b) {
+        h.buys.forEach(function(b, bIdx) {
           html += '<div class="buy-item">';
           html += '<span class="buy-detail">' + b.date + ' 买入' + b.amount + '元';
           if (b.nav) html += ' 净值' + b.nav;
           if (b.shares) html += ' ' + b.shares + '份';
           html += '</span>';
+          html += '<span style="cursor:pointer;color:#ef4444;font-size:14px;padding:2px 6px" onclick="event.stopPropagation();deleteBuy(' + idx + ',' + bIdx + ')">×</span>';
           html += '</div>';
         });
         html += '</div>';
@@ -533,6 +535,28 @@
         detail.style.display = 'none';
         arrow.style.transform = 'rotate(0deg)';
       }
+    }
+
+    function deleteHolding(idx) {
+      var h = portfolioData.holdings[idx];
+      if (!confirm('确认删除「' + h.name + '」的所有买入记录？')) return;
+      portfolioData.holdings.splice(idx, 1);
+      showToast('已删除 ' + h.name);
+      updateSummary();
+      updateHoldings();
+    }
+
+    function deleteBuy(hIdx, bIdx) {
+      var h = portfolioData.holdings[hIdx];
+      var b = h.buys[bIdx];
+      if (!confirm('确认删除 ' + b.date + ' 买入' + b.amount + '元的记录？')) return;
+      h.buys.splice(bIdx, 1);
+      if (h.buys.length === 0) {
+        portfolioData.holdings.splice(hIdx, 1);
+      }
+      showToast('已删除');
+      updateSummary();
+      updateHoldings();
     }
 
     function loadFundOptions() {
