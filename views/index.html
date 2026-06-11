@@ -283,6 +283,7 @@
     <div class="card">
       <div class="tabs">
         <div class="tab active" onclick="switchTab('single')">单笔添加</div>
+        <div class="tab" onclick="switchTab('batch')">批量添加</div>
         <div class="tab" onclick="switchTab('daily')">每日记录</div>
       </div>
       
@@ -315,6 +316,30 @@
           </div>
         </div>
         <button class="btn btn-primary" onclick="addBuy()">确认买入</button>
+      </div>
+
+      <div id="tab-batch" class="tab-content">
+        <div style="margin-bottom:12px">
+          <label style="font-size:13px;color:#64748b;font-weight:500">买入日期 (默认今天)</label>
+          <div style="display:flex;gap:6px;align-items:center;margin-top:6px">
+            <input type="date" id="batchDate" style="flex:1">
+            <button type="button" class="btn btn-danger-sm" style="background:#f0f4ff;color:#6366f1;border-color:#c7d2fe;font-size:11px;padding:5px 8px;white-space:nowrap" onclick="document.getElementById('batchDate').value=fmtDate(new Date())">今天</button>
+          </div>
+        </div>
+        <div id="batchList">
+          <div class="batch-row" style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+            <select class="batch-fund" style="flex:2;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px">
+              <option value="">-- 选择基金 --</option>
+              {{FUND_OPTIONS}}
+            </select>
+            <input type="number" class="batch-amount" min="1" step="0.01" value="10" placeholder="金额" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px">
+            <button type="button" class="btn btn-danger-sm" style="background:#fef2f2;color:#ef4444;border-color:#fecaca;padding:6px 10px;font-size:16px" onclick="removeBatchRow(this)">×</button>
+          </div>
+        </div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1.5px solid #c7d2fe;flex:1" onclick="addBatchRow()">+ 添加一行</button>
+          <button class="btn btn-primary" style="flex:1" onclick="submitBatch()">批量提交</button>
+        </div>
       </div>
       
       <div id="tab-daily" class="tab-content">
@@ -373,8 +398,14 @@
         if (!document.getElementById('buyDate').value) {
           document.getElementById('buyDate').value = fmtDate(new Date());
         }
-      } else {
+      } else if (tab === 'batch') {
         document.querySelectorAll('.tab')[1].classList.add('active');
+        document.getElementById('tab-batch').classList.add('active');
+        if (!document.getElementById('batchDate').value) {
+          document.getElementById('batchDate').value = getNextTradeDate();
+        }
+      } else {
+        document.querySelectorAll('.tab')[2].classList.add('active');
         document.getElementById('tab-daily').classList.add('active');
         if (!document.getElementById('dailyDate').value) {
           document.getElementById('dailyDate').value = fmtDate(new Date());
@@ -382,6 +413,54 @@
         updateWeekdayDisplay();
         loadDaily();
       }
+    }
+
+    function addBatchRow() {
+      var list = document.getElementById('batchList');
+      var firstRow = list.querySelector('.batch-row');
+      var newRow = firstRow.cloneNode(true);
+      newRow.querySelector('.batch-fund').value = '';
+      newRow.querySelector('.batch-amount').value = '10';
+      list.appendChild(newRow);
+    }
+
+    function removeBatchRow(btn) {
+      var list = document.getElementById('batchList');
+      if (list.children.length > 1) {
+        btn.closest('.batch-row').remove();
+      }
+    }
+
+    function submitBatch() {
+      var date = document.getElementById('batchDate').value;
+      var rows = document.querySelectorAll('.batch-row');
+      var items = [];
+      rows.forEach(function(row) {
+        var code = row.querySelector('.batch-fund').value;
+        var amount = parseFloat(row.querySelector('.batch-amount').value);
+        if (code && amount > 0) {
+          items.push({ code: code, amount: amount, date: date });
+        }
+      });
+      if (items.length === 0) {
+        showToast("请至少添加一笔买入记录", true);
+        return;
+      }
+      fetch("/api/buys/batch", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: items })
+      }).then(function(r) { return r.json(); }).then(function(data) {
+        if (data.error) {
+          showToast(data.error, true);
+        } else {
+          showToast("批量添加成功: " + data.added + " 笔记录");
+          // 重置表单
+          document.getElementById('batchList').innerHTML = '<div class="batch-row" style="display:flex;gap:8px;margin-bottom:8px;align-items:center"><select class="batch-fund" style="flex:2;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px"><option value="">-- 选择基金 --</option>{{FUND_OPTIONS}}</select><input type="number" class="batch-amount" min="1" step="0.01" value="10" placeholder="金额" style="flex:1;padding:8px;border:1.5px solid #e2e8f0;border-radius:8px;font-size:13px"><button type="button" class="btn btn-danger-sm" style="background:#fef2f2;color:#ef4444;border-color:#fecaca;padding:6px 10px;font-size:16px" onclick="removeBatchRow(this)">×</button></div>';
+          document.getElementById('batchDate').value = getNextTradeDate(date);
+          loadPortfolio();
+        }
+      });
     }
 
     function fmtDate(d) {

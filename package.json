@@ -7,9 +7,6 @@
   "scripts": {
     "start": "cmd /c \"chcp 65001 >nul & node index.js\"",
     "test": "node run-tests.js",
-    "wechat": "node wechat.js",
-    "telegram": "node telegram.js",
-    "feishu": "node feishu.js",
     "sync": "node sync.js",
     "lint": "eslint lib/ index.js sync.js build-pages.js",
     "lint:fix": "eslint --fix lib/ index.js sync.js build-pages.js",
@@ -23,16 +20,13 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "@larksuiteoapi/node-sdk": "^1.66.1",
     "dotenv": "^16.4.5",
     "express": "^5.2.1",
     "express-rate-limit": "^8.5.2",
     "iconv-lite": "^0.7.2",
-    "node-telegram-bot-api": "^0.67.0",
     "nodemailer": "^6.9.8",
     "p-limit": "^3.1.0",
-    "sql.js": "^1.14.1",
-    "wechatferry": "^0.0.26"
+    "sql.js": "^1.14.1"
   },
   "devDependencies": {
     "eslint": "^8.57.1",

@@ -23,6 +23,7 @@ const risk = require("./lib/risk");
 const alternatives = require("./lib/alternatives");
 const webServer = require("./lib/web-server");
 const { normalizeDate, archiveOldHistory } = require("./lib/utils");
+const { backfillFollowUp: backfillHistoryFollowUp } = require("./lib/history-tracker");
 const { validateConfig } = require("./lib/config");
 
 const FUNDS_FILE = path.join(__dirname, "data", "funds.json");
@@ -110,79 +111,6 @@ function parseArgs() {
     }
   }
   return opts;
-}
-
-function backfillFollowUp() {
-  const HISTORY_FILE = path.join(__dirname, "data", "history.json");
-  const NAV_CACHE_FILE = path.join(__dirname, "data", "nav-cache.json");
-  try {
-    if (!fs.existsSync(HISTORY_FILE) || !fs.existsSync(NAV_CACHE_FILE)) return;
-    const hist = JSON.parse(fs.readFileSync(HISTORY_FILE, "utf-8"));
-    const cache = JSON.parse(fs.readFileSync(NAV_CACHE_FILE, "utf-8"));
-    if (!hist.records || hist.records.length === 0) return;
-    let changed = false;
-    let backfilled = 0;
-
-    for (let i = 0; i < hist.records.length; i++) {
-      const rec = hist.records[i];
-      // 标准化日期格式
-      const recDate = normalizeDate(rec.date);
-      if (recDate !== rec.date) {
-        rec.date = recDate;
-        changed = true;
-      }
-
-      const allocs = rec.allocations || rec.ranked || [];
-      for (let j = 0; j < allocs.length; j++) {
-        const a = allocs[j];
-        if (a.followUp5dReturn !== null && a.followUp10dReturn !== null) continue;
-        const navs = cache[a.code];
-        if (!navs || navs.length === 0) continue;
-
-        // 用日期查找推荐日净值（而非索引）
-        const recNav = navs.find(function(n) { return n.date === recDate; });
-        if (!recNav) continue;
-
-        // 5d return：找推荐日后4-7个交易日的净值
-        if (a.followUp5dReturn === null) {
-          for (let k = 0; k < navs.length; k++) {
-            const diff5 = daysBetweenDates(recDate, navs[k].date);
-            if (diff5 >= 4 && diff5 <= 7) {
-              a.followUp5dReturn = Math.round((navs[k].nav - recNav.nav) / recNav.nav * 10000) / 100;
-              changed = true;
-              backfilled++;
-              break;
-            }
-          }
-        }
-
-        // 10d return：找推荐日后9-14个交易日的净值
-        if (a.followUp10dReturn === null) {
-          for (let m = 0; m < navs.length; m++) {
-            const diff10 = daysBetweenDates(recDate, navs[m].date);
-            if (diff10 >= 9 && diff10 <= 14) {
-              a.followUp10dReturn = Math.round((navs[m].nav - recNav.nav) / recNav.nav * 10000) / 100;
-              changed = true;
-              backfilled++;
-              break;
-            }
-          }
-        }
-      }
-    }
-    if (changed) {
-      fs.writeFileSync(HISTORY_FILE, JSON.stringify(hist, null, 2), "utf-8");
-      console.log("[\u5386\u53f2] \u56de\u586b\u4e86" + backfilled + "\u6761\u5386\u53f2\u63a8\u8350\u7684\u5b9e\u9645\u6536\u76ca\uff0c\u65e5\u671f\u683c\u5f0f\u5df2\u6807\u51c6\u5316");
-    }
-  } catch(e) {
-    console.warn("[\u5386\u53f2] \u56de\u586b\u5931\u8d25:", e.message);
-  }
-}
-
-function daysBetweenDates(d1, d2) {
-  const dt1 = new Date(d1 + "T00:00:00");
-  const dt2 = new Date(d2 + "T00:00:00");
-  return Math.round((dt2 - dt1) / 86400000);
 }
 
 async function main() {
@@ -354,7 +282,7 @@ async function main() {
     return;
   }
 
-  console.log("[1/4] Loading funds...");
+  console.log("[1/5] Loading funds...");
   const data = loadFunds();
   const funds = data.funds;
   const config = data.config || {};
@@ -393,7 +321,7 @@ async function main() {
   let externalSignals = null;
 
   if (strategy === "dynamic") {
-    console.log("[2/4] Fetching market/X signals...");
+    console.log("[2/5] Fetching market/X signals...");
     try {
       marketSnapshot = await fundData.getMarketSnapshot();
       marketNews = await fundData.getMarketSentiment(5);
@@ -437,7 +365,7 @@ async function main() {
     console.log("");
   }
 
-  console.log("[2/4] Ranking...");
+  console.log("[2/5] Ranking...");
   const lookbackDays = config.lookbackDays || 750; // 3年数据，足够计算MA250和长期趋势
   let result, textContent;
   try {
@@ -464,8 +392,8 @@ async function main() {
   console.log("");
 
   // 回填历史推荐的实际收益
-  console.log("[3/4] Fetching market data & backfilling history...");
-  backfillFollowUp();
+  console.log("[3/5] Fetching market data & backfilling history...");
+  backfillHistoryFollowUp(fundData.loadNavCache());
 
   // 获取实时市场快照和新闻
   if (strategy !== "dynamic") {
@@ -525,7 +453,7 @@ async function main() {
   const llmModel = process.env.LLM_MODEL;
 
   if (llmApiKey && llmBaseUrl && llmModel) {
-    console.log("[3/4] AI decision analysis...");
+    console.log("[4/5] AI decision analysis...");
     aiCommentary = await ai.generateCommentary(result, { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel });
     if (aiCommentary && aiCommentary.length > 10) {
       console.log("[AI\u51b3\u7b56\u62a5\u544a] " + aiCommentary.substring(0, 200) + "...");
@@ -533,12 +461,12 @@ async function main() {
       console.log("[AI] " + aiCommentary);
     }
   } else {
-    console.log("[3/4] AI skipped (no LLM_API_KEY)");
+    console.log("[4/5] AI skipped (no LLM_API_KEY)");
   }
   console.log("");
 
   if (opts.dryRun) {
-    console.log("[4/4] dry-run, skip email");
+    console.log("[5/5] dry-run, skip email");
     console.log("");
     console.log("--- preview ---");
     console.log(textContent);
@@ -556,9 +484,9 @@ async function main() {
     const smtpPass = process.env.SMTP_PASS;
     const mailTo = process.env.MAIL_TO;
     if (!smtpHost || !smtpUser || !smtpPass || !mailTo) {
-      console.log("[4/4] email skipped (SMTP not configured)");
+      console.log("[5/5] email skipped (SMTP not configured)");
     } else {
-      console.log("[4/4] Sending email...");
+      console.log("[5/5] Sending email...");
       const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
       const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result }, smtpConfig);
       if (!success) { console.error("[error] email failed"); process.exit(1); }

@@ -284,103 +284,11 @@ QDII基金是T+2**交易日**结算（不是日历日），系统自动处理：
 
 > 手机和电脑需在同一 WiFi 网络。查看电脑 IP：`ipconfig` 找 `IPv4` 地址。
 
-## 微信买入机器人
-
-通过 WeChatFerry 连接桌面微信，发消息即可添加买入记录，无需打开网页或命令行。
-
-### 前置条件
-
-- Windows 桌面微信客户端（版本 3.9.12.51 或兼容版本）
-- 微信已登录
-
-### 使用方法
-
-1. 打开微信桌面版并登录
-2. 双击 `微信买入.bat`（或运行 `node wechat.js`）
-3. 给自己发消息（文件传输助手）即可操作
-
-### 支持的命令
-
-| 发送内容 | 效果 |
-|---------|------|
-| `270042 10` | 买入广发纳斯达克100A 10元 |
-| `270042 10 8.5243` | 买入并指定确认净值 |
-| `270042 10 8.5243 2025-05-28` | 指定净值和日期 |
-| `270042 10, 040046 20` | 批量买入两笔 |
-| `持仓` | 查看当前持仓 |
-| `帮助` | 显示使用说明 |
-
-### 配置
-
-首次运行会在 `data/wechat-config.json` 生成配置文件：
-
-```json
-{
-  "mode": "self",        // 'self' = 文件传输助手, 'room' = 指定群聊
-  "roomId": "",          // mode='room' 时填群聊 roomId
-  "selfOnly": true       // 只处理自己发的消息
-}
-```
-
-### 注意事项
-
-- 需要以管理员权限运行（hook 需要）
-- 微信版本需与 WeChatFerry 兼容，版本不匹配请到 [WeChatFerry](https://github.com/lich0821/WeChatFerry/releases) 下载对应 SDK
-- 建议用小号或专用微信号，避免主号被风控
-- 不需要 24 小时运行，想记账时启动即可
-
-## Telegram 机器人（推荐）
-
-通过 Telegram 机器人记录买入，手机发消息即可，不需要开电脑。
-
-### 前置条件
-
-- Telegram 账号
-- 手机或电脑上安装 Telegram
-
-### 使用方法
-
-1. 在 Telegram 搜索 @BotFather，创建机器人获取 Token
-2. 在 `.env` 文件中添加 `TELEGRAM_BOT_TOKEN=你的Token`
-3. 运行 `node telegram.js` 或双击 `Telegram Bot.bat`
-4. 给机器人发消息即可操作
-
-### 支持的命令
-
-| 发送内容 | 效果 |
-|---------|------|
-| `270042 10` | 买入广发纳斯达克100A 10元 |
-| `270042 10 8.5243` | 买入并指定确认净值 |
-| `270042 10 8.5243 2025-05-28` | 指定净值和日期 |
-| `270042 10, 040046 20` | 批量买入两笔 |
-| `持仓` | 查看当前持仓 |
-| `帮助` | 显示使用说明 |
-
-### 获取 Telegram Bot Token
-
-1. 在 Telegram 搜索 @BotFather
-2. 发送 `/newbot`
-3. 按提示设置名称和用户名
-4. 获取 Token 填入 `.env` 文件
-
-### 优点
-
-- ✅ 手机随时记录，不需要开电脑
-- ✅ 数据保存在本地，安全可靠
-- ✅ 免费，无限制
-- ✅ 支持批量买入
-
-### 注意事项
-
-- 需要在电脑上运行 `node telegram.js`（可以只在需要时运行）
-- 如果想 24 小时运行，可以部署到免费云服务（如 Railway、Render）
-
 ## 项目结构
 
 ```
 index.js                    # 主入口，CLI命令处理
 watch.js                    # X/Twitter 推文实时监控（可选）
-wechat.js                   # 微信买入机器人（WeChatFerry）
 lib/
   allocator.js              # 基础分配算法（equal/low_fee/scarce）
   dynamic-strategy.js       # 智能动态策略（综合评分）
@@ -402,10 +310,8 @@ data/
   fund-info-cache.json      # 基金信息缓存
   buys.txt                  # 买入记录文件（用于导入）
   seen-tweets.json          # 已读推文记录
-  wechat-config.json        # 微信机器人配置（自动生成）
 .github/workflows/
   daily-plan.yml            # GitHub Actions 定时任务
-微信买入.bat                 # 双击启动微信机器人
 web.bat                     # 双击启动Web管理界面
 持仓.bat                     # 双击查看持仓
 导入记录.bat                  # 双击批量导入买入记录
