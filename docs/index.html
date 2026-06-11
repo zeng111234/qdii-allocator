@@ -429,38 +429,45 @@
 
     function calcSummary() {
       if (!portfolioData.holdings || portfolioData.holdings.length === 0) {
-        return { totalInvested: 0, totalValue: 0, totalPnl: 0, holdingCount: 0 };
+        return { confirmedInvested: 0, pendingInvested: 0, totalValue: 0, totalPnl: 0, holdingCount: 0 };
       }
       
-      var totalInvested = 0;
+      var confirmedInvested = 0;
+      var pendingInvested = 0;
       var totalValue = 0;
       
       portfolioData.holdings.forEach(function(h) {
-        var holdingAmount = 0;
+        var confirmedAmount = 0;
+        var pendingAmount = 0;
         var holdingShares = 0;
         
         h.buys.forEach(function(b) {
-          totalInvested += b.amount || 0;
-          holdingAmount += b.amount || 0;
+          if (b.nav) {
+            confirmedInvested += b.amount || 0;
+            confirmedAmount += b.amount || 0;
+          } else {
+            pendingInvested += b.amount || 0;
+            pendingAmount += b.amount || 0;
+          }
           if (b.shares) {
             holdingShares += b.shares;
           }
         });
         
-        // 使用最新净值计算市值
+        // 使用最新净值计算市值（只有有净值的部分）
         var latestNav = navCacheData[h.code] ? navCacheData[h.code].nav : null;
         if (latestNav && holdingShares > 0) {
-          totalValue += holdingShares * latestNav;
+          totalValue += holdingShares * latestNav + pendingAmount;
         } else {
-          // 没有最新净值，使用买入净值
-          totalValue += holdingAmount;
+          totalValue += confirmedAmount + pendingAmount;
         }
       });
       
       return {
-        totalInvested: Math.round(totalInvested * 100) / 100,
+        confirmedInvested: Math.round(confirmedInvested * 100) / 100,
+        pendingInvested: Math.round(pendingInvested * 100) / 100,
         totalValue: Math.round(totalValue * 100) / 100,
-        totalPnl: Math.round((totalValue - totalInvested) * 100) / 100,
+        totalPnl: Math.round((totalValue - confirmedInvested - pendingInvested) * 100) / 100,
         holdingCount: portfolioData.holdings.length
       };
     }
@@ -471,10 +478,10 @@
       var pnlSign = s.totalPnl >= 0 ? '+' : '';
       
       document.getElementById('summary').innerHTML = 
-        '<div class="summary-item"><div class="label">总投入</div><div class="value">' + s.totalInvested + '</div></div>' +
+        '<div class="summary-item"><div class="label">已确认投入</div><div class="value">' + s.confirmedInvested + '</div></div>' +
+        '<div class="summary-item"><div class="label">待确认投入</div><div class="value" style="color:#f59e0b">' + s.pendingInvested + '</div></div>' +
         '<div class="summary-item"><div class="label">当前市值</div><div class="value">' + s.totalValue + '</div></div>' +
-        '<div class="summary-item"><div class="label">总盈亏</div><div class="value ' + pnlClass + '">' + pnlSign + s.totalPnl + '</div></div>' +
-        '<div class="summary-item"><div class="label">持有基金</div><div class="value">' + s.holdingCount + '只</div></div>';
+        '<div class="summary-item"><div class="label">总盈亏</div><div class="value ' + pnlClass + '">' + pnlSign + s.totalPnl + '</div></div>';
     }
 
     function updateHoldings() {
