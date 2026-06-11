@@ -519,7 +519,9 @@
         html += '<div id="detail-' + idx + '" class="buy-list" style="display:none">';
         h.buys.forEach(function(b, bIdx) {
           html += '<div class="buy-item">';
-          html += '<span class="buy-detail">' + b.date + ' 买入' + b.amount + '元';
+          html += '<span class="buy-detail">';
+          html += '<span style="cursor:pointer;color:#6366f1;text-decoration:underline" onclick="event.stopPropagation();editBuyDate(' + idx + ',' + bIdx + ')">' + b.date + '</span>';
+          html += ' 买入' + b.amount + '元';
           if (b.nav) html += ' 净值' + b.nav;
           if (b.shares) html += ' ' + b.shares + '份';
           html += '</span>';
@@ -566,6 +568,21 @@
       showToast('已删除');
       saveLocal();
       updateSummary();
+      updateHoldings();
+    }
+
+    function editBuyDate(hIdx, bIdx) {
+      var h = portfolioData.holdings[hIdx];
+      var b = h.buys[bIdx];
+      var newDate = prompt('修改买入日期 (YYYY-MM-DD):', b.date);
+      if (!newDate || newDate === b.date) return;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(newDate)) {
+        showToast('日期格式错误，需要 YYYY-MM-DD', true);
+        return;
+      }
+      b.date = newDate;
+      showToast('日期已修改为 ' + newDate);
+      saveLocal();
       updateHoldings();
     }
 
