@@ -129,6 +129,74 @@ async function build() {
   }
   template = template.replace('NEWS_DATA', JSON.stringify(newsData));
 
+  // 嵌入今日推荐（从 history.json 取最新记录）
+  let todayPicks = { date: null, ranked: [], strategy: null };
+  try {
+    const historyPath = path.join(__dirname, 'data', 'history.json');
+    if (fs.existsSync(historyPath)) {
+      const historyData = JSON.parse(fs.readFileSync(historyPath, 'utf-8'));
+      const records = historyData.records || historyData;
+      if (Array.isArray(records) && records.length > 0) {
+        const latest = records[records.length - 1];
+        todayPicks = {
+          date: latest.date,
+          strategy: latest.strategy,
+          ranked: (latest.ranked || []).slice(0, 10).map(function(r) {
+            return { code: r.code, name: r.name, score: r.score, reason: r.reason ? r.reason.substring(0, 80) : '' };
+          })
+        };
+      }
+    }
+    console.log('[构建] 今日推荐: ' + todayPicks.ranked.length + '只 (' + (todayPicks.date || '无') + ')');
+  } catch(e) {
+    console.log('[构建] 今日推荐获取失败: ' + e.message);
+  }
+  template = template.replace('TODAY_PICKS_DATA', JSON.stringify(todayPicks));
+
+  // 嵌入限购额度（从 fund-info-cache.json + funds.json 合并）
+  let purchaseLimits = {};
+  try {
+    const infoCachePath = path.join(__dirname, 'data', 'fund-info-cache.json');
+    if (fs.existsSync(infoCachePath)) {
+      const infoCache = JSON.parse(fs.readFileSync(infoCachePath, 'utf-8'));
+      Object.keys(infoCache).forEach(function(code) {
+        const f = infoCache[code];
+        purchaseLimits[code] = {
+          limit: f.limit || null,
+          status: f.rawStatus || '未知',
+          premium: f.premiumRate || 0,
+          minPurchase: f.minPurchase || 10
+        };
+      });
+    }
+    // 从 funds.json 补充
+    (funds.funds || []).forEach(function(f) {
+      if (!purchaseLimits[f.code]) {
+        purchaseLimits[f.code] = {
+          limit: f.dailyLimit || null,
+          status: f.status === 'active' ? '开放申购' : '暂停申购',
+          premium: 0,
+          minPurchase: f.minPurchase || 10
+        };
+      }
+    });
+    console.log('[构建] 限购数据: ' + Object.keys(purchaseLimits).length + '只基金');
+  } catch(e) {
+    console.log('[构建] 限购数据获取失败: ' + e.message);
+  }
+  template = template.replace('PURCHASE_LIMITS_DATA', JSON.stringify(purchaseLimits));
+
+  // 嵌入交易日历（2026年中国法定节假日）
+  const tradingHolidays = [
+    '2026-01-01','2026-01-02','2026-01-03', // 元旦
+    '2026-02-15','2026-02-16','2026-02-17','2026-02-18','2026-02-19','2026-02-20','2026-02-21', // 春节
+    '2026-04-04','2026-04-05','2026-04-06', // 清明
+    '2026-05-01','2026-05-02','2026-05-03','2026-05-04','2026-05-05', // 劳动节
+    '2026-05-31','2026-06-01','2026-06-02', // 端午
+    '2026-10-01','2026-10-02','2026-10-03','2026-10-04','2026-10-05','2026-10-06','2026-10-07' // 国庆
+  ];
+  template = template.replace('TRADING_HOLIDAYS_DATA', JSON.stringify(tradingHolidays));
+
   // 写入输出
   fs.writeFileSync(OUTPUT, template, 'utf-8');
 
