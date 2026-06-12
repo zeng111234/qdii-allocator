@@ -455,10 +455,11 @@
       </div>
 
       <div id="tab-portfolio" class="tab-content active">
-        <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
-          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="exportData()">📤 导出数据</button>
-          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="importData()">📥 导入数据</button>
-          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="syncToServer()">🔄 同步到服务器</button>
+        <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
+          <span id="sync-status" style="font-size:12px;color:var(--text2)"></span>
+          <span style="flex:1"></span>
+          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="exportData()">📤 导出</button>
+          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="importData()">📥 导入</button>
         </div>
         <div id="holdings"></div>
       </div>
@@ -716,6 +717,8 @@
       if (!portfolioData.startDate || date < portfolioData.startDate) portfolioData.startDate = date;
       updateSummary(); updateHoldings(); saveLocal();
       showToast('买入 ' + holding.name + ' ' + amount + '元');
+      // Auto-upload to gist if connected
+      if (getGistToken() && getGistId()) syncUp();
       // Auto-create hypothesis
       var hType = amount >= 50 ? '趋势跟踪' : '均值回归';
       var hThesis = '买入 ' + holding.name + ' ' + amount + '元，预期' + (hType === '趋势跟踪' ? '趋势延续' : '超跌反弹');
@@ -2173,7 +2176,160 @@
       } catch(e) {}
     }
 
-    // 数据同步功能
+    // 数据同步功能 - GitHub Gist
+    var GIST_TOKEN_KEY = 'qdii-gist-token';
+    var GIST_ID_KEY = 'qdii-gist-id';
+
+    function getGistToken() { try { return localStorage.getItem(GIST_TOKEN_KEY); } catch(e) { return null; } }
+    function getGistId() { try { return localStorage.getItem(GIST_ID_KEY); } catch(e) { return null; } }
+
+    function setupSync() {
+      var token = prompt('输入 GitHub Token（需要 gist 权限）：\n\n获取方式：GitHub Settings → Developer settings → Personal access tokens → 只勾选 gist');
+      if (!token) return;
+      localStorage.setItem(GIST_TOKEN_KEY, token);
+      showToast('Token 已保存，正在创建云存储...');
+      createGist(token);
+    }
+
+    function createGist(token) {
+      var data = JSON.stringify(portfolioData, null, 2);
+      fetch('https://api.github.com/gists', {
+        method: 'POST',
+        headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          description: 'QDII Fund Allocator Portfolio Data (auto-sync)',
+          public: false,
+          files: { 'portfolio.json': { content: data } }
+        })
+      }).then(function(r) { return r.json(); }).then(function(gist) {
+        if (gist.id) {
+          localStorage.setItem(GIST_ID_KEY, gist.id);
+          showToast('✅ 云存储已创建！数据已同步');
+          updateSyncStatus();
+        } else {
+          showToast('创建失败: ' + (gist.message || '未知错误'), true);
+        }
+      }).catch(function(e) {
+        showToast('网络错误: ' + e.message, true);
+      });
+    }
+
+    function syncUp() {
+      var token = getGistToken();
+      var gistId = getGistId();
+      if (!token || !gistId) { setupSync(); return; }
+
+      var data = JSON.stringify(portfolioData, null, 2);
+      fetch('https://api.github.com/gists/' + gistId, {
+        method: 'PATCH',
+        headers: { 'Authorization': 'token ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ files: { 'portfolio.json': { content: data } } })
+      }).then(function(r) { return r.json(); }).then(function(gist) {
+        if (gist.id) {
+          showToast('⬆️ 已上传到云端');
+          updateSyncStatus();
+        } else {
+          if (gist.message === 'Bad credentials') {
+            showToast('Token 过期，请重新设置', true);
+            localStorage.removeItem(GIST_TOKEN_KEY);
+          } else {
+            showToast('上传失败: ' + (gist.message || '未知错误'), true);
+          }
+        }
+      });
+    }
+
+    function syncDown() {
+      var gistId = getGistId();
+      if (!gistId) { showToast('请先设置云同步', true); return; }
+
+      // Gist 读取不需要 token（如果是自己创建的 gist，用 token 更好）
+      var token = getGistToken();
+      var headers = {};
+      if (token) headers['Authorization'] = 'token ' + token;
+
+      fetch('https://api.github.com/gists/' + gistId, { headers: headers })
+        .then(function(r) { return r.json(); })
+        .then(function(gist) {
+          if (gist.files && gist.files['portfolio.json']) {
+            var content = gist.files['portfolio.json'].content;
+            var data = JSON.parse(content);
+            if (data && data.holdings) {
+              // 合并：云端 + 本地
+              var merged = mergePortfolio(portfolioData, data);
+              portfolioData = merged;
+              saveLocal();
+              updateSummary();
+              updateHoldings();
+              showToast('⬇️ 已从云端同步，共 ' + merged.holdings.length + ' 只基金');
+              updateSyncStatus();
+            }
+          } else {
+            showToast('云端数据不存在', true);
+          }
+        }).catch(function(e) {
+          showToast('下载失败: ' + e.message, true);
+        });
+    }
+
+    function mergePortfolio(a, b) {
+      var allCodes = {};
+      [a, b].forEach(function(p) {
+        (p.holdings || []).forEach(function(h) {
+          if (!allCodes[h.code]) {
+            allCodes[h.code] = JSON.parse(JSON.stringify(h));
+          } else {
+            // 合并 buys（去重：code+date+amount）
+            var existingKeys = {};
+            allCodes[h.code].buys.forEach(function(bu) {
+              existingKeys[bu.date + '_' + bu.amount] = true;
+            });
+            h.buys.forEach(function(bu) {
+              var key = bu.date + '_' + bu.amount;
+              if (!existingKeys[key]) {
+                allCodes[h.code].buys.push(bu);
+                existingKeys[key] = true;
+              }
+            });
+          }
+        });
+      });
+
+      var merged = { holdings: [], startDate: null };
+      Object.keys(allCodes).forEach(function(code) {
+        var h = allCodes[code];
+        if (h.buys && h.buys.length > 0) {
+          h.buys.sort(function(x, y) { return x.date < y.date ? -1 : (x.date > y.date ? 1 : 0); });
+          merged.holdings.push(h);
+          h.buys.forEach(function(bu) {
+            if (!merged.startDate || bu.date < merged.startDate) merged.startDate = bu.date;
+          });
+        }
+      });
+      return merged;
+    }
+
+    function updateSyncStatus() {
+      var el = document.getElementById('sync-status');
+      if (!el) return;
+      var token = getGistToken();
+      var gistId = getGistId();
+      if (token && gistId) {
+        el.innerHTML = '☁️ 已连接 · <span style="cursor:pointer;text-decoration:underline" onclick="syncDown()">⬇️ 下载</span> · <span style="cursor:pointer;text-decoration:underline" onclick="syncUp()">⬆️ 上传</span> · <span style="cursor:pointer;text-decoration:underline;color:var(--danger)" onclick="disconnectSync()">断开</span>';
+      } else {
+        el.innerHTML = '<span style="cursor:pointer;text-decoration:underline" onclick="setupSync()">🔗 连接云同步</span>';
+      }
+    }
+
+    function disconnectSync() {
+      if (!confirm('断开云同步？本地数据不会删除')) return;
+      localStorage.removeItem(GIST_TOKEN_KEY);
+      localStorage.removeItem(GIST_ID_KEY);
+      updateSyncStatus();
+      showToast('已断开云同步');
+    }
+
+    // 旧的导出/导入功能保留
     function exportData() {
       var data = JSON.stringify(portfolioData, null, 2);
       // 复制到剪贴板
@@ -2363,6 +2519,11 @@
     loadFundOptions();
     renderTradeBanner();
     renderPicks();
+    updateSyncStatus();
+    // Auto-sync: 如果已连接 Gist，自动从云端下载最新数据
+    if (getGistId() && getGistToken()) {
+      syncDown();
+    }
     /* ── Hypothesis & Goal Tracker (from Vibe-Trading hypotheses/ + goal/) ── */
     var HYP_KEY = 'qdii-hypotheses';
     var GOAL_KEY = 'qdii-goals';
