@@ -317,6 +317,85 @@
       line-height: 1.6;
     }
 
+    /* ── Factor Ranking (from Vibe-Trading factors/base.py + registry.py) ── */
+    .ranking-controls {
+      display: flex; gap: 8px; align-items: center; margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .ranking-controls select {
+      padding: 7px 10px; border: 1.5px solid var(--border); border-radius: 8px;
+      font-size: 12px; background: white; color: var(--text);
+    }
+    .ranking-controls .sort-btn {
+      padding: 5px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font-size: 11px; cursor: pointer; background: #f8f9ff; color: var(--text2);
+      transition: all 0.15s;
+    }
+    .ranking-controls .sort-btn.active {
+      background: var(--primary); color: white; border-color: var(--primary);
+    }
+    .ranking-row {
+      padding: 14px 0; border-bottom: 1px solid #f1f5f9;
+      cursor: pointer;
+    }
+    .ranking-row:last-child { border-bottom: none; }
+    .ranking-header {
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .ranking-left { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+    .ranking-rank {
+      width: 24px; height: 24px; border-radius: 6px; text-align: center;
+      line-height: 24px; font-size: 11px; font-weight: 700; flex-shrink: 0;
+    }
+    .ranking-rank.top1 { background: #fef3c7; color: #b45309; }
+    .ranking-rank.top2 { background: #f1f5f9; color: #64748b; }
+    .ranking-rank.top3 { background: #fef2f2; color: #b91c1c; }
+    .ranking-rank.normal { background: #f1f5f9; color: var(--text3); }
+    .ranking-name { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ranking-code {
+      font-size: 11px; color: var(--text3); background: #f1f5f9;
+      padding: 2px 6px; border-radius: 4px; margin-left: 4px; flex-shrink: 0;
+    }
+    .ranking-type {
+      font-size: 10px; color: var(--primary); background: #f0f4ff;
+      padding: 2px 6px; border-radius: 4px; margin-left: 4px; flex-shrink: 0;
+    }
+    .score-badge {
+      flex-shrink: 0; width: 48px; height: 48px; border-radius: 10px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 16px; line-height: 1;
+    }
+    .score-badge .score-label { font-size: 9px; font-weight: 400; opacity: 0.7; margin-top: 2px; }
+    .score-badge.excellent { background: #f0fdf4; color: var(--success); }
+    .score-badge.good { background: #f0f4ff; color: var(--primary); }
+    .score-badge.medium { background: #fefce8; color: var(--warn); }
+    .score-badge.poor { background: #fef2f2; color: var(--danger); }
+    .factor-bars {
+      display: none; margin-top: 10px; padding: 12px; background: #f8fafc;
+      border-radius: 8px;
+    }
+    .factor-bar-row {
+      display: flex; align-items: center; margin-bottom: 6px; font-size: 11px;
+    }
+    .factor-bar-row:last-child { margin-bottom: 0; }
+    .factor-bar-label { width: 70px; flex-shrink: 0; color: var(--text3); white-space: nowrap; }
+    .factor-bar-track { flex: 1; height: 6px; background: #e2e8f0; border-radius: 3px; position: relative; }
+    .factor-bar-fill { height: 6px; border-radius: 3px; transition: width 0.3s; }
+    .factor-bar-value { width: 38px; flex-shrink: 0; text-align: right; font-weight: 600; font-size: 11px; }
+    .ranking-summary {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+      margin-bottom: 14px;
+    }
+    .ranking-summary-item {
+      padding: 10px 8px; background: #f8f9ff; border-radius: 8px;
+      text-align: center;
+    }
+    .ranking-summary-item .label { font-size: 10px; color: var(--text3); margin-bottom: 2px; }
+    .ranking-summary-item .value { font-size: 16px; font-weight: 700; color: var(--primary); }
+    .factor-weight-note {
+      font-size: 11px; color: var(--text3); line-height: 1.6;
+      padding: 10px; background: #f8fafc; border-radius: 8px; margin-top: 10px;
+    }
     @media (max-width: 480px) {
       .form-row { flex-direction: column; }
       .insight-grid { grid-template-columns: 1fr 1fr; }
@@ -324,6 +403,8 @@
       .risk-detail-table { font-size: 11px; }
       .risk-detail-table th, .risk-detail-table td { padding: 5px 4px; }
       .risk-heatmap th, .risk-heatmap td { padding: 3px 2px; font-size: 9px; }
+      .ranking-summary { grid-template-columns: 1fr 1fr 1fr; }
+      .factor-bar-label { width: 55px; }
     }
   </style>
 </head>
@@ -356,6 +437,8 @@
         <div class="tab" onclick="switchTab('batch')">批量</div>
         <div class="tab" onclick="switchTab('insights')">洞察</div>
         <div class="tab" onclick="switchTab('risk')">风险</div>
+        <div class="tab" onclick="switchTab('ranking')">评分</div>
+        <div class="tab" onclick="switchTab('shadow')">模拟</div>
       </div>
 
       <div id="tab-portfolio" class="tab-content active">
@@ -400,6 +483,25 @@
           <div style="text-align:center;padding:20px;color:var(--text3)">正在计算风险指标...</div>
         </div>
       </div>
+
+      <div id="tab-ranking" class="tab-content">
+        <div id="ranking-content">
+          <div style="text-align:center;padding:20px;color:var(--text3)">正在计算基金评分...</div>
+        </div>
+      </div>
+
+      <div id="tab-shadow" class="tab-content">
+        <div id="shadow-summary"></div>
+        <div style="margin-top:12px">
+          <div style="display:flex;gap:8px;margin-bottom:10px">
+            <select id="shadowFundSelect" style="flex:2;padding:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px"><option value="">-- 选择基金 --</option></select>
+            <input type="number" id="shadowAmount" min="1" step="0.01" value="100" style="flex:1;padding:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px">
+            <button class="btn btn-primary" style="padding:8px 12px;font-size:12px;white-space:nowrap" onclick="addShadowBuy()">模拟买入</button>
+          </div>
+          <div id="shadow-holdings"></div>
+        </div>
+        <div id="shadow-compare" style="margin-top:12px"></div>
+      </div>
     </div>
   </div>
 
@@ -422,12 +524,14 @@
     function switchTab(tab) {
       document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
       document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
-      var tabs = ['portfolio', 'buy', 'batch', 'insights', 'risk'];
+      var tabs = ['portfolio', 'buy', 'batch', 'insights', 'risk', 'ranking', 'shadow'];
       var idx = tabs.indexOf(tab);
       document.querySelectorAll('.tab')[idx].classList.add('active');
       document.getElementById('tab-' + tab).classList.add('active');
       if (tab === 'insights') renderInsights();
       if (tab === 'risk') renderRiskDashboard();
+      if (tab === 'ranking') renderRanking();
+      if (tab === 'shadow') renderShadow();
       if (tab === 'batch' && !document.getElementById('batchDate').value) {
         document.getElementById('batchDate').value = new Date().toISOString().slice(0, 10);
         if (!document.getElementById('batchList').children.length) addBatchRow();
@@ -589,7 +693,11 @@
       if (!portfolioData.startDate || date < portfolioData.startDate) portfolioData.startDate = date;
       updateSummary(); updateHoldings(); saveLocal();
       showToast('买入 ' + holding.name + ' ' + amount + '元');
-      document.getElementById('buyResult').innerHTML = '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px;font-size:12px">✅ 已保存</div>';
+      // Auto-create hypothesis
+      var hType = amount >= 50 ? '趋势跟踪' : '均值回归';
+      var hThesis = '买入 ' + holding.name + ' ' + amount + '元，预期' + (hType === '趋势跟踪' ? '趋势延续' : '超跌反弹');
+      createHypothesisLocal(code, holding.name, hType, hThesis);
+      document.getElementById('buyResult').innerHTML = '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px;font-size:12px">✅ 已保存 · 已创建投资假设</div>';
     }
 
     // Batch
@@ -652,19 +760,74 @@
       var hText = health >= 80 ? '🟢 分散良好' : '🟡 建议增加非美股配置';
       html += '<div style="padding:10px;background:' + hColor + ';border-radius:8px;font-size:13px;margin-top:4px">健康度 <strong>' + health + '/100</strong> · ' + hText + '</div>';
 
-      // Backtest
-      html += '<div class="card-title" style="margin-top:18px">走步回测验证</div>';
-      html += '<div class="insight-grid">';
-      html += '<div class="insight-stat green"><div class="label">胜率</div><div class="value">76.2%</div></div>';
-      html += '<div class="insight-stat blue"><div class="label">累计收益</div><div class="value">+98.5%</div></div>';
-      html += '<div class="insight-stat yellow"><div class="label">最佳窗口</div><div class="value">+20.4%</div></div>';
-      html += '<div class="insight-stat red"><div class="label">最差窗口</div><div class="value">-4.3%</div></div>';
-      html += '</div>';
-      html += '<div style="font-size:11px;color:var(--text3)">训练120天→测试30天, 21个窗口 · 受 <a href="https://github.com/HKUDS/Vibe-Trading" target="_blank" style="color:var(--primary)">Vibe-Trading</a> 启发</div>';
+      // Backtest (dynamic from nav-cache data)
+      html += '<div class="card-title" style="margin-top:18px">📈 走步回测验证</div>';
+      html += '<div id="backtest-content"><div style="text-align:center;padding:10px;color:var(--text3)">正在加载回测数据...</div></div>';
+      html += '<div style="font-size:11px;color:var(--text3)">训练120天→测试30天 · 受 <a href="https://github.com/HKUDS/Vibe-Trading" target="_blank" style="color:var(--primary)">Vibe-Trading</a> 启发</div>';
 
-      // Hypotheses
-      html += '<div class="card-title" style="margin-top:18px">假设追踪</div>';
-      html += '<div style="font-size:13px;color:var(--text2);line-height:1.7">系统自动为推荐创建投资假设，追踪 3/7/14/30 日收益验证胜率。</div>';
+      // Performance Attribution
+      html += '<div class="card-title" style="margin-top:18px">📊 业绩归因</div>';
+      html += '<div id="attribution-content"><div style="text-align:center;padding:10px;color:var(--text3)">正在计算...</div></div>';
+
+      // Hypotheses (from localStorage)
+      html += '<div class="card-title" style="margin-top:18px">📝 假设追踪</div>';
+      var hypData = loadHypothesesLocal();
+      if (hypData.hypotheses.length === 0) {
+        html += '<div style="font-size:13px;color:var(--text3);line-height:1.7">暂无投资假设。在买入基金时，系统会自动创建投资假设并追踪收益。</div>';
+      } else {
+        var activeHyps = hypData.hypotheses.filter(function(h) { return h.status === 'active'; });
+        var closedHyps = hypData.hypotheses.filter(function(h) { return h.status !== 'active'; });
+        var validated = closedHyps.filter(function(h) { return h.status === 'validated'; });
+        var winRate = closedHyps.length > 0 ? Math.round(validated.length / closedHyps.length * 100) : null;
+        html += '<div class="insight-grid">';
+        html += '<div class="insight-stat blue"><div class="label">活跃假设</div><div class="value">' + activeHyps.length + '</div></div>';
+        html += '<div class="insight-stat green"><div class="label">已验证</div><div class="value">' + validated.length + '</div></div>';
+        html += '<div class="insight-stat ' + (winRate !== null && winRate >= 50 ? 'green' : 'red') + '"><div class="label">胜率</div><div class="value">' + (winRate !== null ? winRate + '%' : 'N/A') + '</div></div>';
+        html += '</div>';
+        activeHyps.slice(0, 5).forEach(function(h) {
+          var ret3d = h.followUpReturns && h.followUpReturns['3d'] !== null ? h.followUpReturns['3d'] + '%' : 'N/A';
+          var ret7d = h.followUpReturns && h.followUpReturns['7d'] !== null ? h.followUpReturns['7d'] + '%' : 'N/A';
+          var emoji = h.type === '趋势跟踪' ? '📈' : (h.type === '均值回归' ? '📉' : (h.type === '稀缺溢价' ? '💎' : '📊'));
+          html += '<div style="padding:8px 0;border-bottom:1px solid var(--border);font-size:12px">';
+          html += '<div>' + emoji + ' <strong>' + h.fundName + '</strong> <span style="color:var(--text3)">(' + h.type + ')</span></div>';
+          html += '<div style="color:var(--text2);margin-top:2px">' + h.thesis + '</div>';
+          html += '<div style="color:var(--text3);margin-top:2px">3日: ' + ret3d + ' · 7日: ' + ret7d + '</div>';
+          html += '</div>';
+        });
+      }
+
+      // Goal Tracker (from localStorage)
+      html += '<div class="card-title" style="margin-top:18px">🎯 投资目标</div>';
+      var goalsData = loadGoalsLocal();
+      if (goalsData.goals.length === 0) {
+        html += '<div style="font-size:13px;color:var(--text3);line-height:1.7">暂未设定投资目标。</div>';
+        html += '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">';
+        html += '<button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:6px 10px" onclick="addGoal(\'return\')">+ 年化收益目标</button>';
+        html += '<button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:6px 10px" onclick="addGoal(\'risk\')">+ 最大回撤控制</button>';
+        html += '<button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:6px 10px" onclick="addGoal(\'streak\')">+ 连续定投天数</button>';
+        html += '</div>';
+      } else {
+        html += '<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">';
+        html += '<button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:4px 8px" onclick="addGoal(\'return\')">+ 收益目标</button>';
+        html += '<button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:4px 8px" onclick="addGoal(\'risk\')">+ 回撤控制</button>';
+        html += '</div>';
+        goalsData.goals.forEach(function(g, idx) {
+          var progress = g.target > 0 ? Math.min(Math.round(Math.abs(g.current || 0) / Math.abs(g.target) * 100), 100) : 0;
+          var pColor = progress >= 100 ? 'var(--success)' : (progress >= 50 ? 'var(--primary)' : 'var(--warn)');
+          var statusEmoji = g.status === 'completed' ? '✅' : (g.status === 'abandoned' ? '❌' : '🔄');
+          html += '<div style="padding:10px;background:var(--bg);border-radius:8px;margin-bottom:8px">';
+          html += '<div style="display:flex;justify-content:space-between;align-items:center">';
+          html += '<div>' + statusEmoji + ' <strong>' + g.title + '</strong></div>';
+          html += '<span style="font-size:11px;color:#ef4444;cursor:pointer" onclick="deleteGoal(' + idx + ')">×</span>';
+          html += '</div>';
+          html += '<div style="font-size:12px;color:var(--text2);margin-top:4px">目标: ' + g.target + g.unit + ' · 当前: ' + (g.current || 0) + g.unit + '</div>';
+          html += '<div style="background:var(--border);border-radius:4px;height:6px;margin-top:6px">';
+          html += '<div style="background:' + pColor + ';border-radius:4px;height:6px;width:' + progress + '%"></div>';
+          html += '</div>';
+          html += '<div style="font-size:11px;color:var(--text3);margin-top:2px;text-align:right">' + progress + '%</div>';
+          html += '</div>';
+        });
+      }
 
       // New Funds
       html += '<div class="card-title" style="margin-top:18px">最新加入基金池</div>';
@@ -682,6 +845,8 @@
       html += '</div>';
 
       c.innerHTML = html;
+      // Trigger async backtest and attribution
+      runBacktest();
     }
 
     // LocalStorage
@@ -1133,6 +1298,844 @@
       });
     }
 
+    // ═══════════════════════════════════════════════════════════════════
+    //  Factor Engine — ported from Vibe-Trading factors/base.py + registry.py
+    //  Time-series operators, factor registry, cross-sectional normalization
+    // ═══════════════════════════════════════════════════════════════════
+
+    var FactorEngine = (function() {
+
+      // ── Time-Series Operators (from Vibe-Trading base.py) ──
+
+      /**
+       * Rolling mean over last n values of arr.
+       * Equivalent to: ts_mean(df, n) in Vibe-Trading base.py
+       * @param {number[]} arr - time series
+       * @param {number} n - window size
+       * @returns {number|null}
+       */
+      function tsMean(arr, n) {
+        if (!arr || arr.length < n || n < 1) return null;
+        var sum = 0;
+        for (var i = arr.length - n; i < arr.length; i++) sum += arr[i];
+        return sum / n;
+      }
+
+      /**
+       * Rolling sample std (ddof=1) over last n values.
+       * Equivalent to: ts_std(df, n) in Vibe-Trading base.py
+       */
+      function tsStd(arr, n) {
+        if (!arr || arr.length < n || n < 2) return null;
+        var mean = tsMean(arr, n);
+        var sumSq = 0;
+        for (var i = arr.length - n; i < arr.length; i++) {
+          var d = arr[i] - mean;
+          sumSq += d * d;
+        }
+        return Math.sqrt(sumSq / (n - 1));
+      }
+
+      /**
+       * Rolling max over last n values.
+       * Equivalent to: ts_max(df, n)
+       */
+      function tsMax(arr, n) {
+        if (!arr || arr.length < n || n < 1) return null;
+        var mx = -Infinity;
+        for (var i = arr.length - n; i < arr.length; i++) {
+          if (arr[i] > mx) mx = arr[i];
+        }
+        return mx;
+      }
+
+      /**
+       * Rolling min over last n values.
+       * Equivalent to: ts_min(df, n)
+       */
+      function tsMin(arr, n) {
+        if (!arr || arr.length < n || n < 1) return null;
+        var mn = Infinity;
+        for (var i = arr.length - n; i < arr.length; i++) {
+          if (arr[i] < mn) mn = arr[i];
+        }
+        return mn;
+      }
+
+      /**
+       * First difference at lag d: arr[t] - arr[t-d].
+       * Equivalent to: delta(df, d) in Vibe-Trading base.py
+       */
+      function deltaFn(arr, d) {
+        if (!arr || arr.length <= d || d < 1) return null;
+        return arr[arr.length - 1] - arr[arr.length - 1 - d];
+      }
+
+      /**
+       * Rolling rank of last value within n-window (percentile in [0,1]).
+       * Equivalent to: ts_rank(df, n) in Vibe-Trading base.py
+       */
+      function tsRank(arr, n) {
+        if (!arr || arr.length < n || n < 2) return null;
+        var win = arr.slice(arr.length - n);
+        var last = win[win.length - 1];
+        var less = 0, eq = 0;
+        for (var i = 0; i < win.length - 1; i++) {
+          if (win[i] < last) less++;
+          else if (win[i] === last) eq++;
+        }
+        var total = win.length - 1;
+        if (total === 0) return 0.5;
+        return (less + 0.5 * (eq + 1)) / (total + 1);
+      }
+
+      /**
+       * Linear decay-weighted moving average.
+       * Equivalent to: decay_linear(df, n) in Vibe-Trading base.py
+       */
+      function decayLinear(arr, n) {
+        if (!arr || arr.length < n || n < 1) return null;
+        var weightSum = 0;
+        var val = 0;
+        for (var k = 0; k < n; k++) {
+          var w = n - k; // weights: n, n-1, ..., 1
+          weightSum += w;
+          val += w * arr[arr.length - n + k];
+        }
+        return weightSum > 0 ? val / weightSum : null;
+      }
+
+      // ── Cross-sectional helpers (from Vibe-Trading rank/normalize) ──
+
+      /**
+       * Cross-sectional percentile rank: min-max normalize scores to [0, 100].
+       * Equivalent to: rank(df, axis=1, pct=True) in Vibe-Trading base.py
+       * @param {Array} items - [{id, score, ...}, ...]
+       * @returns {Array} same items with .normalized added
+       */
+      function normalize(items) {
+        var valid = items.filter(function(s) {
+          return s.score !== null && s.score !== undefined && !isNaN(s.score);
+        });
+        if (valid.length === 0) {
+          items.forEach(function(s) { s.normalized = 50; });
+          return items;
+        }
+        var mn = Infinity, mx = -Infinity;
+        valid.forEach(function(s) {
+          if (s.score < mn) mn = s.score;
+          if (s.score > mx) mx = s.score;
+        });
+        var range = mx - mn;
+        items.forEach(function(s) {
+          if (s.score === null || s.score === undefined || isNaN(s.score)) {
+            s.normalized = 50;
+          } else if (range < 1e-10) {
+            s.normalized = 50;
+          } else {
+            s.normalized = Math.round(((s.score - mn) / range) * 100 * 100) / 100;
+          }
+        });
+        return items;
+      }
+
+      /**
+       * Weighted sum of factor scores, normalized by total absolute weight.
+       * @param {Object} factorScores - {factorId: normalizedScore, ...}
+       * @param {Object} weights - {factorId: weight, ...}
+       * @returns {number} composite score in [0, 100]
+       */
+      function weightedSum(factorScores, weights) {
+        var totalWeight = 0;
+        var totalScore = 0;
+        for (var id in weights) {
+          if (weights.hasOwnProperty(id) && factorScores.hasOwnProperty(id)) {
+            var s = factorScores[id];
+            if (s !== null && s !== undefined && !isNaN(s)) {
+              totalScore += s * weights[id];
+              totalWeight += Math.abs(weights[id]);
+            }
+          }
+        }
+        if (totalWeight < 1e-10) return 50;
+        var raw = totalScore / totalWeight;
+        return Math.round(Math.max(0, Math.min(100, raw)) * 100) / 100;
+      }
+
+      // ── Factor Registry (simplified from Vibe-Trading registry.py) ──
+
+      var _factors = {};
+      var _order = [];
+
+      /**
+       * Register a factor. Equivalent to adding to Registry._alphas.
+       * @param {string} id - unique factor id
+       * @param {string} name - display name (Chinese)
+       * @param {string} theme - category: momentum|volatility|trend|drawdown|quality|qdii_special
+       * @param {function} computeFn - (navArr, fundMeta) => rawScore|null
+       * @param {number} defaultWeight - weight for composite score (negative = lower is better)
+       */
+      function register(id, name, theme, computeFn, defaultWeight) {
+        _factors[id] = {
+          id: id, name: name, theme: theme,
+          compute: computeFn, weight: defaultWeight || 1.0
+        };
+        _order.push(id);
+      }
+
+      function list(theme) {
+        var result = [];
+        for (var i = 0; i < _order.length; i++) {
+          var f = _factors[_order[i]];
+          if (!theme || f.theme === theme) result.push(f.id);
+        }
+        return result;
+      }
+
+      function get(id) { return _factors[id] || null; }
+
+      function computeOne(id, navArr, fundMeta) {
+        var factor = _factors[id];
+        if (!factor) return null;
+        try { return factor.compute(navArr, fundMeta); }
+        catch(e) { return null; }
+      }
+
+      function computeAll(navArr, fundMeta) {
+        var results = {};
+        for (var i = 0; i < _order.length; i++) {
+          results[_order[i]] = computeOne(_order[i], navArr, fundMeta);
+        }
+        return results;
+      }
+
+      function getDefaultWeights() {
+        var w = {};
+        for (var i = 0; i < _order.length; i++) {
+          w[_order[i]] = _factors[_order[i]].weight;
+        }
+        return w;
+      }
+
+      // Public API
+      return {
+        tsMean: tsMean, tsStd: tsStd, tsMax: tsMax, tsMin: tsMin,
+        deltaFn: deltaFn, tsRank: tsRank, decayLinear: decayLinear,
+        normalize: normalize, weightedSum: weightedSum,
+        register: register, list: list, get: get,
+        computeOne: computeOne, computeAll: computeAll,
+        getDefaultWeights: getDefaultWeights
+      };
+    })();
+
+    // ═══════════════════════════════════════════════════════════════
+    //  QDII Factor Definitions
+    //  Ported from Vibe-Trading factors/zoo/qlib158 + QDII-specific
+    // ═══════════════════════════════════════════════════════════════
+
+    // ── Momentum Factors ──
+
+    /**
+     * MA Deviation: composite deviation from MA5/10/20.
+     * Inspired by qlib158 RSI/MA cross factors.
+     * Positive = price above MAs (uptrend), negative = below (downtrend).
+     */
+    FactorEngine.register('momentum_ma_dev', 'MA偏离度', 'momentum', function(navArr) {
+      if (!navArr || navArr.length < 25) return null;
+      var latest = navArr[navArr.length - 1];
+      var ma5 = FactorEngine.tsMean(navArr, 5);
+      var ma10 = FactorEngine.tsMean(navArr, 10);
+      var ma20 = FactorEngine.tsMean(navArr, 20);
+      if (!ma5 || !ma10 || !ma20 || ma5 === 0 || ma10 === 0 || ma20 === 0) return null;
+      // Weighted: short-term MA deviation matters more
+      var dev = (latest / ma5 - 1) * 0.5 + (latest / ma10 - 1) * 0.3 + (latest / ma20 - 1) * 0.2;
+      return Math.round(dev * 10000) / 100; // percentage
+    }, 1.5);
+
+    /**
+     * 20-day return (momentum_20d).
+     * Classic price momentum factor from qlib158.
+     */
+    FactorEngine.register('momentum_20d', '20日收益', 'momentum', function(navArr) {
+      if (!navArr || navArr.length < 21) return null;
+      var ret = (navArr[navArr.length - 1] / navArr[navArr.length - 21] - 1) * 100;
+      return Math.round(ret * 100) / 100;
+    }, 1.0);
+
+    /**
+     * 60-day return (momentum_60d).
+     * Medium-term momentum.
+     */
+    FactorEngine.register('momentum_60d', '60日收益', 'momentum', function(navArr) {
+      if (!navArr || navArr.length < 61) return null;
+      var ret = (navArr[navArr.length - 1] / navArr[navArr.length - 61] - 1) * 100;
+      return Math.round(ret * 100) / 100;
+    }, 0.8);
+
+    /**
+     * RSI-14: Relative Strength Index.
+     * Classic oscillator from qlib158/alpha101.
+     */
+    FactorEngine.register('momentum_rsi', 'RSI(14)', 'momentum', function(navArr) {
+      if (!navArr || navArr.length < 15) return null;
+      var gains = 0, losses = 0;
+      for (var i = navArr.length - 14; i < navArr.length; i++) {
+        var chg = navArr[i] - navArr[i - 1];
+        if (chg > 0) gains += chg;
+        else losses -= chg; // make positive
+      }
+      if (gains + losses < 1e-10) return 50;
+      var rs = gains / (losses > 1e-10 ? losses : 1e-10);
+      var rsi = 100 - 100 / (1 + rs);
+      return Math.round(rsi * 100) / 100;
+    }, 0.5);
+
+    // ── Volatility Factors ──
+
+    /**
+     * Annualized historical volatility (20-day).
+     * From Vibe-Trading metrics.py annualized_volatility.
+     * Raw value: annualized vol %. Lower = less risky.
+     */
+    FactorEngine.register('volatility_hist', '历史波动率', 'volatility', function(navArr) {
+      if (!navArr || navArr.length < 25) return null;
+      var returns = [];
+      for (var i = navArr.length - 21; i < navArr.length; i++) {
+        if (navArr[i - 1] > 0) returns.push(navArr[i] / navArr[i - 1] - 1);
+      }
+      if (returns.length < 10) return null;
+      var std = FactorEngine.tsStd(returns, returns.length);
+      if (std === null) return null;
+      // Annualize: std * sqrt(252)
+      var annVol = std * Math.sqrt(252) * 100;
+      return Math.round(annVol * 100) / 100;
+    }, -1.0); // negative weight: lower vol → higher score
+
+    /**
+     * Downside deviation (20-day).
+     * From Vibe-Trading metrics.py sortino_ratio computation.
+     * Only counts negative returns.
+     */
+    FactorEngine.register('volatility_down', '下行波动率', 'volatility', function(navArr) {
+      if (!navArr || navArr.length < 25) return null;
+      var negReturns = [];
+      for (var i = navArr.length - 21; i < navArr.length; i++) {
+        var r = navArr[i] / navArr[i - 1] - 1;
+        if (r < 0) negReturns.push(r);
+        else negReturns.push(0);
+      }
+      if (negReturns.length < 5) return null;
+      var sumSq = 0;
+      var mean = 0;
+      for (var j = 0; j < negReturns.length; j++) mean += negReturns[j];
+      mean /= negReturns.length;
+      for (var j = 0; j < negReturns.length; j++) {
+        var d = negReturns[j] - mean;
+        sumSq += d * d;
+      }
+      var downStd = Math.sqrt(sumSq / (negReturns.length - 1));
+      return Math.round(downStd * Math.sqrt(252) * 100 * 100) / 100;
+    }, -0.8);
+
+    // ── Trend Factors ──
+
+    /**
+     * MA Alignment: multi-MA bullish/bearish alignment.
+     * Inspired by qlib158 trend strength factors.
+     * Score: +3 (strong bull) to -3 (strong bear).
+     */
+    FactorEngine.register('trend_alignment', '均线排列', 'trend', function(navArr) {
+      if (!navArr || navArr.length < 65) return null;
+      var ma5 = FactorEngine.tsMean(navArr, 5);
+      var ma10 = FactorEngine.tsMean(navArr, 10);
+      var ma20 = FactorEngine.tsMean(navArr, 20);
+      var ma60 = FactorEngine.tsMean(navArr, 60);
+      if (!ma5 || !ma10 || !ma20 || !ma60) return null;
+      // Count bullish pairs: MA5 > MA10 > MA20 > MA60
+      var score = 0;
+      if (ma5 > ma10) score++; else score--;
+      if (ma10 > ma20) score++; else score--;
+      if (ma20 > ma60) score++; else score--;
+      // Also check price vs MA20
+      var latest = navArr[navArr.length - 1];
+      if (latest > ma20) score += 0.5; else score -= 0.5;
+      return Math.round(score * 100) / 100; // range: [-3.5, +3.5]
+    }, 1.5);
+
+    /**
+     * Price position in 60-day range.
+     * (current - 60d_low) / (60d_high - 60d_low)
+     * 1.0 = at 60d high, 0.0 = at 60d low.
+     */
+    FactorEngine.register('trend_range_pos', '区间位置', 'trend', function(navArr) {
+      if (!navArr || navArr.length < 60) return null;
+      var high = FactorEngine.tsMax(navArr, 60);
+      var low = FactorEngine.tsMin(navArr, 60);
+      var latest = navArr[navArr.length - 1];
+      var range = high - low;
+      if (range < 1e-10) return 50; // flat
+      return Math.round(((latest - low) / range) * 100 * 100) / 100;
+    }, 0.8);
+
+    // ── Drawdown Factors ──
+
+    /**
+     * Current drawdown from all-time peak.
+     * From Vibe-Trading metrics.py max_drawdown.
+     * Raw: percentage (0 to -X%). Less negative = better.
+     */
+    FactorEngine.register('drawdown_depth', '回撤深度', 'drawdown', function(navArr) {
+      if (!navArr || navArr.length < 10) return null;
+      var peak = -Infinity;
+      for (var i = 0; i < navArr.length; i++) {
+        if (navArr[i] > peak) peak = navArr[i];
+      }
+      if (peak <= 0) return null;
+      var currentDD = (navArr[navArr.length - 1] - peak) / peak * 100;
+      return Math.round(currentDD * 100) / 100; // negative number
+    }, 1.2); // higher (less negative) = better
+
+    /**
+     * Drawdown recovery speed.
+     * Measures how quickly fund recovers: days since last trough vs peak proximity.
+     * Score 0-100: 100 = fully recovered, 0 = deep in drawdown.
+     */
+    FactorEngine.register('drawdown_recovery', '回撤恢复', 'drawdown', function(navArr) {
+      if (!navArr || navArr.length < 20) return null;
+      // Find the trough in last 60 days
+      var lookback = Math.min(60, navArr.length);
+      var peak = -Infinity, trough = Infinity, troughIdx = 0;
+      for (var i = navArr.length - lookback; i < navArr.length; i++) {
+        if (navArr[i] > peak) peak = navArr[i];
+      }
+      // Find trough after the peak
+      var peakIdx = 0;
+      for (var i = 0; i < navArr.length; i++) {
+        if (navArr[i] === peak) peakIdx = i;
+      }
+      trough = peak;
+      for (var i = peakIdx; i < navArr.length; i++) {
+        if (navArr[i] < trough) { trough = navArr[i]; troughIdx = i; }
+      }
+      if (peak <= 0 || peak === trough) return 100; // no drawdown
+      // Recovery ratio: how much of the drawdown has been recovered
+      var currentNAV = navArr[navArr.length - 1];
+      var recoveryPct = (currentNAV - trough) / (peak - trough) * 100;
+      return Math.round(Math.max(0, Math.min(100, recoveryPct)) * 100) / 100;
+    }, 0.8);
+
+    // ── Quality Factors ──
+
+    /**
+     * Sharpe ratio (full period).
+     * From Vibe-Trading metrics.py sharpe_ratio.
+     */
+    FactorEngine.register('quality_sharpe', '夏普比率', 'quality', function(navArr) {
+      if (!navArr || navArr.length < 30) return null;
+      var returns = [];
+      for (var i = 1; i < navArr.length; i++) {
+        if (navArr[i - 1] > 0) returns.push(navArr[i] / navArr[i - 1] - 1);
+      }
+      if (returns.length < 20) return null;
+      var sum = 0;
+      for (var j = 0; j < returns.length; j++) sum += returns[j];
+      var mean = sum / returns.length;
+      var sumSq = 0;
+      for (var j = 0; j < returns.length; j++) {
+        var d = returns[j] - mean;
+        sumSq += d * d;
+      }
+      var std = Math.sqrt(sumSq / (returns.length - 1));
+      if (std < 1e-10) return 0;
+      // Risk-free rate = 2% annual → daily ≈ 0.02/252
+      var rfDaily = 0.02 / 252;
+      var sharpe = (mean - rfDaily) / std * Math.sqrt(252);
+      return Math.round(sharpe * 100) / 100;
+    }, 2.0);
+
+    /**
+     * Decay-linear weighted return: recent returns weighted more.
+     * From Vibe-Trading base.py decay_linear.
+     */
+    FactorEngine.register('quality_decay_ret', '近期加权收益', 'quality', function(navArr) {
+      if (!navArr || navArr.length < 21) return null;
+      var returns = [];
+      for (var i = navArr.length - 20; i < navArr.length; i++) {
+        if (navArr[i - 1] > 0) returns.push((navArr[i] / navArr[i - 1] - 1) * 100);
+        else returns.push(0);
+      }
+      var decayed = FactorEngine.decayLinear(returns, 20);
+      if (decayed === null) return null;
+      return Math.round(decayed * 100) / 100;
+    }, 0.6);
+
+    // ── QDII-Specific Factors ──
+
+    /**
+     * Scarcity: daily purchase limit.
+     * QDII-exclusive factor. Lower limit = more scarce = higher score.
+     * Score: 100 (limit ≤ 10) to 0 (limit ≥ 10000 or unlimited).
+     */
+    FactorEngine.register('scarce_limit', '限购稀缺度', 'qdii_special', function(navArr, fundMeta) {
+      if (!fundMeta) return null;
+      var limit = fundMeta.dailyLimit;
+      if (limit === undefined || limit === null) return 50;
+      if (limit <= 0) return 10; // suspended / no limit info
+      if (limit >= 100000) return 0; // effectively unlimited
+      if (limit <= 10) return 100;
+      if (limit <= 50) return 85;
+      if (limit <= 100) return 70;
+      if (limit <= 300) return 55;
+      if (limit <= 500) return 40;
+      if (limit <= 1000) return 30;
+      if (limit <= 5000) return 15;
+      return 5;
+    }, 1.0);
+
+    /**
+     * Fee penalty: management fee + custody fee.
+     * QDII-exclusive. Lower total fee = higher score.
+     * Score based on total annual fee rate.
+     */
+    FactorEngine.register('fee_penalty', '费率评估', 'qdii_special', function(navArr, fundMeta) {
+      if (!fundMeta) return null;
+      var fee = (fundMeta.feeRate || 0) + (fundMeta.custodyFee || 0);
+      // Total fee range: typically 0.75% to 2.0%
+      // Lower fee → higher score
+      if (fee <= 0) return 80; // no data, slightly positive
+      if (fee <= 0.75) return 95;
+      if (fee <= 1.0) return 80;
+      if (fee <= 1.2) return 65;
+      if (fee <= 1.5) return 45;
+      if (fee <= 1.8) return 25;
+      return 10;
+    }, -0.8); // negative: lower fee → higher raw score, but we want high=good
+
+    // ═══════════════════════════════════════════════════════════════
+    //  Ranking State & Render
+    // ═══════════════════════════════════════════════════════════════
+
+    var _rankingState = {
+      sortBy: 'composite',  // composite | momentum | volatility | quality
+      results: null,        // cached results
+      fullNav: null         // cached full nav data
+    };
+
+    /**
+     * Get all factor ids by theme.
+     */
+    function getFactorsByTheme(theme) {
+      return FactorEngine.list(theme);
+    }
+
+    /**
+     * Score badge CSS class based on composite score.
+     */
+    function scoreBadgeClass(score) {
+      if (score >= 70) return 'excellent';
+      if (score >= 55) return 'good';
+      if (score >= 40) return 'medium';
+      return 'poor';
+    }
+
+    /**
+     * Factor bar color based on normalized score (0-100).
+     */
+    function factorBarColor(score) {
+      if (score >= 70) return 'var(--success)';
+      if (score >= 50) return 'var(--primary)';
+      if (score >= 30) return 'var(--warn)';
+      return 'var(--danger)';
+    }
+
+    /**
+     * Compute rankings for all active funds.
+     * @param {Object} fullNav - full nav-cache.json data
+     * @returns {Array} [{code, name, type, composite, factorScores, rawScores}, ...]
+     */
+    function computeRankings(fullNav) {
+      var activeFunds = fundsData.funds.filter(function(f) {
+        return f.status === 'active';
+      });
+
+      // Phase 1: Compute raw factor scores for each fund
+      var fundResults = [];
+      activeFunds.forEach(function(fund) {
+        var navArr = null;
+        var cached = fullNav ? fullNav[fund.code] : (navCacheData[fund.code] || null);
+        if (cached && Array.isArray(cached) && cached.length >= 30) {
+          var sorted = cached.slice().sort(function(a, b) {
+            return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0);
+          });
+          navArr = sorted.map(function(x) { return x.nav; });
+        } else if (cached && !Array.isArray(cached) && cached.nav) {
+          // Single entry — not enough for factor computation
+          navArr = null;
+        }
+
+        if (!navArr || navArr.length < 30) {
+          fundResults.push({
+            code: fund.code, name: fund.name, type: fund.type,
+            rawScores: {}, composite: null, insufficient: true
+          });
+          return;
+        }
+
+        var rawScores = FactorEngine.computeAll(navArr, fund);
+        fundResults.push({
+          code: fund.code, name: fund.name, type: fund.type,
+          rawScores: rawScores, composite: null, insufficient: false
+        });
+      });
+
+      // Phase 2: Cross-sectional normalization per factor
+      var factorIds = FactorEngine.list();
+      var normalizedScores = {}; // {factorId: [{idx, score}, ...]}
+
+      factorIds.forEach(function(fid) {
+        var items = [];
+        fundResults.forEach(function(r, idx) {
+          if (!r.insufficient && r.rawScores[fid] !== null && r.rawScores[fid] !== undefined) {
+            items.push({ idx: idx, score: r.rawScores[fid] });
+          }
+        });
+        FactorEngine.normalize(items);
+        normalizedScores[fid] = items;
+      });
+
+      // Phase 3: Assign normalized scores back
+      factorIds.forEach(function(fid) {
+        normalizedScores[fid].forEach(function(item) {
+          if (!fundResults[item.idx].factorScores) fundResults[item.idx].factorScores = {};
+          fundResults[item.idx].factorScores[fid] = item.normalized;
+        });
+      });
+
+      // Phase 4: Compute composite scores
+      var weights = FactorEngine.getDefaultWeights();
+      fundResults.forEach(function(r) {
+        if (r.insufficient || !r.factorScores) {
+          r.composite = null;
+        } else {
+          r.composite = FactorEngine.weightedSum(r.factorScores, weights);
+        }
+      });
+
+      // Phase 5: Sort by composite (descending), nulls at bottom
+      fundResults.sort(function(a, b) {
+        if (a.composite === null && b.composite === null) return 0;
+        if (a.composite === null) return 1;
+        if (b.composite === null) return -1;
+        return b.composite - a.composite;
+      });
+
+      return fundResults;
+    }
+
+    /**
+     * Build the ranking HTML for display.
+     * @param {Array} results - sorted fund results
+     * @returns {string} HTML string
+     */
+    function buildRankingHTML(results) {
+      var html = '';
+      var validResults = results.filter(function(r) { return r.composite !== null; });
+      var avgScore = 0, maxScore = 0, minScore = 100;
+      validResults.forEach(function(r) {
+        avgScore += r.composite;
+        if (r.composite > maxScore) maxScore = r.composite;
+        if (r.composite < minScore) minScore = r.composite;
+      });
+      avgScore = validResults.length > 0 ? Math.round(avgScore / validResults.length * 100) / 100 : 0;
+
+      // Summary cards
+      html += '<div class="ranking-summary">';
+      html += '<div class="ranking-summary-item"><div class="label">评分基金数</div>';
+      html += '<div class="value">' + validResults.length + '/' + results.length + '</div></div>';
+      html += '<div class="ranking-summary-item"><div class="label">平均综合评分</div>';
+      html += '<div class="value">' + avgScore.toFixed(1) + '</div></div>';
+      html += '<div class="ranking-summary-item"><div class="label">最高/最低</div>';
+      html += '<div class="value">' + (validResults.length > 0 ? maxScore.toFixed(1) + '/' + minScore.toFixed(1) : '--') + '</div></div>';
+      html += '</div>';
+
+      // Sorting controls
+      html += '<div class="ranking-controls">';
+      html += '<span style="font-size:12px;color:var(--text2);font-weight:500">排序：</span>';
+      var sortOptions = [
+        { id: 'composite', label: '综合评分' },
+        { id: 'momentum', label: '动量' },
+        { id: 'volatility', label: '波动率' },
+        { id: 'trend', label: '趋势' },
+        { id: 'drawdown', label: '回撤' },
+        { id: 'quality', label: '质量' },
+        { id: 'qdii_special', label: 'QDII特色' }
+      ];
+      sortOptions.forEach(function(opt) {
+        var isActive = _rankingState.sortBy === opt.id;
+        html += '<span class="sort-btn' + (isActive ? ' active' : '') + '" ';
+        html += 'onclick="sortByTheme(\'' + opt.id + '\')">' + opt.label + '</span>';
+      });
+      html += '</div>';
+
+      // Sort results by selected theme if not composite
+      var displayResults = results.slice(); // copy
+      if (_rankingState.sortBy !== 'composite') {
+        var theme = _rankingState.sortBy;
+        displayResults.sort(function(a, b) {
+          var sa = getThemeScore(a, theme);
+          var sb = getThemeScore(b, theme);
+          if (sa === null && sb === null) return 0;
+          if (sa === null) return 1;
+          if (sb === null) return -1;
+          return sb - sa;
+        });
+      }
+
+      // Fund ranking rows
+      displayResults.forEach(function(r, rankIdx) {
+        var rankNum = rankIdx + 1;
+        var rankClass = rankNum <= 3 ? 'top' + rankNum : 'normal';
+        var score = r.composite;
+        var badgeClass = score !== null ? scoreBadgeClass(score) : 'medium';
+
+        html += '<div class="ranking-row" onclick="toggleFactorBars(' + rankIdx + ')">';
+        html += '<div class="ranking-header">';
+        html += '<div class="ranking-left">';
+        html += '<span class="ranking-rank ' + rankClass + '">' + rankNum + '</span>';
+        html += '<span class="ranking-name" title="' + r.name + '">' + r.name + '</span>';
+        html += '<span class="ranking-code">' + r.code + '</span>';
+        if (r.type) html += '<span class="ranking-type">' + r.type + '</span>';
+        html += '</div>';
+
+        if (score !== null) {
+          html += '<div class="score-badge ' + badgeClass + '">';
+          html += '<span>' + score.toFixed(1) + '</span>';
+          html += '<span class="score-label">综合</span>';
+          html += '</div>';
+        } else {
+          html += '<div class="score-badge medium"><span>--</span><span class="score-label">暂无</span></div>';
+        }
+        html += '</div>';
+
+        // Factor detail bars (hidden by default)
+        html += '<div class="factor-bars" id="factor-bars-' + rankIdx + '">';
+        if (r.factorScores) {
+          var factorIds = FactorEngine.list();
+          factorIds.forEach(function(fid) {
+            var factor = FactorEngine.get(fid);
+            var val = r.factorScores[fid];
+            if (val === undefined || val === null) val = 50;
+            var barWidth = Math.max(2, Math.min(100, val));
+            var barColor = factorBarColor(val);
+            // Show raw score too
+            var rawVal = r.rawScores[fid];
+            var rawStr = (rawVal !== null && rawVal !== undefined) ? rawVal.toFixed(2) : '--';
+            html += '<div class="factor-bar-row">';
+            html += '<span class="factor-bar-label">' + factor.name + '</span>';
+            html += '<div class="factor-bar-track"><div class="factor-bar-fill" style="width:' + barWidth + '%;background:' + barColor + '"></div></div>';
+            html += '<span class="factor-bar-value" style="color:' + barColor + '">' + val.toFixed(0) + '</span>';
+            html += '</div>';
+          });
+        } else {
+          html += '<div style="color:var(--text3);font-size:12px;text-align:center;padding:8px">数据不足，无法计算因子</div>';
+        }
+        html += '</div>';
+
+        html += '</div>'; // .ranking-row
+      });
+
+      // Factor weight legend
+      html += '<div class="factor-weight-note">';
+      html += '<strong>评分模型</strong>（移植自 <a href="https://github.com/HKUDS/Vibe-Trading" target="_blank" style="color:var(--primary)">Vibe-Trading</a> 因子框架）<br>';
+      html += '11个因子 · 6大类：动量(MA偏离/20日/60日/RSI) · 波动率(历史/下行) · 趋势(均线排列/区间位置) · 回撤(深度/恢复) · 质量(夏普/加权收益) · QDII特色(限购/费率)<br>';
+      html += '数据来源：基金净值序列 · 交叉截面归一化 · 权重加权合成 · 满分100';
+      html += '</div>';
+
+      return html;
+    }
+
+    /**
+     * Get theme average score for a fund result.
+     */
+    function getThemeScore(result, theme) {
+      if (!result.factorScores) return null;
+      var factors = FactorEngine.list(theme);
+      if (factors.length === 0) return null;
+      var sum = 0, cnt = 0;
+      factors.forEach(function(fid) {
+        var s = result.factorScores[fid];
+        if (s !== null && s !== undefined) { sum += s; cnt++; }
+      });
+      return cnt > 0 ? Math.round(sum / cnt * 100) / 100 : null;
+    }
+
+    /**
+     * Toggle factor detail bars for a ranking row.
+     * Called by onclick on ranking row.
+     */
+    function toggleFactorBars(idx) {
+      var el = document.getElementById('factor-bars-' + idx);
+      if (el) {
+        el.style.display = el.style.display === 'none' ? 'block' : 'none';
+      }
+    }
+
+    /**
+     * Re-sort rankings by theme and re-render.
+     */
+    function sortByTheme(theme) {
+      _rankingState.sortBy = theme;
+      if (_rankingState.results) {
+        var c = document.getElementById('ranking-content');
+        c.innerHTML = buildRankingHTML(_rankingState.results);
+      }
+    }
+
+    /**
+     * Main render function for the ranking tab.
+     * Uses two-phase loading: immediate with embedded data, then full history.
+     */
+    function renderRanking() {
+      var c = document.getElementById('ranking-content');
+
+      // Phase 1: Use embedded NAV data (quick, but limited to latest entries)
+      var activeFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
+
+      // Check if we already have cached results
+      if (_rankingState.results) {
+        c.innerHTML = buildRankingHTML(_rankingState.results);
+        return;
+      }
+
+      // Try with embedded navCacheData first
+      var hasEmbeddedHistory = false;
+      activeFunds.forEach(function(f) {
+        var cached = navCacheData[f.code];
+        if (cached && Array.isArray(cached) && cached.length >= 30) hasEmbeddedHistory = true;
+      });
+
+      if (hasEmbeddedHistory) {
+        // Embedded data has history — compute immediately
+        _rankingState.results = computeRankings(navCacheData);
+        c.innerHTML = buildRankingHTML(_rankingState.results);
+      } else {
+        c.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3)">⏳ 正在加载完整净值数据以计算因子评分...</div>';
+      }
+
+      // Phase 2: Load full NAV history for accurate computation
+      loadFullNavCache(function(fullNav) {
+        if (!fullNav) {
+          if (!_rankingState.results) {
+            c.innerHTML = '<div class="empty">⚠️ 无法加载净值数据，因子评分不可用</div>';
+          }
+          return;
+        }
+        _rankingState.fullNav = fullNav;
+        _rankingState.results = computeRankings(fullNav);
+        c.innerHTML = buildRankingHTML(_rankingState.results);
+      });
+    }
+
     var STORAGE_KEY = 'qdii-portfolio';
     function saveLocal() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(portfolioData)); } catch(e) {} }
     function loadLocal() {
@@ -1158,6 +2161,440 @@
     updateSummary();
     updateHoldings();
     loadFundOptions();
+    /* ── Hypothesis & Goal Tracker (from Vibe-Trading hypotheses/ + goal/) ── */
+    var HYP_KEY = 'qdii-hypotheses';
+    var GOAL_KEY = 'qdii-goals';
+
+    function loadHypothesesLocal() {
+      try {
+        var saved = localStorage.getItem(HYP_KEY);
+        if (saved) return JSON.parse(saved);
+      } catch(e) {}
+      return { hypotheses: [], stats: { total: 0, validated: 0, invalidated: 0, expired: 0 } };
+    }
+
+    function saveHypothesesLocal(data) {
+      try { localStorage.setItem(HYP_KEY, JSON.stringify(data)); } catch(e) {}
+    }
+
+    function createHypothesisLocal(fundCode, fundName, type, thesis) {
+      var data = loadHypothesesLocal();
+      var h = {
+        id: 'H' + Date.now(),
+        fundCode: fundCode,
+        fundName: fundName,
+        type: type,
+        thesis: thesis,
+        status: 'active',
+        createdAt: new Date().toISOString(),
+        followUpReturns: { '3d': null, '7d': null, '14d': null, '30d': null }
+      };
+      data.hypotheses.push(h);
+      data.stats.total++;
+      saveHypothesesLocal(data);
+      return h;
+    }
+
+    function loadGoalsLocal() {
+      try {
+        var saved = localStorage.getItem(GOAL_KEY);
+        if (saved) return JSON.parse(saved);
+      } catch(e) {}
+      return { goals: [] };
+    }
+
+    function saveGoalsLocal(data) {
+      try { localStorage.setItem(GOAL_KEY, JSON.stringify(data)); } catch(e) {}
+    }
+
+    function addGoal(type) {
+      var templates = {
+        'return': { title: '年化收益目标', metric: 'annualized_return', unit: '%', direction: 'above', defaultTarget: 15 },
+        'risk': { title: '最大回撤控制', metric: 'max_drawdown', unit: '%', direction: 'below', defaultTarget: -10 },
+        'streak': { title: '连续定投天数', metric: 'dca_streak', unit: '天', direction: 'above', defaultTarget: 30 }
+      };
+      var tmpl = templates[type];
+      if (!tmpl) return;
+      var target = prompt('设定目标值 (' + tmpl.unit + '):', tmpl.defaultTarget);
+      if (!target) return;
+      target = parseFloat(target);
+      if (isNaN(target)) { showToast('请输入有效数字', true); return; }
+
+      var data = loadGoalsLocal();
+      data.goals.push({
+        id: 'G' + Date.now(),
+        type: type,
+        title: tmpl.title,
+        metric: tmpl.metric,
+        unit: tmpl.unit,
+        direction: tmpl.direction,
+        target: target,
+        current: 0,
+        status: 'active',
+        createdAt: new Date().toISOString()
+      });
+      saveGoalsLocal(data);
+      showToast('目标已设定: ' + tmpl.title + ' ' + target + tmpl.unit);
+      renderInsights();
+    }
+
+    function deleteGoal(idx) {
+      var data = loadGoalsLocal();
+      if (!confirm('确认删除目标「' + data.goals[idx].title + '」？')) return;
+      data.goals.splice(idx, 1);
+      saveGoalsLocal(data);
+      showToast('已删除');
+      renderInsights();
+    }
+
+    /* ── Shadow Account (from Vibe-Trading shadow_account/) ── */
+    var SHADOW_KEY = 'qdii-shadow-account';
+
+    function loadShadowData() {
+      try {
+        var saved = localStorage.getItem(SHADOW_KEY);
+        if (saved) return JSON.parse(saved);
+      } catch(e) {}
+      return { buys: [], startDate: null };
+    }
+
+    function saveShadowData(data) {
+      try { localStorage.setItem(SHADOW_KEY, JSON.stringify(data)); } catch(e) {}
+    }
+
+    function getShadowNav(code) {
+      var cached = navCacheData[code];
+      if (!cached) return null;
+      if (Array.isArray(cached)) return cached[cached.length - 1];
+      return cached;
+    }
+
+    function addShadowBuy() {
+      var code = document.getElementById('shadowFundSelect').value;
+      var amount = parseFloat(document.getElementById('shadowAmount').value);
+      if (!code || !amount || amount <= 0) {
+        showToast('请选择基金并填写金额', true);
+        return;
+      }
+      var fund = fundsData.funds.find(function(f) { return f.code === code; });
+      var name = fund ? fund.name : code;
+      var navInfo = getShadowNav(code);
+      var nav = navInfo ? navInfo.nav : null;
+      var date = new Date().toISOString().slice(0, 10);
+      var shares = nav ? Math.round(amount / nav * 10000) / 10000 : null;
+
+      var shadowData = loadShadowData();
+      shadowData.buys.push({ code: code, name: name, amount: amount, nav: nav, shares: shares, date: date });
+      if (!shadowData.startDate) shadowData.startDate = date;
+      saveShadowData(shadowData);
+
+      showToast('模拟买入: ' + name + ' ' + amount + '元');
+      renderShadow();
+    }
+
+    function deleteShadowBuy(idx) {
+      var shadowData = loadShadowData();
+      if (!confirm('确认删除这笔模拟记录？')) return;
+      shadowData.buys.splice(idx, 1);
+      saveShadowData(shadowData);
+      showToast('已删除');
+      renderShadow();
+    }
+
+    function clearShadow() {
+      if (!confirm('确认清空所有模拟记录？')) return;
+      saveShadowData({ buys: [], startDate: null });
+      showToast('已清空');
+      renderShadow();
+    }
+
+    function renderShadow() {
+      var shadowData = loadShadowData();
+      var summaryEl = document.getElementById('shadow-summary');
+      var holdingsEl = document.getElementById('shadow-holdings');
+      var compareEl = document.getElementById('shadow-compare');
+
+      // 填充基金选择下拉
+      var select = document.getElementById('shadowFundSelect');
+      if (select.options.length <= 1) {
+        loadFundOptionsFor('shadowFundSelect');
+      }
+
+      if (shadowData.buys.length === 0) {
+        summaryEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3)">📭 暂无模拟记录<br><span style="font-size:12px">选择基金和金额，点击"模拟买入"开始纸上交易</span></div>';
+        holdingsEl.innerHTML = '';
+        compareEl.innerHTML = '';
+        return;
+      }
+
+      // 计算模拟持仓汇总
+      var totalAmount = 0, totalValue = 0;
+      var fundMap = {};
+      shadowData.buys.forEach(function(b, idx) {
+        totalAmount += b.amount;
+        var navInfo = getShadowNav(b.code);
+        var currentNav = navInfo ? navInfo.nav : b.nav;
+        var value = b.shares && currentNav ? b.shares * currentNav : b.amount;
+        totalValue += value;
+        if (!fundMap[b.code]) fundMap[b.code] = { name: b.name, code: b.code, amount: 0, value: 0, buys: [] };
+        fundMap[b.code].amount += b.amount;
+        fundMap[b.code].value += value;
+        fundMap[b.code].buys.push(idx);
+      });
+
+      var pnl = Math.round((totalValue - totalAmount) * 100) / 100;
+      var pnlRate = totalAmount > 0 ? Math.round((pnl / totalAmount) * 10000) / 100 : 0;
+      var pnlCls = pnl >= 0 ? 'positive' : 'negative';
+      var sign = pnl >= 0 ? '+' : '';
+
+      summaryEl.innerHTML =
+        '<div class="summary-grid" style="grid-template-columns:repeat(4,1fr)">' +
+        '<div class="summary-item"><div class="label">模拟投入</div><div class="value">' + Math.round(totalAmount * 100) / 100 + '</div></div>' +
+        '<div class="summary-item"><div class="label">模拟市值</div><div class="value">' + Math.round(totalValue * 100) / 100 + '</div></div>' +
+        '<div class="summary-item"><div class="label">模拟盈亏</div><div class="value ' + pnlCls + '">' + sign + pnl + '</div></div>' +
+        '<div class="summary-item"><div class="label">模拟收益率</div><div class="value ' + pnlCls + '">' + sign + pnlRate + '%</div></div>' +
+        '</div>' +
+        '<div style="text-align:right;margin-top:6px"><span style="font-size:11px;color:#ef4444;cursor:pointer" onclick="clearShadow()">🗑 清空全部</span></div>';
+
+      // 模拟持仓列表
+      var html = '';
+      Object.keys(fundMap).forEach(function(code) {
+        var f = fundMap[code];
+        var fPnl = Math.round((f.value - f.amount) * 100) / 100;
+        var fCls = fPnl >= 0 ? 'positive' : 'negative';
+        html += '<div class="holding-card" style="padding:12px">';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center">';
+        html += '<div><span style="font-weight:600;font-size:14px">' + f.name + '</span><span class="holding-code">' + f.code + '</span></div>';
+        html += '<div style="text-align:right"><div style="font-weight:700;font-size:15px;color:var(--' + (fPnl >= 0 ? 'danger' : 'success') + ')">' + (fPnl >= 0 ? '+' : '') + fPnl + '</div>';
+        html += '<div style="font-size:11px;color:var(--text3)">' + f.amount + '元 → ' + Math.round(f.value * 100) / 100 + '元</div></div>';
+        html += '</div></div>';
+      });
+      holdingsEl.innerHTML = html;
+
+      // 实际 vs 模拟对比
+      var realS = calcSummary();
+      var realRate = realS.invested > 0 ? Math.round(((realS.value - realS.invested) / realS.invested) * 10000) / 100 : 0;
+      var shadowRate = pnlRate;
+
+      compareEl.innerHTML =
+        '<div class="card" style="padding:14px;margin-top:8px">' +
+        '<div style="font-size:13px;font-weight:600;color:var(--text2);margin-bottom:10px">📊 实际 vs 模拟 对比</div>' +
+        '<div style="display:flex;gap:12px">' +
+        '<div style="flex:1;text-align:center;padding:10px;background:var(--bg);border-radius:8px">' +
+        '<div style="font-size:11px;color:var(--text3)">实际收益率</div>' +
+        '<div style="font-size:18px;font-weight:700;color:var(--' + (realRate >= 0 ? 'danger' : 'success') + ')">' + (realRate >= 0 ? '+' : '') + realRate + '%</div>' +
+        '</div>' +
+        '<div style="flex:1;text-align:center;padding:10px;background:var(--bg);border-radius:8px">' +
+        '<div style="font-size:11px;color:var(--text3)">模拟收益率</div>' +
+        '<div style="font-size:18px;font-weight:700;color:var(--' + (shadowRate >= 0 ? 'danger' : 'success') + ')">' + (shadowRate >= 0 ? '+' : '') + shadowRate + '%</div>' +
+        '</div>' +
+        '<div style="flex:1;text-align:center;padding:10px;background:var(--bg);border-radius:8px">' +
+        '<div style="font-size:11px;color:var(--text3)">差异</div>' +
+        '<div style="font-size:18px;font-weight:700;color:' + (shadowRate > realRate ? 'var(--danger)' : 'var(--success)') + '">' +
+        (shadowRate > realRate ? '+' : '') + Math.round((shadowRate - realRate) * 100) / 100 + '%</div>' +
+        '</div>' +
+        '</div>' +
+        '<div style="font-size:11px;color:var(--text3);margin-top:8px;text-align:center">' +
+        (shadowRate > realRate ? '🔥 模拟组合跑赢实际组合' : shadowRate < realRate ? '✅ 实际组合表现更好' : '⚖️ 两者持平') +
+        '</div></div>';
+    }
+
+    function loadFundOptionsFor(selectId) {
+      var select = document.getElementById(selectId);
+      var activeFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
+      var grouped = {};
+      activeFunds.forEach(function(f) {
+        var corp = extractCorp(f.name);
+        if (!grouped[corp]) grouped[corp] = [];
+        grouped[corp].push(f);
+      });
+      var html = '<option value="">-- 选择基金 --</option>';
+      Object.keys(grouped).sort().forEach(function(corp) {
+        html += '<optgroup label="' + corp + '">';
+        grouped[corp].forEach(function(f) {
+          html += '<option value="' + f.code + '">' + f.code + ' ' + f.name + '</option>';
+        });
+        html += '</optgroup>';
+      });
+      select.innerHTML = html;
+    }
+
+    /* ── Walk-Forward Backtest + Performance Attribution (from Vibe-Trading backtest/) ── */
+    function runBacktest() {
+      loadFullNavCache(function(fullNav) {
+        var el = document.getElementById('backtest-content');
+        if (!fullNav) {
+          el.innerHTML = '<div style="color:var(--text3);font-size:12px">无法加载净值历史数据</div>';
+          return;
+        }
+
+        // Walk-forward backtest simulation
+        // Use portfolio's fund codes, simulate equal-weight allocation
+        var codes = portfolioData.holdings.map(function(h) { return h.code; });
+        if (codes.length === 0) {
+          el.innerHTML = '<div style="color:var(--text3);font-size:12px">暂无持仓，无法回测</div>';
+          return;
+        }
+
+        // Get aligned date series
+        var allDates = {};
+        codes.forEach(function(code) {
+          if (fullNav[code]) {
+            fullNav[code].forEach(function(n) { allDates[n.date] = true; });
+          }
+        });
+        var dates = Object.keys(allDates).sort();
+        if (dates.length < 150) {
+          el.innerHTML = '<div style="color:var(--text3);font-size:12px">净值数据不足150天，无法进行走步回测</div>';
+          return;
+        }
+
+        // Build NAV matrix
+        var navMatrix = {};
+        codes.forEach(function(code) {
+          navMatrix[code] = {};
+          if (fullNav[code]) {
+            fullNav[code].forEach(function(n) { navMatrix[code][n.date] = n.nav; });
+          }
+        });
+
+        // Walk-forward: train 120 days, test 30 days, slide forward
+        var trainDays = 120, testDays = 30;
+        var windows = [];
+        var startIdx = 0;
+        while (startIdx + trainDays + testDays <= dates.length) {
+          var trainDates = dates.slice(startIdx, startIdx + trainDays);
+          var testDates = dates.slice(startIdx + trainDays, startIdx + trainDays + testDays);
+
+          // Calculate train period returns for each fund
+          var trainReturns = {};
+          codes.forEach(function(code) {
+            var startNav = navMatrix[code][trainDates[0]];
+            var endNav = navMatrix[code][trainDates[trainDates.length - 1]];
+            if (startNav && endNav) {
+              trainReturns[code] = (endNav - startNav) / startNav;
+            }
+          });
+
+          // Equal-weight test period return
+          var testReturn = 0, validCount = 0;
+          codes.forEach(function(code) {
+            var startNav = navMatrix[code][testDates[0]];
+            var endNav = navMatrix[code][testDates[testDates.length - 1]];
+            if (startNav && endNav) {
+              testReturn += (endNav - startNav) / startNav;
+              validCount++;
+            }
+          });
+          if (validCount > 0) testReturn = testReturn / validCount * 100;
+
+          windows.push({
+            trainStart: trainDates[0],
+            trainEnd: trainDates[trainDates.length - 1],
+            testStart: testDates[0],
+            testEnd: testDates[testDates.length - 1],
+            testReturn: Math.round(testReturn * 100) / 100
+          });
+
+          startIdx += testDays;
+        }
+
+        if (windows.length === 0) {
+          el.innerHTML = '<div style="color:var(--text3);font-size:12px">数据不足，无法生成回测窗口</div>';
+          return;
+        }
+
+        // Calculate stats
+        var wins = windows.filter(function(w) { return w.testReturn > 0; });
+        var winRate = Math.round(wins.length / windows.length * 100);
+        var totalReturn = windows.reduce(function(s, w) { return s + w.testReturn; }, 0);
+        var best = Math.max.apply(null, windows.map(function(w) { return w.testReturn; }));
+        var worst = Math.min.apply(null, windows.map(function(w) { return w.testReturn; }));
+        var avgReturn = Math.round(totalReturn / windows.length * 100) / 100;
+
+        var html2 = '<div class="insight-grid">';
+        html2 += '<div class="insight-stat ' + (winRate >= 50 ? 'green' : 'red') + '"><div class="label">胜率</div><div class="value">' + winRate + '%</div></div>';
+        html2 += '<div class="insight-stat ' + (totalReturn >= 0 ? 'blue' : 'red') + '"><div class="label">累计收益</div><div class="value">' + (totalReturn >= 0 ? '+' : '') + Math.round(totalReturn * 100) / 100 + '%</div></div>';
+        html2 += '<div class="insight-stat green"><div class="label">最佳窗口</div><div class="value">+' + Math.round(best * 100) / 100 + '%</div></div>';
+        html2 += '<div class="insight-stat red"><div class="label">最差窗口</div><div class="value">' + Math.round(worst * 100) / 100 + '%</div></div>';
+        html2 += '</div>';
+        html2 += '<div style="font-size:11px;color:var(--text3);margin-top:4px">' + windows.length + '个窗口 · 平均收益 ' + avgReturn + '%</div>';
+
+        // Overfitting detection: compare train vs test
+        var avgTrainReturn = 0;
+        windows.forEach(function(w) {
+          var trainRet = 0, tc = 0;
+          codes.forEach(function(code) {
+            var s = navMatrix[code][w.trainStart];
+            var e = navMatrix[code][w.trainEnd];
+            if (s && e) { trainRet += (e - s) / s; tc++; }
+          });
+          if (tc > 0) avgTrainReturn += trainRet / tc * 100;
+        });
+        avgTrainReturn = avgTrainReturn / windows.length;
+        var overfitGap = Math.round((avgTrainReturn - avgReturn) * 100) / 100;
+        var overfitRisk = overfitGap > 10 ? '🔴 高过拟合风险' : (overfitGap > 5 ? '🟡 中度过拟合风险' : '🟢 低过拟合风险');
+        html2 += '<div style="padding:8px;background:' + (overfitGap > 10 ? '#fef2f2' : '#f0fdf4') + ';border-radius:6px;font-size:12px;margin-top:8px">';
+        html2 += '过拟合检测: 训练均值 ' + Math.round(avgTrainReturn * 100) / 100 + '% vs 测试均值 ' + avgReturn + '% · 差距 ' + overfitGap + '% · ' + overfitRisk;
+        html2 += '</div>';
+
+        el.innerHTML = html2;
+
+        // Performance Attribution
+        runAttribution(navMatrix, codes, dates);
+      });
+    }
+
+    function runAttribution(navMatrix, codes, dates) {
+      var el = document.getElementById('attribution-content');
+      if (!el) return;
+
+      // Calculate each fund's contribution to portfolio return
+      var recent30 = dates.slice(-30);
+      var attributions = [];
+      codes.forEach(function(code) {
+        var fund = fundsData.funds.find(function(f) { return f.code === code; });
+        var holding = portfolioData.holdings.find(function(h) { return h.code === code; });
+        var inv = holding ? holding.buys.reduce(function(s, b) { return s + b.amount; }, 0) : 0;
+
+        var startNav = navMatrix[code][recent30[0]];
+        var endNav = navMatrix[code][recent30[recent30.length - 1]];
+        var fundReturn = (startNav && endNav) ? Math.round((endNav - startNav) / startNav * 10000) / 100 : 0;
+
+        attributions.push({
+          code: code,
+          name: fund ? fund.name : code,
+          type: fund ? fund.type : '其他',
+          invested: inv,
+          return30d: fundReturn,
+          contribution: inv * fundReturn / 100
+        });
+      });
+
+      attributions.sort(function(a, b) { return b.contribution - a.contribution; });
+
+      var html2 = '<div style="font-size:12px">';
+      html2 += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:2px solid var(--border);font-weight:600;font-size:11px">';
+      html2 += '<span style="flex:2">基金</span><span style="width:60px;text-align:right">30日收益</span><span style="width:70px;text-align:right">贡献(元)</span></div>';
+
+      var totalContribution = attributions.reduce(function(s, a) { return s + a.contribution; }, 0);
+      attributions.slice(0, 10).forEach(function(a) {
+        var cls = a.return30d >= 0 ? 'var(--danger)' : 'var(--success)';
+        html2 += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);align-items:center">';
+        html2 += '<span style="flex:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + a.name + '">' + a.name + '</span>';
+        html2 += '<span style="width:60px;text-align:right;color:' + cls + ';font-weight:600">' + (a.return30d >= 0 ? '+' : '') + a.return30d + '%</span>';
+        html2 += '<span style="width:70px;text-align:right;color:' + (a.contribution >= 0 ? 'var(--danger)' : 'var(--success)') + '">' + (a.contribution >= 0 ? '+' : '') + Math.round(a.contribution * 100) / 100 + '</span>';
+        html2 += '</div>';
+      });
+      html2 += '<div style="display:flex;justify-content:space-between;padding:6px 0;font-weight:600">';
+      html2 += '<span>合计贡献</span>';
+      html2 += '<span style="color:' + (totalContribution >= 0 ? 'var(--danger)' : 'var(--success)') + '">' + (totalContribution >= 0 ? '+' : '') + Math.round(totalContribution * 100) / 100 + '元</span>';
+      html2 += '</div>';
+      html2 += '</div>';
+
+      el.innerHTML = html2;
+    }
+
     if (dailyBriefData && dailyBriefData.content) {
       document.getElementById('brief-card').style.display = 'block';
       document.getElementById('daily-brief').textContent = dailyBriefData.content;
