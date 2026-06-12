@@ -186,6 +186,27 @@ async function build() {
   }
   template = template.replace('PURCHASE_LIMITS_DATA', JSON.stringify(purchaseLimits));
 
+  // 嵌入外部信号（X/Twitter 大V观点）
+  let externalSignals = { items: [], tickerOpinions: [], themeScores: {}, cachedAt: null };
+  try {
+    const extPath = path.join(__dirname, 'data', 'external-signals-cache.json');
+    if (fs.existsSync(extPath)) {
+      const extRaw = JSON.parse(fs.readFileSync(extPath, 'utf-8'));
+      const ext = extRaw.data || extRaw;
+      externalSignals = {
+        items: (ext.items || []).slice(0, 10),
+        tickerOpinions: ext.tickerOpinions || [],
+        themeScores: ext.themeScores || {},
+        cachedAt: extRaw.cachedAt ? new Date(extRaw.cachedAt).toISOString() : null,
+        status: ext.status || 'unknown'
+      };
+    }
+    console.log('[构建] 外部信号: ' + externalSignals.items.length + '条, ' + (externalSignals.tickerOpinions || []).length + '个股票观点');
+  } catch(e) {
+    console.log('[构建] 外部信号获取失败: ' + e.message);
+  }
+  template = template.replace('EXTERNAL_SIGNALS_DATA', JSON.stringify(externalSignals));
+
   // 嵌入交易日历（2026年中国法定节假日）
   const tradingHolidays = [
     '2026-01-01','2026-01-02','2026-01-03', // 元旦
