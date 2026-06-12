@@ -456,7 +456,7 @@
 
       <div id="tab-portfolio" class="tab-content active">
         <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
-          <span id="sync-status" style="font-size:12px;color:var(--text2)"></span>
+          <span style="font-size:12px;color:var(--text2)">☁️ Firebase 云同步</span>
           <span style="flex:1"></span>
           <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="exportData()">📤 导出</button>
           <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="importData()">📥 导入</button>
@@ -718,8 +718,8 @@
       if (!portfolioData.startDate || date < portfolioData.startDate) portfolioData.startDate = date;
       updateSummary(); updateHoldings(); saveLocal();
       showToast('买入 ' + holding.name + ' ' + amount + '元');
-      // Auto-upload to gist if connected
-      if (getGistToken() && getGistId()) syncUp();
+      // Auto-sync to Firebase
+      syncSave();
       // Auto-create hypothesis
       var hType = amount >= 50 ? '趋势跟踪' : '均值回归';
       var hThesis = '买入 ' + holding.name + ' ' + amount + '元，预期' + (hType === '趋势跟踪' ? '趋势延续' : '超跌反弹');
@@ -755,6 +755,7 @@
         if (!portfolioData.startDate || date < portfolioData.startDate) portfolioData.startDate = date;
       });
       updateSummary(); updateHoldings(); saveLocal();
+      syncSave();
       showToast('批量添加 ' + items.length + ' 笔');
       document.getElementById('batchList').innerHTML = '';
       addBatchRow();
@@ -2568,17 +2569,12 @@
       loadFundOptions();
       renderTradeBanner();
       renderPicks();
-      updateSyncStatus();
     } catch(e) {
       console.error('Init error:', e.message, e.stack);
       document.getElementById('summary').innerHTML = '<div style="color:red;padding:20px">加载错误: ' + e.message + '</div>';
     }
-    // Auto-sync: 延迟后自动从云端下载
-    setTimeout(function() {
-      if (getGistId()) {
-        try { syncDown(); } catch(e) { console.log('Auto-sync skipped:', e.message); }
-      }
-    }, 2000);
+    // Auto-sync from Firebase (replaces Gist)
+    syncLoad();
     /* ── Hypothesis & Goal Tracker (from Vibe-Trading hypotheses/ + goal/) ── */
     var HYP_KEY = 'qdii-hypotheses';
     var GOAL_KEY = 'qdii-goals';
@@ -2838,7 +2834,34 @@
     }
 
     /* ── Walk-Forward Backtest + Performance Attribution (from Vibe-Trading backtest/) ── */
-    /* ── News & Sentiment (embedded from build-pages.js) ── */
+    // ── Firebase Cloud Sync ──
+    var FIREBASE_URL = 'https://qdii-8100d-default-rtdb.asia-southeast1.firebasedatabase.app';
+    var FIREBASE_KEY = 'AIzaSyBRsFx-5uldljvikqJrnQt5c3MiEi1PPPA';
+    var FIREBASE_PATH = '/portfolio.json';
+
+    function syncLoad() {
+      fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data && data.holdings && data.holdings.length > 0) {
+            var merged = mergePortfolio(portfolioData, data);
+            portfolioData = merged;
+            saveLocal();
+            updateSummary();
+            updateHoldings();
+            showToast('☁️ 云端同步完成，' + merged.holdings.length + '只基金');
+          }
+        })
+        .catch(function() { /* silent fail */ });
+    }
+
+    function syncSave() {
+      fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(portfolioData)
+      }).catch(function() { /* silent fail */ });
+    }
     function loadNewsSentiment() {
       var el = document.getElementById('news-sentiment-content');
       if (!el) return;
