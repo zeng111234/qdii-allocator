@@ -659,6 +659,453 @@
     }
 
     // LocalStorage
+    // ── Risk Metrics Engine (ported from Vibe-Trading backtest/metrics.py + correlation.py) ──
+
+    /**
+     * Async load full NAV history from GitHub Pages data file.
+     * Risk calculations need historical data; build-pages.js only embeds latest NAV.
+     * @param {function} callback - called with fullNavCache object
+     */
+    function loadFullNavCache(callback) {
+      if (window._fullNavCache) {
+        callback(window._fullNavCache);
+        return;
+      }
+      // Try relative path first (works if data/nav-cache.json is published with GitHub Pages)
+      // Then fallback to raw.githubusercontent.com
+      var urls = [
+        'data/nav-cache.json',
+        'https://raw.githubusercontent.com/JiaChen-Xie/trade/main/data/nav-cache.json'
+      ];
+      function tryLoad(idx) {
+        if (idx >= urls.length) { callback(null); return; }
+        try {
+          var xhr = new XMLHttpRequest();
+          xhr.open('GET', urls[idx], true);
+          xhr.timeout = 8000;
+          xhr.onload = function() {
+            if (xhr.status === 200) {
+              try {
+                window._fullNavCache = JSON.parse(xhr.responseText);
+                callback(window._fullNavCache);
+              } catch(e) { tryLoad(idx + 1); }
+            } else { tryLoad(idx + 1); }
+          };
+          xhr.onerror = function() { tryLoad(idx + 1); };
+          xhr.ontimeout = function() { tryLoad(idx + 1); };
+          xhr.send();
+        } catch(e) { tryLoad(idx + 1); }
+      }
+      tryLoad(0);
+    }
+
+    /**
+     * Extract NAV time series for a holding.
+     * Uses full history if available, falls back to buy records.
+     * @param {Object} holding - {code, name, buys}
+     * @param {Object} [fullNav] - full nav cache (optional, for historical data)
+     * @returns {number[]} sorted NAV array
+     */
+    function getNavSeries(holding, fullNav) {
+      // Try full history first (82+ entries from nav-cache.json)
+      var cache = fullNav || navCacheData;
+      var cached = cache[holding.code];
+      if (cached && Array.isArray(cached) && cached.length >= 5) {
+        var sorted = cached.slice().sort(function(a, b) {
+          return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0);
+        });
+        return sorted.map(function(x) { return x.nav; });
+      }
+      // Single entry (latest from build-pages.js) — fall through to buys
+      // Reconstruct from buy records
+      if (!holding.buys || holding.buys.length === 0) return [];
+      var sortedBuys = holding.buys.filter(function(b) { return b.nav && b.nav > 0; })
+        .sort(function(a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
+      if (sortedBuys.length === 0) return [];
+      if (sortedBuys.length === 1) return [sortedBuys[0].nav];
+      // Build NAV series from cumulative shares and amounts
+      var series = [];
+      var cumShares = 0;
+      sortedBuys.forEach(function(b) {
+        cumShares += (b.shares || b.amount / b.nav);
+        series.push(cumShares > 0 ? b.amount / (b.shares || b.amount / b.nav) : b.nav);
+      });
+      // Fix: use cumulative approach properly
+      series = [];
+      var totalAmount = 0;
+      var totalShares = 0;
+      sortedBuys.forEach(function(b) {
+        totalAmount += b.amount;
+        totalShares += (b.shares || Math.round(b.amount / b.nav * 10000) / 10000);
+        series.push(totalShares > 0 ? totalAmount / totalShares : b.nav);
+      });
+      return series;
+    }
+
+    /**
+     * Compute daily returns from a NAV series.
+     * @param {number[]} navSeries
+     * @returns {number[]} returns (length = navSeries.length - 1)
+     */
+    function computeReturns(navSeries) {
+      var returns = [];
+      for (var i = 1; i < navSeries.length; i++) {
+        if (navSeries[i - 1] > 0) {
+          returns.push((navSeries[i] - navSeries[i - 1]) / navSeries[i - 1]);
+        } else {
+          returns.push(0);
+        }
+      }
+      return returns;
+    }
+
+    /**
+     * Calculate all risk metrics for a single fund (ported from Vibe-Trading metrics.py calc_metrics).
+     * @param {number[]} navSeries
+     * @returns {Object|null} {totalReturn, annReturn, maxDrawdown, volatility, sharpe, sortino, calmar}
+     */
+    function calcFundRisk(navSeries) {
+      if (!navSeries || navSeries.length < 2) return null;
+      var returns = computeReturns(navSeries);
+      if (returns.length < 2) return null;
+      var TRADING_DAYS = 252;
+
+      // Total return
+      var totalReturn = (navSeries[navSeries.length - 1] / navSeries[0]) - 1;
+
+      // Annualized return: (1 + totalReturn)^(252/n) - 1
+      var n = navSeries.length;
+      var annReturn = Math.pow(1 + totalReturn, TRADING_DAYS / Math.max(n, 1)) - 1;
+
+      // Volatility (annualized): std(returns) * sqrt(252)
+      var sum = 0;
+      for (var i = 0; i < returns.length; i++) sum += returns[i];
+      var mean = sum / returns.length;
+      var sumSq = 0;
+      for (var i = 0; i < returns.length; i++) sumSq += Math.pow(returns[i] - mean, 2);
+      var vol = Math.sqrt(sumSq / Math.max(returns.length - 1, 1));
+      var annVol = vol * Math.sqrt(TRADING_DAYS);
+
+      // Max drawdown
+      var peak = navSeries[0];
+      var maxDD = 0;
+      for (var i = 0; i < navSeries.length; i++) {
+        if (navSeries[i] > peak) peak = navSeries[i];
+        var dd = (navSeries[i] - peak) / peak;
+        if (dd < maxDD) maxDD = dd;
+      }
+
+      // Risk-free rate (annual 2% → daily)
+      var dailyRf = 0.02 / TRADING_DAYS;
+
+      // Sharpe ratio: mean(r-rf)/std(r) * sqrt(252)  (Vibe-Trading: port_ret.mean() / (vol + 1e-10) * np.sqrt(bpy))
+      var excessReturns = returns.map(function(r) { return r - dailyRf; });
+      var sumExcess = 0;
+      for (var i = 0; i < excessReturns.length; i++) sumExcess += excessReturns[i];
+      var meanExcess = sumExcess / excessReturns.length;
+      var sharpe = vol > 1e-10 ? (meanExcess / vol) * Math.sqrt(TRADING_DAYS) : 0;
+
+      // Sortino ratio: mean(r-rf)/downside_std * sqrt(252)  (Vibe-Trading: downside = port_ret[port_ret < 0])
+      var downsideReturns = returns.filter(function(r) { return r < 0; });
+      if (downsideReturns.length > 1) {
+        var dSum = 0;
+        for (var i = 0; i < downsideReturns.length; i++) dSum += downsideReturns[i];
+        var dMean = dSum / downsideReturns.length;
+        var dSumSq = 0;
+        for (var i = 0; i < downsideReturns.length; i++) dSumSq += Math.pow(downsideReturns[i] - dMean, 2);
+        var downsideStd = Math.sqrt(dSumSq / Math.max(downsideReturns.length - 1, 1));
+        var sortino = downsideStd > 1e-10 ? (meanExcess / downsideStd) * Math.sqrt(TRADING_DAYS) : 0;
+      } else {
+        var sortino = 0;
+      }
+
+      // Calmar ratio: ann_return / abs(max_drawdown)  (Vibe-Trading: ann_ret / abs(max_dd))
+      var calmar = Math.abs(maxDD) > 1e-10 ? annReturn / Math.abs(maxDD) : 0;
+
+      return {
+        totalReturn: Math.round(totalReturn * 10000) / 10000,
+        annReturn: Math.round(annReturn * 10000) / 10000,
+        maxDrawdown: Math.round(maxDD * 10000) / 10000,
+        volatility: Math.round(annVol * 10000) / 10000,
+        sharpe: Math.round(sharpe * 100) / 100,
+        sortino: Math.round(sortino * 100) / 100,
+        calmar: Math.round(calmar * 100) / 100
+      };
+    }
+
+    /**
+     * Calculate Pearson correlation matrix (ported from Vibe-Trading correlation.py).
+     * @param {Object} navCache - full nav-cache.json data (82+ entries per fund)
+     * @param {string[]} codes - fund codes to correlate
+     * @returns {{labels: string[], matrix: number[][]}}
+     */
+    function calcCorrelationMatrix(navCache, codes) {
+      var returnsMap = {};
+      codes.forEach(function(code) {
+        var cached = navCache[code];
+        var navArr = [];
+        if (cached && Array.isArray(cached) && cached.length >= 30) {
+          var sorted = cached.slice().sort(function(a, b) {
+            return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0);
+          });
+          navArr = sorted.map(function(x) { return x.nav; });
+        }
+        if (navArr.length >= 30) {
+          returnsMap[code] = computeReturns(navArr);
+        }
+      });
+
+      // Filter to codes with enough data
+      var validCodes = codes.filter(function(c) { return returnsMap[c]; });
+      if (validCodes.length < 2) return { labels: validCodes, matrix: [] };
+
+      // Align by length (use shortest to avoid NaN)
+      var minLen = Math.min.apply(null, validCodes.map(function(c) { return returnsMap[c].length; }));
+      // Limit to last 252 trading days (1 year)
+      if (minLen > 252) minLen = 252;
+      var n = validCodes.length;
+      var matrix = [];
+      for (var i = 0; i < n; i++) {
+        matrix[i] = [];
+        for (var j = 0; j < n; j++) matrix[i][j] = 1.0;
+      }
+
+      // Calculate pairwise Pearson correlation
+      for (var i = 0; i < n; i++) {
+        for (var j = i + 1; j < n; j++) {
+          var a = returnsMap[validCodes[i]];
+          var b = returnsMap[validCodes[j]];
+          var len = Math.min(a.length, b.length, minLen);
+          if (len < 10) { matrix[i][j] = 0; matrix[j][i] = 0; continue; }
+          // Use last len elements
+          var ax = a.slice(-len);
+          var bx = b.slice(-len);
+          var sumA = 0, sumB = 0;
+          for (var k = 0; k < len; k++) { sumA += ax[k]; sumB += bx[k]; }
+          var mA = sumA / len, mB = sumB / len;
+          var sumAB = 0, sumA2 = 0, sumB2 = 0;
+          for (var k = 0; k < len; k++) {
+            var dA = ax[k] - mA, dB = bx[k] - mB;
+            sumAB += dA * dB;
+            sumA2 += dA * dA;
+            sumB2 += dB * dB;
+          }
+          var corr = (sumA2 > 1e-10 && sumB2 > 1e-10) ? sumAB / Math.sqrt(sumA2 * sumB2) : 0;
+          if (isNaN(corr)) corr = 0;
+          matrix[i][j] = Math.round(corr * 100) / 100;
+          matrix[j][i] = matrix[i][j];
+        }
+      }
+      return { labels: validCodes, matrix: matrix };
+    }
+
+    /**
+     * Map correlation value to a red-green gradient color (for heatmap).
+     * @param {number} v - correlation value [-1, 1]
+     * @returns {string} CSS background-color
+     */
+    function corrColor(v) {
+      if (v === 1.0) return 'var(--primary)';
+      var t = (v + 1) / 2; // 0=red, 0.5=white, 1=green
+      var r = Math.round(239 * (1 - t) + 240 * Math.abs(0.5 - t) * 0.5);
+      var g = Math.round(68 * t + 240 * Math.abs(0.5 - t) * 0.5);
+      var b = Math.round(68 * (1 - t) + 240 * Math.abs(0.5 - t) * 0.5);
+      if (r > 240) r = 240;
+      if (g > 240) g = 240;
+      if (b > 240) b = 240;
+      return 'rgb(' + r + ',' + g + ',' + b + ')';
+    }
+
+    /**
+     * Build risk dashboard HTML from results.
+     * @param {Object[]} results - [{code, name, risk}]
+     * @param {string[]} codes - fund codes with valid data
+     * @param {Object} [fullNav] - full nav cache for correlation
+     * @returns {string} HTML string
+     */
+    function buildRiskDashboardHTML(results, codes, fullNav) {
+      var html = '';
+      var sumSharpe = 0, maxDD = 0, sumVol = 0, sumSortino = 0, sumCalmar = 0;
+      var validCount = 0;
+      results.forEach(function(r) {
+        if (r.risk) {
+          sumSharpe += r.risk.sharpe;
+          sumVol += r.risk.volatility;
+          sumSortino += r.risk.sortino;
+          sumCalmar += r.risk.calmar;
+          if (r.risk.maxDrawdown < maxDD) maxDD = r.risk.maxDrawdown;
+          validCount++;
+        }
+      });
+      var avgSharpe = validCount > 0 ? sumSharpe / validCount : 0;
+      var avgVol = validCount > 0 ? sumVol / validCount : 0;
+      var avgSortino = validCount > 0 ? sumSortino / validCount : 0;
+      var avgCalmar = validCount > 0 ? sumCalmar / validCount : 0;
+
+      // Portfolio health score (0-100)
+      var health = 50;
+      if (avgSharpe > 1) health += 20;
+      else if (avgSharpe > 0.5) health += 10;
+      else if (avgSharpe < -0.5) health -= 15;
+      if (maxDD > -0.10) health += 15;
+      else if (maxDD > -0.20) health += 5;
+      else if (maxDD < -0.30) health -= 10;
+      var fundCount = results.length;
+      if (fundCount >= 5) health += 10;
+      else if (fundCount >= 3) health += 5;
+      else if (fundCount <= 1) health -= 10;
+      if (health > 100) health = 100;
+      if (health < 0) health = 0;
+
+      var healthEmoji = health >= 70 ? '🟢' : (health >= 40 ? '🟡' : '🔴');
+      var healthText = health >= 70 ? '组合健康' : (health >= 40 ? '需要关注' : '风险较高');
+      var healthBg = health >= 70 ? '#f0fdf4' : (health >= 40 ? '#fefce8' : '#fef2f2');
+
+      // Sort by Sharpe descending
+      results.sort(function(a, b) {
+        var sa = a.risk ? a.risk.sharpe : -999;
+        var sb = b.risk ? b.risk.sharpe : -999;
+        return sb - sa;
+      });
+
+      // Summary cards
+      html += '<div class="risk-summary-grid">';
+      html += '<div class="risk-summary-item"><div class="label">平均夏普比率</div>';
+      html += '<div class="value">' + avgSharpe.toFixed(2) + '</div></div>';
+      html += '<div class="risk-summary-item"><div class="label">最大单只回撤</div>';
+      html += '<div class="value" style="color:' + (maxDD < -0.20 ? 'var(--danger)' : 'var(--warn)') + '">' + (maxDD * 100).toFixed(2) + '%</div></div>';
+      html += '<div class="risk-summary-item"><div class="label">平均年化波动率</div>';
+      html += '<div class="value">' + (avgVol * 100).toFixed(2) + '%</div></div>';
+      html += '<div class="risk-summary-item"><div class="label">平均索提诺比率</div>';
+      html += '<div class="value">' + avgSortino.toFixed(2) + '</div></div>';
+      html += '</div>';
+
+      // Health bar
+      html += '<div class="risk-health-bar" style="background:' + healthBg + '">';
+      html += healthEmoji + ' 组合健康度 <strong>' + health + '/100</strong> · ' + healthText;
+      html += '</div>';
+
+      // Per-fund detail table
+      html += '<div class="card-title" style="margin-top:4px">基金风险明细</div>';
+      html += '<table class="risk-detail-table">';
+      html += '<tr><th>基金</th><th>夏普</th><th>索提诺</th><th>最大回撤</th><th>波动率</th><th>Calmar</th></tr>';
+      results.forEach(function(r) {
+        if (!r.risk) {
+          html += '<tr><td style="text-align:left">' + r.code + '</td>';
+          html += '<td colspan="5" style="color:var(--text3);text-align:center">数据不足</td></tr>';
+          return;
+        }
+        var risk = r.risk;
+        var ddColor = risk.maxDrawdown < -0.15 ? 'var(--danger)' : (risk.maxDrawdown < -0.08 ? 'var(--warn)' : 'var(--text)');
+        var sharpeColor = risk.sharpe < 0 ? 'var(--danger)' : (risk.sharpe > 1 ? 'var(--success)' : 'var(--text)');
+        html += '<tr>';
+        html += '<td style="text-align:left;font-weight:600" title="' + r.name + '">' + r.code + '</td>';
+        html += '<td style="color:' + sharpeColor + '">' + risk.sharpe.toFixed(2) + '</td>';
+        html += '<td>' + risk.sortino.toFixed(2) + '</td>';
+        html += '<td style="color:' + ddColor + '">' + (risk.maxDrawdown * 100).toFixed(2) + '%</td>';
+        html += '<td>' + (risk.volatility * 100).toFixed(2) + '%</td>';
+        html += '<td>' + risk.calmar.toFixed(2) + '</td>';
+        html += '</tr>';
+      });
+      html += '</table>';
+
+      // Correlation heatmap (needs fullNav with ≥30 data points per fund)
+      var corrResult = null;
+      var navForCorr = fullNav || navCacheData;
+      if (codes.length >= 2) {
+        corrResult = calcCorrelationMatrix(navForCorr, codes);
+      }
+      if (corrResult && corrResult.labels.length >= 2) {
+        html += '<div class="card-title" style="margin-top:18px">相关性矩阵</div>';
+        html += '<div class="risk-heatmap-wrap"><table class="risk-heatmap">';
+        html += '<tr><th></th>';
+        corrResult.labels.forEach(function(label) {
+          html += '<th>' + label + '</th>';
+        });
+        html += '</tr>';
+        var matrix = corrResult.matrix;
+        for (var i = 0; i < corrResult.labels.length; i++) {
+          html += '<tr><th>' + corrResult.labels[i] + '</th>';
+          for (var j = 0; j < corrResult.labels.length; j++) {
+            var v = matrix[i][j];
+            var bg = corrColor(v);
+            var textColor = (v > 0.5 || v < -0.3) ? '#fff' : 'var(--text)';
+            html += '<td style="background:' + bg + ';color:' + textColor + '">' + v.toFixed(2) + '</td>';
+          }
+          html += '</tr>';
+        }
+        html += '</table></div>';
+        html += '<div class="risk-note">🟢 负相关 · ⬜ 零相关 · 🔴 正相关 · 低相关性有助于分散风险</div>';
+      } else if (codes.length >= 2) {
+        html += '<div class="card-title" style="margin-top:18px">相关性矩阵</div>';
+        html += '<div id="risk-corr-status" class="risk-note">⏳ 正在加载完整净值数据以计算相关性矩阵...</div>';
+      }
+
+      // Methodology note
+      html += '<div class="card-title" style="margin-top:18px">指标说明</div>';
+      html += '<div class="risk-note">';
+      html += '<strong>夏普比率</strong>：每单位风险的超额收益，越高越好（>1优秀）<br>';
+      html += '<strong>索提诺比率</strong>：只考虑下行风险的收益/风险比，>2为优秀<br>';
+      html += '<strong>最大回撤</strong>：历史最大净值回撤幅度，越小越好<br>';
+      html += '<strong>年化波动率</strong>：收益的年化标准差，衡量不确定性<br>';
+      html += '<strong>Calmar比率</strong>：年化收益/最大回撤，>1为较好<br><br>';
+      html += '数据来源：<a href="https://github.com/HKUDS/Vibe-Trading" target="_blank" style="color:var(--primary)">Vibe-Trading</a> 回测框架移植 · 无风险利率假设2% · 年化252个交易日';
+      html += '</div>';
+      return html;
+    }
+
+    /**
+     * Render the full risk dashboard.
+     * Loads full NAV history asynchronously for accurate calculations.
+     * Called when "风险" tab is opened.
+     */
+    function renderRiskDashboard() {
+      var c = document.getElementById('risk-content');
+      if (!portfolioData.holdings || portfolioData.holdings.length === 0) {
+        c.innerHTML = '<div class="empty">📭 暂无持仓，无法计算风险指标</div>';
+        return;
+      }
+
+      // Phase 1: Compute with embedded data (immediate)
+      var results = [];
+      var codes = [];
+      portfolioData.holdings.forEach(function(h) {
+        var navSeries = getNavSeries(h);
+        var risk = calcFundRisk(navSeries);
+        if (risk) {
+          results.push({ code: h.code, name: h.name, risk: risk });
+          codes.push(h.code);
+        } else {
+          results.push({ code: h.code, name: h.name, risk: null });
+        }
+      });
+
+      c.innerHTML = buildRiskDashboardHTML(results, codes, null);
+
+      // Phase 2: Load full NAV history for accurate re-calculation
+      loadFullNavCache(function(fullNav) {
+        if (!fullNav) {
+          var statusEl = document.getElementById('risk-corr-status');
+          if (statusEl) statusEl.innerHTML = '⚠️ 无法加载完整净值数据，相关性矩阵不可用';
+          return;
+        }
+        // Re-calculate with full data
+        var results2 = [];
+        var codes2 = [];
+        portfolioData.holdings.forEach(function(h) {
+          var navSeries = getNavSeries(h, fullNav);
+          var risk = calcFundRisk(navSeries);
+          if (risk) {
+            results2.push({ code: h.code, name: h.name, risk: risk });
+            codes2.push(h.code);
+          } else {
+            results2.push({ code: h.code, name: h.name, risk: null });
+          }
+        });
+        c.innerHTML = buildRiskDashboardHTML(results2, codes2, fullNav);
+      });
+    }
+
     var STORAGE_KEY = 'qdii-portfolio';
     function saveLocal() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(portfolioData)); } catch(e) {} }
     function loadLocal() {

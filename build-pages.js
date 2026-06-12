@@ -60,6 +60,15 @@ function build() {
   // 写入输出
   fs.writeFileSync(OUTPUT, template, 'utf-8');
 
+  // 复制 nav-cache.json 到 docs/ 供风险仪表盘异步加载完整历史数据
+  try {
+    fs.mkdirSync(path.join(__dirname, 'docs', 'data'), { recursive: true });
+    fs.copyFileSync(NAV_CACHE, path.join(__dirname, 'docs', 'data', 'nav-cache.json'));
+    console.log('[构建] 已复制 nav-cache.json 到 docs/data/');
+  } catch(e) {
+    console.log('[构建] 跳过 nav-cache.json 复制: ' + e.message);
+  }
+
   console.log('[构建] 完成！持仓: ' + portfolio.holdings.length + '只基金, 最新净值: ' + Object.keys(latestNavs).length + '只');
 }
 
