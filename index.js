@@ -332,9 +332,9 @@ async function main() {
   if (opts.walkForward) {
     console.log("[走步回测] 滚动窗口验证策略...");
     console.log("");
-    var walkForward = require("./lib/walk-forward");
-    var navCache = require("./lib/utils").loadNavCache();
-    var wfResult = walkForward.runWalkForwardBacktest(navCache, funds, {
+    const walkForward = require("./lib/walk-forward");
+    const navCache = require("./lib/utils").loadNavCache();
+    const wfResult = walkForward.runWalkForwardBacktest(navCache, funds, {
       trainDays: opts.walkForwardTrain,
       testDays: opts.walkForwardTest,
       topN: topN,
@@ -349,8 +349,8 @@ async function main() {
 
   // 假设追踪报告
   if (opts.hypothesisReport) {
-    var hypothesisEngine = require("./lib/hypothesis-engine");
-    var navCache2 = require("./lib/utils").loadNavCache();
+    const hypothesisEngine = require("./lib/hypothesis-engine");
+    const navCache2 = require("./lib/utils").loadNavCache();
     hypothesisEngine.updateHypothesisReturns(navCache2);
     console.log(hypothesisEngine.formatHypothesisReport());
     return;
@@ -358,12 +358,12 @@ async function main() {
 
   // 目标报告
   if (opts.goalReport) {
-    var goalPlanner = require("./lib/goal-planner");
-    var hypothesisEngine2 = require("./lib/hypothesis-engine");
-    var navCache3 = require("./lib/utils").loadNavCache();
-    var portfolioData = null;
+    const goalPlanner = require("./lib/goal-planner");
+    const hypothesisEngine2 = require("./lib/hypothesis-engine");
+    const navCache3 = require("./lib/utils").loadNavCache();
+    let portfolioData = null;
     try { portfolioData = require("./data/portfolio.json"); } catch (e) {}
-    var hStats = hypothesisEngine2.getHypothesisStats();
+    const hStats = hypothesisEngine2.getHypothesisStats();
     goalPlanner.updateGoals(portfolioData, hStats, navCache3);
     console.log(goalPlanner.formatGoalReport());
     return;
@@ -374,13 +374,13 @@ async function main() {
     console.log("[回填] 开始回填所有基金的全量历史净值数据...");
     console.log("[回填] 共 " + funds.length + " 只基金，每只需约1-2分钟");
     console.log("");
-    var backfilled = 0;
-    var failed = 0;
-    for (var bi = 0; bi < funds.length; bi++) {
-      var bfund = funds[bi];
+    let backfilled = 0;
+    let failed = 0;
+    for (let bi = 0; bi < funds.length; bi++) {
+      const bfund = funds[bi];
       console.log("[" + (bi + 1) + "/" + funds.length + "] " + bfund.name + "(" + bfund.code + ")...");
       try {
-        var bhistory = await fundData.getFundNavHistory(bfund.code, 5000);
+        const bhistory = await fundData.getFundNavHistory(bfund.code, 5000);
         console.log("  → " + bhistory.length + "条记录");
         if (bhistory.length > 0) {
           console.log("  → " + bhistory[0].date + " ~ " + bhistory[bhistory.length - 1].date);
