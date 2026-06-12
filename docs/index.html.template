@@ -529,7 +529,7 @@
 
   <script>
     var portfolioData = PORTFOLIO_DATA;
-    var PORTFOLIO_HOLDINGS = PORTFOLIO_DATA.holdings || [];
+    var PORTFOLIO_HOLDINGS = portfolioData.holdings || [];
     var fundsData = FUNDS_DATA;
     var navCacheData = NAV_CACHE_DATA;
     var dailyBriefData = DAILY_BRIEF_DATA;
