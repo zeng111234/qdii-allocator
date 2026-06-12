@@ -2209,7 +2209,14 @@
     function loadLocal() {
       try {
         var saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) { var p = JSON.parse(saved); if (p && p.holdings && p.holdings.length > 0) portfolioData = p; }
+        if (saved) {
+          var p = JSON.parse(saved);
+          if (p && p.holdings && p.holdings.length > 0) {
+            // 合并 localStorage 和嵌入数据
+            var merged = mergePortfolio({ holdings: PORTFOLIO_HOLDINGS || [] }, p);
+            portfolioData = merged;
+          }
+        }
       } catch(e) {}
     }
 
@@ -2554,16 +2561,23 @@
     }
 
     loadLocal();
-    updateSummary();
-    updateHoldings();
-    loadFundOptions();
-    renderTradeBanner();
-    renderPicks();
-    updateSyncStatus();
-    // Auto-sync: 如果有 gist ID，自动从云端下载最新数据
-    if (getGistId()) {
-      syncDown();
+    try {
+      updateSummary();
+      updateHoldings();
+      loadFundOptions();
+      renderTradeBanner();
+      renderPicks();
+      updateSyncStatus();
+    } catch(e) {
+      console.error('Init error:', e.message, e.stack);
+      document.getElementById('summary').innerHTML = '<div style="color:red;padding:20px">加载错误: ' + e.message + '</div>';
     }
+    // Auto-sync: 延迟后自动从云端下载
+    setTimeout(function() {
+      if (getGistId()) {
+        try { syncDown(); } catch(e) { console.log('Auto-sync skipped:', e.message); }
+      }
+    }, 2000);
     /* ── Hypothesis & Goal Tracker (from Vibe-Trading hypotheses/ + goal/) ── */
     var HYP_KEY = 'qdii-hypotheses';
     var GOAL_KEY = 'qdii-goals';
