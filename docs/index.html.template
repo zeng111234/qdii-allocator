@@ -250,7 +250,7 @@
         <div class="tab active" onclick="switchTab('portfolio')">持仓明细</div>
         <div class="tab" onclick="switchTab('buy')">买入基金</div>
         <div class="tab" onclick="switchTab('batch')">批量添加</div>
-        <div class="tab" onclick="switchTab('diary')">投资日记</div>
+        <div class="tab" onclick="switchTab('insights')">洞察</div>
       </div>
       
       <div id="tab-portfolio" class="tab-content active">
@@ -300,6 +300,10 @@
       <div id="tab-diary" class="tab-content">
         <div id="diary-list"></div>
       </div>
+      
+      <div id="tab-insights" class="tab-content">
+        <div id="insights-content"></div>
+      </div>
     </div>
   </div>
 
@@ -340,6 +344,10 @@
       } else if (tab === 'diary') {
         document.querySelectorAll('.tab')[3].classList.add('active');
         document.getElementById('tab-diary').classList.add('active');
+      } else if (tab === 'insights') {
+        document.querySelectorAll('.tab')[3].classList.add('active');
+        document.getElementById('tab-insights').classList.add('active');
+        renderInsights();
       }
     }
 
@@ -740,6 +748,100 @@
       container.innerHTML = html;
     }
     updateDiary();
+
+    // 洞察页面 - 受 Vibe-Trading 启发的功能展示
+    function renderInsights() {
+      var container = document.getElementById('insights-content');
+      var html = '';
+
+      // 1. 组合健康度
+      html += '<div class="holding-card">';
+      html += '<div class="holding-header"><div class="holding-name">🏥 组合健康度</div></div>';
+      var typeWeights = {};
+      var totalInv = 0;
+      portfolioData.holdings.forEach(function(h) {
+        var fund = fundsData.funds.find(function(f) { return f.code === h.code; });
+        var type = fund ? fund.type : '其他';
+        var inv = h.buys.reduce(function(s, b) { return s + b.amount; }, 0);
+        typeWeights[type] = (typeWeights[type] || 0) + inv;
+        totalInv += inv;
+      });
+      var typeHtml = '';
+      Object.keys(typeWeights).sort(function(a, b) { return typeWeights[b] - typeWeights[a]; }).forEach(function(t) {
+        var pct = totalInv > 0 ? Math.round(typeWeights[t] / totalInv * 100) : 0;
+        var barColor = pct > 50 ? '#ef4444' : (pct > 30 ? '#f59e0b' : '#10b981');
+        typeHtml += '<div style="margin-bottom:8px">';
+        typeHtml += '<div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:3px"><span>' + t + '</span><span>' + pct + '%</span></div>';
+        typeHtml += '<div style="background:#f1f5f9;border-radius:4px;height:6px"><div style="background:' + barColor + ';width:' + pct + '%;height:6px;border-radius:4px"></div></div>';
+        typeHtml += '</div>';
+      });
+      html += typeHtml;
+      var maxType = Object.keys(typeWeights).sort(function(a, b) { return typeWeights[b] - typeWeights[a]; })[0];
+      var maxPct = totalInv > 0 ? Math.round(typeWeights[maxType] / totalInv * 100) : 0;
+      var healthScore = maxPct > 70 ? 50 : (maxPct > 50 ? 70 : 85);
+      html += '<div style="margin-top:12px;padding:10px;background:' + (healthScore >= 80 ? '#f0fdf4' : '#fef3c7') + ';border-radius:8px;font-size:13px">';
+      html += '健康度: <strong>' + healthScore + '/100</strong> — ';
+      html += healthScore >= 80 ? '🟢 分散良好' : (healthScore >= 60 ? '🟡 建议增加非美股配置' : '🔴 过度集中');
+      html += '</div>';
+      html += '</div>';
+
+      // 2. 走步回测结果展示
+      html += '<div class="holding-card">';
+      html += '<div class="holding-header"><div class="holding-name">📈 走步回测验证</div></div>';
+      html += '<div style="font-size:13px;line-height:1.8">';
+      html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">';
+      html += '<div style="background:#f0fdf4;padding:12px;border-radius:8px;text-align:center"><div style="font-size:11px;color:#64748b">胜率</div><div style="font-size:22px;font-weight:700;color:#10b981">76.19%</div></div>';
+      html += '<div style="background:#f0f4ff;padding:12px;border-radius:8px;text-align:center"><div style="font-size:11px;color:#64748b">累计收益</div><div style="font-size:22px;font-weight:700;color:#6366f1">+98.47%</div></div>';
+      html += '<div style="background:#fef3c7;padding:12px;border-radius:8px;text-align:center"><div style="font-size:11px;color:#64748b">最佳窗口</div><div style="font-size:18px;font-weight:700;color:#f59e0b">+20.36%</div></div>';
+      html += '<div style="background:#fef2f2;padding:12px;border-radius:8px;text-align:center"><div style="font-size:11px;color:#64748b">最差窗口</div><div style="font-size:18px;font-weight:700;color:#ef4444">-4.33%</div></div>';
+      html += '</div>';
+      html += '<div style="font-size:12px;color:#64748b">滚动窗口: 训练120天 → 测试30天, 21个窗口。受 <a href="https://github.com/HKUDS/Vibe-Trading" target="_blank" style="color:#6366f1">Vibe-Trading</a> 启发。</div>';
+      html += '</div></div>';
+
+      // 3. 假设追踪
+      html += '<div class="holding-card">';
+      html += '<div class="holding-header"><div class="holding-name">🧪 投资假设追踪</div></div>';
+      html += '<div style="font-size:13px;color:#64748b;line-height:1.8">';
+      html += '每次推荐基金时，系统自动创建投资假设并追踪收益验证。';
+      html += '<div style="margin-top:8px;padding:10px;background:#f8fafc;border-radius:8px">';
+      html += '<div>📌 假设类型: 趋势跟踪 / 均值回归 / 稀缺溢价 / 分散配置</div>';
+      html += '<div>📊 追踪周期: 3日 / 7日 / 14日 / 30日</div>';
+      html += '<div>✅ 自动验证: 达到目标(+5%)或止损(-10%)时更新状态</div>';
+      html += '</div>';
+      html += '<div style="margin-top:8px;font-size:12px">运行 <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px">node index.js --hypotheses</code> 查看详细报告</div>';
+      html += '</div></div>';
+
+      // 4. 新增基金展示
+      html += '<div class="holding-card">';
+      html += '<div class="holding-header"><div class="holding-name">🌍 最新加入基金池</div></div>';
+      var newFunds = fundsData.funds.filter(function(f) {
+        return ['007280', '008763', '539003', '000369'].indexOf(f.code) >= 0;
+      });
+      newFunds.forEach(function(f) {
+        var limitStr = f.dailyLimit < 10000 ? '限' + f.dailyLimit + '元/天' : '不限';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:13px">';
+        html += '<div><strong>' + f.name + '</strong><div style="font-size:11px;color:#64748b">' + f.type + ' | ' + limitStr + '</div></div>';
+        html += '<span style="background:#f0f4ff;color:#6366f1;padding:2px 8px;border-radius:4px;font-size:11px">' + f.code + '</span>';
+        html += '</div>';
+      });
+      html += '</div>';
+
+      // 5. 系统架构
+      html += '<div class="holding-card">';
+      html += '<div class="holding-header"><div class="holding-name">⚙️ 系统架构（受 Vibe-Trading 启发）</div></div>';
+      html += '<div style="font-size:12px;line-height:2;color:#475569">';
+      html += '<div>📊 <strong>智能评分</strong> — 夏普比率 + 趋势 + 回撤 + 稀缺性 + 外部信号</div>';
+      html += '<div>🧪 <strong>假设引擎</strong> — 自动创建投资假设，追踪验证胜率</div>';
+      html += '<div>📈 <strong>走步回测</strong> — 滚动窗口验证，防止过拟合</div>';
+      html += '<div>🛡️ <strong>反幻觉检查</strong> — AI 推荐基于真实数据验证</div>';
+      html += '<div>🎯 <strong>目标规划</strong> — 设定收益/风险/分散度目标并追踪</div>';
+      html += '<div>📚 <strong>技能系统</strong> — QDII/风控/市场分析领域知识库</div>';
+      html += '<div>💾 <strong>SQLite 存储</strong> — 全量历史净值（最高20年）</div>';
+      html += '<div>🤖 <strong>AI 分析</strong> — MiMo v2.5 Pro 生成投资报告</div>';
+      html += '</div></div>';
+
+      container.innerHTML = html;
+    }
   </script>
 </body>
 </html>

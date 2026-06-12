@@ -74,6 +74,7 @@ function parseArgs() {
     else if (args[i] === "--walk-forward-train") opts.walkForwardTrain = parseInt(args[++i]) || 90;
     else if (args[i] === "--walk-forward-test") opts.walkForwardTest = parseInt(args[++i]) || 30;
     else if (args[i] === "--hypotheses") opts.hypothesisReport = true;
+    else if (args[i] === "--goals") opts.goalReport = true;
     else if (args[i] === "--backfill") opts.backfill = true;
     else if (args[i] === "--quick-add") opts.quickAdd = args[++i];
     else if (args[i] === "--import-file") opts.importFile = args[++i] || "data/buys.txt";
@@ -113,6 +114,7 @@ function parseArgs() {
       console.log("  --walk-forward-train <n>  training window days (default 90)");
       console.log("  --walk-forward-test <n>   test window days (default 30)");
       console.log("  --hypotheses           show hypothesis tracking report");
+      console.log("  --goals                show investment goal tracking report");
       console.log("  --backfill             backfill full historical NAV data for all funds");
       console.log("  --web [port]           start web UI (default port 3000)");
       console.log("  --delete <code>        delete all buys for a fund code");
@@ -351,6 +353,19 @@ async function main() {
     var navCache2 = require("./lib/utils").loadNavCache();
     hypothesisEngine.updateHypothesisReturns(navCache2);
     console.log(hypothesisEngine.formatHypothesisReport());
+    return;
+  }
+
+  // 目标报告
+  if (opts.goalReport) {
+    var goalPlanner = require("./lib/goal-planner");
+    var hypothesisEngine2 = require("./lib/hypothesis-engine");
+    var navCache3 = require("./lib/utils").loadNavCache();
+    var portfolioData = null;
+    try { portfolioData = require("./data/portfolio.json"); } catch (e) {}
+    var hStats = hypothesisEngine2.getHypothesisStats();
+    goalPlanner.updateGoals(portfolioData, hStats, navCache3);
+    console.log(goalPlanner.formatGoalReport());
     return;
   }
 
