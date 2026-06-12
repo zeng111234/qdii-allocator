@@ -235,9 +235,95 @@
     /* Footer */
     .footer { text-align: center; padding: 20px; font-size: 11px; color: var(--text3); }
 
+    /* ── Risk Dashboard (from Vibe-Trading metrics.py + correlation.py) ── */
+    .risk-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .risk-summary-item {
+      padding: 14px 12px;
+      border-radius: 10px;
+      text-align: center;
+      background: #f0f4ff;
+    }
+    .risk-summary-item .label {
+      font-size: 11px;
+      color: var(--text3);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .risk-summary-item .value {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .risk-health-bar {
+      padding: 12px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .risk-detail-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+    .risk-detail-table th, .risk-detail-table td {
+      padding: 6px 8px;
+      text-align: right;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .risk-detail-table th {
+      font-size: 10px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      font-weight: 600;
+    }
+    .risk-detail-table th:first-child, .risk-detail-table td:first-child {
+      text-align: left;
+    }
+    .risk-heatmap-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 10px;
+    }
+    .risk-heatmap {
+      border-collapse: collapse;
+      font-size: 11px;
+      min-width: 100%;
+    }
+    .risk-heatmap th, .risk-heatmap td {
+      padding: 5px 4px;
+      text-align: center;
+      border: 1px solid #fff;
+      white-space: nowrap;
+      min-width: 38px;
+    }
+    .risk-heatmap th {
+      font-size: 10px;
+      color: var(--text3);
+      font-weight: 600;
+    }
+    .risk-note {
+      font-size: 11px;
+      color: var(--text3);
+      line-height: 1.6;
+    }
+
     @media (max-width: 480px) {
       .form-row { flex-direction: column; }
       .insight-grid { grid-template-columns: 1fr 1fr; }
+      .risk-summary-grid { grid-template-columns: 1fr 1fr; }
+      .risk-detail-table { font-size: 11px; }
+      .risk-detail-table th, .risk-detail-table td { padding: 5px 4px; }
+      .risk-heatmap th, .risk-heatmap td { padding: 3px 2px; font-size: 9px; }
     }
   </style>
 </head>
@@ -248,15 +334,18 @@
   </div>
 
   <div class="container">
-    <!-- Daily Brief -->
-    <div class="card" id="brief-card" style="display:none">
-      <div class="card-title">📊 今日早报</div>
-      <div id="daily-brief" style="white-space:pre-wrap;font-size:13px;line-height:1.7;color:var(--text2)"></div>
-    </div>
-
     <!-- Summary -->
     <div class="card">
       <div id="summary" class="summary-grid"></div>
+    </div>
+
+    <!-- Daily Brief (collapsible) -->
+    <div class="card" id="brief-card" style="display:none">
+      <div class="card-title" onclick="toggleBrief()" style="cursor:pointer;user-select:none">
+        📊 今日早报
+        <span id="brief-arrow" style="font-size:11px;color:var(--text3);transition:transform 0.2s">▼</span>
+      </div>
+      <div id="daily-brief" style="display:none;white-space:pre-wrap;font-size:13px;line-height:1.7;color:var(--text2);max-height:200px;overflow-y:auto"></div>
     </div>
 
     <!-- Tabs -->
@@ -266,6 +355,7 @@
         <div class="tab" onclick="switchTab('buy')">买入</div>
         <div class="tab" onclick="switchTab('batch')">批量</div>
         <div class="tab" onclick="switchTab('insights')">洞察</div>
+        <div class="tab" onclick="switchTab('risk')">风险</div>
       </div>
 
       <div id="tab-portfolio" class="tab-content active">
@@ -304,6 +394,12 @@
       <div id="tab-insights" class="tab-content">
         <div id="insights-content"></div>
       </div>
+
+      <div id="tab-risk" class="tab-content">
+        <div id="risk-content">
+          <div style="text-align:center;padding:20px;color:var(--text3)">正在计算风险指标...</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -326,11 +422,12 @@
     function switchTab(tab) {
       document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
       document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
-      var tabs = ['portfolio', 'buy', 'batch', 'insights'];
+      var tabs = ['portfolio', 'buy', 'batch', 'insights', 'risk'];
       var idx = tabs.indexOf(tab);
       document.querySelectorAll('.tab')[idx].classList.add('active');
       document.getElementById('tab-' + tab).classList.add('active');
       if (tab === 'insights') renderInsights();
+      if (tab === 'risk') renderRiskDashboard();
       if (tab === 'batch' && !document.getElementById('batchDate').value) {
         document.getElementById('batchDate').value = new Date().toISOString().slice(0, 10);
         if (!document.getElementById('batchList').children.length) addBatchRow();
@@ -569,6 +666,18 @@
         var saved = localStorage.getItem(STORAGE_KEY);
         if (saved) { var p = JSON.parse(saved); if (p && p.holdings && p.holdings.length > 0) portfolioData = p; }
       } catch(e) {}
+    }
+
+    function toggleBrief() {
+      var el = document.getElementById('daily-brief');
+      var arrow = document.getElementById('brief-arrow');
+      if (el.style.display === 'none') {
+        el.style.display = 'block';
+        arrow.style.transform = 'rotate(180deg)';
+      } else {
+        el.style.display = 'none';
+        arrow.style.transform = 'rotate(0deg)';
+      }
     }
 
     loadLocal();
