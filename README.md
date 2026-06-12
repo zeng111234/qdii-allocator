@@ -14,6 +14,9 @@
 | **外部信号** | 抓取 X/Twitter 大V观点，分析投资主题情绪，影响评分 |
 | **AI分析** | 调用 LLM 生成投资决策报告，结合市场新闻和持仓数据给出个性化建议 |
 | **回测优化** | 历史回测验证策略效果，网格搜索自动优化评分权重 |
+| **走步回测** | 滚动窗口验证策略，防止过拟合（受 [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) 启发） |
+| **假设追踪** | 自动为每次推荐创建投资假设，追踪3/7/14/30日收益，验证假设胜率 |
+| **投资日记** | AI自动记录每次买卖决策的理由和市场环境 |
 | **邮件推送** | 每天自动发投资计划到邮箱，含排名、持仓、风控、AI报告 |
 | **GitHub Actions** | 不需要自己的服务器，每天定时自动运行 |
 
@@ -144,9 +147,22 @@ node index.js --backtest
 # 指定回测天数
 node index.js --backtest --backtest-days 120
 
+# 走步回测（滚动窗口验证，防止过拟合）
+node index.js --walk-forward
+node index.js --walk-forward --walk-forward-train 120 --walk-forward-test 30
+
 # 权重优化（网格搜索最优参数）
 node index.js --optimize-weights
 ```
+
+### 假设追踪
+
+```bash
+# 查看投资假设报告（自动在每次推荐时创建假设）
+node index.js --hypotheses
+```
+
+假设引擎会自动为每次推荐的基金创建投资假设，追踪3/7/14/30日收益，验证假设是否成立。历史胜率数据可以帮助判断策略有效性。
 
 ## 分配策略说明
 
@@ -166,6 +182,8 @@ node index.js --optimize-weights
 3. **外部信号**：抓取 X/Twitter 大V观点，分析看涨/看跌情绪
 4. **AI决策**：调用 LLM 综合所有数据生成投资报告
 5. **历史回填**：自动计算历史推荐的实际5日/10日收益
+6. **假设创建**：自动为 Top5 推荐创建投资假设，追踪后续收益验证
+7. **持仓感知**：考虑已有持仓，避免过度集中于单一市场
 
 ## 外部信号配置
 
@@ -289,10 +307,14 @@ QDII基金是T+2**交易日**结算（不是日历日），系统自动处理：
 ```
 index.js                    # 主入口，CLI命令处理
 watch.js                    # X/Twitter 推文实时监控（可选）
+sync.js                     # 一键同步数据到 GitHub
 lib/
   allocator.js              # 基础分配算法（equal/low_fee/scarce）
-  dynamic-strategy.js       # 智能动态策略（综合评分）
+  dynamic-strategy.js       # 智能动态策略（综合评分+假设创建）
+  scorer.js                 # 基金评分系统（加权因子评分）
   ai-analyst.js             # AI分析模块（LLM调用）
+  hypothesis-engine.js      # 假设追踪引擎（Vibe-Trading 启发）
+  walk-forward.js           # 走步回测验证器（Vibe-Trading 启发）
   mailer.js                 # 邮件发送模块
   portfolio.js              # 持仓追踪模块
   risk.js                   # 组合风控模块
@@ -300,12 +322,15 @@ lib/
   external-signals.js       # 外部信号抓取（X/Twitter）
   fund-data.js              # 基金数据获取（净值、行情）
   backtest.js               # 回测和权重优化
+  investment-diary.js       # AI投资日记
+  daily-brief.js            # AI每日简报
   trading-calendar.js       # 交易日历（节假日处理）
   web-server.js             # Web管理界面
 data/
   funds.json                # 基金池配置（手动维护）
   portfolio.json            # 持仓记录（自动维护）
   history.json              # 历史推荐记录
+  hypotheses.json           # 投资假设追踪记录
   nav-cache.json            # 净值缓存
   fund-info-cache.json      # 基金信息缓存
   buys.txt                  # 买入记录文件（用于导入）
@@ -360,5 +385,17 @@ A: 80分以上为健康，60-80为一般，60以下需要关注。主要看分�
 A: 默认预置的是A类份额。你可以在 `funds.json` 中添加任何基金，修改 `shareClass` 字段即可。
 
 **Q: 回测结果可信吗？**
-A: 回测基于历史数据，不代表未来表现。但可以帮助验证策略逻辑是否合理，以及优化权重参数。
+A: 回测基于历史数据，不代表未来表现。但可以帮助验证策略逻辑是否合理，以及优化权重参数。建议使用走步回测（`--walk-forward`）来验证策略，它比普通回测更接近真实情况。
+
+**Q: 什么是走步回测？**
+A: 普通回测用全部历史数据训练参数再测同一段，容易过拟合。走步回测用滚动窗口：前120天训练，后30天测试，然后窗口向前滑动，重复多次。这样能更真实地反映策略在未来的表现。
+
+**Q: 假设追踪是什么？**
+A: 每次系统推荐基金时，会自动创建一个投资假设（比如"趋势跟踪：纳指处于上升趋势"），然后追踪3/7/14/30天后的实际收益，验证假设是否成立。长期积累的胜率数据可以帮助判断策略有效性。
+
+**Q: 这个项目和 Vibe-Trading 有什么关系？**
+A: 本项目的假设追踪引擎和走步回测模块受 [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) 启发。Vibe-Trading 是香港大学的开源多Agent量化交易平台，功能更全面（支持10个券商、50+技能模块、多Agent协作）。本项目专注于QDII基金定投场景，用 Node.js 实现了其中最核心的两个理念：假设驱动研究和滚动窗口验证。
+
+**Q: 能投C类基金吗？**
+A: 默认预置的是A类份额。你可以在 `funds.json` 中添加任何基金，修改 `shareClass` 字段即可。
 # CI test

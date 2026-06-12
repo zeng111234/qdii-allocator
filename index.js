@@ -43,7 +43,7 @@ function loadFunds() {
 
 function parseArgs() {
   const args = process.argv.slice(2);
-  const opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000 };
+  const opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, walkForward: false, walkForwardTrain: 90, walkForwardTest: 30, hypothesisReport: false, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000 };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--dry-run") opts.dryRun = true;
     else if (args[i] === "--strategy") opts.strategy = args[++i];
@@ -70,6 +70,10 @@ function parseArgs() {
       opts.buy = { code: buyCode, amount: buyAmount, nav: buyNav, date: buyDate };
     }
     else if (args[i] === "--optimize-weights") opts.optimizeWeights = true;
+    else if (args[i] === "--walk-forward") opts.walkForward = true;
+    else if (args[i] === "--walk-forward-train") opts.walkForwardTrain = parseInt(args[++i]) || 90;
+    else if (args[i] === "--walk-forward-test") opts.walkForwardTest = parseInt(args[++i]) || 30;
+    else if (args[i] === "--hypotheses") opts.hypothesisReport = true;
     else if (args[i] === "--quick-add") opts.quickAdd = args[++i];
     else if (args[i] === "--import-file") opts.importFile = args[++i] || "data/buys.txt";
     else if (args[i] === "--today") opts.today = true;
@@ -104,6 +108,10 @@ function parseArgs() {
       console.log("  --import-file [path]   import buys from text file (default data/buys.txt, auto-settlement T+2 trading days)");
       console.log("  --today                show today's recommended funds with buy commands");
       console.log("  --optimize-weights     run weight optimization");
+      console.log("  --walk-forward         run walk-forward backtest (Vibe-Trading style)");
+      console.log("  --walk-forward-train <n>  training window days (default 90)");
+      console.log("  --walk-forward-test <n>   test window days (default 30)");
+      console.log("  --hypotheses           show hypothesis tracking report");
       console.log("  --web [port]           start web UI (default port 3000)");
       console.log("  --delete <code>        delete all buys for a fund code");
       console.log("  --delete-all           delete all holdings (reset portfolio)");
@@ -313,6 +321,34 @@ async function main() {
     });
     console.log("");
     console.log("回测完成!");
+    return;
+  }
+
+  // 走步回测（受 Vibe-Trading 启发）
+  if (opts.walkForward) {
+    console.log("[走步回测] 滚动窗口验证策略...");
+    console.log("");
+    var walkForward = require("./lib/walk-forward");
+    var navCache = require("./lib/utils").loadNavCache();
+    var wfResult = walkForward.runWalkForwardBacktest(navCache, funds, {
+      trainDays: opts.walkForwardTrain,
+      testDays: opts.walkForwardTest,
+      topN: topN,
+      stepDays: opts.walkForwardTest
+    });
+    if (wfResult) {
+      console.log("");
+      console.log("走步回测完成! 胜率: " + wfResult.summary.winRate + ", 累计收益: " + wfResult.summary.cumulativeReturn);
+    }
+    return;
+  }
+
+  // 假设追踪报告
+  if (opts.hypothesisReport) {
+    var hypothesisEngine = require("./lib/hypothesis-engine");
+    var navCache2 = require("./lib/utils").loadNavCache();
+    hypothesisEngine.updateHypothesisReturns(navCache2);
+    console.log(hypothesisEngine.formatHypothesisReport());
     return;
   }
 
