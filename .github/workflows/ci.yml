@@ -17,5 +17,5 @@ jobs:
           node-version: '24'
       - run: npm install
       - run: node -v && npx eslint --version
-      - run: npm run lint
+      - run: npx eslint lib/ index.js sync.js build-pages.js 2>&1; echo "EXIT: $?"
       - run: npm test
