@@ -16,5 +16,6 @@ jobs:
         with:
           node-version: '22'
       - run: npm install
-      - run: npm run lint 2>&1 || (echo "=== LINT FAILED ===" && npm run lint; exit 1)
+      - run: sed -n '330,390p' index.js
+      - run: npm run lint
       - run: npm test
