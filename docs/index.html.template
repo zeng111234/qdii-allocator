@@ -829,6 +829,10 @@
         });
       }
 
+      // News & Sentiment
+      html += '<div class="card-title" style="margin-top:18px">📰 新闻与情绪</div>';
+      html += '<div id="news-sentiment-content"><div style="text-align:center;padding:10px;color:var(--text3)">正在加载最新新闻...</div></div>';
+
       // New Funds
       html += '<div class="card-title" style="margin-top:18px">最新加入基金池</div>';
       var newFunds = fundsData.funds.filter(function(f) { return ['007280','008763','539003','000369'].indexOf(f.code) >= 0; });
@@ -845,8 +849,9 @@
       html += '</div>';
 
       c.innerHTML = html;
-      // Trigger async backtest and attribution
+      // Trigger async backtest, attribution, and news
       runBacktest();
+      loadNewsSentiment();
     }
 
     // LocalStorage
@@ -2420,6 +2425,110 @@
     }
 
     /* ── Walk-Forward Backtest + Performance Attribution (from Vibe-Trading backtest/) ── */
+    /* ── News & Sentiment (live from eastmoney API) ── */
+    function loadNewsSentiment() {
+      var el = document.getElementById('news-sentiment-content');
+      if (!el) return;
+
+      // Fetch global news from eastmoney
+      var url = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=350&order=1&needInteractData=0&page_index=1&page_size=10';
+      try {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.timeout = 8000;
+        xhr.onload = function() {
+          try {
+            var json = JSON.parse(xhr.responseText);
+            var items = (json.data && json.data.list) ? json.data.list : [];
+            if (items.length === 0) {
+              el.innerHTML = '<div style="color:var(--text3);font-size:12px">暂无新闻</div>';
+              return;
+            }
+
+            // Simple sentiment analysis
+            var posWords = ['利好','上涨','突破','新高','增长','反弹','降息','宽松','牛市','大涨','看涨'];
+            var negWords = ['利空','下跌','暴跌','新低','衰退','加息','紧缩','熊市','大跌','看跌','风险'];
+            var posCount = 0, negCount = 0, neuCount = 0;
+            var headlines = [];
+
+            items.forEach(function(item) {
+              var text = (item.title || '') + ' ' + (item.digest || '');
+              var score = 0;
+              posWords.forEach(function(w) { if (text.indexOf(w) >= 0) score++; });
+              negWords.forEach(function(w) { if (text.indexOf(w) >= 0) score--; });
+              if (score > 0) posCount++;
+              else if (score < 0) negCount++;
+              else neuCount++;
+              headlines.push({ title: item.title, time: item.showTime, score: score });
+            });
+
+            var overall = items.length > 0 ? Math.round((posCount - negCount) / items.length * 100) : 0;
+            var moodEmoji = overall > 10 ? '🟢' : (overall < -10 ? '🔴' : '⚪');
+            var moodText = overall > 10 ? '偏乐观' : (overall < -10 ? '偏悲观' : '中性');
+
+            var html2 = '<div style="display:flex;gap:10px;margin-bottom:10px">';
+            html2 += '<div style="flex:1;text-align:center;padding:8px;background:var(--bg);border-radius:8px"><div style="font-size:11px;color:var(--text3)">市场情绪</div><div style="font-size:18px;font-weight:700">' + moodEmoji + ' ' + moodText + '</div></div>';
+            html2 += '<div style="flex:1;text-align:center;padding:8px;background:var(--bg);border-radius:8px"><div style="font-size:11px;color:var(--text3)">新闻数</div><div style="font-size:18px;font-weight:700">' + items.length + '条</div></div>';
+            html2 += '<div style="flex:1;text-align:center;padding:8px;background:var(--bg);border-radius:8px"><div style="font-size:11px;color:var(--text3)">看涨/看跌</div><div style="font-size:18px;font-weight:700;color:var(--' + (posCount > negCount ? 'danger' : 'success') + ')">' + posCount + '/' + negCount + '</div></div>';
+            html2 += '</div>';
+
+            html2 += '<div style="font-size:12px">';
+            headlines.slice(0, 6).forEach(function(h) {
+              var icon = h.score > 0 ? '🟢' : (h.score < 0 ? '🔴' : '⚪');
+              html2 += '<div style="padding:6px 0;border-bottom:1px solid var(--border);display:flex;gap:6px;align-items:flex-start">';
+              html2 += '<span style="flex-shrink:0">' + icon + '</span>';
+              html2 += '<span style="color:var(--text2)">' + h.title + '</span>';
+              html2 += '</div>';
+            });
+            html2 += '</div>';
+
+            // Theme sentiment
+            var themes = {
+              '纳指/科技': { pos: 0, neg: 0, kw: ['nasdaq','科技','芯片','ai','半导体','英伟达','苹果','微软'] },
+              '美股大盘': { pos: 0, neg: 0, kw: ['美股','标普','s&p','美联储','fed','利率'] },
+              '港股/亚太': { pos: 0, neg: 0, kw: ['港股','恒生','亚太','中国','亚洲'] },
+              '能源/商品': { pos: 0, neg: 0, kw: ['石油','原油','黄金','商品','能源'] }
+            };
+            headlines.forEach(function(h) {
+              var text = h.title.toLowerCase();
+              Object.keys(themes).forEach(function(t) {
+                themes[t].kw.forEach(function(kw) {
+                  if (text.indexOf(kw) >= 0) {
+                    if (h.score > 0) themes[t].pos++;
+                    else if (h.score < 0) themes[t].neg++;
+                  }
+                });
+              });
+            });
+
+            var hasThemeData = Object.keys(themes).some(function(t) { return themes[t].pos > 0 || themes[t].neg > 0; });
+            if (hasThemeData) {
+              html2 += '<div style="margin-top:10px;font-size:11px;color:var(--text3)">主题情绪:</div>';
+              html2 += '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px">';
+              Object.keys(themes).forEach(function(t) {
+                var th = themes[t];
+                if (th.pos > 0 || th.neg > 0) {
+                  var color = th.pos > th.neg ? 'var(--danger)' : (th.neg > th.pos ? 'var(--success)' : 'var(--text3)');
+                  html2 += '<span style="padding:3px 8px;background:var(--bg);border-radius:12px;font-size:11px;color:' + color + '">' + t + ' ' + (th.pos > 0 ? '+' + th.pos : '') + (th.neg > 0 ? '-' + th.neg : '') + '</span>';
+                }
+              });
+              html2 += '</div>';
+            }
+
+            el.innerHTML = html2;
+          } catch(e) {
+            el.innerHTML = '<div style="color:var(--text3);font-size:12px">新闻解析失败</div>';
+          }
+        };
+        xhr.onerror = function() {
+          el.innerHTML = '<div style="color:var(--text3);font-size:12px">无法连接新闻服务（可能是CORS限制）</div>';
+        };
+        xhr.send();
+      } catch(e) {
+        el.innerHTML = '<div style="color:var(--text3);font-size:12px">新闻加载失败</div>';
+      }
+    }
+
     function runBacktest() {
       loadFullNavCache(function(fullNav) {
         var el = document.getElementById('backtest-content');
