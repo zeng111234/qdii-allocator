@@ -74,6 +74,7 @@ function parseArgs() {
     else if (args[i] === "--walk-forward-train") opts.walkForwardTrain = parseInt(args[++i]) || 90;
     else if (args[i] === "--walk-forward-test") opts.walkForwardTest = parseInt(args[++i]) || 30;
     else if (args[i] === "--hypotheses") opts.hypothesisReport = true;
+    else if (args[i] === "--backfill") opts.backfill = true;
     else if (args[i] === "--quick-add") opts.quickAdd = args[++i];
     else if (args[i] === "--import-file") opts.importFile = args[++i] || "data/buys.txt";
     else if (args[i] === "--today") opts.today = true;
@@ -112,6 +113,7 @@ function parseArgs() {
       console.log("  --walk-forward-train <n>  training window days (default 90)");
       console.log("  --walk-forward-test <n>   test window days (default 30)");
       console.log("  --hypotheses           show hypothesis tracking report");
+      console.log("  --backfill             backfill full historical NAV data for all funds");
       console.log("  --web [port]           start web UI (default port 3000)");
       console.log("  --delete <code>        delete all buys for a fund code");
       console.log("  --delete-all           delete all holdings (reset portfolio)");
@@ -349,6 +351,35 @@ async function main() {
     var navCache2 = require("./lib/utils").loadNavCache();
     hypothesisEngine.updateHypothesisReturns(navCache2);
     console.log(hypothesisEngine.formatHypothesisReport());
+    return;
+  }
+
+  // 全量历史回填
+  if (opts.backfill) {
+    console.log("[回填] 开始回填所有基金的全量历史净值数据...");
+    console.log("[回填] 共 " + funds.length + " 只基金，每只需约1-2分钟");
+    console.log("");
+    var backfilled = 0;
+    var failed = 0;
+    for (var bi = 0; bi < funds.length; bi++) {
+      var bfund = funds[bi];
+      console.log("[" + (bi + 1) + "/" + funds.length + "] " + bfund.name + "(" + bfund.code + ")...");
+      try {
+        var bhistory = await fundData.getFundNavHistory(bfund.code, 5000);
+        console.log("  → " + bhistory.length + "条记录");
+        if (bhistory.length > 0) {
+          console.log("  → " + bhistory[0].date + " ~ " + bhistory[bhistory.length - 1].date);
+        }
+        backfilled++;
+      } catch (e) {
+        console.warn("  → 失败:", e.message);
+        failed++;
+      }
+      // 避免API限流
+      if (bi < funds.length - 1) await new Promise(function (r) { setTimeout(r, 1000); });
+    }
+    console.log("");
+    console.log("[回填] 完成! 成功:" + backfilled + ", 失败:" + failed);
     return;
   }
 
