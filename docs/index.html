@@ -213,10 +213,10 @@
     }
 
     /* Batch */
-    .batch-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; }
-    .batch-row select { flex: 2; padding: 8px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; }
-    .batch-row input { flex: 1; padding: 8px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; }
-    .batch-row .del { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; border-radius: 8px; padding: 6px 10px; font-size: 16px; cursor: pointer; }
+    .batch-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; min-width: 0; }
+    .batch-row select { flex: 2; min-width: 0; padding: 8px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; }
+    .batch-row input { flex: 0 0 80px; min-width: 0; padding: 8px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; }
+    .batch-row .del { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; border-radius: 8px; padding: 6px 10px; font-size: 16px; cursor: pointer; flex-shrink: 0; }
 
     /* Toast */
     .toast {
@@ -435,29 +435,35 @@
     }
 
     function calcSummary() {
-      var confirmedInv = 0, pendingInv = 0, totalVal = 0;
+      var totalInv = 0, totalVal = 0, pendingInv = 0;
       portfolioData.holdings.forEach(function(h) {
+        var navNow = 0;
+        if (navCacheData[h.code]) {
+          var cached = navCacheData[h.code];
+          if (Array.isArray(cached)) navNow = cached[cached.length - 1].nav;
+          else navNow = cached.nav || 0;
+        }
         h.buys.forEach(function(b) {
-          var navNow = 0;
-          if (navCacheData[h.code]) {
-            var cached = navCacheData[h.code];
-            if (Array.isArray(cached)) navNow = cached[cached.length - 1].nav;
-            else navNow = cached.nav || 0;
-          }
-          if (b.nav && b.settleDate) {
-            confirmedInv += b.amount;
+          totalInv += b.amount;
+          if (b.shares && b.shares > 0 && navNow > 0) {
+            // 已结算：用份额×最新净值
             totalVal += b.shares * navNow;
+          } else if (b.nav && b.nav > 0 && navNow > 0) {
+            // 有净值但无份额（网页端录入）：按净值比例估算
+            totalVal += b.amount * (navNow / b.nav);
           } else {
-            pendingInv += b.amount;
+            // 待确认：暂按投入金额算
             totalVal += b.amount;
+            pendingInv += b.amount;
           }
         });
       });
+      var pnl = Math.round((totalVal - totalInv) * 100) / 100;
       return {
-        confirmed: Math.round(confirmedInv * 100) / 100,
+        invested: Math.round(totalInv * 100) / 100,
         pending: Math.round(pendingInv * 100) / 100,
         value: Math.round(totalVal * 100) / 100,
-        pnl: Math.round((totalVal - confirmedInv - pendingInv) * 100) / 100,
+        pnl: pnl,
         count: portfolioData.holdings.length
       };
     }
@@ -467,10 +473,10 @@
       var cls = s.pnl >= 0 ? 'positive' : 'negative';
       var sign = s.pnl >= 0 ? '+' : '';
       document.getElementById('summary').innerHTML =
-        '<div class="summary-item"><div class="label">投入</div><div class="value">' + s.confirmed + '</div></div>' +
-        '<div class="summary-item"><div class="label">待确认</div><div class="value" style="color:var(--warn)">' + s.pending + '</div></div>' +
-        '<div class="summary-item"><div class="label">市值</div><div class="value">' + s.value + '</div></div>' +
-        '<div class="summary-item"><div class="label">盈亏</div><div class="value ' + cls + '">' + sign + s.pnl + '</div></div>';
+        '<div class="summary-item"><div class="label">总投入</div><div class="value">' + s.invested + '</div></div>' +
+        '<div class="summary-item"><div class="label">当前市值</div><div class="value">' + s.value + '</div></div>' +
+        '<div class="summary-item"><div class="label">总盈亏</div><div class="value ' + cls + '">' + sign + s.pnl + '</div></div>' +
+        '<div class="summary-item"><div class="label">持仓</div><div class="value">' + s.count + '只</div></div>';
     }
 
     function updateHoldings() {
@@ -480,21 +486,33 @@
         return;
       }
       var html = '';
+      var grandInv = 0, grandVal = 0;
       portfolioData.holdings.forEach(function(h, i) {
         var inv = h.buys.reduce(function(s, b) { return s + b.amount; }, 0);
-        var shares = h.buys.reduce(function(s, b) { return s + (b.shares || 0); }, 0);
         var navNow = 0;
         if (navCacheData[h.code]) {
           var cached = navCacheData[h.code];
           navNow = Array.isArray(cached) ? cached[cached.length - 1].nav : (cached.nav || 0);
         }
-        var val = shares > 0 ? shares * navNow : inv;
+        // 计算市值：和 calcSummary 一致
+        var val = 0;
+        h.buys.forEach(function(b) {
+          if (b.shares && b.shares > 0 && navNow > 0) {
+            val += b.shares * navNow;
+          } else if (b.nav && b.nav > 0 && navNow > 0) {
+            val += b.amount * (navNow / b.nav);
+          } else {
+            val += b.amount;
+          }
+        });
         var pnl = val - inv;
         var pnlPct = inv > 0 ? (pnl / inv * 100) : 0;
         var cls = pnl >= 0 ? 'positive' : 'negative';
         var sign = pnl >= 0 ? '+' : '';
         var fund = fundsData.funds.find(function(f) { return f.code === h.code; });
         var limit = fund && fund.dailyLimit && fund.dailyLimit < 10000 ? '限' + fund.dailyLimit + '元' : '';
+        grandInv += inv;
+        grandVal += val;
 
         html += '<div class="holding-row" onclick="toggleDetail(' + i + ')">';
         html += '<div class="holding-top">';
@@ -512,6 +530,14 @@
         });
         html += '</div></div>';
       });
+      // 底部汇总：和顶部 summary 交叉验证
+      var grandPnl = grandVal - grandInv;
+      var gpCls = grandPnl >= 0 ? 'positive' : 'negative';
+      var gpSign = grandPnl >= 0 ? '+' : '';
+      html += '<div style="padding:12px 0 4px;border-top:2px solid var(--border);display:flex;justify-content:space-between;font-size:13px;font-weight:600">';
+      html += '<span>合计 ' + portfolioData.holdings.length + '只</span>';
+      html += '<span>投入 ' + grandInv.toFixed(2) + ' · 市值 ' + grandVal.toFixed(2) + ' · <span class="' + gpCls + '">盈亏 ' + gpSign + grandPnl.toFixed(2) + '</span></span>';
+      html += '</div>';
       c.innerHTML = html;
     }
 
@@ -675,7 +701,7 @@
       // Then fallback to raw.githubusercontent.com
       var urls = [
         'data/nav-cache.json',
-        'https://raw.githubusercontent.com/JiaChen-Xie/trade/main/data/nav-cache.json'
+        'https://raw.githubusercontent.com/zeng111234/trade/main/data/nav-cache.json'
       ];
       function tryLoad(idx) {
         if (idx >= urls.length) { callback(null); return; }
