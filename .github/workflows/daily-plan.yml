@@ -35,8 +35,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install
+      - run: npm ci
       - name: Generate AI Daily Brief
+        continue-on-error: true
         run: |
           node -e "
             var db = require('./lib/daily-brief');
@@ -54,19 +55,26 @@ jobs:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
-      - run: |
+      - name: Run allocation strategy
+        run: |
           CMD="node index.js"
           STRATEGY="${{ inputs.strategy }}"
           if [ -z "$STRATEGY" ]; then STRATEGY="dynamic"; fi
-          CMD="$CMD --strategy $STRATEGY"
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
-            CMD="$CMD --dry-run"
-          fi
-          if [ -n "${{ inputs.budget }}" ]; then
-            CMD="$CMD --budget ${{ inputs.budget }}"
-          fi
+          CMD="$CMD --strategy $STRATEGY --dry-run"
           echo "Running: $CMD"
           eval $CMD
+        env:
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
+          LLM_MODEL: ${{ secrets.LLM_MODEL }}
+      - name: Send email (if configured)
+        continue-on-error: true
+        run: |
+          if [ -n "${{ secrets.SMTP_HOST }}" ]; then
+            node index.js --strategy dynamic
+          else
+            echo "SMTP not configured, skipping email"
+          fi
         env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
@@ -82,11 +90,11 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/history.json data/nav-cache.json data/fund-info-cache.json data/portfolio.json data/external-signals-cache.json data/daily-brief.json docs/index.html
+          git add data/history.json data/nav-cache.json data/fund-info-cache.json data/portfolio.json data/external-signals-cache.json docs/index.html
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
             git commit -m "chore: update data & pages $(date +%Y/%m/%d)"
             git fetch origin main
-            git push --force-with-lease
+            git push --force-with-lease || echo "Push failed (possibly due to concurrent changes), skipping"
           fi
