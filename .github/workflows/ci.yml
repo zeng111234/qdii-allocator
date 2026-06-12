@@ -16,5 +16,5 @@ jobs:
         with:
           node-version: '22'
       - run: npm install
-      - run: npm run lint
+      - run: npm run lint 2>&1 || (echo "=== LINT FAILED ===" && npm run lint; exit 1)
       - run: npm test
