@@ -932,10 +932,11 @@
      */
     function corrColor(v) {
       if (v === 1.0) return 'var(--primary)';
-      var t = (v + 1) / 2; // 0=red, 0.5=white, 1=green
-      var r = Math.round(239 * (1 - t) + 240 * Math.abs(0.5 - t) * 0.5);
-      var g = Math.round(68 * t + 240 * Math.abs(0.5 - t) * 0.5);
-      var b = Math.round(68 * (1 - t) + 240 * Math.abs(0.5 - t) * 0.5);
+      // 红色=正相关(集中风险), 白色=无相关, 蓝色=负相关(分散效果好)
+      var t = (1 - v) / 2; // v=1 → t=0(红), v=0 → t=0.5(白), v=-1 → t=1(蓝)
+      var r = Math.round(239 * (1 - t) + 200 * Math.abs(0.5 - t) * 0.3);
+      var g = Math.round(68 * t + 200 * Math.abs(0.5 - t) * 0.3);
+      var b = Math.round(200 * t + 200 * Math.abs(0.5 - t) * 0.3);
       if (r > 240) r = 240;
       if (g > 240) g = 240;
       if (b > 240) b = 240;
