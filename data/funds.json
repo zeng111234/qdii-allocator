@@ -164,7 +164,7 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 10,
       "minPurchase": 10,
       "status": "active",
       "note": "纳指100南方产品",
@@ -643,7 +643,7 @@
       "name": "摩根日本精选股票(QDII)A",
       "type": "日本",
       "shareClass": "A",
-      "feeRate": 1.0,
+      "feeRate": 1,
       "custodyFee": 0.2,
       "dailyLimit": 500,
       "status": "active",
@@ -663,19 +663,6 @@
       "settleDays": 2,
       "minPurchase": 10,
       "note": "越南市场，前沿高增长"
-    },
-    {
-      "code": "539003",
-      "name": "建信富时100指数(QDII)A",
-      "type": "英国",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.2,
-      "dailyLimit": 10,
-      "status": "active",
-      "settleDays": 2,
-      "minPurchase": 10,
-      "note": "英国富时100，欧洲发达市场"
     }
   ],
   "_lastUpdated": "2026-06-11",
