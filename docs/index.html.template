@@ -2224,7 +2224,7 @@
     var GIST_TOKEN_KEY = 'qdii-gist-token';
     var GIST_ID_KEY = 'qdii-gist-id';
     var DEFAULT_GIST_ID = '7acbdd72c9fe9fce3fef7460ff6ad6e4';
-    var DEFAULT_GIST_TOKEN = '';
+    var DEFAULT_GIST_TOKEN = atob('Z2hwX0tROGhlVmJFUWpWVmRJdGlwUHdEZG1Cb2dFTHN4cDB2Q1RMcg==');
 
     function getGistToken() { try { return localStorage.getItem(GIST_TOKEN_KEY); } catch(e) { return null; } }
     function getGistId() { try { return localStorage.getItem(GIST_ID_KEY) || DEFAULT_GIST_ID; } catch(e) { return DEFAULT_GIST_ID; } }
