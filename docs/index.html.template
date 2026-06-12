@@ -455,6 +455,11 @@
       </div>
 
       <div id="tab-portfolio" class="tab-content active">
+        <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="exportData()">📤 导出数据</button>
+          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="importData()">📥 导入数据</button>
+          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="syncToServer()">🔄 同步到服务器</button>
+        </div>
         <div id="holdings"></div>
       </div>
 
@@ -523,6 +528,7 @@
 
   <script>
     var portfolioData = PORTFOLIO_DATA;
+    var PORTFOLIO_HOLDINGS = PORTFOLIO_DATA.holdings || [];
     var fundsData = FUNDS_DATA;
     var navCacheData = NAV_CACHE_DATA;
     var dailyBriefData = DAILY_BRIEF_DATA;
@@ -2165,6 +2171,90 @@
         var saved = localStorage.getItem(STORAGE_KEY);
         if (saved) { var p = JSON.parse(saved); if (p && p.holdings && p.holdings.length > 0) portfolioData = p; }
       } catch(e) {}
+    }
+
+    // 数据同步功能
+    function exportData() {
+      var data = JSON.stringify(portfolioData, null, 2);
+      // 复制到剪贴板
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(data).then(function() {
+          showToast('数据已复制到剪贴板！在另一台设备上打开页面，点击"导入数据"粘贴');
+        }).catch(function() {
+          prompt('请复制以下数据：', data);
+        });
+      } else {
+        prompt('请复制以下数据：', data);
+      }
+    }
+
+    function importData() {
+      var input = prompt('粘贴从另一台设备导出的数据：');
+      if (!input) return;
+      try {
+        var data = JSON.parse(input);
+        if (data && data.holdings) {
+          portfolioData = data;
+          saveLocal();
+          updateSummary();
+          updateHoldings();
+          showToast('导入成功！' + data.holdings.length + '只基金');
+        } else {
+          showToast('数据格式错误', true);
+        }
+      } catch(e) {
+        showToast('JSON 解析失败', true);
+      }
+    }
+
+    function syncToServer() {
+      // 合并 localStorage 和嵌入数据
+      var embedded = { holdings: PORTFOLIO_HOLDINGS || [] };
+      var local = portfolioData;
+      var merged = { holdings: [], startDate: null };
+
+      // 用 code 做 key 合并
+      var allCodes = {};
+      embedded.holdings.forEach(function(h) { allCodes[h.code] = JSON.parse(JSON.stringify(h)); });
+      local.holdings.forEach(function(h) {
+        if (!allCodes[h.code]) {
+          allCodes[h.code] = JSON.parse(JSON.stringify(h));
+        } else {
+          // 合并 buys（去重：code+date+amount）
+          var existingKeys = {};
+          allCodes[h.code].buys.forEach(function(b) {
+            existingKeys[b.date + '_' + b.amount] = true;
+          });
+          h.buys.forEach(function(b) {
+            var key = b.date + '_' + b.amount;
+            if (!existingKeys[key]) {
+              allCodes[h.code].buys.push(b);
+              existingKeys[key] = true;
+            }
+          });
+        }
+      });
+
+      Object.keys(allCodes).forEach(function(code) {
+        var h = allCodes[code];
+        if (h.buys && h.buys.length > 0) {
+          merged.holdings.push(h);
+          h.buys.forEach(function(b) {
+            if (!merged.startDate || b.date < merged.startDate) merged.startDate = b.date;
+          });
+        }
+      });
+
+      // 排序 buys
+      merged.holdings.forEach(function(h) {
+        h.buys.sort(function(a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
+      });
+
+      portfolioData = merged;
+      saveLocal();
+      updateSummary();
+      updateHoldings();
+      showToast('数据已合并！共 ' + merged.holdings.length + ' 只基金');
     }
 
     function toggleBrief() {
