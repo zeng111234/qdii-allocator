@@ -3167,25 +3167,26 @@
 
       var html2 = '<div style="font-size:12px">';
       html2 += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:2px solid var(--border);font-weight:600;font-size:11px">';
-      html2 += '<span style="flex:2">基金</span><span style="width:55px;text-align:right">30日</span><span style="width:55px;text-align:right">总盈亏</span><span style="width:55px;text-align:right">贡献</span></div>';
+      html2 += '<span style="flex:2">基金</span><span style="width:60px;text-align:right">投入</span><span style="width:60px;text-align:right">现值</span><span style="width:60px;text-align:right">盈亏</span></div>';
 
-      var totalContribution = attributions.reduce(function(s, a) { return s + a.contribution; }, 0);
       var totalPnlSum = attributions.reduce(function(s, a) { return s + a.totalPnl; }, 0);
+      var totalInvSum = attributions.reduce(function(s, a) { return s + a.invested; }, 0);
+      var totalValSum = attributions.reduce(function(s, a) { return s + (a.invested + a.totalPnl); }, 0);
       attributions.slice(0, 12).forEach(function(a) {
-        var cls30 = a.return30d >= 0 ? 'var(--danger)' : 'var(--success)';
+        var curVal = a.invested + a.totalPnl;
         var clsPnl = a.totalPnl >= 0 ? 'var(--danger)' : 'var(--success)';
         html2 += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);align-items:center">';
         html2 += '<span style="flex:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + a.name + '">' + a.name + '</span>';
-        html2 += '<span style="width:55px;text-align:right;color:' + cls30 + ';font-size:11px">' + (a.return30d >= 0 ? '+' : '') + a.return30d + '%</span>';
-        html2 += '<span style="width:55px;text-align:right;color:' + clsPnl + ';font-weight:600;font-size:11px">' + (a.totalPnl >= 0 ? '+' : '') + a.totalPnl + '</span>';
-        html2 += '<span style="width:55px;text-align:right;color:' + (a.contribution >= 0 ? 'var(--danger)' : 'var(--success') + ';font-size:11px">' + (a.contribution >= 0 ? '+' : '') + Math.round(a.contribution * 100) / 100 + '</span>';
+        html2 += '<span style="width:60px;text-align:right;color:var(--text3);font-size:11px">' + a.invested + '</span>';
+        html2 += '<span style="width:60px;text-align:right;font-size:11px">' + Math.round(curVal * 100) / 100 + '</span>';
+        html2 += '<span style="width:60px;text-align:right;color:' + clsPnl + ';font-weight:600;font-size:11px">' + (a.totalPnl >= 0 ? '+' : '') + a.totalPnl + '</span>';
         html2 += '</div>';
       });
-      html2 += '<div style="display:flex;justify-content:space-between;padding:6px 0;font-weight:600">';
+      html2 += '<div style="display:flex;justify-content:space-between;padding:6px 0;font-weight:600;border-top:2px solid var(--border)">';
       html2 += '<span>合计</span>';
-      html2 += '<span style="flex:2"></span>';
-      html2 += '<span style="width:55px;text-align:right;color:' + (totalPnlSum >= 0 ? 'var(--danger)' : 'var(--success)') + '">' + (totalPnlSum >= 0 ? '+' : '') + Math.round(totalPnlSum * 100) / 100 + '</span>';
-      html2 += '<span style="width:55px;text-align:right;color:' + (totalContribution >= 0 ? 'var(--danger)' : 'var(--success)') + '">' + (totalContribution >= 0 ? '+' : '') + Math.round(totalContribution * 100) / 100 + '</span>';
+      html2 += '<span style="width:60px;text-align:right">' + totalInvSum + '</span>';
+      html2 += '<span style="width:60px;text-align:right">' + Math.round(totalValSum * 100) / 100 + '</span>';
+      html2 += '<span style="width:60px;text-align:right;color:' + (totalPnlSum >= 0 ? 'var(--danger)' : 'var(--success)') + '">' + (totalPnlSum >= 0 ? '+' : '') + Math.round(totalPnlSum * 100) / 100 + '</span>';
       html2 += '</div>';
       html2 += '</div>';
 
