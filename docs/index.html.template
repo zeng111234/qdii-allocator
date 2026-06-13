@@ -3124,16 +3124,19 @@
       if (!el) return;
 
       // Calculate each fund's contribution to portfolio return
-      var recent30 = dates.slice(-30);
+      // 用每只基金自己有数据的最近30天，而非全局日期（基金净值更新时间不同）
       var attributions = [];
       codes.forEach(function(code) {
         var fund = fundsData.funds.find(function(f) { return f.code === code; });
         var holding = portfolioData.holdings.find(function(h) { return h.code === code; });
         var inv = holding ? holding.buys.reduce(function(s, b) { return s + b.amount; }, 0) : 0;
 
-        var startNav = navMatrix[code][recent30[0]];
-        var endNav = navMatrix[code][recent30[recent30.length - 1]];
-        var fundReturn = (startNav && endNav) ? Math.round((endNav - startNav) / startNav * 10000) / 100 : 0;
+        // 找该基金有数据的日期，取最近30天
+        var fundDates = dates.filter(function(d) { return navMatrix[code][d]; });
+        var recent30 = fundDates.slice(-30);
+        var startNav = recent30.length > 0 ? navMatrix[code][recent30[0]] : null;
+        var endNav = recent30.length > 0 ? navMatrix[code][recent30[recent30.length - 1]] : null;
+        var fundReturn = (startNav && endNav && startNav > 0) ? Math.round((endNav - startNav) / startNav * 10000) / 100 : 0;
 
         attributions.push({
           code: code,
