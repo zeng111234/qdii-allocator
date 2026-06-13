@@ -2944,8 +2944,12 @@
       var el = document.getElementById('news-sentiment-content');
       el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3)">🔄 正在刷新新闻...</div>';
 
-      var globalUrl = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=350&order=1&needInteractData=0&page_index=1&page_size=10&req_trace=' + Date.now();
-      var usUrl = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=353&order=1&needInteractData=0&page_index=1&page_size=8&req_trace=' + Date.now();
+      var globalApi = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=350&order=1&needInteractData=0&page_index=1&page_size=10&req_trace=' + Date.now();
+      var usApi = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=353&order=1&needInteractData=0&page_index=1&page_size=8&req_trace=' + Date.now();
+      // CORS代理（东方财富API无CORS头）
+      var proxy = 'https://api.allorigins.win/raw?url=';
+      var globalUrl = proxy + encodeURIComponent(globalApi);
+      var usUrl = proxy + encodeURIComponent(usApi);
 
       var posWords = ['利好','上涨','突破','新高','增长','反弹','降息','宽松','牛市','大涨','看涨','bullish','rally','surge','gain'];
       var negWords = ['利空','下跌','暴跌','新低','衰退','加息','紧缩','熊市','大跌','看跌','bearish','crash','plunge','sell-off','risk'];
