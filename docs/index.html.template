@@ -938,18 +938,26 @@
         // Theme scores
         if (externalSignalsData.themeScores) {
           html += '<div style="font-size:12px;color:var(--text2);margin-top:10px">主题情绪:</div>';
-          var themes = Object.entries(externalSignalsData.themeScores).filter(function(e) { return e[1].score > 0; });
+          var themes = Object.entries(externalSignalsData.themeScores).filter(function(e) { return e[1].score !== 0; });
           themes.sort(function(a, b) { return b[1].score - a[1].score; });
+          if (themes.length === 0) {
+            html += '<div style="font-size:11px;color:var(--text3)">暂无明显主题信号</div>';
+          }
           themes.forEach(function(e) {
-            var emoji = e[1].score > 2 ? '🟢' : '⚪';
-            html += '<div style="display:inline-block;background:#f0f4ff;border:1px solid #c7d2fe;border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font-size:12px">';
-            html += emoji + ' ' + e[0] + ' +' + e[1].score + '</div>';
+            var emoji = e[1].score > 0 ? '🟢' : '🔴';
+            var bgColor = e[1].score > 0 ? '#f0fdf4' : '#fef2f2';
+            var borderColor = e[1].score > 0 ? '#86efac' : '#fca5a5';
+            html += '<div style="display:inline-block;background:' + bgColor + ';border:1px solid ' + borderColor + ';border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font-size:12px">';
+            html += emoji + ' ' + e[0] + ' ' + (e[1].score > 0 ? '+' : '') + e[1].score + '</div>';
           });
         }
         if (externalSignalsData.cachedAt) {
           var ageMs = Date.now() - new Date(externalSignalsData.cachedAt).getTime();
-          var ageStr = ageMs < 3600000 ? Math.round(ageMs/60000) + '分钟' : (ageMs < 86400000 ? Math.round(ageMs/3600000) + '小时' : Math.round(ageMs/86400000) + '天');
-          html += '<div style="font-size:11px;color:var(--text3);margin-top:6px">⏱️ 数据更新于 ' + ageStr + '前（每6小时自动刷新）</div>';
+          var ageStr = ageMs < 0 ? '刚刚' : (ageMs < 3600000 ? Math.round(ageMs/60000) + '分钟前' : (ageMs < 86400000 ? Math.round(ageMs/3600000) + '小时前' : Math.round(ageMs/86400000) + '天前'));
+          // 显示具体更新时间
+          var d = new Date(externalSignalsData.cachedAt);
+          var timeStr = (d.getMonth()+1) + '/' + d.getDate() + ' ' + d.getHours() + ':' + String(d.getMinutes()).padStart(2,'0');
+          html += '<div style="font-size:11px;color:var(--text3);margin-top:6px">⏱️ 更新于 ' + timeStr + '（' + ageStr + '）· 每6小时自动刷新</div>';
         }
       }
 

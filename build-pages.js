@@ -222,7 +222,7 @@ async function build() {
         items: (ext.items || []).slice(0, 10),
         tickerOpinions: ext.tickerOpinions || [],
         themeScores: ext.themeScores || {},
-        cachedAt: extRaw.cachedAt ? new Date(extRaw.cachedAt).toISOString() : null,
+        cachedAt: ext.cachedAt || ext.fetchedAt || extRaw.fetchedAt || null,
         status: ext.status || 'unknown'
       };
     }
