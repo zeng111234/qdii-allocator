@@ -15,8 +15,23 @@ const NAV_CACHE = path.join(__dirname, 'data', 'nav-cache.json');
 const DAILY_BRIEF = path.join(__dirname, 'data', 'daily-brief.json');
 const DIARY = path.join(__dirname, 'data', 'diary.json');
 
+// 加载 .env（不依赖 dotenv 包）
+function loadEnv() {
+  const envPath = path.join(__dirname, '.env');
+  if (!fs.existsSync(envPath)) return {};
+  const env = {};
+  fs.readFileSync(envPath, 'utf-8').split('\n').forEach(line => {
+    const m = line.match(/^\s*([\w]+)\s*=\s*(.*?)\s*$/);
+    if (m) env[m[1]] = m[2];
+  });
+  return env;
+}
+
 async function build() {
   console.log('[构建] 开始构建 GitHub Pages...');
+
+  // 加载环境变量
+  const env = loadEnv();
 
   // 读取模板
   let template = fs.readFileSync(TEMPLATE, 'utf-8');
@@ -57,6 +72,15 @@ async function build() {
   template = template.replace('NAV_CACHE_DATA', JSON.stringify(latestNavs));
   template = template.replace('DAILY_BRIEF_DATA', JSON.stringify(dailyBrief));
   template = template.replace('DIARY_DATA', JSON.stringify(diary));
+
+  // 替换 Firebase 配置（从 .env 读取，不提交到 git）
+  if (env.FIREBASE_URL && env.FIREBASE_KEY) {
+    template = template.replace('FIREBASE_URL_PLACEHOLDER', env.FIREBASE_URL);
+    template = template.replace('FIREBASE_KEY_PLACEHOLDER', env.FIREBASE_KEY);
+    console.log('[构建] Firebase 配置已注入');
+  } else {
+    console.log('[构建] ⚠️ 未找到 .env 中的 Firebase 配置');
+  }
 
   // 抓取新闻数据嵌入（避免前端 CORS 问题）
   let newsData = { items: [], sentiment: null, fetchedAt: null };
