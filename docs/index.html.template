@@ -3013,8 +3013,8 @@
           }
         });
         var dates = Object.keys(allDates).sort();
-        if (dates.length < 150) {
-          el.innerHTML = '<div style="color:var(--text3);font-size:12px">净值数据不足150天，无法进行走步回测</div>';
+        if (dates.length < 60) {
+          el.innerHTML = '<div style="color:var(--text3);font-size:12px">净值数据不足60天（当前' + dates.length + '天），暂无法回测</div>';
           return;
         }
 
@@ -3028,7 +3028,12 @@
         });
 
         // Walk-forward: train 120 days, test 30 days, slide forward
+        // 数据不足时降级：最少需要60天（训练45天+测试15天）
         var trainDays = 120, testDays = 30;
+        if (dates.length < 150) {
+          trainDays = 45;
+          testDays = 15;
+        }
         var windows = [];
         var startIdx = 0;
         while (startIdx + trainDays + testDays <= dates.length) {
