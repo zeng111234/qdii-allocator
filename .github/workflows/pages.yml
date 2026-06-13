@@ -4,6 +4,8 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *'  # 每6小时自动构建一次（0,6,12,18点UTC）
 
 permissions:
   contents: read
