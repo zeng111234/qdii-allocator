@@ -59,7 +59,7 @@
     }
 
     /* Summary Grid */
-    .summary-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .summary-item {
       padding: 14px 12px;
       background: #f8f9ff;
@@ -533,6 +533,20 @@
     var fundsData = FUNDS_DATA;
     var navCacheData = NAV_CACHE_DATA;
     var dailyBriefData = DAILY_BRIEF_DATA;
+
+    // 获取基金最新净值（兼容旧格式{nav}和新格式[{nav},{nav}]）
+    function getLatestNav(code) {
+      var cached = navCacheData[code];
+      if (!cached) return null;
+      if (Array.isArray(cached)) return cached[cached.length - 1];
+      return cached;
+    }
+    // 获取基金前一日净值（仅新格式有）
+    function getPrevNav(code) {
+      var cached = navCacheData[code];
+      if (!cached || !Array.isArray(cached) || cached.length < 2) return null;
+      return cached[0]; // 倒数第2条
+    }
     var externalSignalsData = EXTERNAL_SIGNALS_DATA;
     var newsData = NEWS_DATA;
     var todayPicks = TODAY_PICKS_DATA;
@@ -565,34 +579,39 @@
 
     function calcSummary() {
       var totalInv = 0, totalVal = 0, pendingInv = 0;
+      var totalValPrev = 0; // 昨日市值
       portfolioData.holdings.forEach(function(h) {
-        var navNow = 0;
-        if (navCacheData[h.code]) {
-          var cached = navCacheData[h.code];
-          if (Array.isArray(cached)) navNow = cached[cached.length - 1].nav;
-          else navNow = cached.nav || 0;
-        }
+        var latest = getLatestNav(h.code);
+        var prev = getPrevNav(h.code);
+        var navNow = latest ? latest.nav : 0;
+        var navPrev = prev ? prev.nav : 0;
         h.buys.forEach(function(b) {
           totalInv += b.amount;
           if (b.shares && b.shares > 0 && navNow > 0) {
-            // 已结算：用份额×最新净值
             totalVal += b.shares * navNow;
+            totalValPrev += navPrev > 0 ? b.shares * navPrev : b.shares * navNow;
           } else if (b.nav && b.nav > 0 && navNow > 0) {
-            // 有净值但无份额（网页端录入）：按净值比例估算
             totalVal += b.amount * (navNow / b.nav);
+            totalValPrev += navPrev > 0 ? b.amount * (navPrev / b.nav) : b.amount * (navNow / b.nav);
           } else {
-            // 待确认：暂按投入金额算
             totalVal += b.amount;
+            totalValPrev += b.amount;
             pendingInv += b.amount;
           }
         });
       });
       var pnl = Math.round((totalVal - totalInv) * 100) / 100;
+      var todayPnl = Math.round((totalVal - totalValPrev) * 100) / 100;
+      // 如果没有前一日数据（所有基金只有1条记录），今日盈亏显示为N/A
+      var hasPrevData = false;
+      portfolioData.holdings.forEach(function(h) { if (getPrevNav(h.code)) hasPrevData = true; });
       return {
         invested: Math.round(totalInv * 100) / 100,
         pending: Math.round(pendingInv * 100) / 100,
         value: Math.round(totalVal * 100) / 100,
         pnl: pnl,
+        todayPnl: todayPnl,
+        hasPrevData: hasPrevData,
         count: portfolioData.holdings.length
       };
     }
@@ -601,11 +620,16 @@
       var s = calcSummary();
       var cls = s.pnl >= 0 ? 'positive' : 'negative';
       var sign = s.pnl >= 0 ? '+' : '';
+      var todayCls = s.todayPnl >= 0 ? 'positive' : 'negative';
+      var todaySign = s.todayPnl >= 0 ? '+' : '';
+      var todayStr = s.hasPrevData ? (todaySign + s.todayPnl) : '--';
       document.getElementById('summary').innerHTML =
         '<div class="summary-item"><div class="label">总投入</div><div class="value">' + s.invested + '</div></div>' +
         '<div class="summary-item"><div class="label">当前市值</div><div class="value">' + s.value + '</div></div>' +
         '<div class="summary-item"><div class="label">总盈亏</div><div class="value ' + cls + '">' + sign + s.pnl + '</div></div>' +
-        '<div class="summary-item"><div class="label">持仓</div><div class="value">' + s.count + '只</div></div>';
+        '<div class="summary-item"><div class="label">今日盈亏</div><div class="value ' + todayCls + '">' + todayStr + '</div></div>' +
+        '<div class="summary-item"><div class="label">持仓</div><div class="value">' + s.count + '只</div></div>' +
+        '<div class="summary-item"><div class="label">最近2日</div><div class="value" style="font-size:12px">' + (s.hasPrevData ? '✅' : '⏳') + '</div></div>';
     }
 
     function updateHoldings() {
@@ -620,8 +644,8 @@
         var inv = h.buys.reduce(function(s, b) { return s + b.amount; }, 0);
         var navNow = 0;
         if (navCacheData[h.code]) {
-          var cached = navCacheData[h.code];
-          navNow = Array.isArray(cached) ? cached[cached.length - 1].nav : (cached.nav || 0);
+          var latest = getLatestNav(h.code);
+          navNow = latest ? latest.nav : 0;
         }
         // 计算市值：和 calcSummary 一致
         var val = 0;
@@ -858,7 +882,7 @@
       }
 
       // News & Sentiment
-      html += '<div class="card-title" style="margin-top:18px">📰 新闻与情绪</div>';
+      html += '<div class="card-title" style="margin-top:18px">📰 新闻与情绪 <button onclick="refreshNews()" style="float:right;padding:3px 10px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer;color:var(--text2)">🔄 刷新新闻</button></div>';
       html += '<div id="news-sentiment-content"><div style="text-align:center;padding:10px;color:var(--text3)">正在加载最新新闻...</div></div>';
 
       // New Funds
@@ -2677,10 +2701,7 @@
     }
 
     function getShadowNav(code) {
-      var cached = navCacheData[code];
-      if (!cached) return null;
-      if (Array.isArray(cached)) return cached[cached.length - 1];
-      return cached;
+      return getLatestNav(code);
     }
 
     function addShadowBuy() {
@@ -2917,6 +2938,57 @@
       }
 
       el.innerHTML = html2;
+    }
+
+    function refreshNews() {
+      var el = document.getElementById('news-sentiment-content');
+      el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3)">🔄 正在刷新新闻...</div>';
+
+      var globalUrl = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=350&order=1&needInteractData=0&page_index=1&page_size=10&req_trace=' + Date.now();
+      var usUrl = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=353&order=1&needInteractData=0&page_index=1&page_size=8&req_trace=' + Date.now();
+
+      var posWords = ['利好','上涨','突破','新高','增长','反弹','降息','宽松','牛市','大涨','看涨','bullish','rally','surge','gain'];
+      var negWords = ['利空','下跌','暴跌','新低','衰退','加息','紧缩','熊市','大跌','看跌','bearish','crash','plunge','sell-off','risk'];
+      var themeKeywords = { nasdaq: ['纳指','纳斯达克','科技股','英伟达','NVIDIA','微软','Apple','特斯拉'], sp500: ['标普','S&P','美股','美联储','Fed','道琼斯'], hongkong: ['港股','恒生','阿里','腾讯','港交所','亚太'], oil: ['油价','原油','石油','能源','黄金','gold','OPEC'] };
+
+      function parseItems(raw) {
+        try { var j = JSON.parse(raw); return (j.data && j.data.list) ? j.data.list.map(function(i) { return { title: i.title||'', digest: i.digest||'', time: i.showTime||'' }; }) : []; } catch(e) { return []; }
+      }
+      function sentimentScore(title) {
+        var tl = title.toLowerCase(); var s = 0;
+        posWords.forEach(function(w) { if (tl.indexOf(w.toLowerCase()) >= 0) s++; });
+        negWords.forEach(function(w) { if (tl.toLowerCase().indexOf(w.toLowerCase()) >= 0) s--; });
+        return s;
+      }
+      function themeMatch(title) {
+        var r = {}; var tl = title.toLowerCase();
+        Object.keys(themeKeywords).forEach(function(t) { r[t] = themeKeywords[t].some(function(w) { return tl.indexOf(w.toLowerCase()) >= 0; }); });
+        return r;
+      }
+
+      Promise.all([
+        fetch(globalUrl).then(function(r) { return r.text(); }),
+        fetch(usUrl).then(function(r) { return r.text(); })
+      ]).then(function(res) {
+        var allItems = parseItems(res[0]).concat(parseItems(res[1]));
+        var pos = 0, neg = 0, neu = 0, byTheme = {};
+        Object.keys(themeKeywords).forEach(function(t) { byTheme[t] = { pos: 0, neg: 0 }; });
+
+        allItems.forEach(function(item) {
+          var score = sentimentScore(item.title);
+          item._score = score;
+          if (score > 0) pos++; else if (score < 0) neg++; else neu++;
+          var tm = themeMatch(item.title);
+          Object.keys(tm).forEach(function(t) { if (tm[t]) { if (score > 0) byTheme[t].pos++; else if (score < 0) byTheme[t].neg++; } });
+        });
+
+        newsData = { items: allItems, sentiment: { overall: pos - neg, positive: pos, negative: neg, neutral: neu, byTheme: byTheme }, fetchedAt: new Date().toISOString() };
+        loadNewsSentiment();
+        showToast('新闻已刷新，共 ' + allItems.length + ' 条');
+      }).catch(function() {
+        el.innerHTML = '<div style="color:var(--danger);font-size:12px;text-align:center;padding:10px">❌ 刷新失败，请检查网络后重试</div>';
+        showToast('新闻刷新失败', true);
+      });
     }
 
     function runBacktest() {

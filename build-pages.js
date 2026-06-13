@@ -46,7 +46,8 @@ async function build() {
   for (const code in navCache) {
     const navs = navCache[code];
     if (navs && navs.length > 0) {
-      latestNavs[code] = navs[navs.length - 1];
+      // 嵌入最近2条净值记录，用于计算今日/昨日盈亏
+      latestNavs[code] = navs.length >= 2 ? navs.slice(-2) : [navs[navs.length - 1]];
     }
   }
 
