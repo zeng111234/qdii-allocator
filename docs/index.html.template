@@ -579,12 +579,15 @@
 
     function calcSummary() {
       var totalInv = 0, totalVal = 0, pendingInv = 0;
-      var totalValPrev = 0; // 昨日市值
+      var totalValPrev = 0; // 前一交易日市值
+      var latestDate = '', prevDate = '';
       portfolioData.holdings.forEach(function(h) {
         var latest = getLatestNav(h.code);
         var prev = getPrevNav(h.code);
         var navNow = latest ? latest.nav : 0;
         var navPrev = prev ? prev.nav : 0;
+        if (latest && latest.date > latestDate) latestDate = latest.date;
+        if (prev && prev.date > prevDate) prevDate = prev.date;
         h.buys.forEach(function(b) {
           totalInv += b.amount;
           if (b.shares && b.shares > 0 && navNow > 0) {
@@ -602,9 +605,20 @@
       });
       var pnl = Math.round((totalVal - totalInv) * 100) / 100;
       var todayPnl = Math.round((totalVal - totalValPrev) * 100) / 100;
-      // 如果没有前一日数据（所有基金只有1条记录），今日盈亏显示为N/A
       var hasPrevData = false;
       portfolioData.holdings.forEach(function(h) { if (getPrevNav(h.code)) hasPrevData = true; });
+      // 生成日期标签：最新净值日期 vs 前一交易日
+      var pnlLabel = '日盈亏';
+      if (latestDate && prevDate) {
+        var today = new Date().toISOString().slice(0,10);
+        var parts = latestDate.split('-');
+        var shortDate = parseInt(parts[1]) + '/' + parseInt(parts[2]);
+        if (latestDate === today) {
+          pnlLabel = '今日盈亏';
+        } else {
+          pnlLabel = shortDate + '盈亏';
+        }
+      }
       return {
         invested: Math.round(totalInv * 100) / 100,
         pending: Math.round(pendingInv * 100) / 100,
@@ -612,6 +626,8 @@
         pnl: pnl,
         todayPnl: todayPnl,
         hasPrevData: hasPrevData,
+        pnlLabel: pnlLabel,
+        latestDate: latestDate,
         count: portfolioData.holdings.length
       };
     }
@@ -627,9 +643,9 @@
         '<div class="summary-item"><div class="label">总投入</div><div class="value">' + s.invested + '</div></div>' +
         '<div class="summary-item"><div class="label">当前市值</div><div class="value">' + s.value + '</div></div>' +
         '<div class="summary-item"><div class="label">总盈亏</div><div class="value ' + cls + '">' + sign + s.pnl + '</div></div>' +
-        '<div class="summary-item"><div class="label">今日盈亏</div><div class="value ' + todayCls + '">' + todayStr + '</div></div>' +
+        '<div class="summary-item"><div class="label">' + s.pnlLabel + '</div><div class="value ' + todayCls + '">' + todayStr + '</div></div>' +
         '<div class="summary-item"><div class="label">持仓</div><div class="value">' + s.count + '只</div></div>' +
-        '<div class="summary-item"><div class="label">最近2日</div><div class="value" style="font-size:12px">' + (s.hasPrevData ? '✅' : '⏳') + '</div></div>';
+        '<div class="summary-item"><div class="label">净值日期</div><div class="value" style="font-size:12px">' + (s.latestDate || '--') + '</div></div>';
     }
 
     function updateHoldings() {
