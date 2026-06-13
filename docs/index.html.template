@@ -2944,19 +2944,31 @@
       var el = document.getElementById('news-sentiment-content');
       el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3)">🔄 正在刷新新闻...</div>';
 
+      // JSONP加载（避免CORS问题）
+      function loadJSONP(url, callbackName) {
+        return new Promise(function(resolve) {
+          window[callbackName] = function(data) { resolve(data); delete window[callbackName]; };
+          var s = document.createElement('script');
+          s.src = url + '&callback=' + callbackName;
+          s.onerror = function() { resolve(null); };
+          document.head.appendChild(s);
+        });
+      }
+
       var globalApi = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=350&order=1&needInteractData=0&page_index=1&page_size=10&req_trace=' + Date.now();
       var usApi = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=353&order=1&needInteractData=0&page_index=1&page_size=8&req_trace=' + Date.now();
-      // CORS代理（东方财富API无CORS头）
-      var proxy = 'https://api.allorigins.win/raw?url=';
-      var globalUrl = proxy + encodeURIComponent(globalApi);
-      var usUrl = proxy + encodeURIComponent(usApi);
+
+      var cb1 = '_newsGlobal_' + Date.now();
+      var cb2 = '_newsUs_' + Date.now();
 
       var posWords = ['利好','上涨','突破','新高','增长','反弹','降息','宽松','牛市','大涨','看涨','bullish','rally','surge','gain'];
       var negWords = ['利空','下跌','暴跌','新低','衰退','加息','紧缩','熊市','大跌','看跌','bearish','crash','plunge','sell-off','risk'];
       var themeKeywords = { nasdaq: ['纳指','纳斯达克','科技股','英伟达','NVIDIA','微软','Apple','特斯拉'], sp500: ['标普','S&P','美股','美联储','Fed','道琼斯'], hongkong: ['港股','恒生','阿里','腾讯','港交所','亚太'], oil: ['油价','原油','石油','能源','黄金','gold','OPEC'] };
 
-      function parseItems(raw) {
-        try { var j = JSON.parse(raw); return (j.data && j.data.list) ? j.data.list.map(function(i) { return { title: i.title||'', digest: i.digest||'', time: i.showTime||'' }; }) : []; } catch(e) { return []; }
+      function parseItems(data) {
+        if (!data) return [];
+        if (typeof data === 'string') { try { data = JSON.parse(data); } catch(e) { return []; } }
+        return (data.data && data.data.list) ? data.data.list.map(function(i) { return { title: i.title||'', digest: i.digest||'', time: i.showTime||'' }; }) : [];
       }
       function sentimentScore(title) {
         var tl = title.toLowerCase(); var s = 0;
@@ -2971,8 +2983,8 @@
       }
 
       Promise.all([
-        fetch(globalUrl).then(function(r) { return r.text(); }),
-        fetch(usUrl).then(function(r) { return r.text(); })
+        loadJSONP(globalApi, cb1),
+        loadJSONP(usApi, cb2)
       ]).then(function(res) {
         var allItems = parseItems(res[0]).concat(parseItems(res[1]));
         var pos = 0, neg = 0, neu = 0, byTheme = {};
