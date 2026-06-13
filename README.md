@@ -37,18 +37,18 @@
 
 ## 📸 截图
 
-<div align="center">
-
-### 投资仪表盘
-![Dashboard](docs/images/dashboard.png)
-
-### 基金评分系统
-![Scoring](docs/images/scoring.png)
-
-### 新闻情绪 & 外部信号
-![News Signals](docs/images/news-signals.png)
-
-</div>
+<table>
+  <tr>
+    <td align="center"><b>投资仪表盘</b></td>
+    <td align="center"><b>基金评分系统</b></td>
+    <td align="center"><b>新闻情绪 & 外部信号</b></td>
+  </tr>
+  <tr>
+    <td><img src="docs/images/dashboard.png" width="320" /></td>
+    <td><img src="docs/images/scoring.png" width="320" /></td>
+    <td><img src="docs/images/news-signals.png" width="320" /></td>
+  </tr>
+</table>
 
 ---
 
