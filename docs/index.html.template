@@ -2954,69 +2954,31 @@
       var el = document.getElementById('news-sentiment-content');
       el.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3)">🔄 正在刷新新闻...</div>';
 
-      var globalApi = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=350&order=1&needInteractData=0&page_index=1&page_size=10&req_trace=' + Date.now();
-      var usApi = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=353&order=1&needInteractData=0&page_index=1&page_size=8&req_trace=' + Date.now();
-      // 用CORS代理（东方财富API会检查Referer，直接请求会被拦截）
-      var proxy = 'https://api.allorigins.win/raw?url=';
-
-      var posWords = ['利好','上涨','突破','新高','增长','反弹','降息','宽松','牛市','大涨','看涨','bullish','rally','surge','gain','走高','拉升','飙升'];
-      var negWords = ['利空','下跌','暴跌','新低','衰退','加息','紧缩','熊市','大跌','看跌','bearish','crash','plunge','sell-off','risk','走低','跳水'];
-      var themeKeywords = { nasdaq: ['纳指','纳斯达克','科技股','英伟达','NVIDIA','微软','Apple','特斯拉','AI','芯片','半导体'], sp500: ['标普','S&P','美股','美联储','Fed','道琼斯','美国经济'], hongkong: ['港股','恒生','阿里','腾讯','港交所','亚太','中概'], oil: ['油价','原油','石油','能源','黄金','gold','OPEC','铜','大宗'] };
-
-      function parseItems(raw) {
-        try { var j = JSON.parse(raw); return (j.data && j.data.list) ? j.data.list.map(function(i) { return { title: i.title||'', digest: i.digest||'', time: i.showTime||'' }; }) : []; } catch(e) { return []; }
-      }
-      function sentimentScore(title) {
-        var tl = title.toLowerCase(); var s = 0;
-        posWords.forEach(function(w) { if (tl.indexOf(w.toLowerCase()) >= 0) s++; });
-        negWords.forEach(function(w) { if (tl.toLowerCase().indexOf(w.toLowerCase()) >= 0) s--; });
-        return s;
-      }
-      function themeMatch(title) {
-        var r = {}; var tl = title.toLowerCase();
-        Object.keys(themeKeywords).forEach(function(t) { r[t] = themeKeywords[t].some(function(w) { return tl.indexOf(w.toLowerCase()) >= 0; }); });
-        return r;
-      }
-
-      Promise.all([
-        fetch(proxy + encodeURIComponent(globalApi)).then(function(r) { return r.text(); }).catch(function() { return ''; }),
-        fetch(proxy + encodeURIComponent(usApi)).then(function(r) { return r.text(); }).catch(function() { return ''; })
-      ]).then(function(res) {
-        var allItems = parseItems(res[0]).concat(parseItems(res[1]));
-        if (allItems.length === 0) {
-          // 降级：如果获取失败，显示已嵌入的新闻
+      // 从同源 docs/data/news.json 加载（CI构建时自动更新，无CORS问题）
+      fetch('data/news.json?t=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data && data.items && data.items.length > 0) {
+            newsData = data;
+            loadNewsSentiment();
+            showToast('新闻已刷新，共 ' + data.items.length + ' 条');
+          } else {
+            if (newsData && newsData.items && newsData.items.length > 0) {
+              showToast('无新数据，显示已有新闻', true);
+              loadNewsSentiment();
+            } else {
+              el.innerHTML = '<div style="color:var(--text3);font-size:12px;text-align:center;padding:10px">暂无新闻数据</div>';
+            }
+          }
+        })
+        .catch(function() {
           if (newsData && newsData.items && newsData.items.length > 0) {
-            showToast('实时获取失败，显示已有新闻', true);
+            showToast('加载失败，显示已有新闻', true);
             loadNewsSentiment();
           } else {
-            el.innerHTML = '<div style="color:var(--danger);font-size:12px;text-align:center;padding:10px">❌ 未获取到新闻</div>';
+            el.innerHTML = '<div style="color:var(--danger);font-size:12px;text-align:center;padding:10px">❌ 刷新失败</div>';
           }
-          return;
-        }
-        var pos = 0, neg = 0, neu = 0, byTheme = {};
-        Object.keys(themeKeywords).forEach(function(t) { byTheme[t] = { pos: 0, neg: 0 }; });
-
-        allItems.forEach(function(item) {
-          var score = sentimentScore(item.title);
-          item._score = score;
-          if (score > 0) pos++; else if (score < 0) neg++; else neu++;
-          var tm = themeMatch(item.title);
-          Object.keys(tm).forEach(function(t) { if (tm[t]) { if (score > 0) byTheme[t].pos++; else if (score < 0) byTheme[t].neg++; } });
         });
-
-        newsData = { items: allItems, sentiment: { overall: pos - neg, positive: pos, negative: neg, neutral: neu, byTheme: byTheme }, fetchedAt: new Date().toISOString() };
-        loadNewsSentiment();
-        showToast('新闻已刷新，共 ' + allItems.length + ' 条');
-      }).catch(function(e) {
-        console.error('[news] refresh error:', e);
-        if (newsData && newsData.items && newsData.items.length > 0) {
-          showToast('实时获取失败，显示已有新闻', true);
-          loadNewsSentiment();
-        } else {
-          el.innerHTML = '<div style="color:var(--danger);font-size:12px;text-align:center;padding:10px">❌ 刷新失败，请检查网络后重试</div>';
-          showToast('新闻刷新失败', true);
-        }
-      });
     }
 
     function runBacktest() {
