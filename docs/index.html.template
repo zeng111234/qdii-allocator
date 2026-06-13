@@ -2974,12 +2974,20 @@
       }
 
       Promise.all([
-        loadJSONP(globalApi).catch(function() { return null; }),
-        loadJSONP(usApi).catch(function() { return null; })
+        loadJSONP(globalApi).catch(function(e) { console.error('[news] global JSONP failed:', e); return null; }),
+        loadJSONP(usApi).catch(function(e) { console.error('[news] us JSONP failed:', e); return null; })
       ]).then(function(res) {
+        console.log('[news] JSONP results:', res[0] ? 'global OK' : 'global FAIL', res[1] ? 'us OK' : 'us FAIL');
         var allItems = parseItems(res[0]).concat(parseItems(res[1]));
+        console.log('[news] total items:', allItems.length);
         if (allItems.length === 0) {
-          el.innerHTML = '<div style="color:var(--danger);font-size:12px;text-align:center;padding:10px">❌ 未获取到新闻</div>';
+          // 降级：如果JSONP获取失败，显示已嵌入的新闻数据
+          if (newsData && newsData.items && newsData.items.length > 0) {
+            showToast('实时获取失败，显示已有新闻', true);
+            loadNewsSentiment();
+          } else {
+            el.innerHTML = '<div style="color:var(--danger);font-size:12px;text-align:center;padding:10px">❌ 未获取到新闻</div>';
+          }
           return;
         }
         var pos = 0, neg = 0, neu = 0, byTheme = {};
@@ -2996,9 +3004,16 @@
         newsData = { items: allItems, sentiment: { overall: pos - neg, positive: pos, negative: neg, neutral: neu, byTheme: byTheme }, fetchedAt: new Date().toISOString() };
         loadNewsSentiment();
         showToast('新闻已刷新，共 ' + allItems.length + ' 条');
-      }).catch(function() {
-        el.innerHTML = '<div style="color:var(--danger);font-size:12px;text-align:center;padding:10px">❌ 刷新失败，请检查网络后重试</div>';
-        showToast('新闻刷新失败', true);
+      }).catch(function(e) {
+        console.error('[news] refresh error:', e);
+        // 降级：显示已嵌入的新闻数据
+        if (newsData && newsData.items && newsData.items.length > 0) {
+          showToast('实时获取失败，显示已有新闻', true);
+          loadNewsSentiment();
+        } else {
+          el.innerHTML = '<div style="color:var(--danger);font-size:12px;text-align:center;padding:10px">❌ 刷新失败，请检查网络后重试</div>';
+          showToast('新闻刷新失败', true);
+        }
       });
     }
 
