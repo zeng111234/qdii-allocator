@@ -447,19 +447,21 @@
   (function() {
     var H = '1480551';
     function hash(s){var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return String(h);}
-    if(sessionStorage.getItem('_qf_auth')===H)return;
-    document.getElementById('auth-pwd').focus();
+    function unlock(){
+      document.getElementById('auth-overlay').style.display='none';
+      document.body.style.overflow='';
+      var hdr=document.querySelector('.header');if(hdr)hdr.style.filter='';
+      var ctr=document.querySelector('.container');if(ctr)ctr.style.filter='';
+    }
+    if(sessionStorage.getItem('_qf_auth')===H){unlock();return;}
     document.body.style.overflow='hidden';
-    document.querySelector('.header')&&(document.querySelector('.header').style.filter='blur(8px)');
-    document.querySelector('.container')&&(document.querySelector('.container').style.filter='blur(8px)');
+    var hdr=document.querySelector('.header');if(hdr)hdr.style.filter='blur(8px)';
+    var ctr=document.querySelector('.container');if(ctr)ctr.style.filter='blur(8px)';
     window.checkAuth=function(){
       var p=document.getElementById('auth-pwd').value;
       if(hash(p)===H){
         sessionStorage.setItem('_qf_auth',H);
-        document.getElementById('auth-overlay').style.display='none';
-        document.body.style.overflow='';
-        document.querySelector('.header')&&(document.querySelector('.header').style.filter='');
-        document.querySelector('.container')&&(document.querySelector('.container').style.filter='');
+        unlock();
       }else{
         document.getElementById('auth-err').style.display='block';
         document.getElementById('auth-pwd').value='';
