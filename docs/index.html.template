@@ -3172,7 +3172,7 @@
       var totalPnlSum = attributions.reduce(function(s, a) { return s + a.totalPnl; }, 0);
       var totalInvSum = attributions.reduce(function(s, a) { return s + a.invested; }, 0);
       var totalValSum = attributions.reduce(function(s, a) { return s + (a.invested + a.totalPnl); }, 0);
-      attributions.slice(0, 12).forEach(function(a) {
+      attributions.forEach(function(a) {
         var curVal = a.invested + a.totalPnl;
         var clsPnl = a.totalPnl >= 0 ? 'var(--danger)' : 'var(--success)';
         html2 += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);align-items:center">';
