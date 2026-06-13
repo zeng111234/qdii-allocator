@@ -3123,20 +3123,34 @@
       var el = document.getElementById('attribution-content');
       if (!el) return;
 
-      // Calculate each fund's contribution to portfolio return
-      // 用每只基金自己有数据的最近30天，而非全局日期（基金净值更新时间不同）
       var attributions = [];
       codes.forEach(function(code) {
         var fund = fundsData.funds.find(function(f) { return f.code === code; });
         var holding = portfolioData.holdings.find(function(h) { return h.code === code; });
         var inv = holding ? holding.buys.reduce(function(s, b) { return s + b.amount; }, 0) : 0;
 
-        // 找该基金有数据的日期，取最近30天
+        // 30日收益：用基金自己有数据的最近30天
         var fundDates = dates.filter(function(d) { return navMatrix[code][d]; });
         var recent30 = fundDates.slice(-30);
         var startNav = recent30.length > 0 ? navMatrix[code][recent30[0]] : null;
         var endNav = recent30.length > 0 ? navMatrix[code][recent30[recent30.length - 1]] : null;
         var fundReturn = (startNav && endNav && startNav > 0) ? Math.round((endNav - startNav) / startNav * 10000) / 100 : 0;
+
+        // 总盈亏：买入至今
+        var latestNav = endNav || (fundDates.length > 0 ? navMatrix[code][fundDates[fundDates.length-1]] : 0);
+        var totalVal = 0;
+        if (holding) {
+          holding.buys.forEach(function(b) {
+            if (b.shares && b.shares > 0 && latestNav > 0) {
+              totalVal += b.shares * latestNav;
+            } else if (b.nav && b.nav > 0 && latestNav > 0) {
+              totalVal += b.amount * (latestNav / b.nav);
+            } else {
+              totalVal += b.amount;
+            }
+          });
+        }
+        var totalPnl = totalVal - inv;
 
         attributions.push({
           code: code,
@@ -3144,28 +3158,34 @@
           type: fund ? fund.type : '其他',
           invested: inv,
           return30d: fundReturn,
-          contribution: inv * fundReturn / 100
+          contribution: inv * fundReturn / 100,
+          totalPnl: Math.round(totalPnl * 100) / 100
         });
       });
 
-      attributions.sort(function(a, b) { return b.contribution - a.contribution; });
+      attributions.sort(function(a, b) { return a.totalPnl - b.totalPnl; });
 
       var html2 = '<div style="font-size:12px">';
       html2 += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:2px solid var(--border);font-weight:600;font-size:11px">';
-      html2 += '<span style="flex:2">基金</span><span style="width:60px;text-align:right">30日收益</span><span style="width:70px;text-align:right">贡献(元)</span></div>';
+      html2 += '<span style="flex:2">基金</span><span style="width:55px;text-align:right">30日</span><span style="width:55px;text-align:right">总盈亏</span><span style="width:55px;text-align:right">贡献</span></div>';
 
       var totalContribution = attributions.reduce(function(s, a) { return s + a.contribution; }, 0);
-      attributions.slice(0, 10).forEach(function(a) {
-        var cls = a.return30d >= 0 ? 'var(--danger)' : 'var(--success)';
+      var totalPnlSum = attributions.reduce(function(s, a) { return s + a.totalPnl; }, 0);
+      attributions.slice(0, 12).forEach(function(a) {
+        var cls30 = a.return30d >= 0 ? 'var(--danger)' : 'var(--success)';
+        var clsPnl = a.totalPnl >= 0 ? 'var(--danger)' : 'var(--success)';
         html2 += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);align-items:center">';
         html2 += '<span style="flex:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + a.name + '">' + a.name + '</span>';
-        html2 += '<span style="width:60px;text-align:right;color:' + cls + ';font-weight:600">' + (a.return30d >= 0 ? '+' : '') + a.return30d + '%</span>';
-        html2 += '<span style="width:70px;text-align:right;color:' + (a.contribution >= 0 ? 'var(--danger)' : 'var(--success)') + '">' + (a.contribution >= 0 ? '+' : '') + Math.round(a.contribution * 100) / 100 + '</span>';
+        html2 += '<span style="width:55px;text-align:right;color:' + cls30 + ';font-size:11px">' + (a.return30d >= 0 ? '+' : '') + a.return30d + '%</span>';
+        html2 += '<span style="width:55px;text-align:right;color:' + clsPnl + ';font-weight:600;font-size:11px">' + (a.totalPnl >= 0 ? '+' : '') + a.totalPnl + '</span>';
+        html2 += '<span style="width:55px;text-align:right;color:' + (a.contribution >= 0 ? 'var(--danger)' : 'var(--success') + ';font-size:11px">' + (a.contribution >= 0 ? '+' : '') + Math.round(a.contribution * 100) / 100 + '</span>';
         html2 += '</div>';
       });
       html2 += '<div style="display:flex;justify-content:space-between;padding:6px 0;font-weight:600">';
-      html2 += '<span>合计贡献</span>';
-      html2 += '<span style="color:' + (totalContribution >= 0 ? 'var(--danger)' : 'var(--success)') + '">' + (totalContribution >= 0 ? '+' : '') + Math.round(totalContribution * 100) / 100 + '元</span>';
+      html2 += '<span>合计</span>';
+      html2 += '<span style="flex:2"></span>';
+      html2 += '<span style="width:55px;text-align:right;color:' + (totalPnlSum >= 0 ? 'var(--danger)' : 'var(--success)') + '">' + (totalPnlSum >= 0 ? '+' : '') + Math.round(totalPnlSum * 100) / 100 + '</span>';
+      html2 += '<span style="width:55px;text-align:right;color:' + (totalContribution >= 0 ? 'var(--danger)' : 'var(--success)') + '">' + (totalContribution >= 0 ? '+' : '') + Math.round(totalContribution * 100) / 100 + '</span>';
       html2 += '</div>';
       html2 += '</div>';
 
