@@ -1,97 +1,132 @@
-# QDII基金投资操作系统
+<div align="center">
 
-每天早上自动帮你算好：今天该买哪几只QDII基金、各买多少，并追踪持仓盈亏、评估组合风险。
+# 🛩️ QDII Pilot
 
-## 核心功能
+### AI 驱动的 QDII 基金智能投资系统
+
+**每天自动告诉你：今天该买哪只基金、各买多少、为什么这么买。**
+
+[![GitHub Stars](https://img.shields.io/github/stars/zeng111234/qdii-allocator?style=social)](https://github.com/zeng111234/qdii-allocator/stargazers)
+[![License](https://img.shields.io/github/license/zeng111234/qdii-allocator)](https://github.com/zeng111234/qdii-allocator/blob/main/LICENSE)
+[![GitHub Actions](https://img.shields.io/github/actions/workflow/status/zeng111234/qdii-allocator/daily-plan.yml?label=daily%20run)](https://github.com/zeng111234/qdii-allocator/actions)
+[![Node.js](https://img.shields.io/badge/Node.js-20+-green)](https://nodejs.org/)
+
+<br/>
+
+📸 **[在线 Demo](https://zeng111234.github.io/qdii-allocator/)** · 🚀 **[快速开始](#-快速开始)** · 📊 **[功能详解](#-核心功能)**
+
+</div>
+
+---
+
+## 🤔 为什么做这个？
+
+买 QDII 基金的人都知道这些痛点：
+
+| 痛点 | QDII Pilot 的解法 |
+|------|------------------|
+| 每天限购 100~1000 元，额度稀缺 | 🧠 智能评估每只基金的稀缺度，优先买最值得的 |
+| 10+ 只基金，预算怎么分？ | 📊 一键算出最优分配方案 |
+| 什么时候买？买多少？ | 🤖 综合净值走势 + Twitter 情绪 + AI 判断，每天自动推荐 |
+| 手动记账太麻烦 | 💰 自动追踪持仓、计算盈亏、评估组合风险 |
+| 忘了看限购变化 | ⚡ 自动监控申购状态，暂停/恢复第一时间提醒 |
+
+**不用盯盘，不用算，打开邮箱就有答案。**
+
+---
+
+## 📸 截图
+
+<div align="center">
+
+### 投资仪表盘
+![Dashboard](docs/images/dashboard.png)
+
+### 基金评分系统
+![Scoring](docs/images/scoring.png)
+
+### 新闻情绪 & 外部信号
+![News Signals](docs/images/news-signals.png)
+
+</div>
+
+---
+
+## ✨ 核心功能
 
 | 功能 | 说明 |
 |------|------|
-| **智能排名** | 4种策略：平均主义 / 低费率优先 / 稀缺额度优先 / 智能动态（综合净值走势+外部信号+AI判断） |
-| **持仓追踪** | 记录每笔买入，自动计算盈亏、持仓成本、当前市值 |
-| **组合风控** | 基金相关性分析、组合夏普比率、最大回撤、健康度评分（0-100） |
-| **限购监控** | 自动检测限购额度变化，发现暂停/恢复申购时立刻提醒 |
-| **替代方案** | 某只基金限购/停购时，自动推荐同类型替代基金（含场内ETF） |
-| **外部信号** | 抓取 X/Twitter 大V观点，分析投资主题情绪，影响评分 |
-| **AI分析** | 调用 LLM 生成投资决策报告，结合市场新闻和持仓数据给出个性化建议 |
-| **回测优化** | 历史回测验证策略效果，网格搜索自动优化评分权重 |
-| **走步回测** | 滚动窗口验证策略，防止过拟合（受 [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) 启发） |
-| **假设追踪** | 自动为每次推荐创建投资假设，追踪3/7/14/30日收益，验证假设胜率 |
-| **投资日记** | AI自动记录每次买卖决策的理由和市场环境 |
-| **邮件推送** | 每天自动发投资计划到邮箱，含排名、持仓、风控、AI报告 |
-| **GitHub Actions** | 不需要自己的服务器，每天定时自动运行 |
+| 🧠 **智能排名** | 4 种策略自动评估每只基金，综合净值走势、Twitter 情绪、AI 判断推荐 Top 基金 |
+| 💰 **持仓追踪** | 记录每笔买入，自动计算盈亏、成本、当前市值，支持多次买入同一基金 |
+| 🛡️ **组合风控** | 相关性分析、夏普比率、最大回撤、健康度评分（0-100） |
+| 📊 **回测验证** | 历史回测 + 走步回测（滚动窗口验证，防止策略过拟合） |
+| 🔬 **假设追踪** | 每次推荐自动创建投资假设，追踪 3/7/14/30 日收益，统计胜率 |
+| 🤖 **AI 决策** | LLM 综合分析市场数据 + 持仓状态，生成个性化投资报告 |
+| 🐂🐻 **多智能体辩论** | Bull/Bear 辩论机制，多视角分析避免单一偏见 |
+| 🌐 **外部信号** | 抓取 X/Twitter 大V 观点，分析看涨/看跌情绪 |
+| 📧 **邮件推送** | 每天自动发投资计划到邮箱，含排名、持仓、风控、AI 报告 |
+| 📱 **手机买入** | `/quick` 手机优化页面，输入 `270042 10` 一键下单 |
+| ⚡ **零服务器** | GitHub Actions 每天定时自动运行，不用自己运维 |
 
-## 快速开始
+---
 
-### 1. 克隆安装
+## 🚀 快速开始
+
+### 1. 克隆 & 安装
 
 ```bash
-git clone https://github.com/你的用户名/qdii-allocator.git
+git clone https://github.com/zeng111234/qdii-allocator.git
 cd qdii-allocator
 npm install
 ```
 
-### 2. 配置基金池
-
-编辑 `data/funds.json`，每只基金的关键字段：
-
-```json
-{
-  "code": "270042",
-  "name": "广发纳斯达克100A(QDII)",
-  "type": "纳指100",
-  "feeRate": 0.8,
-  "dailyLimit": 100,
-  "status": "active",
-  "settleDays": 2
-}
-```
-
-- `status`: `"active"` 正常申购 / `"suspended"` 暂停申购
-- `dailyLimit`: 每天限购金额（元），设 `0` 表示不可买
-- `feeRate`: 管理费率（%），低费率优先策略用
-- `settleDays`: 结算交易日数，QDII基金默认 `2`（T+2交易日），国内基金设 `1`
-
-配置文件中的 `holidayCalendar: "CN"` 指定使用中国交易所节假日日历，结算日计算自动跳过周末和法定假日。
-
-### 3. 配置邮件和AI
+### 2. 配置
 
 ```bash
 cp .env.example .env
 ```
 
-编辑 `.env` 填入：
+编辑 `.env`：
 
-| 配置项 | 说明 | 示例 |
+| 配置项 | 说明 | 必填 |
 |--------|------|------|
-| `SMTP_HOST` | SMTP服务器 | `smtp.qq.com` |
-| `SMTP_PORT` | 端口 | `465` |
-| `SMTP_USER` | 发件邮箱 | `xxx@qq.com` |
-| `SMTP_PASS` | SMTP授权码 | `abcdef1234` |
-| `MAIL_TO` | 收件邮箱 | `xxx@163.com` |
-| `LLM_API_KEY` | AI API密钥（可选） | `sk-xxx` |
-| `LLM_BASE_URL` | AI接口地址（可选） | `https://api.example.com/v1/chat/completions` |
-| `LLM_MODEL` | 模型名（可选） | `mimo-v2.5-pro` |
+| `SMTP_HOST` | SMTP 服务器 | ✅ |
+| `SMTP_USER` | 发件邮箱 | ✅ |
+| `SMTP_PASS` | SMTP 授权码 | ✅ |
+| `MAIL_TO` | 收件邮箱 | ✅ |
+| `LLM_API_KEY` | AI API 密钥 | 可选 |
+| `LLM_BASE_URL` | AI 接口地址 | 可选 |
+| `LLM_MODEL` | 模型名 | 可选 |
 
-> QQ邮箱授权码：设置 > 账户 > POP3/SMTP服务 > 开启 > 生成授权码
-
-### 4. 部署到 GitHub Actions
-
-1. 在 GitHub 上创建仓库，推送代码
-2. 进入仓库 Settings > Secrets and variables > Actions
-3. 添加上面表格中的 Secrets
-4. 推送代码后，每天自动运行
-5. 可在 Actions 页面手动触发测试
-
-## 命令速查
-
-### 试运行（不发邮件）
+### 3. 试运行
 
 ```bash
-# 默认策略试运行
+# 不发邮件，只看推荐结果
 node index.js --dry-run
 
 # 指定预算和策略
 node index.js --dry-run --budget 30 --strategy dynamic
+```
+
+### 4. 部署到 GitHub Actions（零成本自动化）
+
+1. 推送代码到 GitHub
+2. 进入仓库 `Settings > Secrets and variables > Actions`
+3. 添加上面表格中的 Secrets
+4. 每天自动运行 🎉
+
+---
+
+## 📖 使用指南
+
+### 每日推荐
+
+```bash
+# 查看今日推荐
+node index.js --today
+
+# 查看推荐 + 快捷买入指令
+node index.js --today --quick
 ```
 
 ### 持仓管理
@@ -100,302 +135,171 @@ node index.js --dry-run --budget 30 --strategy dynamic
 # 查看当前持仓
 node index.js --portfolio
 
-# 记录单笔买入（代码 + 金额，净值和日期可选）
+# 记录买入
 node index.js --buy 270042 10
-node index.js --buy 270042 10 2025-05-28           # 指定买入日期（自动计算结算日）
+node index.js --buy 270042 10 2025-05-28           # 指定日期
 node index.js --buy 270042 10 8.5243 2025-05-28    # 指定净值和日期
 
-# 批量录入（逗号分隔多笔，每笔支持净值和日期）
-node index.js --quick-add "270042 10, 040046 20 8.1467 2025-05-28"
-
-# 从文件批量导入
+# 批量导入
 node index.js --import-file data/buys.txt
 ```
 
-> **QDII结算说明**：QDII基金是T+2结算（买入后第2个交易日确认份额）。系统会自动用结算日的净值计算份额，你只需输入买入日期即可。
-
-`data/buys.txt` 支持四种格式：
-
-```
-# 格式1: 代码 金额 [净值] [日期]
-270042 10 8.5243 2025-05-28
-
-# 格式2: 基金名称 金额
-广发纳斯达克100 10
-
-# 格式3: 买入 基金名称 XX元 确认净值XX [日期]
-买入 华安纳斯达克100 20元 确认净值8.1467 2025-05-28
-
-# 格式4: 日期 代码 金额 [净值]（适合按时间顺序整理）
-2025-05-28 270042 10 8.5243
-2025-05-29 040046 20
-```
-
-### 今日推荐
+### 回测 & 优化
 
 ```bash
-# 显示今日推荐基金和快捷买入指令
-node index.js --today
-```
-
-### 回测和优化
-
-```bash
-# 策略回测（默认60天）
-node index.js --backtest
-
-# 指定回测天数
+# 策略回测
 node index.js --backtest --backtest-days 120
 
-# 走步回测（滚动窗口验证，防止过拟合）
+# 走步回测（推荐，防过拟合）
 node index.js --walk-forward
-node index.js --walk-forward --walk-forward-train 120 --walk-forward-test 30
 
-# 权重优化（网格搜索最优参数）
+# 自动优化评分权重
 node index.js --optimize-weights
 ```
 
 ### 假设追踪
 
 ```bash
-# 查看投资假设报告（自动在每次推荐时创建假设）
+# 查看投资假设报告
 node index.js --hypotheses
 ```
 
-假设引擎会自动为每次推荐的基金创建投资假设，追踪3/7/14/30日收益，验证假设是否成立。历史胜率数据可以帮助判断策略有效性。
+### Web 界面
 
-## 分配策略说明
+```bash
+# 启动 Web 界面
+node index.js --web
 
-| 策略 | 参数 | 逻辑 |
-|------|------|------|
-| 稀缺额度优先 | `scarce` | 先买限额最小的基金（稀缺货），再买限额大的 |
-| 低费率优先 | `low_fee` | 管理费低的基金优先买满 |
-| 平均主义 | `equal` | 预算平均分给所有可申购基金 |
-| 智能动态 | `dynamic` | 综合净值走势、限购信号、外部信号、AI判断做TopN排名 |
-
-### 智能动态策略详情
-
-`dynamic` 策略是最完整的分析模式：
-
-1. **净值走势分析**：计算每只基金的MA均线、波动率、回撤等技术指标
-2. **限购信号**：限购额度越低 = 基金越稀缺 = 品质信号，自动加分
-3. **外部信号**：抓取 X/Twitter 大V观点，分析看涨/看跌情绪
-4. **AI决策**：调用 LLM 综合所有数据生成投资报告
-5. **历史回填**：自动计算历史推荐的实际5日/10日收益
-6. **假设创建**：自动为 Top5 推荐创建投资假设，追踪后续收益验证
-7. **持仓感知**：考虑已有持仓，避免过度集中于单一市场
-
-## 外部信号配置
-
-在 `data/funds.json` 的 `config` 中配置：
-
-```json
-{
-  "xSourceUrl": "https://x.com/aleabitoreddit",
-  "enableExternalSignals": true,
-  "externalSignalMaxScore": 3,
-  "rsshubUrl": "https://your-rsshub-instance.com"
-}
+# 手机访问：http://你的IP:3000/quick
 ```
 
-| 配置项 | 说明 | 默认值 |
-|--------|------|--------|
-| `xSourceUrl` | 目标 X 账号地址 | `https://x.com/aleabitoreddit` |
-| `enableExternalSignals` | 是否启用外部信号 | `true` |
-| `externalSignalMaxScore` | 外部信号对总分的最大影响 | `3` |
-| `rsshubUrl` | 自建 RSSHub 地址（推荐） | 空（使用公共镜像） |
-| `xMirrorWhitelist` | 自定义镜像列表 | 空（使用内置列表） |
+---
 
-### 代理环境变量
+## 🌐 部署方式
 
-| 变量 | 说明 |
-|------|------|
-| `HTTP_PROXY` / `HTTPS_PROXY` / `ALL_PROXY` | 标准代理地址 |
-| `EXTERNAL_PROXY_AUTO` | 设置后启用代理自动回退（默认关闭） |
-| `EXTERNAL_PROXY_DISABLED` | 设置后完全禁用代理逻辑 |
+### 方式一：GitHub Pages（推荐，零成本）
 
-## 持仓追踪
+项目内置了 GitHub Pages 构建脚本，每天自动更新数据：
 
-系统会自动计算：
+1. 进入仓库 `Settings > Pages`
+2. Source 选择 `Deploy from a branch`，分支选 `main`，目录选 `/docs`
+3. 保存后，访问 `https://你的用户名.github.io/qdii-allocator/`
 
-- **总投入**：所有买入金额之和
-- **当前市值**：持有份额 x 最新净值
-- **盈亏**：当前市值 - 总投入
-- **持仓成本**：加权平均买入净值
-- **组合健康度**：0-100分，综合分散度、夏普比率、回撤控制
+**自动更新**：GitHub Actions 每天运行后会自动构建并推送数据到 `docs/`，你的在线 Demo 永远是最新状态。
 
-持仓数据存储在 `data/portfolio.json`，支持多次买入同一基金。
+### 方式二：本地 Web 界面
 
-### QDII结算日处理
+```bash
+# 启动 Web 管理界面（电脑访问）
+node index.js --web
 
-QDII基金是T+2**交易日**结算（不是日历日），系统自动处理：
-
-1. **输入买入日期**：`node index.js --buy 270042 10 2025-05-28`
-2. **自动计算结算日**：从买入日开始，跳过周末和法定节假日，数2个交易日
-3. **用结算日净值计算份额**：10元 ÷ 6.3835（结算日净值）= 1.5665份
-4. **遇周末/假期自动顺延**：结算日无净值时，自动找下一个交易日
-
-```
-示例输出：
-[持仓] 已记录: 广发纳斯达克100A(QDII) 2025-06-05 周四 买入 10元 (结算日: 2025-06-09 周一, 跳过2个非交易日) (净值6.3835, 份额1.5665)
+# 或双击启动
+web.bat
 ```
 
-#### 交易日计算规则
+浏览器打开 `http://localhost:3000`，手机同 WiFi 访问 `http://你的IP:3000`
 
-| 买入日 | 结算日 | 说明 |
-|--------|--------|------|
-| 周一 | 周三 | +2 交易日 |
-| 周二 | 周四 | +2 交易日 |
-| 周三 | 周五 | +2 交易日 |
-| 周四 | 下周一 | +2 交易日（跨周末） |
-| 周五 | 下周二 | +2 交易日（跨周末） |
-| 节前最后交易日 | 节后第2个交易日 | 自动跳过整个假期 |
+### 方式三：手机快捷买入
 
-> **注意**：如果手动提供净值（`--buy 270042 10 6.3835 2025-05-28`），系统会直接使用你提供的净值，不走结算日查找逻辑。
+```bash
+# 手机浏览器访问
+http://你的IP:3000/quick
+```
 
-## 组合风控
-
-当有持仓数据时，系统自动计算：
-
-- **基金相关性矩阵**：皮尔逊相关系数，识别高度相关的基金
-- **组合夏普比率**：风险调整后收益
-- **组合最大回撤**：历史最大亏损幅度
-- **集中度分析**：持仓类型分布，过于集中时发出警告
-- **健康度评分**：0-100分综合评估
-
-## 限购监控
-
-每天运行时自动检测：
-
-- 限购额度变化（升降）
-- 暂停申购 / 恢复申购
-- 发现变化时自动更新 `data/funds.json`，并在邮件中提醒
-
-## 替代方案
-
-当基金不可买时，系统自动推荐替代基金：
-
-- 同类型其他基金公司的产品
-- 场内 ETF（无限购，但可能溢价）
-- 场内 LOF（可通过券商买入）
-
-替代方案覆盖：纳指100、标普500、港股、全球精选、亚太、石油、REITs 等主流类型。
-
-## 快速买入（手机友好）
-
-在 Web 界面基础上新增了 `/quick` 页面，专为手机设计：
-
-1. 启动 Web 界面：双击 `web.bat`（或 `node index.js --web`）
-2. 手机浏览器访问 `http://你的IP:3000/quick`
-3. 底部输入框输入命令，回车即可：
-
-| 输入 | 效果 |
-|------|------|
-| `270042 10` | 买入广发纳斯达克100A 10元 |
-| `270042 10 8.5243` | 指定确认净值 |
-| `270042 10, 040046 20` | 批量买入 |
-
-页面会显示：
+专为手机设计的页面：
 - 顶部：持仓概览（总投入/市值/盈亏）
 - 中部：快捷按钮（已持有的基金一键买入）
-- 底部：输入框 + 历史记录
+- 底部：输入框，输入 `270042 10` 即可买入
 
-> 手机和电脑需在同一 WiFi 网络。查看电脑 IP：`ipconfig` 找 `IPv4` 地址。
+> 💡 **推荐**：GitHub Pages 作为公开看板，本地 Web 界面用来管理持仓和录入买入。
 
-## 项目结构
+---
+
+## 🏗️ 技术架构
 
 ```
-index.js                    # 主入口，CLI命令处理
-watch.js                    # X/Twitter 推文实时监控（可选）
-sync.js                     # 一键同步数据到 GitHub
-lib/
-  allocator.js              # 基础分配算法（equal/low_fee/scarce）
-  dynamic-strategy.js       # 智能动态策略（综合评分+假设创建）
-  scorer.js                 # 基金评分系统（加权因子评分）
-  ai-analyst.js             # AI分析模块（LLM调用）
-  hypothesis-engine.js      # 假设追踪引擎（Vibe-Trading 启发）
-  walk-forward.js           # 走步回测验证器（Vibe-Trading 启发）
-  mailer.js                 # 邮件发送模块
-  portfolio.js              # 持仓追踪模块
-  risk.js                   # 组合风控模块
-  alternatives.js           # 替代方案模块
-  external-signals.js       # 外部信号抓取（X/Twitter）
-  fund-data.js              # 基金数据获取（净值、行情）
-  backtest.js               # 回测和权重优化
-  investment-diary.js       # AI投资日记
-  daily-brief.js            # AI每日简报
-  trading-calendar.js       # 交易日历（节假日处理）
-  web-server.js             # Web管理界面
-data/
-  funds.json                # 基金池配置（手动维护）
-  portfolio.json            # 持仓记录（自动维护）
-  history.json              # 历史推荐记录
-  hypotheses.json           # 投资假设追踪记录
-  nav-cache.json            # 净值缓存
-  fund-info-cache.json      # 基金信息缓存
-  buys.txt                  # 买入记录文件（用于导入）
-  seen-tweets.json          # 已读推文记录
-.github/workflows/
-  daily-plan.yml            # GitHub Actions 定时任务
-web.bat                     # 双击启动Web管理界面
-持仓.bat                     # 双击查看持仓
-导入记录.bat                  # 双击批量导入买入记录
-今日推荐.bat                  # 双击查看今日推荐
-.env.example                # 配置模板
-README.md
+qdii-allocator/
+├── index.js                    # CLI 主入口
+├── lib/
+│   ├── allocator.js            # 基础分配算法
+│   ├── dynamic-strategy.js     # 智能动态策略（核心）
+│   ├── scorer.js               # 10 维评分系统
+│   ├── ai-analyst.js           # LLM 分析模块
+│   ├── hypothesis-engine.js    # 假设追踪引擎
+│   ├── walk-forward.js         # 走步回测验证
+│   ├── portfolio.js            # 持仓追踪
+│   ├── risk.js                 # 组合风控
+│   ├── external-signals.js     # Twitter 信号抓取
+│   ├── web-server.js           # Web 管理界面
+│   └── ...                     # 更多模块
+├── data/
+│   ├── funds.json              # 基金池配置
+│   ├── portfolio.json          # 持仓记录
+│   └── hypotheses.json         # 假设追踪数据
+├── .github/workflows/
+│   └── daily-plan.yml          # GitHub Actions 定时任务
+└── docs/
+    └── index.html              # GitHub Pages 页面
 ```
 
-## 常见问题
+**技术栈**：Node.js · Express · ECharts · GitHub Actions · DeepSeek/OpenAI API
 
-**Q: 限购额度怎么知道？**
-A: 系统会自动检测限购变化并更新 `funds.json`。也可以手动查看天天基金/支付宝的基金详情页。
+---
 
-**Q: 能不能自动获取限购额度？**
-A: 可以！系统每天运行时会调用基金API获取最新限购状态，发现变化自动更新并邮件提醒。
+## ❓ FAQ
 
-**Q: 微信/支付宝买的基金怎么录入？**
-A: 四种方式：
-1. **手机快速买入**：启动 Web 界面后，手机访问 `http://IP:3000/quick`，输入 `270042 10` 即可（推荐）
-2. **Web 界面**：双击 `web.bat`，在浏览器中操作
-3. 命令行：`node index.js --buy 270042 10 2025-05-28`
-4. 文件：编辑 `data/buys.txt`，然后 `node index.js --import-file`
+<details>
+<summary><b>Q: 限购额度怎么知道？</b></summary>
+<br/>
+系统每天运行时自动检测限购变化并更新 funds.json，发现变化会邮件提醒。
+</details>
 
-**Q: 应该写买入日期还是确认日期？**
-A: 写**买入日期**（你提交申购的那天）。系统会自动按T+2**交易日**计算确认日，并用确认日的净值计算份额。比如周四买入，系统会用下周一的净值（跳过周末）。遇法定节假日也会自动顺延。
+<details>
+<summary><b>Q: 净值需要手动填吗？</b></summary>
+<br/>
+不需要。系统自动从东方财富 API 获取净值，按结算日查找。也可以手动指定：--buy 270042 10 6.3835 2025-05-28
+</details>
 
-**Q: 净值需要手动填吗？**
-A: 不需要。系统会自动从东方财富API获取净值数据，按结算日查找。如果你想用自己确认的净值，可以手动指定：`--buy 270042 10 6.3835 2025-05-28`。
+<details>
+<summary><b>Q: 节假日怎么处理？</b></summary>
+<br/>
+系统内置 2025-2026 年中国法定节假日，结算日计算自动跳过周末和假期。
+</details>
 
-**Q: 节假日怎么处理？**
-A: 系统内置了2025-2026年中国法定节假日（元旦、春节、清明、劳动节、端午、中秋、国庆），结算日计算会自动跳过。如需补充其他休市日，可编辑 `data/holidays.json`。
+<details>
+<summary><b>Q: 应该写买入日期还是确认日期？</b></summary>
+<br/>
+写买入日期。系统自动按 T+2 交易日计算确认日，用确认日净值算份额。
+</details>
 
-**Q: 邮件发不出去？**
-A: 检查SMTP授权码是否正确（不是QQ邮箱密码），确认端口465。
+<details>
+<summary><b>Q: 回测结果可信吗？</b></summary>
+<br/>
+回测基于历史数据，不代表未来。建议用走步回测（--walk-forward）验证策略，它比普通回测更接近真实情况。
+</details>
 
-**Q: AI分析没反应？**
-A: LLM配置是可选的，不配置就跳过。配好 `.env` 中的 `LLM_API_KEY` 后会自动调用。
+<details>
+<summary><b>Q: 和 Vibe-Trading 有什么关系？</b></summary>
+<br/>
+假设追踪引擎和走步回测模块受 Vibe-Trading 启发。Vibe-Trading 是港大的开源多 Agent 量化平台，功能更全面。本项目专注于 QDII 基金定投场景。
+</details>
 
-**Q: 外部信号获取失败？**
-A: 公共RSSHub镜像可能不稳定。建议自建RSSHub实例，在 `funds.json` 中配置 `rsshubUrl`。
+---
 
-**Q: 组合健康度多少分算好？**
-A: 80分以上为健康，60-80为一般，60以下需要关注。主要看分散度和回撤控制。
+## 🤝 Contributing
 
-**Q: 能投C类基金吗？**
-A: 默认预置的是A类份额。你可以在 `funds.json` 中添加任何基金，修改 `shareClass` 字段即可。
+欢迎 PR！请先阅读 [CONTRIBUTING.md](./CONTRIBUTING.md)。
 
-**Q: 回测结果可信吗？**
-A: 回测基于历史数据，不代表未来表现。但可以帮助验证策略逻辑是否合理，以及优化权重参数。建议使用走步回测（`--walk-forward`）来验证策略，它比普通回测更接近真实情况。
+---
 
-**Q: 什么是走步回测？**
-A: 普通回测用全部历史数据训练参数再测同一段，容易过拟合。走步回测用滚动窗口：前120天训练，后30天测试，然后窗口向前滑动，重复多次。这样能更真实地反映策略在未来的表现。
+## 📄 License
 
-**Q: 假设追踪是什么？**
-A: 每次系统推荐基金时，会自动创建一个投资假设（比如"趋势跟踪：纳指处于上升趋势"），然后追踪3/7/14/30天后的实际收益，验证假设是否成立。长期积累的胜率数据可以帮助判断策略有效性。
+[MIT](./LICENSE)
 
-**Q: 这个项目和 Vibe-Trading 有什么关系？**
-A: 本项目的假设追踪引擎和走步回测模块受 [Vibe-Trading](https://github.com/HKUDS/Vibe-Trading) 启发。Vibe-Trading 是香港大学的开源多Agent量化交易平台，功能更全面（支持10个券商、50+技能模块、多Agent协作）。本项目专注于QDII基金定投场景，用 Node.js 实现了其中最核心的两个理念：假设驱动研究和滚动窗口验证。
+---
 
-**Q: 能投C类基金吗？**
-A: 默认预置的是A类份额。你可以在 `funds.json` 中添加任何基金，修改 `shareClass` 字段即可。
-# CI test
+<div align="center">
+
+**⭐ 如果这个项目帮到了你，给个 Star 吧！**
+
+</div>
