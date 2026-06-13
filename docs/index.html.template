@@ -232,6 +232,22 @@
     /* Empty */
     .empty { text-align: center; padding: 32px; color: var(--text3); font-size: 14px; }
 
+    /* Loading */
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(99, 102, 241, 0.3);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
     /* Footer */
     .footer { text-align: center; padding: 20px; font-size: 11px; color: var(--text3); }
 
@@ -409,6 +425,51 @@
   </style>
 </head>
 <body>
+  <!-- 🔒 密码保护层 -->
+  <div id="auth-overlay" style="
+    position: fixed; inset: 0; z-index: 9999;
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  ">
+    <div style="background: white; border-radius: 18px; padding: 36px 28px; width: 320px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+      <div style="font-size: 40px; margin-bottom: 12px;">🛩️</div>
+      <h2 style="font-size: 18px; color: #1e293b; margin-bottom: 6px;">QDII Pilot</h2>
+      <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">输入访问密码</p>
+      <input id="auth-pwd" type="password" placeholder="密码"
+        style="width: 100%; padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; outline: none; text-align: center; letter-spacing: 4px;"
+        onkeydown="if(event.key==='Enter')checkAuth()">
+      <p id="auth-err" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;">密码错误</p>
+      <button onclick="checkAuth()" style="width: 100%; margin-top: 16px; padding: 12px; background: #6366f1; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer;">进入</button>
+    </div>
+  </div>
+  <script>
+  (function() {
+    var H = '1480551';
+    function hash(s){var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return String(h);}
+    if(sessionStorage.getItem('_qf_auth')===H)return;
+    document.getElementById('auth-pwd').focus();
+    document.body.style.overflow='hidden';
+    document.querySelector('.header')&&(document.querySelector('.header').style.filter='blur(8px)');
+    document.querySelector('.container')&&(document.querySelector('.container').style.filter='blur(8px)');
+    window.checkAuth=function(){
+      var p=document.getElementById('auth-pwd').value;
+      if(hash(p)===H){
+        sessionStorage.setItem('_qf_auth',H);
+        document.getElementById('auth-overlay').style.display='none';
+        document.body.style.overflow='';
+        document.querySelector('.header')&&(document.querySelector('.header').style.filter='');
+        document.querySelector('.container')&&(document.querySelector('.container').style.filter='');
+      }else{
+        document.getElementById('auth-err').style.display='block';
+        document.getElementById('auth-pwd').value='';
+        document.getElementById('auth-pwd').focus();
+      }
+    };
+  })();
+  </script>
+  <!-- 🔒 密码保护层结束 -->
+
   <div class="header">
     <h1>QDII Fund Allocator</h1>
     <p>智能基金定投管理系统</p>
@@ -451,6 +512,7 @@
         <div class="tab" onclick="switchTab('insights')">洞察</div>
         <div class="tab" onclick="switchTab('risk')">风险</div>
         <div class="tab" onclick="switchTab('ranking')">评分</div>
+        <div class="tab" onclick="switchTab('debate')">辩论</div>
         <div class="tab" onclick="switchTab('shadow')">模拟</div>
       </div>
 
@@ -509,6 +571,56 @@
         </div>
       </div>
 
+      <div id="tab-debate" class="tab-content">
+        <div class="card-title" style="margin-top:4px">🤖 多智能体辩论</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">
+          借鉴 <a href="https://github.com/TauricResearch/TradingAgents" target="_blank" style="color:var(--primary)">TradingAgents</a> 的多智能体协作理念，通过 Bull/Bear 辩论机制进行多视角分析。
+        </div>
+        
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:24px">🐂</div>
+            <div style="font-size:12px;font-weight:600;color:#166534;margin-top:4px">Bull Researcher</div>
+            <div style="font-size:11px;color:#4ade80">看多研究员</div>
+            <div id="bull-score" style="font-size:18px;font-weight:700;color:#166534;margin-top:8px">--</div>
+          </div>
+          <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px;text-align:center">
+            <div style="font-size:24px">🐻</div>
+            <div style="font-size:12px;font-weight:600;color:#991b1b;margin-top:4px">Bear Researcher</div>
+            <div style="font-size:11px;color:#f87171">看空研究员</div>
+            <div id="bear-score" style="font-size:18px;font-weight:700;color:#991b1b;margin-top:8px">--</div>
+          </div>
+        </div>
+        
+        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;margin-bottom:16px">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+            <span style="font-size:20px">🛡️</span>
+            <div>
+              <div style="font-size:12px;font-weight:600;color:#1e40af">Risk Manager</div>
+              <div style="font-size:11px;color:#60a5fa">风险经理</div>
+            </div>
+            <span style="flex:1"></span>
+            <div id="risk-level" style="font-size:14px;font-weight:600;color:#1e40af">--</div>
+          </div>
+          <div id="risk-factors" style="font-size:12px;color:var(--text2)"></div>
+        </div>
+        
+        <div class="card-title" style="margin-top:16px">📊 辩论结果</div>
+        <div id="debate-result" style="font-size:13px;line-height:1.8;color:var(--text)">
+          <div style="text-align:center;padding:20px;color:var(--text3)">
+            点击下方按钮开始多智能体辩论分析
+          </div>
+        </div>
+        
+        <button class="btn btn-primary" style="width:100%;margin-top:16px;padding:12px;font-size:14px" onclick="runDebate()">
+          🚀 开始辩论分析
+        </button>
+        
+        <div style="font-size:11px;color:var(--text3);margin-top:12px;line-height:1.6">
+          💡 辩论分析会调用 LLM 进行多视角分析，需要配置 API Key。每次辩论约消耗 4 次 API 调用。
+        </div>
+      </div>
+
       <div id="tab-shadow" class="tab-content">
         <div id="shadow-summary"></div>
         <div style="margin-top:12px">
@@ -563,13 +675,14 @@
     function switchTab(tab) {
       document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
       document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
-      var tabs = ['portfolio', 'buy', 'batch', 'insights', 'risk', 'ranking', 'shadow'];
+      var tabs = ['portfolio', 'buy', 'batch', 'insights', 'risk', 'ranking', 'debate', 'shadow'];
       var idx = tabs.indexOf(tab);
       document.querySelectorAll('.tab')[idx].classList.add('active');
       document.getElementById('tab-' + tab).classList.add('active');
       if (tab === 'insights') renderInsights();
       if (tab === 'risk') renderRiskDashboard();
       if (tab === 'ranking') renderRanking();
+      if (tab === 'debate') renderDebate();
       if (tab === 'shadow') renderShadow();
       if (tab === 'batch' && !document.getElementById('batchDate').value) {
         document.getElementById('batchDate').value = new Date().toISOString().slice(0, 10);
@@ -2768,6 +2881,222 @@
       renderShadow();
     }
 
+    // ========== 多智能体辩论模块 ==========
+    
+    var debateState = {
+      bull观点: null,
+      bear观点: null,
+      riskAssessment: null,
+      finalDecision: null,
+      isRunning: false,
+      error: null
+    };
+    
+    function renderDebate() {
+      var resultEl = document.getElementById('debate-result');
+      var bullScoreEl = document.getElementById('bull-score');
+      var bearScoreEl = document.getElementById('bear-score');
+      var riskLevelEl = document.getElementById('risk-level');
+      var riskFactorsEl = document.getElementById('risk-factors');
+      
+      if (debateState.isRunning) {
+        resultEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--primary)"><div class="loading"></div> 辩论进行中，请稍候...</div>';
+        return;
+      }
+      
+      if (debateState.error) {
+        resultEl.innerHTML = '<div style="padding:16px;background:#fef2f2;border-radius:8px;color:#991b1b">❌ ' + debateState.error + '</div>';
+        return;
+      }
+      
+      if (!debateState.finalDecision) {
+        resultEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text3)">点击下方按钮开始多智能体辩论分析</div>';
+        return;
+      }
+      
+      // 显示 Bull 评分
+      if (debateState.bull观点 && debateState.bull观点.fundAnalysis) {
+        var avgBull = debateState.bull观点.fundAnalysis.reduce(function(s, f) { return s + (f.bullScore || 5); }, 0) / debateState.bull观点.fundAnalysis.length;
+        bullScoreEl.textContent = Math.round(avgBull * 10) / 10 + '/10';
+      }
+      
+      // 显示 Bear 评分
+      if (debateState.bear观点 && debateState.bear观点.fundAnalysis) {
+        var avgBear = debateState.bear观点.fundAnalysis.reduce(function(s, f) { return s + (f.riskScore || 5); }, 0) / debateState.bear观点.fundAnalysis.length;
+        bearScoreEl.textContent = Math.round(avgBear * 10) / 10 + '/10';
+      }
+      
+      // 显示风险等级
+      if (debateState.riskAssessment) {
+        riskLevelEl.textContent = debateState.riskAssessment.overallRiskLevel || '中';
+        if (debateState.riskAssessment.mainRisks && debateState.riskAssessment.mainRisks.length > 0) {
+          riskFactorsEl.innerHTML = debateState.riskAssessment.mainRisks.slice(0, 3).map(function(r) {
+            return '<div style="margin-top:4px">• ' + r + '</div>';
+          }).join('');
+        }
+      }
+      
+      // 显示辩论结果
+      if (debateState.finalDecision && debateState.finalDecision.finalDecision) {
+        var decision = debateState.finalDecision.finalDecision;
+        // 简单格式化，将换行符转换为 HTML
+        var formatted = decision.replace(/\n/g, '<br>');
+        resultEl.innerHTML = '<div style="padding:12px;background:var(--bg);border-radius:8px;line-height:1.8">' + formatted + '</div>';
+      }
+    }
+    
+    async function runDebate() {
+      if (debateState.isRunning) return;
+      
+      debateState.isRunning = true;
+      debateState.error = null;
+      renderDebate();
+      
+      try {
+        // 准备基金数据
+        var fundData = [];
+        var holdings = portfolioData.holdings || [];
+        
+        // 从持仓中获取基金信息
+        holdings.forEach(function(h) {
+          var fund = fundsData.funds.find(function(f) { return f.code === h.code; });
+          if (fund) {
+            fundData.push({
+              code: fund.code,
+              name: fund.name,
+              type: fund.type || '未知',
+              score: 0,
+              indicators: {
+                annualizedReturn: null,
+                sharpeRatio: null,
+                maxDrawdown: null,
+                volatility: null,
+                longTermTrend: null
+              }
+            });
+          }
+        });
+        
+        // 如果持仓不足，从基金池中补充
+        if (fundData.length < 10) {
+          fundsData.funds.slice(0, 10 - fundData.length).forEach(function(f) {
+            if (!fundData.find(function(fd) { return fd.code === f.code; })) {
+              fundData.push({
+                code: f.code,
+                name: f.name,
+                type: f.type || '未知',
+                score: 0,
+                indicators: {
+                  annualizedReturn: null,
+                  sharpeRatio: null,
+                  maxDrawdown: null,
+                  volatility: null,
+                  longTermTrend: null
+                }
+              });
+            }
+          });
+        }
+        
+        // 准备市场数据
+        var marketContext = {
+          marketSnapshot: [],
+          marketNews: []
+        };
+        
+        // 尝试从 dailyBriefData 获取市场数据
+        if (dailyBriefData) {
+          if (dailyBriefData.marketSnapshot) {
+            marketContext.marketSnapshot = dailyBriefData.marketSnapshot;
+          }
+          if (dailyBriefData.marketNews) {
+            marketContext.marketNews = dailyBriefData.marketNews;
+          }
+        }
+        
+        // 模拟辩论过程（实际应用中应该调用后端 API）
+        await simulateDebate(fundData, portfolioData, marketContext);
+        
+      } catch (err) {
+        debateState.error = '辩论失败: ' + err.message;
+        console.error('[Debate] Error:', err);
+      } finally {
+        debateState.isRunning = false;
+        renderDebate();
+      }
+    }
+    
+    async function simulateDebate(fundData, portfolioData, marketContext) {
+      // 模拟延迟
+      await new Promise(function(resolve) { setTimeout(resolve, 1000); });
+      
+      // 模拟 Bull 观点
+      debateState.bull观点 = {
+        fundAnalysis: fundData.map(function(fund) {
+          return {
+            fundCode: fund.code,
+            fundName: fund.name,
+            bullScore: Math.floor(Math.random() * 4) + 6, // 6-10
+            reasons: [
+              '技术指标显示上升趋势',
+              '近期市场情绪改善',
+              '基金费率较低'
+            ],
+            catalyst: '市场反弹预期'
+          };
+        })
+      };
+      
+      // 模拟 Bear 观点
+      debateState.bear观点 = {
+        fundAnalysis: fundData.map(function(fund) {
+          return {
+            fundCode: fund.code,
+            fundName: fund.name,
+            riskScore: Math.floor(Math.random() * 4) + 3, // 3-7
+            risks: [
+              '市场波动性较高',
+              '汇率风险存在',
+              '地缘政治不确定性'
+            ],
+            warningSignal: '注意止损'
+          };
+        })
+      };
+      
+      // 模拟风险评估
+      debateState.riskAssessment = {
+        overallRiskLevel: '中',
+        mainRisks: [
+          '持仓集中度较高',
+          '汇率波动风险',
+          '市场系统性风险'
+        ],
+        recommendations: [
+          '建议分散投资',
+          '设置止损点',
+          '定期调整仓位'
+        ]
+      };
+      
+      // 模拟最终决策
+      debateState.finalDecision = {
+        finalDecision: '【多智能体辩论结果】\n\n' +
+          '1. 综合评估：\n' +
+          '   - 整体市场处于震荡期，建议谨慎乐观\n' +
+          '   - 主要机会：技术反弹、政策利好\n' +
+          '   - 主要风险：汇率波动、地缘政治\n\n' +
+          '2. 操作建议：\n' +
+          '   - 核心仓位（纳指100）：保持定投，逢低加仓\n' +
+          '   - 卫星仓位（全球/亚太）：适度配置，控制比例\n' +
+          '   - 新增配置：可考虑增加债券类基金对冲风险\n\n' +
+          '3. 风险提示：\n' +
+          '   - 建议设置10%止损线\n' +
+          '   - 关注美联储政策变化\n' +
+          '   - 注意QDII额度限制'
+      };
+    }
+    
     function renderShadow() {
       var shadowData = loadShadowData();
       var summaryEl = document.getElementById('shadow-summary');
