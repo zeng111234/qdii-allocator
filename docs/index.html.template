@@ -2938,28 +2938,15 @@
 
       var globalApi = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=350&order=1&needInteractData=0&page_index=1&page_size=10&req_trace=' + Date.now();
       var usApi = 'https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=353&order=1&needInteractData=0&page_index=1&page_size=8&req_trace=' + Date.now();
+      // 用CORS代理（东方财富API会检查Referer，直接请求会被拦截）
+      var proxy = 'https://api.allorigins.win/raw?url=';
 
       var posWords = ['利好','上涨','突破','新高','增长','反弹','降息','宽松','牛市','大涨','看涨','bullish','rally','surge','gain','走高','拉升','飙升'];
       var negWords = ['利空','下跌','暴跌','新低','衰退','加息','紧缩','熊市','大跌','看跌','bearish','crash','plunge','sell-off','risk','走低','跳水'];
       var themeKeywords = { nasdaq: ['纳指','纳斯达克','科技股','英伟达','NVIDIA','微软','Apple','特斯拉','AI','芯片','半导体'], sp500: ['标普','S&P','美股','美联储','Fed','道琼斯','美国经济'], hongkong: ['港股','恒生','阿里','腾讯','港交所','亚太','中概'], oil: ['油价','原油','石油','能源','黄金','gold','OPEC','铜','大宗'] };
 
-      function loadJSONP(apiUrl) {
-        return new Promise(function(resolve, reject) {
-          var cbName = '_jsonp_' + Date.now() + '_' + Math.random().toString(36).slice(2,8);
-          var timer = setTimeout(function() { cleanup(); reject(new Error('timeout')); }, 10000);
-          function cleanup() { clearTimeout(timer); delete window[cbName]; var s = document.getElementById(cbName); if (s) s.remove(); }
-          window[cbName] = function(data) { cleanup(); resolve(data); };
-          var s = document.createElement('script');
-          s.id = cbName;
-          s.src = apiUrl + '&callback=' + cbName;
-          s.onerror = function() { cleanup(); reject(new Error('script error')); };
-          document.head.appendChild(s);
-        });
-      }
-
-      function parseItems(data) {
-        if (!data) return [];
-        return (data.data && data.data.list) ? data.data.list.map(function(i) { return { title: i.title||'', digest: i.digest||'', time: i.showTime||'' }; }) : [];
+      function parseItems(raw) {
+        try { var j = JSON.parse(raw); return (j.data && j.data.list) ? j.data.list.map(function(i) { return { title: i.title||'', digest: i.digest||'', time: i.showTime||'' }; }) : []; } catch(e) { return []; }
       }
       function sentimentScore(title) {
         var tl = title.toLowerCase(); var s = 0;
@@ -2974,14 +2961,12 @@
       }
 
       Promise.all([
-        loadJSONP(globalApi).catch(function(e) { console.error('[news] global JSONP failed:', e); return null; }),
-        loadJSONP(usApi).catch(function(e) { console.error('[news] us JSONP failed:', e); return null; })
+        fetch(proxy + encodeURIComponent(globalApi)).then(function(r) { return r.text(); }).catch(function() { return ''; }),
+        fetch(proxy + encodeURIComponent(usApi)).then(function(r) { return r.text(); }).catch(function() { return ''; })
       ]).then(function(res) {
-        console.log('[news] JSONP results:', res[0] ? 'global OK' : 'global FAIL', res[1] ? 'us OK' : 'us FAIL');
         var allItems = parseItems(res[0]).concat(parseItems(res[1]));
-        console.log('[news] total items:', allItems.length);
         if (allItems.length === 0) {
-          // 降级：如果JSONP获取失败，显示已嵌入的新闻数据
+          // 降级：如果获取失败，显示已嵌入的新闻
           if (newsData && newsData.items && newsData.items.length > 0) {
             showToast('实时获取失败，显示已有新闻', true);
             loadNewsSentiment();
@@ -3006,7 +2991,6 @@
         showToast('新闻已刷新，共 ' + allItems.length + ' 条');
       }).catch(function(e) {
         console.error('[news] refresh error:', e);
-        // 降级：显示已嵌入的新闻数据
         if (newsData && newsData.items && newsData.items.length > 0) {
           showToast('实时获取失败，显示已有新闻', true);
           loadNewsSentiment();
