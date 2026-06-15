@@ -94,31 +94,42 @@ async function build() {
       }).on('error', reject);
     });
 
-    const [globalRaw, usRaw] = await Promise.all([
+    const [globalRaw, usRaw, hkRaw, futuresRaw, fundRaw] = await Promise.all([
       httpGetSync('https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=350&order=1&needInteractData=0&page_index=1&page_size=10&req_trace=' + Date.now()),
-      httpGetSync('https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=353&order=1&needInteractData=0&page_index=1&page_size=8&req_trace=' + Date.now())
+      httpGetSync('https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=353&order=1&needInteractData=0&page_index=1&page_size=8&req_trace=' + Date.now()),
+      httpGetSync('https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=351&order=1&needInteractData=0&page_index=1&page_size=8&req_trace=' + Date.now()),
+      httpGetSync('https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=354&order=1&needInteractData=0&page_index=1&page_size=5&req_trace=' + Date.now()),
+      httpGetSync('https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=356&order=1&needInteractData=0&page_index=1&page_size=5&req_trace=' + Date.now())
     ]);
 
-    const parseItems = (raw) => {
+    const parseItems = (raw, source) => {
       try {
         const j = JSON.parse(raw);
-        return (j.data && j.data.list) ? j.data.list.map(i => ({ title: i.title || '', digest: i.digest || '', time: i.showTime || '', url: i.url || i.art_url || '' })) : [];
+        return (j.data && j.data.list) ? j.data.list.map(i => ({ title: i.title || '', digest: i.digest || '', time: i.showTime || '', url: i.url || i.art_url || '', source: source || '' })) : [];
       } catch(e) { return []; }
     };
 
-    const allItems = parseItems(globalRaw).concat(parseItems(usRaw));
+    const allItems = parseItems(globalRaw, '环球')
+      .concat(parseItems(usRaw, '美股'))
+      .concat(parseItems(hkRaw, '港股'))
+      .concat(parseItems(futuresRaw, '期货'))
+      .concat(parseItems(fundRaw, '基金'));
     newsData.items = allItems;
     newsData.fetchedAt = new Date().toISOString();
 
     // 情绪分析
-    const posWords = ['利好','上涨','突破','新高','增长','反弹','降息','宽松','牛市','大涨','看涨','bullish','rally','surge','gain'];
-    const negWords = ['利空','下跌','暴跌','新低','衰退','加息','紧缩','熊市','大跌','看跌','bearish','crash','plunge','sell-off','risk'];
+    const posWords = ['利好','上涨','突破','新高','增长','反弹','降息','宽松','牛市','大涨','看涨','bullish','rally','surge','gain','创新高','连续上涨','资金流入','超预期','盈利增长','回购','分红'];
+    const negWords = ['利空','下跌','暴跌','新低','衰退','加息','紧缩','熊市','大跌','看跌','bearish','crash','plunge','sell-off','risk','关税','制裁','贸易战','地缘','冲突','战争','通胀','违约','爆雷','清盘','暂停申购'];
     let pos = 0, neg = 0, neu = 0, overallScore = 0;
     const themeKeywords = {
-      nasdaq: ['nasdaq','ndx','qqq','nvda','microsoft','apple','meta','tesla','nvidia','ai','semiconductor','chip'],
-      sp500: ['s&p','sp500','spy','美股','标普','美联储','fed','利率'],
-      hongkong: ['港股','恒生','亚太','中国','亚洲','hong kong'],
-      oil: ['石油','原油','gold','黄金','能源','oil','commodity']
+      nasdaq: ['nasdaq','ndx','qqq','nvda','microsoft','apple','meta','tesla','nvidia','ai','semiconductor','chip','英伟达','苹果','微软','谷歌','人工智能','半导体','芯片','算力'],
+      sp500: ['s&p','sp500','spy','spx','美股','标普','美联储','fed','利率','道琼斯','dow','华尔街','wall street','通胀','cpi','pce','非农'],
+      hongkong: ['港股','恒生','亚太','中国','亚洲','hong kong','恒指','国企','科技股','南向资金','北向资金'],
+      oil: ['石油','原油','gold','黄金','能源','oil','commodity','大宗商品','opec','天然气','期货','金价','油价'],
+      europe: ['欧洲','欧股','dax','德国','英国','ftse','欧洲央行','ecb','欧元','英镑'],
+      japan: ['日本','日经','nikkei','日元','日银','boj','日本央行','丰田','索尼'],
+      bonds: ['债券','国债','收益率','yield','降息','加息','美债','treasury','10年期'],
+      qdii: ['qdii','限购','额度','申购','赎回','净值','基金','定投','份额']
     };
     const byTheme = {};
 

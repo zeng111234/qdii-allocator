@@ -3364,12 +3364,14 @@
 
       // 新闻列表 - 显示标题（可点击）和时间
       html2 += '<div style="margin-top:6px">';
-      items.slice(0, 10).forEach(function(n) {
+      var sourceColors = { '环球':'#6366f1', '美股':'#ef4444', '港股':'#f59e0b', '期货':'#10b981', '基金':'#8b5cf6' };
+      items.slice(0, 12).forEach(function(n) {
         var scoreEmoji = n._score > 0 ? '🟢' : (n._score < 0 ? '🔴' : '⚪');
         var titleHtml = n.url ? '<a href="' + n.url + '" target="_blank" style="color:var(--text);text-decoration:none">' + n.title + '</a>' : n.title;
+        var srcTag = n.source ? '<span style="font-size:9px;padding:1px 4px;border-radius:3px;color:white;background:' + (sourceColors[n.source] || '#94a3b8') + ';margin-left:4px;flex-shrink:0">' + n.source + '</span>' : '';
         html2 += '<div style="display:flex;align-items:flex-start;gap:6px;padding:5px 0;border-bottom:1px solid #f1f5f9;font-size:12px">';
         html2 += '<span style="flex-shrink:0">' + scoreEmoji + '</span>';
-        html2 += '<span style="flex:1">' + titleHtml + '</span>';
+        html2 += '<span style="flex:1">' + titleHtml + srcTag + '</span>';
         html2 += '<span style="flex-shrink:0;color:var(--text3);font-size:10px;white-space:nowrap">' + (n.time || '').slice(11, 16) + '</span>';
         html2 += '</div>';
       });
