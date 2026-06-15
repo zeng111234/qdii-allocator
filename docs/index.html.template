@@ -516,6 +516,7 @@
         <div class="tab" onclick="switchTab('ranking')">评分</div>
         <div class="tab" onclick="switchTab('debate')">辩论</div>
         <div class="tab" onclick="switchTab('shadow')">模拟</div>
+        <div class="tab" onclick="switchTab('ai')">💬 AI</div>
       </div>
 
       <div id="tab-portfolio" class="tab-content active">
@@ -635,6 +636,48 @@
         </div>
         <div id="shadow-compare" style="margin-top:12px"></div>
       </div>
+
+      <!-- AI 助手 Tab -->
+      <div id="tab-ai" class="tab-content">
+        <div id="ai-config-panel" style="display:none;margin-bottom:12px">
+          <div class="card-title">⚙️ API 配置</div>
+          <div class="form-group">
+            <label>API Key</label>
+            <input type="password" id="aiApiKey" placeholder="sk-xxx" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px">
+          </div>
+          <div class="form-group">
+            <label>Base URL</label>
+            <input type="text" id="aiBaseUrl" placeholder="https://api.example.com/v1/chat/completions" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px">
+          </div>
+          <div class="form-group">
+            <label>模型名</label>
+            <input type="text" id="aiModel" placeholder="mimo-v2.5-pro" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px">
+          </div>
+          <button class="btn btn-primary" style="margin-top:8px" onclick="saveAiConfig()">保存配置</button>
+        </div>
+        <div id="ai-chat-area">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+            <div style="font-size:12px;color:var(--text3)">基于你的持仓和市场数据，AI 助手为你解答投资问题</div>
+            <div style="display:flex;gap:6px">
+              <button onclick="toggleAiConfig()" style="padding:4px 8px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer;color:var(--text2)">⚙️ 设置</button>
+              <button onclick="clearChat()" style="padding:4px 8px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer;color:var(--text2)">🗑️ 清空</button>
+            </div>
+          </div>
+          <div id="ai-quick-questions" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
+            <button onclick="askQuick('今天该买什么基金？为什么？')" style="padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2)">🎯 今天该买什么？</button>
+            <button onclick="askQuick('我的持仓组合风险怎么样？有什么建议？')" style="padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2)">🛡️ 组合风险分析</button>
+            <button onclick="askQuick('根据今天的新闻和外部信号，市场情绪如何？')" style="padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2)">📰 市场情绪判断</button>
+            <button onclick="askQuick('帮我分析一下当前持仓中哪些基金应该加仓，哪些应该减仓？')" style="padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2)">📊 加减仓建议</button>
+          </div>
+          <div id="ai-messages" style="min-height:200px;max-height:500px;overflow-y:auto;padding:8px;background:var(--bg);border-radius:10px;margin-bottom:10px">
+            <div style="text-align:center;padding:40px 20px;color:var(--text3);font-size:13px">👋 你好！我是你的 QDII 基金投资助手。<br>基于你的持仓和实时市场数据，为你提供投资建议。<br>点击上方快捷按钮或输入你的问题开始对话。</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <textarea id="ai-input" placeholder="输入你的投资问题..." rows="1" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;resize:none;max-height:100px;min-height:40px" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAiMessage()}"></textarea>
+            <button onclick="sendAiMessage()" id="ai-send-btn" style="padding:10px 16px;background:var(--primary);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap">发送</button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -677,7 +720,7 @@
     function switchTab(tab) {
       document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
       document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
-      var tabs = ['portfolio', 'buy', 'batch', 'insights', 'risk', 'ranking', 'debate', 'shadow'];
+      var tabs = ['portfolio', 'buy', 'batch', 'insights', 'risk', 'ranking', 'debate', 'shadow', 'ai'];
       var idx = tabs.indexOf(tab);
       document.querySelectorAll('.tab')[idx].classList.add('active');
       document.getElementById('tab-' + tab).classList.add('active');
@@ -3590,6 +3633,271 @@
       document.getElementById('brief-card').style.display = 'block';
       document.getElementById('daily-brief').textContent = dailyBriefData.content;
     }
+
+    // ========== AI 助手模块 ==========
+    var AI_CONFIG_KEY = 'qdii-ai-config';
+    var AI_CHAT_KEY = 'qdii-ai-chat';
+    var aiChatHistory = [];
+
+    function getAiConfig() {
+      try { return JSON.parse(localStorage.getItem(AI_CONFIG_KEY)) || {}; } catch(e) { return {}; }
+    }
+
+    function saveAiConfig() {
+      var config = {
+        apiKey: document.getElementById('aiApiKey').value.trim(),
+        baseUrl: document.getElementById('aiBaseUrl').value.trim(),
+        model: document.getElementById('aiModel').value.trim()
+      };
+      if (!config.apiKey) { showToast('请输入 API Key', true); return; }
+      if (!config.baseUrl) config.baseUrl = 'https://api.mimo.ai/v1/chat/completions';
+      if (!config.model) config.model = 'mimo-v2.5-pro';
+      localStorage.setItem(AI_CONFIG_KEY, JSON.stringify(config));
+      document.getElementById('ai-config-panel').style.display = 'none';
+      showToast('✅ API 配置已保存');
+    }
+
+    function toggleAiConfig() {
+      var panel = document.getElementById('ai-config-panel');
+      if (panel.style.display === 'none') {
+        panel.style.display = 'block';
+        var config = getAiConfig();
+        document.getElementById('aiApiKey').value = config.apiKey || '';
+        document.getElementById('aiBaseUrl').value = config.baseUrl || '';
+        document.getElementById('aiModel').value = config.model || '';
+      } else {
+        panel.style.display = 'none';
+      }
+    }
+
+    function loadChatHistory() {
+      try { aiChatHistory = JSON.parse(localStorage.getItem(AI_CHAT_KEY)) || []; } catch(e) { aiChatHistory = []; }
+      if (aiChatHistory.length > 0) renderChatHistory();
+    }
+
+    function saveChatHistory() {
+      // 只保留最近 50 条消息
+      if (aiChatHistory.length > 50) aiChatHistory = aiChatHistory.slice(-50);
+      localStorage.setItem(AI_CHAT_KEY, JSON.stringify(aiChatHistory));
+    }
+
+    function clearChat() {
+      aiChatHistory = [];
+      localStorage.removeItem(AI_CHAT_KEY);
+      document.getElementById('ai-messages').innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--text3);font-size:13px">👋 你好！我是你的 QDII 基金投资助手。<br>基于你的持仓和实时市场数据，为你提供投资建议。<br>点击上方快捷按钮或输入你的问题开始对话。</div>';
+    }
+
+    function renderChatHistory() {
+      var el = document.getElementById('ai-messages');
+      if (!el || aiChatHistory.length === 0) return;
+      el.innerHTML = '';
+      aiChatHistory.forEach(function(msg) {
+        appendMessage(msg.role, msg.content, false);
+      });
+      el.scrollTop = el.scrollHeight;
+    }
+
+    function appendMessage(role, content, scroll) {
+      var el = document.getElementById('ai-messages');
+      var div = document.createElement('div');
+      div.style.cssText = 'margin-bottom:10px;display:flex;justify-content:' + (role === 'user' ? 'flex-end' : 'flex-start') + ';';
+      var bubble = document.createElement('div');
+      bubble.style.cssText = 'max-width:85%;padding:10px 14px;border-radius:12px;font-size:13px;line-height:1.7;white-space:pre-wrap;word-break:break-word;';
+      if (role === 'user') {
+        bubble.style.background = 'var(--primary)';
+        bubble.style.color = 'white';
+        bubble.style.borderBottomRightRadius = '4px';
+        bubble.textContent = content;
+      } else {
+        bubble.style.background = 'var(--card)';
+        bubble.style.color = 'var(--text)';
+        bubble.style.border = '1px solid var(--border)';
+        bubble.style.borderBottomLeftRadius = '4px';
+        bubble.innerHTML = renderMarkdown(content);
+      }
+      bubble.id = role === 'assistant' ? 'ai-last-bubble' : '';
+      div.appendChild(bubble);
+      // 移除欢迎信息
+      var welcome = el.querySelector('[style*="text-align:center;padding:40px"]');
+      if (welcome) welcome.remove();
+      el.appendChild(div);
+      if (scroll !== false) el.scrollTop = el.scrollHeight;
+      return bubble;
+    }
+
+    function renderMarkdown(text) {
+      if (!text) return '';
+      return text
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        .replace(/\n/g, '<br>');
+    }
+
+    function buildSystemPrompt() {
+      var lines = [];
+      lines.push('你是用户的私人QDII基金投资助手。用户通过一个智能定投系统管理QDII基金。');
+      lines.push('你的回答要口语化、实用，像朋友聊天一样。控制在500字以内。');
+      lines.push('');
+      lines.push('=== 用户当前持仓 ===');
+      var holdings = portfolioData.holdings || [];
+      var totalInv = 0;
+      holdings.forEach(function(h) {
+        var inv = (h.buys || []).reduce(function(s, b) { return s + (b.amount || 0); }, 0);
+        totalInv += inv;
+        lines.push('- ' + h.name + ' (' + h.code + '): 投入' + inv + '元, ' + (h.buys || []).length + '笔');
+      });
+      lines.push('总投入: ' + totalInv + '元, ' + holdings.length + '只基金');
+      lines.push('');
+
+      if (todayPicks && todayPicks.ranked && todayPicks.ranked.length > 0) {
+        lines.push('=== 今日推荐排名 ===');
+        todayPicks.ranked.slice(0, 5).forEach(function(f, i) {
+          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 得分:' + (f.score || 'N/A'));
+        });
+        lines.push('');
+      }
+
+      if (newsData && newsData.items && newsData.items.length > 0) {
+        lines.push('=== 最新新闻 ===');
+        newsData.items.slice(0, 8).forEach(function(n) {
+          var emoji = (n._score > 0) ? '🟢' : ((n._score < 0) ? '🔴' : '⚪');
+          lines.push(emoji + ' ' + n.title);
+        });
+        lines.push('');
+      }
+
+      if (externalSignalsData && externalSignalsData.tickerOpinions && externalSignalsData.tickerOpinions.length > 0) {
+        lines.push('=== 外部信号 (Twitter @aleabitoreddit) ===');
+        externalSignalsData.tickerOpinions.slice(0, 10).forEach(function(t) {
+          lines.push('$' + t.ticker + ': ' + t.sentiment + ' (' + t.mentions + '次提及)');
+        });
+        lines.push('');
+      }
+
+      if (dailyBriefData && dailyBriefData.content) {
+        lines.push('=== 今日AI早报 ===');
+        lines.push(dailyBriefData.content);
+        lines.push('');
+      }
+
+      return lines.join('\n');
+    }
+
+    async function sendAiMessage() {
+      var input = document.getElementById('ai-input');
+      var text = input.value.trim();
+      if (!text) return;
+      input.value = '';
+
+      var config = getAiConfig();
+      if (!config.apiKey) {
+        toggleAiConfig();
+        showToast('请先配置 API Key', true);
+        return;
+      }
+
+      // 显示用户消息
+      appendMessage('user', text);
+      aiChatHistory.push({ role: 'user', content: text });
+      saveChatHistory();
+
+      // 显示加载状态
+      var sendBtn = document.getElementById('ai-send-btn');
+      sendBtn.disabled = true;
+      sendBtn.textContent = '...';
+      var bubble = appendMessage('assistant', '思考中...');
+      bubble.innerHTML = '<div style="display:flex;align-items:center;gap:8px"><div class="loading"></div> <span style="color:var(--text3)">AI 正在分析...</span></div>';
+
+      try {
+        var systemPrompt = buildSystemPrompt();
+        var messages = [{ role: 'system', content: systemPrompt }];
+        // 加入最近的聊天历史（最多10条）
+        var recentHistory = aiChatHistory.slice(-10);
+        recentHistory.forEach(function(m) { messages.push({ role: m.role, content: m.content }); });
+
+        var response = await fetch(config.baseUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + config.apiKey
+          },
+          body: JSON.stringify({
+            model: config.model || 'mimo-v2.5-pro',
+            messages: messages,
+            temperature: 0.3,
+            max_tokens: 2000,
+            stream: true
+          })
+        });
+
+        if (!response.ok) {
+          var errText = await response.text();
+          throw new Error('API 错误 ' + response.status + ': ' + errText.slice(0, 100));
+        }
+
+        // 流式读取
+        var fullText = '';
+        var reader = response.body.getReader();
+        var decoder = new TextDecoder();
+        var buffer = '';
+
+        while (true) {
+          var result = await reader.read();
+          if (result.done) break;
+          buffer += decoder.decode(result.value, { stream: true });
+          var lines = buffer.split('\n');
+          buffer = lines.pop();
+          for (var i = 0; i < lines.length; i++) {
+            var line = lines[i].trim();
+            if (!line || !line.startsWith('data: ')) continue;
+            var data = line.slice(6);
+            if (data === '[DONE]') continue;
+            try {
+              var json = JSON.parse(data);
+              var delta = json.choices && json.choices[0] && json.choices[0].delta;
+              if (delta && delta.content) {
+                fullText += delta.content;
+                bubble.innerHTML = renderMarkdown(fullText);
+                var el = document.getElementById('ai-messages');
+                el.scrollTop = el.scrollHeight;
+              }
+            } catch(e) { /* skip malformed chunks */ }
+          }
+        }
+
+        // 流式结束后如果没有内容，检查非流式响应
+        if (!fullText) {
+          try {
+            var json = JSON.parse(buffer || '{}');
+            var msg = json.choices && json.choices[0] && json.choices[0].message;
+            if (msg) fullText = msg.content || '';
+          } catch(e) {}
+        }
+
+        if (fullText) {
+          bubble.innerHTML = renderMarkdown(fullText);
+          aiChatHistory.push({ role: 'assistant', content: fullText });
+          saveChatHistory();
+        } else {
+          bubble.innerHTML = '<span style="color:var(--text3)">AI 未返回内容，请重试</span>';
+        }
+
+      } catch(err) {
+        bubble.innerHTML = '<span style="color:var(--danger)">❌ ' + err.message + '</span>';
+      } finally {
+        sendBtn.disabled = false;
+        sendBtn.textContent = '发送';
+      }
+    }
+
+    function askQuick(question) {
+      document.getElementById('ai-input').value = question;
+      sendAiMessage();
+    }
+
+    // 初始化：加载聊天历史
+    loadChatHistory();
+
   </script>
 </body>
 </html>
