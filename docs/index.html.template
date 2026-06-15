@@ -3220,6 +3220,7 @@
     var FIREBASE_PATH = '/portfolio.json';
 
     function syncLoad() {
+      if (!FIREBASE_URL || FIREBASE_URL === 'FIREBASE_URL_PLACEHOLDER' || FIREBASE_URL === 'undefined') return;
       fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY)
         .then(function(r) { return r.json(); })
         .then(function(data) {
@@ -3236,6 +3237,7 @@
     }
 
     function syncSave() {
+      if (!FIREBASE_URL || FIREBASE_URL === 'FIREBASE_URL_PLACEHOLDER' || FIREBASE_URL === 'undefined') return;
       fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -3432,6 +3434,12 @@
 
         if (windows.length === 0) {
           el.innerHTML = '<div style="color:var(--text3);font-size:12px">数据不足，无法生成回测窗口</div>';
+          return;
+        }
+
+        // 至少需要3个窗口才能计算有意义的胜率
+        if (windows.length < 3) {
+          el.innerHTML = '<div style="color:var(--text3);font-size:12px">净值数据不足，仅生成 ' + windows.length + ' 个回测窗口（至少需要3个）。请等待更多数据积累后查看。</div>';
           return;
         }
 
