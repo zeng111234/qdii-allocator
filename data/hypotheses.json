@@ -119,10 +119,58 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1781500363575",
+      "fundCode": "005598",
+      "fundName": "富国蓝筹精选QDII-A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#3，分数16.76。1年涨67.42%加13.5分，3年累计79.8%加4分，夏普0.83加3.7分，最大回撤-38.43%扣5.8分，长期牛市+3分，近期新高扣8.7分，低于MA",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-15T05:12:43.575Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1781500363575",
+      "fundCode": "539002",
+      "fundName": "建信新兴市场优选QDII-A",
+      "type": "均值回归",
+      "thesis": "系统推荐#4，分数16.4。1年涨137.89%加27.6分，3年累计232.13%加11.6分，最大回撤-11.61%扣1.7分，近期新高扣13.9分，高于MA10扣1.6分，30日涨2",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-15T05:12:43.575Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 5,
+    "total": 7,
     "validated": 0,
     "invalidated": 0,
     "expired": 0

@@ -35,11 +35,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.7149,
+  "nav": 1.6657,
   "realNav": 0,
-  "yearReturn": 10.11,
-  "threeYearReturn": 76.81,
-  "_cachedAt": 1781150558553
+  "yearReturn": 5.54,
+  "threeYearReturn": 71.74,
+  "_cachedAt": 1781500007154
  },
  "160213": {
   "status": "suspended",
@@ -207,7 +207,7 @@
   "realNav": 0,
   "yearReturn": 17.19,
   "threeYearReturn": 90.31,
-  "_cachedAt": 1781265285657
+  "_cachedAt": 1781500007718
  },
  "206011": {
   "status": "limited",
@@ -245,11 +245,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 8.1456,
+  "nav": 8.2442,
   "realNav": 0,
-  "yearReturn": 24.95,
-  "threeYearReturn": 83.37,
-  "_cachedAt": 1781150565784
+  "yearReturn": 26.21,
+  "threeYearReturn": 85.59,
+  "_cachedAt": 1781500009762
  },
  "486002": {
   "status": "limited",
@@ -371,11 +371,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.52,
+  "nav": 1.546,
   "realNav": 0,
-  "yearReturn": 49.46,
-  "threeYearReturn": 49.17,
-  "_cachedAt": 1781019157372
+  "yearReturn": 46.96,
+  "threeYearReturn": 51.42,
+  "_cachedAt": 1781500001591
  },
  "006479": {
   "status": "limited",
@@ -471,7 +471,7 @@
   "realNav": 0,
   "yearReturn": -0.68,
   "threeYearReturn": 4.18,
-  "_cachedAt": 1781265283576
+  "_cachedAt": 1781500002546
  },
  "096001": {
   "status": "limited",
@@ -523,11 +523,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 2.406,
+  "nav": 2.424,
   "realNav": 0,
-  "yearReturn": 5.9,
-  "threeYearReturn": 10.37,
-  "_cachedAt": 1781019218140
+  "yearReturn": 5.67,
+  "threeYearReturn": 11.24,
+  "_cachedAt": 1781500001055
  },
  "050025": {
   "status": "suspended",
@@ -817,11 +817,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 4.3281,
+  "nav": 4.4993,
   "realNav": 0,
-  "yearReturn": 194.77,
-  "threeYearReturn": 324.78,
-  "_cachedAt": 1780986534618
+  "yearReturn": 200.25,
+  "threeYearReturn": 340.72,
+  "_cachedAt": 1781500003102
  },
  "015204": {
   "status": "active",
@@ -845,11 +845,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 3.2545,
+  "nav": 3.3545,
   "realNav": 0,
-  "yearReturn": 170.55,
-  "threeYearReturn": 223.86,
-  "_cachedAt": 1781019158450
+  "yearReturn": 174.89,
+  "threeYearReturn": 232.13,
+  "_cachedAt": 1781500005148
  },
  "019524": {
   "status": "limited",
