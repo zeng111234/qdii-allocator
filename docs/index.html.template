@@ -1016,13 +1016,16 @@
       html += '<div class="card-title" style="margin-top:18px">📰 新闻与情绪 <button onclick="refreshNews()" style="float:right;padding:3px 10px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer;color:var(--text2)">🔄 刷新新闻</button></div>';
       html += '<div id="news-sentiment-content"><div style="text-align:center;padding:10px;color:var(--text3)">正在加载最新新闻...</div></div>';
 
-      // New Funds
-      html += '<div class="card-title" style="margin-top:18px">最新加入基金池</div>';
+      // New Funds (collapsed)
       var newFunds = fundsData.funds.filter(function(f) { return ['007280','008763','539003','000369'].indexOf(f.code) >= 0; });
-      newFunds.forEach(function(f) {
-        var lim = f.dailyLimit < 10000 ? '限' + f.dailyLimit + '元' : '不限';
-        html += '<div class="fund-chip"><div><strong>' + f.name + '</strong><div style="font-size:11px;color:var(--text3)">' + f.type + ' · ' + lim + '</div></div><span class="chip-code">' + f.code + '</span></div>';
-      });
+      if (newFunds.length > 0) {
+        html += '<details style="margin-top:18px"><summary style="font-size:13px;font-weight:600;color:var(--text2);cursor:pointer;padding:6px 0">📋 最新加入基金池 <span style="font-size:11px;color:var(--text3)">(' + newFunds.length + '只)</span></summary>';
+        newFunds.forEach(function(f) {
+          var lim = f.dailyLimit < 10000 ? '限' + f.dailyLimit + '元' : '不限';
+          html += '<div class="fund-chip"><div><strong>' + f.name + '</strong><div style="font-size:11px;color:var(--text3)">' + f.type + ' · ' + lim + '</div></div><span class="chip-code">' + f.code + '</span></div>';
+        });
+        html += '</details>';
+      }
 
       // Architecture
       html += '<div class="card-title" style="margin-top:18px">系统能力</div>';
@@ -3260,27 +3263,43 @@
       html2 += '<div style="flex:1;text-align:center;padding:8px;background:var(--bg);border-radius:8px"><div style="font-size:11px;color:var(--text3)">新闻数</div><div style="font-size:16px;font-weight:700">' + items.length + '条</div></div>';
       html2 += '</div>';
 
-      // 主题热度 - 直接告诉你什么涨什么跌
-      var themes = sentiment.byTheme || {};
-      var hasThemeData = Object.keys(themes).some(function(t) { return themes[t].pos > 0 || themes[t].neg > 0; });
+      // 情绪分析 - 一句话总结
       if (hasThemeData) {
-        var themeNames = { nasdaq: '纳指/科技', sp500: '美股大盘', hongkong: '港股/亚太', oil: '能源/商品' };
-        html2 += '<div style="margin-bottom:8px">';
+        var bullishThemes = [];
+        var bearishThemes = [];
         Object.keys(themes).forEach(function(t) {
           var th = themes[t];
-          if (th.pos > 0 || th.neg > 0) {
-            var emoji = th.pos > th.neg ? '🟢' : (th.neg > th.pos ? '🔴' : '⚪');
-            var text = th.pos > th.neg ? '利好' : (th.neg > th.pos ? '利空' : '中性');
-            var bgColor = th.pos > th.neg ? '#f0fdf4' : (th.neg > th.pos ? '#fef2f2' : '#f8fafc');
-            html2 += '<div style="display:flex;align-items:center;gap:6px;padding:5px 8px;margin-bottom:4px;background:' + bgColor + ';border-radius:6px;font-size:12px">';
-            html2 += '<span>' + emoji + '</span>';
-            html2 += '<span style="font-weight:600">' + (themeNames[t] || t) + '</span>';
-            html2 += '<span style="color:var(--text3);margin-left:auto">' + text + '</span>';
-            html2 += '</div>';
-          }
+          if (th.pos > th.neg) bullishThemes.push(themeNames[t] || t);
+          else if (th.neg > th.pos) bearishThemes.push(themeNames[t] || t);
         });
-        html2 += '</div>';
+        if (bullishThemes.length > 0 || bearishThemes.length > 0) {
+          html2 += '<div style="padding:8px 10px;background:#f8f9ff;border-radius:8px;font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.6">';
+          html2 += '💡 <b>AI 解读：</b>今日新闻';
+          if (bullishThemes.length > 0) html2 += '对<b>' + bullishThemes.join('、') + '</b>偏利好';
+          if (bullishThemes.length > 0 && bearishThemes.length > 0) html2 += '，';
+          if (bearishThemes.length > 0) html2 += '对<b>' + bearishThemes.join('、') + '</b>偏利空';
+          html2 += '。';
+          // 添加关键新闻标题
+          var keyNews = items.filter(function(n) { return n._score !== 0; }).slice(0, 3);
+          if (keyNews.length > 0) {
+            html2 += ' 关注：<b>' + keyNews.map(function(n) { return n.title; }).join('</b>、<b>') + '</b>。';
+          }
+          html2 += '</div>';
+        }
       }
+
+      // 新闻列表 - 显示标题（可点击）和时间
+      html2 += '<div style="margin-top:6px">';
+      items.slice(0, 10).forEach(function(n) {
+        var scoreEmoji = n._score > 0 ? '🟢' : (n._score < 0 ? '🔴' : '⚪');
+        var titleHtml = n.url ? '<a href="' + n.url + '" target="_blank" style="color:var(--text);text-decoration:none">' + n.title + '</a>' : n.title;
+        html2 += '<div style="display:flex;align-items:flex-start;gap:6px;padding:5px 0;border-bottom:1px solid #f1f5f9;font-size:12px">';
+        html2 += '<span style="flex-shrink:0">' + scoreEmoji + '</span>';
+        html2 += '<span style="flex:1">' + titleHtml + '</span>';
+        html2 += '<span style="flex-shrink:0;color:var(--text3);font-size:10px;white-space:nowrap">' + (n.time || '').slice(11, 16) + '</span>';
+        html2 += '</div>';
+      });
+      html2 += '</div>';
 
       if (newsData.fetchedAt) {
         html2 += '<div style="font-size:10px;color:var(--text3);margin-top:8px;text-align:right">抓取时间: ' + newsData.fetchedAt.replace('T', ' ').slice(0, 19) + '</div>';

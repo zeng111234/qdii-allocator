@@ -55,35 +55,26 @@ jobs:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
-      - name: Run allocation strategy
+      - name: Run allocation strategy & send email
         run: |
           CMD="node index.js"
           STRATEGY="${{ inputs.strategy }}"
           if [ -z "$STRATEGY" ]; then STRATEGY="dynamic"; fi
-          CMD="$CMD --strategy $STRATEGY --dry-run"
+          CMD="$CMD --strategy $STRATEGY"
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            CMD="$CMD --dry-run"
+          fi
           echo "Running: $CMD"
           eval $CMD
         env:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
-      - name: Send email (if configured)
-        continue-on-error: true
-        run: |
-          if [ -n "${{ secrets.SMTP_HOST }}" ]; then
-            node index.js --strategy dynamic
-          else
-            echo "SMTP not configured, skipping email"
-          fi
-        env:
           SMTP_HOST: ${{ secrets.SMTP_HOST }}
           SMTP_PORT: ${{ secrets.SMTP_PORT }}
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
-          LLM_MODEL: ${{ secrets.LLM_MODEL }}
       - name: Build GitHub Pages
         run: node build-pages.js
       - name: Commit updated data and pages

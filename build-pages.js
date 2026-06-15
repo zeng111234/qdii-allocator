@@ -102,7 +102,7 @@ async function build() {
     const parseItems = (raw) => {
       try {
         const j = JSON.parse(raw);
-        return (j.data && j.data.list) ? j.data.list.map(i => ({ title: i.title || '', digest: i.digest || '', time: i.showTime || '' })) : [];
+        return (j.data && j.data.list) ? j.data.list.map(i => ({ title: i.title || '', digest: i.digest || '', time: i.showTime || '', url: i.url || i.art_url || '' })) : [];
       } catch(e) { return []; }
     };
 
