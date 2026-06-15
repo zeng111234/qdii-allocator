@@ -7,11 +7,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 2.388,
+  "nav": 2.321,
   "realNav": 0,
-  "yearReturn": 74.56,
-  "threeYearReturn": 103.93,
-  "_cachedAt": 1781494442457
+  "yearReturn": 70.91,
+  "threeYearReturn": 97.7,
+  "_cachedAt": 1781265284773
  },
  "118002": {
   "status": "active",
@@ -35,11 +35,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.6657,
+  "nav": 1.7149,
   "realNav": 0,
-  "yearReturn": 5.54,
-  "threeYearReturn": 71.74,
-  "_cachedAt": 1781491529183
+  "yearReturn": 10.11,
+  "threeYearReturn": 76.81,
+  "_cachedAt": 1781150558553
  },
  "160213": {
   "status": "suspended",
@@ -67,7 +67,7 @@
   "realNav": 0,
   "yearReturn": 26.09,
   "threeYearReturn": 47.97,
-  "_cachedAt": 1781494442878
+  "_cachedAt": 1781265285028
  },
  "160421": {
   "status": "active",
@@ -77,11 +77,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 2.0083,
+  "nav": 1.9835,
   "realNav": 0,
-  "yearReturn": 14.43,
-  "threeYearReturn": 2.35,
-  "_cachedAt": 1781496123875
+  "yearReturn": 13.23,
+  "threeYearReturn": 1.54,
+  "_cachedAt": 1781232979901
  },
  "161125": {
   "status": "suspended",
@@ -91,11 +91,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 3.0583,
+  "nav": 3.0553,
   "realNav": 0,
-  "yearReturn": 15.85,
-  "threeYearReturn": 60.1,
-  "_cachedAt": 1781494443391
+  "yearReturn": 15.98,
+  "threeYearReturn": 59.94,
+  "_cachedAt": 1781162747762
  },
  "161126": {
   "status": "suspended",
@@ -105,11 +105,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.8782,
+  "nav": 1.8964,
   "realNav": 0,
-  "yearReturn": 3.53,
-  "threeYearReturn": 4.3,
-  "_cachedAt": 1781491529641
+  "yearReturn": 4.92,
+  "threeYearReturn": 5.31,
+  "_cachedAt": 1781150560946
  },
  "161127": {
   "status": "suspended",
@@ -119,11 +119,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.7297,
+  "nav": 1.7821,
   "realNav": 0,
-  "yearReturn": 39.75,
-  "threeYearReturn": 32.88,
-  "_cachedAt": 1781019146265
+  "yearReturn": 43.85,
+  "threeYearReturn": 38.18,
+  "_cachedAt": 1781265285241
  },
  "161128": {
   "status": "suspended",
@@ -133,11 +133,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 6.5339,
+  "nav": 6.4992,
   "realNav": 0,
-  "yearReturn": 32.16,
-  "threeYearReturn": 103.23,
-  "_cachedAt": 1781494444018
+  "yearReturn": 31.61,
+  "threeYearReturn": 102.15,
+  "_cachedAt": 1781162748498
  },
  "161129": {
   "status": "suspended",
@@ -179,7 +179,7 @@
   "realNav": 0,
   "yearReturn": 2.31,
   "threeYearReturn": 34.11,
-  "_cachedAt": 1781491530085
+  "_cachedAt": 1781265285475
  },
  "163208": {
   "status": "suspended",
@@ -207,7 +207,7 @@
   "realNav": 0,
   "yearReturn": 17.19,
   "threeYearReturn": 90.31,
-  "_cachedAt": 1781496124353
+  "_cachedAt": 1781265285657
  },
  "206011": {
   "status": "limited",
@@ -217,11 +217,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 0.922,
+  "nav": 0.917,
   "realNav": 0,
-  "yearReturn": -5.14,
-  "threeYearReturn": -1.18,
-  "_cachedAt": 1781494446286
+  "yearReturn": -5.27,
+  "threeYearReturn": -1.08,
+  "_cachedAt": 1780983702141
  },
  "270023": {
   "status": "limited",
@@ -231,11 +231,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 6.6019,
+  "nav": 6.342,
   "realNav": 0,
-  "yearReturn": 62.2,
-  "threeYearReturn": 156.28,
-  "_cachedAt": 1781491530523
+  "yearReturn": 56.14,
+  "threeYearReturn": 146.2,
+  "_cachedAt": 1781232980390
  },
  "270042": {
   "status": "limited",
@@ -259,11 +259,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 4.558,
+  "nav": 4.556,
   "realNav": 0,
-  "yearReturn": 9.51,
-  "threeYearReturn": 55.4,
-  "_cachedAt": 1781150566722
+  "yearReturn": 9.36,
+  "threeYearReturn": 55.34,
+  "_cachedAt": 1781265285841
  },
  "501060": {
   "status": "active",
@@ -287,11 +287,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 3.4529,
+  "nav": 3.3475,
   "realNav": 0,
-  "yearReturn": 24.66,
-  "threeYearReturn": 87.72,
-  "_cachedAt": 1781491530989
+  "yearReturn": 20.42,
+  "threeYearReturn": 81.99,
+  "_cachedAt": 1781232980873
  },
  "539002": {
   "status": "limited",
@@ -343,11 +343,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.0868,
+  "nav": 1.0618,
   "realNav": 0,
-  "yearReturn": -4.1,
-  "threeYearReturn": 19.1,
-  "_cachedAt": 1781491527406
+  "yearReturn": -4.71,
+  "threeYearReturn": 15.28,
+  "_cachedAt": 1781162744038
  },
  "050030": {
   "status": "limited",
@@ -357,11 +357,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.4716,
+  "nav": 1.4719,
   "realNav": 0,
-  "yearReturn": -0.21,
-  "threeYearReturn": 6.57,
-  "_cachedAt": 1781496123483
+  "yearReturn": 0.04,
+  "threeYearReturn": 6.59,
+  "_cachedAt": 1781162746998
  },
  "002230": {
   "status": "limited",
@@ -389,7 +389,7 @@
   "realNav": 0,
   "yearReturn": 25.96,
   "threeYearReturn": 84.49,
-  "_cachedAt": 1781496122711
+  "_cachedAt": 1781265283903
  },
  "007571": {
   "status": "active",
@@ -413,11 +413,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.296,
+  "nav": 1.295,
   "realNav": 0,
-  "yearReturn": 9.55,
-  "threeYearReturn": 26.66,
-  "_cachedAt": 1781491526954
+  "yearReturn": 9.37,
+  "threeYearReturn": 26.56,
+  "_cachedAt": 1781162743288
  },
  "005598": {
   "status": "active",
@@ -427,11 +427,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 3.2127,
+  "nav": 3.2515,
   "realNav": 0,
-  "yearReturn": 67.42,
-  "threeYearReturn": 79.8,
-  "_cachedAt": 1781494439919
+  "yearReturn": 69.38,
+  "threeYearReturn": 83.52,
+  "_cachedAt": 1781232975650
  },
  "000834": {
   "status": "limited",
@@ -467,11 +467,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.0202,
+  "nav": 1.0212,
   "realNav": 0,
-  "yearReturn": -0.67,
-  "threeYearReturn": 4.08,
-  "_cachedAt": 1781150548881
+  "yearReturn": -0.68,
+  "threeYearReturn": 4.18,
+  "_cachedAt": 1781265283576
  },
  "096001": {
   "status": "limited",
@@ -495,11 +495,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 3.374,
+  "nav": 3.495,
   "realNav": 0,
-  "yearReturn": 40.99,
-  "threeYearReturn": 98.12,
-  "_cachedAt": 1781494441417
+  "yearReturn": 48.72,
+  "threeYearReturn": 105.23,
+  "_cachedAt": 1781162746265
  },
  "000614": {
   "status": "limited",
@@ -509,11 +509,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.9015,
+  "nav": 1.933,
   "realNav": 0,
-  "yearReturn": -5.46,
-  "threeYearReturn": 40.23,
-  "_cachedAt": 1781496122127
+  "yearReturn": -5.26,
+  "threeYearReturn": 42.97,
+  "_cachedAt": 1781019156828
  },
  "000369": {
   "status": "limited",
@@ -537,11 +537,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 5.4229,
+  "nav": 5.334,
   "realNav": 0,
-  "yearReturn": 16.11,
-  "threeYearReturn": 59.6,
-  "_cachedAt": 1781491528733
+  "yearReturn": 13.86,
+  "threeYearReturn": 56.98,
+  "_cachedAt": 1781232976678
  },
  "006861": {
   "status": "limited",
@@ -579,11 +579,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 2.167,
+  "nav": 2.16,
   "realNav": 0,
-  "yearReturn": -3.6,
-  "threeYearReturn": 15.51,
-  "_cachedAt": 1781150546427
+  "yearReturn": -3.83,
+  "threeYearReturn": 15.14,
+  "_cachedAt": 1781265283258
  },
  "050015": {
   "status": "limited",
@@ -597,7 +597,7 @@
   "realNav": 0,
   "yearReturn": 49.78,
   "threeYearReturn": 52.97,
-  "_cachedAt": 1781494441907
+  "_cachedAt": 1781265284553
  },
  "012812": {
   "status": "active",
@@ -653,7 +653,7 @@
   "realNav": 0,
   "yearReturn": 1.43,
   "threeYearReturn": null,
-  "_cachedAt": 1781494440889
+  "_cachedAt": 1781265284223
  },
  "017936": {
   "status": "active",
@@ -789,11 +789,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.652,
+  "nav": 1.6506,
   "realNav": 0,
-  "yearReturn": 15.93,
-  "threeYearReturn": 56.19,
-  "_cachedAt": 1781491528295
+  "yearReturn": 16.08,
+  "threeYearReturn": 56.06,
+  "_cachedAt": 1781150553744
  },
  "015558": {
   "status": "limited",
@@ -817,11 +817,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 4.4993,
+  "nav": 4.3281,
   "realNav": 0,
-  "yearReturn": 200.25,
-  "threeYearReturn": 340.72,
-  "_cachedAt": 1781491527851
+  "yearReturn": 194.77,
+  "threeYearReturn": 324.78,
+  "_cachedAt": 1780986534618
  },
  "015204": {
   "status": "active",
@@ -831,11 +831,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.5417,
+  "nav": 1.5501,
   "realNav": 0,
-  "yearReturn": 25.35,
-  "threeYearReturn": 62.06,
-  "_cachedAt": 1781494440350
+  "yearReturn": 27.4,
+  "threeYearReturn": 62.95,
+  "_cachedAt": 1781162745520
  },
  "016664": {
   "status": "limited",
@@ -845,11 +845,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 3.3545,
+  "nav": 3.2545,
   "realNav": 0,
-  "yearReturn": 174.89,
-  "threeYearReturn": 232.13,
-  "_cachedAt": 1781496123113
+  "yearReturn": 170.55,
+  "threeYearReturn": 223.86,
+  "_cachedAt": 1781019158450
  },
  "019524": {
   "status": "limited",
@@ -873,11 +873,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 2.1849,
+  "nav": 2.1499,
   "realNav": 0,
-  "yearReturn": 19.64,
-  "threeYearReturn": 41.86,
-  "_cachedAt": 1781496124749
+  "yearReturn": 17.96,
+  "threeYearReturn": 40.22,
+  "_cachedAt": 1781232981355
  },
  "008763": {
   "status": "limited",
@@ -891,6 +891,6 @@
   "realNav": 0,
   "yearReturn": 15.81,
   "threeYearReturn": 21.07,
-  "_cachedAt": 1781491531428
+  "_cachedAt": 1781265286102
  }
 }

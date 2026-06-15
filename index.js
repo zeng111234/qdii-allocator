@@ -25,6 +25,7 @@ const webServer = require("./lib/web-server");
 const { normalizeDate, archiveOldHistory } = require("./lib/utils");
 const { backfillFollowUp: backfillHistoryFollowUp } = require("./lib/history-tracker");
 const { validateConfig } = require("./lib/config");
+const { runMultiAgentDebate, formatDebateReport } = require("./lib/multi-agent-debate");
 
 const FUNDS_FILE = path.join(__dirname, "data", "funds.json");
 const STRATEGY_MAP = {
@@ -43,7 +44,7 @@ function loadFunds() {
 
 function parseArgs() {
   const args = process.argv.slice(2);
-  const opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, walkForward: false, walkForwardTrain: 90, walkForwardTest: 30, hypothesisReport: false, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000 };
+  const opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, walkForward: false, walkForwardTrain: 90, walkForwardTest: 30, hypothesisReport: false, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000, multiAgent: false };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--dry-run") opts.dryRun = true;
     else if (args[i] === "--strategy") opts.strategy = args[++i];
@@ -96,6 +97,7 @@ function parseArgs() {
     }
     else if (args[i] === "--delete") opts.delete = args[++i];
     else if (args[i] === "--delete-all") opts.deleteAll = true;
+    else if (args[i] === "--multi-agent") opts.multiAgent = true;
     else if (args[i] === "--help") {
       console.log("QDII Fund Allocator");
       console.log("  --dry-run              dry run mode");
@@ -116,6 +118,7 @@ function parseArgs() {
       console.log("  --hypotheses           show hypothesis tracking report");
       console.log("  --goals                show investment goal tracking report");
       console.log("  --backfill             backfill full historical NAV data for all funds");
+      console.log("  --multi-agent          enable multi-agent debate (TradingAgents style)");
       console.log("  --web [port]           start web UI (default port 3000)");
       console.log("  --delete <code>        delete all buys for a fund code");
       console.log("  --delete-all           delete all holdings (reset portfolio)");
@@ -536,7 +539,33 @@ async function main() {
 
   if (llmApiKey && llmBaseUrl && llmModel) {
     console.log("[4/5] AI decision analysis...");
-    aiCommentary = await ai.generateCommentary(result, { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel });
+    
+    if (opts.multiAgent) {
+      // 多智能体辩论模式 (TradingAgents style)
+      console.log("[Multi-Agent] 启用多智能体辩论模式...");
+      
+      const llmConfig = { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel };
+      const fundData = result.ranked ? result.ranked.slice(0, 10) : [];
+      const portfolioData = result.portfolio;
+      const marketContext = {
+        marketSnapshot: result.marketSnapshot,
+        marketNews: result.marketNews,
+        externalSignals: result.externalSignals
+      };
+      
+      try {
+        const debateResult = await runMultiAgentDebate(fundData, portfolioData, marketContext, llmConfig);
+        aiCommentary = formatDebateReport(debateResult);
+        console.log("[Multi-Agent] 辩论完成，报告已生成");
+      } catch (err) {
+        console.error("[Multi-Agent] 辩论失败，回退到标准模式:", err.message);
+        aiCommentary = await ai.generateCommentary(result, llmConfig);
+      }
+    } else {
+      // 标准 AI 分析模式
+      aiCommentary = await ai.generateCommentary(result, { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel });
+    }
+    
     if (aiCommentary && aiCommentary.length > 10) {
       console.log("[AI\u51b3\u7b56\u62a5\u544a] " + aiCommentary.substring(0, 200) + "...");
     } else {

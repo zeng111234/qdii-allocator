@@ -1109,7 +1109,7 @@
         try {
           var xhr = new XMLHttpRequest();
           xhr.open('GET', urls[idx], true);
-          xhr.timeout = 8000;
+          xhr.timeout = 30000;
           xhr.onload = function() {
             if (xhr.status === 200) {
               try {
@@ -3037,7 +3037,12 @@
       // 用真实数据计算 Bull/Bear 观点
       var holdings = portfolioData.holdings || [];
       var totalInvested = 0;
-      holdings.forEach(function(h) { totalInvested += (h.totalAmount || 0); });
+      holdings.forEach(function(h) {
+        // 从 buys 数组计算总投入
+        var inv = (h.buys || []).reduce(function(s, b) { return s + (b.amount || 0); }, 0);
+        h._invested = inv;
+        totalInvested += inv;
+      });
       
       // 从评分数据中获取真实指标
       var rankedFunds = [];
@@ -3058,7 +3063,7 @@
           if (ind.maxDrawdown > -15) reasons.push('最大回撤仅 ' + ind.maxDrawdown + '%，风险可控');
         }
         var hold = holdings.find(function(h) { return h.code === fund.code; });
-        if (hold) reasons.push('已持仓 ' + hold.totalAmount + '元，成本已建立');
+        if (hold && hold._invested > 0) reasons.push('已持仓 ' + hold._invested + '元，成本已建立');
         if (reasons.length === 0) reasons.push('综合评分 ' + (score || 'N/A') + '，基本面尚可');
         return { fundCode: fund.code, fundName: fund.name, bullScore: bullScore, reasons: reasons.slice(0, 3), catalyst: null };
       });
@@ -3076,10 +3081,9 @@
           if (ind.volatility > 30) risks.push('年化波动率 ' + ind.volatility + '%，价格波动大');
           if (ind.sharpeRatio < 0.5) risks.push('夏普比率仅 ' + ind.sharpeRatio + '，风险收益比差');
         }
-        // 集中度风险
         var hold = holdings.find(function(h) { return h.code === fund.code; });
-        if (hold && totalInvested > 0) {
-          var weight = hold.totalAmount / totalInvested * 100;
+        if (hold && hold._invested > 0 && totalInvested > 0) {
+          var weight = hold._invested / totalInvested * 100;
           if (weight > 15) risks.push('持仓占比 ' + weight.toFixed(1) + '%，过度集中');
         }
         if (risks.length === 0) risks.push('QDII额度限制，流动性风险');
@@ -3369,8 +3373,10 @@
     function runBacktest() {
       loadFullNavCache(function(fullNav) {
         var el = document.getElementById('backtest-content');
+        var attrEl = document.getElementById('attribution-content');
         if (!fullNav) {
           el.innerHTML = '<div style="color:var(--text3);font-size:12px">无法加载净值历史数据</div>';
+          if (attrEl) attrEl.innerHTML = '<div style="color:var(--text3);font-size:12px">无法加载净值历史数据</div>';
           return;
         }
 

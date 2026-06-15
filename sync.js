@@ -61,7 +61,7 @@ function main() {
 
   console.log('========================================');
   console.log('  同步完成！');
-  console.log('  手机访问: https://zeng111234.github.io/trade/');
+  console.log('  手机访问: https://zeng111234.github.io/qdii-allocator/');
   console.log('========================================');
 }
 

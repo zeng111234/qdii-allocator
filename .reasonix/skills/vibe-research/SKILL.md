@@ -2,7 +2,6 @@
 name: vibe-research
 description: 从 Vibe-Trading (HKUDS) 提炼量化算法，移植为纯前端 JS 到 GitHub Pages QDII 基金系统
 runAs: subagent
-effort: max
 allowed-tools: read_file, mcp__github__get_file_contents, mcp__github__search_code, write_file, edit_file, multi_edit, bash, grep, glob, ls
 ---
 
