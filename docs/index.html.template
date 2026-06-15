@@ -3096,7 +3096,7 @@
       holdings.forEach(function(h) {
         var fund = fundsData.funds.find(function(f) { return f.code === h.code; });
         var type = fund ? (fund.type || '未知') : '未知';
-        typeWeights[type] = (typeWeights[type] || 0) + (h.totalAmount || 0);
+        typeWeights[type] = (typeWeights[type] || 0) + (h._invested || 0);
       });
       var maxType = Object.keys(typeWeights).sort(function(a, b) { return typeWeights[b] - typeWeights[a]; })[0];
       var maxWeight = totalInvested > 0 ? (typeWeights[maxType] || 0) / totalInvested * 100 : 0;
