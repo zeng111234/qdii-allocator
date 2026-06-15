@@ -1102,7 +1102,7 @@
       // Then fallback to raw.githubusercontent.com
       var urls = [
         'data/nav-cache.json',
-        'https://raw.githubusercontent.com/zeng111234/trade/main/data/nav-cache.json'
+        'https://raw.githubusercontent.com/zeng111234/qdii-allocator/main/data/nav-cache.json'
       ];
       function tryLoad(idx) {
         if (idx >= urls.length) { callback(null); return; }
@@ -3032,74 +3032,96 @@
     }
     
     async function simulateDebate(fundData, portfolioData, marketContext) {
-      // 模拟延迟
-      await new Promise(function(resolve) { setTimeout(resolve, 1000); });
+      await new Promise(function(resolve) { setTimeout(resolve, 800); });
       
-      // 模拟 Bull 观点
-      debateState.bull观点 = {
-        fundAnalysis: fundData.map(function(fund) {
-          return {
-            fundCode: fund.code,
-            fundName: fund.name,
-            bullScore: Math.floor(Math.random() * 4) + 6, // 6-10
-            reasons: [
-              '技术指标显示上升趋势',
-              '近期市场情绪改善',
-              '基金费率较低'
-            ],
-            catalyst: '市场反弹预期'
-          };
-        })
-      };
+      // 用真实数据计算 Bull/Bear 观点
+      var holdings = portfolioData.holdings || [];
+      var totalInvested = 0;
+      holdings.forEach(function(h) { totalInvested += (h.totalAmount || 0); });
       
-      // 模拟 Bear 观点
-      debateState.bear观点 = {
-        fundAnalysis: fundData.map(function(fund) {
-          return {
-            fundCode: fund.code,
-            fundName: fund.name,
-            riskScore: Math.floor(Math.random() * 4) + 3, // 3-7
-            risks: [
-              '市场波动性较高',
-              '汇率风险存在',
-              '地缘政治不确定性'
-            ],
-            warningSignal: '注意止损'
-          };
-        })
-      };
+      // 从评分数据中获取真实指标
+      var rankedFunds = [];
+      if (typeof rankedData !== 'undefined' && rankedData) {
+        rankedFunds = rankedData;
+      }
       
-      // 模拟风险评估
-      debateState.riskAssessment = {
-        overallRiskLevel: '中',
-        mainRisks: [
-          '持仓集中度较高',
-          '汇率波动风险',
-          '市场系统性风险'
-        ],
-        recommendations: [
-          '建议分散投资',
-          '设置止损点',
-          '定期调整仓位'
-        ]
-      };
+      // Bull 分析：基于真实评分和趋势
+      var bullAnalysis = fundData.slice(0, 8).map(function(fund) {
+        var ranked = rankedFunds.find(function(r) { return r.code === fund.code; });
+        var score = ranked ? ranked.score : 5;
+        var bullScore = Math.min(10, Math.max(1, Math.round(score / 10)));
+        var reasons = [];
+        if (ranked && ranked.indicators) {
+          var ind = ranked.indicators;
+          if (ind.sharpeRatio > 1) reasons.push('夏普比率 ' + ind.sharpeRatio + '，风险调整收益优秀');
+          if (ind.annualizedReturn > 15) reasons.push('年化收益 ' + ind.annualizedReturn + '%，长期表现强劲');
+          if (ind.maxDrawdown > -15) reasons.push('最大回撤仅 ' + ind.maxDrawdown + '%，风险可控');
+        }
+        var hold = holdings.find(function(h) { return h.code === fund.code; });
+        if (hold) reasons.push('已持仓 ' + hold.totalAmount + '元，成本已建立');
+        if (reasons.length === 0) reasons.push('综合评分 ' + (score || 'N/A') + '，基本面尚可');
+        return { fundCode: fund.code, fundName: fund.name, bullScore: bullScore, reasons: reasons.slice(0, 3), catalyst: null };
+      });
+      debateState.bull观点 = { fundAnalysis: bullAnalysis, summary: '基于评分系统的看多分析' };
       
-      // 模拟最终决策
-      debateState.finalDecision = {
-        finalDecision: '【多智能体辩论结果】\n\n' +
-          '1. 综合评估：\n' +
-          '   - 整体市场处于震荡期，建议谨慎乐观\n' +
-          '   - 主要机会：技术反弹、政策利好\n' +
-          '   - 主要风险：汇率波动、地缘政治\n\n' +
-          '2. 操作建议：\n' +
-          '   - 核心仓位（纳指100）：保持定投，逢低加仓\n' +
-          '   - 卫星仓位（全球/亚太）：适度配置，控制比例\n' +
-          '   - 新增配置：可考虑增加债券类基金对冲风险\n\n' +
-          '3. 风险提示：\n' +
-          '   - 建议设置10%止损线\n' +
-          '   - 关注美联储政策变化\n' +
-          '   - 注意QDII额度限制'
-      };
+      // Bear 分析：基于真实风险指标
+      var bearAnalysis = fundData.slice(0, 8).map(function(fund) {
+        var ranked = rankedFunds.find(function(r) { return r.code === fund.code; });
+        var riskScore = 5;
+        var risks = [];
+        if (ranked && ranked.indicators) {
+          var ind = ranked.indicators;
+          if (ind.maxDrawdown < -25) { riskScore = 8; risks.push('历史最大回撤 ' + ind.maxDrawdown + '%，深度下跌风险高'); }
+          else if (ind.maxDrawdown < -15) { riskScore = 6; risks.push('最大回撤 ' + ind.maxDrawdown + '%，中等风险'); }
+          if (ind.volatility > 30) risks.push('年化波动率 ' + ind.volatility + '%，价格波动大');
+          if (ind.sharpeRatio < 0.5) risks.push('夏普比率仅 ' + ind.sharpeRatio + '，风险收益比差');
+        }
+        // 集中度风险
+        var hold = holdings.find(function(h) { return h.code === fund.code; });
+        if (hold && totalInvested > 0) {
+          var weight = hold.totalAmount / totalInvested * 100;
+          if (weight > 15) risks.push('持仓占比 ' + weight.toFixed(1) + '%，过度集中');
+        }
+        if (risks.length === 0) risks.push('QDII额度限制，流动性风险');
+        return { fundCode: fund.code, fundName: fund.name, riskScore: riskScore, risks: risks.slice(0, 3), warningSignal: null };
+      });
+      debateState.bear观点 = { fundAnalysis: bearAnalysis, summary: '基于风险指标的看空分析' };
+      
+      // 风险评估：基于真实持仓集中度
+      var typeWeights = {};
+      holdings.forEach(function(h) {
+        var fund = fundsData.funds.find(function(f) { return f.code === h.code; });
+        var type = fund ? (fund.type || '未知') : '未知';
+        typeWeights[type] = (typeWeights[type] || 0) + (h.totalAmount || 0);
+      });
+      var maxType = Object.keys(typeWeights).sort(function(a, b) { return typeWeights[b] - typeWeights[a]; })[0];
+      var maxWeight = totalInvested > 0 ? (typeWeights[maxType] || 0) / totalInvested * 100 : 0;
+      var riskLevel = maxWeight > 60 ? '高' : (maxWeight > 40 ? '中' : '低');
+      var mainRisks = [];
+      if (maxWeight > 50) mainRisks.push(maxType + ' 占比 ' + maxWeight.toFixed(1) + '%，集中度过高');
+      mainRisks.push('QDII 基金存在每日限购，流动性受限');
+      if (holdings.length < 5) mainRisks.push('持仓基金数仅 ' + holdings.length + ' 只，分散度不足');
+      debateState.riskAssessment = { overallRiskLevel: riskLevel, mainRisks: mainRisks, recommendations: [] };
+      
+      // 最终决策：综合 Bull/Bear 给出具体建议
+      var topBull = bullAnalysis.slice().sort(function(a, b) { return b.bullScore - a.bullScore; }).slice(0, 3);
+      var topBear = bearAnalysis.slice().sort(function(a, b) { return b.riskScore - a.riskScore; }).slice(0, 2);
+      
+      var decision = '【多智能体辩论结果】\n\n';
+      decision += '📈 看多观点：\n';
+      topBull.forEach(function(f) { decision += '  • ' + f.fundName + '（' + f.bullScore + '/10）— ' + f.reasons[0] + '\n'; });
+      decision += '\n📉 看空风险：\n';
+      topBear.forEach(function(f) { decision += '  • ' + f.fundName + '（风险 ' + f.riskScore + '/10）— ' + f.risks[0] + '\n'; });
+      decision += '\n🛡️ 组合风险：' + riskLevel + '\n';
+      mainRisks.forEach(function(r) { decision += '  • ' + r + '\n'; });
+      decision += '\n💡 建议：\n';
+      if (riskLevel === '高') {
+        decision += '  组合集中度过高，建议减少 ' + maxType + ' 配置，增加其他类型基金分散风险。';
+      } else {
+        decision += '  组合结构合理，保持定投节奏。重点关注评分高且限购额度低的稀缺基金。';
+      }
+      
+      debateState.finalDecision = { finalDecision: decision };
     }
     
     function renderShadow() {
