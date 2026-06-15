@@ -1,0 +1,130 @@
+{
+  "hypotheses": [
+    {
+      "id": "H1781496689158",
+      "fundCode": "012920",
+      "fundName": "易方达全球成长精选QDII-A",
+      "type": "稀缺溢价",
+      "thesis": "系统推荐#1，分数41.65。1年涨200.25%加40.1分，3年累计340.72%加17分，夏普2.26加10.2分，最大回撤-20.18%扣3分，长期牛市+3分，近期新高扣8.4分，低",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-15T04:11:29.158Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1781496689158",
+      "fundCode": "016664",
+      "fundName": "天弘全球高端制造QDII-A",
+      "type": "均值回归",
+      "thesis": "系统推荐#2，分数19.97。1年涨174.89%加35分，3年累计232.13%加11.6分，夏普1.55加7分，最大回撤-30.39%扣4.6分，长期牛市+3分，近期新高扣15.1分，高",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-15T04:11:29.158Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1781496689158",
+      "fundCode": "270023",
+      "fundName": "广发全球精选QDII-A",
+      "type": "均值回归",
+      "thesis": "系统推荐#3，分数18.2。1年涨62.2%加12.4分，3年累计156.28%加7.8分，夏普1.68加7.6分，最大回撤-20.74%扣3.1分，长期牛市+3分，近期新高扣10.4分，",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-15T04:11:29.158Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1781496689158",
+      "fundCode": "096001",
+      "fundName": "大成标普500A(QDII)",
+      "type": "稀缺溢价",
+      "thesis": "系统推荐#4，分数17.12。1年涨10.69%加2.1分，3年累计36.27%加1.8分，夏普0.58加2.6分，最大回撤-19.56%扣2.9分，长期牛市+3分，近期新高扣1.1分，低于",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-15T04:11:29.158Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1781496689159",
+      "fundCode": "486002",
+      "fundName": "工银全球精选QDII-A",
+      "type": "稀缺溢价",
+      "thesis": "系统推荐#5，分数16.02。1年涨9.36%加1.9分，3年累计55.34%加2.8分，夏普1.31加5.9分，最大回撤-11.14%扣1.7分，长期牛市+3分，近期新高扣5.8分，高于M",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-15T04:11:29.159Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    }
+  ],
+  "stats": {
+    "total": 5,
+    "validated": 0,
+    "invalidated": 0,
+    "expired": 0
+  }
+}

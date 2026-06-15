@@ -77,11 +77,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.9835,
+  "nav": 2.0083,
   "realNav": 0,
-  "yearReturn": 13.23,
-  "threeYearReturn": 1.54,
-  "_cachedAt": 1781232979901
+  "yearReturn": 14.43,
+  "threeYearReturn": 2.35,
+  "_cachedAt": 1781496123875
  },
  "161125": {
   "status": "suspended",
@@ -203,11 +203,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.701,
+  "nav": 1.65,
   "realNav": 0,
-  "yearReturn": 21.94,
-  "threeYearReturn": 95.29,
-  "_cachedAt": 1781019222466
+  "yearReturn": 17.19,
+  "threeYearReturn": 90.31,
+  "_cachedAt": 1781496124353
  },
  "206011": {
   "status": "limited",
@@ -357,11 +357,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.4719,
+  "nav": 1.4716,
   "realNav": 0,
-  "yearReturn": 0.04,
-  "threeYearReturn": 6.59,
-  "_cachedAt": 1781162746998
+  "yearReturn": -0.21,
+  "threeYearReturn": 6.57,
+  "_cachedAt": 1781496123483
  },
  "002230": {
   "status": "limited",
@@ -385,11 +385,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 8.1028,
+  "nav": 8.103,
   "realNav": 0,
-  "yearReturn": 26.48,
-  "threeYearReturn": 84.67,
-  "_cachedAt": 1781019157909
+  "yearReturn": 25.96,
+  "threeYearReturn": 84.49,
+  "_cachedAt": 1781496122711
  },
  "007571": {
   "status": "active",
@@ -509,11 +509,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.933,
+  "nav": 1.9015,
   "realNav": 0,
-  "yearReturn": -5.26,
-  "threeYearReturn": 42.97,
-  "_cachedAt": 1781019156828
+  "yearReturn": -5.46,
+  "threeYearReturn": 40.23,
+  "_cachedAt": 1781496122127
  },
  "000369": {
   "status": "limited",
@@ -845,11 +845,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 3.2545,
+  "nav": 3.3545,
   "realNav": 0,
-  "yearReturn": 170.55,
-  "threeYearReturn": 223.86,
-  "_cachedAt": 1781019158450
+  "yearReturn": 174.89,
+  "threeYearReturn": 232.13,
+  "_cachedAt": 1781496123113
  },
  "019524": {
   "status": "limited",
@@ -873,11 +873,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 2.1499,
+  "nav": 2.1849,
   "realNav": 0,
-  "yearReturn": 17.96,
-  "threeYearReturn": 40.22,
-  "_cachedAt": 1781232981355
+  "yearReturn": 19.64,
+  "threeYearReturn": 41.86,
+  "_cachedAt": 1781496124749
  },
  "008763": {
   "status": "limited",
