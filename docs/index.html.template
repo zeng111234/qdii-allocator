@@ -3264,6 +3264,9 @@
       html2 += '</div>';
 
       // 情绪分析 - 一句话总结
+      var themes = sentiment.byTheme || {};
+      var themeNames = { nasdaq: '纳指/科技', sp500: '美股大盘', hongkong: '港股/亚太', oil: '能源/商品' };
+      var hasThemeData = Object.keys(themes).some(function(t) { return themes[t].pos > 0 || themes[t].neg > 0; });
       if (hasThemeData) {
         var bullishThemes = [];
         var bearishThemes = [];
@@ -3390,7 +3393,7 @@
           var trainDates = dates.slice(startIdx, startIdx + trainDays);
           var testDates = dates.slice(startIdx + trainDays, startIdx + trainDays + testDays);
 
-          // Calculate train period returns for each fund
+          // 训练期：计算每只基金的收益，选出 Top N
           var trainReturns = {};
           codes.forEach(function(code) {
             var startNav = navMatrix[code][trainDates[0]];
@@ -3399,10 +3402,14 @@
               trainReturns[code] = (endNav - startNav) / startNav;
             }
           });
+          // 按训练期收益排序，选前 5 只
+          var sortedCodes = codes.filter(function(c) { return trainReturns[c] !== undefined; })
+            .sort(function(a, b) { return trainReturns[b] - trainReturns[a]; });
+          var topN = sortedCodes.slice(0, Math.min(5, sortedCodes.length));
 
-          // Equal-weight test period return
+          // 测试期：只看 Top N 的表现（模拟真实策略：选训练期最好的基金买入）
           var testReturn = 0, validCount = 0;
-          codes.forEach(function(code) {
+          topN.forEach(function(code) {
             var startNav = navMatrix[code][testDates[0]];
             var endNav = navMatrix[code][testDates[testDates.length - 1]];
             if (startNav && endNav) {
