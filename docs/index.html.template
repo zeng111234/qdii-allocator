@@ -742,41 +742,37 @@
 
     function calcSummary() {
       var totalInv = 0, totalVal = 0, pendingInv = 0;
-      var totalValPrev = 0; // 前一交易日市值
+      var totalValPrev = 0; // 前一交易日市值（只算有最新日期数据的基金）
       var latestDate = '', prevDate = '';
-      // 第一遍：找最晚净值日期（大多数基金共有的日期）
-      var dateCount = {};
+      // 找所有基金中最晚的净值日期
       portfolioData.holdings.forEach(function(h) {
         var latest = getLatestNav(h.code);
-        if (latest) dateCount[latest.date] = (dateCount[latest.date] || 0) + 1;
+        if (latest && latest.date > latestDate) latestDate = latest.date;
       });
-      // 找出现次数最多的日期作为"基准日期"
-      var baseDate = '', maxCount = 0;
-      Object.keys(dateCount).forEach(function(d) {
-        if (dateCount[d] > maxCount) { maxCount = dateCount[d]; baseDate = d; }
-      });
-      // 找基准日期的前一天
-      var sampleArr = null;
-      portfolioData.holdings.forEach(function(h) {
-        if (!sampleArr) { var a = getNavArray(h.code); if (a && a.length > 1) sampleArr = a; }
-      });
-      if (sampleArr && baseDate) {
-        for (var i = 0; i < sampleArr.length; i++) {
-          if (sampleArr[i].date === baseDate && i > 0) { prevDate = sampleArr[i-1].date; break; }
-        }
-        latestDate = baseDate;
-      }
-      // 第二遍：计算市值和日盈亏
-      portfolioData.holdings.forEach(function(h) {
-        var latest = getLatestNav(h.code);
-        var navNow = latest ? latest.nav : 0;
-        // 日盈亏：只算有基准日期净值的基金
-        var navPrev = 0;
-        if (latest && latest.date === baseDate) {
+      // 找最晚日期的前一天（从任意有该日期的基金中取）
+      if (latestDate) {
+        portfolioData.holdings.forEach(function(h) {
+          if (prevDate) return;
           var arr = getNavArray(h.code);
           if (arr) {
             for (var i = 0; i < arr.length; i++) {
-              if (arr[i].date === baseDate && i > 0) { navPrev = arr[i-1].nav; break; }
+              if (arr[i].date === latestDate && i > 0) { prevDate = arr[i-1].date; return; }
+            }
+          }
+        });
+      }
+      // 计算市值和日盈亏
+      portfolioData.holdings.forEach(function(h) {
+        var latest = getLatestNav(h.code);
+        var navNow = latest ? latest.nav : 0;
+        // 日盈亏：只算最新净值日期 == latestDate 的基金
+        var navPrev = 0;
+        var hasLatestDate = latest && latest.date === latestDate;
+        if (hasLatestDate && prevDate) {
+          var arr = getNavArray(h.code);
+          if (arr) {
+            for (var i = 0; i < arr.length; i++) {
+              if (arr[i].date === prevDate) { navPrev = arr[i].nav; break; }
             }
           }
         }
@@ -784,14 +780,14 @@
           totalInv += b.amount;
           if (b.shares && b.shares > 0 && navNow > 0) {
             totalVal += b.shares * navNow;
-            if (navPrev > 0) totalValPrev += b.shares * navPrev;
-            else totalVal += 0; // 不算入日盈亏
+            // 有最新日期数据：用前一天净值算日盈亏；没有：用当天净值（日盈亏=0）
+            totalValPrev += navPrev > 0 ? b.shares * navPrev : b.shares * navNow;
           } else if (b.nav && b.nav > 0 && navNow > 0) {
             totalVal += b.amount * (navNow / b.nav);
-            if (navPrev > 0) totalValPrev += b.amount * (navPrev / b.nav);
-            else totalVal += 0;
+            totalValPrev += navPrev > 0 ? b.amount * (navPrev / b.nav) : b.amount * (navNow / b.nav);
           } else {
             totalVal += b.amount;
+            totalValPrev += b.amount;
             pendingInv += b.amount;
           }
         });
