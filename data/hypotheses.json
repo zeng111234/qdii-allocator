@@ -167,10 +167,58 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1781581197374",
+      "fundCode": "110025",
+      "fundName": "易方达资源优选混合QDII-A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#2，分数37.04。1年涨82.59%加16.5分，3年累计113.91%加5.7分，夏普1.07加4.8分，最大回撤-20.89%扣3.1分，长期牛市+3分，近期新高扣1.5分，",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-16T03:39:57.374Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1781581197375",
+      "fundCode": "007280",
+      "fundName": "摩根日本精选股票(QDII)A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#5，分数22.1。1年涨25.04%加5分，3年累计44.07%加2.2分，夏普0.77加3.5分，最大回撤-17.88%扣2.7分，长期牛市+3分，近期新高扣0.5分，低于MA",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-16T03:39:57.375Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 7,
+    "total": 9,
     "validated": 0,
     "invalidated": 0,
     "expired": 0
