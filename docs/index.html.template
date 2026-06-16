@@ -702,7 +702,12 @@
     function getPrevNav(code) {
       var cached = navCacheData[code];
       if (!cached || !Array.isArray(cached) || cached.length < 2) return null;
-      return cached[0]; // 倒数第2条
+      return cached[cached.length - 2]; // 倒数第2条
+    }
+    function getNavArray(code) {
+      var cached = navCacheData[code];
+      if (!cached || !Array.isArray(cached)) return null;
+      return cached;
     }
     var externalSignalsData = EXTERNAL_SIGNALS_DATA;
     var newsData = NEWS_DATA;
@@ -739,24 +744,54 @@
       var totalInv = 0, totalVal = 0, pendingInv = 0;
       var totalValPrev = 0; // 前一交易日市值
       var latestDate = '', prevDate = '';
+      // 第一遍：找最晚净值日期（大多数基金共有的日期）
+      var dateCount = {};
       portfolioData.holdings.forEach(function(h) {
         var latest = getLatestNav(h.code);
-        var prev = getPrevNav(h.code);
+        if (latest) dateCount[latest.date] = (dateCount[latest.date] || 0) + 1;
+      });
+      // 找出现次数最多的日期作为"基准日期"
+      var baseDate = '', maxCount = 0;
+      Object.keys(dateCount).forEach(function(d) {
+        if (dateCount[d] > maxCount) { maxCount = dateCount[d]; baseDate = d; }
+      });
+      // 找基准日期的前一天
+      var sampleArr = null;
+      portfolioData.holdings.forEach(function(h) {
+        if (!sampleArr) { var a = getNavArray(h.code); if (a && a.length > 1) sampleArr = a; }
+      });
+      if (sampleArr && baseDate) {
+        for (var i = 0; i < sampleArr.length; i++) {
+          if (sampleArr[i].date === baseDate && i > 0) { prevDate = sampleArr[i-1].date; break; }
+        }
+        latestDate = baseDate;
+      }
+      // 第二遍：计算市值和日盈亏
+      portfolioData.holdings.forEach(function(h) {
+        var latest = getLatestNav(h.code);
         var navNow = latest ? latest.nav : 0;
-        var navPrev = prev ? prev.nav : 0;
-        if (latest && latest.date > latestDate) latestDate = latest.date;
-        if (prev && prev.date > prevDate) prevDate = prev.date;
+        // 日盈亏：只算有基准日期净值的基金
+        var navPrev = 0;
+        if (latest && latest.date === baseDate) {
+          var arr = getNavArray(h.code);
+          if (arr) {
+            for (var i = 0; i < arr.length; i++) {
+              if (arr[i].date === baseDate && i > 0) { navPrev = arr[i-1].nav; break; }
+            }
+          }
+        }
         h.buys.forEach(function(b) {
           totalInv += b.amount;
           if (b.shares && b.shares > 0 && navNow > 0) {
             totalVal += b.shares * navNow;
-            totalValPrev += navPrev > 0 ? b.shares * navPrev : b.shares * navNow;
+            if (navPrev > 0) totalValPrev += b.shares * navPrev;
+            else totalVal += 0; // 不算入日盈亏
           } else if (b.nav && b.nav > 0 && navNow > 0) {
             totalVal += b.amount * (navNow / b.nav);
-            totalValPrev += navPrev > 0 ? b.amount * (navPrev / b.nav) : b.amount * (navNow / b.nav);
+            if (navPrev > 0) totalValPrev += b.amount * (navPrev / b.nav);
+            else totalVal += 0;
           } else {
             totalVal += b.amount;
-            totalValPrev += b.amount;
             pendingInv += b.amount;
           }
         });
