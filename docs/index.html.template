@@ -742,33 +742,45 @@
 
     function calcSummary() {
       var totalInv = 0, totalVal = 0, pendingInv = 0;
-      var totalValPrev = 0; // 前一交易日市值（只算有最新日期数据的基金）
+      var totalValPrev = 0;
       var latestDate = '', prevDate = '';
-      // 找所有基金中最晚的净值日期
+      // 找大多数基金共有的最新净值日期（而不是所有基金中最晚的）
+      var dateCount = {};
+      var dateLatest = {};
       portfolioData.holdings.forEach(function(h) {
         var latest = getLatestNav(h.code);
-        if (latest && latest.date > latestDate) latestDate = latest.date;
-      });
-      // 找最晚日期的前一天（从任意有该日期的基金中取）
-      if (latestDate) {
-        portfolioData.holdings.forEach(function(h) {
-          if (prevDate) return;
-          var arr = getNavArray(h.code);
-          if (arr) {
-            for (var i = 0; i < arr.length; i++) {
-              if (arr[i].date === latestDate && i > 0) { prevDate = arr[i-1].date; return; }
-            }
+        if (latest) {
+          dateCount[latest.date] = (dateCount[latest.date] || 0) + 1;
+          if (!dateLatest[latest.date] || latest.date > dateLatest[latest.date]) {
+            dateLatest[latest.date] = latest.date;
           }
-        });
-      }
+        }
+      });
+      // 选出现次数最多的日期作为基准（出现次数相同则选较晚的）
+      var baseDate = '', maxCount = 0;
+      Object.keys(dateCount).sort().forEach(function(d) {
+        if (dateCount[d] > maxCount || (dateCount[d] === maxCount && d > baseDate)) {
+          maxCount = dateCount[d]; baseDate = d;
+        }
+      });
+      latestDate = baseDate;
+      // 找基准日期的前一天
+      portfolioData.holdings.forEach(function(h) {
+        if (prevDate) return;
+        var arr = getNavArray(h.code);
+        if (arr) {
+          for (var i = 0; i < arr.length; i++) {
+            if (arr[i].date === baseDate && i > 0) { prevDate = arr[i-1].date; return; }
+          }
+        }
+      });
       // 计算市值和日盈亏
       portfolioData.holdings.forEach(function(h) {
         var latest = getLatestNav(h.code);
         var navNow = latest ? latest.nav : 0;
-        // 日盈亏：只算最新净值日期 == latestDate 的基金
         var navPrev = 0;
-        var hasLatestDate = latest && latest.date === latestDate;
-        if (hasLatestDate && prevDate) {
+        // 只有净值日期 == 基准日期的基金才算日盈亏
+        if (latest && latest.date === baseDate && prevDate) {
           var arr = getNavArray(h.code);
           if (arr) {
             for (var i = 0; i < arr.length; i++) {
@@ -780,7 +792,6 @@
           totalInv += b.amount;
           if (b.shares && b.shares > 0 && navNow > 0) {
             totalVal += b.shares * navNow;
-            // 有最新日期数据：用前一天净值算日盈亏；没有：用当天净值（日盈亏=0）
             totalValPrev += navPrev > 0 ? b.shares * navPrev : b.shares * navNow;
           } else if (b.nav && b.nav > 0 && navNow > 0) {
             totalVal += b.amount * (navNow / b.nav);
