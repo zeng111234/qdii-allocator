@@ -3326,8 +3326,8 @@
 
     /* ── Walk-Forward Backtest + Performance Attribution (from Vibe-Trading backtest/) ── */
     // ── Firebase Cloud Sync ──
-    var FIREBASE_URL = 'FIREBASE_URL_PLACEHOLDER';
-    var FIREBASE_KEY = 'FIREBASE_KEY_PLACEHOLDER';
+    var FIREBASE_URL = 'https://qdii-8100d-default-rtdb.asia-southeast1.firebasedatabase.app';
+    var FIREBASE_KEY = 'AIzaSyBRsFx-5uldljvikqJrnQt5c3MiEi1PPPA';
     var FIREBASE_PATH = '/portfolio.json';
 
     function syncLoad() {
