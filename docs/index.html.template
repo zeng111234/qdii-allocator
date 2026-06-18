@@ -3551,29 +3551,38 @@
               trainReturns[code] = (endNav - startNav) / startNav;
             }
           });
-          // 按训练期收益排序，选前 5 只
+          // 按训练期收益排序，选前 5 只（策略选择）
           var sortedCodes = codes.filter(function(c) { return trainReturns[c] !== undefined; })
             .sort(function(a, b) { return trainReturns[b] - trainReturns[a]; });
           var topN = sortedCodes.slice(0, Math.min(5, sortedCodes.length));
+          // 随机选 5 只作为对照组（用确定性种子：取中间的基金）
+          var midN = sortedCodes.slice(Math.floor(sortedCodes.length / 2), Math.floor(sortedCodes.length / 2) + Math.min(5, sortedCodes.length));
+          // 等权全仓
+          var allCodes = sortedCodes.length > 0 ? sortedCodes : codes;
 
-          // 测试期：只看 Top N 的表现（模拟真实策略：选训练期最好的基金买入）
-          var testReturn = 0, validCount = 0;
-          topN.forEach(function(code) {
-            var startNav = navMatrix[code][testDates[0]];
-            var endNav = navMatrix[code][testDates[testDates.length - 1]];
-            if (startNav && endNav) {
-              testReturn += (endNav - startNav) / startNav;
-              validCount++;
-            }
-          });
-          if (validCount > 0) testReturn = testReturn / validCount * 100;
+          // 测试期：分别计算 Top5、中间5、全仓的表现
+          function calcTestReturn(selectedCodes) {
+            var ret = 0, cnt = 0;
+            selectedCodes.forEach(function(code) {
+              var s = navMatrix[code][testDates[0]];
+              var e = navMatrix[code][testDates[testDates.length - 1]];
+              if (s && e) { ret += (e - s) / s; cnt++; }
+            });
+            return cnt > 0 ? ret / cnt * 100 : 0;
+          }
+          var testReturn = calcTestReturn(topN);
+          var midReturn = calcTestReturn(midN);
+          var allReturn = calcTestReturn(allCodes);
 
           windows.push({
             trainStart: trainDates[0],
             trainEnd: trainDates[trainDates.length - 1],
             testStart: testDates[0],
             testEnd: testDates[testDates.length - 1],
-            testReturn: Math.round(testReturn * 100) / 100
+            testReturn: Math.round(testReturn * 100) / 100,
+            midReturn: Math.round(midReturn * 100) / 100,
+            allReturn: Math.round(allReturn * 100) / 100,
+            excessReturn: Math.round((testReturn - allReturn) * 100) / 100
           });
 
           startIdx += testDays;
@@ -3598,13 +3607,21 @@
         var worst = Math.min.apply(null, windows.map(function(w) { return w.testReturn; }));
         var avgReturn = Math.round(totalReturn / windows.length * 100) / 100;
 
+        // 中间组和全仓组的统计
+        var midTotal = windows.reduce(function(s, w) { return s + w.midReturn; }, 0);
+        var midAvg = Math.round(midTotal / windows.length * 100) / 100;
+        var allTotal = windows.reduce(function(s, w) { return s + w.allReturn; }, 0);
+        var allAvg = Math.round(allTotal / windows.length * 100) / 100;
+        var excessTotal = windows.reduce(function(s, w) { return s + w.excessReturn; }, 0);
+        var excessAvg = Math.round(excessTotal / windows.length * 100) / 100;
+
         var html2 = '<div class="insight-grid">';
-        html2 += '<div class="insight-stat ' + (winRate >= 50 ? 'green' : 'red') + '"><div class="label">胜率</div><div class="value">' + winRate + '%</div></div>';
-        html2 += '<div class="insight-stat ' + (totalReturn >= 0 ? 'blue' : 'red') + '"><div class="label">累计收益</div><div class="value">' + (totalReturn >= 0 ? '+' : '') + Math.round(totalReturn * 100) / 100 + '%</div></div>';
-        html2 += '<div class="insight-stat green"><div class="label">最佳窗口</div><div class="value">+' + Math.round(best * 100) / 100 + '%</div></div>';
-        html2 += '<div class="insight-stat red"><div class="label">最差窗口</div><div class="value">' + Math.round(worst * 100) / 100 + '%</div></div>';
+        html2 += '<div class="insight-stat ' + (winRate >= 50 ? 'green' : 'red') + '"><div class="label">Top5 胜率</div><div class="value">' + winRate + '%</div></div>';
+        html2 += '<div class="insight-stat ' + (excessAvg >= 0 ? 'green' : 'red') + '"><div class="label">超额收益</div><div class="value">' + (excessAvg >= 0 ? '+' : '') + excessAvg + '%</div></div>';
+        html2 += '<div class="insight-stat ' + (totalReturn >= 0 ? 'blue' : 'red') + '"><div class="label">Top5 累计</div><div class="value">' + (totalReturn >= 0 ? '+' : '') + Math.round(totalReturn * 100) / 100 + '%</div></div>';
+        html2 += '<div class="insight-stat ' + (allTotal >= 0 ? 'blue' : 'red') + '"><div class="label">全仓累计</div><div class="value">' + (allTotal >= 0 ? '+' : '') + Math.round(allTotal * 100) / 100 + '%</div></div>';
         html2 += '</div>';
-        html2 += '<div style="font-size:11px;color:var(--text3);margin-top:4px">' + windows.length + '个窗口 · 平均收益 ' + avgReturn + '%</div>';
+        html2 += '<div style="font-size:11px;color:var(--text3);margin-top:4px">' + windows.length + '个窗口 · Top5均值 ' + avgReturn + '% · 全仓均值 ' + allAvg + '% · 超额 ' + (excessAvg >= 0 ? '+' : '') + excessAvg + '%</div>';
 
         // Overfitting detection: compare train vs test
         var avgTrainReturn = 0;
