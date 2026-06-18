@@ -64,6 +64,9 @@
 | 🤖 **AI 决策** | LLM 综合分析市场数据 + 持仓状态，生成个性化投资报告 |
 | 🐂🐻 **多智能体辩论** | Bull/Bear 辩论机制，多视角分析避免单一偏见 |
 | 🌐 **外部信号** | 抓取 X/Twitter 大V 观点，分析看涨/看跌情绪 |
+| 📰 **全球新闻** | 5 个栏目（环球/美股/港股/期货/基金），36 条新闻 + 情绪分析 + 来源标签 |
+| 💬 **AI 助手** | 基于持仓和市场数据的智能投资问答，支持流式输出和快捷问题 |
+| ☁️ **云同步** | Firebase 多设备持仓自动同步，手机/电脑数据实时一致 |
 | 📧 **邮件推送** | 每天自动发投资计划到邮箱，含排名、持仓、风控、AI 报告 |
 | 📱 **手机买入** | `/quick` 手机优化页面，输入 `270042 10` 一键下单 |
 | ⚡ **零服务器** | GitHub Actions 每天定时自动运行，不用自己运维 |
@@ -215,6 +218,39 @@ http://你的IP:3000/quick
 
 ---
 
+## 💬 AI 助手
+
+页面内置了 AI 投资助手，基于你的持仓和实时市场数据回答投资问题：
+
+1. 打开页面，点击 **💬 AI** Tab
+2. 点 **⚙️ 设置**，输入你的 LLM API Key、Base URL、Model
+3. 点快捷按钮或输入问题开始对话
+
+**快捷问题**：
+- 🎯 今天该买什么？— 基于评分和市场数据推荐
+- 🛡️ 组合风险分析 — 分析持仓集中度和相关性
+- 📰 市场情绪判断 — 综合新闻和外部信号
+- 📊 加减仓建议 — 基于盈亏和趋势
+
+**特性**：流式输出（打字机效果）、聊天记录持久化（localStorage）、Markdown 渲染
+
+---
+
+## ☁️ Firebase 云同步
+
+支持多设备持仓数据自动同步：
+
+1. 在 [Firebase Console](https://console.firebase.google.com/) 创建项目和 Realtime Database
+2. 在 `.env` 中配置 `FIREBASE_URL` 和 `FIREBASE_KEY`
+3. 页面持仓 Tab 顶部显示 **⬆️ 上传** / **⬇️ 下载** 按钮
+
+**同步机制**：
+- 页面加载时自动从 Firebase 下载最新数据
+- 每次买入后自动上传到 Firebase
+- 手动点击 **⬆️ 上传** / **⬇️ 下载** 强制同步
+
+---
+
 ## 🏗️ 技术架构
 
 ```
@@ -235,14 +271,18 @@ qdii-allocator/
 ├── data/
 │   ├── funds.json              # 基金池配置
 │   ├── portfolio.json          # 持仓记录
-│   └── hypotheses.json         # 假设追踪数据
+│   ├── hypotheses.json         # 假设追踪数据
+│   ├── nav-cache.json          # 净值缓存（自动更新）
+│   └── external-signals-cache.json # 外部信号缓存
 ├── .github/workflows/
-│   └── daily-plan.yml          # GitHub Actions 定时任务
+│   ├── daily-plan.yml          # 每日定时任务（净值更新+策略+邮件）
+│   └── pages.yml               # GitHub Pages 自动部署
 └── docs/
-    └── index.html              # GitHub Pages 页面
+    ├── index.html              # GitHub Pages 页面
+    └── images/                 # 截图
 ```
 
-**技术栈**：Node.js · Express · ECharts · GitHub Actions · DeepSeek/OpenAI API
+**技术栈**：Node.js · Express · ECharts · GitHub Actions · DeepSeek/OpenAI API · Firebase
 
 ---
 
@@ -282,6 +322,18 @@ qdii-allocator/
 <summary><b>Q: 和 Vibe-Trading 有什么关系？</b></summary>
 <br/>
 假设追踪引擎和走步回测模块受 Vibe-Trading 启发。Vibe-Trading 是港大的开源多 Agent 量化平台，功能更全面。本项目专注于 QDII 基金定投场景。
+</details>
+
+<details>
+<summary><b>Q: AI 助手怎么用？</b></summary>
+<br/>
+打开页面，点击 💬 AI Tab，配置 LLM API Key 后即可对话。支持流式输出，聊天记录保存在浏览器本地。快捷按钮可一键提问。
+</details>
+
+<details>
+<summary><b>Q: 手机和电脑数据不同步？</b></summary>
+<br/>
+配置 Firebase 云同步后，页面加载时自动下载最新数据，买入后自动上传。也可手动点击 ⬆️ 上传 / ⬇️ 下载 按钮强制同步。
 </details>
 
 ---
