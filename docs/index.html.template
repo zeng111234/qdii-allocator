@@ -2758,11 +2758,11 @@
         banner.innerHTML = '🟢 今天是交易日 · 可以买入基金 · T+2 结算';
       } else {
         banner.style.display = 'block';
-        banner.style.background = '#fef2f2';
-        banner.style.color = '#dc2626';
-        banner.style.border = '1px solid #fecaca';
+        banner.style.background = '#fffbeb';
+        banner.style.color = '#d97706';
+        banner.style.border = '1px solid #fcd34d';
         var reason = isHoliday ? '法定节假日' : (day === 0 ? '周日' : '周六');
-        banner.innerHTML = '🔴 今天非交易日（' + reason + '）· 买入将在下一个交易日处理';
+        banner.innerHTML = '🟡 今天非交易日（' + reason + '）· 可以买入，下一个交易日确认份额';
       }
     }
 
