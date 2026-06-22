@@ -28,6 +28,7 @@ jobs:
   generate-plan:
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    timeout-minutes: 15
     permissions:
       contents: write
     steps:
@@ -82,35 +83,42 @@ jobs:
           var fs = require('fs');
           var nav = JSON.parse(fs.readFileSync('data/nav-cache.json','utf8'));
           var codes = Object.keys(nav);
-          var done = 0, updated = 0;
-          codes.forEach(function(code, idx) {
-            setTimeout(function() {
-              var url = 'https://api.fund.eastmoney.com/f10/lsjz?callback=jQuery&fundCode=' + code + '&pageIndex=1&pageSize=3&startDate=' + new Date(Date.now()-7*86400000).toISOString().slice(0,10) + '&endDate=' + new Date().toISOString().slice(0,10) + '&_=1';
-              https.get(url, {headers: {'Referer': 'https://fundf10.eastmoney.com/'}}, function(res) {
-                var data = '';
-                res.on('data', function(c) { data += c; });
-                res.on('end', function() {
-                  try {
-                    var matches = data.match(/FSRQ\":\"(\d{4}-\d{2}-\d{2})\".*?DWJZ\":\"([\d.]+)\"/g);
-                    if (matches) {
-                      var existing = nav[code] || [];
-                      var lastDate = existing.length > 0 ? existing[existing.length-1].date : '';
-                      matches.forEach(function(m) {
-                        var dm = m.match(/FSRQ\":\"(\d{4}-\d{2}-\d{2})\".*?DWJZ\":\"([\d.]+)\"/);
-                        if (dm && dm[1] > lastDate) { existing.push({date: dm[1], nav: parseFloat(dm[2])}); updated++; }
-                      });
-                      existing.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0;});
-                      nav[code] = existing;
-                    }
-                  } catch(e) {}
-                  if (++done === codes.length) {
-                    fs.writeFileSync('data/nav-cache.json', JSON.stringify(nav, null, 2));
-                    console.log('NAV cache updated: ' + updated + ' new entries');
+          var done = 0, updated = 0, errors = 0;
+          function fetchNav(code, cb) {
+            var url = 'https://api.fund.eastmoney.com/f10/lsjz?callback=jQuery&fundCode=' + code + '&pageIndex=1&pageSize=3&startDate=' + new Date(Date.now()-7*86400000).toISOString().slice(0,10) + '&endDate=' + new Date().toISOString().slice(0,10) + '&_=1';
+            var req = https.get(url, {headers: {'Referer': 'https://fundf10.eastmoney.com/'}, timeout: 5000}, function(res) {
+              var data = '';
+              res.on('data', function(c) { data += c; });
+              res.on('end', function() {
+                try {
+                  var matches = data.match(/FSRQ\":\"(\d{4}-\d{2}-\d{2})\".*?DWJZ\":\"([\d.]+)\"/g);
+                  if (matches) {
+                    var existing = nav[code] || [];
+                    var lastDate = existing.length > 0 ? existing[existing.length-1].date : '';
+                    matches.forEach(function(m) {
+                      var dm = m.match(/FSRQ\":\"(\d{4}-\d{2}-\d{2})\".*?DWJZ\":\"([\d.]+)\"/);
+                      if (dm && dm[1] > lastDate) { existing.push({date: dm[1], nav: parseFloat(dm[2])}); updated++; }
+                    });
+                    existing.sort(function(a,b){return a.date<b.date?-1:a.date>b.date?1:0;});
+                    nav[code] = existing;
                   }
-                });
-              }).on('error', function() { if (++done === codes.length) console.log('NAV update done with errors'); });
-            }, idx * 100);
-          });
+                } catch(e) { errors++; }
+                cb();
+              });
+            });
+            req.on('timeout', function() { req.destroy(); errors++; cb(); });
+            req.on('error', function() { errors++; cb(); });
+          }
+          var idx = 0;
+          function next() {
+            if (idx >= codes.length) {
+              fs.writeFileSync('data/nav-cache.json', JSON.stringify(nav, null, 2));
+              console.log('NAV updated: ' + updated + ' new, ' + errors + ' errors, ' + codes.length + ' funds');
+              return;
+            }
+            fetchNav(codes[idx], function() { idx++; next(); });
+          }
+          next();
         "
       - name: Build GitHub Pages
         run: node build-pages.js
