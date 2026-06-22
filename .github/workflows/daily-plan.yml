@@ -1,7 +1,7 @@
 name: QDII
 on:
   schedule:
-    - cron: '0 0 * * 1-5'
+    - cron: '0 9 * * 1-5'  # UTC 9:00 = 北京时间 17:00（下午5点，净值已更新）
   workflow_dispatch:
     inputs:
       dry_run:
