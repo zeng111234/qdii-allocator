@@ -28,7 +28,6 @@ jobs:
   generate-plan:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-    timeout-minutes: 15
     permissions:
       contents: write
     steps:
@@ -78,7 +77,8 @@ jobs:
           MAIL_TO: ${{ secrets.MAIL_TO }}
       - name: Update NAV cache
         continue-on-error: true
-        run: node scripts/update-nav-cache.js      - name: Build GitHub Pages
+        run: node scripts/update-nav-cache.js
+      - name: Build GitHub Pages
         run: node build-pages.js
       - name: Commit updated data and pages
         run: |
