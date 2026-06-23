@@ -11,14 +11,17 @@
         "stopLoss": -10,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "validated",
       "createdAt": "2026-06-15T04:11:29.158Z",
       "navAtCreation": 4.896,
-      "validatedAt": null,
+      "validatedAt": "2026-06-23T12:22:30.530Z",
       "invalidatedAt": null,
-      "outcome": null,
+      "outcome": {
+        "return": 6.2,
+        "holdingDays": 3
+      },
       "followUpReturns": {
-        "3d": null,
+        "3d": 6.2,
         "7d": null,
         "14d": null,
         "30d": null
@@ -35,14 +38,17 @@
         "stopLoss": -10,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "validated",
       "createdAt": "2026-06-15T04:11:29.158Z",
       "navAtCreation": 3.6332,
-      "validatedAt": null,
+      "validatedAt": "2026-06-23T12:22:30.530Z",
       "invalidatedAt": null,
-      "outcome": null,
+      "outcome": {
+        "return": 6.51,
+        "holdingDays": 3
+      },
       "followUpReturns": {
-        "3d": null,
+        "3d": 6.51,
         "7d": null,
         "14d": null,
         "30d": null
@@ -66,7 +72,7 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
+        "3d": 4.92,
         "7d": null,
         "14d": null,
         "30d": null
@@ -90,7 +96,7 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
+        "3d": -1.17,
         "7d": null,
         "14d": null,
         "30d": null
@@ -114,7 +120,7 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
+        "3d": 0.13,
         "7d": null,
         "14d": null,
         "30d": null
@@ -165,7 +171,7 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
+        "3d": 4.12,
         "7d": null,
         "14d": null,
         "30d": null
@@ -182,14 +188,17 @@
         "stopLoss": -10,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "validated",
       "createdAt": "2026-06-16T03:39:57.374Z",
       "navAtCreation": 2.482,
-      "validatedAt": null,
+      "validatedAt": "2026-06-23T12:22:30.532Z",
       "invalidatedAt": null,
-      "outcome": null,
+      "outcome": {
+        "return": 5.32,
+        "holdingDays": 6
+      },
       "followUpReturns": {
-        "3d": null,
+        "3d": 5.32,
         "7d": null,
         "14d": null,
         "30d": null
@@ -213,6 +222,30 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
+        "3d": 2.92,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1782217350529",
+      "fundCode": "040018",
+      "fundName": "华安香港精选QDII-A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#5，分数38.15。1年涨66.3%加13.3分，3年累计123.14%加6.2分，夏普1.11加5分，最大回撤-19.24%扣2.9分，长期牛市+3分，低于MA10加10.2分，",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-23T12:22:30.529Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
         "3d": null,
         "7d": null,
         "14d": null,
@@ -221,8 +254,8 @@
     }
   ],
   "stats": {
-    "total": 9,
-    "validated": 1,
+    "total": 10,
+    "validated": 4,
     "invalidated": 0,
     "expired": 0
   }
