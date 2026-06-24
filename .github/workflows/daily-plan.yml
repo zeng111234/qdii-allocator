@@ -1,7 +1,8 @@
 name: QDII
 on:
   schedule:
-    - cron: '0 9 * * 1-5'  # UTC 9:00 = 北京时间 17:00（下午5点，净值已更新）
+    - cron: '0 1 * * 1-5'   # UTC 1:00 = 北京 9:00 — 生成推荐+早报+发邮件
+    - cron: '0 9 * * 1-5'   # UTC 9:00 = 北京 17:00 — 更新净值+外部信号+重建页面
   workflow_dispatch:
     inputs:
       dry_run:
