@@ -222,8 +222,8 @@ test('calcHoldingDetail - unsettled buy excluded from totals', function () {
     ]
   };
   var detail = portfolio.calcHoldingDetail(holding, {});
-  assert.strictEqual(detail.totalAmount, 100);
-  assert.strictEqual(detail.totalShares, 10);
+  assert.strictEqual(detail.totalAmount, 150);  // 100(已结算) + 50(待结算) = 150
+  assert.strictEqual(detail.totalShares, 10);   // 待结算的没有shares
 });
 
 // ========== formatPortfolioReport ==========
