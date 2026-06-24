@@ -79,6 +79,9 @@ jobs:
       - name: Update NAV cache
         continue-on-error: true
         run: node scripts/update-nav-cache.js
+      - name: Update purchase limits
+        continue-on-error: true
+        run: node scripts/update-purchase-limits.js
       - name: Build GitHub Pages
         run: node build-pages.js
       - name: Commit updated data and pages
