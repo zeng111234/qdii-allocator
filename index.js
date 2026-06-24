@@ -26,6 +26,7 @@ const { normalizeDate, archiveOldHistory } = require("./lib/utils");
 const { backfillFollowUp: backfillHistoryFollowUp } = require("./lib/history-tracker");
 const { validateConfig } = require("./lib/config");
 const { runMultiAgentDebate, formatDebateReport } = require("./lib/multi-agent-debate");
+const riskAlert = require("./lib/risk-alert");
 
 const FUNDS_FILE = path.join(__dirname, "data", "funds.json");
 const STRATEGY_MAP = {
@@ -499,6 +500,17 @@ async function main() {
   result.marketSnapshot = marketSnapshot;
   result.marketNews = marketNews;
   result.externalSignals = externalSignals;
+
+  // 风险预警检查
+  if (marketSnapshot.length > 0 && llmApiKey && llmBaseUrl && llmModel) {
+    try {
+      const riskAlertResult = await riskAlert.checkAndAlert(marketSnapshot, { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel });
+      if (riskAlertResult) {
+        console.log("[预警] 风险预警已触发");
+        result.riskAlert = riskAlertResult;
+      }
+    } catch (err) { console.warn("[预警] 检查失败:", err.message); }
+  }
 
   // 计算持仓盈亏
   const portfolioResult = portfolio.calcPortfolioSummary();

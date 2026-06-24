@@ -3,99 +3,103 @@
     "sourceUrl": "https://x.com/aleabitoreddit",
     "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
     "status": "ok",
-    "fetchedAt": "2026-06-22T04:50:31.947Z",
+    "fetchedAt": "2026-06-24T13:47:14.958Z",
     "items": [
       {
-        "title": "I expect Japan to mog Sweden in the World Cup tomorrow. Probably another 4-0 after Japan's soccer players saw how Swedish media treated $SIVE.",
-        "text": "I expect Japan to mog Sweden in the World Cup tomorrow. Probably another 4-0 after Japan's soccer players saw how Swedish media treated $SIVE. Serenity: Jeez, Japanese markets seem happy. Everything from Furukawa, Towa, Harmonic Drive, Ibiden, are up today. Probably after winning the World Cup game 4-0?",
-        "time": "Mon, 22 Jun 2026 02:14:41 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068880324202008964",
+        "title": "Fun new information discovery from Poet OSINT community: Seems likely that $POET / $SIVE are going to power a Top-3 hyperscaler (either Amazon, Micros...",
+        "text": "Fun new information discovery from Poet OSINT community: Seems likely that $POET / $SIVE are going to power a Top-3 hyperscaler (either Amazon, Microsoft, Google). Given a Linkedin update from Ankur Singla (CEO of Lumilens). Who stated their customer is one of the top 3 hyperscalers with their post focusing on CPO/NPO. With that clue, seems more likely the Sivers CW DFB light source path over other EML suppliers given it's CPO Scale Out/NPO. If you don't remember, Sivers is the laser supplier to Poet. And Poet has purchase agreements with Lumilens. Always fun to find major potential breadcrumbs in the wild before they're officially confirmed. (Disclosure, long Sive)",
+        "time": "Wed, 24 Jun 2026 13:30:53 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069775271562289299",
         "source": "x-rsshub"
       },
       {
-        "title": "Wow, 3 limit ups in a row with WUS TW. Pretty sad I didn't take larger positions. WUS TW is 1 my 2 NAV arbitrage + independent growth trades. If you w...",
-        "text": "Wow, 3 limit ups in a row with WUS TW. Pretty sad I didn't take larger positions. WUS TW is 1 my 2 NAV arbitrage + independent growth trades. If you want context: WUS TW is a ~$1.12B PCB player with AI DC growth. Their stake in WUS Kunshan is $4.79B (11.4% of 42.04 billion) So basically they're a $1.1B PCB player growing independently, sitting on ~$4.79B worth of another company that looks to IPOed on Hong Kong markets soon. And a successful activist investor in Palliser (with Ajinomoto and Toto), is pressuring them to trim some holdings along with a few others. Seems like a pretty insane disconnect, and I think there's a lot of potential here. Serenity: I agree with Palliser Capital here. As a shareholder, it’s just so stupid how WUS (2316 TW) MC can be ~$1B MC. While they own a 11.26% stake of WUS Kunshan, a $39.3B (¥282B CNY) company… Which is worth $4.42B pre-tax. Just sell 1/4th or something? And you get an extra ~$1.1B",
-        "time": "Mon, 22 Jun 2026 01:20:35 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068866709667406286",
+        "title": "OpenLight (private) seems to get bigger and bigger every time I look at it. If you’re curious about their public ecosystem outside of Advantest: $JBL...",
+        "text": "OpenLight (private) seems to get bigger and bigger every time I look at it. If you’re curious about their public ecosystem outside of Advantest: $JBL ( $SIVE partner ) for scaling PICs $MRVL and $MXL for DSPs $TSEM for the foundry. $300394.SZ / TFC Optical (OSAT/subassembly) Can often get exposure into private growth through public equities if you’re not an accredited investor. Since optical players look very interconnected. Photon Capital: Advantest (TSE: 6857 / $ATEYY) × OpenLight: Silicon Photonics HVM Test Partnership Advantest and OpenLight have announced a partnership to co-develop scalable, high-volume manufacturing (HVM) test solutions for silicon photonics (SiPh) devices. The demand logic runs cleanly",
+        "time": "Wed, 24 Jun 2026 06:52:41 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069675057300082728",
         "source": "x-rsshub"
       },
       {
-        "title": "Jeez, Japanese markets seem happy. Everything from Furukawa, Towa, Harmonic Drive, Ibiden, are up today. Probably after winning the World Cup game 4-0...",
-        "text": "Jeez, Japanese markets seem happy. Everything from Furukawa, Towa, Harmonic Drive, Ibiden, are up today. Probably after winning the World Cup game 4-0? Serenity: Imo harmonic drive (6324) one of the better humanoid exposure names at $4B valuation listed in GS research report. Personally I picked some up for exposure. Chinese competitors might be used for mass production. But personal preference in investing in Western supply chains +",
-        "time": "Mon, 22 Jun 2026 00:55:20 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068860355393290703",
+        "title": "Don’t quite think “siphoned off” is the correct term. It’s capex for massive revenue increase or margin increase down the line. $AMZN is probably ...",
+        "text": "Don’t quite think “siphoned off” is the correct term. It’s capex for massive revenue increase or margin increase down the line. $AMZN is probably my favorite hyperscaler right now and example to give. Amazon’s headcount is absurd, like ~1.57M. If the capex goes into automating their workforce with LLMs. Then transitioning into physical AI: - things from self driving (deliveries) - robotics (Amazon warehouses, shipping automation). + revenue increase from building out AWS compute with Trainium and possibly selling chips too with the Neocloud strat. It’s probably the clearest path forward compared to every hyperscaler out there. $TSLA optimus use case targets is extremely broad as a pitch, but Amazon already has a specific reason to scale robotics for internal opex optimization. As for $GOOGL, probably 2nd right now, AI capex was necessary for defending its Google Search moat Gemini from ChatGPT They also have Google Cloud revenue with efficient TPUs + can sell TPUs like Nvidia GPUs. Gemini user volumes keep going up (despite the lack of contention in frontier benchmarks); and AI strategy to be working for ad optimization too. But there’s less clear paths with physical AI stuff ig? Microsoft and Meta are still trying to convince the market why capex is necessary, (we’re kinda seeing that in effect with Meta’s 30%+ Y/Y revenue growth), but doesn’t look like they’re convinced. As for market narratives, Microsoft Maia seems to be behind, their AI development was stunted from OpenAi investments, so sentiment is kinda in the ground. But think that will change down the road like the 180 with Google. I’m sure all the hyperscalers are seeing the leader effect right now: If you have the leading LLM, people will keep using it. That LLM gets smarter from all the training data; and that gap might be structural. Which is why everyone is kinda rushing the buildout right now, but for some the immediate incentives seem obvious. J: @aleabitoreddit 你说的这些AI股涨的前提是Google/Microsoft/Amazon这种hyperscaler继续加大投资，但是当他们的利润全都被半导体公司赚走的时候还有会动力加大资本支出吗？现在这个趋势其实对后续股市非常危险，当hyperscaler不再愿意无限扩大支出，又或者anthropic营收涨幅不及预期的话股市很容易一夜崩盘。",
+        "time": "Wed, 24 Jun 2026 05:36:52 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069655980456149142",
         "source": "x-rsshub"
       },
       {
-        "title": "That’s a misconception: $SIVE is the laser supplier for next gen architectures, not just CPO scale up. Pluggable, scale out CPO, scale up CPO, NPO, e...",
-        "text": "That’s a misconception: $SIVE is the laser supplier for next gen architectures, not just CPO scale up. Pluggable, scale out CPO, scale up CPO, NPO, etc. - Sivers and $JBL went god-mode and developed 1.6T optical transceivers with CW lasers. Effectively designing around the EML bottlenecks, and even made things more power efficient. From quotes from Jabil management they created a “relatively dramatic moat”. So for the next gen of 1.6T pluggable transceivers, Sivers seems immediately used. Markets missed this nuance too: after Jabil’s announcement, other pluggable players reached out, and SIVE is working with them now (prob codevelopment, qualification stage). There’s not too many players that build optical transceivers that aren’t vertically integrated like Lumentum (think: Innolight/eoptolink, and maybe others). So these are active developments, just not public material yet and could be a new press release anytime. - for CPO scale out which happens H2 2026 onward like $POET, $SIVE is a laser supplier for those players. - scale up CPO is h2 2027, from Ayar and Nvidia’a NVLink CPO ecosystem and that’s the main volume ramp across optical players. But this is where $SIVE looks like they mog every other player from supply chain mapping. Since they’ve likely been working + designed in with $MRVL Celestial, Lightmatter, Lightelligence and the others since they were small way back when. On top of things like this: For foundries like $GFS, $SIVE is the reference laser. Not even including massive companies like O-Net building ELS with $SIVE, likely for the Asian hyperscalers supply chains. This is why $SIVE is by far my favorite laser chokepoint long. Feels like they’re everywhere in new optical architectures starting beginning of 2027. Zhenmin Chen: @aleabitoreddit 股神，Sivers的DFB激光阵列因为是波分复用，又是多通道，算下来速率好高，只在scale-up才用得上吧? 会不会大规模量产要很久很久？中间可能有各种风险。",
-        "time": "Sun, 21 Jun 2026 11:04:51 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068651355422814294",
+        "title": "I find it interesting that the degens on $RDDT are starting a viral campaign to save Wendy’s ( $WEN ). The US fast food burger chain. And the stock p...",
+        "text": "I find it interesting that the degens on $RDDT are starting a viral campaign to save Wendy’s ( $WEN ). The US fast food burger chain. And the stock price is now up 20% overnight. Just for background: Wendy’s is a popular community meme, where people work behind the dumpsters after their portfolios go to 0 from 0DTE options. (No positions, just found it amusing) I wonder if it’s going to work?",
+        "time": "Wed, 24 Jun 2026 04:07:20 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069633445903675865",
         "source": "x-rsshub"
       },
       {
-        "title": "I've been getting a lot of questions about OE Solutions (138080) recently. Here's my research/thoughts so far on it: They're a small Korean optical tr...",
-        "text": "I've been getting a lot of questions about OE Solutions (138080) recently. Here's my research/thoughts so far on it: They're a small Korean optical transceiver company, similar to $AAOI. And they've become one the few EML players in the world (eg. $COHR, $LITE, Mitsubishi, Source, Sumitomo), with scarce 100G EML laser capacity for 800G/1.6T. OE appears to be trying to make the full transceiver, not just the EML. They also have finished ELSFP CPO products, with UHP CW lasers, which is sampling Q3. Likewise, OE also seems to be building out the full ELSFP, rather than selling CW laser dies, so that's more market share. So you can think of it as Korean AAOI but EML instead of CW, and less capacity/qualifications. And playing catch-up to the rest of the world. However in terms of timelines: 1. 23dBm cooled ELSFP samples start in Q3 2026 2. Sales base for 800G, and 2027 1.6T \"full force\" 3. Late H2 2027, H1 2028 onward probably their ELSFP enters the volume production. And it seems they're working on 200G EML capability from their investor snipper 2025 OE IR snippet referenced “100GBaud EML / 200G PAM\". This seems promising given their IP/demos. ELS has just been unveiled recently, sampling starts Q3. 800G/1.6T Optical transceivers are also likely 2027. So this is basically Korea's sovereign photonics player, playing catchup to $LITE, $AAOI, and the bigger players. (Disclosure: I have positions in OE Solutions (138080). This is fundamental research for informational purposes, not financial advice). As for OE solution valuations: 1. Doesn't seem like there's confirmed customers yet for these growth verticals. 2. Probably not many people understood what they're building toward yet. 3. Yields data kinda uncertain 1. Customers: We're actually in a major EML/CW laser shortage, so any independent capacity will be sought after. I personally don't think they'll have a hard time finding customers here. I would assume anything they make might get bought out and would get extra support from Korea. 2. Institutional support: Probably not much since it doesn't meet threshold for many US institution given MC size + KR listing. I also don't think many people understood what they're building yet. 3. Yields/Capacity: OE's disclosed wafer/module utilization is low (i remember was around 31% underutilized off the top of my head), so there's enough material revenue they can generate before they need to spend on capex. I'm also not sure about EML/CW and other yields. Probably need to go ask the company. Is this some random crap co? No. It's been doing optical transceivers stuff for more than 20Y, has R&amp;D in the U.S. and Netherlands. But their entire AI growth vertical seems to happen next year, and hinges mainly around capacity/yields. And I personally think the EML/CW tech is probably worth a lot more than their current MC, if it were an acquisition target. Especially from a larger player that wanted to vertically integrate EML for pluggables and CW lasers for CPO. Markets are probably waiting on more certainty around qualifications after Q3 sampling or earnings projections announcements. TLDR on thoughts: Some of my friends discussed this last year, was probably way too early. Saw it got many comments 2 months ago, still too early. I still think now is early, but later in Q3-Q4 might be more interesting. I personally think it's a lot higher risk than a major CPO player like $SIVE, that's embedded in Ayar, $JBL, $GFS, and many other hyperscaler suppliers. Which also has Win Semi and others de-risking volume ramp. As OE Solutions looks like a new player trying to build out an $AAOI for the optical transceivers but sovereign EML and CW laser production for CPO products. And there's a lot of answered questions around customers + volume ramp, which presents material risk. But if you believe Korea can build out an 800G/1.6T transceiver EML supply chain and ELSFP with CW lasers. With OE Solutions, it might be worth taking a look into. Still researching the company tho, just initial thoughts. The Unintelligent Investor: @aleabitoreddit Optoelectronics 138080",
-        "time": "Sun, 21 Jun 2026 07:53:18 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068603148311404902",
+        "title": "[Subscribers Only] Swing/recovery trading is always a fun side hobby.…",
+        "text": "[Subscribers Only] Swing/recovery trading is always a fun side hobby.…",
+        "time": "Tue, 23 Jun 2026 18:10:40 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069483291158385112",
         "source": "x-rsshub"
       },
       {
-        "title": "Apparently gym bros are the new hyperscalers. They’ve created a new bottleneck with whey protein? Now there’s $SNDK style price hikes. Maybe creatin...",
-        "text": "Apparently gym bros are the new hyperscalers. They’ve created a new bottleneck with whey protein? Now there’s $SNDK style price hikes. Maybe creatine is next with shortages.",
-        "time": "Sun, 21 Jun 2026 06:18:53 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068579389722546529",
+        "title": "Curious if anyone's portfolio is green after today's fun day. $KORU: -32.06% $SOXL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $...",
+        "text": "Curious if anyone's portfolio is green after today's fun day. $KORU: -32.06% $SOXL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $AAOI: -11.2% $SIVE: -11.7% $TSEM: -10.24% $SNDK: -12.5% $MU: -11.8% Sk Hynix: -12.35% Samsung: -9.6% $MRVL: -8.3% $LITE: -7.6% $SOI -7.15% $TSM: -6.1% $AMD: -6.04% Feels like anything high-beta or semis had a steep drop.",
+        "time": "Tue, 23 Jun 2026 15:42:09 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069445918114697463",
         "source": "x-rsshub"
       },
       {
-        "title": "Well, looks like prediction markets are about to get a ton of extra regulatory scrutiny. They should also investigate how Polymarket pays influencers ...",
-        "text": "Well, looks like prediction markets are about to get a ton of extra regulatory scrutiny. They should also investigate how Polymarket pays influencers for undisclosed paid comments to game the X algorithm. I get offered deals like this all the time as the most subscribed to person on X. But as you know, I don’t do paid promotions since I want my research to be without outside influence.",
-        "time": "Sun, 21 Jun 2026 05:32:42 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068567767951749467",
+        "title": "Today, $XFAB (1.23B MC) receives €127.4 million from CHIPS ACT for their MEMS Foundry. \"The «Fab4Micro» in Erfurt is a key project for the technolo...",
+        "text": "Today, $XFAB (1.23B MC) receives €127.4 million from CHIPS ACT for their MEMS Foundry. \"The «Fab4Micro» in Erfurt is a key project for the technological sovereignty of Germany and Europe, explained Thuringia’s head of government.\" The production start is planned in 2028 (finanzen). With Europe's new CHIPS ACT 2 as a concurrent fundamental tailwind. Ellen Vermorgen: X-Fab ontvangt €127 miljoen Chips Act-steun voor uitbreiding v MEMS en fotonica productie in Erfurt = ruim 10% van de beurswaarde $XFAB",
+        "time": "Tue, 23 Jun 2026 14:39:35 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069430169300070612",
         "source": "x-rsshub"
       },
       {
-        "title": "Trump administration is prob realizing now that the key to winning Trade Wars: Is through frontier supply chains like Quantum, AI, Robotics. Not cheap...",
-        "text": "Trump administration is prob realizing now that the key to winning Trade Wars: Is through frontier supply chains like Quantum, AI, Robotics. Not cheap Nike sock exports. With $ASML, $TOWA, $LPK, Ajinomoto, over in Japan, EU, TW, Korea, and others holding all the cards… Since each country holds different monopolies and chokepoints needed to make each industry work. Which all happens to be OUTSIDE the US. Tariffing all our partners turned out to be not a great idea. But not too late imo to repair relations and weaponize global supply chains through partners if Trump wants better trade deals.",
-        "time": "Sun, 21 Jun 2026 03:32:21 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068537478131118438",
+        "title": "Dip looks like a clear buying opportunity for me personally from $MU, $INTC, to $TSM. Since we got a massive drop off BS narratives like 3 rate hikes ...",
+        "text": "Dip looks like a clear buying opportunity for me personally from $MU, $INTC, to $TSM. Since we got a massive drop off BS narratives like 3 rate hikes off no newly material macroeconomic data (which comes out Thursday). If institutions really believed 3 rate hike sellside garbage that BofA put out: They would profit off it with CME/prediction markets. Which are still projecting 74% no rate hike in July. But they don't. So they're feeding retail investors garbage. Bull's Run: @aleabitoreddit BofA paid by PGIM to spread 3 rate hikes fear? Bloomberg released an article on 15th June, with PGIM expecting 3 rate hikes this year. Now BofA pushing the same narrative.",
+        "time": "Tue, 23 Jun 2026 14:08:54 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069422448345518346",
         "source": "x-rsshub"
       },
       {
-        "title": "[Subscribers Only] This is the first time I’ve heard the name organ-o…",
-        "text": "[Subscribers Only] This is the first time I’ve heard the name organ-o…",
-        "time": "Sun, 21 Jun 2026 01:09:19 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068501485546303853",
+        "title": "Nothing is more stupid than Bloomberg copying BofA playbook with KOSPI back in March. And framing Taiwan’s $TSM ~23.6x forward p/e and $NVDA upstream...",
+        "text": "Nothing is more stupid than Bloomberg copying BofA playbook with KOSPI back in March. And framing Taiwan’s $TSM ~23.6x forward p/e and $NVDA upstream supply chain as a “bubble”. Then using the words going into “debt” instead of “margin” + comparing Taiwan’s market to the .com bubble. Crap like this is why retail trust in media has dropped off a cliff in the past few years.",
+        "time": "Tue, 23 Jun 2026 12:38:16 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069399639154213281",
         "source": "x-rsshub"
       },
       {
-        "title": "I think u must be new here. Many of my ideas get intense backlash at the start, especially the more original they are. $AXTI - endless hate to the poi...",
-        "text": "I think u must be new here. Many of my ideas get intense backlash at the start, especially the more original they are. $AXTI - endless hate to the point I got banned from the $RDDT WSB forum. They thought it was some scam Chinese company, but Reuters, Epiwafer company earnings, and institutions validated their InP substrate position many months later. $RPI - everyone called it some meme stock. Literally Bloomberg, Financial Times, and others went out and called it a meme stock with no fundamentals. Analysts went and said the idea was stupid and said it was going to crash “as a fact”. Earnings came out? Blew away any projection with 58% fwd revenue growth. But they seem to have forgot all the backlash they threw out at me, while they’re citing it as a high growth ai hardware company no. $SIVE? Everyone called it a “meme stock”. I get bunch of hate from Swedish media all the way up. Bunch of people didn’t understand the technical nuances, and they keep throwing personal attacks for some strange reason. But as you know it’s probably my most successful idea and it’s validated so far by institutional buying from Fidelity Research, JP Morgan as well as formally announced partnerships from $JBL to $GFS. Same hate with: - $AAOI at $30, when everyone called management a “scam” or “shady” - $LITE at $300 when everyone called photonics a “bubble” - $RKLB at $20 when everyone thought it was a low revenue launch company that was a bubble. I actually got temp banned from WSB from posting about Rocketlab since moderators didn’t like the stock. - $HOOD at $20 when everyone recalled them freezing GME buys/sells - $IQE at $12 when people thought it was just some random crap $100m company over in the UK with “no actual photonics partnerships” - $SOI at $44 when European bank analysts thought it was “overvalued”and my thesis wasn’t anything new - $NBIS at $75 when everyone in the $IREN camp said I was spreading Russian propaganda and that they had no moat - $INTC at $115 when everyone thought they couldn’t compete with $TSM - $MRVL at $85 when everyone thought they were losing ASIC share to Broadcom. - $AEHR at $35 when everyone misread their earnings and thought they had no revenue - $EWY at $115 when everyone was crying KOSPI was a bubble and LNG/helium/oil would disrupt the memory trade Can go on and on… I do read a lot of the comments, which is why I remember a lot of the hate (probably either jealously, impression farming, or lacking the technical depth is my guess). But I think at this point, people can just see each thesis validated over and over again. And the success in markets drown out the old noise. Good thing is markets are the final arbiter of what’s right or wrong, not the angry comments or posts on X. 10xHustler: @aleabitoreddit Why are so many basing you over $XFAB and your other positions ? Could see so much negativity? Even after you picking solid plays so far? Did $XFAB pull of some bad shit?",
-        "time": "Sat, 20 Jun 2026 11:52:49 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068301039946887269",
+        "title": "$SIVE + Aeva likely coded from the new PR today and SIVE + Apple. For Sivers lasers powering robotics / physical AI. -> Sivers lasers powering Boston ...",
+        "text": "$SIVE + Aeva likely coded from the new PR today and SIVE + Apple. For Sivers lasers powering robotics / physical AI. -> Sivers lasers powering Boston Dynamics Atlas via. LG Innotek for robotics -> Nvidia Hyperion ecosystem w/ Sivers lasers for physical AI. Are possible paths with Aeva. Apple likely using Sivers also reiterated from the newer webpage￼: “Optical sensing modules for wearables” from biometric and health monitoring. They just can’t namedrop partners due to confidentiality, but consumer sensing is probably the biggest tell. Physical AI and mass consumer production with Apple would be very material to revenue. Sivers-Semiconductors: Autonomous systems need both accurate sensing and reliable connectivity. #FMCW #LiDAR delivers precise motion and distance data, while high-frequency #wireless enables real-time communication and response. See how Sivers Semiconductors is powering next-generation sensing and",
+        "time": "Tue, 23 Jun 2026 11:53:07 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069388279355756826",
         "source": "x-rsshub"
       },
       {
-        "title": "I’m just posting this since people seem really curious about X’s revenue sharing program. Genuinely didn’t expect to get seen 100M+ times every 2 w...",
-        "text": "I’m just posting this since people seem really curious about X’s revenue sharing program. Genuinely didn’t expect to get seen 100M+ times every 2 weeks! Would keep doing the same thing tho, even if it were free and I just had a few friends from $RDDT to share ideas with.",
-        "time": "Sat, 20 Jun 2026 09:46:52 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068269343033655490",
+        "title": "$XFAB upgraded to outperform with a PT of €12.8 by Bernstein, up from €5. Okay I forgive you Bernstein for Kioxia and Intel. I still think that’s j...",
+        "text": "$XFAB upgraded to outperform with a PT of €12.8 by Bernstein, up from €5. Okay I forgive you Bernstein for Kioxia and Intel. I still think that’s just reactive PTs off automotive recovery, SiC/power semi ramp up. And undershooting potential a lot… If markets price in the possibility of xfab moving to HVM. On their silicon photonics foundry w/ photonixfab / Nvidia + LIGENTEC for TFLN on SOI. Regardless I’m bullish too on XFAB and curious where it heads. communistserenity: @aleabitoreddit thoughts on $XFAB Bernstein outperform rating? https://www.streetinsider.com/Analyst+Comments/Bernstein+SocGen+Group+Upgrades+X-Fab+Silicon+Foundries+SE+%28XFAB%3AFP%29+to+Outperform/26674881.html",
+        "time": "Tue, 23 Jun 2026 10:55:58 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069373894398743000",
         "source": "x-rsshub"
       },
       {
-        "title": "In terms of personal notes: 1. Priortech owns 21% of $CAMT, ~1.35x their MC, seems more like holding co. 2. Bit Digital people kept shouting, but NAV ...",
-        "text": "In terms of personal notes: 1. Priortech owns 21% of $CAMT, ~1.35x their MC, seems more like holding co. 2. Bit Digital people kept shouting, but NAV discount is not clean $WYFI, lot of dilution + not AI parent. 3. Wistron (3231) is the best one I've seen since $SIVE + Ayar + Wiwynn are one of my favorite trio. ~$16.2B MC, Q1 revenue up a ridiculous amount with 144% Y/Y growth. Owns 35.46% of Wiwynn, which is ~0.66x of MC. I'd expect Wiwynn to keep on growing. 4. Sin-American Silicon 5483 does own 46.64% of GlobalWafers (6488). MC is $3.5B, stake value is ~$7.9B, but not exactly growing too fast independently, though it's heavily trading heavily discount to NAV. 5. Iljin Holdings owns 42.99% of Iljin Electric, it's ~$0.22B MC vs. ~$1.13B NAV holding. This was transformer/cable DC related. But again idk if I trust korean stocks for NAV unlock, probably better for activist investors. 6. Simmtech Holdings was ~$0.17B MC vs. ~$1.0B of parent, which also looks ridiculous. So 6x+ NAV. PCB substrate related name. Also another prob don't trust korean governance type name. I think both $ACMR and WUS have H-Share subsidiary listing soon, and those were the biggest NAV discounts with independent growth. Then you have a highly successful activist going after WUS so I'd expect some middle ground there. So maybe I'll put more concentration into those on top of what I already own Monday, we'll see. And Wistron was growing very fast independently. I'm still doing research, normally this goes in shower thoughts since I haven't formally made a conclusion, but thought others might be interested. Bo Jiang: @aleabitoreddit 如果找到了能告诉一下吗？谢谢",
-        "time": "Sat, 20 Jun 2026 03:52:23 GMT",
-        "link": "https://x.com/aleabitoreddit/status/2068180134667182470",
+        "title": "There’s nothing like BoFA giving BS extreme bear predictions. To clear all the Korean leveraged traders a 2nd time this year. Korean markets are less...",
+        "text": "There’s nothing like BoFA giving BS extreme bear predictions. To clear all the Korean leveraged traders a 2nd time this year. Korean markets are less resilient when it’s built on Aespa, Salmon skincare, and SK Hynix/Samsung memory names ig. Serenity: Bank of America looks like the malicious equivalent of Bernstein/Jim Cramer to retail. - said $KOSPI / $EWY was an extreme bubble, compared it to Silver crash back in March, causing retail to sell positions. The index proceeded to close to double and hit ATHs since that call.",
+        "time": "Tue, 23 Jun 2026 06:11:53 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2069302402147360946",
         "source": "x-rsshub"
       }
     ],
     "themeScores": {
       "nasdaq": {
-        "score": 2.25,
+        "score": 3,
         "matches": [
+          "microsoft",
+          "meta",
+          "nvidia",
           "ai",
-          "nvidia"
+          "chip",
+          "nvda"
         ]
       },
       "sp500": {
@@ -107,109 +111,120 @@
         "matches": []
       },
       "reit": {
-        "score": 0,
-        "matches": []
+        "score": 0.25,
+        "matches": [
+          "reit"
+        ]
       },
       "hongkong": {
-        "score": 0.75,
-        "matches": [
-          "hong kong",
-          "asia"
-        ]
-      },
-      "oil": {
-        "score": 0.5,
-        "matches": [
-          "oil"
-        ]
-      },
-      "commodities": {
         "score": 0,
         "matches": []
       },
-      "bonds": {
+      "oil": {
+        "score": 0,
+        "matches": []
+      },
+      "commodities": {
         "score": -0.5,
         "matches": [
-          "yield"
+          "silver"
+        ]
+      },
+      "bonds": {
+        "score": 0.5,
+        "matches": [
+          "rate hike"
         ]
       },
       "globalTech": {
-        "score": 2,
+        "score": 2.5,
         "matches": [
-          "ai"
+          "cloud",
+          "ai",
+          "chip",
+          "semiconductor"
         ]
       }
     },
     "tickerOpinions": [
       {
         "ticker": "SIVE",
-        "mentions": 12,
+        "mentions": 6,
         "snippets": [
-          "r players saw how Swedish media treated $SIVE. I expect Japan to mog Sweden in the World Cup tomorrow. Probably another 4-0 after Japan's soccer players saw how",
-          "r players saw how Swedish media treated $SIVE. Serenity: Jeez, Japanese markets seem happy. Everything from Furukawa, Towa, Harmonic Drive, Ibiden, are up today"
+          "NT community: Seems likely that $POET / $SIVE are going to power a Top-3 hyperscaler (either Amazon, Micros... Fun new information discovery from Poet OSINT com",
+          "NT community: Seems likely that $POET / $SIVE are going to power a Top-3 hyperscaler (either Amazon, Microsoft, Google). Given a Linkedin update from Ankur Sing"
         ],
         "sentiment": "bullish"
       },
       {
-        "ticker": "AAOI",
-        "mentions": 4,
+        "ticker": "XFAB",
+        "mentions": 6,
         "snippets": [
-          "optical transceiver company, similar to $AAOI. And they've become one the few EML players in the world (eg. $COHR, $LITE, Mitsubishi, Source, Sumitomo), with sc",
-          "onics player, playing catchup to $LITE, $AAOI, and the bigger players. (Disclosure: I have positions in OE Solutions (138080). This is fundamental research for"
+          "Today, $XFAB (1.23B MC) receives €127.4 million from CHIPS ACT for their MEMS Foundry. \"The «Fab4Micro» in Erfurt is a key proj",
+          "key project for the technolo... Today, $XFAB (1.23B MC) receives €127.4 million from CHIPS ACT for their MEMS Foundry. \"The «Fab4Micro» in Erfurt is a key proj"
         ],
-        "sentiment": "bearish"
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "TSM",
+        "mentions": 5,
+        "snippets": [
+          "% $MRVL: -8.3% $LITE: -7.6% $SOI -7.15% $TSM: -6.1% $AMD: -6.04% Feels like anything high-beta or semis had a steep drop.",
+          "y for me personally from $MU, $INTC, to $TSM. Since we got a massive drop off BS narratives like 3 rate hikes ... Dip looks like a clear buying opportunity for"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "MU",
+        "mentions": 3,
+        "snippets": [
+          "VE: -11.7% $TSEM: -10.24% $SNDK: -12.5% $MU: -11.8% Sk Hynix: -12.35% Samsung: -9.6% $MRVL: -8.3% $LITE: -7.6% $SOI -7.15% $TSM: -6.1% $AMD: -6.04% Feels like a",
+          "ying opportunity for me personally from $MU, $INTC, to $TSM. Since we got a massive drop off BS narratives like 3 rate hikes ... Dip looks like a clear buying o"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "POET",
+        "mentions": 2,
+        "snippets": [
+          "Poet OSINT community: Seems likely that $POET / $SIVE are going to power a Top-3 hyperscaler (either Amazon, Micros... Fun new information discovery from Poet O",
+          "Poet OSINT community: Seems likely that $POET / $SIVE are going to power a Top-3 hyperscaler (either Amazon, Microsoft, Google). Given a Linkedin update from An"
+        ],
+        "sentiment": "bullish"
       },
       {
         "ticker": "JBL",
-        "mentions": 3,
+        "mentions": 2,
         "snippets": [
-          "O, scale up CPO, NPO, etc. - Sivers and $JBL went god-mode and developed 1.6T optical transceivers with CW lasers. Effectively designing around the EML bottlene",
-          "er like $SIVE, that's embedded in Ayar, $JBL, $GFS, and many other hyperscaler suppliers. Which also has Win Semi and others de-risking volume ramp. As OE Solut"
+          "public ecosystem outside of Advantest: $JBL... OpenLight (private) seems to get bigger and bigger every time I look at it. If you’re curious about their public",
+          "public ecosystem outside of Advantest: $JBL ( $SIVE partner ) for scaling PICs $MRVL and $MXL for DSPs $TSEM for the foundry. $300394.SZ / TFC Optical (OSAT/su"
         ],
-        "sentiment": "neutral"
-      },
-      {
-        "ticker": "GFS",
-        "mentions": 3,
-        "snippets": [
-          "of things like this: For foundries like $GFS, $SIVE is the reference laser. Not even including massive companies like O-Net building ELS with $SIVE, likely for",
-          "e $SIVE, that's embedded in Ayar, $JBL, $GFS, and many other hyperscaler suppliers. Which also has Win Semi and others de-risking volume ramp. As OE Solutions l"
-        ],
-        "sentiment": "neutral"
-      },
-      {
-        "ticker": "LITE",
-        "mentions": 3,
-        "snippets": [
-          "ew EML players in the world (eg. $COHR, $LITE, Mitsubishi, Source, Sumitomo), with scarce 100G EML laser capacity for 800G/1.6T. OE appears to be trying to make",
-          "gn photonics player, playing catchup to $LITE, $AAOI, and the bigger players. (Disclosure: I have positions in OE Solutions (138080). This is fundamental resear"
-        ],
-        "sentiment": "bearish"
+        "sentiment": "bullish"
       },
       {
         "ticker": "MRVL",
         "mentions": 2,
         "snippets": [
-          "likely been working + designed in with $MRVL Celestial, Lightmatter, Lightelligence and the others since they were small way back when. On top of things like t",
-          "ought they couldn’t compete with $TSM - $MRVL at $85 when everyone thought they were losing ASIC share to Broadcom. - $AEHR at $35 when everyone misread their e"
+          "$JBL ( $SIVE partner ) for scaling PICs $MRVL and $MXL for DSPs $TSEM for the foundry. $300394.SZ / TFC Optical (OSAT/subassembly) Can often get exposure into p",
+          "-11.8% Sk Hynix: -12.35% Samsung: -9.6% $MRVL: -8.3% $LITE: -7.6% $SOI -7.15% $TSM: -6.1% $AMD: -6.04% Feels like anything high-beta or semis had a steep drop."
         ],
         "sentiment": "bullish"
       },
       {
-        "ticker": "SNDK",
+        "ticker": "TSEM",
         "mentions": 2,
         "snippets": [
-          "ttleneck with whey protein? Now there’s $SNDK style price hikes. Maybe creatin... Apparently gym bros are the new hyperscalers. They’ve created a new bottleneck",
-          "ttleneck with whey protein? Now there’s $SNDK style price hikes. Maybe creatine is next with shortages."
+          "or scaling PICs $MRVL and $MXL for DSPs $TSEM for the foundry. $300394.SZ / TFC Optical (OSAT/subassembly) Can often get exposure into private growth through pu",
+          "LNC: -12.5% $AAOI: -11.2% $SIVE: -11.7% $TSEM: -10.24% $SNDK: -12.5% $MU: -11.8% Sk Hynix: -12.35% Samsung: -9.6% $MRVL: -8.3% $LITE: -7.6% $SOI -7.15% $TSM: -6"
         ],
-        "sentiment": "bearish"
+        "sentiment": "bullish"
       },
       {
-        "ticker": "AXTI",
+        "ticker": "AMZN",
         "mentions": 2,
         "snippets": [
-          "especially the more original they are. $AXTI - endless hate to the poi... I think u must be new here. Many of my ideas get intense backlash at the start, espec",
-          "especially the more original they are. $AXTI - endless hate to the point I got banned from the $RDDT WSB forum. They thought it was some scam Chinese company,"
+          "rease or margin increase down the line. $AMZN is probably ... Don’t quite think “siphoned off” is the correct term. It’s capex for massive revenue increase or m",
+          "rease or margin increase down the line. $AMZN is probably my favorite hyperscaler right now and example to give. Amazon’s headcount is absurd, like ~1.57M. If t"
         ],
         "sentiment": "bullish"
       },
@@ -217,199 +232,206 @@
         "ticker": "RDDT",
         "mentions": 2,
         "snippets": [
-          "hate to the point I got banned from the $RDDT WSB forum. They thought it was some scam Chinese company, but Reuters, Epiwafer company earnings, and institutions",
-          "free and I just had a few friends from $RDDT to share ideas with."
+          "find it interesting that the degens on $RDDT are starting a viral campaign to save Wendy’s ( $WEN ). The US fast food burger chain. And the stock p... I find i",
+          "find it interesting that the degens on $RDDT are starting a viral campaign to save Wendy’s ( $WEN ). The US fast food burger chain. And the stock price is now"
         ],
-        "sentiment": "bullish"
+        "sentiment": "neutral"
       },
       {
-        "ticker": "XFAB",
+        "ticker": "WEN",
         "mentions": 2,
         "snippets": [
-          "oreddit Why are so many basing you over $XFAB and your other positions ? Could see so much negativity? Even after you picking solid plays so far? Did $XFAB pull",
-          "ter you picking solid plays so far? Did $XFAB pull of some bad shit?"
+          "ting a viral campaign to save Wendy’s ( $WEN ). The US fast food burger chain. And the stock p... I find it interesting that the degens on $RDDT are starting a",
+          "ting a viral campaign to save Wendy’s ( $WEN ). The US fast food burger chain. And the stock price is now up 20% overnight. Just for background: Wendy’s is a po"
         ],
-        "sentiment": "bullish"
+        "sentiment": "neutral"
       },
       {
-        "ticker": "CAMT",
+        "ticker": "KORU",
         "mentions": 2,
         "snippets": [
-          "ersonal notes: 1. Priortech owns 21% of $CAMT, ~1.35x their MC, seems more like holding co. 2. Bit Digital people kept shouting, but NAV ... In terms of persona",
-          "ersonal notes: 1. Priortech owns 21% of $CAMT, ~1.35x their MC, seems more like holding co. 2. Bit Digital people kept shouting, but NAV discount is not clean $"
-        ],
-        "sentiment": "bullish"
-      },
-      {
-        "ticker": "POET",
-        "mentions": 1,
-        "snippets": [
-          "e out which happens H2 2026 onward like $POET, $SIVE is a laser supplier for those players. - scale up CPO is h2 2027, from Ayar and Nvidia’a NVLink CPO ecosyst"
+          "rtfolio is green after today's fun day. $KORU: -32.06% $SOXL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $... Curious if anyone's portfoli",
+          "rtfolio is green after today's fun day. $KORU: -32.06% $SOXL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $AAOI: -11.2% $SIVE: -11.7% $TSEM"
         ],
         "sentiment": "neutral"
       },
       {
-        "ticker": "COHR",
-        "mentions": 1,
+        "ticker": "SOXL",
+        "mentions": 2,
         "snippets": [
-          "e the few EML players in the world (eg. $COHR, $LITE, Mitsubishi, Source, Sumitomo), with scarce 100G EML laser capacity for 800G/1.6T. OE appears to be trying"
-        ],
-        "sentiment": "bearish"
-      },
-      {
-        "ticker": "ASML",
-        "mentions": 1,
-        "snippets": [
-          "tics. Not cheap Nike sock exports. With $ASML, $TOWA, $LPK, Ajinomoto, over in Japan, EU, TW, Korea, and others holding all the cards… Since each country holds"
+          "n after today's fun day. $KORU: -32.06% $SOXL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $... Curious if anyone's portfolio is green afte",
+          "n after today's fun day. $KORU: -32.06% $SOXL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $AAOI: -11.2% $SIVE: -11.7% $TSEM: -10.24% $SNDK"
         ],
         "sentiment": "neutral"
-      },
-      {
-        "ticker": "TOWA",
-        "mentions": 1,
-        "snippets": [
-          "ot cheap Nike sock exports. With $ASML, $TOWA, $LPK, Ajinomoto, over in Japan, EU, TW, Korea, and others holding all the cards… Since each country holds differe"
-        ],
-        "sentiment": "neutral"
-      },
-      {
-        "ticker": "LPK",
-        "mentions": 1,
-        "snippets": [
-          "p Nike sock exports. With $ASML, $TOWA, $LPK, Ajinomoto, over in Japan, EU, TW, Korea, and others holding all the cards… Since each country holds different mono"
-        ],
-        "sentiment": "neutral"
-      },
-      {
-        "ticker": "RPI",
-        "mentions": 1,
-        "snippets": [
-          "P substrate position many months later. $RPI - everyone called it some meme stock. Literally Bloomberg, Financial Times, and others went out and called it a mem"
-        ],
-        "sentiment": "bullish"
-      },
-      {
-        "ticker": "RKLB",
-        "mentions": 1,
-        "snippets": [
-          "everyone called photonics a “bubble” - $RKLB at $20 when everyone thought it was a low revenue launch company that was a bubble. I actually got temp banned fro"
-        ],
-        "sentiment": "bullish"
-      },
-      {
-        "ticker": "HOOD",
-        "mentions": 1,
-        "snippets": [
-          "nce moderators didn’t like the stock. - $HOOD at $20 when everyone recalled them freezing GME buys/sells - $IQE at $12 when people thought it was just some rand"
-        ],
-        "sentiment": "bullish"
       },
       {
         "ticker": "IQE",
-        "mentions": 1,
+        "mentions": 2,
         "snippets": [
-          "recalled them freezing GME buys/sells - $IQE at $12 when people thought it was just some random crap $100m company over in the UK with “no actual photonics part"
+          "fun day. $KORU: -32.06% $SOXL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $... Curious if anyone's portfolio is green after today's fun d",
+          "fun day. $KORU: -32.06% $SOXL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $AAOI: -11.2% $SIVE: -11.7% $TSEM: -10.24% $SNDK: -12.5% $MU: -"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "DRAM",
+        "mentions": 2,
+        "snippets": [
+          "U: -32.06% $SOXL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $... Curious if anyone's portfolio is green after today's fun day. $KORU: -32",
+          "U: -32.06% $SOXL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $AAOI: -11.2% $SIVE: -11.7% $TSEM: -10.24% $SNDK: -12.5% $MU: -11.8% Sk Hynix"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "AXTI",
+        "mentions": 2,
+        "snippets": [
+          "XL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $... Curious if anyone's portfolio is green after today's fun day. $KORU: -32.06% $SOXL: -2",
+          "XL: -22.98% $IQE: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $AAOI: -11.2% $SIVE: -11.7% $TSEM: -10.24% $SNDK: -12.5% $MU: -11.8% Sk Hynix: -12.35% Sams"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "FLNC",
+        "mentions": 2,
+        "snippets": [
+          "E: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $... Curious if anyone's portfolio is green after today's fun day. $KORU: -32.06% $SOXL: -22.98% $IQE: -13",
+          "E: -13.58% $DRAM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $AAOI: -11.2% $SIVE: -11.7% $TSEM: -10.24% $SNDK: -12.5% $MU: -11.8% Sk Hynix: -12.35% Samsung: -9.6% $MRV"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "INTC",
+        "mentions": 2,
+        "snippets": [
+          "opportunity for me personally from $MU, $INTC, to $TSM. Since we got a massive drop off BS narratives like 3 rate hikes ... Dip looks like a clear buying opport",
+          "opportunity for me personally from $MU, $INTC, to $TSM. Since we got a massive drop off BS narratives like 3 rate hikes off no newly material macroeconomic data"
         ],
         "sentiment": "bullish"
+      },
+      {
+        "ticker": "NVDA",
+        "mentions": 2,
+        "snippets": [
+          "ng Taiwan’s $TSM ~23.6x forward p/e and $NVDA upstream... Nothing is more stupid than Bloomberg copying BofA playbook with KOSPI back in March. And framing Taiw",
+          "ng Taiwan’s $TSM ~23.6x forward p/e and $NVDA upstream supply chain as a “bubble”. Then using the words going into “debt” instead of “margin” + comparing Taiwan"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "MXL",
+        "mentions": 1,
+        "snippets": [
+          "VE partner ) for scaling PICs $MRVL and $MXL for DSPs $TSEM for the foundry. $300394.SZ / TFC Optical (OSAT/subassembly) Can often get exposure into private gro"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "ATEYY",
+        "mentions": 1,
+        "snippets": [
+          "Photon Capital: Advantest (TSE: 6857 / $ATEYY) × OpenLight: Silicon Photonics HVM Test Partnership Advantest and OpenLight have announced a partnership to co-d"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "TSLA",
+        "mentions": 1,
+        "snippets": [
+          "ompared to every hyperscaler out there. $TSLA optimus use case targets is extremely broad as a pitch, but Amazon already has a specific reason to scale robotics"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "GOOGL",
+        "mentions": 1,
+        "snippets": [
+          "for internal opex optimization. As for $GOOGL, probably 2nd right now, AI capex was necessary for defending its Google Search moat Gemini from ChatGPT They als"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "AAOI",
+        "mentions": 1,
+        "snippets": [
+          "AM: -12.6% $AXTI: -12.57% $FLNC: -12.5% $AAOI: -11.2% $SIVE: -11.7% $TSEM: -10.24% $SNDK: -12.5% $MU: -11.8% Sk Hynix: -12.35% Samsung: -9.6% $MRVL: -8.3% $LITE"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "SNDK",
+        "mentions": 1,
+        "snippets": [
+          "OI: -11.2% $SIVE: -11.7% $TSEM: -10.24% $SNDK: -12.5% $MU: -11.8% Sk Hynix: -12.35% Samsung: -9.6% $MRVL: -8.3% $LITE: -7.6% $SOI -7.15% $TSM: -6.1% $AMD: -6.04"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "LITE",
+        "mentions": 1,
+        "snippets": [
+          "ix: -12.35% Samsung: -9.6% $MRVL: -8.3% $LITE: -7.6% $SOI -7.15% $TSM: -6.1% $AMD: -6.04% Feels like anything high-beta or semis had a steep drop."
+        ],
+        "sentiment": "neutral"
       },
       {
         "ticker": "SOI",
         "mentions": 1,
         "snippets": [
-          "th “no actual photonics partnerships” - $SOI at $44 when European bank analysts thought it was “overvalued”and my thesis wasn’t anything new - $NBIS at $75 when"
+          "amsung: -9.6% $MRVL: -8.3% $LITE: -7.6% $SOI -7.15% $TSM: -6.1% $AMD: -6.04% Feels like anything high-beta or semis had a steep drop."
         ],
-        "sentiment": "bullish"
+        "sentiment": "neutral"
       },
       {
-        "ticker": "NBIS",
+        "ticker": "AMD",
         "mentions": 1,
         "snippets": [
-          "ued”and my thesis wasn’t anything new - $NBIS at $75 when everyone in the $IREN camp said I was spreading Russian propaganda and that they had no moat - $INTC a"
+          "3% $LITE: -7.6% $SOI -7.15% $TSM: -6.1% $AMD: -6.04% Feels like anything high-beta or semis had a steep drop."
         ],
-        "sentiment": "bullish"
+        "sentiment": "neutral"
       },
       {
-        "ticker": "IREN",
+        "ticker": "KOSPI",
         "mentions": 1,
         "snippets": [
-          "new - $NBIS at $75 when everyone in the $IREN camp said I was spreading Russian propaganda and that they had no moat - $INTC at $115 when everyone thought they"
+          "Bernstein/Jim Cramer to retail. - said $KOSPI / $EWY was an extreme bubble, compared it to Silver crash back in March, causing retail to sell positions. The in"
         ],
-        "sentiment": "bullish"
-      },
-      {
-        "ticker": "INTC",
-        "mentions": 1,
-        "snippets": [
-          "propaganda and that they had no moat - $INTC at $115 when everyone thought they couldn’t compete with $TSM - $MRVL at $85 when everyone thought they were losin"
-        ],
-        "sentiment": "bullish"
-      },
-      {
-        "ticker": "TSM",
-        "mentions": 1,
-        "snippets": [
-          "yone thought they couldn’t compete with $TSM - $MRVL at $85 when everyone thought they were losing ASIC share to Broadcom. - $AEHR at $35 when everyone misread"
-        ],
-        "sentiment": "bullish"
-      },
-      {
-        "ticker": "AEHR",
-        "mentions": 1,
-        "snippets": [
-          "y were losing ASIC share to Broadcom. - $AEHR at $35 when everyone misread their earnings and thought they had no revenue - $EWY at $115 when everyone was cryin"
-        ],
-        "sentiment": "bullish"
+        "sentiment": "bearish"
       },
       {
         "ticker": "EWY",
         "mentions": 1,
         "snippets": [
-          "nings and thought they had no revenue - $EWY at $115 when everyone was crying KOSPI was a bubble and LNG/helium/oil would disrupt the memory trade Can go on and"
+          "n/Jim Cramer to retail. - said $KOSPI / $EWY was an extreme bubble, compared it to Silver crash back in March, causing retail to sell positions. The index proce"
         ],
-        "sentiment": "bullish"
-      },
-      {
-        "ticker": "WYFI",
-        "mentions": 1,
-        "snippets": [
-          "shouting, but NAV discount is not clean $WYFI, lot of dilution + not AI parent. 3. Wistron (3231) is the best one I've seen since $SIVE + Ayar + Wiwynn are one"
-        ],
-        "sentiment": "bullish"
-      },
-      {
-        "ticker": "ACMR",
-        "mentions": 1,
-        "snippets": [
-          "rean governance type name. I think both $ACMR and WUS have H-Share subsidiary listing soon, and those were the biggest NAV discounts with independent growth. Th"
-        ],
-        "sentiment": "bullish"
+        "sentiment": "bearish"
       }
     ],
     "opinionSummaries": [
       {
-        "time": "Mon, 22 Jun 2026 02:14:41 GMT",
-        "text": "I expect Japan to mog Sweden in the World Cup tomorrow. Probably another 4-0 after Japan's soccer players saw how Swedish media treated $SIVE. Serenity: Jeez, Japanese markets seem happy. Everything f...",
-        "tickers": "$SIVE"
+        "time": "Wed, 24 Jun 2026 13:30:53 GMT",
+        "text": "Fun new information discovery from Poet OSINT community: Seems likely that $POET / $SIVE are going to power a Top-3 hyperscaler (either Amazon, Microsoft, Google). Given a Linkedin update from Ankur S...",
+        "tickers": "$POET, $SIVE"
       },
       {
-        "time": "Mon, 22 Jun 2026 01:20:35 GMT",
-        "text": "Wow, 3 limit ups in a row with WUS TW. Pretty sad I didn't take larger positions. WUS TW is 1 my 2 NAV arbitrage + independent growth trades. If you want context: WUS TW is a ~$1.12B PCB player with A...",
+        "time": "Wed, 24 Jun 2026 06:52:41 GMT",
+        "text": "OpenLight (private) seems to get bigger and bigger every time I look at it. If you’re curious about their public ecosystem outside of Advantest: $JBL ( $SIVE partner ) for scaling PICs $MRVL and $MXL ...",
+        "tickers": "$JBL, $SIVE, $MRVL, $MXL"
+      },
+      {
+        "time": "Wed, 24 Jun 2026 05:36:52 GMT",
+        "text": "Don’t quite think “siphoned off” is the correct term. It’s capex for massive revenue increase or margin increase down the line. $AMZN is probably my favorite hyperscaler right now and example to give....",
+        "tickers": "$AMZN"
+      },
+      {
+        "time": "Wed, 24 Jun 2026 04:07:20 GMT",
+        "text": "I find it interesting that the degens on $RDDT are starting a viral campaign to save Wendy’s ( $WEN ). The US fast food burger chain. And the stock price is now up 20% overnight. Just for background: ...",
+        "tickers": "$RDDT, $WEN"
+      },
+      {
+        "time": "Tue, 23 Jun 2026 18:10:40 GMT",
+        "text": "[Subscribers Only] Swing/recovery trading is always a fun side hobby.…",
         "tickers": ""
-      },
-      {
-        "time": "Mon, 22 Jun 2026 00:55:20 GMT",
-        "text": "Jeez, Japanese markets seem happy. Everything from Furukawa, Towa, Harmonic Drive, Ibiden, are up today. Probably after winning the World Cup game 4-0? Serenity: Imo harmonic drive (6324) one of the b...",
-        "tickers": ""
-      },
-      {
-        "time": "Sun, 21 Jun 2026 11:04:51 GMT",
-        "text": "That’s a misconception: $SIVE is the laser supplier for next gen architectures, not just CPO scale up. Pluggable, scale out CPO, scale up CPO, NPO, etc. - Sivers and $JBL went god-mode and developed 1...",
-        "tickers": "$SIVE, $JBL"
-      },
-      {
-        "time": "Sun, 21 Jun 2026 07:53:18 GMT",
-        "text": "I've been getting a lot of questions about OE Solutions (138080) recently. Here's my research/thoughts so far on it: They're a small Korean optical transceiver company, similar to $AAOI. And they've b...",
-        "tickers": "$AAOI"
       }
     ],
     "attempts": [
