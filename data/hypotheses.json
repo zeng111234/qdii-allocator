@@ -65,15 +65,18 @@
         "stopLoss": -10,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "validated",
       "createdAt": "2026-06-15T04:11:29.158Z",
       "navAtCreation": 7.0679,
-      "validatedAt": null,
+      "validatedAt": "2026-06-24T12:01:34.834Z",
       "invalidatedAt": null,
-      "outcome": null,
+      "outcome": {
+        "return": 8.43,
+        "holdingDays": 7
+      },
       "followUpReturns": {
         "3d": 4.92,
-        "7d": null,
+        "7d": 8.43,
         "14d": null,
         "30d": null
       }
@@ -97,7 +100,7 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -1.17,
-        "7d": null,
+        "7d": -0.86,
         "14d": null,
         "30d": null
       }
@@ -121,7 +124,7 @@
       "outcome": null,
       "followUpReturns": {
         "3d": 0.13,
-        "7d": null,
+        "7d": 0.09,
         "14d": null,
         "30d": null
       }
@@ -164,15 +167,18 @@
         "stopLoss": -10,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "validated",
       "createdAt": "2026-06-15T05:12:43.575Z",
       "navAtCreation": 2.769,
-      "validatedAt": null,
+      "validatedAt": "2026-06-24T12:01:34.835Z",
       "invalidatedAt": null,
-      "outcome": null,
+      "outcome": {
+        "return": 6.32,
+        "holdingDays": 7
+      },
       "followUpReturns": {
         "3d": 4.12,
-        "7d": null,
+        "7d": 6.32,
         "14d": null,
         "30d": null
       }
@@ -223,7 +229,7 @@
       "outcome": null,
       "followUpReturns": {
         "3d": 2.92,
-        "7d": null,
+        "7d": -0.67,
         "14d": null,
         "30d": null
       }
@@ -251,11 +257,107 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1782302494832",
+      "fundCode": "012920",
+      "fundName": "易方达全球成长精选QDII-A",
+      "type": "均值回归",
+      "thesis": "系统推荐#2，分数45.88。1年涨224.53%加44.9分，3年累计375.27%加18.8分，夏普2.26加10.2分，最大回撤-20.18%扣3分，长期牛市+3分，近期新高扣15.6",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-24T12:01:34.832Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1782302494832",
+      "fundCode": "005598",
+      "fundName": "富国蓝筹精选QDII-A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#3，分数38.05。1年涨99.38%加19.9分，3年累计101.26%加5.1分，夏普1.04加4.7分，最大回撤-38.43%扣5.8分，长期牛市+3分，低于MA10加16.",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-24T12:01:34.832Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1782302494833",
+      "fundCode": "016664",
+      "fundName": "天弘全球高端制造QDII-A",
+      "type": "均值回归",
+      "thesis": "系统推荐#4，分数33.3。1年涨198.41%加39.7分，3年累计261.59%加13.1分，夏普1.63加7.3分，最大回撤-30.39%扣4.6分，长期牛市+3分，近期新高扣14.",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-24T12:01:34.833Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1782302494833",
+      "fundCode": "001092",
+      "fundName": "广发纳斯达克生物科技A(QDII)",
+      "type": "稀缺溢价",
+      "thesis": "系统推荐#5，分数29.07。1年涨35.41%加7.1分，3年累计33.16%加1.7分，夏普0.52加2.3分，最大回撤-22.25%扣3.3分，长期牛市+3分，低于MA10加5.2分，",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-24T12:01:34.833Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 10,
-    "validated": 4,
+    "total": 14,
+    "validated": 6,
     "invalidated": 0,
     "expired": 0
   }
