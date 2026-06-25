@@ -353,10 +353,34 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1782364191687",
+      "fundCode": "110025",
+      "fundName": "易方达资源优选混合QDII-A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#5，分数27.54。1年涨83.71%加16.7分，3年累计119.07%加6分，夏普1.09加4.9分，最大回撤-20.89%扣3.1分，长期牛市+3分，近期新高扣9.3分，低于",
+      "conditions": {
+        "target": 5,
+        "stopLoss": -10,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-25T05:09:51.687Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 14,
+    "total": 15,
     "validated": 6,
     "invalidated": 0,
     "expired": 0
