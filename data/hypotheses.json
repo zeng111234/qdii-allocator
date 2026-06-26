@@ -7,19 +7,16 @@
       "type": "稀缺溢价",
       "thesis": "系统推荐#1，分数41.65。1年涨200.25%加40.1分，3年累计340.72%加17分，夏普2.26加10.2分，最大回撤-20.18%扣3分，长期牛市+3分，近期新高扣8.4分，低",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "validated",
+      "status": "active",
       "createdAt": "2026-06-15T04:11:29.158Z",
       "navAtCreation": 4.896,
-      "validatedAt": "2026-06-23T12:22:30.530Z",
+      "validatedAt": null,
       "invalidatedAt": null,
-      "outcome": {
-        "return": 6.2,
-        "holdingDays": 3
-      },
+      "outcome": null,
       "followUpReturns": {
         "3d": 6.2,
         "7d": null,
@@ -34,19 +31,16 @@
       "type": "均值回归",
       "thesis": "系统推荐#2，分数19.97。1年涨174.89%加35分，3年累计232.13%加11.6分，夏普1.55加7分，最大回撤-30.39%扣4.6分，长期牛市+3分，近期新高扣15.1分，高",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "validated",
+      "status": "active",
       "createdAt": "2026-06-15T04:11:29.158Z",
       "navAtCreation": 3.6332,
-      "validatedAt": "2026-06-23T12:22:30.530Z",
+      "validatedAt": null,
       "invalidatedAt": null,
-      "outcome": {
-        "return": 6.51,
-        "holdingDays": 3
-      },
+      "outcome": null,
       "followUpReturns": {
         "3d": 6.51,
         "7d": null,
@@ -61,19 +55,16 @@
       "type": "均值回归",
       "thesis": "系统推荐#3，分数18.2。1年涨62.2%加12.4分，3年累计156.28%加7.8分，夏普1.68加7.6分，最大回撤-20.74%扣3.1分，长期牛市+3分，近期新高扣10.4分，",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "validated",
+      "status": "active",
       "createdAt": "2026-06-15T04:11:29.158Z",
       "navAtCreation": 7.0679,
-      "validatedAt": "2026-06-24T12:01:34.834Z",
+      "validatedAt": null,
       "invalidatedAt": null,
-      "outcome": {
-        "return": 8.43,
-        "holdingDays": 7
-      },
+      "outcome": null,
       "followUpReturns": {
         "3d": 4.92,
         "7d": 8.43,
@@ -88,8 +79,8 @@
       "type": "稀缺溢价",
       "thesis": "系统推荐#4，分数17.12。1年涨10.69%加2.1分，3年累计36.27%加1.8分，夏普0.58加2.6分，最大回撤-19.56%扣2.9分，长期牛市+3分，近期新高扣1.1分，低于",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
       "status": "active",
@@ -112,8 +103,8 @@
       "type": "稀缺溢价",
       "thesis": "系统推荐#5，分数16.02。1年涨9.36%加1.9分，3年累计55.34%加2.8分，夏普1.31加5.9分，最大回撤-11.14%扣1.7分，长期牛市+3分，近期新高扣5.8分，高于M",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
       "status": "active",
@@ -136,18 +127,18 @@
       "type": "趋势跟踪",
       "thesis": "系统推荐#3，分数16.76。1年涨67.42%加13.5分，3年累计79.8%加4分，夏普0.83加3.7分，最大回撤-38.43%扣5.8分，长期牛市+3分，近期新高扣8.7分，低于MA",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
       "status": "validated",
       "createdAt": "2026-06-15T05:12:43.575Z",
       "navAtCreation": 3.3754,
-      "validatedAt": "2026-06-22T05:19:44.923Z",
+      "validatedAt": "2026-06-26T08:56:27.313Z",
       "invalidatedAt": null,
       "outcome": {
-        "return": 8.46,
-        "holdingDays": 3
+        "return": 19.73,
+        "holdingDays": 10
       },
       "followUpReturns": {
         "3d": 8.46,
@@ -163,19 +154,16 @@
       "type": "均值回归",
       "thesis": "系统推荐#4，分数16.4。1年涨137.89%加27.6分，3年累计232.13%加11.6分，最大回撤-11.61%扣1.7分，近期新高扣13.9分，高于MA10扣1.6分，30日涨2",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "validated",
+      "status": "active",
       "createdAt": "2026-06-15T05:12:43.575Z",
       "navAtCreation": 2.769,
-      "validatedAt": "2026-06-24T12:01:34.835Z",
+      "validatedAt": null,
       "invalidatedAt": null,
-      "outcome": {
-        "return": 6.32,
-        "holdingDays": 7
-      },
+      "outcome": null,
       "followUpReturns": {
         "3d": 4.12,
         "7d": 6.32,
@@ -190,19 +178,16 @@
       "type": "趋势跟踪",
       "thesis": "系统推荐#2，分数37.04。1年涨82.59%加16.5分，3年累计113.91%加5.7分，夏普1.07加4.8分，最大回撤-20.89%扣3.1分，长期牛市+3分，近期新高扣1.5分，",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "validated",
+      "status": "active",
       "createdAt": "2026-06-16T03:39:57.374Z",
       "navAtCreation": 2.482,
-      "validatedAt": "2026-06-23T12:22:30.532Z",
+      "validatedAt": null,
       "invalidatedAt": null,
-      "outcome": {
-        "return": 5.32,
-        "holdingDays": 6
-      },
+      "outcome": null,
       "followUpReturns": {
         "3d": 5.32,
         "7d": null,
@@ -217,8 +202,8 @@
       "type": "趋势跟踪",
       "thesis": "系统推荐#5，分数22.1。1年涨25.04%加5分，3年累计44.07%加2.2分，夏普0.77加3.5分，最大回撤-17.88%扣2.7分，长期牛市+3分，近期新高扣0.5分，低于MA",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
       "status": "active",
@@ -241,8 +226,8 @@
       "type": "趋势跟踪",
       "thesis": "系统推荐#5，分数38.15。1年涨66.3%加13.3分，3年累计123.14%加6.2分，夏普1.11加5分，最大回撤-19.24%扣2.9分，长期牛市+3分，低于MA10加10.2分，",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
       "status": "active",
@@ -265,13 +250,13 @@
       "type": "均值回归",
       "thesis": "系统推荐#2，分数45.88。1年涨224.53%加44.9分，3年累计375.27%加18.8分，夏普2.26加10.2分，最大回撤-20.18%扣3分，长期牛市+3分，近期新高扣15.6",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
       "status": "active",
       "createdAt": "2026-06-24T12:01:34.832Z",
-      "navAtCreation": 4.9566,
+      "navAtCreation": 4.9981,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -289,19 +274,16 @@
       "type": "趋势跟踪",
       "thesis": "系统推荐#3，分数38.05。1年涨99.38%加19.9分，3年累计101.26%加5.1分，夏普1.04加4.7分，最大回撤-38.43%扣5.8分，长期牛市+3分，低于MA10加16.",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "validated",
+      "status": "active",
       "createdAt": "2026-06-24T12:01:34.832Z",
       "navAtCreation": 3.7259,
-      "validatedAt": "2026-06-26T05:14:59.801Z",
+      "validatedAt": null,
       "invalidatedAt": null,
-      "outcome": {
-        "return": 8.47,
-        "holdingDays": 1
-      },
+      "outcome": null,
       "followUpReturns": {
         "3d": null,
         "7d": null,
@@ -316,8 +298,8 @@
       "type": "均值回归",
       "thesis": "系统推荐#4，分数33.3。1年涨198.41%加39.7分，3年累计261.59%加13.1分，夏普1.63加7.3分，最大回撤-30.39%扣4.6分，长期牛市+3分，近期新高扣14.",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
       "status": "active",
@@ -340,8 +322,8 @@
       "type": "稀缺溢价",
       "thesis": "系统推荐#5，分数29.07。1年涨35.41%加7.1分，3年累计33.16%加1.7分，夏普0.52加2.3分，最大回撤-22.25%扣3.3分，长期牛市+3分，低于MA10加5.2分，",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
       "status": "active",
@@ -364,8 +346,8 @@
       "type": "趋势跟踪",
       "thesis": "系统推荐#5，分数27.54。1年涨83.71%加16.7分，3年累计119.07%加6分，夏普1.09加4.9分，最大回撤-20.89%扣3.1分，长期牛市+3分，近期新高扣9.3分，低于",
       "conditions": {
-        "target": 5,
-        "stopLoss": -10,
+        "target": 10,
+        "stopLoss": -8,
         "timeHorizon": 30
       },
       "status": "active",
@@ -383,8 +365,8 @@
     }
   ],
   "stats": {
-    "total": 15,
-    "validated": 7,
+    "active": 14,
+    "validated": 1,
     "invalidated": 0,
     "expired": 0
   }

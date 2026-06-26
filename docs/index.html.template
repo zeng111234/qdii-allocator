@@ -1059,10 +1059,11 @@
         var closedHyps = hypData.hypotheses.filter(function(h) { return h.status !== 'active'; });
         var validated = closedHyps.filter(function(h) { return h.status === 'validated'; });
         var winRate = closedHyps.length > 0 ? Math.round(validated.length / closedHyps.length * 100) : null;
+        var winRateDisplay = winRate !== null ? winRate + '% (' + closedHyps.length + '个)' : '样本不足';
         html += '<div class="insight-grid">';
         html += '<div class="insight-stat blue"><div class="label">活跃假设</div><div class="value">' + activeHyps.length + '</div></div>';
         html += '<div class="insight-stat green"><div class="label">已验证</div><div class="value">' + validated.length + '</div></div>';
-        html += '<div class="insight-stat ' + (winRate !== null && winRate >= 50 ? 'green' : 'red') + '"><div class="label">胜率</div><div class="value">' + (winRate !== null ? winRate + '%' : 'N/A') + '</div></div>';
+        html += '<div class="insight-stat ' + (winRate !== null && winRate >= 50 ? 'green' : 'red') + '"><div class="label">胜率</div><div class="value">' + winRateDisplay + '</div></div>';
         html += '</div>';
         activeHyps.slice(0, 5).forEach(function(h) {
           var ret3d = h.followUpReturns && h.followUpReturns['3d'] !== null ? h.followUpReturns['3d'] + '%' : 'N/A';
