@@ -921,12 +921,10 @@
         arr.forEach(function(n) { allDates[n.date] = true; });
       });
       var dates = Object.keys(allDates).sort();
-      if (dates.length < 2) return;
-      // 显示全部数据，不截断
+      if (dates.length < 3) return;
 
       // 计算每天的组合总市值和累计投入
-      var marketData = [];
-      var invLineData = [];
+      var rawData = [];
       dates.forEach(function(date) {
         var totalVal = 0, totalInv = 0, hasData = false;
         holdings.forEach(function(h) {
@@ -952,23 +950,33 @@
           });
         });
         if (hasData && totalVal > 0) {
-          var ts = Math.floor(new Date(date + 'T00:00:00').getTime() / 1000);
-          marketData.push({ time: ts, value: Math.round(totalVal * 100) / 100 });
-          invLineData.push({ time: ts, value: Math.round(totalInv * 100) / 100 });
+          rawData.push({ date: date, val: totalVal, inv: totalInv });
         }
       });
 
-      if (marketData.length < 3) return;
+      if (rawData.length < 3) return;
+
+      // 转换为收益率百分比：(市值 - 投入) / 投入 * 100
+      var pctData = [];
+      rawData.forEach(function(d) {
+        if (d.inv > 0) {
+          var ts = Math.floor(new Date(d.date + 'T00:00:00').getTime() / 1000);
+          var pct = Math.round((d.val - d.inv) / d.inv * 10000) / 100;
+          pctData.push({ time: ts, value: pct });
+        }
+      });
+
+      if (pctData.length < 3) return;
 
       var wrapper = document.getElementById('chart-wrapper');
       wrapper.style.display = 'block';
       var container = document.getElementById('portfolioChart');
       container.innerHTML = '';
 
-      // 销毁旧图表
       if (window._portfolioChart) { window._portfolioChart.remove(); window._portfolioChart = null; }
 
-      var isPositive = marketData[marketData.length - 1].value >= marketData[0].value;
+      var lastPct = pctData[pctData.length - 1].value;
+      var isPositive = lastPct >= 0;
       var lineColor = isPositive ? '#22c55e' : '#ef4444';
 
       var chart = LightweightCharts.createChart(container, {
@@ -986,12 +994,12 @@
         },
         crosshair: {
           mode: LightweightCharts.CrosshairMode.Normal,
-          vertLine: { color: 'rgba(0,0,0,0.1)', width: 1, style: 0, labelBackgroundColor: '#6366f1' },
-          horzLine: { color: 'rgba(0,0,0,0.1)', width: 1, style: 0, labelBackgroundColor: '#6366f1' }
+          vertLine: { color: 'rgba(0,0,0,0.15)', width: 1, style: 0, labelBackgroundColor: '#6366f1' },
+          horzLine: { color: 'rgba(0,0,0,0.15)', width: 1, style: 0, labelBackgroundColor: '#6366f1' }
         },
         rightPriceScale: {
           borderColor: 'rgba(0,0,0,0.06)',
-          scaleMargins: { top: 0.15, bottom: 0.1 }
+          scaleMargins: { top: 0.1, bottom: 0.1 }
         },
         timeScale: {
           borderColor: 'rgba(0,0,0,0.06)',
@@ -1002,28 +1010,27 @@
         handleScale: false
       });
 
-      // 市值面积图
+      // 面积图：盈利区域填充
       var areaSeries = chart.addAreaSeries({
-        topColor: isPositive ? 'rgba(34,197,94,0.25)' : 'rgba(239,68,68,0.25)',
+        topColor: isPositive ? 'rgba(34,197,94,0.3)' : 'rgba(239,68,68,0.3)',
         bottomColor: isPositive ? 'rgba(34,197,94,0.02)' : 'rgba(239,68,68,0.02)',
         lineColor: lineColor,
         lineWidth: 2,
         crosshairMarkerBackgroundColor: lineColor,
         crosshairMarkerRadius: 4
       });
-      areaSeries.setData(marketData);
+      areaSeries.setData(pctData);
 
-      // 净投入虚线
-      var invSeries = chart.addLineSeries({
-        color: '#94a3b8',
+      // 0% 基准线（盈亏分界）
+      var zeroSeries = chart.addLineSeries({
+        color: 'rgba(148,163,184,0.4)',
         lineWidth: 1,
-        lineStyle: 2,
+        lineStyle: 0,
         crosshairMarkerVisible: false,
         priceLineVisible: false
       });
-      invSeries.setData(invLineData);
+      zeroSeries.setData(pctData.map(function(d) { return { time: d.time, value: 0 }; }));
 
-      // 自适应
       chart.timeScale().fitContent();
       window.addEventListener('resize', function() {
         chart.applyOptions({ width: container.clientWidth });
@@ -1039,8 +1046,8 @@
         legend.style.cssText = 'display:flex;gap:16px;justify-content:center;margin-top:6px;font-size:11px;color:var(--text3)';
         container.parentNode.insertBefore(legend, container.nextSibling);
       }
-      legend.innerHTML = '<span><span style="display:inline-block;width:16px;height:2px;background:' + lineColor + ';vertical-align:middle;margin-right:4px"></span>市值</span>' +
-        '<span><span style="display:inline-block;width:16px;height:2px;background:#94a3b8;border-top:1px dashed #94a3b8;vertical-align:middle;margin-right:4px"></span>投入</span>';
+      legend.innerHTML = '<span><span style="display:inline-block;width:16px;height:2px;background:' + lineColor + ';vertical-align:middle;margin-right:4px"></span>收益率 ' + (lastPct >= 0 ? '+' : '') + lastPct + '%</span>' +
+        '<span><span style="display:inline-block;width:16px;height:0;border-top:1px solid rgba(148,163,184,0.4);vertical-align:middle;margin-right:4px"></span>盈亏线 0%</span>';
     }
 
     function updateHoldings() {
