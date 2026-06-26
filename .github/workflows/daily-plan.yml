@@ -82,6 +82,9 @@ jobs:
       - name: Update purchase limits
         continue-on-error: true
         run: node scripts/update-purchase-limits.js
+      - name: Update external signals
+        continue-on-error: true
+        run: node scripts/update-external-signals.js
       - name: Build GitHub Pages
         run: node build-pages.js
       - name: Commit updated data and pages
