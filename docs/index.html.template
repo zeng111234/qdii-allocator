@@ -505,8 +505,8 @@
     <!-- Summary -->
     <div class="card">
       <div id="summary" class="summary-grid"></div>
-      <div id="chart-wrapper" style="margin-top:12px;display:none;height:160px">
-        <div id="portfolioChart" style="width:100%;height:160px"></div>
+      <div id="chart-wrapper" style="margin-top:12px;display:none;height:180px">
+        <div id="portfolioChart" style="width:100%;height:180px"></div>
       </div>
     </div>
 
@@ -921,8 +921,8 @@
         arr.forEach(function(n) { allDates[n.date] = true; });
       });
       var dates = Object.keys(allDates).sort();
-      if (dates.length < 3) return;
-      if (dates.length > 180) dates = dates.slice(-180);
+      if (dates.length < 2) return;
+      // 显示全部数据，不截断
 
       // 计算每天的组合总市值和累计投入
       var marketData = [];
@@ -973,11 +973,12 @@
 
       var chart = LightweightCharts.createChart(container, {
         width: container.clientWidth,
-        height: 160,
+        height: 180,
         layout: {
           background: { type: 'solid', color: 'transparent' },
           textColor: '#94a3b8',
-          fontSize: 11
+          fontSize: 11,
+          attributionLogo: false
         },
         grid: {
           vertLines: { visible: false },
