@@ -46,8 +46,8 @@ async function build() {
   for (const code in navCache) {
     const navs = navCache[code];
     if (navs && navs.length > 0) {
-      // 嵌入最近2条净值记录，用于计算今日/昨日盈亏
-      latestNavs[code] = navs.length >= 2 ? navs.slice(-2) : [navs[navs.length - 1]];
+      // 嵌入最近60条净值记录（用于盈亏计算+收益曲线图）
+      latestNavs[code] = navs.length >= 60 ? navs.slice(-60) : navs;
     }
   }
 
