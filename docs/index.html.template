@@ -207,6 +207,8 @@
     }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-light); }
+    .ai-quick-btn { padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2);transition:all 0.2s }
+    .ai-quick-btn:hover { background:var(--primary);color:white;border-color:var(--primary) }
     .btn-ghost {
       background: #f0f4ff; color: var(--primary); border: 1.5px solid #c7d2fe;
       font-size: 13px; padding: 8px;
@@ -641,42 +643,49 @@
 
       <!-- AI 助手 Tab -->
       <div id="tab-ai" class="tab-content">
-        <div id="ai-config-panel" style="display:none;margin-bottom:12px">
-          <div class="card-title">⚙️ API 配置</div>
+        <div id="ai-config-panel" style="display:none;margin-bottom:12px;padding:12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
+          <div class="card-title" style="margin-bottom:8px">⚙️ API 配置</div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:8px">支持 OpenAI 兼容接口（DeepSeek、MiMo、硅基流动等）</div>
           <div class="form-group">
-            <label>API Key</label>
-            <input type="password" id="aiApiKey" placeholder="sk-xxx" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px">
+            <label style="font-size:12px;font-weight:600">API Key</label>
+            <input type="password" id="aiApiKey" placeholder="sk-xxx" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin-top:4px">
           </div>
-          <div class="form-group">
-            <label>Base URL</label>
-            <input type="text" id="aiBaseUrl" placeholder="https://api.example.com/v1/chat/completions" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px">
+          <div class="form-group" style="margin-top:8px">
+            <label style="font-size:12px;font-weight:600">Base URL</label>
+            <input type="text" id="aiBaseUrl" placeholder="https://api.siliconflow.cn/v1/chat/completions" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin-top:4px">
           </div>
-          <div class="form-group">
-            <label>模型名</label>
-            <input type="text" id="aiModel" placeholder="mimo-v2.5-pro" style="width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px">
+          <div class="form-group" style="margin-top:8px">
+            <label style="font-size:12px;font-weight:600">模型名</label>
+            <input type="text" id="aiModel" placeholder="Qwen/Qwen3-8B" style="width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;margin-top:4px">
           </div>
-          <button class="btn btn-primary" style="margin-top:8px" onclick="saveAiConfig()">保存配置</button>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn btn-primary" style="flex:1;padding:8px;font-size:13px" onclick="saveAiConfig()">💾 保存配置</button>
+            <button style="flex:1;padding:8px;font-size:13px;border:1px solid var(--border);border-radius:8px;background:white;cursor:pointer" onclick="testAiConnection()">🔌 测试连接</button>
+          </div>
+          <div id="ai-test-result" style="font-size:11px;margin-top:6px;display:none"></div>
         </div>
         <div id="ai-chat-area">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-            <div style="font-size:12px;color:var(--text3)">基于你的持仓和市场数据，AI 助手为你解答投资问题</div>
+            <div style="font-size:12px;color:var(--text3)">💡 基于你的持仓和市场数据，为你提供个性化投资建议</div>
             <div style="display:flex;gap:6px">
               <button onclick="toggleAiConfig()" style="padding:4px 8px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer;color:var(--text2)">⚙️ 设置</button>
               <button onclick="clearChat()" style="padding:4px 8px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer;color:var(--text2)">🗑️ 清空</button>
             </div>
           </div>
           <div id="ai-quick-questions" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px">
-            <button onclick="askQuick('今天该买什么基金？为什么？')" style="padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2)">🎯 今天该买什么？</button>
-            <button onclick="askQuick('我的持仓组合风险怎么样？有什么建议？')" style="padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2)">🛡️ 组合风险分析</button>
-            <button onclick="askQuick('根据今天的新闻和外部信号，市场情绪如何？')" style="padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2)">📰 市场情绪判断</button>
-            <button onclick="askQuick('帮我分析一下当前持仓中哪些基金应该加仓，哪些应该减仓？')" style="padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2)">📊 加减仓建议</button>
+            <button onclick="askQuick('今天该买什么基金？为什么？')" class="ai-quick-btn">🎯 今天该买什么</button>
+            <button onclick="askQuick('我的持仓组合风险怎么样？有什么建议？')" class="ai-quick-btn">🛡️ 组合风险</button>
+            <button onclick="askQuick('根据今天的新闻和外部信号，市场情绪如何？')" class="ai-quick-btn">📰 市场情绪</button>
+            <button onclick="askQuick('帮我分析一下当前持仓中哪些基金应该加仓，哪些应该减仓？')" class="ai-quick-btn">📊 加减仓</button>
+            <button onclick="askQuick('我的持仓和同类型基金比，表现怎么样？')" class="ai-quick-btn">🏆 同类对比</button>
+            <button onclick="askQuick('如果美股大跌，我的组合会受到多大影响？怎么对冲？')" class="ai-quick-btn">⚠️ 风险对冲</button>
           </div>
           <div id="ai-messages" style="min-height:200px;max-height:500px;overflow-y:auto;padding:8px;background:var(--bg);border-radius:10px;margin-bottom:10px">
-            <div style="text-align:center;padding:40px 20px;color:var(--text3);font-size:13px">👋 你好！我是你的 QDII 基金投资助手。<br>基于你的持仓和实时市场数据，为你提供投资建议。<br>点击上方快捷按钮或输入你的问题开始对话。</div>
+            <div style="text-align:center;padding:40px 20px;color:var(--text3);font-size:13px;line-height:1.8">👋 你好！我是你的 QDII 基金投资助手。<br>我会根据你的持仓、评分、新闻和市场数据，为你提供投资建议。<br>点击上方快捷按钮或输入你的问题开始对话。<br><span style="font-size:11px">首次使用请先点击 ⚙️ 设置 配置 API</span></div>
           </div>
-          <div style="display:flex;gap:8px">
-            <textarea id="ai-input" placeholder="输入你的投资问题..." rows="1" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;resize:none;max-height:100px;min-height:40px" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAiMessage()}"></textarea>
-            <button onclick="sendAiMessage()" id="ai-send-btn" style="padding:10px 16px;background:var(--primary);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap">发送</button>
+          <div style="display:flex;gap:8px;align-items:flex-end">
+            <textarea id="ai-input" placeholder="输入你的投资问题..." rows="1" style="flex:1;padding:10px 12px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;resize:none;max-height:100px;min-height:40px;line-height:1.5" oninput="autoResizeInput(this)" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAiMessage()}"></textarea>
+            <button onclick="sendAiMessage()" id="ai-send-btn" style="padding:10px 16px;background:var(--primary);color:white;border:none;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0">发送</button>
           </div>
         </div>
       </div>
@@ -3744,11 +3753,43 @@
         model: document.getElementById('aiModel').value.trim()
       };
       if (!config.apiKey) { showToast('请输入 API Key', true); return; }
-      if (!config.baseUrl) config.baseUrl = 'https://api.mimo.ai/v1/chat/completions';
-      if (!config.model) config.model = 'mimo-v2.5-pro';
+      if (!config.baseUrl) config.baseUrl = 'https://api.siliconflow.cn/v1/chat/completions';
+      if (!config.model) config.model = 'Qwen/Qwen3-8B';
       localStorage.setItem(AI_CONFIG_KEY, JSON.stringify(config));
       document.getElementById('ai-config-panel').style.display = 'none';
-      showToast('✅ API 配置已保存');
+      showToast('✅ 配置已保存');
+    }
+
+    async function testAiConnection() {
+      var config = getAiConfig();
+      if (!config.apiKey) { showToast('请先填写 API Key', true); return; }
+      var resultEl = document.getElementById('ai-test-result');
+      resultEl.style.display = 'block';
+      resultEl.style.color = 'var(--text3)';
+      resultEl.textContent = '⏳ 测试中...';
+      try {
+        var response = await fetch(config.baseUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + config.apiKey },
+          body: JSON.stringify({ model: config.model || 'Qwen/Qwen3-8B', messages: [{ role: 'user', content: 'hi' }], max_tokens: 5 })
+        });
+        if (response.ok) {
+          resultEl.style.color = '#22c55e';
+          resultEl.textContent = '✅ 连接成功！模型: ' + (config.model || 'Qwen/Qwen3-8B');
+        } else {
+          var err = await response.text();
+          resultEl.style.color = '#ef4444';
+          resultEl.textContent = '❌ 连接失败: ' + response.status + ' ' + err.slice(0, 100);
+        }
+      } catch(e) {
+        resultEl.style.color = '#ef4444';
+        resultEl.textContent = '❌ 网络错误: ' + e.message;
+      }
+    }
+
+    function autoResizeInput(el) {
+      el.style.height = 'auto';
+      el.style.height = Math.min(el.scrollHeight, 100) + 'px';
     }
 
     function toggleAiConfig() {
@@ -3829,48 +3870,69 @@
 
     function buildSystemPrompt() {
       var lines = [];
-      lines.push('你是用户的私人QDII基金投资助手。用户通过一个智能定投系统管理QDII基金。');
-      lines.push('你的回答要口语化、实用，像朋友聊天一样。控制在500字以内。');
+      lines.push('你是用户的私人QDII基金投资助手，风格像朋友聊天一样轻松自然，用口语化中文。');
+      lines.push('你的回答要实用、有数据支撑，控制在800字以内。用emoji让回答更生动。');
       lines.push('');
+
+      // 持仓数据
       lines.push('=== 用户当前持仓 ===');
       var holdings = portfolioData.holdings || [];
       var totalInv = 0;
       holdings.forEach(function(h) {
         var inv = (h.buys || []).reduce(function(s, b) { return s + (b.amount || 0); }, 0);
         totalInv += inv;
-        lines.push('- ' + h.name + ' (' + h.code + '): 投入' + inv + '元, ' + (h.buys || []).length + '笔');
+        var settled = (h.buys || []).filter(function(b){return b.shares>0;}).length;
+        var pending = (h.buys || []).length - settled;
+        lines.push('- ' + h.name + ' (' + h.code + '): 投入' + inv + '元, ' + settled + '笔已结算' + (pending>0 ? ', '+pending+'笔待结算' : ''));
       });
       lines.push('总投入: ' + totalInv + '元, ' + holdings.length + '只基金');
       lines.push('');
 
+      // 今日推荐
       if (todayPicks && todayPicks.ranked && todayPicks.ranked.length > 0) {
         lines.push('=== 今日推荐排名 ===');
         todayPicks.ranked.slice(0, 5).forEach(function(f, i) {
-          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 得分:' + (f.score || 'N/A'));
+          var score = f.score || 'N/A';
+          var limit = f.dailyLimit ? '限购'+f.dailyLimit+'元' : '';
+          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 得分:' + score + ' ' + limit);
         });
         lines.push('');
       }
 
+      // 新闻
       if (newsData && newsData.items && newsData.items.length > 0) {
         lines.push('=== 最新新闻 ===');
         newsData.items.slice(0, 8).forEach(function(n) {
           var emoji = (n._score > 0) ? '🟢' : ((n._score < 0) ? '🔴' : '⚪');
-          lines.push(emoji + ' ' + n.title);
+          lines.push(emoji + ' ' + n.title + (n.source ? ' ['+n.source+']' : ''));
         });
         lines.push('');
       }
 
+      // 外部信号
       if (externalSignalsData && externalSignalsData.tickerOpinions && externalSignalsData.tickerOpinions.length > 0) {
-        lines.push('=== 外部信号 (Twitter @aleabitoreddit) ===');
+        lines.push('=== 外部信号 (Twitter) ===');
         externalSignalsData.tickerOpinions.slice(0, 10).forEach(function(t) {
           lines.push('$' + t.ticker + ': ' + t.sentiment + ' (' + t.mentions + '次提及)');
         });
         lines.push('');
       }
 
+      // 早报
       if (dailyBriefData && dailyBriefData.content) {
         lines.push('=== 今日AI早报 ===');
         lines.push(dailyBriefData.content);
+        lines.push('');
+      }
+
+      // 限购信息
+      if (purchaseLimits) {
+        var limits = Object.keys(purchaseLimits).map(function(code) {
+          var p = purchaseLimits[code];
+          return code + ': 限' + p.limit + '元';
+        });
+        lines.push('=== 限购额度 ===');
+        lines.push(limits.join(', '));
         lines.push('');
       }
 
