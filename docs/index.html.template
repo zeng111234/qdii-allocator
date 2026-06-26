@@ -231,6 +231,19 @@
     .toast.success { background: var(--success); color: white; }
     .toast.error { background: var(--danger); color: white; }
 
+    /* 隐私模式 — Wealthfolio 风格 */
+    body.privacy-mode .value,
+    body.privacy-mode .summary-item .value,
+    body.privacy-mode .amount,
+    body.privacy-mode .pnl,
+    body.privacy-mode td:last-child {
+      filter: blur(6px);
+      user-select: none;
+    }
+    body.privacy-mode #privacy-toggle {
+      background: rgba(255,255,255,0.3);
+    }
+
     /* Empty */
     .empty { text-align: center; padding: 32px; color: var(--text3); font-size: 14px; }
 
@@ -476,8 +489,13 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
 
   <div class="header">
-    <h1>QDII Fund Allocator</h1>
-    <p>智能基金定投管理系统</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;max-width:800px;margin:0 auto;width:100%">
+      <div>
+        <h1>QDII Fund Allocator</h1>
+        <p>智能基金定投管理系统</p>
+      </div>
+      <button id="privacy-toggle" onclick="togglePrivacy()" style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:6px 12px;color:white;font-size:12px;cursor:pointer;white-space:nowrap" title="隐私模式">👁️ 显示</button>
+    </div>
   </div>
 
   <div class="container">
@@ -738,6 +756,22 @@
     var tradingHolidays = TRADING_HOLIDAYS_DATA;
     var hypothesesData = HYPOTHESES_DATA;
 
+    // 隐私模式
+    function togglePrivacy() {
+      var isOn = document.body.classList.toggle('privacy-mode');
+      localStorage.setItem('qdii-privacy', isOn ? '1' : '0');
+      var btn = document.getElementById('privacy-toggle');
+      btn.textContent = isOn ? '🙈 隐藏' : '👁️ 显示';
+    }
+    // 初始化隐私模式
+    if (localStorage.getItem('qdii-privacy') === '1') {
+      document.body.classList.add('privacy-mode');
+      setTimeout(function() {
+        var btn = document.getElementById('privacy-toggle');
+        if (btn) btn.textContent = '🙈 隐藏';
+      }, 100);
+    }
+
     function showToast(text, isError) {
       var el = document.getElementById("toast");
       el.textContent = text;
@@ -943,20 +977,49 @@
       gradient.addColorStop(0, isPositive ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)');
       gradient.addColorStop(1, 'rgba(0,0,0,0)');
 
+      // 计算每天的累计投入
+      var invData = [];
+      dates.forEach(function(date) {
+        var totalInv = 0;
+        holdings.forEach(function(h) {
+          h.buys.forEach(function(b) {
+            if (b.date <= date) totalInv += b.amount;
+          });
+        });
+        invData.push(totalInv);
+      });
+
       window._portfolioChart = new Chart(ctx, {
         type: 'line',
         data: {
           labels: chartLabels,
-          datasets: [{
-            data: chartData,
-            borderColor: lineColor,
-            borderWidth: 2,
-            backgroundColor: gradient,
-            fill: true,
-            tension: 0.3,
-            pointRadius: 0,
-            pointHitRadius: 10
-          }]
+          datasets: [
+            {
+              label: '市值',
+              data: chartData,
+              borderColor: lineColor,
+              borderWidth: 2,
+              backgroundColor: gradient,
+              fill: true,
+              tension: 0.3,
+              pointRadius: 0,
+              pointHitRadius: 10,
+              order: 1
+            },
+            {
+              label: '投入',
+              data: invData,
+              borderColor: '#94a3b8',
+              borderWidth: 1.5,
+              borderDash: [4, 4],
+              backgroundColor: 'transparent',
+              fill: false,
+              tension: 0,
+              pointRadius: 0,
+              pointHitRadius: 10,
+              order: 2
+            }
+          ]
         },
         options: {
           responsive: true,
@@ -969,7 +1032,10 @@
               titleFont: { size: 11 },
               bodyFont: { size: 12 },
               callbacks: {
-                label: function(ctx) { return '市值: ¥' + ctx.parsed.y.toFixed(2); }
+                label: function(ctx) {
+                  if (ctx.datasetIndex === 0) return '市值: ¥' + ctx.parsed.y.toFixed(2);
+                  return '投入: ¥' + ctx.parsed.y.toFixed(2);
+                }
               }
             }
           },
