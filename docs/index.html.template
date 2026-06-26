@@ -486,7 +486,7 @@
   })();
   </script>
   <!-- 🔒 密码保护层结束 -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
+  <script src="https://unpkg.com/lightweight-charts@4/dist/lightweight-charts.standalone.production.js"></script>
 
   <div class="header">
     <div style="display:flex;justify-content:space-between;align-items:center;max-width:800px;margin:0 auto;width:100%">
@@ -505,8 +505,8 @@
     <!-- Summary -->
     <div class="card">
       <div id="summary" class="summary-grid"></div>
-      <div id="chart-wrapper" style="margin-top:12px;display:none">
-        <canvas id="portfolioChart" style="width:100%;height:120px"></canvas>
+      <div id="chart-wrapper" style="margin-top:12px;display:none;height:160px">
+        <div id="portfolioChart" style="width:100%;height:160px"></div>
       </div>
     </div>
 
@@ -909,7 +909,7 @@
     }
 
     function renderPortfolioChart() {
-      if (typeof Chart === 'undefined') return;
+      if (typeof LightweightCharts === 'undefined') return;
       var holdings = portfolioData.holdings || [];
       if (holdings.length === 0) return;
 
@@ -922,16 +922,13 @@
       });
       var dates = Object.keys(allDates).sort();
       if (dates.length < 3) return;
+      if (dates.length > 180) dates = dates.slice(-180);
 
-      // 只取最近 90 天
-      if (dates.length > 90) dates = dates.slice(-90);
-
-      // 计算每天的组合总市值
-      var chartData = [];
-      var chartLabels = [];
+      // 计算每天的组合总市值和累计投入
+      var marketData = [];
+      var invLineData = [];
       dates.forEach(function(date) {
-        var totalVal = 0;
-        var hasData = false;
+        var totalVal = 0, totalInv = 0, hasData = false;
         holdings.forEach(function(h) {
           var arr = navCacheData[h.code];
           if (!arr || !Array.isArray(arr)) return;
@@ -943,7 +940,8 @@
           if (!navOnDate) return;
           hasData = true;
           h.buys.forEach(function(b) {
-            if (b.date > date) return; // 还没买入
+            if (b.date <= date) totalInv += b.amount;
+            if (b.date > date) return;
             if (b.shares && b.shares > 0) {
               totalVal += b.shares * navOnDate;
             } else if (b.nav && b.nav > 0) {
@@ -954,105 +952,94 @@
           });
         });
         if (hasData && totalVal > 0) {
-          chartData.push(Math.round(totalVal * 100) / 100);
-          chartLabels.push(date.slice(5)); // MM-DD
+          var ts = Math.floor(new Date(date + 'T00:00:00').getTime() / 1000);
+          marketData.push({ time: ts, value: Math.round(totalVal * 100) / 100 });
+          invLineData.push({ time: ts, value: Math.round(totalInv * 100) / 100 });
         }
       });
 
-      if (chartData.length < 3) return;
+      if (marketData.length < 3) return;
 
-      // 渲染图表
       var wrapper = document.getElementById('chart-wrapper');
       wrapper.style.display = 'block';
-      var canvas = document.getElementById('portfolioChart');
-      var ctx = canvas.getContext('2d');
+      var container = document.getElementById('portfolioChart');
+      container.innerHTML = '';
 
       // 销毁旧图表
-      if (window._portfolioChart) window._portfolioChart.destroy();
+      if (window._portfolioChart) { window._portfolioChart.remove(); window._portfolioChart = null; }
 
-      var isPositive = chartData[chartData.length - 1] >= chartData[0];
+      var isPositive = marketData[marketData.length - 1].value >= marketData[0].value;
       var lineColor = isPositive ? '#22c55e' : '#ef4444';
 
-      var gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-      gradient.addColorStop(0, isPositive ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)');
-      gradient.addColorStop(1, 'rgba(0,0,0,0)');
-
-      // 计算每天的累计投入
-      var invData = [];
-      dates.forEach(function(date) {
-        var totalInv = 0;
-        holdings.forEach(function(h) {
-          h.buys.forEach(function(b) {
-            if (b.date <= date) totalInv += b.amount;
-          });
-        });
-        invData.push(totalInv);
-      });
-
-      window._portfolioChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: chartLabels,
-          datasets: [
-            {
-              label: '市值',
-              data: chartData,
-              borderColor: lineColor,
-              borderWidth: 2,
-              backgroundColor: gradient,
-              fill: true,
-              tension: 0.3,
-              pointRadius: 0,
-              pointHitRadius: 10,
-              order: 1
-            },
-            {
-              label: '投入',
-              data: invData,
-              borderColor: '#94a3b8',
-              borderWidth: 1.5,
-              borderDash: [4, 4],
-              backgroundColor: 'transparent',
-              fill: false,
-              tension: 0,
-              pointRadius: 0,
-              pointHitRadius: 10,
-              order: 2
-            }
-          ]
+      var chart = LightweightCharts.createChart(container, {
+        width: container.clientWidth,
+        height: 160,
+        layout: {
+          background: { type: 'solid', color: 'transparent' },
+          textColor: '#94a3b8',
+          fontSize: 11
         },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          animation: { duration: 600 },
-          plugins: {
-            legend: { display: false },
-            tooltip: {
-              backgroundColor: 'rgba(0,0,0,0.8)',
-              titleFont: { size: 11 },
-              bodyFont: { size: 12 },
-              callbacks: {
-                label: function(ctx) {
-                  if (ctx.datasetIndex === 0) return '市值: ¥' + ctx.parsed.y.toFixed(2);
-                  return '投入: ¥' + ctx.parsed.y.toFixed(2);
-                }
-              }
-            }
-          },
-          scales: {
-            x: {
-              display: true,
-              grid: { display: false },
-              ticks: { font: { size: 10 }, maxTicksLimit: 6, color: '#94a3b8' }
-            },
-            y: {
-              display: true,
-              grid: { color: 'rgba(0,0,0,0.05)' },
-              ticks: { font: { size: 10 }, maxTicksLimit: 4, color: '#94a3b8', callback: function(v) { return '¥' + v; } }
-            }
-          }
-        }
+        grid: {
+          vertLines: { visible: false },
+          horzLines: { color: 'rgba(0,0,0,0.04)' }
+        },
+        crosshair: {
+          mode: LightweightCharts.CrosshairMode.Normal,
+          vertLine: { color: 'rgba(0,0,0,0.1)', width: 1, style: 0, labelBackgroundColor: '#6366f1' },
+          horzLine: { color: 'rgba(0,0,0,0.1)', width: 1, style: 0, labelBackgroundColor: '#6366f1' }
+        },
+        rightPriceScale: {
+          borderColor: 'rgba(0,0,0,0.06)',
+          scaleMargins: { top: 0.15, bottom: 0.1 }
+        },
+        timeScale: {
+          borderColor: 'rgba(0,0,0,0.06)',
+          timeVisible: false,
+          secondsVisible: false
+        },
+        handleScroll: false,
+        handleScale: false
       });
+
+      // 市值面积图
+      var areaSeries = chart.addAreaSeries({
+        topColor: isPositive ? 'rgba(34,197,94,0.25)' : 'rgba(239,68,68,0.25)',
+        bottomColor: isPositive ? 'rgba(34,197,94,0.02)' : 'rgba(239,68,68,0.02)',
+        lineColor: lineColor,
+        lineWidth: 2,
+        crosshairMarkerBackgroundColor: lineColor,
+        crosshairMarkerRadius: 4
+      });
+      areaSeries.setData(marketData);
+
+      // 净投入虚线
+      var invSeries = chart.addLineSeries({
+        color: '#94a3b8',
+        lineWidth: 1,
+        lineStyle: 2,
+        crosshairMarkerVisible: false,
+        priceLineVisible: false
+      });
+      invSeries.setData(invLineData);
+
+      // 自适应
+      chart.timeScale().fitContent();
+      window.addEventListener('resize', function() {
+        chart.applyOptions({ width: container.clientWidth });
+      });
+
+      window._portfolioChart = chart;
+
+      // 图例
+      var legend = document.getElementById('chart-legend');
+      if (!legend) {
+        legend = document.createElement('div');
+        legend.id = 'chart-legend';
+        legend.style.cssText = 'display:flex;gap:16px;justify-content:center;margin-top:6px;font-size:11px;color:var(--text3)';
+        container.parentNode.insertBefore(legend, container.nextSibling);
+      }
+      legend.innerHTML = '<span><span style="display:inline-block;width:16px;height:2px;background:' + lineColor + ';vertical-align:middle;margin-right:4px"></span>市值</span>' +
+        '<span><span style="display:inline-block;width:16px;height:2px;background:#94a3b8;border-top:1px dashed #94a3b8;vertical-align:middle;margin-right:4px"></span>投入</span>';
     }
 
     function updateHoldings() {
