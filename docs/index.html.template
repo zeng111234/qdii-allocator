@@ -716,6 +716,7 @@
     var todayPicks = TODAY_PICKS_DATA;
     var purchaseLimits = PURCHASE_LIMITS_DATA;
     var tradingHolidays = TRADING_HOLIDAYS_DATA;
+    var hypothesesData = HYPOTHESES_DATA;
 
     function showToast(text, isError) {
       var el = document.getElementById("toast");
@@ -1039,10 +1040,10 @@
       html += '<div class="card-title" style="margin-top:18px">📊 业绩归因</div>';
       html += '<div id="attribution-content"><div style="text-align:center;padding:10px;color:var(--text3)">正在计算...</div></div>';
 
-      // Hypotheses (from localStorage)
+      // Hypotheses (from embedded data)
       html += '<div class="card-title" style="margin-top:18px">📝 假设追踪</div>';
-      var hypData = loadHypothesesLocal();
-      if (hypData.hypotheses.length === 0) {
+      var hypData = typeof hypothesesData !== 'undefined' && hypothesesData ? hypothesesData : loadHypothesesLocal();
+      if (!hypData || !hypData.hypotheses || hypData.hypotheses.length === 0) {
         html += '<div style="font-size:13px;color:var(--text3);line-height:1.7">暂无投资假设。在买入基金时，系统会自动创建投资假设并追踪收益。</div>';
       } else {
         var activeHyps = hypData.hypotheses.filter(function(h) { return h.status === 'active'; });

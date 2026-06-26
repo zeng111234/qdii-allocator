@@ -243,6 +243,16 @@ async function build() {
   }
   template = template.replace('EXTERNAL_SIGNALS_DATA', JSON.stringify(externalSignals));
 
+  // 嵌入假设数据
+  let hypotheses = { hypotheses: [], stats: { total: 0, validated: 0, invalidated: 0, expired: 0 } };
+  try {
+    const hypPath = path.join(__dirname, 'data', 'hypotheses.json');
+    if (fs.existsSync(hypPath)) {
+      hypotheses = JSON.parse(fs.readFileSync(hypPath, 'utf-8'));
+    }
+  } catch(e) {}
+  template = template.replace('HYPOTHESES_DATA', JSON.stringify(hypotheses));
+
   // 嵌入交易日历（2026年中国法定节假日）
   const tradingHolidays = [
     '2026-01-01','2026-01-02','2026-01-03', // 元旦
