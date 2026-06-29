@@ -2387,7 +2387,7 @@
       activeFunds.forEach(function(fund) {
         var navArr = null;
         var cached = fullNav ? fullNav[fund.code] : (navCacheData[fund.code] || null);
-        if (cached && Array.isArray(cached) && cached.length >= 30) {
+        if (cached && Array.isArray(cached) && cached.length >= 10) {
           var sorted = cached.slice().sort(function(a, b) {
             return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0);
           });
@@ -2397,7 +2397,7 @@
           navArr = null;
         }
 
-        if (!navArr || navArr.length < 30) {
+        if (!navArr || navArr.length < 10) {
           fundResults.push({
             code: fund.code, name: fund.name, type: fund.type,
             rawScores: {}, composite: null, insufficient: true
