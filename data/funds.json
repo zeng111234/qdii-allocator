@@ -28,19 +28,6 @@
       "settleDays": 2
     },
     {
-      "code": "000369",
-      "name": "广发全球医疗保健指数(QDII)A",
-      "type": "全球医疗",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.2,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "全球医疗保健指数，防守型配置",
-      "settleDays": 2
-    },
-    {
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "type": "德国",
@@ -90,110 +77,6 @@
       "minPurchase": 10,
       "status": "active",
       "note": "生物科技赛道",
-      "settleDays": 2
-    },
-    {
-      "code": "002230",
-      "name": "华夏全球股票QDII-A",
-      "type": "全球股票",
-      "shareClass": "A",
-      "feeRate": 1.5,
-      "custodyFee": 0.3,
-      "dailyLimit": 100000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "全球股票配置",
-      "settleDays": 2
-    },
-    {
-      "code": "002280",
-      "name": "华安德国DAX30ETF联接QDII-A",
-      "type": "德国",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.2,
-      "dailyLimit": 100000000000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "德国DAX ETF联接",
-      "settleDays": 2
-    },
-    {
-      "code": "002400",
-      "name": "南方亚洲美元债A(QDII)",
-      "type": "亚洲债",
-      "shareClass": "A",
-      "feeRate": 0.6,
-      "custodyFee": 0.15,
-      "dailyLimit": 1000000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "亚洲债券低波动",
-      "settleDays": 2
-    },
-    {
-      "code": "004070",
-      "name": "南方标普美国精选REIT(QDII)A",
-      "type": "标普REITs",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.2,
-      "dailyLimit": 100000000000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "标普REITs",
-      "settleDays": 2
-    },
-    {
-      "code": "005598",
-      "name": "富国蓝筹精选QDII-A",
-      "type": "全球蓝筹",
-      "shareClass": "A",
-      "feeRate": 1.2,
-      "custodyFee": 0.25,
-      "dailyLimit": 99999999999,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "全球蓝筹精选",
-      "settleDays": 2
-    },
-    {
-      "code": "006479",
-      "name": "南方纳斯达克100QDII-A",
-      "type": "纳指100",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.2,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "纳指100南方产品",
-      "settleDays": 2
-    },
-    {
-      "code": "006861",
-      "name": "浦银安盛全球智能科技A(QDII)",
-      "type": "全球科技",
-      "shareClass": "A",
-      "feeRate": 1,
-      "custodyFee": 0.2,
-      "dailyLimit": 1000000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "全球智能科技",
-      "settleDays": 2
-    },
-    {
-      "code": "007571",
-      "name": "华夏标普500ETF联接A(QDII)",
-      "type": "标普500",
-      "shareClass": "A",
-      "feeRate": 0.6,
-      "custodyFee": 0.15,
-      "dailyLimit": 100000000000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "华夏标普500联接",
       "settleDays": 2
     },
     {
@@ -327,32 +210,6 @@
       "settleDays": 2
     },
     {
-      "code": "050025",
-      "name": "博时标普500ETF联接A(QDII)",
-      "type": "标普500",
-      "shareClass": "A",
-      "feeRate": 0.6,
-      "custodyFee": 0.15,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "suspended",
-      "note": "标普500联接",
-      "settleDays": 2
-    },
-    {
-      "code": "050030",
-      "name": "博时亚洲票息收益A(QDII)",
-      "type": "亚洲债券",
-      "shareClass": "A",
-      "feeRate": 0.6,
-      "custodyFee": 0.15,
-      "dailyLimit": 2000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "亚洲债券低波动",
-      "settleDays": 2
-    },
-    {
       "code": "096001",
       "name": "大成标普500A(QDII)",
       "type": "标普500",
@@ -363,45 +220,6 @@
       "minPurchase": 10,
       "status": "active",
       "note": "标普500低费率",
-      "settleDays": 2
-    },
-    {
-      "code": "110025",
-      "name": "易方达资源优选混合QDII-A",
-      "type": "全球资源",
-      "shareClass": "A",
-      "feeRate": 1.5,
-      "custodyFee": 0.3,
-      "dailyLimit": 100000000000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "全球资源类基金",
-      "settleDays": 2
-    },
-    {
-      "code": "118002",
-      "name": "易方达医疗保健行业QDII-A",
-      "type": "全球医疗",
-      "shareClass": "A",
-      "feeRate": 1.2,
-      "custodyFee": 0.25,
-      "dailyLimit": 100000000000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "全球医疗保健",
-      "settleDays": 2
-    },
-    {
-      "code": "160125",
-      "name": "南方香港优选QDII",
-      "type": "港股优选",
-      "shareClass": "A",
-      "feeRate": 1.2,
-      "custodyFee": 0.2,
-      "dailyLimit": 100000000000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "港股优选基金",
       "settleDays": 2
     },
     {
@@ -431,19 +249,6 @@
       "settleDays": 2
     },
     {
-      "code": "160421",
-      "name": "华安标普石油A(QDII-LOF)",
-      "type": "石油能源",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.25,
-      "dailyLimit": 100000000000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "石油能源板块",
-      "settleDays": 2
-    },
-    {
       "code": "161125",
       "name": "易方达标普500A(QDII-LOF)",
       "type": "标普500",
@@ -457,84 +262,6 @@
       "settleDays": 2
     },
     {
-      "code": "161126",
-      "name": "易方达标普医疗保健A(QDII-LOF)",
-      "type": "标普医疗",
-      "shareClass": "A",
-      "feeRate": 0.6,
-      "custodyFee": 0.25,
-      "dailyLimit": 10,
-      "minPurchase": 10,
-      "status": "suspended",
-      "note": "易方达医疗板块",
-      "settleDays": 2
-    },
-    {
-      "code": "161127",
-      "name": "易方达标普信息科技A(QDII-LOF)",
-      "type": "标普科技",
-      "shareClass": "A",
-      "feeRate": 0.6,
-      "custodyFee": 0.25,
-      "dailyLimit": 10,
-      "minPurchase": 10,
-      "status": "suspended",
-      "note": "偏科技龙头",
-      "settleDays": 2
-    },
-    {
-      "code": "161128",
-      "name": "易方达全球成长精选A(QDII)",
-      "type": "全球精选",
-      "shareClass": "A",
-      "feeRate": 1.2,
-      "custodyFee": 0.2,
-      "dailyLimit": 10,
-      "minPurchase": 10,
-      "status": "suspended",
-      "note": "全球成长股",
-      "settleDays": 2
-    },
-    {
-      "code": "161129",
-      "name": "易方达标普消费品A(QDII-LOF)",
-      "type": "标普消费",
-      "shareClass": "A",
-      "feeRate": 0.6,
-      "custodyFee": 0.25,
-      "dailyLimit": 10,
-      "minPurchase": 10,
-      "status": "suspended",
-      "note": "易方达消费板块",
-      "settleDays": 2
-    },
-    {
-      "code": "161130",
-      "name": "易方达纳斯达克100A(QDII-LOF)",
-      "type": "纳指100",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.25,
-      "dailyLimit": 10,
-      "minPurchase": 10,
-      "status": "suspended",
-      "note": "纳指100易方达产品",
-      "settleDays": 2
-    },
-    {
-      "code": "162415",
-      "name": "华宝标普美国品质A(QDII-LOF)",
-      "type": "美股消费",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.25,
-      "dailyLimit": 1000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "美股消费龙头",
-      "settleDays": 2
-    },
-    {
       "code": "163208",
       "name": "诺安全球收益不动产QDII",
       "type": "全球不动产",
@@ -545,32 +272,6 @@
       "minPurchase": 10,
       "status": "suspended",
       "note": "全球不动产基金",
-      "settleDays": 2
-    },
-    {
-      "code": "164701",
-      "name": "汇添富恒生指数A(QDII-LOF)",
-      "type": "恒生指数",
-      "shareClass": "A",
-      "feeRate": 0.6,
-      "custodyFee": 0.15,
-      "dailyLimit": 500,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "恒生指数跟踪",
-      "settleDays": 2
-    },
-    {
-      "code": "206011",
-      "name": "鹏华美国房地产QDII-A",
-      "type": "美国REITs",
-      "shareClass": "A",
-      "feeRate": 1.2,
-      "custodyFee": 0.25,
-      "dailyLimit": 100000,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "美国房地产REITs",
       "settleDays": 2
     },
     {
@@ -597,19 +298,6 @@
       "minPurchase": 10,
       "status": "active",
       "note": "纳指核心仓位",
-      "settleDays": 2
-    },
-    {
-      "code": "486002",
-      "name": "工银全球精选QDII-A",
-      "type": "全球精选",
-      "shareClass": "A",
-      "feeRate": 1.6,
-      "custodyFee": 0.35,
-      "dailyLimit": 100,
-      "minPurchase": 10,
-      "status": "active",
-      "note": "全球精选，覆盖美股欧股",
       "settleDays": 2
     },
     {
@@ -665,6 +353,6 @@
       "note": "越南市场，前沿高增长"
     }
   ],
-  "_lastUpdated": "2026-06-24",
-  "_updateNote": "synced from fund-info-cache 2026-06-24"
+  "_lastUpdated": "2026-06-29",
+  "_updateNote": "Cleaned: removed 24 unbought funds, kept 26"
 }
