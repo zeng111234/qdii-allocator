@@ -2111,7 +2111,7 @@
      * Positive = price above MAs (uptrend), negative = below (downtrend).
      */
     FactorEngine.register('momentum_ma_dev', 'MA偏离度', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 25) return null;
+      if (!navArr || navArr.length < 20) return null;
       var latest = navArr[navArr.length - 1];
       var ma5 = FactorEngine.tsMean(navArr, 5);
       var ma10 = FactorEngine.tsMean(navArr, 10);
@@ -2127,7 +2127,7 @@
      * Classic price momentum factor from qlib158.
      */
     FactorEngine.register('momentum_20d', '20日收益', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 21) return null;
+      if (!navArr || navArr.length < 20) return null;
       var ret = (navArr[navArr.length - 1] / navArr[navArr.length - 21] - 1) * 100;
       return Math.round(ret * 100) / 100;
     }, 1.0);
@@ -2137,8 +2137,8 @@
      * Medium-term momentum.
      */
     FactorEngine.register('momentum_60d', '60日收益', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 61) return null;
-      var ret = (navArr[navArr.length - 1] / navArr[navArr.length - 61] - 1) * 100;
+      if (!navArr || navArr.length < 15) return null;
+      var ret = (navArr[navArr.length - 1] / navArr[0] - 1) * 100; // 用全部可用数据
       return Math.round(ret * 100) / 100;
     }, 0.8);
 
@@ -2168,7 +2168,7 @@
      * Raw value: annualized vol %. Lower = less risky.
      */
     FactorEngine.register('volatility_hist', '历史波动率', 'volatility', function(navArr) {
-      if (!navArr || navArr.length < 25) return null;
+      if (!navArr || navArr.length < 20) return null;
       var returns = [];
       for (var i = navArr.length - 21; i < navArr.length; i++) {
         if (navArr[i - 1] > 0) returns.push(navArr[i] / navArr[i - 1] - 1);
@@ -2187,7 +2187,7 @@
      * Only counts negative returns.
      */
     FactorEngine.register('volatility_down', '下行波动率', 'volatility', function(navArr) {
-      if (!navArr || navArr.length < 25) return null;
+      if (!navArr || navArr.length < 20) return null;
       var negReturns = [];
       for (var i = navArr.length - 21; i < navArr.length; i++) {
         var r = navArr[i] / navArr[i - 1] - 1;
@@ -2215,11 +2215,11 @@
      * Score: +3 (strong bull) to -3 (strong bear).
      */
     FactorEngine.register('trend_alignment', '均线排列', 'trend', function(navArr) {
-      if (!navArr || navArr.length < 65) return null;
+      if (!navArr || navArr.length < 20) return null;
       var ma5 = FactorEngine.tsMean(navArr, 5);
       var ma10 = FactorEngine.tsMean(navArr, 10);
       var ma20 = FactorEngine.tsMean(navArr, 20);
-      var ma60 = FactorEngine.tsMean(navArr, 60);
+      var ma60 = navArr.length >= 65 ? FactorEngine.tsMean(navArr, 60) : ma20; // 不够60天用ma20代替
       if (!ma5 || !ma10 || !ma20 || !ma60) return null;
       // Count bullish pairs: MA5 > MA10 > MA20 > MA60
       var score = 0;
@@ -2238,7 +2238,7 @@
      * 1.0 = at 60d high, 0.0 = at 60d low.
      */
     FactorEngine.register('trend_range_pos', '区间位置', 'trend', function(navArr) {
-      if (!navArr || navArr.length < 60) return null;
+      if (!navArr || navArr.length < 15) return null;
       var high = FactorEngine.tsMax(navArr, 60);
       var low = FactorEngine.tsMin(navArr, 60);
       var latest = navArr[navArr.length - 1];
@@ -2301,7 +2301,7 @@
      * From Vibe-Trading metrics.py sharpe_ratio.
      */
     FactorEngine.register('quality_sharpe', '夏普比率', 'quality', function(navArr) {
-      if (!navArr || navArr.length < 30) return null;
+      if (!navArr || navArr.length < 15) return null;
       var returns = [];
       for (var i = 1; i < navArr.length; i++) {
         if (navArr[i - 1] > 0) returns.push(navArr[i] / navArr[i - 1] - 1);
@@ -2328,7 +2328,7 @@
      * From Vibe-Trading base.py decay_linear.
      */
     FactorEngine.register('quality_decay_ret', '近期加权收益', 'quality', function(navArr) {
-      if (!navArr || navArr.length < 21) return null;
+      if (!navArr || navArr.length < 20) return null;
       var returns = [];
       for (var i = navArr.length - 20; i < navArr.length; i++) {
         if (navArr[i - 1] > 0) returns.push((navArr[i] / navArr[i - 1] - 1) * 100);
@@ -2385,7 +2385,7 @@
 
     // MACD 动量
     FactorEngine.register('macd_momentum', 'MACD动量', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 30) return null;
+      if (!navArr || navArr.length < 20) return null;
       var closes = navArr.map(function(d) { return d.nav; });
       function ema(arr, n) {
         var k = 2 / (n + 1), result = [arr[0]];
@@ -2423,7 +2423,7 @@
 
     // 120日动量（长期）
     FactorEngine.register('momentum_120d', '120日收益', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 120) return null;
+      if (!navArr || navArr.length < 15) return null;
       var n = navArr.length;
       return ((navArr[n - 1].nav / navArr[n - 120].nav) - 1) * 100;
     }, 1.5);
@@ -2443,7 +2443,7 @@
 
     // 最大回撤恢复速度
     FactorEngine.register('recovery_speed', '回撤恢复速度', 'drawdown', function(navArr) {
-      if (!navArr || navArr.length < 30) return null;
+      if (!navArr || navArr.length < 15) return null;
       var closes = navArr.map(function(d) { return d.nav; });
       var peak = closes[0], maxDD = 0, maxDDIdx = 0;
       for (var i = 1; i < closes.length; i++) {
