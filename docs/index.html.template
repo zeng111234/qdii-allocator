@@ -2593,7 +2593,7 @@
           var sorted = cached.slice().sort(function(a, b) {
             return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0);
           });
-          navArr = sorted.map(function(x) { return x.nav; });
+          navArr = sorted; // 传完整对象数组，因子函数需要 {nav} 属性
         } else if (cached && !Array.isArray(cached) && cached.nav) {
           // Single entry — not enough for factor computation
           navArr = null;
