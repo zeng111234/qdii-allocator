@@ -8,15 +8,56 @@
     :root {
       --primary: #6366f1;
       --primary-light: #818cf8;
+      --primary-rgb: 99, 102, 241;
       --danger: #ef4444;
       --success: #10b981;
+      --success-rgb: 16, 185, 129;
       --warn: #f59e0b;
+      --warn-rgb: 245, 158, 11;
       --bg: #f8fafc;
+      --bg2: #f1f5f9;
+      --bg3: #e2e8f0;
       --card: #ffffff;
+      --card-hover: #f8fafc;
       --border: #e2e8f0;
+      --border2: #cbd5e1;
       --text: #1e293b;
       --text2: #64748b;
       --text3: #94a3b8;
+      --table-row-even: #f8fafc;
+      --table-row-hover: #e2e8f0;
+      --shadow: 0 1px 3px rgba(0,0,0,0.1);
+      --shadow-hover: 0 4px 12px rgba(0,0,0,0.15);
+      --radius: 8px;
+      --radius-lg: 12px;
+    }
+
+    /* 暗色主题 */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary: #818cf8;
+        --primary-light: #a5b4fc;
+        --primary-rgb: 129, 140, 248;
+        --danger: #f87171;
+        --success: #34d399;
+        --success-rgb: 52, 211, 153;
+        --warn: #fbbf24;
+        --warn-rgb: 251, 191, 36;
+        --bg: #0f172a;
+        --bg2: #1e293b;
+        --bg3: #334155;
+        --card: #1e293b;
+        --card-hover: #334155;
+        --border: #334155;
+        --border2: #475569;
+        --text: #f1f5f9;
+        --text2: #94a3b8;
+        --text3: #64748b;
+        --table-row-even: #1e293b;
+        --table-row-hover: #334155;
+        --shadow: 0 1px 3px rgba(0,0,0,0.3);
+        --shadow-hover: 0 4px 12px rgba(0,0,0,0.4);
+      }
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -43,11 +84,16 @@
     /* Cards */
     .card {
       background: var(--card);
-      border-radius: 14px;
+      border-radius: var(--radius-lg);
       padding: 18px;
       margin-bottom: 14px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      box-shadow: var(--shadow);
       border: 1px solid var(--border);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .card:hover {
+      box-shadow: var(--shadow-hover);
+      transform: translateY(-1px);
     }
     .card-title {
       font-size: 13px;
@@ -2335,6 +2381,103 @@
       return 10;
     }, -0.8); // negative: lower fee → higher raw score, but we want high=good
 
+    // ═══ 补充技术面维度 ═══
+
+    // MACD 动量
+    FactorEngine.register('macd_momentum', 'MACD动量', 'momentum', function(navArr) {
+      if (!navArr || navArr.length < 30) return null;
+      var closes = navArr.map(function(d) { return d.nav; });
+      function ema(arr, n) {
+        var k = 2 / (n + 1), result = [arr[0]];
+        for (var i = 1; i < arr.length; i++) result.push(arr[i] * k + result[i-1] * (1-k));
+        return result;
+      }
+      var ema12 = ema(closes, 12), ema26 = ema(closes, 26);
+      var macdLine = ema12.map(function(v, i) { return v - ema26[i]; });
+      var signal = ema(macdLine.slice(-9), 9);
+      var histogram = macdLine[macdLine.length - 1] - signal[signal.length - 1];
+      // 归一化：histogram 通常在 -0.5 到 0.5 之间
+      return Math.max(0, Math.min(100, 50 + histogram * 100));
+    }, 2.0);
+
+    // 布林带位置
+    FactorEngine.register('bollinger_pos', '布林带位置', 'momentum', function(navArr) {
+      if (!navArr || navArr.length < 20) return null;
+      var closes = navArr.map(function(d) { return d.nav; });
+      var n = 20, slice = closes.slice(-n);
+      var mean = slice.reduce(function(s, v) { return s + v; }, 0) / n;
+      var std = Math.sqrt(slice.reduce(function(s, v) { return s + (v - mean) * (v - mean); }, 0) / n);
+      var last = closes[closes.length - 1];
+      if (std === 0) return 50;
+      var z = (last - mean) / std;
+      // z 在 -2 到 2 之间，中轨=50
+      return Math.max(0, Math.min(100, 50 + z * 25));
+    }, 1.5);
+
+    // 5日动量
+    FactorEngine.register('momentum_5d', '5日动量', 'momentum', function(navArr) {
+      if (!navArr || navArr.length < 5) return null;
+      var n = navArr.length;
+      return ((navArr[n - 1].nav / navArr[n - 5].nav) - 1) * 100;
+    }, 1.0);
+
+    // 120日动量（长期）
+    FactorEngine.register('momentum_120d', '120日收益', 'momentum', function(navArr) {
+      if (!navArr || navArr.length < 120) return null;
+      var n = navArr.length;
+      return ((navArr[n - 1].nav / navArr[n - 120].nav) - 1) * 100;
+    }, 1.5);
+
+    // ═══ 资金面维度 ═══
+
+    // 成交量趋势（用净值变动幅度模拟）
+    FactorEngine.register('volume_trend', '资金流入趋势', 'quality', function(navArr) {
+      if (!navArr || navArr.length < 20) return null;
+      var recent = navArr.slice(-10), older = navArr.slice(-20, -10);
+      var recentVol = recent.reduce(function(s, d) { return s + Math.abs(d.change || 0); }, 0) / 10;
+      var olderVol = older.reduce(function(s, d) { return s + Math.abs(d.change || 0); }, 0) / 10;
+      if (olderVol === 0) return 50;
+      var ratio = recentVol / olderVol;
+      return Math.max(0, Math.min(100, 50 + (ratio - 1) * 50));
+    }, 1.2);
+
+    // 最大回撤恢复速度
+    FactorEngine.register('recovery_speed', '回撤恢复速度', 'drawdown', function(navArr) {
+      if (!navArr || navArr.length < 30) return null;
+      var closes = navArr.map(function(d) { return d.nav; });
+      var peak = closes[0], maxDD = 0, maxDDIdx = 0;
+      for (var i = 1; i < closes.length; i++) {
+        if (closes[i] > peak) peak = closes[i];
+        var dd = (peak - closes[i]) / peak;
+        if (dd > maxDD) { maxDD = dd; maxDDIdx = i; }
+      }
+      if (maxDD === 0) return 90;
+      // 从最大回撤点到现在恢复了多少
+      var ddNav = closes[maxDDIdx], nowNav = closes[closes.length - 1];
+      var recovery = (nowNav - ddNav) / (closes.slice(0, maxDDIdx + 1).max || peak - ddNav || 1);
+      // 恢复越快越好
+      var score = Math.max(0, Math.min(100, 50 + recovery * 100));
+      return score;
+    }, 1.5);
+
+    // 趋势强度（ADX 近似）
+    FactorEngine.register('trend_strength', '趋势强度', 'trend', function(navArr) {
+      if (!navArr || navArr.length < 20) return null;
+      var closes = navArr.map(function(d) { return d.nav; });
+      var gains = [], losses = [];
+      for (var i = 1; i < closes.length; i++) {
+        var diff = closes[i] - closes[i - 1];
+        gains.push(diff > 0 ? diff : 0);
+        losses.push(diff < 0 ? -diff : 0);
+      }
+      var avgGain = gains.slice(-14).reduce(function(s, v) { return s + v; }, 0) / 14;
+      var avgLoss = losses.slice(-14).reduce(function(s, v) { return s + v; }, 0) / 14;
+      if (avgGain + avgLoss === 0) return 50;
+      var rs = avgGain / (avgLoss || 0.001);
+      // RS 高 = 趋势强
+      return Math.max(0, Math.min(100, 50 + rs * 10));
+    }, 1.8);
+
     // 新闻情绪因子：基于当日新闻利好/利空
     FactorEngine.register('news_sentiment', '📰 新闻情绪', 'sentiment', function(navArr, fundMeta) {
       if (typeof newsData === 'undefined' || !newsData || !newsData.items) return null;
@@ -3346,8 +3489,16 @@
       // 显示辩论结果
       if (debateState.finalDecision && debateState.finalDecision.finalDecision) {
         var decision = debateState.finalDecision.finalDecision;
-        // 简单格式化，将换行符转换为 HTML
-        var formatted = decision.replace(/\n/g, '<br>');
+        // 结构化格式化
+        var formatted = decision
+          .replace(/━━━ (.+?) ━━━/g, '<div style="font-weight:700;font-size:13px;margin:12px 0 6px;color:var(--primary)">$1</div>')
+          . replace(/• (.+)/g, '<div style="margin:3px 0 3px 12px">• $1</div>')
+          .replace(/✓ (.+)/g, '<div style="margin:3px 0 3px 12px;color:var(--success)">✓ $1</div>')
+          .replace(/⚡ (.+)/g, '<div style="margin:3px 0 3px 12px;color:var(--warn)">⚡ $1</div>')
+          .replace(/🔴 (.+)/g, '<div style="margin:3px 0 3px 12px"><span style="color:#ef4444">🔴</span> $1</div>')
+          .replace(/🔵 (.+)/g, '<div style="margin:3px 0 3px 12px"><span style="color:#3b82f6">🔵</span> $1</div>')
+          .replace(/⚪ (.+)/g, '<div style="margin:3px 0 3px 12px"><span style="color:var(--text3)">⚪</span> $1</div>')
+          .replace(/\n/g, '<br>');
         resultEl.innerHTML = '<div style="padding:12px;background:var(--bg);border-radius:8px;line-height:1.8">' + formatted + '</div>';
       }
     }
@@ -3509,22 +3660,44 @@
       if (holdings.length < 5) mainRisks.push('持仓基金数仅 ' + holdings.length + ' 只，分散度不足');
       debateState.riskAssessment = { overallRiskLevel: riskLevel, mainRisks: mainRisks, recommendations: [] };
       
-      // 最终决策：综合 Bull/Bear 给出具体建议
+      // 最终决策：综合 Bull/Bear 给出结构化建议
       var topBull = bullAnalysis.slice().sort(function(a, b) { return b.bullScore - a.bullScore; }).slice(0, 3);
       var topBear = bearAnalysis.slice().sort(function(a, b) { return b.riskScore - a.riskScore; }).slice(0, 2);
       
+      // 共识点：Bull 和 Bear 都认同的
+      var consensus = [];
+      if (riskLevel === '低') consensus.push('组合整体风险可控');
+      if (holdings.length >= 5) consensus.push('持仓数量合理，基本分散');
+      consensus.push('QDII 基金存在限购约束');
+      
+      // 分歧点：Bull 和 Bear 有争议的
+      var disputes = [];
+      if (maxWeight > 40) disputes.push(maxType + ' 集中度：Bull 认为是优势（聚焦优质赛道），Bear 认为是风险（过度集中）');
+      disputes.push('当前市场估值：Bull 看好长期增长，Bear 担忧短期回调');
+      
+      // 激进/保守/中立 三方评估
+      var aggressiveView = '积极加仓，把握 QDII 稀缺性溢价。重点关注限购额度低的高评分基金。';
+      var conservativeView = '控制仓位，预留现金应对 QDII 额度调整。避免追高近期涨幅过大的基金。';
+      var neutralView = '维持现有配置，定投为主。择机小幅调仓优化结构。';
+      
       var decision = '【多智能体辩论结果】\n\n';
-      decision += '📈 看多观点：\n';
-      topBull.forEach(function(f) { decision += '  • ' + f.fundName + '（' + f.bullScore + '/10）— ' + f.reasons[0] + '\n'; });
-      decision += '\n📉 看空风险：\n';
-      topBear.forEach(function(f) { decision += '  • ' + f.fundName + '（风险 ' + f.riskScore + '/10）— ' + f.risks[0] + '\n'; });
-      decision += '\n🛡️ 组合风险：' + riskLevel + '\n';
-      mainRisks.forEach(function(r) { decision += '  • ' + r + '\n'; });
-      decision += '\n💡 建议：\n';
+      decision += '━━━ 📈 看多阵营 ━━━\n';
+      topBull.forEach(function(f) { decision += '• ' + f.fundName + '（' + f.bullScore + '/10）— ' + f.reasons[0] + '\n'; });
+      decision += '\n━━━ 📉 看空阵营 ━━━\n';
+      topBear.forEach(function(f) { decision += '• ' + f.fundName + '（风险 ' + f.riskScore + '/10）— ' + f.risks[0] + '\n'; });
+      decision += '\n━━━ 🤝 共识点 ━━━\n';
+      consensus.forEach(function(c) { decision += '✓ ' + c + '\n'; });
+      decision += '\n━━━ ⚔️ 分歧点 ━━━\n';
+      disputes.forEach(function(d) { decision += '⚡ ' + d + '\n'; });
+      decision += '\n━━━ 🛡️ 三方风险评估 ━━━\n';
+      decision += '🔴 激进派：' + aggressiveView + '\n';
+      decision += '🔵 保守派：' + conservativeView + '\n';
+      decision += '⚪ 中立派：' + neutralView + '\n';
+      decision += '\n━━━ 💡 最终建议 ━━━\n';
       if (riskLevel === '高') {
-        decision += '  组合集中度过高，建议减少 ' + maxType + ' 配置，增加其他类型基金分散风险。';
+        decision += '组合集中度过高，建议减少 ' + maxType + ' 配置，增加其他类型基金分散风险。';
       } else {
-        decision += '  组合结构合理，保持定投节奏。重点关注评分高且限购额度低的稀缺基金。';
+        decision += '组合结构合理，保持定投节奏。重点关注评分高且限购额度低的稀缺基金。';
       }
       
       debateState.finalDecision = { finalDecision: decision };
