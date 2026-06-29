@@ -2335,12 +2335,63 @@
       return 10;
     }, -0.8); // negative: lower fee → higher raw score, but we want high=good
 
+    // 新闻情绪因子：基于当日新闻利好/利空
+    FactorEngine.register('news_sentiment', '📰 新闻情绪', 'sentiment', function(navArr, fundMeta) {
+      if (typeof newsData === 'undefined' || !newsData || !newsData.items) return null;
+      var type = fundMeta ? (fundMeta.type || '') : '';
+      var score = 0;
+      var keywords = [];
+      if (type.indexOf('纳指') >= 0 || type.indexOf('纳斯达克') >= 0) keywords = ['nasdaq','纳斯达克','英伟达','nvda','ai','芯片','半导体','苹果','微软','谷歌'];
+      else if (type.indexOf('标普') >= 0) keywords = ['标普','美联储','利率','通胀','华尔街','美国'];
+      else if (type.indexOf('港股') >= 0 || type.indexOf('香港') >= 0) keywords = ['港股','恒生','亚太','中国','亚洲'];
+      else if (type.indexOf('日本') >= 0) keywords = ['日本','日经','日元','丰田'];
+      else if (type.indexOf('全球') >= 0 || type.indexOf('欧洲') >= 0) keywords = ['全球','欧洲','欧股','dax','德国'];
+      else if (type.indexOf('石油') >= 0 || type.indexOf('能源') >= 0 || type.indexOf('商品') >= 0) keywords = ['石油','原油','能源','黄金','大宗商品'];
+      else keywords = ['基金','定投','QDII','净值'];
+      
+      newsData.items.slice(0, 15).forEach(function(n) {
+        var title = (n.title || '').toLowerCase();
+        var matched = keywords.some(function(k) { return title.indexOf(k.toLowerCase()) >= 0; });
+        if (matched) score += (n._score || 0);
+      });
+      // 归一化到 0-100
+      if (score > 0) return Math.min(100, 50 + score * 10);
+      if (score < 0) return Math.max(0, 50 + score * 10);
+      return 50;
+    }, 1.5);
+
+    // 外部信号因子：基于 Twitter 观点
+    FactorEngine.register('external_signal', '🌐 外部信号', 'sentiment', function(navArr, fundMeta) {
+      if (typeof externalSignalsData === 'undefined' || !externalSignalsData || !externalSignalsData.tickerOpinions) return null;
+      var type = fundMeta ? (fundMeta.type || '') : '';
+      var tickers = externalSignalsData.tickerOpinions || [];
+      var bullish = 0, bearish = 0;
+      tickers.forEach(function(t) {
+        if (t.sentiment === '看涨') bullish += t.mentions || 1;
+        else if (t.sentiment === '看淡') bearish += t.mentions || 1;
+      });
+      var net = bullish - bearish;
+      if (net > 0) return Math.min(100, 50 + net * 5);
+      if (net < 0) return Math.max(0, 50 + net * 5);
+      return 50;
+    }, 1.2);
+
+    // 相关性因子：与已有持仓的相关性（低相关加分）
+    FactorEngine.register('portfolio_diversity', '🛡️ 分散度', 'diversity', function(navArr, fundMeta) {
+      if (!fundMeta || typeof portfolioData === 'undefined' || !portfolioData || !portfolioData.holdings) return 60;
+      var code = fundMeta.code;
+      var hasPosition = portfolioData.holdings.some(function(h) { return h.code === code; });
+      if (hasPosition) return 50; // 已持有，中性
+      // 没持有的基金给加分（鼓励分散）
+      return 80;
+    }, 1.0);
+
     // ═══════════════════════════════════════════════════════════════
     //  Ranking State & Render
     // ═══════════════════════════════════════════════════════════════
 
     var _rankingState = {
-      sortBy: 'composite',  // composite | momentum | volatility | quality
+      sortBy: 'composite',  // composite | momentum | volatility | quality | sentiment
       results: null,        // cached results
       fullNav: null         // cached full nav data
     };
@@ -2355,79 +2406,6 @@
     /**
      * Score badge CSS class based on composite score.
      */
-    // 从服务端 reason 字段解析因子得分，生成条形图数据
-    function parseFactorsFromReason(reason, totalScore) {
-      if (!reason) return [];
-      var factors = [];
-
-      // 解析 reason 里的各种因子加分/扣分
-      var patterns = [
-        { re: /(\d+)年涨([\d.]+)%加([\d.]+)分/, name: '1年收益', idx: 3 },
-        { re: /3年累计([\d.]+)%加([\d.]+)分/, name: '3年收益', idx: 2 },
-        { re: /夏普([\d.]+)加([\d.]+)分/, name: '夏普比率', idx: 2 },
-        { re: /夏普([\d.]+)扣([\d.]+)分/, name: '夏普比率', idx: 2, neg: true },
-        { re: /最大回撤([\d.-]+)%扣([\d.]+)分/, name: '最大回撤', idx: 2, neg: true },
-        { re: /回撤([\d.-]+)%加([\d.]+)分/, name: '回撤反弹', idx: 2 },
-        { re: /长期牛市\+([\d.]+)分/, name: '长期趋势', idx: 1 },
-        { re: /长期熊市-([\d.]+)分/, name: '长期趋势', idx: 1, neg: true },
-        { re: /近期新高扣([\d.]+)分/, name: '新高回调', idx: 1, neg: true },
-        { re: /低于MA10加([\d.]+)分/, name: 'MA10偏离', idx: 1 },
-        { re: /高于MA10扣([\d.]+)分/, name: 'MA10偏离', idx: 1, neg: true },
-        { re: /多头排列\+([\d.]+)分/, name: '均线排列', idx: 1 },
-        { re: /空头排列-([\d.]+)分/, name: '均线排列', idx: 1, neg: true },
-        { re: /反弹\+([\d.]+)分/, name: '动量反弹', idx: 1 },
-        { re: /波动([\d.]+)%扣([\d.]+)分/, name: '波动率', idx: 2, neg: true },
-        { re: /(\d+)日涨([\d.]+)%扣([\d.]+)分/, name: '短期过热', idx: 3, neg: true },
-        { re: /(\d+)日涨([\d.]+)%过热([\d.]+)分/, name: '过热回调', idx: 3, neg: true },
-        { re: /外部信号.*?加([\d.]+)分/, name: '外部信号', idx: 1 },
-        { re: /新闻.*?加([\d.]+)分/, name: '新闻情绪', idx: 1 },
-        { re: /限购稀缺.*?加([\d.]+)分/, name: '限购稀缺', idx: 1 },
-        { re: /费率.*?扣([\d.]+)分/, name: '费率', idx: 1, neg: true },
-        { re: /历史成功率([\d.]+)%加([\d.]+)分/, name: '历史推荐', idx: 2 },
-        { re: /稳定收益.*?加([\d.]+)分/, name: '稳定性', idx: 1 }
-      ];
-
-      patterns.forEach(function(p) {
-        var m = reason.match(p.re);
-        if (m) {
-          var val = parseFloat(m[p.idx]);
-          if (p.neg) val = -val;
-          factors.push({ name: p.name, val: val });
-        }
-      });
-
-      // 如果解析出的因子太少，加一些默认维度
-      if (factors.length < 3) {
-        // 从 newsData 和 externalSignalsData 加新闻/信息维度
-        var newsScore = 0;
-        if (typeof newsData !== 'undefined' && newsData && newsData.items) {
-          newsData.items.slice(0, 10).forEach(function(n) { newsScore += (n._score || 0); });
-        }
-        if (newsScore !== 0) {
-          factors.push({ name: '📰 新闻情绪', val: newsScore * 2 });
-        }
-        var signalScore = 0;
-        if (typeof externalSignalsData !== 'undefined' && externalSignalsData && externalSignalsData.tickerOpinions) {
-          externalSignalsData.tickerOpinions.slice(0, 5).forEach(function(t) {
-            if (t.sentiment === '看涨') signalScore += 1;
-            else if (t.sentiment === '看淡') signalScore -= 1;
-          });
-        }
-        if (signalScore !== 0) {
-          factors.push({ name: '🌐 外部信号', val: signalScore });
-        }
-      }
-
-      // 计算百分比用于条形图（正负分开归一化）
-      var maxAbs = 1;
-      factors.forEach(function(f) { if (Math.abs(f.val) > maxAbs) maxAbs = Math.abs(f.val); });
-      factors.forEach(function(f) {
-        f.pct = Math.round(Math.abs(f.val) / maxAbs * 100);
-      });
-
-      return factors;
-    }
-
     function scoreBadgeClass(score) {
       if (score >= 70) return 'excellent';
       if (score >= 55) return 'good';
@@ -2566,7 +2544,9 @@
         { id: 'trend', label: '趋势' },
         { id: 'drawdown', label: '回撤' },
         { id: 'quality', label: '质量' },
-        { id: 'qdii_special', label: 'QDII特色' }
+        { id: 'qdii_special', label: 'QDII特色' },
+        { id: 'sentiment', label: '情绪' },
+        { id: 'diversity', label: '分散' }
       ];
       sortOptions.forEach(function(opt) {
         var isActive = _rankingState.sortBy === opt.id;
@@ -2705,7 +2685,21 @@
     function renderRanking() {
       var c = document.getElementById('ranking-content');
 
-      // 优先使用服务端评分数据（更准确，含外部信号和新闻情绪）
+      // 优先使用客户端 FactorEngine（多维度归一化评分，更直观）
+      var activeFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
+      var hasEmbeddedHistory = false;
+      activeFunds.forEach(function(f) {
+        var cached = navCacheData[f.code];
+        if (cached && Array.isArray(cached) && cached.length >= 10) hasEmbeddedHistory = true;
+      });
+
+      if (hasEmbeddedHistory) {
+        _rankingState.results = computeRankings(navCacheData);
+        c.innerHTML = buildRankingHTML(_rankingState.results);
+        return;
+      }
+
+      // 回退：用服务端数据（简略版）
       if (todayPicks && todayPicks.allRanked && todayPicks.allRanked.length > 0) {
         _rankingState.results = todayPicks.allRanked.map(function(r) {
           return {
