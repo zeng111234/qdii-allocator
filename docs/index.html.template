@@ -2914,12 +2914,49 @@
         if (saved) {
           var p = JSON.parse(saved);
           if (p && p.holdings && p.holdings.length > 0) {
-            // 合并 localStorage 和嵌入数据
             var merged = mergePortfolio({ holdings: PORTFOLIO_HOLDINGS || [] }, p);
             portfolioData = merged;
           }
         }
       } catch(e) {}
+      // 自动回填待确认记录
+      autoSettleInBrowser();
+    }
+
+    // 自动结算回填：遍历待确认买入，用净值缓存回填
+    function autoSettleInBrowser() {
+      if (!portfolioData || !portfolioData.holdings) return;
+      var changed = false;
+      portfolioData.holdings.forEach(function(h) {
+        (h.buys || []).forEach(function(buy) {
+          if (buy.shares && buy.shares > 0) return; // 已结算
+          if (!buy.date || !buy.amount) return;
+          // 用 navCacheData 查找结算日净值（T+2）
+          var cached = navCacheData[h.code];
+          if (!cached || !Array.isArray(cached) || cached.length === 0) return;
+          // 买入日+2个交易日
+          var buyDate = new Date(buy.date);
+          var settleIdx = -1;
+          var tradingDays = 0;
+          for (var i = 0; i < cached.length; i++) {
+            if (cached[i].date >= buy.date) {
+              tradingDays++;
+              if (tradingDays >= 2) { settleIdx = i; break; }
+            }
+          }
+          if (settleIdx < 0 && cached.length > 2) settleIdx = Math.min(cached.length - 1, 2);
+          if (settleIdx >= 0 && cached[settleIdx]) {
+            var nav = cached[settleIdx].nav;
+            if (nav && nav > 0) {
+              buy.nav = nav;
+              buy.shares = Math.round(buy.amount / nav * 10000) / 10000;
+              buy.settleDate = cached[settleIdx].date;
+              changed = true;
+            }
+          }
+        });
+      });
+      if (changed) savePortfolio();
     }
 
     // 数据同步功能 - GitHub Gist
