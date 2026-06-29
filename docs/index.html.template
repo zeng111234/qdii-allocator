@@ -2355,6 +2355,79 @@
     /**
      * Score badge CSS class based on composite score.
      */
+    // 从服务端 reason 字段解析因子得分，生成条形图数据
+    function parseFactorsFromReason(reason, totalScore) {
+      if (!reason) return [];
+      var factors = [];
+
+      // 解析 reason 里的各种因子加分/扣分
+      var patterns = [
+        { re: /(\d+)年涨([\d.]+)%加([\d.]+)分/, name: '1年收益', idx: 3 },
+        { re: /3年累计([\d.]+)%加([\d.]+)分/, name: '3年收益', idx: 2 },
+        { re: /夏普([\d.]+)加([\d.]+)分/, name: '夏普比率', idx: 2 },
+        { re: /夏普([\d.]+)扣([\d.]+)分/, name: '夏普比率', idx: 2, neg: true },
+        { re: /最大回撤([\d.-]+)%扣([\d.]+)分/, name: '最大回撤', idx: 2, neg: true },
+        { re: /回撤([\d.-]+)%加([\d.]+)分/, name: '回撤反弹', idx: 2 },
+        { re: /长期牛市\+([\d.]+)分/, name: '长期趋势', idx: 1 },
+        { re: /长期熊市-([\d.]+)分/, name: '长期趋势', idx: 1, neg: true },
+        { re: /近期新高扣([\d.]+)分/, name: '新高回调', idx: 1, neg: true },
+        { re: /低于MA10加([\d.]+)分/, name: 'MA10偏离', idx: 1 },
+        { re: /高于MA10扣([\d.]+)分/, name: 'MA10偏离', idx: 1, neg: true },
+        { re: /多头排列\+([\d.]+)分/, name: '均线排列', idx: 1 },
+        { re: /空头排列-([\d.]+)分/, name: '均线排列', idx: 1, neg: true },
+        { re: /反弹\+([\d.]+)分/, name: '动量反弹', idx: 1 },
+        { re: /波动([\d.]+)%扣([\d.]+)分/, name: '波动率', idx: 2, neg: true },
+        { re: /(\d+)日涨([\d.]+)%扣([\d.]+)分/, name: '短期过热', idx: 3, neg: true },
+        { re: /(\d+)日涨([\d.]+)%过热([\d.]+)分/, name: '过热回调', idx: 3, neg: true },
+        { re: /外部信号.*?加([\d.]+)分/, name: '外部信号', idx: 1 },
+        { re: /新闻.*?加([\d.]+)分/, name: '新闻情绪', idx: 1 },
+        { re: /限购稀缺.*?加([\d.]+)分/, name: '限购稀缺', idx: 1 },
+        { re: /费率.*?扣([\d.]+)分/, name: '费率', idx: 1, neg: true },
+        { re: /历史成功率([\d.]+)%加([\d.]+)分/, name: '历史推荐', idx: 2 },
+        { re: /稳定收益.*?加([\d.]+)分/, name: '稳定性', idx: 1 }
+      ];
+
+      patterns.forEach(function(p) {
+        var m = reason.match(p.re);
+        if (m) {
+          var val = parseFloat(m[p.idx]);
+          if (p.neg) val = -val;
+          factors.push({ name: p.name, val: val });
+        }
+      });
+
+      // 如果解析出的因子太少，加一些默认维度
+      if (factors.length < 3) {
+        // 从 newsData 和 externalSignalsData 加新闻/信息维度
+        var newsScore = 0;
+        if (typeof newsData !== 'undefined' && newsData && newsData.items) {
+          newsData.items.slice(0, 10).forEach(function(n) { newsScore += (n._score || 0); });
+        }
+        if (newsScore !== 0) {
+          factors.push({ name: '📰 新闻情绪', val: newsScore * 2 });
+        }
+        var signalScore = 0;
+        if (typeof externalSignalsData !== 'undefined' && externalSignalsData && externalSignalsData.tickerOpinions) {
+          externalSignalsData.tickerOpinions.slice(0, 5).forEach(function(t) {
+            if (t.sentiment === '看涨') signalScore += 1;
+            else if (t.sentiment === '看淡') signalScore -= 1;
+          });
+        }
+        if (signalScore !== 0) {
+          factors.push({ name: '🌐 外部信号', val: signalScore });
+        }
+      }
+
+      // 计算百分比用于条形图（正负分开归一化）
+      var maxAbs = 1;
+      factors.forEach(function(f) { if (Math.abs(f.val) > maxAbs) maxAbs = Math.abs(f.val); });
+      factors.forEach(function(f) {
+        f.pct = Math.round(Math.abs(f.val) / maxAbs * 100);
+      });
+
+      return factors;
+    }
+
     function scoreBadgeClass(score) {
       if (score >= 70) return 'excellent';
       if (score >= 55) return 'good';
@@ -2366,6 +2439,7 @@
      * Factor bar color based on normalized score (0-100).
      */
     function factorBarColor(score) {
+
       if (score >= 70) return 'var(--success)';
       if (score >= 50) return 'var(--primary)';
       if (score >= 30) return 'var(--warn)';
@@ -2543,25 +2617,32 @@
 
         // Factor detail bars (hidden by default)
         html += '<div class="factor-bars" id="factor-bars-' + rankIdx + '">';
-        if (r.factorScores) {
+        if (r.reason) {
+          // 从服务端 reason 解析因子得分，显示条形图
+          var factors = parseFactorsFromReason(r.reason, r.composite);
+          factors.forEach(function(f) {
+            var barWidth = Math.max(2, Math.min(100, f.pct));
+            var barColor = f.val >= 0 ? '#22c55e' : '#ef4444';
+            html += '<div class="factor-bar-row">';
+            html += '<span class="factor-bar-label">' + f.name + '</span>';
+            html += '<div class="factor-bar-track"><div class="factor-bar-fill" style="width:' + barWidth + '%;background:' + barColor + '"></div></div>';
+            html += '<span class="factor-bar-value" style="color:' + barColor + '">' + (f.val >= 0 ? '+' : '') + f.val.toFixed(1) + '</span>';
+            html += '</div>';
+          });
+        } else if (r.factorScores && Object.keys(r.factorScores).length > 0) {
           var factorIds = FactorEngine.list();
           factorIds.forEach(function(fid) {
             var factor = FactorEngine.get(fid);
             var val = r.factorScores[fid];
-            if (val === undefined || val === null) val = 50;
+            if (val === undefined || val === null) return;
             var barWidth = Math.max(2, Math.min(100, val));
             var barColor = factorBarColor(val);
-            // Show raw score too
-            var rawVal = r.rawScores[fid];
-            var rawStr = (rawVal !== null && rawVal !== undefined) ? rawVal.toFixed(2) : '--';
             html += '<div class="factor-bar-row">';
             html += '<span class="factor-bar-label">' + factor.name + '</span>';
             html += '<div class="factor-bar-track"><div class="factor-bar-fill" style="width:' + barWidth + '%;background:' + barColor + '"></div></div>';
             html += '<span class="factor-bar-value" style="color:' + barColor + '">' + val.toFixed(0) + '</span>';
             html += '</div>';
           });
-        } else if (r.reason) {
-          html += '<div style="color:var(--text3);font-size:11px;padding:8px;line-height:1.5">💡 ' + r.reason + '</div>';
         } else {
           html += '<div style="color:var(--text3);font-size:12px;text-align:center;padding:8px">数据不足，无法计算因子</div>';
         }
