@@ -4254,7 +4254,7 @@
       try {
         var response = await fetch(config.baseUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + config.apiKey },
+          headers: { 'Content-Type': 'application/json', 'api-key': config.apiKey },
           body: JSON.stringify({ model: config.model || 'Qwen/Qwen3-8B', messages: [{ role: 'user', content: 'hi' }], max_tokens: 5 })
         });
         if (response.ok) {
@@ -4280,7 +4280,7 @@
       var presets = {
         siliconflow: { baseUrl: 'https://api.siliconflow.cn/v1/chat/completions', model: 'Qwen/Qwen3-8B' },
         deepseek: { baseUrl: 'https://api.deepseek.com/v1/chat/completions', model: 'deepseek-chat' },
-        mimo: { baseUrl: 'https://api.xiaomi.com/v1/chat/completions', model: 'MiMo-v2.5-pro' },
+        mimo: { baseUrl: 'https://token-plan-cn.xiaomimimo.com/v1/chat/completions', model: 'mimo-v2.5-pro' },
         openai: { baseUrl: 'https://api.openai.com/v1/chat/completions', model: 'gpt-4o-mini' }
       };
       var p = presets[provider];
@@ -4422,47 +4422,68 @@
       var lines = [];
       lines.push('你是用户的私人QDII基金投资助手，风格像朋友聊天一样轻松自然，用口语化中文。');
       lines.push('你的回答要实用、有数据支撑，控制在800字以内。用emoji让回答更生动。');
+      lines.push('你可以分析全量数据（不只是top5），包括：评分、因子分解、新闻情绪、外部信号、限购稀缺度。');
+      lines.push('用户问你买什么时，你要结合评分、趋势、限购、持仓集中度等多维度给出个性化建议，不要只推荐前5名。');
       lines.push('');
 
-      // 持仓数据
-      lines.push('=== 用户当前持仓 ===');
+      // 持仓数据（带盈亏）
+      lines.push('=== 用户当前持仓（含盈亏） ===');
       var holdings = portfolioData.holdings || [];
-      var totalInv = 0;
+      var totalInv = 0, totalVal = 0;
       holdings.forEach(function(h) {
         var inv = (h.buys || []).reduce(function(s, b) { return s + (b.amount || 0); }, 0);
         totalInv += inv;
+        // 获取最新净值
+        var cached = navCacheData[h.code];
+        var latestNav = cached && cached.length > 0 ? cached[cached.length - 1].nav : null;
+        var val = 0;
+        (h.buys || []).forEach(function(b) {
+          if (b.shares > 0 && latestNav) val += b.shares * latestNav;
+          else val += b.amount; // 未结算按投入算
+        });
+        totalVal += val;
+        var pnl = val - inv;
+        var pnlStr = pnl >= 0 ? '+' + pnl.toFixed(2) : pnl.toFixed(2);
         var settled = (h.buys || []).filter(function(b){return b.shares>0;}).length;
-        var pending = (h.buys || []).length - settled;
-        lines.push('- ' + h.name + ' (' + h.code + '): 投入' + inv + '元, ' + settled + '笔已结算' + (pending>0 ? ', '+pending+'笔待结算' : ''));
+        lines.push('- ' + h.name + ' (' + h.code + '): 投入' + inv + '元, 市值' + val.toFixed(0) + '元, 盈亏' + pnlStr + '元, ' + settled + '笔已结算');
       });
-      lines.push('总投入: ' + totalInv + '元, ' + holdings.length + '只基金');
+      lines.push('总投入: ' + totalInv + '元, 总市值: ' + totalVal.toFixed(0) + '元, 总盈亏: ' + (totalVal - totalInv).toFixed(2) + '元, ' + holdings.length + '只基金');
       lines.push('');
 
-      // 今日推荐
-      if (todayPicks && todayPicks.ranked && todayPicks.ranked.length > 0) {
+      // 全量评分数据（不只是top5）
+      if (todayPicks && todayPicks.allRanked && todayPicks.allRanked.length > 0) {
+        lines.push('=== 全量基金评分（共' + todayPicks.allRanked.length + '只，按评分排序） ===');
+        todayPicks.allRanked.forEach(function(f, i) {
+          var limit = f.dailyLimit ? ' 限购' + f.dailyLimit + '元' : '';
+          var inPortfolio = holdings.some(function(h) { return h.code === f.code; });
+          var tag = inPortfolio ? ' [已持有]' : '';
+          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 评分:' + f.score + limit + tag);
+          if (f.reason) lines.push('   因素: ' + f.reason);
+        });
+        lines.push('');
+      } else if (todayPicks && todayPicks.ranked) {
         lines.push('=== 今日推荐排名 ===');
-        todayPicks.ranked.slice(0, 5).forEach(function(f, i) {
-          var score = f.score || 'N/A';
-          var limit = f.dailyLimit ? '限购'+f.dailyLimit+'元' : '';
-          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 得分:' + score + ' ' + limit);
+        todayPicks.ranked.forEach(function(f, i) {
+          var limit = f.dailyLimit ? ' 限购' + f.dailyLimit + '元' : '';
+          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 得分:' + f.score + limit);
         });
         lines.push('');
       }
 
-      // 新闻
+      // 新闻（带情绪评分）
       if (newsData && newsData.items && newsData.items.length > 0) {
-        lines.push('=== 最新新闻 ===');
-        newsData.items.slice(0, 8).forEach(function(n) {
+        lines.push('=== 最新新闻（带情绪评分） ===');
+        newsData.items.slice(0, 12).forEach(function(n) {
           var emoji = (n._score > 0) ? '🟢' : ((n._score < 0) ? '🔴' : '⚪');
-          lines.push(emoji + ' ' + n.title + (n.source ? ' ['+n.source+']' : ''));
+          lines.push(emoji + ' ' + n.title + (n.source ? ' ['+n.source+']' : '') + ' (情绪:' + (n._score || 0) + ')');
         });
         lines.push('');
       }
 
       // 外部信号
       if (externalSignalsData && externalSignalsData.tickerOpinions && externalSignalsData.tickerOpinions.length > 0) {
-        lines.push('=== 外部信号 (Twitter) ===');
-        externalSignalsData.tickerOpinions.slice(0, 10).forEach(function(t) {
+        lines.push('=== 外部信号 (Twitter/Reddit) ===');
+        externalSignalsData.tickerOpinions.slice(0, 15).forEach(function(t) {
           lines.push('$' + t.ticker + ': ' + t.sentiment + ' (' + t.mentions + '次提及)');
         });
         lines.push('');
@@ -4475,15 +4496,24 @@
         lines.push('');
       }
 
-      // 限购信息
+      // 限购信息（稀缺度）
       if (purchaseLimits) {
-        var limits = Object.keys(purchaseLimits).map(function(code) {
+        var scarce = [], normal = [];
+        Object.keys(purchaseLimits).forEach(function(code) {
           var p = purchaseLimits[code];
-          return code + ': 限' + p.limit + '元';
+          if (p.limit <= 10) scarce.push(code + '限' + p.limit + '元');
+          else if (p.limit <= 100) normal.push(code + '限' + p.limit + '元');
         });
-        lines.push('=== 限购额度 ===');
-        lines.push(limits.join(', '));
-        lines.push('');
+        if (scarce.length > 0) {
+          lines.push('=== 稀缺基金（限购≤10元，建议优先买入） ===');
+          lines.push(scarce.join(', '));
+          lines.push('');
+        }
+        if (normal.length > 0) {
+          lines.push('=== 限购基金（11-100元） ===');
+          lines.push(normal.join(', '));
+          lines.push('');
+        }
       }
 
       return lines.join('\n');
@@ -4528,7 +4558,7 @@
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + config.apiKey
+            'api-key': config.apiKey
           },
           body: JSON.stringify({
             model: config.model || 'mimo-v2.5-pro',
