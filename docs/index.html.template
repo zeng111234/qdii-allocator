@@ -3224,10 +3224,43 @@
       }
 
       card.style.display = 'block';
-      var html = '<div style="font-size:11px;color:var(--text3);margin-bottom:8px">' + todayPicks.date + ' · ' + (todayPicks.strategy || '') + '</div>';
+      var html = '<div style="font-size:11px;color:var(--text3);margin-bottom:8px">' + todayPicks.date + ' · ' + (todayPicks.strategy || '') + ' · <span style="color:var(--primary)">评分来自客户端因子引擎</span></div>';
+
+      // 用客户端 FactorEngine 重新计算分数，保证和评分Tab一致
+      var picksRanked = todayPicks.ranked.map(function(r) {
+        var cached = navCacheData[r.code];
+        var navArr = null;
+        if (cached && Array.isArray(cached) && cached.length >= 10) {
+          var sorted = cached.slice().sort(function(a, b) { return a.date < b.date ? -1 : 1; });
+          navArr = sorted.map(function(x) { return x.nav; });
+        }
+        var fund = fundsData.funds.find(function(f) { return f.code === r.code; });
+        var clientScore = null;
+        if (navArr && navArr.length >= 10) {
+          var rawScores = FactorEngine.computeAll(navArr, fund);
+          // 简单加权平均（和 computeRankings 一致）
+          var weights = FactorEngine.getDefaultWeights();
+          var totalWeight = 0, weightedSum = 0;
+          Object.keys(rawScores).forEach(function(fid) {
+            if (rawScores[fid] === null || rawScores[fid] === undefined || isNaN(rawScores[fid])) return;
+            var w = weights[fid] || 1;
+            weightedSum += rawScores[fid] * w;
+            totalWeight += Math.abs(w);
+          });
+          clientScore = totalWeight > 0 ? weightedSum / totalWeight : null;
+        }
+        return {
+          code: r.code, name: r.name, reason: r.reason, dailyLimit: r.dailyLimit,
+          score: clientScore !== null ? Math.round(clientScore * 10) / 10 : r.score,
+          isClientScore: clientScore !== null
+        };
+      });
+
+      // 按客户端分数排序
+      picksRanked.sort(function(a, b) { return (b.score || 0) - (a.score || 0); });
 
       // Top 5 详细卡片
-      todayPicks.ranked.slice(0, 5).forEach(function(r, i) {
+      picksRanked.slice(0, 5).forEach(function(r, i) {
         var medal = i === 0 ? '🥇' : (i === 1 ? '🥈' : (i === 2 ? '🥉' : (i + 1) + '.'));
         var limitInfo = purchaseLimits[r.code];
         var limitAmt = limitInfo ? (limitInfo.limit || 99999) : 99999;
@@ -3259,7 +3292,7 @@
 
       // 限购汇总
       var limited = [];
-      todayPicks.ranked.forEach(function(r) {
+      picksRanked.forEach(function(r) {
         var info = purchaseLimits[r.code];
         if (info && info.limit && info.limit < 100000 && info.status !== '暂停申购') {
           limited.push({ code: r.code, name: r.name, limit: info.limit });
@@ -4450,9 +4483,9 @@
       lines.push('总投入: ' + totalInv + '元, 总市值: ' + totalVal.toFixed(0) + '元, 总盈亏: ' + (totalVal - totalInv).toFixed(2) + '元, ' + holdings.length + '只基金');
       lines.push('');
 
-      // 全量评分数据（不只是top5）
+      // 全量评分数据（用客户端FactorEngine，和评分Tab一致）
       if (todayPicks && todayPicks.allRanked && todayPicks.allRanked.length > 0) {
-        lines.push('=== 全量基金评分（共' + todayPicks.allRanked.length + '只，按评分排序） ===');
+        lines.push('=== 全量基金评分（共' + todayPicks.allRanked.length + '只，评分来自客户端因子引擎，与评分Tab一致） ===');
         todayPicks.allRanked.forEach(function(f, i) {
           var limit = f.dailyLimit ? ' 限购' + f.dailyLimit + '元' : '';
           var inPortfolio = holdings.some(function(h) { return h.code === f.code; });
