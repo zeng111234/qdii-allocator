@@ -4455,8 +4455,14 @@
       var lines = [];
       lines.push('你是用户的私人QDII基金投资助手，风格像朋友聊天一样轻松自然，用口语化中文。');
       lines.push('你的回答要实用、有数据支撑，控制在800字以内。用emoji让回答更生动。');
-      lines.push('你可以分析全量数据（不只是top5），包括：评分、因子分解、新闻情绪、外部信号、限购稀缺度。');
-      lines.push('用户问你买什么时，你要结合评分、趋势、限购、持仓集中度等多维度给出个性化建议，不要只推荐前5名。');
+      lines.push('');
+      lines.push('═══ 投资建议核心原则（必须遵守）═══');
+      lines.push('1. 评分高 ≠ 推荐买。要结合用户已有持仓、风格分散、回撤承受力综合判断。');
+      lines.push('2. 用户已持有的基金要标注出来，避免重复推荐同类基金。');
+      lines.push('3. 如果用户持仓中某类基金过多（如纳指>5只），应建议补充其他类型而非继续加仓。');
+      lines.push('4. 限购≤10元的基金稀缺，可以建议买入但金额很小。不限额的基金要谨慎，可能是热度不够。');
+      lines.push('5. 推荐时必须说明"为什么买这只而不是那只"，不能只说"评分最高"。');
+      lines.push('6. 要考虑用户总投入约1000元的体量，每次买入建议30-100元。');
       lines.push('');
 
       // 持仓数据（带盈亏）
@@ -4483,23 +4489,40 @@
       lines.push('总投入: ' + totalInv + '元, 总市值: ' + totalVal.toFixed(0) + '元, 总盈亏: ' + (totalVal - totalInv).toFixed(2) + '元, ' + holdings.length + '只基金');
       lines.push('');
 
-      // 全量评分数据（用客户端FactorEngine，和评分Tab一致）
-      if (todayPicks && todayPicks.allRanked && todayPicks.allRanked.length > 0) {
-        lines.push('=== 全量基金评分（共' + todayPicks.allRanked.length + '只，评分来自客户端因子引擎，与评分Tab一致） ===');
-        todayPicks.allRanked.forEach(function(f, i) {
-          var limit = f.dailyLimit ? ' 限购' + f.dailyLimit + '元' : '';
+      // 全量评分数据（用客户端FactorEngine实时计算，和评分Tab完全一致）
+      try {
+        var allFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
+        var clientRanked = [];
+        allFunds.forEach(function(fund) {
+          var cached = navCacheData[fund.code];
+          if (!cached || !Array.isArray(cached) || cached.length < 10) return;
+          var sorted = cached.slice().sort(function(a, b) { return a.date < b.date ? -1 : 1; });
+          var navArr = sorted.map(function(x) { return x.nav; });
+          var rawScores = FactorEngine.computeAll(navArr, fund);
+          var weights = FactorEngine.getDefaultWeights();
+          var totalWeight = 0, weightedSum = 0;
+          Object.keys(rawScores).forEach(function(fid) {
+            if (rawScores[fid] === null || rawScores[fid] === undefined || isNaN(rawScores[fid])) return;
+            var w = weights[fid] || 1;
+            weightedSum += rawScores[fid] * w;
+            totalWeight += Math.abs(w);
+          });
+          var score = totalWeight > 0 ? Math.round(weightedSum / totalWeight * 10) / 10 : null;
+          if (score !== null) clientRanked.push({ code: fund.code, name: fund.name, type: fund.type, score: score });
+        });
+        clientRanked.sort(function(a, b) { return b.score - a.score; });
+
+        lines.push('=== 全量基金评分（' + clientRanked.length + '只，客户端因子引擎实时计算，与评分Tab一致） ===');
+        clientRanked.forEach(function(f, i) {
+          var limitInfo = purchaseLimits ? purchaseLimits[f.code] : null;
+          var limit = limitInfo ? (limitInfo.limit ? ' 限购' + limitInfo.limit + '元' : '') : '';
           var inPortfolio = holdings.some(function(h) { return h.code === f.code; });
           var tag = inPortfolio ? ' [已持有]' : '';
-          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 评分:' + f.score + limit + tag);
-          if (f.reason) lines.push('   因素: ' + f.reason);
+          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 评分:' + f.score + ' 类型:' + (f.type||'') + limit + tag);
         });
         lines.push('');
-      } else if (todayPicks && todayPicks.ranked) {
-        lines.push('=== 今日推荐排名 ===');
-        todayPicks.ranked.forEach(function(f, i) {
-          var limit = f.dailyLimit ? ' 限购' + f.dailyLimit + '元' : '';
-          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 得分:' + f.score + limit);
-        });
+      } catch(e) {
+        lines.push('（评分数据加载失败）');
         lines.push('');
       }
 
