@@ -2560,6 +2560,8 @@
             html += '<span class="factor-bar-value" style="color:' + barColor + '">' + val.toFixed(0) + '</span>';
             html += '</div>';
           });
+        } else if (r.reason) {
+          html += '<div style="color:var(--text3);font-size:11px;padding:8px;line-height:1.5">💡 ' + r.reason + '</div>';
         } else {
           html += '<div style="color:var(--text3);font-size:12px;text-align:center;padding:8px">数据不足，无法计算因子</div>';
         }
@@ -2630,6 +2632,7 @@
             name: r.name,
             composite: r.score,
             rawScores: {},
+            factorScores: {},
             reason: r.reason,
             insufficient: false
           };
