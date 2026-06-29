@@ -2396,8 +2396,10 @@
       var macdLine = ema12.map(function(v, i) { return v - ema26[i]; });
       var signal = ema(macdLine.slice(-9), 9);
       var histogram = macdLine[macdLine.length - 1] - signal[signal.length - 1];
-      // 归一化：histogram 通常在 -0.5 到 0.5 之间
-      return Math.max(0, Math.min(100, 50 + histogram * 100));
+      // 用价格百分比归一化，扩大值域
+      var lastPrice = closes[closes.length - 1];
+      var pctHistogram = (histogram / lastPrice) * 1000; // 放大 1000 倍
+      return Math.max(0, Math.min(100, 50 + pctHistogram * 500));
     }, 2.0);
 
     // 布林带位置
@@ -2436,7 +2438,8 @@
       var recent = navArr.slice(-10), older = navArr.slice(-20, -10);
       var recentVol = recent.reduce(function(s, d) { return s + Math.abs(d.change || 0); }, 0) / 10;
       var olderVol = older.reduce(function(s, d) { return s + Math.abs(d.change || 0); }, 0) / 10;
-      if (olderVol === 0) return 50;
+      if (olderVol === 0 && recentVol === 0) return null; // 没有变动数据
+      if (olderVol === 0) return 70; // 近期有变动但前期没有，偏正面
       var ratio = recentVol / olderVol;
       return Math.max(0, Math.min(100, 50 + (ratio - 1) * 50));
     }, 1.2);
@@ -2451,13 +2454,13 @@
         var dd = (peak - closes[i]) / peak;
         if (dd > maxDD) { maxDD = dd; maxDDIdx = i; }
       }
-      if (maxDD === 0) return 90;
+      if (maxDD === 0) return 80; // 没有回撤，高分
       // 从最大回撤点到现在恢复了多少
       var ddNav = closes[maxDDIdx], nowNav = closes[closes.length - 1];
-      var recovery = (nowNav - ddNav) / (closes.slice(0, maxDDIdx + 1).max || peak - ddNav || 1);
-      // 恢复越快越好
-      var score = Math.max(0, Math.min(100, 50 + recovery * 100));
-      return score;
+      var peakNav = closes.slice(0, maxDDIdx + 1).reduce(function(a,b){return Math.max(a,b);}, 0);
+      var recovery = peakNav > ddNav ? (nowNav - ddNav) / (peakNav - ddNav) : 0;
+      // 恢复越快越好，值域 10-90
+      return Math.max(10, Math.min(90, 10 + recovery * 80));
     }, 1.5);
 
     // 趋势强度（ADX 近似）
@@ -2500,7 +2503,7 @@
       // 归一化到 0-100
       if (score > 0) return Math.min(100, 50 + score * 10);
       if (score < 0) return Math.max(0, 50 + score * 10);
-      return 50;
+      return null; // 没有匹配到任何新闻，返回 null 而不是 50
     }, 1.5);
 
     // 外部信号因子：基于 Twitter 观点
@@ -2508,6 +2511,7 @@
       if (typeof externalSignalsData === 'undefined' || !externalSignalsData || !externalSignalsData.tickerOpinions) return null;
       var type = fundMeta ? (fundMeta.type || '') : '';
       var tickers = externalSignalsData.tickerOpinions || [];
+      if (tickers.length === 0) return null; // 没有外部信号数据
       var bullish = 0, bearish = 0;
       tickers.forEach(function(t) {
         if (t.sentiment === '看涨') bullish += t.mentions || 1;
@@ -2516,7 +2520,7 @@
       var net = bullish - bearish;
       if (net > 0) return Math.min(100, 50 + net * 5);
       if (net < 0) return Math.max(0, 50 + net * 5);
-      return 50;
+      return null; // 没有明确方向，返回 null
     }, 1.2);
 
     // 相关性因子：与已有持仓的相关性（低相关加分）
