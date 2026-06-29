@@ -2386,7 +2386,7 @@
     // MACD 动量
     FactorEngine.register('macd_momentum', 'MACD动量', 'momentum', function(navArr) {
       if (!navArr || navArr.length < 20) return null;
-      var closes = navArr.map(function(d) { return d.nav; });
+      var closes = navArr; // 已经是纯数值数组
       function ema(arr, n) {
         var k = 2 / (n + 1), result = [arr[0]];
         for (var i = 1; i < arr.length; i++) result.push(arr[i] * k + result[i-1] * (1-k));
@@ -2396,16 +2396,15 @@
       var macdLine = ema12.map(function(v, i) { return v - ema26[i]; });
       var signal = ema(macdLine.slice(-9), 9);
       var histogram = macdLine[macdLine.length - 1] - signal[signal.length - 1];
-      // 用价格百分比归一化，扩大值域
       var lastPrice = closes[closes.length - 1];
-      var pctHistogram = (histogram / (lastPrice || 1)) * 1000; // 放大 1000 倍，避免除以 0
+      var pctHistogram = (histogram / (lastPrice || 1)) * 1000;
       return Math.max(0, Math.min(100, 50 + pctHistogram * 500));
     }, 2.0);
 
     // 布林带位置
     FactorEngine.register('bollinger_pos', '布林带位置', 'momentum', function(navArr) {
       if (!navArr || navArr.length < 20) return null;
-      var closes = navArr.map(function(d) { return d.nav; });
+      var closes = navArr; // 已经是纯数值数组
       var n = 20, slice = closes.slice(-n);
       var mean = slice.reduce(function(s, v) { return s + v; }, 0) / n;
       var std = Math.sqrt(slice.reduce(function(s, v) { return s + (v - mean) * (v - mean); }, 0) / n);
@@ -2420,7 +2419,7 @@
     FactorEngine.register('momentum_5d', '5日动量', 'momentum', function(navArr) {
       if (!navArr || navArr.length < 5) return null;
       var n = navArr.length;
-      return ((navArr[n - 1].nav / navArr[n - 5].nav) - 1) * 100;
+      return ((navArr[n - 1] / navArr[n - 5]) - 1) * 100;
     }, 1.0);
 
     // 120日动量（长期）
@@ -2428,9 +2427,9 @@
       if (!navArr || navArr.length < 15) return null;
       var n = navArr.length;
       var lookback = Math.min(120, n - 1); // 不够120天就用全部数据
-      var baseNav = navArr[n - 1 - lookback] ? navArr[n - 1 - lookback].nav : navArr[0].nav;
+      var baseNav = navArr[n - 1 - lookback] !== undefined ? navArr[n - 1 - lookback] : navArr[0];
       if (!baseNav || baseNav === 0) return null;
-      return ((navArr[n - 1].nav / baseNav) - 1) * 100;
+      return ((navArr[n - 1] / baseNav) - 1) * 100;
     }, 1.5);
 
     // ═══ 资金面维度 ═══
@@ -2450,7 +2449,7 @@
     // 最大回撤恢复速度
     FactorEngine.register('recovery_speed', '回撤恢复速度', 'drawdown', function(navArr) {
       if (!navArr || navArr.length < 15) return null;
-      var closes = navArr.map(function(d) { return d.nav; });
+      var closes = navArr; // 已经是纯数值数组
       var peak = closes[0], maxDD = 0, maxDDIdx = 0;
       for (var i = 1; i < closes.length; i++) {
         if (closes[i] > peak) peak = closes[i];
@@ -2469,7 +2468,7 @@
     // 趋势强度（ADX 近似）
     FactorEngine.register('trend_strength', '趋势强度', 'trend', function(navArr) {
       if (!navArr || navArr.length < 20) return null;
-      var closes = navArr.map(function(d) { return d.nav; });
+      var closes = navArr; // 已经是纯数值数组
       var gains = [], losses = [];
       for (var i = 1; i < closes.length; i++) {
         var diff = closes[i] - closes[i - 1];
@@ -2593,7 +2592,7 @@
           var sorted = cached.slice().sort(function(a, b) {
             return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0);
           });
-          navArr = sorted; // 传完整对象数组，因子函数需要 {nav} 属性
+          navArr = sorted.map(function(x) { return x.nav; });
         } else if (cached && !Array.isArray(cached) && cached.nav) {
           // Single entry — not enough for factor computation
           navArr = null;
