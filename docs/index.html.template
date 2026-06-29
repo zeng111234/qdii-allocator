@@ -2633,9 +2633,13 @@
 
       // Try with embedded navCacheData first
       var hasEmbeddedHistory = false;
+      var fundCount = 0;
       activeFunds.forEach(function(f) {
         var cached = navCacheData[f.code];
-        if (cached && Array.isArray(cached) && cached.length >= 30) hasEmbeddedHistory = true;
+        if (cached && Array.isArray(cached) && cached.length >= 10) {
+          hasEmbeddedHistory = true;
+          fundCount++;
+        }
       });
 
       if (hasEmbeddedHistory) {
