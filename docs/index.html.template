@@ -2398,7 +2398,7 @@
       var histogram = macdLine[macdLine.length - 1] - signal[signal.length - 1];
       // 用价格百分比归一化，扩大值域
       var lastPrice = closes[closes.length - 1];
-      var pctHistogram = (histogram / lastPrice) * 1000; // 放大 1000 倍
+      var pctHistogram = (histogram / (lastPrice || 1)) * 1000; // 放大 1000 倍，避免除以 0
       return Math.max(0, Math.min(100, 50 + pctHistogram * 500));
     }, 2.0);
 
@@ -2427,7 +2427,10 @@
     FactorEngine.register('momentum_120d', '120日收益', 'momentum', function(navArr) {
       if (!navArr || navArr.length < 15) return null;
       var n = navArr.length;
-      return ((navArr[n - 1].nav / navArr[n - 120].nav) - 1) * 100;
+      var lookback = Math.min(120, n - 1); // 不够120天就用全部数据
+      var baseNav = navArr[n - 1 - lookback] ? navArr[n - 1 - lookback].nav : navArr[0].nav;
+      if (!baseNav || baseNav === 0) return null;
+      return ((navArr[n - 1].nav / baseNav) - 1) * 100;
     }, 1.5);
 
     // ═══ 资金面维度 ═══
