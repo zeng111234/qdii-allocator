@@ -179,6 +179,9 @@ async function build() {
           strategy: latest.strategy,
           ranked: (latest.ranked || []).slice(0, 10).map(function(r) {
             return { code: r.code, name: r.name, score: r.score, reason: r.reason ? r.reason.substring(0, 80) : '' };
+          }),
+          allRanked: (latest.ranked || []).map(function(r) {
+            return { code: r.code, name: r.name, score: r.score, reason: r.reason ? r.reason.substring(0, 120) : '' };
           })
         };
       }

@@ -2622,7 +2622,23 @@
     function renderRanking() {
       var c = document.getElementById('ranking-content');
 
-      // Phase 1: Use embedded NAV data (quick, but limited to latest entries)
+      // 优先使用服务端评分数据（更准确，含外部信号和新闻情绪）
+      if (todayPicks && todayPicks.allRanked && todayPicks.allRanked.length > 0) {
+        _rankingState.results = todayPicks.allRanked.map(function(r) {
+          return {
+            code: r.code,
+            name: r.name,
+            composite: r.score,
+            rawScores: {},
+            reason: r.reason,
+            insufficient: false
+          };
+        });
+        c.innerHTML = buildRankingHTML(_rankingState.results);
+        return;
+      }
+
+      // 回退：用客户端 FactorEngine 计算
       var activeFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
 
       // Check if we already have cached results
@@ -2643,7 +2659,6 @@
       });
 
       if (hasEmbeddedHistory) {
-        // Embedded data has history — compute immediately
         _rankingState.results = computeRankings(navCacheData);
         c.innerHTML = buildRankingHTML(_rankingState.results);
       } else {
