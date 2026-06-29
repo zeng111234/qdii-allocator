@@ -2931,32 +2931,24 @@
         (h.buys || []).forEach(function(buy) {
           if (buy.shares && buy.shares > 0) return; // 已结算
           if (!buy.date || !buy.amount) return;
-          // 用 navCacheData 查找结算日净值（T+2）
           var cached = navCacheData[h.code];
           if (!cached || !Array.isArray(cached) || cached.length === 0) return;
-          // 买入日+2个交易日
-          var buyDate = new Date(buy.date);
-          var settleIdx = -1;
-          var tradingDays = 0;
+          // 买入日之后找第2个交易日的净值（T+2）
+          var tradingDays = 0, settleNav = null, settleDate = null;
           for (var i = 0; i < cached.length; i++) {
             if (cached[i].date >= buy.date) {
               tradingDays++;
-              if (tradingDays >= 2) { settleIdx = i; break; }
+              if (tradingDays >= 2) { settleNav = cached[i].nav; settleDate = cached[i].date; break; }
             }
           }
-          if (settleIdx < 0 && cached.length > 2) settleIdx = Math.min(cached.length - 1, 2);
-          if (settleIdx >= 0 && cached[settleIdx]) {
-            var nav = cached[settleIdx].nav;
-            if (nav && nav > 0) {
-              buy.nav = nav;
-              buy.shares = Math.round(buy.amount / nav * 10000) / 10000;
-              buy.settleDate = cached[settleIdx].date;
-              changed = true;
-            }
+          if (settleNav && settleNav > 0) {
+            buy.nav = settleNav;
+            buy.shares = Math.round(buy.amount / settleNav * 10000) / 10000;
+            buy.settleDate = settleDate;
+            changed = true;
           }
         });
       });
-      if (changed) savePortfolio();
     }
 
     // 数据同步功能 - GitHub Gist
