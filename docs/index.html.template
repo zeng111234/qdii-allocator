@@ -3224,40 +3224,22 @@
       }
 
       card.style.display = 'block';
-      var html = '<div style="font-size:11px;color:var(--text3);margin-bottom:8px">' + todayPicks.date + ' · ' + (todayPicks.strategy || '') + ' · <span style="color:var(--primary)">评分来自客户端因子引擎</span></div>';
+      var html = '<div style="font-size:11px;color:var(--text3);margin-bottom:8px">' + todayPicks.date + ' · ' + (todayPicks.strategy || '') + ' · <span style="color:var(--primary)">评分与评分Tab一致</span></div>';
 
-      // 用客户端 FactorEngine 重新计算分数，保证和评分Tab一致
-      var picksRanked = todayPicks.ranked.map(function(r) {
-        var cached = navCacheData[r.code];
-        var navArr = null;
-        if (cached && Array.isArray(cached) && cached.length >= 10) {
-          var sorted = cached.slice().sort(function(a, b) { return a.date < b.date ? -1 : 1; });
-          navArr = sorted.map(function(x) { return x.nav; });
-        }
-        var fund = fundsData.funds.find(function(f) { return f.code === r.code; });
-        var clientScore = null;
-        if (navArr && navArr.length >= 10) {
-          var rawScores = FactorEngine.computeAll(navArr, fund);
-          // 简单加权平均（和 computeRankings 一致）
-          var weights = FactorEngine.getDefaultWeights();
-          var totalWeight = 0, weightedSum = 0;
-          Object.keys(rawScores).forEach(function(fid) {
-            if (rawScores[fid] === null || rawScores[fid] === undefined || isNaN(rawScores[fid])) return;
-            var w = weights[fid] || 1;
-            weightedSum += rawScores[fid] * w;
-            totalWeight += Math.abs(w);
-          });
-          clientScore = totalWeight > 0 ? weightedSum / totalWeight : null;
-        }
+      // 直接用 computeRankings 的结果，保证和评分Tab完全一致
+      var allRanked = computeRankings ? computeRankings(navCacheData) : [];
+      var picksLimitMap = {};
+      (todayPicks.ranked || []).forEach(function(r) { picksLimitMap[r.code] = r; });
+      var picksRanked = allRanked.filter(function(r) { return r.composite !== null; }).map(function(r) {
+        var pick = picksLimitMap[r.code] || {};
         return {
-          code: r.code, name: r.name, reason: r.reason, dailyLimit: r.dailyLimit,
-          score: clientScore !== null ? Math.round(clientScore * 10) / 10 : r.score,
-          isClientScore: clientScore !== null
+          code: r.code, name: r.name, type: r.type,
+          score: Math.round(r.composite * 10) / 10,
+          dailyLimit: pick.dailyLimit,
+          reason: pick.reason
         };
       });
-
-      // 按客户端分数排序
-      picksRanked.sort(function(a, b) { return (b.score || 0) - (a.score || 0); });
+      picksRanked.sort(function(a, b) { return b.score - a.score; });
 
       // Top 5 详细卡片
       picksRanked.slice(0, 5).forEach(function(r, i) {
