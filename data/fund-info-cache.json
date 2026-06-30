@@ -189,11 +189,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.212,
+  "nav": 1.203,
   "realNav": 0,
-  "yearReturn": 24.69,
-  "threeYearReturn": 33.33,
-  "_cachedAt": 1782474584569
+  "yearReturn": 22.51,
+  "threeYearReturn": 32.74,
+  "_cachedAt": 1782795582988
  },
  "164701": {
   "status": "limited",
@@ -279,6 +279,20 @@
   "threeYearReturn": 31.03,
   "_cachedAt": 1780934346883
  },
+ "501226": {
+  "status": "limited",
+  "limit": 500,
+  "minPurchase": 10,
+  "rawStatus": "限大额",
+  "premiumRate": 0,
+  "premiumStale": false,
+  "gzTime": "",
+  "nav": 2.9377,
+  "realNav": 0,
+  "yearReturn": 82.98,
+  "threeYearReturn": 149.63,
+  "_cachedAt": 1782795584144
+ },
  "539001": {
   "status": "limited",
   "limit": 100,
@@ -301,11 +315,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 2.7,
+  "nav": 2.723,
   "realNav": 0,
-  "yearReturn": 139.79,
-  "threeYearReturn": 251.11,
-  "_cachedAt": 1782474585656
+  "yearReturn": 135.55,
+  "threeYearReturn": 258.29,
+  "_cachedAt": 1782795583400
  },
  "539003": {
   "status": "limited",
@@ -441,11 +455,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 6.5295,
+  "nav": 6.2714,
   "realNav": 0,
-  "yearReturn": 31.12,
-  "threeYearReturn": 80.37,
-  "_cachedAt": 1782216781201
+  "yearReturn": 21.5,
+  "threeYearReturn": 74.74,
+  "_cachedAt": 1782795581808
  },
  "001092": {
   "status": "limited",
@@ -595,11 +609,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 1.457,
+  "nav": 1.415,
   "realNav": 0,
-  "yearReturn": 59.76,
-  "threeYearReturn": 59.93,
-  "_cachedAt": 1782710801986
+  "yearReturn": 54.14,
+  "threeYearReturn": 56.53,
+  "_cachedAt": 1782795582600
  },
  "012812": {
   "status": "active",
@@ -847,11 +861,11 @@
   "premiumRate": 0,
   "premiumStale": false,
   "gzTime": "",
-  "nav": 3.9939,
+  "nav": 3.7526,
   "realNav": 0,
-  "yearReturn": 223.37,
-  "threeYearReturn": 290.18,
-  "_cachedAt": 1782216782764
+  "yearReturn": 189.75,
+  "threeYearReturn": 266.61,
+  "_cachedAt": 1782795582200
  },
  "019524": {
   "status": "limited",
@@ -894,5 +908,19 @@
   "yearReturn": 15.8,
   "threeYearReturn": 20.94,
   "_cachedAt": 1782450353216
+ },
+ "005698": {
+  "status": "limited",
+  "limit": 1000,
+  "minPurchase": 10,
+  "rawStatus": "限大额",
+  "premiumRate": 0,
+  "premiumStale": false,
+  "gzTime": "",
+  "nav": 3.9741,
+  "realNav": 0,
+  "yearReturn": 110.34,
+  "threeYearReturn": 230.46,
+  "_cachedAt": 1782795583816
  }
 }

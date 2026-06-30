@@ -19,7 +19,7 @@
       "outcome": null,
       "followUpReturns": {
         "3d": 6.2,
-        "7d": null,
+        "7d": 9.81,
         "14d": null,
         "30d": null
       }
@@ -43,7 +43,7 @@
       "outcome": null,
       "followUpReturns": {
         "3d": 6.51,
-        "7d": null,
+        "7d": 9.93,
         "14d": null,
         "30d": null
       }
@@ -190,7 +190,7 @@
       "outcome": null,
       "followUpReturns": {
         "3d": 5.32,
-        "7d": null,
+        "7d": -0.64,
         "14d": null,
         "30d": null
       }
@@ -237,7 +237,7 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
+        "3d": -2.46,
         "7d": null,
         "14d": null,
         "30d": null
@@ -278,14 +278,17 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "validated",
       "createdAt": "2026-06-24T12:01:34.832Z",
       "navAtCreation": 3.7259,
-      "validatedAt": null,
+      "validatedAt": "2026-06-30T05:11:33.744Z",
       "invalidatedAt": null,
-      "outcome": null,
+      "outcome": {
+        "return": 11.21,
+        "holdingDays": 5
+      },
       "followUpReturns": {
-        "3d": null,
+        "3d": 11.21,
         "7d": null,
         "14d": null,
         "30d": null
@@ -362,12 +365,61 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1782796293740",
+      "fundCode": "017730",
+      "fundName": "嘉实全球产业升级股票(QDII)A",
+      "type": "稀缺溢价",
+      "thesis": "系统推荐#2，分数36.64。1年涨161.04%加32.2分，3年累计313%加15.7分，夏普1.77加8分，最大回撤-27.98%扣4.2分，长期牛市+3分，近期新高扣5.7分，低于M",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-30T05:11:33.740Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1782796293741",
+      "fundCode": "006373",
+      "fundName": "国富全球科技互联混合(QDII)A",
+      "type": "均值回归",
+      "thesis": "系统推荐#5，分数23.33。1年涨110.42%加22.1分，3年累计237.51%加11.9分，夏普1.7加7.7分，最大回撤-22.26%扣3.3分，长期牛市+3分，近期新高扣13.4",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-06-30T05:11:33.741Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
     "active": 14,
-    "validated": 1,
+    "validated": 2,
     "invalidated": 0,
-    "expired": 0
+    "expired": 0,
+    "total": 1
   }
 }
