@@ -1141,9 +1141,11 @@
         if (limit) html += '<span>' + limit + '</span>';
         html += '</div>';
         html += '<div class="detail" id="detail-' + i + '">';
-        h.buys.forEach(function(b) {
+        h.buys.forEach(function(b, bi) {
           html += '<div class="detail-row"><span>' + b.date + ' 买入' + b.amount + '元</span>';
-          html += '<span>' + (b.nav ? '净值' + b.nav : '待确认') + '</span></div>';
+          html += '<span style="display:flex;align-items:center;gap:8px">' + (b.nav ? '净值' + b.nav : '待确认');
+          html += '<button onclick="deleteBuy(' + i + ',' + bi + ')" style="background:var(--danger);color:#fff;border:none;border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer">删除</button>';
+          html += '</span></div>';
         });
         html += '</div></div>';
       });
@@ -2908,6 +2910,23 @@
 
     var STORAGE_KEY = 'qdii-portfolio';
     function saveLocal() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(portfolioData)); } catch(e) {} }
+
+    // 删除单笔买入记录
+    function deleteBuy(holdingIdx, buyIdx) {
+      if (!portfolioData || !portfolioData.holdings) return;
+      var h = portfolioData.holdings[holdingIdx];
+      if (!h || !h.buys) return;
+      var b = h.buys[buyIdx];
+      if (!b) return;
+      if (!confirm('确认删除 ' + h.name + ' ' + b.date + ' ' + b.amount + '元 的买入记录？')) return;
+      h.buys.splice(buyIdx, 1);
+      if (h.buys.length === 0) portfolioData.holdings.splice(holdingIdx, 1);
+      saveLocal();
+      updateSummary();
+      updateHoldings();
+      showToast('已删除');
+    }
+
     function loadLocal() {
       try {
         var saved = localStorage.getItem(STORAGE_KEY);
