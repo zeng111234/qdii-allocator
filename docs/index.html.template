@@ -1052,8 +1052,11 @@
           timeVisible: false,
           secondsVisible: false,
           tickMarkFormatter: function(time) {
-            var d = new Date(time + 'T00:00:00');
-            return (d.getMonth()+1) + '/' + d.getDate();
+            if (typeof time === 'string' && time.length >= 10) {
+              var parts = time.split('-');
+              return parseInt(parts[1]) + '/' + parseInt(parts[2]);
+            }
+            return '';
           },
           minBarSpacing: 15
         },
