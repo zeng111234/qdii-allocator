@@ -1006,9 +1006,8 @@
       var pctData = [];
       rawData.forEach(function(d) {
         if (d.inv > 0) {
-          var ts = Math.floor(new Date(d.date + 'T00:00:00').getTime() / 1000);
           var pct = Math.round((d.val - d.inv) / d.inv * 10000) / 100;
-          pctData.push({ time: ts, value: pct });
+          pctData.push({ time: d.date, value: pct });
         }
       });
 
