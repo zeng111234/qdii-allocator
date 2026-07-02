@@ -1050,10 +1050,15 @@
         timeScale: {
           borderColor: 'rgba(0,0,0,0.06)',
           timeVisible: false,
-          secondsVisible: false
+          secondsVisible: false,
+          tickMarkFormatter: function(time) {
+            var d = new Date(time + 'T00:00:00');
+            return (d.getMonth()+1) + '/' + d.getDate();
+          },
+          minBarSpacing: 15
         },
-        handleScroll: false,
-        handleScale: false
+        handleScroll: true,
+        handleScale: true
       });
 
       // 面积图：盈利区域填充
