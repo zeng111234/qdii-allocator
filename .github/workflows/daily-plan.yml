@@ -92,11 +92,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/history.json data/nav-cache.json data/fund-info-cache.json data/portfolio.json data/external-signals-cache.json data/daily-brief.json data/hypotheses.json
-          git add -f docs/index.html docs/data/nav-cache.json docs/data/news.json
+          git add -f docs/index.html docs/data/nav-cache.json docs/data/news.json docs/data/external-signals-cache.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
             git commit -m "chore: update data & pages $(date +%Y/%m/%d)"
             git fetch origin main
-            git push --force-with-lease || echo "Push failed (possibly due to concurrent changes), skipping"
+            git rebase origin/main || true
+            git push origin main || echo "Push failed, skipping"
           fi
