@@ -1052,6 +1052,11 @@
           timeVisible: false,
           secondsVisible: false,
           tickMarkFormatter: function(time) {
+            // LightweightCharts time 可能是字符串 "YYYY-MM-DD" 或 Unix 秒数
+            if (typeof time === 'number') {
+              var d = new Date(time * 1000);
+              return (d.getMonth()+1) + '/' + d.getDate();
+            }
             if (typeof time === 'string' && time.length >= 10) {
               var parts = time.split('-');
               return parseInt(parts[1]) + '/' + parseInt(parts[2]);
