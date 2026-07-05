@@ -20,7 +20,7 @@ coverage/
 docs/index.html
 
 # Data caches (auto-generated, large files)
-data/nav-cache.json
+# [fix] nav-cache.json 需要跟踪,否则CI环境无法获取历史数据
 data/nav-cache.db
 data/fund-info-cache.json
 data/external-signals-cache.json
