@@ -26,6 +26,11 @@ jobs:
         with:
           node-version: '22'
 
+      # [fix] nav-cache.json 从 git 移除了，需要先生成
+      - name: Update NAV cache
+        continue-on-error: true
+        run: node scripts/update-nav-cache.js
+
       # [fix] pass secrets as env vars instead of writing to .env file
       - name: Build
         run: node build-pages.js

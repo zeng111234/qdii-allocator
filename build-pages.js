@@ -36,12 +36,22 @@ async function build() {
   // 读取模板
   let template = fs.readFileSync(TEMPLATE, 'utf-8');
 
-  // 读取数据
-  const portfolio = JSON.parse(fs.readFileSync(PORTFOLIO, 'utf-8'));
+  // 读取数据（portfolio.json 可能不存在，由 Firebase 同步或 daily-plan 生成）
+  let portfolio = { holdings: [], startDate: null };
+  if (fs.existsSync(PORTFOLIO)) {
+    portfolio = JSON.parse(fs.readFileSync(PORTFOLIO, 'utf-8'));
+  } else {
+    console.log('[构建] ⚠️ portfolio.json 不存在，使用空持仓');
+  }
   const funds = JSON.parse(fs.readFileSync(FUNDS, 'utf-8'));
 
-  // 读取净值缓存，提取每只基金的最新净值
-  const navCache = JSON.parse(fs.readFileSync(NAV_CACHE, 'utf-8'));
+  // 读取净值缓存，提取每只基金的最新净值（文件可能不存在，由 daily-plan 生成）
+  let navCache = {};
+  if (fs.existsSync(NAV_CACHE)) {
+    navCache = JSON.parse(fs.readFileSync(NAV_CACHE, 'utf-8'));
+  } else {
+    console.log('[构建] ⚠️ nav-cache.json 不存在，净值数据将为空（由 daily-plan workflow 生成）');
+  }
   const latestNavs = {};
   for (const code in navCache) {
     const navs = navCache[code];
