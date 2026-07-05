@@ -2392,21 +2392,19 @@
      * QDII-exclusive factor. Lower limit = more scarce = higher score.
      * Score: 100 (limit ≤ 10) to 0 (limit ≥ 10000 or unlimited).
      */
+    // [fix] 限购不再加分：每天只投50元，限购不影响决策（权重改为0）
     FactorEngine.register('scarce_limit', '限购稀缺度', 'qdii_special', function(navArr, fundMeta) {
-      if (!fundMeta) return null;
-      var limit = fundMeta.dailyLimit;
-      if (limit === undefined || limit === null) return 50;
-      if (limit <= 0) return 10; // suspended / no limit info
-      if (limit >= 100000) return 0; // effectively unlimited
-      if (limit <= 10) return 100;
-      if (limit <= 50) return 85;
-      if (limit <= 100) return 70;
-      if (limit <= 300) return 55;
-      if (limit <= 500) return 40;
-      if (limit <= 1000) return 30;
-      if (limit <= 5000) return 15;
-      return 5;
-    }, 1.0);
+      return 50; // 中性，不影响评分
+    }, 0);
+
+    // [fix] 新增估值因子：基于市场温度调整评分
+    FactorEngine.register('valuation_temp', '估值温度', 'qdii_special', function(navArr, fundMeta) {
+      if (!marketTemperature) return 50;
+      var temp = marketTemperature.temperature || 50;
+      // 温度越低（市场越冷）→ 分数越高（逆向思维，冷的时候更值得买）
+      // 温度20→90分, 温度50→50分, 温度80→20分
+      return Math.max(10, Math.min(90, 100 - temp));
+    }, 1.5);
 
     /**
      * Fee penalty: management fee + custody fee.
@@ -3383,7 +3381,29 @@
       }
 
       card.style.display = 'block';
-      var html = '<div style="font-size:11px;color:var(--text3);margin-bottom:8px">' + todayPicks.date + ' · ' + (todayPicks.strategy || '') + ' · <span style="color:var(--primary)">评分与评分Tab一致</span></div>';
+      var html = '';
+
+      // [fix] 温度调整后的定投建议
+      if (marketTemperature && marketTemperature.multiplier) {
+        var mt = marketTemperature;
+        var baseBudget = 50;
+        var adjustedBudget = Math.round(baseBudget * mt.multiplier);
+        var tempColor = mt.temperature <= 35 ? '#3b82f6' : (mt.temperature >= 65 ? '#ef4444' : '#22c55e');
+        html += '<div style="padding:10px 12px;margin-bottom:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--border)">';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center">';
+        html += '<div style="font-size:13px">🌡️ 市场温度 <b style="color:' + tempColor + '">' + mt.temperature + '</b> (' + mt.level + ')</div>';
+        html += '<div style="text-align:right">';
+        html += '<div style="font-size:11px;color:var(--text3)">建议今日投入</div>';
+        html += '<div style="font-size:20px;font-weight:700;color:' + tempColor + '">' + adjustedBudget + '元</div>';
+        html += '<div style="font-size:10px;color:var(--text3)">' + mt.multiplier + 'x（正常' + baseBudget + '元）</div>';
+        html += '</div></div>';
+        if (mt.reason && mt.reason !== '市场正常') {
+          html += '<div style="font-size:10px;color:var(--text3);margin-top:4px">' + mt.reason + '</div>';
+        }
+        html += '</div>';
+      }
+
+      html += '<div style="font-size:11px;color:var(--text3);margin-bottom:8px">' + todayPicks.date + ' · ' + (todayPicks.strategy || '') + ' · <span style="color:var(--primary)">评分含估值因子</span></div>';
 
       // 直接用 computeRankings 的结果，保证和评分Tab完全一致
       var allRanked = computeRankings ? computeRankings(navCacheData) : [];
@@ -3411,7 +3431,12 @@
           else if (limitInfo.limit && limitInfo.limit < 100000) limitText = '限' + limitInfo.limit + '元/天';
           else limitText = '不限额';
         }
-        var suggestAmt = Math.min(limitAmt, 20); // 建议金额：不超过限购和20元
+        // [fix] 建议金额基于温度调整：基础10元 × 温度倍数
+        var baseSuggest = 10;
+        if (marketTemperature && marketTemperature.multiplier) {
+          baseSuggest = Math.round(10 * marketTemperature.multiplier);
+        }
+        var suggestAmt = Math.min(limitAmt, baseSuggest);
         var bgColor = i === 0 ? 'var(--state-green-bg)' : (i <= 2 ? 'var(--bg2)' : 'var(--card)');
 
         html += '<div style="padding:10px;margin-bottom:6px;border-radius:8px;background:' + bgColor + ';border:1px solid var(--border)">';
