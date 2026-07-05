@@ -28,7 +28,7 @@ on:
 jobs:
   generate-plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     permissions:
       contents: write
     steps:
@@ -37,6 +37,15 @@ jobs:
         with:
           node-version: '22'
       - run: npm ci
+      - name: Update NAV cache
+        continue-on-error: true
+        run: node scripts/update-nav-cache.js
+      - name: Update purchase limits
+        continue-on-error: true
+        run: node scripts/update-purchase-limits.js
+      - name: Update external signals
+        continue-on-error: true
+        run: node scripts/update-external-signals.js
       - name: Generate AI Daily Brief
         continue-on-error: true
         run: |
@@ -76,15 +85,6 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
-      - name: Update NAV cache
-        continue-on-error: true
-        run: node scripts/update-nav-cache.js
-      - name: Update purchase limits
-        continue-on-error: true
-        run: node scripts/update-purchase-limits.js
-      - name: Update external signals
-        continue-on-error: true
-        run: node scripts/update-external-signals.js
       - name: Build GitHub Pages
         run: node build-pages.js
       - name: Commit updated data and pages
