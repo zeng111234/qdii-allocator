@@ -132,12 +132,12 @@
     .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
     .summary-item {
       padding: 14px 12px;
-      background: #f8f9ff;
+      background: var(--state-blue-bg);
       border-radius: 10px;
       text-align: center;
     }
     .summary-item .label { font-size: 11px; color: var(--text3); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.3px; }
-    .summary-item .value { font-size: 20px; font-weight: 700; }
+    .summary-item .value { font-size: 20px; font-weight: 700; color: var(--text); }
     .positive { color: var(--danger); }
     .negative { color: var(--success); }
 
@@ -3921,12 +3921,13 @@
 
     /* ── Walk-Forward Backtest + Performance Attribution (from Vibe-Trading backtest/) ── */
     // ── Firebase Cloud Sync ──
-    var FIREBASE_URL = 'https://qdii-8100d-default-rtdb.asia-southeast1.firebasedatabase.app';
-    var FIREBASE_KEY = 'AIzaSyBRsFx-5uldljvikqJrnQt5c3MiEi1PPPA';
+    // [fix] Firebase credentials injected by build-pages.js from environment variables
+    var FIREBASE_URL = 'FIREBASE_URL_PLACEHOLDER';
+    var FIREBASE_KEY = 'FIREBASE_KEY_PLACEHOLDER';
     var FIREBASE_PATH = '/portfolio.json';
 
     function syncLoad() {
-      if (!FIREBASE_URL || FIREBASE_URL === 'https://qdii-8100d-default-rtdb.asia-southeast1.firebasedatabase.app' || FIREBASE_URL === 'undefined') return;
+      if (!FIREBASE_URL || FIREBASE_URL === 'FIREBASE_URL_PLACEHOLDER' || FIREBASE_URL === 'undefined') return;
       fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY)
         .then(function(r) { return r.json(); })
         .then(function(data) {
