@@ -1,12 +1,51 @@
+# Dependencies
 node_modules/
+
+# Environment
 .env
+
+# Logs
 *.log
+
+# Testing
 coverage/
+
+# IDE / Tool config
+.codegraph/
+.reasonix/
+.vscode/
+.mcp/
+
+# Build output (built by CI, not committed)
 docs/index.html
-data/*.test-backup
+
+# Data caches (auto-generated, large files)
+data/nav-cache.json
 data/nav-cache.db
+data/fund-info-cache.json
+data/external-signals-cache.json
+data/seen-tweets.json
+data/weight-optimization.json
+data/daily-brief.json
+data/risk-alerts.json
+data/diary.json
+data/fund-reports.json
+data/goals.json
+data/holidays.json
+
+# Data files with patterns
+data/*.test-backup
 data/portfolio.*.json
+
+# Runtime artifacts
 data/review-report.md
+
+# Windows artifacts
 nul
+*.bat
+
+# Personal tooling
 reasonix.toml
-docs/data/
+fix-github-mcp.*
+github-mcp-config.txt
+runs.json

@@ -1,8 +1,7 @@
 name: Build & Deploy Pages
 
 on:
-  push:
-    branches: [main]
+  # [fix] removed push trigger to avoid double-build with daily-plan.yml
   workflow_dispatch:
   schedule:
     - cron: '0 */6 * * *'  # 每6小时自动构建一次（0,6,12,18点UTC）
@@ -27,13 +26,12 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Create .env from secrets
-        run: |
-          echo "FIREBASE_URL=${{ secrets.FIREBASE_URL }}" > .env
-          echo "FIREBASE_KEY=${{ secrets.FIREBASE_KEY }}" >> .env
-
+      # [fix] pass secrets as env vars instead of writing to .env file
       - name: Build
         run: node build-pages.js
+        env:
+          FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
+          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4

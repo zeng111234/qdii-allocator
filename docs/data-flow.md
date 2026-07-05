@@ -41,7 +41,6 @@
     ▼
 [结果输出]
     ├── 邮件推送 (mailer.js)
-    ├── Telegram推送
     └── 历史记录 (history.json)
 ```
 
@@ -115,4 +114,3 @@
 | `nav-cache.json` | 净值缓存 | 4小时TTL |
 | `fund-info-cache.json` | 基金信息缓存 | 按需更新 |
 | `external-signals-cache.json` | 外部信号缓存 | 每日更新 |
-| `data/review-report.md` | AI审查报告 | 每次push |

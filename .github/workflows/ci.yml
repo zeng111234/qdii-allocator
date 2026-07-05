@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+# [fix] explicit least-privilege permissions
+permissions:
+  contents: read
+
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,7 +19,14 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install
-      - run: sed -n '330,390p' index.js
+      # [fix] add dependency caching
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+      # [fix] npm install → npm ci for deterministic installs
+      - run: npm ci
+      # [fix] removed debug sed command that leaked source to logs
       - run: npm run lint
       - run: npm test

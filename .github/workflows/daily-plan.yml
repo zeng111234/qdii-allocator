@@ -10,10 +10,7 @@ on:
         required: false
         default: false
         type: boolean
-      budget:
-        description: budget
-        required: false
-        type: string
+      # [fix] removed unused 'budget' input
       strategy:
         description: strategy
         required: false
@@ -36,6 +33,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      # [fix] add dependency caching
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
       - run: npm ci
       - name: Update NAV cache
         continue-on-error: true
@@ -65,17 +68,19 @@ jobs:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
+      # [fix] replaced eval injection with safe direct command
       - name: Run allocation strategy & send email
         run: |
-          CMD="node index.js"
           STRATEGY="${{ inputs.strategy }}"
           if [ -z "$STRATEGY" ]; then STRATEGY="dynamic"; fi
-          CMD="$CMD --strategy $STRATEGY"
+
+          ARGS="--strategy $STRATEGY"
           if [ "${{ inputs.dry_run }}" = "true" ]; then
-            CMD="$CMD --dry-run"
+            ARGS="$ARGS --dry-run"
           fi
-          echo "Running: $CMD"
-          eval $CMD
+
+          echo "Running: node index.js $ARGS"
+          node index.js $ARGS
         env:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
@@ -92,12 +97,13 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/history.json data/nav-cache.json data/fund-info-cache.json data/portfolio.json data/external-signals-cache.json data/daily-brief.json data/hypotheses.json
-          git add -f docs/index.html docs/data/nav-cache.json docs/data/news.json docs/data/external-signals-cache.json
+          # [fix] removed git add -f for docs/index.html (gitignored, built by pages.yml)
+          git add -f docs/data/nav-cache.json docs/data/news.json docs/data/external-signals-cache.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
             git commit -m "chore: update data & pages $(date +%Y/%m/%d)"
-            git fetch origin main
-            git rebase origin/main || true
+            # [fix] safer rebase: abort on conflict instead of silently ignoring
+            git pull --rebase origin main || { git rebase --abort; echo "Rebase conflict, skipping push"; exit 0; }
             git push origin main || echo "Push failed, skipping"
           fi

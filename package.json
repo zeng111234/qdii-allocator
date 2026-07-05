@@ -4,6 +4,9 @@
   "description": "QDII fund daily allocation tool",
   "type": "commonjs",
   "main": "index.js",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "start": "cmd /c \"chcp 65001 >nul & node index.js\"",
     "test": "node run-tests.js",

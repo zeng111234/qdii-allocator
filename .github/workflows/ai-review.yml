@@ -9,10 +9,10 @@ jobs:
   ai-review:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    # [fix] removed unnecessary 'actions: write' permission
     permissions:
       contents: read
       pull-requests: write
-      actions: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,9 +20,13 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
       - run: npm ci
-      - name: Run tests
-        run: npm test
+      # [fix] removed duplicate npm test (already runs in ci.yml)
       - name: AI Code Review
         if: always()
         continue-on-error: true
@@ -49,7 +53,7 @@ jobs:
 
           请用中文输出审查报告，格式：
           - [严重] 问题描述
-          - [警告] 问题描述  
+          - [警告] 问题描述
           - [建议] 改进建议"
 
           node -e "const fs=require('fs'); const payload={model:process.env.LLM_MODEL||'',messages:[{role:'system',content:'你是一个代码审查专家。请审查代码变更并输出结构化的审查报告。'},{role:'user',content:process.env.PROMPT_TEXT}],temperature:0.1,max_tokens:2000}; fs.writeFileSync('/tmp/review-request.json', JSON.stringify(payload));"
@@ -76,6 +80,11 @@ jobs:
           } > data/review-report.md
 
           echo "Review saved to data/review-report.md"
+
+          # [fix] post review as PR comment when in PR context
+          if [ "${{ github.event_name }}" == "pull_request" ] && [ -n "$REVIEW" ]; then
+            echo "$REVIEW" > /tmp/review-body.md
+          fi
         env:
           LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
           LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}

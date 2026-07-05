@@ -171,20 +171,6 @@
 }
 ```
 
-## Telegram Bot 命令
-
-| 命令 | 说明 |
-|------|------|
-| `270042 10` | 买入指定基金 |
-| `持仓` | 查看当前持仓 |
-| `推荐` | 查看今日推荐 |
-| `风险` | 查看风险分析 |
-| `帮助` | 显示帮助信息 |
-
-## 飞书 Bot 命令
-
-与Telegram Bot命令相同。
-
 ## CLI 命令
 
 ```bash
@@ -205,7 +191,4 @@ node index.js --import-file data/buys.txt
 
 # 启动Web界面
 node index.js --web
-
-# 启动Telegram Bot
-node telegram.js
 ```

@@ -8,7 +8,7 @@ QDII基金投资操作系统是一个自动化的基金投资分析和管理平�
 - 组合风险分析
 - 外部信号抓取（X/Twitter）
 - AI决策报告生成
-- 邮件/Telegram/飞书推送
+- 邮件推送
 
 ## 核心模块
 
@@ -34,10 +34,8 @@ QDII基金投资操作系统是一个自动化的基金投资分析和管理平�
 - `lib/mailer.js` - 邮件发送模块
 - `lib/web-server.js` - Web管理界面
 
-### 6. 通信层
-- `telegram.js` - Telegram机器人
-- `feishu.js` - 飞书机器人
-- `wechat.js` - 微信机器人（WeChatFerry）
+### 6. 通信层（未实现）
+> Telegram/飞书/微信机器人尚未实现，目前仅支持邮件推送。
 
 ## 数据流
 
@@ -105,11 +103,6 @@ QDII基金投资操作系统是一个自动化的基金投资分析和管理平�
 │   ├── portfolio.json          # 持仓记录
 │   ├── history.json            # 历史推荐
 │   ├── nav-cache.json          # 净值缓存
-│   └── ...
-├── agents/                     # Agent配置
-│   ├── data-agent.md
-│   ├── strategy-agent.md
-│   ├── portfolio-agent.md
 │   └── ...
 └── tests/                      # 测试用例
     └── unit/
