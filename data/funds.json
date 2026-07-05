@@ -25,7 +25,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "美国房地产信托",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "US_REIT"
     },
     {
       "code": "000614",
@@ -38,7 +39,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "欧洲制造业龙头",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "EUROPE"
     },
     {
       "code": "000834",
@@ -51,7 +53,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "纳指跟踪",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "NDX100"
     },
     {
       "code": "000988",
@@ -64,7 +67,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "全球石油能源",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "OIL"
     },
     {
       "code": "001092",
@@ -77,7 +81,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "生物科技赛道",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "NASDAQ_BIO"
     },
     {
       "code": "012920",
@@ -90,7 +95,8 @@
       "status": "suspended",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "全球成长股精选"
+      "note": "全球成长股精选",
+      "indexGroup": "GLOBAL_GROWTH"
     },
     {
       "code": "015204",
@@ -103,7 +109,8 @@
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "新能源车主题QDII"
+      "note": "新能源车主题QDII",
+      "indexGroup": "EV"
     },
     {
       "code": "015558",
@@ -116,7 +123,8 @@
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "标普500 ETF联接"
+      "note": "标普500 ETF联接",
+      "indexGroup": "SPX500"
     },
     {
       "code": "016664",
@@ -129,7 +137,8 @@
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "全球高端制造主题"
+      "note": "全球高端制造主题",
+      "indexGroup": "GLOBAL_MFG"
     },
     {
       "code": "017641",
@@ -142,7 +151,8 @@
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "摩根标普500指数"
+      "note": "摩根标普500指数",
+      "indexGroup": "SPX500"
     },
     {
       "code": "019067",
@@ -155,7 +165,8 @@
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "纳指100万家产品"
+      "note": "纳指100万家产品",
+      "indexGroup": "NDX100"
     },
     {
       "code": "019524",
@@ -168,7 +179,8 @@
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "华泰柏瑞纳指100"
+      "note": "华泰柏瑞纳指100",
+      "indexGroup": "NDX100"
     },
     {
       "code": "040018",
@@ -181,7 +193,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "港股市场精选",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "HK"
     },
     {
       "code": "040046",
@@ -194,7 +207,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "纳指老牌产品",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "NDX100"
     },
     {
       "code": "050015",
@@ -207,7 +221,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "亚太市场精选",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "APAC"
     },
     {
       "code": "096001",
@@ -220,7 +235,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "标普500低费率",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "SPX500"
     },
     {
       "code": "160213",
@@ -233,7 +249,8 @@
       "minPurchase": 10,
       "status": "suspended",
       "note": "LOF品种",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "NDX100"
     },
     {
       "code": "160216",
@@ -246,7 +263,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "大宗商品配置",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "COMMODITY"
     },
     {
       "code": "161125",
@@ -259,7 +277,8 @@
       "minPurchase": 10,
       "status": "suspended",
       "note": "标普500，费率较低",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "SPX500"
     },
     {
       "code": "163208",
@@ -272,7 +291,8 @@
       "minPurchase": 10,
       "status": "suspended",
       "note": "全球不动产基金",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "GLOBAL_REIT"
     },
     {
       "code": "270023",
@@ -285,7 +305,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "广发全球精选",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "GLOBAL"
     },
     {
       "code": "270042",
@@ -298,7 +319,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "纳指核心仓位",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "NDX100"
     },
     {
       "code": "539001",
@@ -311,7 +333,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "纳指100补充品种",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "NDX100"
     },
     {
       "code": "539002",
@@ -324,7 +347,8 @@
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "新兴市场优选"
+      "note": "新兴市场优选",
+      "indexGroup": "EMERGING"
     },
     {
       "code": "007280",
@@ -337,7 +361,8 @@
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "日本市场，填补地域空白"
+      "note": "日本市场，填补地域空白",
+      "indexGroup": "JAPAN"
     },
     {
       "code": "008763",
@@ -350,7 +375,8 @@
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "越南市场，前沿高增长"
+      "note": "越南市场，前沿高增长",
+      "indexGroup": "VIETNAM"
     },
     {
       "code": "017730",
@@ -360,7 +386,8 @@
       "dailyLimit": 100,
       "status": "active",
       "settleDays": 2,
-      "minPurchase": 10
+      "minPurchase": 10,
+      "indexGroup": "GLOBAL_UPGRADE"
     },
     {
       "code": "006373",
@@ -370,7 +397,8 @@
       "dailyLimit": 10,
       "status": "active",
       "settleDays": 2,
-      "minPurchase": 10
+      "minPurchase": 10,
+      "indexGroup": "GLOBAL_TECH"
     },
     {
       "code": "100055",
@@ -380,7 +408,8 @@
       "dailyLimit": 1000,
       "status": "active",
       "settleDays": 2,
-      "minPurchase": 10
+      "minPurchase": 10,
+      "indexGroup": "GLOBAL_TECH"
     },
     {
       "code": "005698",
@@ -390,7 +419,8 @@
       "dailyLimit": 1000,
       "status": "active",
       "settleDays": 2,
-      "minPurchase": 10
+      "minPurchase": 10,
+      "indexGroup": "GLOBAL_TECH"
     },
     {
       "code": "008253",
@@ -400,7 +430,8 @@
       "dailyLimit": 20,
       "status": "active",
       "settleDays": 2,
-      "minPurchase": 10
+      "minPurchase": 10,
+      "indexGroup": "GLOBAL"
     },
     {
       "code": "501226",
@@ -410,20 +441,22 @@
       "dailyLimit": 500,
       "status": "active",
       "settleDays": 2,
-      "minPurchase": 10
+      "minPurchase": 10,
+      "indexGroup": "EV"
     },
     {
       "code": "320013",
       "name": "诺安全球黄金(QDII-FOF)A",
       "type": "黄金",
       "shareClass": "A",
-      "feeRate": 1.0,
+      "feeRate": 1,
       "custodyFee": 0.2,
       "dailyLimit": 100000000000,
       "minPurchase": 10,
       "status": "active",
       "note": "黄金避险，不走QDII额度，3年+83%",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "GOLD"
     },
     {
       "code": "000369",
@@ -436,7 +469,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "防御性行业，老龄化长期趋势，限购100",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "GLOBAL_MEDICAL"
     },
     {
       "code": "000041",
@@ -449,7 +483,8 @@
       "minPurchase": 10,
       "status": "active",
       "note": "真正的全球分散，不重仓单一市场",
-      "settleDays": 2
+      "settleDays": 2,
+      "indexGroup": "GLOBAL"
     }
   ],
   "_lastUpdated": "2026-07-05",
