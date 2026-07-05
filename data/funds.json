@@ -488,5 +488,5 @@
     }
   ],
   "_lastUpdated": "2026-07-05",
-  "_updateNote": "Added 3 new funds: 黄金(320013), 全球医疗(000369), 全球股票(000041)"
+  "_updateNote": "Added indexGroup for dedup + contrarian scoring"
 }
