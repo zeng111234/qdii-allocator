@@ -1,11 +1,24 @@
 /**
  * 每日更新净值缓存脚本 - GitHub Actions 使用
+ * [fix] 从 funds.json 读取基金列表（nav-cache.json 已从 git 移除）
  */
 const https = require('https');
 const fs = require('fs');
+const path = require('path');
 
-const nav = JSON.parse(fs.readFileSync('data/nav-cache.json', 'utf8'));
-const codes = Object.keys(nav);
+const FUNDS_FILE = path.join(__dirname, '..', 'data', 'funds.json');
+const NAV_CACHE_FILE = path.join(__dirname, '..', 'data', 'nav-cache.json');
+
+// 从 funds.json 读取基金代码
+const fundsData = JSON.parse(fs.readFileSync(FUNDS_FILE, 'utf8'));
+const fundCodes = fundsData.funds.map(function(f) { return f.code; });
+
+// 加载已有缓存（可能不存在）
+let nav = {};
+if (fs.existsSync(NAV_CACHE_FILE)) {
+  try { nav = JSON.parse(fs.readFileSync(NAV_CACHE_FILE, 'utf8')); } catch(e) {}
+}
+
 let done = 0, updated = 0, errors = 0;
 const startDate = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
 const endDate = new Date().toISOString().slice(0, 10);
@@ -41,11 +54,11 @@ function fetchNav(code, cb) {
 
 let idx = 0;
 function next() {
-  if (idx >= codes.length) {
-    fs.writeFileSync('data/nav-cache.json', JSON.stringify(nav, null, 2));
-    console.log(`NAV updated: ${updated} new, ${errors} errors, ${codes.length} funds`);
+  if (idx >= fundCodes.length) {
+    fs.writeFileSync(NAV_CACHE_FILE, JSON.stringify(nav, null, 2));
+    console.log(`NAV updated: ${updated} new, ${errors} errors, ${fundCodes.length} funds`);
     return;
   }
-  fetchNav(codes[idx], function() { idx++; next(); });
+  fetchNav(fundCodes[idx], function() { idx++; next(); });
 }
 next();
