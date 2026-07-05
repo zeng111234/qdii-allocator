@@ -1,7 +1,13 @@
 name: Build & Deploy Pages
 
 on:
-  # [fix] removed push trigger to avoid double-build with daily-plan.yml
+  push:
+    branches: [main]
+    paths:
+      - 'docs/index.html.template'
+      - 'data/funds.json'
+      - 'data/history.json'
+      - 'build-pages.js'
   workflow_dispatch:
   schedule:
     - cron: '0 */6 * * *'  # 每6小时自动构建一次（0,6,12,18点UTC）
