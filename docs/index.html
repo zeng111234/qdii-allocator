@@ -2166,7 +2166,7 @@
       // Weighted: short-term MA deviation matters more
       var dev = (latest / ma5 - 1) * 0.5 + (latest / ma10 - 1) * 0.3 + (latest / ma20 - 1) * 0.2;
       return Math.round(dev * 10000) / 100; // percentage
-    }, -0.5); // [逆向] below MA = better buying opportunity
+    }, -0.3); // [温和逆向] 低于均线加分，但不过度
 
     /**
      * 20-day return (momentum_20d).
@@ -2291,7 +2291,7 @@
       var range = high - low;
       if (range < 1e-10) return 50; // flat
       return Math.round(((latest - low) / range) * 100 * 100) / 100;
-    }, -0.8); // [逆向] lower position in range = better buying opportunity
+    }, -0.3); // [温和逆向] 位置低加分，但不过度
 
     // ── Drawdown Factors ──
 
@@ -2309,7 +2309,7 @@
       if (peak <= 0) return null;
       var currentDD = (navArr[navArr.length - 1] - peak) / peak * 100;
       return Math.round(currentDD * 100) / 100; // negative number
-    }, -1.2); // [逆向] deeper drawdown = better buying opportunity
+    }, -0.8); // [逆向] 跌得多加分，但不过度惩罚没跌的
 
     /**
      * Drawdown recovery speed.
@@ -2496,7 +2496,7 @@
       var baseNav = navArr[n - 1 - lookback] !== undefined ? navArr[n - 1 - lookback] : navArr[0];
       if (!baseNav || baseNav === 0) return null;
       return ((navArr[n - 1] / baseNav) - 1) * 100;
-    }, 0.5); // [降权] 长期动量降权
+    }, 0.8); // 长期动量适度恢复（好基金长期涨得好也是优点）
 
     // ═══ 资金面维度 ═══
 
