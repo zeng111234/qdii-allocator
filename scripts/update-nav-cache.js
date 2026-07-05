@@ -7,6 +7,11 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
+// 超时保护：最多运行8分钟
+const TIMEOUT_MS = 8 * 60 * 1000;
+const startTime = Date.now();
+function isTimedOut() { return Date.now() - startTime > TIMEOUT_MS; }
+
 const FUNDS_FILE = path.join(__dirname, '..', 'data', 'funds.json');
 const NAV_CACHE_FILE = path.join(__dirname, '..', 'data', 'nav-cache.json');
 
@@ -86,12 +91,20 @@ async function fetchFundHistory(code, targetCount) {
 }
 
 async function main() {
+  console.log('Start: ' + fundCodes.length + ' funds, timeout=' + (TIMEOUT_MS/1000) + 's');
+
   for (let i = 0; i < fundCodes.length; i++) {
+    if (isTimedOut()) {
+      console.log('⏰ Timeout at fund ' + (i+1) + '/' + fundCodes.length + ', saving partial results');
+      break;
+    }
+
     const code = fundCodes[i];
     const existingCount = (nav[code] || []).length;
 
     if (existingCount < 60) {
       // [fix] 数据不足60条，分页拉取2年历史
+      console.log('[' + (i+1) + '/' + fundCodes.length + '] ' + code + ': fetching history (' + existingCount + ' existing)...');
       const count = await fetchFundHistory(code, 60);
       if (count < 60) {
         console.log('  ⚠️ ' + code + ': 只有' + count + '条数据(需要>=60)');
