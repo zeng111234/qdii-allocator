@@ -165,6 +165,61 @@ async function build() {
   }
   template = template.replace('NEWS_DATA', JSON.stringify(newsData));
 
+  // [fix] 嵌入市场温度和估值数据
+  let marketTemperature = { temperature: 50, level: '正常', multiplier: 1.0, reason: '数据获取中', vix: null, dailyChange: 0, peData: {} };
+  try {
+    const snapshotUrl = 'https://push2.eastmoney.com/api/qt/ulist.np/get?fields=f2,f3,f4,f9,f12,f14&secids=100.NDX,100.SPX,100.VIXF,100.DJIA,1.000001,100.HSI';
+    const snapshotRaw = await httpGetSync(snapshotUrl);
+    const snapshotJson = JSON.parse(snapshotRaw);
+    if (snapshotJson.data && snapshotJson.data.diff) {
+      let vix = null, ndxChange = null, spxChange = null;
+      const peData = {};
+      snapshotJson.data.diff.forEach(d => {
+        const code = d.f12;
+        const price = d.f2 / 100;
+        const change = d.f3 / 100;
+        const pe = d.f9 && d.f9 !== '-' ? d.f9 / 100 : null;
+        if (code === 'VIXF') vix = price;
+        if (code === 'NDX') { ndxChange = change; if (pe) peData.NDX = { name: '纳斯达克', pe: pe }; }
+        if (code === 'SPX') { spxChange = change; if (pe) peData.SPX = { name: '标普500', pe: pe }; }
+      });
+
+      // 计算市场温度
+      let temp = 50;
+      const reasons = [];
+      if (vix !== null) {
+        if (vix >= 35) { temp -= 25; reasons.push('VIX极高' + vix); }
+        else if (vix >= 25) { temp -= 15; reasons.push('VIX偏高' + vix); }
+        else if (vix >= 20) { temp -= 5; }
+        else if (vix <= 12) { temp += 20; reasons.push('VIX极低' + vix + '市场过热'); }
+        else if (vix <= 15) { temp += 10; reasons.push('VIX偏低' + vix); }
+      }
+      const avgChange = ((ndxChange || 0) + (spxChange || 0)) / 2;
+      if (avgChange > 2) { temp += 10; reasons.push('今日大涨' + avgChange.toFixed(1) + '%'); }
+      else if (avgChange > 1) { temp += 5; }
+      else if (avgChange < -2) { temp -= 10; reasons.push('今日大跌' + avgChange.toFixed(1) + '%'); }
+      else if (avgChange < -1) { temp -= 5; }
+      temp = Math.max(0, Math.min(100, temp));
+
+      let multiplier, level;
+      if (temp <= 20) { multiplier = 1.3; level = '极冷'; }
+      else if (temp <= 35) { multiplier = 1.15; level = '偏冷'; }
+      else if (temp <= 65) { multiplier = 1.0; level = '正常'; }
+      else if (temp <= 80) { multiplier = 0.8; level = '偏热'; }
+      else { multiplier = 0.6; level = '极热'; }
+
+      marketTemperature = {
+        temperature: temp, level: level, multiplier: multiplier,
+        reason: reasons.length > 0 ? reasons.join(', ') : '市场正常',
+        vix: vix, dailyChange: avgChange, peData: peData
+      };
+      console.log('[构建] 市场温度: ' + temp + '/100 (' + level + ') VIX=' + (vix || 'N/A') + ' 倍数=' + multiplier + 'x');
+    }
+  } catch(e) {
+    console.log('[构建] 市场温度获取失败: ' + e.message);
+  }
+  template = template.replace('MARKET_TEMPERATURE_DATA', JSON.stringify(marketTemperature));
+
   // 嵌入今日推荐（从 history.json 取最新记录）
   let todayPicks = { date: null, ranked: [], strategy: null };
   try {
