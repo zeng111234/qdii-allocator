@@ -59,12 +59,10 @@ function parseArgs() {
       const buyAmount = parseFloat(args[++i]);
       let buyNav = null;
       let buyDate = null;
-      // 解析可选的 nav 和 date 参数（先检查日期格式，因为 parseFloat 会把日期解析为数字）
       if (args[i + 1] && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(args[i + 1])) {
         buyDate = normalizeDate(args[++i]);
       } else if (args[i + 1] && !isNaN(parseFloat(args[i + 1])) && !/^\d{4}[-/]/.test(args[i + 1])) {
         buyNav = parseFloat(args[++i]);
-        // nav 之后可能还有日期
         if (args[i + 1] && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(args[i + 1])) {
           buyDate = normalizeDate(args[++i]);
         }
@@ -129,27 +127,19 @@ function parseArgs() {
   return opts;
 }
 
-async function main() {
-  console.log("========================================");
-  console.log("  QDII Fund Daily Allocator");
-  console.log("========================================");
-  console.log("");
+// [修复] 原问题：快捷命令处理逻辑从main()中拆分为独立函数，提高可读性
 
-  validateConfig();
-  archiveOldHistory(180); // 归档 180 天前的历史记录
-  await fundData.initNavDb(); // 初始化 SQLite nav-cache
-  console.log("");
-
-  const opts = parseArgs();
-
-  // 快捷命令：查看持仓
+/**
+ * 处理快捷命令（持仓查看、买卖、导入等）
+ * @returns {boolean} 如果处理了快捷命令返回true，需要继续主流程返回false
+ */
+function handleQuickCommands(opts) {
   if (opts.portfolio) {
     const calcResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(calcResult));
-    return;
+    return true;
   }
 
-  // 快捷命令：记录买入
   if (opts.buy) {
     const buyData = loadFunds();
     const fund = buyData.funds.find(function(f) { return f.code === opts.buy.code; });
@@ -159,10 +149,9 @@ async function main() {
     console.log("");
     const buyCalcResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(buyCalcResult));
-    return;
+    return true;
   }
 
-  // 快捷命令：记录卖出
   if (opts.sell) {
     const sellData = loadFunds();
     const sellFund = sellData.funds.find(function(f) { return f.code === opts.sell.code; });
@@ -171,10 +160,9 @@ async function main() {
     console.log("");
     const sellCalcResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(sellCalcResult));
-    return;
+    return true;
   }
 
-  // 快捷命令：批量快速录入
   if (opts.quickAdd) {
     const qaData = loadFunds();
     const entries = opts.quickAdd.split(",").map(function(s) { return s.trim(); }).filter(Boolean);
@@ -186,14 +174,12 @@ async function main() {
       const qaAmount = parseFloat(parts[1]);
       let qaNav = null;
       let qaDate = null;
-      // 解析可选的 nav 和 date 参数
       if (parts[2] && !isNaN(parseFloat(parts[2]))) {
         qaNav = parseFloat(parts[2]);
       }
       if (parts[3] && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(parts[3])) {
         qaDate = normalizeDate(parts[3]);
       } else if (parts[2] && /^\d{4}[-/]\d{1,2}[-/]\d{1,2}$/.test(parts[2]) && isNaN(parseFloat(parts[2]))) {
-        // 如果第三个参数是日期格式而不是数字
         qaDate = normalizeDate(parts[2]);
       }
       if (isNaN(qaAmount) || qaAmount <= 0) { console.log("[跳过] 金额错误: " + entries[qi]); continue; }
@@ -207,19 +193,14 @@ async function main() {
     console.log("[批量录入] 成功录入 " + qaCount + " 笔");
     const qaCalcResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(qaCalcResult));
-    return;
+    return true;
   }
 
-  // 快捷命令：从文件导入交易记录
   if (opts.importFile) {
     const importPath = path.resolve(opts.importFile);
     if (!fs.existsSync(importPath)) {
       console.error("[导入] 文件不存在: " + importPath);
       console.log("请创建文件，每行格式: 基金代码 买入金额 [确认净值]");
-      console.log("示例:");
-      console.log("  270042 10 8.5243");
-      console.log("  040046 20");
-      console.log("  161130 15 1.2345");
       process.exit(1);
     }
     const fileContent = fs.readFileSync(importPath, "utf-8");
@@ -238,18 +219,16 @@ async function main() {
       console.log("");
       console.log(portfolio.formatPortfolioReport(importCalcResult));
     }
-    return;
+    return true;
   }
 
-  // 快捷命令：显示今日推荐和买入指令
   if (opts.today) {
     const todayData = loadFunds();
     const todayCalcResult = portfolio.calcPortfolioSummary();
     portfolio.showTodayBuyCommands(todayData.funds, todayCalcResult);
-    return;
+    return true;
   }
 
-  // 快捷命令：删除某只基金的所有买入记录
   if (opts.delete) {
     const p = portfolio.loadPortfolio();
     const targetCode = opts.delete;
@@ -259,7 +238,6 @@ async function main() {
     } else {
       const buyCount = target.buys.length;
       p.holdings = p.holdings.filter(function(h) { return h.code !== targetCode; });
-      // 更新 startDate
       const allDates = [];
       p.holdings.forEach(function(h) { h.buys.forEach(function(b) { allDates.push(b.date); }); });
       p.startDate = allDates.length > 0 ? allDates.sort()[0] : null;
@@ -268,23 +246,20 @@ async function main() {
     }
     const delResult = portfolio.calcPortfolioSummary();
     console.log(portfolio.formatPortfolioReport(delResult));
-    return;
+    return true;
   }
 
-  // 快捷命令：清空所有持仓
   if (opts.deleteAll) {
     portfolio.savePortfolio({ holdings: [], startDate: null });
     console.log("[删除] 已清空所有持仓记录");
-    return;
+    return true;
   }
 
-  // 快捷命令：启动 Web UI
   if (opts.web) {
     webServer.startWebServer(opts.webPort);
-    return;
+    return true;
   }
 
-  // 快捷命令：权重优化
   if (opts.optimizeWeights) {
     const optData = loadFunds();
     const optConfig = optData.config || {};
@@ -294,174 +269,251 @@ async function main() {
       minPurchase: optConfig.minPurchase || 10,
       backtestDays: 90
     };
-    await backtest.runWeightOptimization(optData.funds, btConfig);
-    return;
+    backtest.runWeightOptimization(optData.funds, btConfig);
+    return true;
   }
 
-  console.log("[1/5] Loading funds...");
-  const data = loadFunds();
-  const funds = data.funds;
-  const config = data.config || {};
+  return false;
+}
 
-  // 清理陈旧的nav-cache数据
-  try {
-    fundData.cleanStaleCache();
-  } catch(e) {}
+// [修复] 原问题：回测/走步回测/假设/目标/回填命令从main()中拆分
 
-  const budget = opts.budget || config.defaultBudget || 20;
-  const strategyKey = opts.strategy || config.defaultStrategy || "scarce";
-  const strategy = STRATEGY_MAP[strategyKey] || alloc.Strategy.SCARCE_FIRST;
-
-  console.log("  " + funds.length + " funds, budget=" + budget + ", strategy=" + strategyKey);
-  console.log("");
-
-  const minPurchase = config.minPurchase || 10;
+/**
+ * 处理回测和报告类命令
+ * @returns {boolean} 如果处理了命令返回true
+ */
+async function handleAnalysisCommands(opts, funds, config) {
   const topN = config.topN || 3;
+  const minPurchase = config.minPurchase || 10;
 
   if (opts.backtest) {
-    console.log("[回测模式] 启动策略回测...");
-    console.log("");
+    console.log("[回测模式] 启动策略回测...\n");
     await backtest.runBacktest(funds, {
-      lookbackDays: 30,
-      topN: topN,
-      minPurchase: minPurchase,
-      backtestDays: opts.backtestDays
+      lookbackDays: 30, topN: topN, minPurchase: minPurchase, backtestDays: opts.backtestDays
     });
-    console.log("");
-    console.log("回测完成!");
-    return;
+    console.log("\n回测完成!");
+    return true;
   }
 
-  // 走步回测（受 Vibe-Trading 启发）
   if (opts.walkForward) {
-    console.log("[走步回测] 滚动窗口验证策略...");
-    console.log("");
+    console.log("[走步回测] 滚动窗口验证策略...\n");
     const walkForward = require("./lib/walk-forward");
     const navCache = require("./lib/utils").loadNavCache();
     const wfResult = walkForward.runWalkForwardBacktest(navCache, funds, {
-      trainDays: opts.walkForwardTrain,
-      testDays: opts.walkForwardTest,
-      topN: topN,
-      stepDays: opts.walkForwardTest
+      trainDays: opts.walkForwardTrain, testDays: opts.walkForwardTest,
+      topN: topN, stepDays: opts.walkForwardTest
     });
     if (wfResult) {
-      console.log("");
-      console.log("走步回测完成! 胜率: " + wfResult.summary.winRate + ", 累计收益: " + wfResult.summary.cumulativeReturn);
+      console.log("\n走步回测完成! 胜率: " + wfResult.summary.winRate + ", 累计收益: " + wfResult.summary.cumulativeReturn);
     }
-    return;
+    return true;
   }
 
-  // 假设追踪报告
   if (opts.hypothesisReport) {
     const hypothesisEngine = require("./lib/hypothesis-engine");
-    const navCache2 = require("./lib/utils").loadNavCache();
-    hypothesisEngine.updateHypothesisReturns(navCache2);
+    const navCache = require("./lib/utils").loadNavCache();
+    hypothesisEngine.updateHypothesisReturns(navCache);
     console.log(hypothesisEngine.formatHypothesisReport());
-    return;
+    return true;
   }
 
-  // 目标报告
   if (opts.goalReport) {
     const goalPlanner = require("./lib/goal-planner");
-    const hypothesisEngine2 = require("./lib/hypothesis-engine");
-    const navCache3 = require("./lib/utils").loadNavCache();
+    const hypothesisEngine = require("./lib/hypothesis-engine");
+    const navCache = require("./lib/utils").loadNavCache();
     let portfolioData = null;
     try { portfolioData = require("./data/portfolio.json"); } catch (e) {}
-    const hStats = hypothesisEngine2.getHypothesisStats();
-    goalPlanner.updateGoals(portfolioData, hStats, navCache3);
+    const hStats = hypothesisEngine.getHypothesisStats();
+    goalPlanner.updateGoals(portfolioData, hStats, navCache);
     console.log(goalPlanner.formatGoalReport());
-    return;
+    return true;
   }
 
-  // 全量历史回填
   if (opts.backfill) {
     console.log("[回填] 开始回填所有基金的全量历史净值数据...");
-    console.log("[回填] 共 " + funds.length + " 只基金，每只需约1-2分钟");
-    console.log("");
-    let backfilled = 0;
-    let failed = 0;
+    console.log("[回填] 共 " + funds.length + " 只基金，每只需约1-2分钟\n");
+    let backfilled = 0, failed = 0;
     for (let bi = 0; bi < funds.length; bi++) {
       const bfund = funds[bi];
       console.log("[" + (bi + 1) + "/" + funds.length + "] " + bfund.name + "(" + bfund.code + ")...");
       try {
         const bhistory = await fundData.getFundNavHistory(bfund.code, 5000);
         console.log("  → " + bhistory.length + "条记录");
-        if (bhistory.length > 0) {
-          console.log("  → " + bhistory[0].date + " ~ " + bhistory[bhistory.length - 1].date);
-        }
+        if (bhistory.length > 0) console.log("  → " + bhistory[0].date + " ~ " + bhistory[bhistory.length - 1].date);
         backfilled++;
       } catch (e) {
         console.warn("  → 失败:", e.message);
         failed++;
       }
-      // 避免API限流
-      if (bi < funds.length - 1) await new Promise(function (r) { setTimeout(r, 1000); });
+      if (bi < funds.length - 1) await new Promise(function(r) { setTimeout(r, 1000); });
     }
-    console.log("");
-    console.log("[回填] 完成! 成功:" + backfilled + ", 失败:" + failed);
-    return;
+    console.log("\n[回填] 完成! 成功:" + backfilled + ", 失败:" + failed);
+    return true;
   }
+
+  return false;
+}
+
+// [修复] 原问题：市场数据获取逻辑拆分为独立函数
+
+/**
+ * 获取市场快照和新闻（非dynamic策略时使用）
+ */
+async function fetchMarketData() {
+  let marketSnapshot = [];
+  let marketNews = [];
+  try {
+    marketSnapshot = await fundData.getMarketSnapshot();
+    marketNews = await fundData.getMarketSentiment(5);
+    if (marketSnapshot.length > 0) console.log("[market] fetched " + marketSnapshot.length + " realtime indices");
+    if (marketNews.length > 0) console.log("[news] fetched " + marketNews.length + " market items");
+  } catch(e) {
+    console.warn("[market] fetch failed:", e.message);
+  }
+  return { marketSnapshot, marketNews };
+}
+
+/**
+ * 获取外部信号（X/Twitter大V观点）
+ */
+async function fetchExternalSignals(config, funds) {
+  let externalSignals = null;
+  if (config.enableExternalSignals !== false) {
+    externalSignals = await externalSignalData.fetchExternalSignals({
+      sourceUrl: config.xSourceUrl || "https://x.com/aleabitoreddit",
+      maxScore: config.externalSignalMaxScore || 3,
+      xMirrorWhitelist: config.xMirrorWhitelist || [],
+      rsshubUrl: config.rsshubUrl || "",
+      cacheFile: path.join(__dirname, "data", "external-signals-cache.json")
+    });
+    if (externalSignals.status === "ok" || externalSignals.status === "cached") {
+      console.log("[X] fetched " + externalSignals.items.length + " external posts for scoring (" + (externalSignals.fetchUrl || "cache") + ")");
+      const directions = externalSignalData.analyzeNewDirections(externalSignals.tickerOpinions || [], funds);
+      externalSignals.newDirections = directions;
+      if (directions.gapSummary) console.log("[X] 新投资方向缺口: " + directions.gapSummary);
+    } else {
+      console.warn("[X] " + externalSignals.error);
+      if (externalSignals.attempts && externalSignals.attempts.length > 0) {
+        for (let si = 0; si < externalSignals.attempts.length; si++) {
+          const sa = externalSignals.attempts[si];
+          if (sa.status !== "ok") console.warn("[X]   " + sa.status + ": " + sa.url.substring(0, 60) + " (" + (sa.error || "unknown") + ")");
+        }
+      }
+    }
+  }
+  return externalSignals;
+}
+
+// [修复] 原问题：AI分析逻辑拆分为独立函数
+
+/**
+ * 运行AI分析（标准模式或多智能体辩论模式）
+ */
+async function runAIAnalysis(result, opts, llmConfig) {
+  if (opts.multiAgent) {
+    console.log("[Multi-Agent] 启用多智能体辩论模式...");
+    const rankedFunds = result.ranked ? result.ranked.slice(0, 10) : []; // [修复] 原问题：变量名冲突 fundData
+    const portfolioData = result.portfolio;
+    const marketContext = {
+      marketSnapshot: result.marketSnapshot,
+      marketNews: result.marketNews,
+      externalSignals: result.externalSignals
+    };
+    try {
+      const debateResult = await runMultiAgentDebate(rankedFunds, portfolioData, marketContext, llmConfig);
+      return formatDebateReport(debateResult);
+    } catch (err) {
+      console.error("[Multi-Agent] 辩论失败，回退到标准模式:", err.message);
+      return await ai.generateCommentary(result, llmConfig);
+    }
+  } else {
+    return await ai.generateCommentary(result, llmConfig);
+  }
+}
+
+/**
+ * 发送邮件报告
+ */
+async function sendReport(result, textContent, aiCommentary, topN) {
+  const smtpHost = process.env.SMTP_HOST;
+  const smtpPort = parseInt(process.env.SMTP_PORT || "465");
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+  const mailTo = process.env.MAIL_TO;
+  if (!smtpHost || !smtpUser || !smtpPass || !mailTo) {
+    console.log("[5/5] email skipped (SMTP not configured)");
+  } else {
+    console.log("[5/5] Sending email...");
+    const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
+    const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result }, smtpConfig);
+    if (!success) { console.error("[error] email failed"); process.exit(1); }
+  }
+}
+
+async function main() {
+  console.log("========================================");
+  console.log("  QDII Fund Daily Allocator");
+  console.log("========================================");
+  console.log("");
+
+  validateConfig();
+  archiveOldHistory(180);
+  await fundData.initNavDb();
+  console.log("");
+
+  const opts = parseArgs();
+
+  // 处理快捷命令
+  if (handleQuickCommands(opts)) return;
+
+  console.log("[1/5] Loading funds...");
+  const data = loadFunds();
+  const funds = data.funds;
+  const config = data.config || {};
+
+  // [修复] 原问题：cleanStaleCache 错误被静默吞掉
+  try { fundData.cleanStaleCache(); } catch(e) { console.warn("[data] 清理缓存失败:", e.message); }
+
+  const budget = opts.budget || config.defaultBudget || 20;
+  const strategyKey = opts.strategy || config.defaultStrategy || "scarce";
+  const strategy = STRATEGY_MAP[strategyKey] || alloc.Strategy.SCARCE_FIRST;
+  console.log("  " + funds.length + " funds, budget=" + budget + ", strategy=" + strategyKey);
+  console.log("");
+
+  const minPurchase = config.minPurchase || 10;
+  const topN = config.topN || 3;
+
+  // 处理回测和报告类命令
+  if (await handleAnalysisCommands(opts, funds, config)) return;
+
+  // [修复] 原问题：llmApiKey 在第505行使用但第548行才声明，导致风险预警永远不执行
+  const llmApiKey = process.env.LLM_API_KEY;
+  const llmBaseUrl = process.env.LLM_BASE_URL;
+  const llmModel = process.env.LLM_MODEL;
 
   let marketSnapshot = [];
   let marketNews = [];
   let externalSignals = null;
 
+  // 动态策略：先获取市场信号
   if (strategy === "dynamic") {
     console.log("[2/5] Fetching market/X signals...");
-    try {
-      marketSnapshot = await fundData.getMarketSnapshot();
-      marketNews = await fundData.getMarketSentiment(5);
-      if (marketSnapshot.length > 0) {
-        console.log("[market] fetched " + marketSnapshot.length + " realtime indices");
-      }
-      if (marketNews.length > 0) {
-        console.log("[news] fetched " + marketNews.length + " market items");
-      }
-    } catch(e) {
-      console.warn("[market] fetch failed:", e.message);
-    }
-    if (config.enableExternalSignals !== false) {
-      externalSignals = await externalSignalData.fetchExternalSignals({
-        sourceUrl: config.xSourceUrl || "https://x.com/aleabitoreddit",
-        maxScore: config.externalSignalMaxScore || 3,
-        xMirrorWhitelist: config.xMirrorWhitelist || [],
-        rsshubUrl: config.rsshubUrl || "",
-        cacheFile: path.join(__dirname, "data", "external-signals-cache.json")
-      });
-      if (externalSignals.status === "ok" || externalSignals.status === "cached") {
-        console.log("[X] fetched " + externalSignals.items.length + " external posts for scoring (" + (externalSignals.fetchUrl || "cache") + ")");
-        // 分析新投资方向
-        const directions = externalSignalData.analyzeNewDirections(externalSignals.tickerOpinions || [], funds);
-        externalSignals.newDirections = directions;
-        if (directions.gapSummary) {
-          console.log("[X] 新投资方向缺口: " + directions.gapSummary);
-        }
-      } else {
-        console.warn("[X] " + externalSignals.error);
-        if (externalSignals.attempts && externalSignals.attempts.length > 0) {
-          for (let si = 0; si < externalSignals.attempts.length; si++) {
-            const sa = externalSignals.attempts[si];
-            if (sa.status !== "ok") {
-              console.warn("[X]   " + sa.status + ": " + sa.url.substring(0, 60) + " (" + (sa.error || "unknown") + ")");
-            }
-          }
-        }
-      }
-    }
+    const marketData = await fetchMarketData();
+    marketSnapshot = marketData.marketSnapshot;
+    marketNews = marketData.marketNews;
+    externalSignals = await fetchExternalSignals(config, funds);
     console.log("");
   }
 
+  // 执行策略排名
   console.log("[2/5] Ranking...");
-  const lookbackDays = config.lookbackDays || 750; // 3年数据，足够计算MA250和长期趋势
+  const lookbackDays = config.lookbackDays || 750;
   let result, textContent;
   try {
     if (strategy === "dynamic") {
       result = await dyn.allocateDynamic(budget, funds, {
-        lookbackDays: lookbackDays,
-        topN: topN,
-        minPurchase: minPurchase,
-        enableHistory: true,
-        externalSignals: externalSignals,
+        lookbackDays: lookbackDays, topN: topN, minPurchase: minPurchase,
+        enableHistory: true, externalSignals: externalSignals,
         externalSignalMaxScore: config.externalSignalMaxScore || 3
       });
       textContent = dyn.formatDynamicResult(result);
@@ -481,27 +533,18 @@ async function main() {
   console.log("[3/5] Fetching market data & backfilling history...");
   backfillHistoryFollowUp(fundData.loadNavCache());
 
-  // 获取实时市场快照和新闻
+  // 非动态策略时获取市场数据
   if (strategy !== "dynamic") {
-    try {
-      marketSnapshot = await fundData.getMarketSnapshot();
-      marketNews = await fundData.getMarketSentiment(5);
-      if (marketSnapshot.length > 0) {
-        console.log("[market] fetched " + marketSnapshot.length + " realtime indices");
-      }
-      if (marketNews.length > 0) {
-        console.log("[news] fetched " + marketNews.length + " market items");
-      }
-    } catch(e) {
-      console.warn("[market] fetch failed:", e.message);
-    }
+    const marketData = await fetchMarketData();
+    marketSnapshot = marketData.marketSnapshot;
+    marketNews = marketData.marketNews;
   }
 
   result.marketSnapshot = marketSnapshot;
   result.marketNews = marketNews;
   result.externalSignals = externalSignals;
 
-  // 风险预警检查
+  // [修复] 原问题：风险预警检查（现在 llmApiKey 已正确声明在上方）
   if (marketSnapshot.length > 0 && llmApiKey && llmBaseUrl && llmModel) {
     try {
       const riskAlertResult = await riskAlert.checkAndAlert(marketSnapshot, { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel });
@@ -517,8 +560,6 @@ async function main() {
   result.portfolio = portfolioResult;
   if (!portfolioResult.empty) {
     console.log("[持仓] " + portfolioResult.summary.holdingCount + "只基金, 总投入" + portfolioResult.summary.totalInvested + "元, 盈亏" + (portfolioResult.summary.totalPnl >= 0 ? "+" : "") + portfolioResult.summary.totalPnl + "元");
-
-    // 计算组合风险
     try {
       const riskResult = risk.calcPortfolioRisk(portfolioResult.holdings);
       const corrResult = risk.calcCorrelationMatrix(portfolioResult.holdings, 60);
@@ -530,56 +571,23 @@ async function main() {
           console.log("[风控] ⚠️ " + riskResult.concentration.dominantType + "占比" + riskResult.concentration.dominantWeight + "%，过于集中");
         }
       }
-    } catch(e) {
-      console.warn("[风控] 计算失败:", e.message);
-    }
+    } catch(e) { console.warn("[风控] 计算失败:", e.message); }
   }
 
-  // 替代方案分析（针对不可买的基金）
+  // 替代方案分析
   if (result.suspended && result.suspended.length > 0) {
     const altSuggestions = alternatives.analyzeAlternatives(result.suspended);
     result.alternatives = altSuggestions;
-    if (altSuggestions.length > 0) {
-      console.log("[替代] " + altSuggestions.length + "只不可买基金有替代方案");
-    }
+    if (altSuggestions.length > 0) console.log("[替代] " + altSuggestions.length + "只不可买基金有替代方案");
   }
 
+  // AI 分析
   let aiCommentary = "";
-  const llmApiKey = process.env.LLM_API_KEY;
-  const llmBaseUrl = process.env.LLM_BASE_URL;
-  const llmModel = process.env.LLM_MODEL;
-
   if (llmApiKey && llmBaseUrl && llmModel) {
     console.log("[4/5] AI decision analysis...");
-    
-    if (opts.multiAgent) {
-      // 多智能体辩论模式 (TradingAgents style)
-      console.log("[Multi-Agent] 启用多智能体辩论模式...");
-      
-      const llmConfig = { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel };
-      const fundData = result.ranked ? result.ranked.slice(0, 10) : [];
-      const portfolioData = result.portfolio;
-      const marketContext = {
-        marketSnapshot: result.marketSnapshot,
-        marketNews: result.marketNews,
-        externalSignals: result.externalSignals
-      };
-      
-      try {
-        const debateResult = await runMultiAgentDebate(fundData, portfolioData, marketContext, llmConfig);
-        aiCommentary = formatDebateReport(debateResult);
-        console.log("[Multi-Agent] 辩论完成，报告已生成");
-      } catch (err) {
-        console.error("[Multi-Agent] 辩论失败，回退到标准模式:", err.message);
-        aiCommentary = await ai.generateCommentary(result, llmConfig);
-      }
-    } else {
-      // 标准 AI 分析模式
-      aiCommentary = await ai.generateCommentary(result, { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel });
-    }
-    
+    aiCommentary = await runAIAnalysis(result, opts, { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel });
     if (aiCommentary && aiCommentary.length > 10) {
-      console.log("[AI\u51b3\u7b56\u62a5\u544a] " + aiCommentary.substring(0, 200) + "...");
+      console.log("[AI决策报告] " + aiCommentary.substring(0, 200) + "...");
     } else {
       console.log("[AI] " + aiCommentary);
     }
@@ -588,32 +596,19 @@ async function main() {
   }
   console.log("");
 
+  // 输出或发送报告
   if (opts.dryRun) {
-    console.log("[5/5] dry-run, skip email");
-    console.log("");
+    console.log("[5/5] dry-run, skip email\n");
     console.log("--- preview ---");
     console.log(textContent);
     if (aiCommentary && aiCommentary.length > 10) {
-      console.log("");
-      console.log("=== AI Decision Report ===");
+      console.log("\n=== AI Decision Report ===");
       console.log(aiCommentary);
       console.log("=== End AI Report ===");
     }
     console.log("--- end ---");
   } else {
-    const smtpHost = process.env.SMTP_HOST;
-    const smtpPort = parseInt(process.env.SMTP_PORT || "465");
-    const smtpUser = process.env.SMTP_USER;
-    const smtpPass = process.env.SMTP_PASS;
-    const mailTo = process.env.MAIL_TO;
-    if (!smtpHost || !smtpUser || !smtpPass || !mailTo) {
-      console.log("[5/5] email skipped (SMTP not configured)");
-    } else {
-      console.log("[5/5] Sending email...");
-      const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
-      const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result }, smtpConfig);
-      if (!success) { console.error("[error] email failed"); process.exit(1); }
-    }
+    await sendReport(result, textContent, aiCommentary, topN);
   }
   console.log("");
   console.log("Done!");
