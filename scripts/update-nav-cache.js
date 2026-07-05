@@ -1,6 +1,7 @@
 /**
  * 每日更新净值缓存脚本 - GitHub Actions 使用
  * [fix] 从 funds.json 读取基金列表（nav-cache.json 已从 git 移除）
+ * [fix] 数据不足的基金自动拉取更多历史（至少60条用于评分）
  */
 const https = require('https');
 const fs = require('fs');
@@ -20,12 +21,11 @@ if (fs.existsSync(NAV_CACHE_FILE)) {
 }
 
 let done = 0, updated = 0, errors = 0;
-const startDate = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
-const endDate = new Date().toISOString().slice(0, 10);
 
-function fetchNav(code, cb) {
-  const url = `https://api.fund.eastmoney.com/f10/lsjz?callback=jQuery&fundCode=${code}&pageIndex=1&pageSize=3&startDate=${startDate}&endDate=${endDate}&_=${Date.now()}`;
-  const req = https.get(url, { headers: { 'Referer': 'https://fundf10.eastmoney.com/' }, timeout: 5000 }, function(res) {
+function fetchNav(code, startDate, pageSize, cb) {
+  const endDate = new Date().toISOString().slice(0, 10);
+  const url = `https://api.fund.eastmoney.com/f10/lsjz?callback=jQuery&fundCode=${code}&pageIndex=1&pageSize=${pageSize}&startDate=${startDate}&endDate=${endDate}&_=${Date.now()}`;
+  const req = https.get(url, { headers: { 'Referer': 'https://fundf10.eastmoney.com/' }, timeout: 10000 }, function(res) {
     let data = '';
     res.on('data', function(c) { data += c; });
     res.on('end', function() {
@@ -59,6 +59,24 @@ function next() {
     console.log(`NAV updated: ${updated} new, ${errors} errors, ${fundCodes.length} funds`);
     return;
   }
-  fetchNav(fundCodes[idx], function() { idx++; next(); });
+
+  const code = fundCodes[idx];
+  const existingCount = (nav[code] || []).length;
+
+  if (existingCount < 60) {
+    // [fix] 数据不足60条，拉取2年历史（约500个交易日）
+    const startDate = new Date(Date.now() - 730 * 86400000).toISOString().slice(0, 10);
+    fetchNav(code, startDate, 20, function() {
+      const newCount = (nav[code] || []).length;
+      if (newCount < 60) {
+        console.log('  ⚠️ ' + code + ': 只有' + newCount + '条数据(需要>=60)');
+      }
+      idx++; next();
+    });
+  } else {
+    // 已有足够数据，只拉最近7天更新
+    const startDate = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+    fetchNav(code, startDate, 3, function() { idx++; next(); });
+  }
 }
 next();
