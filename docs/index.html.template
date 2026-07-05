@@ -2736,7 +2736,7 @@
         return b.composite - a.composite;
       });
 
-      // Phase 6: IndexGroup dedup — same underlying index keeps only highest scored
+      // Phase 6: IndexGroup dedup — mark duplicates, keep only highest per group for recommendations
       function getIG(fund) {
         if (fund.indexGroup) return fund.indexGroup;
         var t = fund.type || '';
@@ -2747,17 +2747,20 @@
         return fund.code; // unique per fund
       }
       var usedIG = {};
-      var deduped = [];
       fundResults.forEach(function(r) {
-        if (r.composite === null) { deduped.push(r); return; }
+        if (r.composite === null) { r.deduped = false; return; }
         var fund = fundsData.funds.find(function(f) { return f.code === r.code; });
         var ig = fund ? getIG(fund) : r.code;
-        if (usedIG[ig]) return;
-        usedIG[ig] = true;
-        deduped.push(r);
+        if (usedIG[ig]) {
+          r.deduped = true;
+          r.dedupedBy = usedIG[ig]; // name of the fund that took the slot
+        } else {
+          r.deduped = false;
+          usedIG[ig] = r.name;
+        }
       });
 
-      return deduped;
+      return fundResults;
     }
 
     /**
@@ -2828,11 +2831,13 @@
         var score = r.composite;
         var badgeClass = score !== null ? scoreBadgeClass(score) : 'medium';
 
-        html += '<div class="ranking-row" onclick="toggleFactorBars(' + rankIdx + ')">';
+        var rowStyle = r.deduped ? ' style="opacity:0.5;filter:grayscale(60%)"' : '';
+        var dedupNote = r.deduped ? ' <span style="font-size:10px;color:#999;background:#f0f0f0;padding:1px 4px;border-radius:3px">同指数已推荐</span>' : '';
+        html += '<div class="ranking-row" onclick="toggleFactorBars(' + rankIdx + ')"' + rowStyle + '>';
         html += '<div class="ranking-header">';
         html += '<div class="ranking-left">';
         html += '<span class="ranking-rank ' + rankClass + '">' + rankNum + '</span>';
-        html += '<span class="ranking-name" title="' + r.name + '">' + r.name + '</span>';
+        html += '<span class="ranking-name" title="' + r.name + '">' + r.name + '</span>' + dedupNote;
         html += '<span class="ranking-code">' + r.code + '</span>';
         if (r.type) html += '<span class="ranking-type">' + r.type + '</span>';
         html += '</div>';
@@ -3468,7 +3473,7 @@
       var allRanked = computeRankings ? computeRankings(navCacheData) : [];
       var picksLimitMap = {};
       (todayPicks.ranked || []).forEach(function(r) { picksLimitMap[r.code] = r; });
-      var picksRanked = allRanked.filter(function(r) { return r.composite !== null; }).map(function(r) {
+      var picksRanked = allRanked.filter(function(r) { return r.composite !== null && !r.deduped; }).map(function(r) {
         var pick = picksLimitMap[r.code] || {};
         return {
           code: r.code, name: r.name, type: r.type,
