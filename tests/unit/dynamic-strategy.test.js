@@ -127,10 +127,11 @@ test('scoreFund - fee rate penalty applied', function () {
   assert.ok(result.reason.includes('费率'));
 });
 
-test('scoreFund - scarce dailyLimit gets bonus', function () {
+test('scoreFund - scarce dailyLimit no longer gets bonus', function () {
+  // [fix] 移除稀缺加分：每天只投50元，限购不影响用户
   var result = ds.scoreFund({ code: 'A', name: 'T', status: 'active', dailyLimit: 10, _purchaseStatus: 'limited' },
     makeIndicators(), null, null, null, null);
-  assert.ok(result.reason.includes('稀缺'));
+  assert.ok(!result.reason.includes('稀缺'));
 });
 
 test('scoreFund - historical success rate adds bonus', function () {

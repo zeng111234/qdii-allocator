@@ -574,6 +574,19 @@ async function main() {
     } catch(e) { console.warn("[风控] 计算失败:", e.message); }
   }
 
+  // [fix] 定投建议（基于市场温度）
+  if (result.marketTemperature && result.budget) {
+    const mt = result.marketTemperature;
+    const adjustedBudget = Math.round(result.budget * mt.multiplier);
+    if (mt.multiplier > 1) {
+      console.log("[定投建议] 市场偏冷(" + mt.level + ")，建议今日投入" + adjustedBudget + "元（正常" + result.budget + "元的" + mt.multiplier + "倍）");
+    } else if (mt.multiplier < 1) {
+      console.log("[定投建议] 市场偏热(" + mt.level + ")，建议今日投入" + adjustedBudget + "元（正常" + result.budget + "元的" + mt.multiplier + "倍），或暂停一天");
+    } else {
+      console.log("[定投建议] 市场正常，建议今日投入" + result.budget + "元");
+    }
+  }
+
   // 替代方案分析
   if (result.suspended && result.suspended.length > 0) {
     const altSuggestions = alternatives.analyzeAlternatives(result.suspended);
