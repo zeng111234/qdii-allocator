@@ -88,12 +88,12 @@ async function build() {
   } catch(e) {}
 
   // 嵌入数据
-  // [fix] 用正则替换硬编码的 var portfolioData = {...} 和 var fundsData = {...}
+  // [fix] 用正则替换硬编码的数据变量（占位符已被替换为实际数据）
   template = template.replace(/var portfolioData = \{.*?\};/s, 'var portfolioData = ' + JSON.stringify(portfolio) + ';');
   template = template.replace(/var fundsData = \{.*?\};/s, 'var fundsData = ' + JSON.stringify(funds) + ';');
-  template = template.replace('NAV_CACHE_DATA', JSON.stringify(latestNavs));
-  template = template.replace('DAILY_BRIEF_DATA', JSON.stringify(dailyBrief));
-  template = template.replace('DIARY_DATA', JSON.stringify(diary));
+  template = template.replace(/var navCacheData = \{.*?\};/s, 'var navCacheData = ' + JSON.stringify(latestNavs) + ';');
+  template = template.replace(/var dailyBriefData = \{.*?\};/s, 'var dailyBriefData = ' + JSON.stringify(dailyBrief) + ';');
+  template = template.replace(/var diaryData = \{.*?\};/s, 'var diaryData = ' + JSON.stringify(diary) + ';');
 
   // 替换 Firebase 配置（从 .env 读取，不提交到 git）
   if (env.FIREBASE_URL && env.FIREBASE_KEY) {
@@ -176,7 +176,8 @@ async function build() {
   } catch(e) {
     console.log('[构建] 新闻获取失败: ' + e.message + ' (使用空数据)');
   }
-  template = template.replace('NEWS_DATA', JSON.stringify(newsData));
+  // [fix] 用正则替换硬编码数据（占位符已被替换为实际数据）
+  template = template.replace(/var newsData = \{.*?\};/s, 'var newsData = ' + JSON.stringify(newsData) + ';');
 
   // [fix] 嵌入市场温度数据
   // 从已有历史推荐数据推算（避免CI环境API被封）
@@ -240,7 +241,7 @@ async function build() {
   } catch(e) {
     console.log('[构建] 今日推荐获取失败: ' + e.message);
   }
-  template = template.replace('TODAY_PICKS_DATA', JSON.stringify(todayPicks));
+  template = template.replace(/var todayPicks = \{.*?\};/s, 'var todayPicks = ' + JSON.stringify(todayPicks) + ';');
 
   // 嵌入限购额度（从 fund-info-cache.json + funds.json 合并）
   let purchaseLimits = {};
@@ -273,7 +274,7 @@ async function build() {
   } catch(e) {
     console.log('[构建] 限购数据获取失败: ' + e.message);
   }
-  template = template.replace('PURCHASE_LIMITS_DATA', JSON.stringify(purchaseLimits));
+  template = template.replace(/var purchaseLimits = \{.*?\};/s, 'var purchaseLimits = ' + JSON.stringify(purchaseLimits) + ';');
 
   // 嵌入外部信号（X/Twitter 大V观点）
   let externalSignals = { items: [], tickerOpinions: [], themeScores: {}, cachedAt: null };
@@ -294,7 +295,7 @@ async function build() {
   } catch(e) {
     console.log('[构建] 外部信号获取失败: ' + e.message);
   }
-  template = template.replace('EXTERNAL_SIGNALS_DATA', JSON.stringify(externalSignals));
+  template = template.replace(/var externalSignalsData = \{.*?\};/s, 'var externalSignalsData = ' + JSON.stringify(externalSignals) + ';');
 
   // 嵌入假设数据
   let hypotheses = { hypotheses: [], stats: { total: 0, validated: 0, invalidated: 0, expired: 0 } };
@@ -304,7 +305,7 @@ async function build() {
       hypotheses = JSON.parse(fs.readFileSync(hypPath, 'utf-8'));
     }
   } catch(e) {}
-  template = template.replace('HYPOTHESES_DATA', JSON.stringify(hypotheses));
+  template = template.replace(/var hypothesesData = \{.*?\};/s, 'var hypothesesData = ' + JSON.stringify(hypotheses) + ';');
 
   // 嵌入交易日历（2026年中国法定节假日）
   const tradingHolidays = [
@@ -315,7 +316,7 @@ async function build() {
     '2026-06-19','2026-06-20','2026-06-21', // 端午
     '2026-10-01','2026-10-02','2026-10-03','2026-10-04','2026-10-05','2026-10-06','2026-10-07' // 国庆
   ];
-  template = template.replace('TRADING_HOLIDAYS_DATA', JSON.stringify(tradingHolidays));
+  template = template.replace(/var tradingHolidays = \[.*?\];/s, 'var tradingHolidays = ' + JSON.stringify(tradingHolidays) + ';');
 
   // 写入输出
   fs.writeFileSync(OUTPUT, template, 'utf-8');
