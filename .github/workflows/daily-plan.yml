@@ -112,7 +112,6 @@ jobs:
         env:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
-        run: node build-pages.js
       - name: Commit updated data and pages
         run: |
           git config user.name "github-actions[bot]"
