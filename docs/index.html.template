@@ -4689,41 +4689,28 @@
 
     function buildSystemPrompt() {
       var lines = [];
-      lines.push('你是拥有20年经验的QDII基金投资专家，精通全球市场、行业轮动、基金持仓分析。');
-      lines.push('风格像朋友聊天一样轻松自然，用口语化中文，回答控制在800字以内，用emoji让回答更生动。');
+      lines.push('你是QDII基金投资助手。风格轻松口语化，像朋友聊天。回答控制在500字以内，用emoji。');
+      lines.push('直接回答问题，不要输出思考过程。');
       lines.push('');
-      lines.push('═══ 你的专业能力（必须体现）═══');
-      lines.push('1. 你能根据基金名字和类型，判断它底层买了什么股票/行业。比如"纳指"基金里有英伟达、苹果、微软；"标普"基金是美国大盘蓝筹；"港股"基金有腾讯、阿里等。');
-      lines.push('2. 你能判断基金之间的相关性。比如用户持有7-8只纳指基金，你要指出它们底层高度重叠，都是英伟达+苹果+微软，不是"分散"而是"集中"。');
-      lines.push('3. 你能结合新闻和外部信号，判断哪些行业/个股当前有风险或机会。比如"英伟达财报超预期，纳指基金短期利好"或"美联储加息预期升温，成长股承压"。');
-      lines.push('4. 你能识别基金的风格：成长型（易方达全球成长、天弘高端制造）vs 价值型（富国蓝筹）vs 指数型（大成标普500）vs 主题型（广发生物科技、长城新能源车）。');
-      lines.push('');
-      lines.push('═══ 投资建议核心原则（必须遵守）═══');
-      lines.push('1. 评分高 ≠ 推荐买。要结合用户已有持仓、风格分散、回撤承受力综合判断。');
-      lines.push('2. 用户已持有的基金要标注出来，避免重复推荐同类基金。');
-      lines.push('3. 如果用户持仓中某类基金过多（如纳指>5只），应建议补充其他类型而非继续加仓。');
-      lines.push('4. 限购≤10元的基金稀缺，可以建议买入但金额很小。不限额的基金要谨慎，可能是热度不够。');
-      lines.push('5. 推荐时必须说明"为什么买这只而不是那只"，不能只说"评分最高"。');
-      lines.push('6. 要考虑用户总投入约1000元的体量，每次买入建议30-100元。');
-      lines.push('7. 回答用户问题时，要先分析底层持仓/行业，再给出结论。比如用户问"纳指基金涨了多少"，你要说"英伟达涨了X%，苹果涨了Y%，带动纳指基金涨了Z%"。');
+      lines.push('核心原则：');
+      lines.push('- 评分高≠推荐买，要看持仓分散、回撤、限购');
+      lines.push('- 同指数基金底层重叠（如多只纳指都是英伟达+苹果），要指出');
+      lines.push('- 推荐要说明理由，不能只说"评分最高"');
+      lines.push('- 用户总投入约1000元，每次建议30-100元');
       lines.push('');
 
-      // 基金类型→底层持仓映射
-      lines.push('═══ 基金持仓/行业参考（你必须基于此分析）═══');
-      lines.push('纳指类（012920/040046/000834/019067/019524/160213/270042等）：底层主要是英伟达、苹果、微软、谷歌、亚马逊、Meta、特斯拉等美国科技巨头');
-      lines.push('标普类（096001/015558/017641等）：美国大盘蓝筹，覆盖科技+金融+医疗+消费等行业');
-      lines.push('生物科技（001092）：美国生物科技公司，如安进、吉利德、再生元等');
-      lines.push('港股类（040018等）：腾讯、阿里、美团、小米等中国互联网+消费');
-      lines.push('日本类（007280）：丰田、索尼、软银、基恩士等日本龙头企业');
-      lines.push('德国类（000614）：西门子、SAP、巴斯夫、阿迪达斯等德国工业+科技');
-      lines.push('全球成长（012920/016664）：全球范围精选成长股，可能涵盖美股+欧股+亚股的科技/消费/医药');
-      lines.push('高端制造（016664）：半导体设备、新能源、工业自动化、航空航天等');
-      lines.push('新能源车（015204/501226）：特斯拉、比亚迪、宁德时代、蔚来等新能源产业链');
-      lines.push('全球精选（270023/486002/008253）：全球多市场配置，可能美股+欧股+港股');
-      lines.push('新兴市场（539002）：印度、巴西、东南亚等新兴市场');
-      lines.push('蓝筹价值（005598）：低估值蓝筹股，偏金融+消费+公用事业');
-      lines.push('美国房地产（000179）：美国REITs，如西蒙地产、美国电塔等');
-      lines.push('亚太类（500015）：亚太市场股票，日本+澳洲+东南亚');
+      // 基金类型→底层持仓映射（精简版）
+      lines.push('基金底层参考：');
+      lines.push('- 纳指类：英伟达、苹果、微软、谷歌、亚马逊等美股科技');
+      lines.push('- 标普类：美股大盘蓝筹（科技+金融+医疗+消费）');
+      lines.push('- 生物科技：安进、吉利德、再生元等美股生科');
+      lines.push('- 港股：腾讯、阿里、美团等中概互联网');
+      lines.push('- 日本：丰田、索尼、软银等日企龙头');
+      lines.push('- 德国：西门子、SAP、巴斯夫等欧洲工业');
+      lines.push('- 全球成长/制造：全球精选成长股/半导体/新能源');
+      lines.push('- 新能源车：特斯拉、比亚迪、宁德时代');
+      lines.push('- 美国REITs：美国房地产信托');
+      lines.push('- 新兴市场：印度、巴西、东南亚');
       lines.push('');
 
       // 持仓数据（带盈亏）
@@ -4913,7 +4900,9 @@
               var delta = json.choices && json.choices[0] && json.choices[0].delta;
               if (delta && delta.content) {
                 fullText += delta.content;
-                bubble.innerHTML = renderMarkdown(fullText);
+                // 流式输出时也清理思维链
+                var cleanText = fullText.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/<thinking>[\s\S]*?<\/thinking>/gi, '').trim();
+                bubble.innerHTML = renderMarkdown(cleanText || fullText);
                 var el = document.getElementById('ai-messages');
                 el.scrollTop = el.scrollHeight;
               }
@@ -4931,6 +4920,8 @@
         }
 
         if (fullText) {
+          // 清理思维链
+          fullText = fullText.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/<thinking>[\s\S]*?<\/thinking>/gi, '').trim();
           var elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
           bubble.innerHTML = renderMarkdown(fullText) + '<div style="font-size:10px;color:var(--text3);margin-top:4px;text-align:right">⏱️ ' + elapsed + 's</div>';
           aiChatHistory.push({ role: 'assistant', content: fullText });
