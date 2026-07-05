@@ -30,6 +30,18 @@
       --shadow-hover: 0 4px 12px rgba(0,0,0,0.15);
       --radius: 8px;
       --radius-lg: 12px;
+      --state-green-bg: #f0fdf4;
+      --state-green-border: #bbf7d0;
+      --state-green-text: #166534;
+      --state-red-bg: #fef2f2;
+      --state-red-border: #fecaca;
+      --state-red-text: #991b1b;
+      --state-yellow-bg: #fffbeb;
+      --state-yellow-border: #fcd34d;
+      --state-yellow-text: #b45309;
+      --state-blue-bg: #f0f4ff;
+      --state-blue-border: #c7d2fe;
+      --state-blue-text: #3730a3;
     }
 
     /* 暗色主题 */
@@ -57,6 +69,18 @@
         --table-row-hover: #334155;
         --shadow: 0 1px 3px rgba(0,0,0,0.3);
         --shadow-hover: 0 4px 12px rgba(0,0,0,0.4);
+        --state-green-bg: #0d3320;
+        --state-green-border: #166534;
+        --state-green-text: #86efac;
+        --state-red-bg: #3b1111;
+        --state-red-border: #991b1b;
+        --state-red-text: #fca5a5;
+        --state-yellow-bg: #3b2f08;
+        --state-yellow-border: #92400e;
+        --state-yellow-text: #fcd34d;
+        --state-blue-bg: #1e1b4b;
+        --state-blue-border: #3730a3;
+        --state-blue-text: #a5b4fc;
       }
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -203,13 +227,13 @@
     }
     .insight-stat .label { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
     .insight-stat .value { font-size: 20px; font-weight: 700; }
-    .insight-stat.green { background: #f0fdf4; }
+    .insight-stat.green { background: var(--state-green-bg); }
     .insight-stat.green .value { color: var(--success); }
-    .insight-stat.blue { background: #f0f4ff; }
+    .insight-stat.blue { background: var(--state-blue-bg); }
     .insight-stat.blue .value { color: var(--primary); }
-    .insight-stat.yellow { background: #fefce8; }
+    .insight-stat.yellow { background: var(--state-yellow-bg); }
     .insight-stat.yellow .value { color: var(--warn); }
-    .insight-stat.red { background: #fef2f2; }
+    .insight-stat.red { background: var(--state-red-bg); }
     .insight-stat.red .value { color: var(--danger); }
 
     /* Type Bar */
@@ -229,7 +253,7 @@
     }
     .fund-chip:last-child { border-bottom: none; }
     .fund-chip .chip-code {
-      background: #f0f4ff;
+      background: var(--state-blue-bg);
       color: var(--primary);
       padding: 2px 8px;
       border-radius: 4px;
@@ -256,7 +280,7 @@
     .ai-quick-btn { padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2);transition:all 0.2s }
     .ai-quick-btn:hover { background:var(--primary);color:white;border-color:var(--primary) }
     .btn-ghost {
-      background: #f0f4ff; color: var(--primary); border: 1.5px solid #c7d2fe;
+      background: var(--state-blue-bg); color: var(--primary); border: 1.5px solid var(--state-blue-border);
       font-size: 13px; padding: 8px;
     }
 
@@ -264,7 +288,7 @@
     .batch-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: center; min-width: 0; }
     .batch-row select { flex: 2; min-width: 0; padding: 8px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; }
     .batch-row input { flex: 0 0 80px; min-width: 0; padding: 8px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 13px; }
-    .batch-row .del { background: #fef2f2; color: var(--danger); border: 1px solid #fecaca; border-radius: 8px; padding: 6px 10px; font-size: 16px; cursor: pointer; flex-shrink: 0; }
+    .batch-row .del { background: var(--state-red-bg); color: var(--danger); border: 1px solid var(--state-red-border); border-radius: 8px; padding: 6px 10px; font-size: 16px; cursor: pointer; flex-shrink: 0; }
 
     /* Toast */
     .toast {
@@ -323,7 +347,7 @@
       padding: 14px 12px;
       border-radius: 10px;
       text-align: center;
-      background: #f0f4ff;
+      background: var(--state-blue-bg);
     }
     .risk-summary-item .label {
       font-size: 11px;
@@ -426,7 +450,7 @@
     }
     .ranking-rank.top1 { background: #fef3c7; color: #b45309; }
     .ranking-rank.top2 { background: #f1f5f9; color: #64748b; }
-    .ranking-rank.top3 { background: #fef2f2; color: #b91c1c; }
+    .ranking-rank.top3 { background: var(--state-red-bg); color: var(--danger); }
     .ranking-rank.normal { background: #f1f5f9; color: var(--text3); }
     .ranking-name { font-weight: 600; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .ranking-code {
@@ -434,7 +458,7 @@
       padding: 2px 6px; border-radius: 4px; margin-left: 4px; flex-shrink: 0;
     }
     .ranking-type {
-      font-size: 10px; color: var(--primary); background: #f0f4ff;
+      font-size: 10px; color: var(--primary); background: var(--state-blue-bg);
       padding: 2px 6px; border-radius: 4px; margin-left: 4px; flex-shrink: 0;
     }
     .score-badge {
@@ -443,12 +467,12 @@
       font-weight: 700; font-size: 16px; line-height: 1;
     }
     .score-badge .score-label { font-size: 9px; font-weight: 400; opacity: 0.7; margin-top: 2px; }
-    .score-badge.excellent { background: #f0fdf4; color: var(--success); }
-    .score-badge.good { background: #f0f4ff; color: var(--primary); }
-    .score-badge.medium { background: #fefce8; color: var(--warn); }
-    .score-badge.poor { background: #fef2f2; color: var(--danger); }
+    .score-badge.excellent { background: var(--state-green-bg); color: var(--success); }
+    .score-badge.good { background: var(--state-blue-bg); color: var(--primary); }
+    .score-badge.medium { background: var(--state-yellow-bg); color: var(--warn); }
+    .score-badge.poor { background: var(--state-red-bg); color: var(--danger); }
     .factor-bars {
-      display: none; margin-top: 10px; padding: 12px; background: #f8fafc;
+      display: none; margin-top: 10px; padding: 12px; background: var(--bg2);
       border-radius: 8px;
     }
     .factor-bar-row {
@@ -456,7 +480,7 @@
     }
     .factor-bar-row:last-child { margin-bottom: 0; }
     .factor-bar-label { width: 70px; flex-shrink: 0; color: var(--text3); white-space: nowrap; }
-    .factor-bar-track { flex: 1; height: 6px; background: #e2e8f0; border-radius: 3px; position: relative; }
+    .factor-bar-track { flex: 1; height: 6px; background: var(--bg3); border-radius: 3px; position: relative; }
     .factor-bar-fill { height: 6px; border-radius: 3px; transition: width 0.3s; }
     .factor-bar-value { width: 38px; flex-shrink: 0; text-align: right; font-weight: 600; font-size: 11px; }
     .ranking-summary {
@@ -593,10 +617,10 @@
         <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
           <span id="sync-status" style="font-size:12px;color:var(--text2)">☁️ 云同步</span>
           <span style="flex:1"></span>
-          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="firebaseUpload()">⬆️ 上传</button>
-          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="firebaseDownload()">⬇️ 下载</button>
-          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="exportData()">📤 导出</button>
-          <button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:5px 10px" onclick="importData()">📥 导入</button>
+          <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseUpload()">⬆️ 上传</button>
+          <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseDownload()">⬇️ 下载</button>
+          <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="exportData()">📤 导出</button>
+          <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="importData()">📥 导入</button>
         </div>
         <div id="holdings"></div>
       </div>
@@ -620,7 +644,7 @@
           <label style="font-size:12px;color:var(--text2);font-weight:500">买入日期</label>
           <div style="display:flex;gap:6px;align-items:center;margin-top:5px">
             <input type="date" id="batchDate" style="flex:1;padding:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px">
-            <button class="btn" style="background:#f0f4ff;color:var(--primary);border:1px solid #c7d2fe;font-size:11px;padding:8px;width:auto" onclick="document.getElementById('batchDate').value=new Date().toISOString().slice(0,10)">今天</button>
+            <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:8px;width:auto" onclick="document.getElementById('batchDate').value=new Date().toISOString().slice(0,10)">今天</button>
           </div>
         </div>
         <div id="batchList"></div>
@@ -653,17 +677,17 @@
         </div>
         
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px">
-          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;text-align:center">
+          <div style="background:var(--state-green-bg);border:1px solid var(--state-green-border);border-radius:10px;padding:14px;text-align:center">
             <div style="font-size:24px">🐂</div>
-            <div style="font-size:12px;font-weight:600;color:#166534;margin-top:4px">Bull Researcher</div>
+            <div style="font-size:12px;font-weight:600;color:var(--state-green-text);margin-top:4px">Bull Researcher</div>
             <div style="font-size:11px;color:#4ade80">看多研究员</div>
-            <div id="bull-score" style="font-size:18px;font-weight:700;color:#166534;margin-top:8px">--</div>
+            <div id="bull-score" style="font-size:18px;font-weight:700;color:var(--state-green-text);margin-top:8px">--</div>
           </div>
-          <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px;text-align:center">
+          <div style="background:var(--state-red-bg);border:1px solid var(--state-red-border);border-radius:10px;padding:14px;text-align:center">
             <div style="font-size:24px">🐻</div>
-            <div style="font-size:12px;font-weight:600;color:#991b1b;margin-top:4px">Bear Researcher</div>
+            <div style="font-size:12px;font-weight:600;color:var(--state-red-text);margin-top:4px">Bear Researcher</div>
             <div style="font-size:11px;color:#f87171">看空研究员</div>
-            <div id="bear-score" style="font-size:18px;font-weight:700;color:#991b1b;margin-top:8px">--</div>
+            <div id="bear-score" style="font-size:18px;font-weight:700;color:var(--state-red-text);margin-top:8px">--</div>
           </div>
         </div>
         
@@ -1226,7 +1250,7 @@
       var hType = amount >= 50 ? '趋势跟踪' : '均值回归';
       var hThesis = '买入 ' + holding.name + ' ' + amount + '元，预期' + (hType === '趋势跟踪' ? '趋势延续' : '超跌反弹');
       createHypothesisLocal(code, holding.name, hType, hThesis);
-      document.getElementById('buyResult').innerHTML = '<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px;font-size:12px">✅ 已保存 · 已创建投资假设</div>';
+      document.getElementById('buyResult').innerHTML = '<div style="background:var(--state-green-bg);border:1px solid var(--state-green-border);border-radius:8px;padding:10px;font-size:12px;color:var(--state-green-text)">✅ 已保存 · 已创建投资假设</div>';
     }
 
     // Batch
@@ -1286,7 +1310,7 @@
       });
       var maxPct = totalInv > 0 ? Math.round(Math.max.apply(null, Object.values(typeW)) / totalInv * 100) : 0;
       var health = maxPct > 70 ? 50 : (maxPct > 50 ? 70 : 85);
-      var hColor = health >= 80 ? '#f0fdf4' : '#fefce8';
+      var hColor = health >= 80 ? 'var(--state-green-bg)' : 'var(--state-yellow-bg)';
       var hText = health >= 80 ? '🟢 分散良好' : '🟡 建议增加非美股配置';
       html += '<div style="padding:10px;background:' + hColor + ';border-radius:8px;font-size:13px;margin-top:4px">健康度 <strong>' + health + '/100</strong> · ' + hText + '</div>';
 
@@ -1333,14 +1357,14 @@
       if (goalsData.goals.length === 0) {
         html += '<div style="font-size:13px;color:var(--text3);line-height:1.7">暂未设定投资目标。</div>';
         html += '<div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">';
-        html += '<button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:6px 10px" onclick="addGoal(\'return\')">+ 年化收益目标</button>';
-        html += '<button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:6px 10px" onclick="addGoal(\'risk\')">+ 最大回撤控制</button>';
-        html += '<button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:6px 10px" onclick="addGoal(\'streak\')">+ 连续定投天数</button>';
+        html += '<button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:6px 10px" onclick="addGoal(\'return\')">+ 年化收益目标</button>';
+        html += '<button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:6px 10px" onclick="addGoal(\'risk\')">+ 最大回撤控制</button>';
+        html += '<button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:6px 10px" onclick="addGoal(\'streak\')">+ 连续定投天数</button>';
         html += '</div>';
       } else {
         html += '<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">';
-        html += '<button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:4px 8px" onclick="addGoal(\'return\')">+ 收益目标</button>';
-        html += '<button class="btn" style="background:#f0f4ff;color:#6366f1;border:1px solid #c7d2fe;font-size:11px;padding:4px 8px" onclick="addGoal(\'risk\')">+ 回撤控制</button>';
+        html += '<button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:4px 8px" onclick="addGoal(\'return\')">+ 收益目标</button>';
+        html += '<button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:4px 8px" onclick="addGoal(\'risk\')">+ 回撤控制</button>';
         html += '</div>';
         goalsData.goals.forEach(function(g, idx) {
           var progress = g.target > 0 ? Math.min(Math.round(Math.abs(g.current || 0) / Math.abs(g.target) * 100), 100) : 0;
@@ -1390,14 +1414,14 @@
         if (bullish.length > 0) {
           html += '<div style="font-size:12px;color:var(--text2);margin-bottom:8px">看涨信号:</div>';
           bullish.forEach(function(t) {
-            html += '<div style="display:inline-block;background:#f0fdf4;border:1px solid #86efac;border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font-size:12px">';
+            html += '<div style="display:inline-block;background:var(--state-green-bg);border:1px solid var(--state-green-border);border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font-size:12px;color:var(--state-green-text)">';
             html += '🟢 $' + t.ticker + ' <span style="color:var(--text3)">(' + t.mentions + '次)</span></div>';
           });
         }
         if (others.length > 0) {
           html += '<div style="font-size:12px;color:var(--text2);margin-top:8px;margin-bottom:4px">其他提及:</div>';
           others.slice(0, 8).forEach(function(t) {
-            html += '<div style="display:inline-block;background:#f8fafc;border:1px solid var(--border);border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font-size:12px">';
+            html += '<div style="display:inline-block;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font-size:12px">';
             html += '$' + t.ticker + ' <span style="color:var(--text3)">(' + t.mentions + ')</span></div>';
           });
         }
@@ -1411,7 +1435,7 @@
           }
           themes.forEach(function(e) {
             var emoji = e[1].score > 0 ? '🟢' : '🔴';
-            var bgColor = e[1].score > 0 ? '#f0fdf4' : '#fef2f2';
+            var bgColor = e[1].score > 0 ? 'var(--state-green-bg)' : 'var(--state-red-bg)';
             var borderColor = e[1].score > 0 ? '#86efac' : '#fca5a5';
             html += '<div style="display:inline-block;background:' + bgColor + ';border:1px solid ' + borderColor + ';border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font-size:12px">';
             html += emoji + ' ' + e[0] + ' ' + (e[1].score > 0 ? '+' : '') + e[1].score + '</div>';
@@ -1735,7 +1759,7 @@
 
       var healthEmoji = health >= 70 ? '🟢' : (health >= 40 ? '🟡' : '🔴');
       var healthText = health >= 70 ? '组合健康' : (health >= 40 ? '需要关注' : '风险较高');
-      var healthBg = health >= 70 ? '#f0fdf4' : (health >= 40 ? '#fefce8' : '#fef2f2');
+      var healthBg = health >= 70 ? 'var(--state-green-bg)' : (health >= 40 ? 'var(--state-yellow-bg)' : 'var(--state-red-bg)');
 
       // Sort by Sharpe descending
       results.sort(function(a, b) {
@@ -3259,15 +3283,15 @@
 
       if (isTradeDay) {
         banner.style.display = 'block';
-        banner.style.background = '#f0fdf4';
-        banner.style.color = '#16a34a';
-        banner.style.border = '1px solid #86efac';
+        banner.style.background = 'var(--state-green-bg)';
+        banner.style.color = 'var(--state-green-text)';
+        banner.style.border = '1px solid var(--state-green-border)';
         banner.innerHTML = '🟢 今天是交易日 · 可以买入基金 · T+2 结算';
       } else {
         banner.style.display = 'block';
-        banner.style.background = '#fffbeb';
-        banner.style.color = '#d97706';
-        banner.style.border = '1px solid #fcd34d';
+        banner.style.background = 'var(--state-yellow-bg)';
+        banner.style.color = 'var(--state-yellow-text)';
+        banner.style.border = '1px solid var(--state-yellow-border)';
         var reason = isHoliday ? '法定节假日' : (day === 0 ? '周日' : '周六');
         banner.innerHTML = '🟡 今天非交易日（' + reason + '）· 可以买入，下一个交易日确认份额';
       }
@@ -3313,7 +3337,7 @@
           else limitText = '不限额';
         }
         var suggestAmt = Math.min(limitAmt, 20); // 建议金额：不超过限购和20元
-        var bgColor = i === 0 ? '#f0fdf4' : (i <= 2 ? '#f8fafc' : 'white');
+        var bgColor = i === 0 ? 'var(--state-green-bg)' : (i <= 2 ? 'var(--bg2)' : 'var(--card)');
 
         html += '<div style="padding:10px;margin-bottom:6px;border-radius:8px;background:' + bgColor + ';border:1px solid var(--border)">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center">';
@@ -3341,8 +3365,8 @@
         }
       });
       if (limited.length > 0) {
-        html += '<div style="margin-top:10px;padding:8px;background:#fffbeb;border-radius:8px;font-size:12px">';
-        html += '<div style="font-weight:600;color:#b45309;margin-bottom:4px">⚠️ 限购提醒</div>';
+        html += '<div style="margin-top:10px;padding:8px;background:var(--state-yellow-bg);border-radius:8px;font-size:12px">';
+        html += '<div style="font-weight:600;color:var(--state-yellow-text);margin-bottom:4px">⚠️ 限购提醒</div>';
         limited.forEach(function(f) {
           html += '<div>• ' + f.name + ': 每天最多 <strong>' + f.limit + '元</strong></div>';
         });
@@ -3350,7 +3374,7 @@
       }
 
       // 购买金额建议
-      html += '<div style="margin-top:10px;padding:8px;background:#f0f4ff;border-radius:8px;font-size:11px;color:var(--text2)">💡 <b>定投策略：</b>按评分高低分配预算，限购额度低的优先买（稀缺=好货）。建议每天总预算 50-100 元。</div>';
+      html += '<div style="margin-top:10px;padding:8px;background:var(--state-blue-bg);border-radius:8px;font-size:11px;color:var(--text2)">💡 <b>定投策略：</b>按评分高低分配预算，限购额度低的优先买（稀缺=好货）。建议每天总预算 50-100 元。</div>';
 
       content.innerHTML = html;
     }
@@ -3536,7 +3560,7 @@
       }
       
       if (debateState.error) {
-        resultEl.innerHTML = '<div style="padding:16px;background:#fef2f2;border-radius:8px;color:#991b1b">❌ ' + debateState.error + '</div>';
+        resultEl.innerHTML = '<div style="padding:16px;background:var(--state-red-bg);border-radius:8px;color:var(--state-red-text)">❌ ' + debateState.error + '</div>';
         return;
       }
       
@@ -3990,7 +4014,7 @@
           else if (th.neg > th.pos) bearishThemes.push(themeNames[t] || t);
         });
         if (bullishThemes.length > 0 || bearishThemes.length > 0) {
-          html2 += '<div style="padding:8px 10px;background:#f8f9ff;border-radius:8px;font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.6">';
+          html2 += '<div style="padding:8px 10px;background:var(--state-blue-bg);border-radius:8px;font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.6">';
           html2 += '💡 <b>AI 解读：</b>今日新闻';
           if (bullishThemes.length > 0) html2 += '对<b>' + bullishThemes.join('、') + '</b>偏利好';
           if (bullishThemes.length > 0 && bearishThemes.length > 0) html2 += '，';
@@ -4206,7 +4230,7 @@
         avgTrainReturn = avgTrainReturn / windows.length;
         var overfitGap = Math.round((avgTrainReturn - avgReturn) * 100) / 100;
         var overfitRisk = overfitGap > 10 ? '🔴 高过拟合风险' : (overfitGap > 5 ? '🟡 中度过拟合风险' : '🟢 低过拟合风险');
-        html2 += '<div style="padding:8px;background:' + (overfitGap > 10 ? '#fef2f2' : '#f0fdf4') + ';border-radius:6px;font-size:12px;margin-top:8px">';
+        html2 += '<div style="padding:8px;background:' + (overfitGap > 10 ? 'var(--state-red-bg)' : 'var(--state-green-bg)') + ';border-radius:6px;font-size:12px;margin-top:8px">';
         html2 += '过拟合检测: 训练均值 ' + Math.round(avgTrainReturn * 100) / 100 + '% vs 测试均值 ' + avgReturn + '% · 差距 ' + overfitGap + '% · ' + overfitRisk;
         html2 += '</div>';
 
