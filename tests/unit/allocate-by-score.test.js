@@ -51,8 +51,10 @@ test('rankTopN: returns empty when all scores <= 0', () => {
 });
 
 test('rankTopN: defaults to top 10 when topN not specified', () => {
+  // [fix] rankTopN now has MAX_PER_CATEGORY=3, use different types
+  const types = ['纳指100','标普500','全球精选','港股','日本','德国','亚太','新兴市场','石油能源','黄金','全球医疗','全球股票','大宗商品','新能源车','美国REITs'];
   const funds = Array.from({ length: 15 }, (_, i) => ({
-    code: `F${i}`, name: `Fund${i}`, score: 20 - i,
+    code: `F${i}`, name: `Fund${i}`, score: 20 - i, type: types[i],
   }));
   const result = rankTopN(funds);
   assert.equal(result.length, 10);
@@ -61,11 +63,12 @@ test('rankTopN: defaults to top 10 when topN not specified', () => {
 });
 
 test('rankTopN: assigns correct rank numbers starting from 1', () => {
+  // [fix] rankTopN now has MAX_PER_CATEGORY=3, use different types
   const funds = [
-    { code: 'A', name: 'A', score: 30 },
-    { code: 'B', name: 'B', score: 25 },
-    { code: 'C', name: 'C', score: 20 },
-    { code: 'D', name: 'D', score: 15 },
+    { code: 'A', name: 'A', score: 30, type: '纳指100' },
+    { code: 'B', name: 'B', score: 25, type: '标普500' },
+    { code: 'C', name: 'C', score: 20, type: '全球精选' },
+    { code: 'D', name: 'D', score: 15, type: '港股' },
   ];
   const result = rankTopN(funds, 4);
   assert.equal(result[0].rank, 1);

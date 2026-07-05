@@ -87,8 +87,9 @@ async function build() {
   } catch(e) {}
 
   // 嵌入数据
-  template = template.replace('PORTFOLIO_DATA', JSON.stringify(portfolio));
-  template = template.replace('FUNDS_DATA', JSON.stringify(funds));
+  // [fix] 用正则替换硬编码的 var portfolioData = {...} 和 var fundsData = {...}
+  template = template.replace(/var portfolioData = \{.*?\};/s, 'var portfolioData = ' + JSON.stringify(portfolio) + ';');
+  template = template.replace(/var fundsData = \{.*?\};/s, 'var fundsData = ' + JSON.stringify(funds) + ';');
   template = template.replace('NAV_CACHE_DATA', JSON.stringify(latestNavs));
   template = template.replace('DAILY_BRIEF_DATA', JSON.stringify(dailyBrief));
   template = template.replace('DIARY_DATA', JSON.stringify(diary));

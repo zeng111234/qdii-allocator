@@ -172,9 +172,11 @@ test('rankTopN - empty returns empty', function () {
   assert.deepStrictEqual(ds.rankTopN([], 5), []);
 });
 
-test('rankTopN - defaults to top 10', function () {
+test('rankTopN - defaults to top 10 (with category limit)', function () {
+  // [fix] rankTopN now has MAX_PER_CATEGORY=3 per type, so use different types
   var scored = [];
-  for (var i = 0; i < 15; i++) scored.push({ code: 'F'+i, name: 'F'+i, score: 20-i });
+  var types = ['纳指100','标普500','全球精选','港股','日本','德国','亚太','新兴市场','石油能源','黄金','全球医疗','全球股票','大宗商品','新能源车','美国REITs'];
+  for (var i = 0; i < 15; i++) scored.push({ code: 'F'+i, name: 'F'+i, score: 20-i, type: types[i] });
   var ranked = ds.rankTopN(scored);
   assert.strictEqual(ranked.length, 10);
 });
