@@ -411,8 +411,47 @@
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10
+    },
+    {
+      "code": "320013",
+      "name": "诺安全球黄金(QDII-FOF)A",
+      "type": "黄金",
+      "shareClass": "A",
+      "feeRate": 1.0,
+      "custodyFee": 0.2,
+      "dailyLimit": 100000000000,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "黄金避险，不走QDII额度，3年+83%",
+      "settleDays": 2
+    },
+    {
+      "code": "000369",
+      "name": "广发全球医疗保健指数人民币(QDII)A",
+      "type": "全球医疗",
+      "shareClass": "A",
+      "feeRate": 0.8,
+      "custodyFee": 0.2,
+      "dailyLimit": 100,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "防御性行业，老龄化长期趋势，限购100",
+      "settleDays": 2
+    },
+    {
+      "code": "000041",
+      "name": "华夏全球股票(QDII)(人民币)",
+      "type": "全球股票",
+      "shareClass": "A",
+      "feeRate": 1.5,
+      "custodyFee": 0.3,
+      "dailyLimit": 10000,
+      "minPurchase": 10,
+      "status": "active",
+      "note": "真正的全球分散，不重仓单一市场",
+      "settleDays": 2
     }
   ],
-  "_lastUpdated": "2026-06-29",
-  "_updateNote": "Cleaned: removed 24 unbought funds, kept 26"
+  "_lastUpdated": "2026-07-05",
+  "_updateNote": "Added 3 new funds: 黄金(320013), 全球医疗(000369), 全球股票(000041)"
 }
