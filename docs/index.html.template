@@ -601,7 +601,7 @@
         📊 今日早报
         <span id="brief-arrow" style="font-size:11px;color:var(--text3);transition:transform 0.2s">▼</span>
       </div>
-      <div id="daily-brief" style="display:none;white-space:pre-wrap;font-size:13px;line-height:1.7;color:var(--text2);max-height:200px;overflow-y:auto"></div>
+      <div id="daily-brief" style="display:none;font-size:14px;line-height:1.8;color:var(--text2);max-height:300px;overflow-y:auto;padding:8px 0"></div>
     </div>
 
     <!-- Tabs -->
@@ -4483,7 +4483,11 @@
 
     if (dailyBriefData && dailyBriefData.content) {
       document.getElementById('brief-card').style.display = 'block';
-      document.getElementById('daily-brief').textContent = dailyBriefData.content;
+      // 简单格式化：换行变<br>，emoji保持，清理XML标签
+      var briefText = dailyBriefData.content
+        .replace(/<\/?(?:thinking|MORNING_SUMMARY|ANALYSIS_BLOCK|ORDERS_JSON|CONFIDENCE_ASSESSMENT)[^>]*>/gi, '')
+        .replace(/\n/g, '<br>');
+      document.getElementById('daily-brief').innerHTML = briefText;
     }
 
     // ========== AI 助手模块 ==========

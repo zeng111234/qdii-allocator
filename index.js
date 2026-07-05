@@ -434,7 +434,7 @@ async function runAIAnalysis(result, opts, llmConfig) {
 /**
  * 发送邮件报告
  */
-async function sendReport(result, textContent, aiCommentary, topN) {
+async function sendReport(result, textContent, aiCommentary, topN, dailyBrief) {
   const smtpHost = process.env.SMTP_HOST;
   const smtpPort = parseInt(process.env.SMTP_PORT || "465");
   const smtpUser = process.env.SMTP_USER;
@@ -445,7 +445,7 @@ async function sendReport(result, textContent, aiCommentary, topN) {
   } else {
     console.log("[5/5] Sending email...");
     const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
-    const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result }, smtpConfig);
+    const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result, dailyBrief: dailyBrief }, smtpConfig);
     if (!success) { console.error("[error] email failed"); process.exit(1); }
   }
 }
@@ -607,6 +607,27 @@ async function main() {
   } else {
     console.log("[4/5] AI skipped (no LLM_API_KEY)");
   }
+
+  // 生成早报
+  let dailyBrief = null;
+  if (llmApiKey && llmBaseUrl && llmModel) {
+    try {
+      const dailyBriefModule = require("./lib/daily-brief");
+      const portfolioModule = require("./lib/portfolio");
+      let portfolioData = null;
+      try { portfolioData = portfolioModule.loadPortfolio(); } catch(e) {}
+      dailyBrief = await dailyBriefModule.generateDailyBrief(
+        { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel },
+        result,
+        portfolioData
+      );
+      if (dailyBrief && dailyBrief.content) {
+        console.log("[早报] " + dailyBrief.content.substring(0, 100) + "...");
+      }
+    } catch(e) {
+      console.warn("[早报] 生成失败:", e.message);
+    }
+  }
   console.log("");
 
   // 输出或发送报告
@@ -614,6 +635,11 @@ async function main() {
     console.log("[5/5] dry-run, skip email\n");
     console.log("--- preview ---");
     console.log(textContent);
+    if (dailyBrief && dailyBrief.content) {
+      console.log("\n=== 今日早报 ===");
+      console.log(dailyBrief.content);
+      console.log("=== End 早报 ===");
+    }
     if (aiCommentary && aiCommentary.length > 10) {
       console.log("\n=== AI Decision Report ===");
       console.log(aiCommentary);
@@ -621,7 +647,7 @@ async function main() {
     }
     console.log("--- end ---");
   } else {
-    await sendReport(result, textContent, aiCommentary, topN);
+    await sendReport(result, textContent, aiCommentary, topN, dailyBrief);
   }
   console.log("");
   console.log("Done!");
