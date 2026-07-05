@@ -91,7 +91,7 @@ jobs:
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
       - name: Upload review report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: ai-review-report
           path: data/review-report.md
