@@ -2736,29 +2736,8 @@
         return b.composite - a.composite;
       });
 
-      // Phase 6: IndexGroup dedup — mark duplicates, keep only highest per group for recommendations
-      function getIG(fund) {
-        if (fund.indexGroup) return fund.indexGroup;
-        var t = fund.type || '';
-        if (t.indexOf('纳指100') >= 0 || t.indexOf('纳斯达克100') >= 0) return 'NDX100';
-        if (t.indexOf('标普500') >= 0) return 'SPX500';
-        if (t.indexOf('全球科技') >= 0) return 'GLOBAL_TECH';
-        if (t.indexOf('新能源车') >= 0) return 'EV';
-        return fund.code; // unique per fund
-      }
-      var usedIG = {};
-      fundResults.forEach(function(r) {
-        if (r.composite === null) { r.deduped = false; return; }
-        var fund = fundsData.funds.find(function(f) { return f.code === r.code; });
-        var ig = fund ? getIG(fund) : r.code;
-        if (usedIG[ig]) {
-          r.deduped = true;
-          r.dedupedBy = usedIG[ig]; // name of the fund that took the slot
-        } else {
-          r.deduped = false;
-          usedIG[ig] = r.name;
-        }
-      });
+      // [fix] 移除指数去重 — 显示所有active基金，用户自行判断
+      fundResults.forEach(function(r) { r.deduped = false; });
 
       return fundResults;
     }
