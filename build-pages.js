@@ -33,6 +33,15 @@ async function build() {
   // 加载环境变量
   const env = loadEnv();
 
+  // HTTP 工具函数（提取到顶层，供多处使用）
+  const httpGetSync = (url) => new Promise((resolve, reject) => {
+    https.get(url, { timeout: 8000 }, (res) => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => resolve(data));
+    }).on('error', reject);
+  });
+
   // 读取模板
   let template = fs.readFileSync(TEMPLATE, 'utf-8');
 
@@ -96,14 +105,6 @@ async function build() {
   // 抓取新闻数据嵌入（避免前端 CORS 问题）
   let newsData = { items: [], sentiment: null, fetchedAt: null };
   try {
-    const httpGetSync = (url) => new Promise((resolve, reject) => {
-      https.get(url, { timeout: 8000 }, (res) => {
-        let data = '';
-        res.on('data', c => data += c);
-        res.on('end', () => resolve(data));
-      }).on('error', reject);
-    });
-
     const [globalRaw, usRaw, hkRaw, futuresRaw, fundRaw] = await Promise.all([
       httpGetSync('https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=350&order=1&needInteractData=0&page_index=1&page_size=10&req_trace=' + Date.now()),
       httpGetSync('https://np-listapi.eastmoney.com/comm/web/getNewsByColumns?client=web&biz=web_news_col&column=353&order=1&needInteractData=0&page_index=1&page_size=8&req_trace=' + Date.now()),
