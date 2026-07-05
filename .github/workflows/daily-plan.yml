@@ -40,6 +40,21 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
       - run: npm ci
+      # [fix] 从 Firebase 同步最新持仓数据（用户可能在 Page 上录了买入）
+      - name: Sync portfolio from Firebase
+        continue-on-error: true
+        run: |
+          node -e "
+            const portfolio = require('./lib/portfolio');
+            portfolio.loadPortfolioAsync().then(function(data) {
+              console.log('Portfolio synced: ' + (data.holdings ? data.holdings.length : 0) + ' holdings');
+            }).catch(function(e) {
+              console.warn('Firebase sync failed, using local:', e.message);
+            });
+          "
+        env:
+          FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
+          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
       - name: Update NAV cache
         continue-on-error: true
         run: node scripts/update-nav-cache.js
@@ -90,7 +105,13 @@ jobs:
           SMTP_USER: ${{ secrets.SMTP_USER }}
           SMTP_PASS: ${{ secrets.SMTP_PASS }}
           MAIL_TO: ${{ secrets.MAIL_TO }}
+          FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
+          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
       - name: Build GitHub Pages
+        run: node build-pages.js
+        env:
+          FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
+          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
         run: node build-pages.js
       - name: Commit updated data and pages
         run: |
