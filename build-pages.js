@@ -15,15 +15,16 @@ const NAV_CACHE = path.join(__dirname, 'data', 'nav-cache.json');
 const DAILY_BRIEF = path.join(__dirname, 'data', 'daily-brief.json');
 const DIARY = path.join(__dirname, 'data', 'diary.json');
 
-// 加载 .env（不依赖 dotenv 包）
+// 加载 .env（不依赖 dotenv 包）+ 环境变量 fallback（CI 中 secrets 通过 env 传入）
 function loadEnv() {
+  const env = Object.assign({}, process.env);
   const envPath = path.join(__dirname, '.env');
-  if (!fs.existsSync(envPath)) return {};
-  const env = {};
-  fs.readFileSync(envPath, 'utf-8').split('\n').forEach(line => {
-    const m = line.match(/^\s*([\w]+)\s*=\s*(.*?)\s*$/);
-    if (m) env[m[1]] = m[2];
-  });
+  if (fs.existsSync(envPath)) {
+    fs.readFileSync(envPath, 'utf-8').split('\n').forEach(line => {
+      const m = line.match(/^\s*([\w]+)\s*=\s*(.*?)\s*$/);
+      if (m) env[m[1]] = m[2];
+    });
+  }
   return env;
 }
 
