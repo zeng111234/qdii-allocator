@@ -691,7 +691,7 @@
           </div>
         </div>
         
-        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:14px;margin-bottom:16px">
+        <div style="background:var(--state-blue-bg);border:1px solid var(--state-blue-border);border-radius:10px;padding:14px;margin-bottom:16px">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
             <span style="font-size:20px">🛡️</span>
             <div>
@@ -4474,7 +4474,7 @@
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
         .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
         .replace(/\*(.+?)\*/g, '<em>$1</em>')
-        .replace(/`(.+?)`/g, '<code style="background:#f1f5f9;padding:1px 4px;border-radius:3px;font-size:12px">$1</code>');
+        .replace(/`(.+?)`/g, '<code style="background:var(--bg2);padding:1px 4px;border-radius:3px;font-size:12px">$1</code>');
 
       // 表格渲染
       var lines = html.split('\n');
@@ -4507,9 +4507,9 @@
       if (rows.length === 0) return '';
       var html = '<table style="width:100%;border-collapse:collapse;font-size:12px;margin:8px 0">';
       rows.forEach(function(row, idx) {
-        html += '<tr style="' + (idx===0?'background:#f8fafc;font-weight:600':'') + '">';
+        html += '<tr style="' + (idx===0?'background:var(--table-row-even);font-weight:600':'') + '">';
         row.forEach(function(cell) {
-          html += '<td style="padding:4px 8px;border:1px solid #e2e8f0">' + cell + '</td>';
+          html += '<td style="padding:4px 8px;border:1px solid var(--border)">' + cell + '</td>';
         });
         html += '</tr>';
       });
