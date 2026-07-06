@@ -123,7 +123,7 @@ jobs:
             echo "No changes to commit"
           else
             git commit -m "chore: update data & pages $(date +%Y/%m/%d)"
-            # [fix] safer rebase: abort on conflict instead of silently ignoring
-            git pull --rebase origin main || { git rebase --abort; echo "Rebase conflict, skipping push"; exit 0; }
+            # [fix] use --autostash to handle unstaged changes
+            git pull --rebase --autostash origin main || { git rebase --abort; echo "Rebase conflict, skipping push"; exit 0; }
             git push origin main || echo "Push failed, skipping"
           fi
