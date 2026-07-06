@@ -118,7 +118,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # [fix] only add tracked files, skip gitignored caches
           git add data/history.json data/nav-cache.json data/portfolio.json data/hypotheses.json
-          git add -f docs/data/nav-cache.json docs/data/news.json docs/data/external-signals-cache.json
+          git add -f docs/data/nav-cache.json docs/data/news.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
