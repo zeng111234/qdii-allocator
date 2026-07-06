@@ -20,7 +20,7 @@
       "followUpReturns": {
         "3d": 6.2,
         "7d": 9.81,
-        "14d": null,
+        "14d": 3.43,
         "30d": null
       }
     },
@@ -44,7 +44,7 @@
       "followUpReturns": {
         "3d": 6.51,
         "7d": 9.93,
-        "14d": null,
+        "14d": 4.18,
         "30d": null
       }
     },
@@ -68,7 +68,7 @@
       "followUpReturns": {
         "3d": 4.92,
         "7d": 8.43,
-        "14d": null,
+        "14d": 3.89,
         "30d": null
       }
     },
@@ -92,7 +92,7 @@
       "followUpReturns": {
         "3d": -1.17,
         "7d": -0.86,
-        "14d": null,
+        "14d": 0.68,
         "30d": null
       }
     },
@@ -116,7 +116,7 @@
       "followUpReturns": {
         "3d": 0.13,
         "7d": 0.09,
-        "14d": null,
+        "14d": -1.15,
         "30d": null
       }
     },
@@ -158,16 +158,19 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-06-15T05:12:43.575Z",
       "navAtCreation": 2.769,
       "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
+      "invalidatedAt": "2026-07-06T08:54:45.478Z",
+      "outcome": {
+        "return": -9.61,
+        "holdingDays": 17
+      },
       "followUpReturns": {
         "3d": 4.12,
         "7d": 6.32,
-        "14d": null,
+        "14d": 0.04,
         "30d": null
       }
     },
@@ -191,7 +194,7 @@
       "followUpReturns": {
         "3d": 5.32,
         "7d": -0.64,
-        "14d": null,
+        "14d": -0.85,
         "30d": null
       }
     },
@@ -215,7 +218,7 @@
       "followUpReturns": {
         "3d": 2.92,
         "7d": -0.67,
-        "14d": null,
+        "14d": -0.57,
         "30d": null
       }
     },
@@ -238,7 +241,7 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -2.46,
-        "7d": null,
+        "7d": 1.45,
         "14d": null,
         "30d": null
       }
@@ -261,8 +264,8 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
+        "3d": 1.31,
+        "7d": 0.56,
         "14d": null,
         "30d": null
       }
@@ -305,15 +308,18 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-06-24T12:01:34.833Z",
       "navAtCreation": 3.7805,
       "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
+      "invalidatedAt": "2026-07-06T08:54:45.479Z",
+      "outcome": {
+        "return": -8.71,
+        "holdingDays": 8
+      },
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
+        "3d": 0.12,
+        "7d": 0.54,
         "14d": null,
         "30d": null
       }
@@ -336,8 +342,8 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
+        "3d": 4.34,
+        "7d": 4.15,
         "14d": null,
         "30d": null
       }
@@ -360,8 +366,8 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
+        "3d": -0.89,
+        "7d": -1.53,
         "14d": null,
         "30d": null
       }
@@ -377,14 +383,17 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-06-30T05:11:33.740Z",
-      "navAtCreation": null,
+      "navAtCreation": 5.1424,
       "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
+      "invalidatedAt": "2026-07-06T08:54:45.479Z",
+      "outcome": {
+        "return": -10.34,
+        "holdingDays": 3
+      },
       "followUpReturns": {
-        "3d": null,
+        "3d": -10.34,
         "7d": null,
         "14d": null,
         "30d": null
@@ -401,8 +410,83 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-06-30T05:11:33.741Z",
+      "navAtCreation": 8.4331,
+      "validatedAt": null,
+      "invalidatedAt": "2026-07-06T08:54:45.479Z",
+      "outcome": {
+        "return": -11.52,
+        "holdingDays": 2
+      },
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1783328085475",
+      "fundCode": "005698",
+      "fundName": "华夏全球科技先锋混合(QDII)A",
+      "type": "均值回归",
+      "thesis": "系统推荐#1，分数84.75。1年涨91.27%加9.1分，3年累计184.46%加9.2分，夏普1.29加3.2分，最大回撤-31.14%扣4.7分，长期牛市+3分，回撤15.86%加47",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-07-06T08:54:45.475Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1783328085476",
+      "fundCode": "008253",
+      "fundName": "华宝致远混合(QDII)A",
+      "type": "均值回归",
+      "thesis": "系统推荐#2，分数81.76。1年涨72.47%加7.2分，3年累计142.01%加7.1分，夏普1.13加2.8分，最大回撤-28.17%扣4.2分，长期牛市+3分，回撤15.64%加46",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-07-06T08:54:45.476Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1783328085477",
+      "fundCode": "501226",
+      "fundName": "长城全球新能源车(QDII)A",
+      "type": "均值回归",
+      "thesis": "系统推荐#5，分数63.17。1年涨73.23%加7.3分，3年累计136.3%加6.8分，夏普1.4加3.5分，最大回撤-23.85%扣3.6分，长期牛市+3分，回撤10.72%加32.2",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-07-06T08:54:45.477Z",
       "navAtCreation": null,
       "validatedAt": null,
       "invalidatedAt": null,
@@ -418,8 +502,8 @@
   "stats": {
     "active": 14,
     "validated": 2,
-    "invalidated": 0,
+    "invalidated": 4,
     "expired": 0,
-    "total": 1
+    "total": 4
   }
 }

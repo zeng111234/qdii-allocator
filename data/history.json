@@ -5115,7 +5115,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 3.4,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.61
         },
         {
           "rank": 2,
@@ -5137,7 +5137,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 3.21,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.19
         },
         {
           "rank": 3,
@@ -5159,7 +5159,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 4.69,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.56
         },
         {
           "rank": 4,
@@ -5203,7 +5203,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 3.34,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.98
         },
         {
           "rank": 6,
@@ -5225,7 +5225,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 2.12,
-          "followUp10dReturn": null
+          "followUp10dReturn": -3.92
         },
         {
           "rank": 7,
@@ -5247,7 +5247,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 0.37,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.54
         },
         {
           "rank": 8,
@@ -5269,7 +5269,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 0,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.42
         },
         {
           "rank": 9,
@@ -5291,7 +5291,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 1.84,
-          "followUp10dReturn": null
+          "followUp10dReturn": 1.38
         },
         {
           "rank": 10,
@@ -5313,7 +5313,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 1.49,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.44
         }
       ],
       "allScores": [
@@ -5646,7 +5646,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -6.72,
-          "followUp10dReturn": null
+          "followUp10dReturn": -6.52
         },
         {
           "rank": 2,
@@ -5668,7 +5668,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -6.04,
-          "followUp10dReturn": null
+          "followUp10dReturn": -4.83
         },
         {
           "rank": 3,
@@ -5690,7 +5690,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -7.51,
-          "followUp10dReturn": null
+          "followUp10dReturn": -14.98
         },
         {
           "rank": 4,
@@ -5712,7 +5712,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -6.39,
-          "followUp10dReturn": null
+          "followUp10dReturn": -5.97
         },
         {
           "rank": 5,
@@ -5734,7 +5734,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -5.85,
-          "followUp10dReturn": null
+          "followUp10dReturn": -4.4
         },
         {
           "rank": 6,
@@ -5778,7 +5778,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -5.53,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.9
         },
         {
           "rank": 8,
@@ -5800,7 +5800,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -3.95,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.78
         },
         {
           "rank": 9,
@@ -5822,7 +5822,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -5.54,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.87
         },
         {
           "rank": 10,
@@ -5844,7 +5844,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -4.09,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.95
         }
       ],
       "allScores": [
@@ -6176,8 +6176,8 @@
             "maxDrawdown": -20.18,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": 6.54,
+          "followUp10dReturn": -6.72
         },
         {
           "rank": 2,
@@ -6198,8 +6198,8 @@
             "maxDrawdown": -30.39,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": 5.94,
+          "followUp10dReturn": -6.75
         },
         {
           "rank": 3,
@@ -6220,8 +6220,8 @@
             "maxDrawdown": -35.85,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": 5.99,
+          "followUp10dReturn": -6.81
         },
         {
           "rank": 4,
@@ -6242,8 +6242,8 @@
             "maxDrawdown": -20.74,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": 4.66,
+          "followUp10dReturn": -4.6
         },
         {
           "rank": 5,
@@ -6264,8 +6264,8 @@
             "maxDrawdown": -19.24,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": 1.45,
+          "followUp10dReturn": -4.1
         },
         {
           "rank": 6,
@@ -6286,8 +6286,8 @@
             "maxDrawdown": -25.48,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": 0.82,
+          "followUp10dReturn": -1.64
         },
         {
           "rank": 7,
@@ -6309,7 +6309,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 9.74,
-          "followUp10dReturn": null
+          "followUp10dReturn": 2.6
         },
         {
           "rank": 8,
@@ -6330,8 +6330,8 @@
             "maxDrawdown": -22.55,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": 3.03,
+          "followUp10dReturn": -0.27
         },
         {
           "rank": 9,
@@ -6352,8 +6352,8 @@
             "maxDrawdown": -23.03,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": 2.99,
+          "followUp10dReturn": -0.23
         },
         {
           "rank": 10,
@@ -6374,8 +6374,8 @@
             "maxDrawdown": -23.31,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": 3.07,
+          "followUp10dReturn": -0.19
         }
       ],
       "allScores": [
@@ -6707,7 +6707,7 @@
             "maxDrawdown": -35.85,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -7.3,
           "followUp10dReturn": null
         },
         {
@@ -6729,7 +6729,7 @@
             "maxDrawdown": -20.18,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.56,
           "followUp10dReturn": null
         },
         {
@@ -6752,7 +6752,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 11.21,
-          "followUp10dReturn": null
+          "followUp10dReturn": 4.63
         },
         {
           "rank": 4,
@@ -6773,7 +6773,7 @@
             "maxDrawdown": -30.39,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.54,
           "followUp10dReturn": null
         },
         {
@@ -6795,7 +6795,7 @@
             "maxDrawdown": -22.25,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 4.15,
           "followUp10dReturn": null
         },
         {
@@ -6817,8 +6817,8 @@
             "maxDrawdown": -20.89,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": -1.4,
+          "followUp10dReturn": -1.4
         },
         {
           "rank": 7,
@@ -6839,8 +6839,8 @@
             "maxDrawdown": -22.09,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": 2.41,
+          "followUp10dReturn": -0.21
         },
         {
           "rank": 8,
@@ -6861,7 +6861,7 @@
             "maxDrawdown": -21.97,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 1.6,
           "followUp10dReturn": null
         },
         {
@@ -6883,7 +6883,7 @@
             "maxDrawdown": -19.24,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.71,
           "followUp10dReturn": null
         },
         {
@@ -6905,7 +6905,7 @@
             "maxDrawdown": -5.05,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.38,
           "followUp10dReturn": null
         }
       ],
@@ -7238,7 +7238,7 @@
             "maxDrawdown": -20.18,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -12.27,
           "followUp10dReturn": null
         },
         {
@@ -7282,7 +7282,7 @@
             "maxDrawdown": -30.39,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -12.86,
           "followUp10dReturn": null
         },
         {
@@ -7304,7 +7304,7 @@
             "maxDrawdown": -22.25,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 6.29,
           "followUp10dReturn": null
         },
         {
@@ -7326,7 +7326,7 @@
             "maxDrawdown": -19.24,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -5.59,
           "followUp10dReturn": null
         },
         {
@@ -7348,7 +7348,7 @@
             "maxDrawdown": -22.09,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.4,
           "followUp10dReturn": null
         },
         {
@@ -7370,7 +7370,7 @@
             "maxDrawdown": -20.89,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.53,
           "followUp10dReturn": null
         },
         {
@@ -7392,7 +7392,7 @@
             "maxDrawdown": -5.05,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.07,
           "followUp10dReturn": null
         },
         {
@@ -7414,7 +7414,7 @@
             "maxDrawdown": -35.85,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -3.79,
           "followUp10dReturn": null
         },
         {
@@ -7436,7 +7436,7 @@
             "maxDrawdown": -20.74,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -8.91,
           "followUp10dReturn": null
         }
       ],
@@ -7769,7 +7769,7 @@
             "maxDrawdown": -10.31,
             "longTermTrend": "unknown"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 4.48,
           "followUp10dReturn": null
         },
         {
@@ -7791,7 +7791,7 @@
             "maxDrawdown": -8.84,
             "longTermTrend": "unknown"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 5.3,
           "followUp10dReturn": null
         },
         {
@@ -7813,7 +7813,7 @@
             "maxDrawdown": -11.61,
             "longTermTrend": "unknown"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 4.55,
           "followUp10dReturn": null
         },
         {
@@ -7835,7 +7835,7 @@
             "maxDrawdown": -8.91,
             "longTermTrend": "unknown"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 4.44,
           "followUp10dReturn": null
         },
         {
@@ -7857,7 +7857,7 @@
             "maxDrawdown": -38.43,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -3.02,
           "followUp10dReturn": null
         },
         {
@@ -7879,7 +7879,7 @@
             "maxDrawdown": -19.24,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 4,
           "followUp10dReturn": null
         },
         {
@@ -7901,7 +7901,7 @@
             "maxDrawdown": -7.8,
             "longTermTrend": "unknown"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 1.19,
           "followUp10dReturn": null
         },
         {
@@ -7923,7 +7923,7 @@
             "maxDrawdown": -2.96,
             "longTermTrend": "unknown"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.01,
           "followUp10dReturn": null
         },
         {
@@ -7945,7 +7945,7 @@
             "maxDrawdown": -22.09,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 1.35,
           "followUp10dReturn": null
         },
         {
@@ -7967,7 +7967,7 @@
             "maxDrawdown": -8.34,
             "longTermTrend": "unknown"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 3.96,
           "followUp10dReturn": null
         }
       ],
@@ -8366,7 +8366,7 @@
             "maxDrawdown": -38.43,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -5.92,
           "followUp10dReturn": null
         },
         {
@@ -9540,6 +9540,447 @@
           "score": 0.1,
           "reason": "夏普3.57加16.1分，最大回撤-11.61%扣1.7分，近期新高扣6.6分，低于MA10加3.4分，30日涨21.8%过热-2.7分，60日涨73.3%过热-14.5分，5日涨5.44%扣1.6分，波动4.46%扣2.2分，费率0.8%扣0.6分",
           "dailyLimit": 100
+        }
+      ]
+    },
+    {
+      "date": "2026-07-06",
+      "budget": 50,
+      "strategy": "智能动态策略(Top10 排名)",
+      "totalRanked": 10,
+      "allAvailable": 31,
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "005698",
+          "name": "华夏全球科技先锋混合(QDII)A",
+          "type": "全球科技",
+          "score": 84.75,
+          "reason": "1年涨91.27%加9.1分，3年累计184.46%加9.2分，夏普1.29加3.2分，最大回撤-31.14%扣4.7分，长期牛市+3分，回撤15.86%加47.6分，低于MA10加16分，60日涨46.2%过热-6.4分，90日涨48.2%过热-2.6分，波动4.52%扣2.3分，费率1.2%扣1分，外部信号 +0.5分(ai/chip/cloud)",
+          "yearReturn": 91.27,
+          "indicators": {
+            "drawdown": -15.86,
+            "maDeviation": -10.65,
+            "recent5Change": -10.03,
+            "volatility": 4.52,
+            "annualizedReturn": 45.02,
+            "threeYearReturn": 184.46,
+            "sharpeRatio": 1.29,
+            "maxDrawdown": -31.14,
+            "longTermTrend": "bull"
+          },
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "008253",
+          "name": "华宝致远混合(QDII)A",
+          "type": "全球精选",
+          "score": 81.76,
+          "reason": "1年涨72.47%加7.2分，3年累计142.01%加7.1分，夏普1.13加2.8分，最大回撤-28.17%扣4.2分，长期牛市+3分，回撤15.64%加46.9分，低于MA10加12.7分，60日涨36.2%过热-3.3分，波动5.03%扣2.5分，费率1.2%扣1分",
+          "yearReturn": 72.47,
+          "indicators": {
+            "drawdown": -15.64,
+            "maDeviation": -8.46,
+            "recent5Change": -10.1,
+            "volatility": 5.03,
+            "annualizedReturn": 35.71,
+            "threeYearReturn": 142.01,
+            "sharpeRatio": 1.13,
+            "maxDrawdown": -28.17,
+            "longTermTrend": "bull"
+          },
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 3,
+          "code": "539002",
+          "name": "建信新兴市场优选QDII-A",
+          "type": "新兴市场",
+          "score": 80.91,
+          "reason": "1年涨117.09%加11.7分，3年累计228.48%加11.4分，夏普1.31加3.3分，最大回撤-35.85%扣5.4分，长期牛市+3分，回撤14.98%加44.9分，低于MA10加14.3分，60日涨56.8%过热-9.5分，90日涨52.5%过热-3.5分，波动5.07%扣2.5分，费率0.8%扣0.6分",
+          "yearReturn": 117.09,
+          "indicators": {
+            "drawdown": -14.98,
+            "maDeviation": -9.5,
+            "recent5Change": -13.06,
+            "volatility": 5.07,
+            "annualizedReturn": 46.75,
+            "threeYearReturn": 228.48,
+            "sharpeRatio": 1.31,
+            "maxDrawdown": -35.85,
+            "longTermTrend": "bull"
+          },
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 4,
+          "code": "016664",
+          "name": "天弘全球高端制造QDII-A",
+          "type": "全球制造",
+          "score": 78.84,
+          "reason": "1年涨167.99%加16.8分，3年累计239.72%加12分，夏普1.5加3.8分，最大回撤-30.39%扣4.6分，长期牛市+3分，回撤13.59%加40.8分，低于MA10加13.8分，60日涨61.4%过热-10.9分，90日涨60.4%过热-5.1分，波动4.42%扣2.2分，费率1.2%扣1分",
+          "yearReturn": 167.99,
+          "indicators": {
+            "drawdown": -13.59,
+            "maDeviation": -9.22,
+            "recent5Change": -8.03,
+            "volatility": 4.42,
+            "annualizedReturn": 53.11,
+            "threeYearReturn": 239.72,
+            "sharpeRatio": 1.5,
+            "maxDrawdown": -30.39,
+            "longTermTrend": "bull"
+          },
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 5,
+          "code": "501226",
+          "name": "长城全球新能源车(QDII)A",
+          "type": "新能源车",
+          "score": 63.17,
+          "reason": "1年涨73.23%加7.3分，3年累计136.3%加6.8分，夏普1.4加3.5分，最大回撤-23.85%扣3.6分，长期牛市+3分，回撤10.72%加32.2分，低于MA10加9.9分，60日涨38.7%过热-4.1分，波动3.74%扣1.9分，费率1.2%扣1分，外部信号 -0.5分(energy)",
+          "yearReturn": 73.23,
+          "indicators": {
+            "drawdown": -10.72,
+            "maDeviation": -6.61,
+            "recent5Change": -4.94,
+            "volatility": 3.74,
+            "annualizedReturn": 42.01,
+            "threeYearReturn": 136.3,
+            "sharpeRatio": 1.4,
+            "maxDrawdown": -23.85,
+            "longTermTrend": "bull"
+          },
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 6,
+          "code": "160216",
+          "name": "国泰大宗商品(QDII-LOF)",
+          "type": "大宗商品",
+          "score": 51.19,
+          "reason": "1年涨13.59%加1.4分，3年累计27.96%加1.4分，夏普0.53加1.3分，最大回撤-23.26%扣3.5分，回撤13.28%加39.8分，低于MA10加3.1分，空头排列-2.5分，波动1.28%扣0.6分，费率0.8%扣0.6分，稳定收益+0.9分",
+          "yearReturn": 13.59,
+          "indicators": {
+            "drawdown": -13.28,
+            "maDeviation": -2.08,
+            "recent5Change": -1.72,
+            "volatility": 1.28,
+            "annualizedReturn": 10.48,
+            "threeYearReturn": 27.96,
+            "sharpeRatio": 0.53,
+            "maxDrawdown": -23.26,
+            "longTermTrend": "neutral"
+          },
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 7,
+          "code": "040018",
+          "name": "华安香港精选QDII-A",
+          "type": "港股精选",
+          "score": 48.22,
+          "reason": "1年涨48.58%加4.9分，3年累计108.86%加5.4分，夏普1.07加2.7分，最大回撤-19.24%扣2.9分，长期牛市+3分，回撤7.12%加21.4分，低于MA10加6.2分，波动2.83%扣1.4分，费率1.5%扣1.2分，连续推荐1天扣0.8分，外部信号 +0.5分(china)",
+          "yearReturn": 48.58,
+          "indicators": {
+            "drawdown": -7.12,
+            "maDeviation": -4.12,
+            "recent5Change": -1.68,
+            "volatility": 2.83,
+            "annualizedReturn": 28.6,
+            "threeYearReturn": 108.86,
+            "sharpeRatio": 1.07,
+            "maxDrawdown": -19.24,
+            "longTermTrend": "bull"
+          },
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 8,
+          "code": "320013",
+          "name": "诺安全球黄金(QDII-FOF)A",
+          "type": "黄金",
+          "score": 32.26,
+          "reason": "1年涨14.15%加1.4分，3年累计82.63%加4.1分，夏普0.98加2.5分，最大回撤-25.44%扣3.8分，回撤7.74%加23.2分，高于MA10扣1.2分，空头排列-2.5分，波动1.64%扣0.8分，费率1%扣0.8分",
+          "yearReturn": 14.15,
+          "indicators": {
+            "drawdown": -7.74,
+            "maDeviation": 0.79,
+            "recent5Change": 0.96,
+            "volatility": 1.64,
+            "annualizedReturn": 19.48,
+            "threeYearReturn": 82.63,
+            "sharpeRatio": 0.98,
+            "maxDrawdown": -25.44,
+            "longTermTrend": "neutral"
+          },
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 9,
+          "code": "050015",
+          "name": "博时亚太精选QDII-A",
+          "type": "亚太精选",
+          "score": 31.45,
+          "reason": "1年涨56.15%加5.6分，3年累计58.39%加2.9分，夏普0.82加2.1分，最大回撤-25.48%扣3.8分，长期牛市+3分，回撤4.21%加12.6分，低于MA10加2.2分，近高点-4.2%-1分，波动2.1%扣1.1分，费率1.5%扣1.2分，外部信号 +0.5分(china)",
+          "yearReturn": 56.15,
+          "indicators": {
+            "drawdown": -4.21,
+            "maDeviation": -1.49,
+            "recent5Change": 1.41,
+            "volatility": 2.1,
+            "annualizedReturn": 19.5,
+            "threeYearReturn": 58.39,
+            "sharpeRatio": 0.82,
+            "maxDrawdown": -25.48,
+            "longTermTrend": "bull"
+          },
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 10,
+          "code": "040046",
+          "name": "华安纳斯达克100A(QDII)",
+          "type": "纳指100",
+          "score": 29.65,
+          "reason": "1年涨22.29%加2.2分，3年累计71.61%加3.6分，夏普1.04加2.6分，最大回撤-23.03%扣3.5分，长期牛市+3分，回撤4%加12分，低于MA10加2.1分，近高点-4.6%-1分，波动2.08%扣1分，费率0.8%扣0.6分，外部信号 +0.5分(nasdaq/nvda/nvidia/ai/chip/tesla)",
+          "yearReturn": 22.29,
+          "indicators": {
+            "drawdown": -4,
+            "maDeviation": -1.37,
+            "recent5Change": 0.61,
+            "volatility": 2.08,
+            "annualizedReturn": 22.93,
+            "threeYearReturn": 71.61,
+            "sharpeRatio": 1.04,
+            "maxDrawdown": -23.03,
+            "longTermTrend": "bull"
+          },
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ],
+      "allScores": [
+        {
+          "code": "000179",
+          "name": "广发美国房地产A(QDII)",
+          "score": 14.71,
+          "status": "active"
+        },
+        {
+          "code": "000614",
+          "name": "华安德国DAX30A(QDII)",
+          "score": 3.98,
+          "status": "active"
+        },
+        {
+          "code": "000834",
+          "name": "大成纳斯达克100(QDII)",
+          "score": 28.57,
+          "status": "active"
+        },
+        {
+          "code": "000988",
+          "name": "华安标普全球石油QDII-A",
+          "score": 10.56,
+          "status": "active"
+        },
+        {
+          "code": "001092",
+          "name": "广发纳斯达克生物科技A(QDII)",
+          "score": 7.85,
+          "status": "active"
+        },
+        {
+          "code": "012920",
+          "name": "易方达全球成长精选QDII-A",
+          "score": -999,
+          "status": "suspended"
+        },
+        {
+          "code": "015204",
+          "name": "银华全球新能源车量化优选(QDII)A",
+          "score": 41.24,
+          "status": "active"
+        },
+        {
+          "code": "015558",
+          "name": "大成标普500ETF联接A(QDII)",
+          "score": 14.79,
+          "status": "active"
+        },
+        {
+          "code": "016664",
+          "name": "天弘全球高端制造QDII-A",
+          "score": 78.84,
+          "status": "active"
+        },
+        {
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 17.75,
+          "status": "active"
+        },
+        {
+          "code": "019067",
+          "name": "万家纳斯达克100指数(QDII)A",
+          "score": 8.33,
+          "status": "active"
+        },
+        {
+          "code": "019524",
+          "name": "华泰柏瑞纳斯达克100指数(QDII)A",
+          "score": 23.97,
+          "status": "active"
+        },
+        {
+          "code": "040018",
+          "name": "华安香港精选QDII-A",
+          "score": 48.22,
+          "status": "active"
+        },
+        {
+          "code": "040046",
+          "name": "华安纳斯达克100A(QDII)",
+          "score": 29.65,
+          "status": "active"
+        },
+        {
+          "code": "050015",
+          "name": "博时亚太精选QDII-A",
+          "score": 31.45,
+          "status": "active"
+        },
+        {
+          "code": "096001",
+          "name": "大成标普500A(QDII)",
+          "score": 12.44,
+          "status": "active"
+        },
+        {
+          "code": "160213",
+          "name": "国泰纳斯达克100(QDII)",
+          "score": -999,
+          "status": "suspended"
+        },
+        {
+          "code": "160216",
+          "name": "国泰大宗商品(QDII-LOF)",
+          "score": 51.19,
+          "status": "active"
+        },
+        {
+          "code": "161125",
+          "name": "易方达标普500A(QDII-LOF)",
+          "score": -999,
+          "status": "suspended"
+        },
+        {
+          "code": "163208",
+          "name": "诺安全球收益不动产QDII",
+          "score": -999,
+          "status": "suspended"
+        },
+        {
+          "code": "270023",
+          "name": "广发全球精选QDII-A",
+          "score": 61.74,
+          "status": "active"
+        },
+        {
+          "code": "270042",
+          "name": "广发纳斯达克100A(QDII)",
+          "score": 29.43,
+          "status": "active"
+        },
+        {
+          "code": "539001",
+          "name": "建信纳斯达克100A(QDII)",
+          "score": 28.89,
+          "status": "active"
+        },
+        {
+          "code": "539002",
+          "name": "建信新兴市场优选QDII-A",
+          "score": 80.91,
+          "status": "active"
+        },
+        {
+          "code": "007280",
+          "name": "摩根日本精选股票(QDII)A",
+          "score": 16.72,
+          "status": "active"
+        },
+        {
+          "code": "008763",
+          "name": "天弘越南市场股票(QDII)A",
+          "score": 7.81,
+          "status": "active"
+        },
+        {
+          "code": "017730",
+          "name": "嘉实全球产业升级股票(QDII)A",
+          "score": 62.75,
+          "status": "active"
+        },
+        {
+          "code": "006373",
+          "name": "国富全球科技互联混合(QDII)A",
+          "score": 74.37,
+          "status": "active"
+        },
+        {
+          "code": "100055",
+          "name": "富国全球科技互联网股票(QDII)A",
+          "score": 72.41,
+          "status": "active"
+        },
+        {
+          "code": "005698",
+          "name": "华夏全球科技先锋混合(QDII)A",
+          "score": 84.75,
+          "status": "active"
+        },
+        {
+          "code": "008253",
+          "name": "华宝致远混合(QDII)A",
+          "score": 81.76,
+          "status": "active"
+        },
+        {
+          "code": "501226",
+          "name": "长城全球新能源车(QDII)A",
+          "score": 63.17,
+          "status": "active"
+        },
+        {
+          "code": "320013",
+          "name": "诺安全球黄金(QDII-FOF)A",
+          "score": 32.26,
+          "status": "active"
+        },
+        {
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 6.98,
+          "status": "active"
+        },
+        {
+          "code": "000041",
+          "name": "华夏全球股票(QDII)(人民币)",
+          "score": 43.74,
+          "status": "active"
         }
       ]
     }
