@@ -497,6 +497,30 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1783342185256",
+      "fundCode": "539002",
+      "fundName": "建信新兴市场优选QDII-A",
+      "type": "均值回归",
+      "thesis": "系统推荐#3，分数80.31。1年涨117.09%加11.7分，3年累计228.48%加11.4分，夏普1.31加3.3分，最大回撤-35.85%扣5.4分，长期牛市+3分，回撤14.98%",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-07-06T12:49:45.256Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
@@ -504,6 +528,6 @@
     "validated": 2,
     "invalidated": 4,
     "expired": 0,
-    "total": 4
+    "total": 5
   }
 }
