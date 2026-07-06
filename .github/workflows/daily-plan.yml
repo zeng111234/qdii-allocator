@@ -116,8 +116,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/history.json data/nav-cache.json data/fund-info-cache.json data/portfolio.json data/external-signals-cache.json data/daily-brief.json data/hypotheses.json
-          # [fix] removed git add -f for docs/index.html (gitignored, built by pages.yml)
+          # [fix] only add tracked files, skip gitignored caches
+          git add data/history.json data/nav-cache.json data/portfolio.json data/hypotheses.json
           git add -f docs/data/nav-cache.json docs/data/news.json docs/data/external-signals-cache.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
