@@ -279,7 +279,9 @@ async function build() {
   // 嵌入外部信号（X/Twitter 大V观点）
   let externalSignals = { items: [], tickerOpinions: [], themeScores: {}, cachedAt: null };
   try {
-    const extPath = path.join(__dirname, 'data', 'external-signals-cache.json');
+    const extPath = fs.existsSync(path.join(__dirname, 'data', 'external-signals-cache.json'))
+      ? path.join(__dirname, 'data', 'external-signals-cache.json')
+      : path.join(__dirname, 'docs', 'data', 'external-signals-cache.json');
     if (fs.existsSync(extPath)) {
       const extRaw = JSON.parse(fs.readFileSync(extPath, 'utf-8'));
       const ext = extRaw.data || extRaw;

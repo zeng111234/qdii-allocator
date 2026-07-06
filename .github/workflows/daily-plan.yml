@@ -118,7 +118,9 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # [fix] only add tracked files, skip gitignored caches
           git add data/history.json data/nav-cache.json data/portfolio.json data/hypotheses.json
-          git add -f docs/data/nav-cache.json docs/data/news.json
+          # 复制外部信号到 docs/data/ (因为 data/external-signals-cache.json 被 gitignore)
+          cp -f data/external-signals-cache.json docs/data/external-signals-cache.json 2>/dev/null || true
+          git add -f docs/data/nav-cache.json docs/data/news.json docs/data/external-signals-cache.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
