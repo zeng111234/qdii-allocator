@@ -2392,10 +2392,16 @@
      * QDII-exclusive factor. Lower limit = more scarce = higher score.
      * Score: 100 (limit ≤ 10) to 0 (limit ≥ 10000 or unlimited).
      */
-    // [fix] 限购不再加分：每天只投50元，限购不影响决策（权重改为0）
     FactorEngine.register('scarce_limit', '限购稀缺度', 'qdii_special', function(navArr, fundMeta) {
-      return 50; // 中性，不影响评分
-    }, 0);
+      if (!fundMeta || !fundMeta.dailyLimit || fundMeta.dailyLimit <= 0) return 0;
+      var limit = fundMeta.dailyLimit;
+      if (limit <= 10) return 100;      // 极度稀缺
+      if (limit <= 50) return 80;       // 很稀缺
+      if (limit <= 100) return 60;      // 稀缺
+      if (limit <= 500) return 40;      // 一般
+      if (limit <= 1000) return 20;     // 宽松
+      return 0;                          // 无限购或极宽松
+    }, 0.8);
 
     // [fix] 新增估值因子：基于市场温度+基金类型差异化评分
     // 不同基金类型对市场温度的敏感度不同
