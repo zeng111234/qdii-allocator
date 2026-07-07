@@ -2704,6 +2704,8 @@
       // Phase 2: Cross-sectional normalization per factor
       var factorIds = FactorEngine.list();
       var normalizedScores = {}; // {factorId: [{idx, score}, ...]}
+      // 稀缺度因子跳过归一化，直接使用原始分数（35-65范围已经是有意义的绝对值）
+      var skipNormalize = {'scarce_limit': true};
 
       factorIds.forEach(function(fid) {
         var items = [];
@@ -2712,7 +2714,12 @@
             items.push({ idx: idx, score: r.rawScores[fid] });
           }
         });
-        FactorEngine.normalize(items);
+        if (skipNormalize[fid]) {
+          // 直接使用原始分数，不做归一化
+          items.forEach(function(s) { s.normalized = s.score; });
+        } else {
+          FactorEngine.normalize(items);
+        }
         normalizedScores[fid] = items;
       });
 
