@@ -222,9 +222,9 @@ test('scoreFund: recent30Change > 15 should trigger overheat penalty', () => {
     `Score with 30d overheat (${result.score}) should be < baseline (${baseResult.score})`);
 });
 
-test('scoreFund: recent60Change > 25 should trigger overheat penalty', () => {
+test('scoreFund: recent60Change > 30 should trigger overheat penalty', () => {
   const fund = makeFund();
-  const indicators = makeIndicators({ recent60Change: 30 });
+  const indicators = makeIndicators({ recent60Change: 35 });
   const result = scoreFund(fund, indicators, null, null, null, [], 0, {});
   const baseResult = scoreFund(fund, makeIndicators({ recent60Change: 0 }), null, null, null, [], 0, {});
   assert.ok(result.score < baseResult.score,
