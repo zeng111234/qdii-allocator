@@ -2309,7 +2309,7 @@
       if (peak <= 0) return null;
       var currentDD = (navArr[navArr.length - 1] - peak) / peak * 100;
       return Math.round(currentDD * 100) / 100; // negative number
-    }, 0.8); // [修正] 回撤越小越好，回撤小的基金得分高
+    }, -1.5); // [逆向] 回撤越大越值得买
 
     /**
      * Drawdown recovery speed.
@@ -2367,7 +2367,7 @@
       var rfDaily = 0.02 / 252;
       var sharpe = (mean - rfDaily) / std * Math.sqrt(252);
       return Math.round(sharpe * 100) / 100;
-    }, 2.0);
+    }, 1.0);
 
     /**
      * Decay-linear weighted return: recent returns weighted more.
@@ -2465,7 +2465,7 @@
       var lastPrice = closes[closes.length - 1];
       var pctHistogram = (histogram / (lastPrice || 1)) * 1000;
       return Math.max(0, Math.min(100, 50 + pctHistogram * 500));
-    }, 2.0);
+    }, 1.0);
 
     // 布林带位置
     FactorEngine.register('bollinger_pos', '布林带位置', 'momentum', function(navArr) {
@@ -2615,7 +2615,7 @@
       // -30% → 100, -15% → 75, 0% → 50, +5% → 40
       var score = Math.max(0, Math.min(100, 50 - dist * 2));
       return Math.round(score * 100) / 100;
-    }, -1.5); // [逆向] 距离高点越远越好
+    }, -3.0); // [逆向] 距离高点越远越好
 
     // ═══════════════════════════════════════════════════════════════
     //  Ranking State & Render
