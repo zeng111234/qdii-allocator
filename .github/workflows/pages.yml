@@ -5,8 +5,10 @@ on:
     branches: [main]
     paths:
       - 'docs/index.html.template'
+      - 'docs/index.html'
       - 'data/funds.json'
       - 'data/history.json'
+      - 'data/nav-cache.json'
       - 'build-pages.js'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
