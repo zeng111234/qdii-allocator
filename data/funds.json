@@ -91,11 +91,11 @@
       "shareClass": "A",
       "feeRate": 1.05,
       "custodyFee": 0.2,
-      "dailyLimit": 0,
-      "status": "suspended",
+      "dailyLimit": 10,
+      "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
-      "note": "全球成长股精选",
+      "note": "全球成长股精选，限购10元",
       "indexGroup": "GLOBAL_GROWTH"
     },
     {
