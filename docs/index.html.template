@@ -2671,8 +2671,10 @@
      * @returns {Array} [{code, name, type, composite, factorScores, rawScores}, ...]
      */
     function computeRankings(fullNav) {
-      // 显示所有基金（包括暂停的），暂停的会标灰
-      var allFunds = fundsData.funds;
+      // 只显示可买的基金（排除暂停和限购0的）
+      var allFunds = fundsData.funds.filter(function(f) {
+        return f.status === 'active' && (f.dailyLimit === undefined || f.dailyLimit > 0);
+      });
 
       // Phase 1: Compute raw factor scores for each fund
       var fundResults = [];
@@ -2755,6 +2757,7 @@
       });
 
       // Phase 6: IndexGroup dedup — mark duplicates, keep only highest per group for recommendations
+      // 如果高分基金不可买（暂停/限购0），不应该挡住低分基金
       function getIG(fund) {
         if (fund.indexGroup) return fund.indexGroup;
         var t = fund.type || '';
@@ -2764,17 +2767,31 @@
         if (t.indexOf('新能源车') >= 0) return 'EV';
         return fund.code; // unique per fund
       }
+      function isBuyable(fund) {
+        if (!fund) return false;
+        if (fund.status === 'suspended') return false;
+        if (fund.dailyLimit !== undefined && fund.dailyLimit <= 0) return false;
+        return true;
+      }
       var usedIG = {};
       fundResults.forEach(function(r) {
         if (r.composite === null) { r.deduped = false; return; }
         var fund = fundsData.funds.find(function(f) { return f.code === r.code; });
         var ig = fund ? getIG(fund) : r.code;
+        // 检查同组是否有可买的高分基金
         if (usedIG[ig]) {
-          r.deduped = true;
-          r.dedupedBy = usedIG[ig]; // name of the fund that took the slot
+          var blocker = usedIG[ig];
+          // 如果挡路的基金不可买，则不挡
+          if (!isBuyable(blocker.fund)) {
+            usedIG[ig] = { name: r.name, fund: fund };
+            r.deduped = false;
+          } else {
+            r.deduped = true;
+            r.dedupedBy = blocker.name;
+          }
         } else {
           r.deduped = false;
-          usedIG[ig] = r.name;
+          usedIG[ig] = { name: r.name, fund: fund };
         }
       });
 
@@ -3493,7 +3510,14 @@
       var allRanked = computeRankings ? computeRankings(navCacheData) : [];
       var picksLimitMap = {};
       (todayPicks.ranked || []).forEach(function(r) { picksLimitMap[r.code] = r; });
-      var picksRanked = allRanked.filter(function(r) { return r.composite !== null && !r.deduped; }).map(function(r) {
+      var picksRanked = allRanked.filter(function(r) { 
+        if (r.composite === null || r.deduped) return false;
+        var fund = fundsData.funds.find(function(f) { return f.code === r.code; });
+        if (!fund) return false;
+        if (fund.status === 'suspended') return false;
+        if (fund.dailyLimit !== undefined && fund.dailyLimit <= 0) return false;
+        return true;
+      }).map(function(r) {
         var pick = picksLimitMap[r.code] || {};
         return {
           code: r.code, name: r.name, type: r.type,
