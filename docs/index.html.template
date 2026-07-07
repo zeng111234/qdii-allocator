@@ -2601,7 +2601,7 @@
       return 80;
     }, 1.0);
 
-    // 高点距离惩罚（防止追高）
+    // 高点距离（距离高点越近越好）
     FactorEngine.register('peak_penalty', '🏔️ 高点距离', 'drawdown', function(navArr) {
       if (!navArr || navArr.length < 30) return null;
       var peak = -Infinity;
@@ -2611,9 +2611,9 @@
       if (peak <= 0) return null;
       var latest = navArr[navArr.length - 1];
       var dist = (latest - peak) / peak * 100; // negative if below peak
-      // 转换为0-100分：距离高点越远分数越高（逆向）
-      // -30% → 100, -15% → 75, 0% → 50, +5% → 40
-      var score = Math.max(0, Math.min(100, 50 - dist * 2));
+      // 转换为0-100分：距离高点越近分数越高
+      // 0% → 100, -5% → 90, -15% → 70, -30% → 40
+      var score = Math.max(0, Math.min(100, 100 + dist * 2));
       return Math.round(score * 100) / 100;
     }, 1.5); // [修正] 距离高点越近越好
 
