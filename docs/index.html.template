@@ -2309,7 +2309,7 @@
       if (peak <= 0) return null;
       var currentDD = (navArr[navArr.length - 1] - peak) / peak * 100;
       return Math.round(currentDD * 100) / 100; // negative number
-    }, -0.8); // [逆向] 跌得多加分，但不过度惩罚没跌的
+    }, 0.8); // [修正] 回撤越小越好，回撤小的基金得分高
 
     /**
      * Drawdown recovery speed.
