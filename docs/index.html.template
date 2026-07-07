@@ -2503,9 +2503,9 @@
       if (!navArr || navArr.length < 200) return null; // 至少需要200天数据
       var n = navArr.length;
       var lookback = Math.min(252, n - 1); // 252个交易日约1年
-      var baseNav = arr[n - 1 - lookback];
+      var baseNav = navArr[n - 1 - lookback];
       if (!baseNav || baseNav === 0) return null;
-      return ((arr[n - 1] / baseNav) - 1) * 100;
+      return ((navArr[n - 1] / baseNav) - 1) * 100;
     }, 2.0); // 最高权重，长期收益最重要
 
     // ═══ 资金面维度 ═══
