@@ -119,7 +119,7 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.15,
-      "dailyLimit": 100000000000,
+      "dailyLimit": 1000000,
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
