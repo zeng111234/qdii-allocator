@@ -2309,7 +2309,7 @@
       if (peak <= 0) return null;
       var currentDD = (navArr[navArr.length - 1] - peak) / peak * 100;
       return Math.round(currentDD * 100) / 100; // negative number
-    }, -1.5); // [逆向] 回撤越大越值得买
+    }, 0.5); // [修正] 回撤越小越好
 
     /**
      * Drawdown recovery speed.
@@ -2367,7 +2367,7 @@
       var rfDaily = 0.02 / 252;
       var sharpe = (mean - rfDaily) / std * Math.sqrt(252);
       return Math.round(sharpe * 100) / 100;
-    }, 1.0);
+    }, 2.5);
 
     /**
      * Decay-linear weighted return: recent returns weighted more.
@@ -2547,7 +2547,7 @@
       var rs = avgGain / (avgLoss || 0.001);
       // RS 高 = 趋势强
       return Math.max(0, Math.min(100, 50 + rs * 10));
-    }, 1.8);
+    }, 1.5);
 
     // 新闻情绪因子：基于当日新闻利好/利空
     FactorEngine.register('news_sentiment', '📰 新闻情绪', 'sentiment', function(navArr, fundMeta) {
@@ -2615,7 +2615,7 @@
       // -30% → 100, -15% → 75, 0% → 50, +5% → 40
       var score = Math.max(0, Math.min(100, 50 - dist * 2));
       return Math.round(score * 100) / 100;
-    }, -3.0); // [逆向] 距离高点越远越好
+    }, 1.5); // [修正] 距离高点越近越好
 
     // ═══════════════════════════════════════════════════════════════
     //  Ranking State & Render
