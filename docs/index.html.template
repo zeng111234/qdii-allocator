@@ -2426,7 +2426,7 @@
       var deviation = base - 50;
       var adjusted = 50 + deviation * sensitivity;
       return Math.max(10, Math.min(90, Math.round(adjusted)));
-    }, 1.5);
+    }, 0.5); // [降低权重] 估值温度不应过度影响排名
 
     /**
      * Fee penalty: management fee + custody fee.
@@ -2582,7 +2582,7 @@
       if (score > 0) return Math.min(100, 50 + score * 10);
       if (score < 0) return Math.max(0, 50 + score * 10);
       return null; // 没有匹配到任何新闻，返回 null 而不是 50
-    }, 1.5);
+    }, 0.5); // [降低权重] 新闻情绪不应过度影响排名
 
     // 外部信号因子：基于 Twitter 观点
     FactorEngine.register('external_signal', '🌐 外部信号', 'sentiment', function(navArr, fundMeta) {
@@ -2599,7 +2599,7 @@
       if (net > 0) return Math.min(100, 50 + net * 5);
       if (net < 0) return Math.max(0, 50 + net * 5);
       return null; // 没有明确方向，返回 null
-    }, 1.2);
+    }, 0.5); // [降低权重] 外部信号不应过度影响排名
 
     // 相关性因子：与已有持仓的相关性（低相关加分）
     FactorEngine.register('portfolio_diversity', '🛡️ 分散度', 'diversity', function(navArr, fundMeta) {
