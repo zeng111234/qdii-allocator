@@ -2661,13 +2661,12 @@
      * @returns {Array} [{code, name, type, composite, factorScores, rawScores}, ...]
      */
     function computeRankings(fullNav) {
-      var activeFunds = fundsData.funds.filter(function(f) {
-        return f.status === 'active';
-      });
+      // 显示所有基金（包括暂停的），暂停的会标灰
+      var allFunds = fundsData.funds;
 
       // Phase 1: Compute raw factor scores for each fund
       var fundResults = [];
-      activeFunds.forEach(function(fund) {
+      allFunds.forEach(function(fund) {
         var navArr = null;
         var cached = fullNav ? fullNav[fund.code] : (navCacheData[fund.code] || null);
         if (cached && Array.isArray(cached) && cached.length >= 10) {
@@ -2683,7 +2682,8 @@
         if (!navArr || navArr.length < 10) {
           fundResults.push({
             code: fund.code, name: fund.name, type: fund.type,
-            rawScores: {}, composite: null, insufficient: true
+            rawScores: {}, composite: null, insufficient: true,
+            suspended: fund.status === 'suspended'
           });
           return;
         }
@@ -2691,7 +2691,8 @@
         var rawScores = FactorEngine.computeAll(navArr, fund);
         fundResults.push({
           code: fund.code, name: fund.name, type: fund.type,
-          rawScores: rawScores, composite: null, insufficient: false
+          rawScores: rawScores, composite: null, insufficient: false,
+          suspended: fund.status === 'suspended'
         });
       });
 
@@ -2840,11 +2841,13 @@
 
         var rowStyle = r.deduped ? ' style="opacity:0.5;filter:grayscale(60%)"' : '';
         var dedupNote = r.deduped ? ' <span style="font-size:10px;color:#999;background:#f0f0f0;padding:1px 4px;border-radius:3px">同指数已推荐</span>' : '';
+        var suspendedNote = r.suspended ? ' <span style="font-size:10px;color:#fff;background:#ef4444;padding:1px 4px;border-radius:3px">暂停申购</span>' : '';
+        if (r.suspended) rowStyle = ' style="opacity:0.5;filter:grayscale(60%)"';
         html += '<div class="ranking-row" onclick="toggleFactorBars(' + rankIdx + ')"' + rowStyle + '>';
         html += '<div class="ranking-header">';
         html += '<div class="ranking-left">';
         html += '<span class="ranking-rank ' + rankClass + '">' + rankNum + '</span>';
-        html += '<span class="ranking-name" title="' + r.name + '">' + r.name + '</span>' + dedupNote;
+        html += '<span class="ranking-name" title="' + r.name + '">' + r.name + '</span>' + dedupNote + suspendedNote;
         html += '<span class="ranking-code">' + r.code + '</span>';
         if (r.type) html += '<span class="ranking-type">' + r.type + '</span>';
         html += '</div>';
