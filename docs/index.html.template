@@ -2498,6 +2498,16 @@
       return ((navArr[n - 1] / baseNav) - 1) * 100;
     }, 0.8); // 长期动量适度恢复（好基金长期涨得好也是优点）
 
+    // 1年收益（最重要的长期因子）
+    FactorEngine.register('momentum_1y', '1年收益', 'momentum', function(navArr) {
+      if (!navArr || navArr.length < 200) return null; // 至少需要200天数据
+      var n = navArr.length;
+      var lookback = Math.min(252, n - 1); // 252个交易日约1年
+      var baseNav = arr[n - 1 - lookback];
+      if (!baseNav || baseNav === 0) return null;
+      return ((arr[n - 1] / baseNav) - 1) * 100;
+    }, 2.0); // 最高权重，长期收益最重要
+
     // ═══ 资金面维度 ═══
 
     // 成交量趋势（用净值变动幅度模拟）
@@ -4709,6 +4719,15 @@
       lines.push('- 用户总投入约1000元，每次建议30-100元');
       lines.push('');
 
+      // 市场温度
+      if (typeof marketTemperature !== 'undefined' && marketTemperature) {
+        lines.push('=== 市场温度 ===');
+        lines.push('温度: ' + marketTemperature.temperature + '/100 (' + marketTemperature.level + ')');
+        lines.push('建议投入倍数: ' + marketTemperature.multiplier + 'x');
+        lines.push('含义: ≤20极冷(多投), 21-35偏冷, 36-65正常, 66-80偏热, ≥81极热(少投)');
+        lines.push('');
+      }
+
       // 基金类型→底层持仓映射（精简版）
       lines.push('基金底层参考：');
       lines.push('- 纳指类：英伟达、苹果、微软、谷歌、亚马逊等美股科技');
@@ -4770,13 +4789,33 @@
         });
         clientRanked.sort(function(a, b) { return b.score - a.score; });
 
-        lines.push('=== 全量基金评分（' + clientRanked.length + '只，客户端因子引擎实时计算，与评分Tab一致） ===');
+        lines.push('=== 全量基金评分（' + clientRanked.length + '只，含详情） ===');
         clientRanked.forEach(function(f, i) {
           var limitInfo = purchaseLimits ? purchaseLimits[f.code] : null;
           var limit = limitInfo ? (limitInfo.limit ? ' 限购' + limitInfo.limit + '元' : '') : '';
           var inPortfolio = holdings.some(function(h) { return h.code === f.code; });
           var tag = inPortfolio ? ' [已持有]' : '';
-          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 评分:' + f.score + ' 类型:' + (f.type||'') + limit + tag);
+          
+          // 获取基金详情
+          var fundInfo = fundsData.funds.find(function(x) { return x.code === f.code; });
+          var fee = fundInfo ? (fundInfo.feeRate || 0) : 0;
+          var feeStr = fee > 0 ? ' 费率' + fee + '%' : '';
+          
+          // 获取技术指标
+          var cached = navCacheData[f.code];
+          var techStr = '';
+          if (cached && cached.length >= 20) {
+            var navs = cached.map(function(x) { return x.nav; });
+            var latest = navs[navs.length - 1];
+            var ma20 = navs.slice(-20).reduce(function(s, v) { return s + v; }, 0) / 20;
+            var ma60 = navs.length >= 60 ? navs.slice(-60).reduce(function(s, v) { return s + v; }, 0) / 60 : ma20;
+            var change5d = navs.length >= 5 ? ((latest / navs[navs.length - 5] - 1) * 100).toFixed(1) : 'N/A';
+            var change30d = navs.length >= 30 ? ((latest / navs[navs.length - 30] - 1) * 100).toFixed(1) : 'N/A';
+            var fromPeak = navs.length >= 20 ? ((latest / Math.max.apply(null, navs) - 1) * 100).toFixed(1) : 'N/A';
+            techStr = ' 5日' + change5d + '% 30日' + change30d + '% 距高点' + fromPeak + '%';
+          }
+          
+          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 评分:' + f.score + ' 类型:' + (f.type||'') + limit + feeStr + techStr + tag);
         });
         lines.push('');
       } catch(e) {
