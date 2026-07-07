@@ -2225,7 +2225,7 @@
       // Annualize: std * sqrt(252)
       var annVol = std * Math.sqrt(252) * 100;
       return Math.round(annVol * 100) / 100;
-    }, -1.0); // negative weight: lower vol → higher score
+    }, -0.5); // [降低权重] 波动率不应过度影响排名
 
     /**
      * Downside deviation (20-day).
@@ -2367,7 +2367,7 @@
       var rfDaily = 0.02 / 252;
       var sharpe = (mean - rfDaily) / std * Math.sqrt(252);
       return Math.round(sharpe * 100) / 100;
-    }, 2.5);
+    }, 1.5); // [降低权重] 夏普比率不应过度影响排名
 
     /**
      * Decay-linear weighted return: recent returns weighted more.
@@ -2506,7 +2506,7 @@
       var baseNav = navArr[n - 1 - lookback];
       if (!baseNav || baseNav === 0) return null;
       return ((navArr[n - 1] / baseNav) - 1) * 100;
-    }, 2.0); // 最高权重，长期收益最重要
+    }, 3.0); // [提高权重] 长期收益是最重要的因子
 
     // ═══ 资金面维度 ═══
 
