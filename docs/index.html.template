@@ -2389,16 +2389,6 @@
       return ((navArr[n - 1] / baseNav) - 1) * 100;
     }, 3.0); // [提高权重] 长期收益是最重要的因子
 
-    // ═══ 资金面维度 ═══
-
-    // 成交量趋势（用净值变动幅度模拟）
-
-    // 最大回撤恢复速度
-      var recovery = peakNav > ddNav ? (nowNav - ddNav) / (peakNav - ddNav) : 0;
-      // 恢复越快越好，值域 10-90
-      return Math.max(10, Math.min(90, 10 + recovery * 80));
-    }, 1.5);
-
     // 趋势强度（ADX 近似）
     FactorEngine.register('trend_strength', '趋势强度', 'trend', function(navArr) {
       if (!navArr || navArr.length < 20) return null;
@@ -2416,10 +2406,6 @@
       // RS 高 = 趋势强
       return Math.max(0, Math.min(100, 50 + rs * 10));
     }, 1.5);
-
-    // 新闻情绪因子：基于当日新闻利好/利空
-
-    // 外部信号因子：基于 Twitter 观点
 
     // 相关性因子：与已有持仓的相关性（低相关加分）
     FactorEngine.register('portfolio_diversity', '🛡️ 分散度', 'diversity', function(navArr, fundMeta) {
