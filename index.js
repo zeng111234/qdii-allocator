@@ -466,7 +466,13 @@ async function sendReport(result, textContent, aiCommentary, topN, dailyBrief) {
 
     const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
     const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result, dailyBrief: dailyBrief }, smtpConfig);
-    if (!success) { console.warn("[warn] email failed, continuing..."); }
+    if (!success) {
+      console.warn("[warn] email failed, continuing...");
+      // GitHub Actions annotation - 在Actions页面的Summary中显示警告
+      if (process.env.GITHUB_ACTIONS) {
+        console.log("::warning::Email sending failed. Check SMTP configuration.");
+      }
+    }
   }
 }
 
