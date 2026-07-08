@@ -4589,11 +4589,11 @@
         });
         if (scores.length > 0) {
           var avgScore = scores.reduce(function(s, v) { return s + v; }, 0) / scores.length;
-          var opportunity = avgScore >= 30 ? '极佳机会' : (avgScore >= 25 ? '良好机会' : (avgScore >= 20 ? '正常机会' : '谨慎观望'));
+          var opportunity = avgScore >= 25 ? '极佳机会' : (avgScore >= 20 ? '良好机会' : (avgScore >= 15 ? '正常机会' : '谨慎观望'));
           lines.push('=== 机会评级 ===');
           lines.push('平均评分: ' + Math.round(avgScore * 10) / 10);
           lines.push('机会评级: ' + opportunity);
-          lines.push('含义: ≥30极佳(大胆买), 25-29良好(积极买), 20-24正常(正常买), <20谨慎(少买)');
+          lines.push('含义: ≥25极佳(大胆买), 20-24良好(积极买), 15-19正常(正常买), <15谨慎(少买)');
           lines.push('');
         }
       } catch(e) {}
