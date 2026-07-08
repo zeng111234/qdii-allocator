@@ -11,12 +11,15 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-06-15T04:11:29.158Z",
       "navAtCreation": 4.896,
       "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
+      "invalidatedAt": "2026-07-08T11:08:49.006Z",
+      "outcome": {
+        "return": -9.19,
+        "holdingDays": 22
+      },
       "followUpReturns": {
         "3d": 6.2,
         "7d": 9.81,
@@ -35,12 +38,15 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-06-15T04:11:29.158Z",
       "navAtCreation": 3.6332,
       "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
+      "invalidatedAt": "2026-07-08T11:08:49.007Z",
+      "outcome": {
+        "return": -9,
+        "holdingDays": 22
+      },
       "followUpReturns": {
         "3d": 6.51,
         "7d": 9.93,
@@ -233,16 +239,19 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-06-23T12:22:30.529Z",
       "navAtCreation": 3.661,
       "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
+      "invalidatedAt": "2026-07-08T11:08:49.008Z",
+      "outcome": {
+        "return": -9.12,
+        "holdingDays": 14
+      },
       "followUpReturns": {
         "3d": -2.46,
         "7d": 1.45,
-        "14d": null,
+        "14d": -9.12,
         "30d": null
       }
     },
@@ -257,12 +266,15 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-06-24T12:01:34.832Z",
       "navAtCreation": 4.9981,
       "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
+      "invalidatedAt": "2026-07-08T11:08:49.009Z",
+      "outcome": {
+        "return": -11.04,
+        "holdingDays": 13
+      },
       "followUpReturns": {
         "3d": 1.31,
         "7d": 0.56,
@@ -439,7 +451,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-06T08:54:45.475Z",
-      "navAtCreation": null,
+      "navAtCreation": 3.4867,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -463,7 +475,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-06T08:54:45.476Z",
-      "navAtCreation": null,
+      "navAtCreation": 1.9929,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -487,7 +499,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-06T08:54:45.477Z",
-      "navAtCreation": null,
+      "navAtCreation": 2.8329,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -511,7 +523,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-06T12:49:45.256Z",
-      "navAtCreation": null,
+      "navAtCreation": 2.569,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -526,7 +538,7 @@
   "stats": {
     "active": 14,
     "validated": 2,
-    "invalidated": 4,
+    "invalidated": 8,
     "expired": 0,
     "total": 5
   }

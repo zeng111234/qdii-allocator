@@ -3,8 +3,22 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-07-08T04:18:31.616Z",
+  "fetchedAt": "2026-07-08T11:02:50.713Z",
   "items": [
+   {
+    "title": "Trump: “Spain is a terrible partner in NATO. They don't participate. They don't pay. Cut off all trade with Spain” Tbh no clue what’s going on anym...",
+    "text": "Trump: “Spain is a terrible partner in NATO. They don't participate. They don't pay. Cut off all trade with Spain” Tbh no clue what’s going on anymore…",
+    "time": "Wed, 08 Jul 2026 10:14:45 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2074799339680202869",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "Trump: Memorandum of Understanding with Iran “is over” “It’s a waste of time dealing with them,” Trump said at the NATO summit. Always an excitin...",
+    "text": "Trump: Memorandum of Understanding with Iran “is over” “It’s a waste of time dealing with them,” Trump said at the NATO summit. Always an exciting time with markets.",
+    "time": "Wed, 08 Jul 2026 08:42:26 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2074776109074583565",
+    "source": "x-rsshub"
+   },
    {
     "title": "Hesai Technology, a Chinese lidar maker faces US national scrutiny over its expanded partnership with $NVDA and lidar sensors. For $OUST, $AEVA, and W...",
     "text": "Hesai Technology, a Chinese lidar maker faces US national scrutiny over its expanded partnership with $NVDA and lidar sensors. For $OUST, $AEVA, and Western lidar bros, this is generally positive if competitors get regulated out. Since there were warnings that: Sensors could be disabled or exploited remotely, given Hesai firmware update disabled lidar units on February 29 (as evidence). By second order effect, this is also bullish for upstream laser suppliers too like $LITE and $SIVE that are used in western lidar players.",
@@ -74,28 +88,14 @@
     "time": "Mon, 06 Jul 2026 21:14:10 GMT",
     "link": "https://x.com/aleabitoreddit/status/2074240512593481955",
     "source": "x-rsshub"
-   },
-   {
-    "title": "It’s interesting to witness psychology around valuation anchoring + scarcity. Retail, for example, are buying Figure, last valued at ~$39B through CE...",
-    "text": "It’s interesting to witness psychology around valuation anchoring + scarcity. Retail, for example, are buying Figure, last valued at ~$39B through CEFs… At $158B, since it’s private, round 4x valuations. Then Agility Robotics $CCXI, which has broader commercialization. Is at ~$4.3B pre-money and publicly available before the name change. At closer pricing that $AMZN, $NVDA, SoftBank, and Foxconn vaulted it at. Yet some end up paying 4-5x prices of already hiked private investor rounds for exposure… I’m convinced if Agility raised a very small private round at $39B as well from $2.5B (which it definitely could), to set a valuation anchor. Investors would be foaming in the mouth for a private allocation, just due to psychology rather than underlying fundamentals. We’ve also seen this anchoring with $SPCX recently at $1.75T. Peak market inefficiency? Or lack of knowledge from retail?",
-    "time": "Mon, 06 Jul 2026 19:31:28 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2074214669808717906",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "$NVDA refuting recent Kyber delay claims: “Our roadmap is intact”. lol, damage has already been done with stocks in many markets (esp. in Taiwan/Jap...",
-    "text": "$NVDA refuting recent Kyber delay claims: “Our roadmap is intact”. lol, damage has already been done with stocks in many markets (esp. in Taiwan/Japan/Soutj Korea) crashing after the “report”",
-    "time": "Mon, 06 Jul 2026 16:34:45 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2074170197486039524",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
-    "score": 0.75,
+    "score": 1.25,
     "matches": [
-     "nvda",
      "ai",
+     "nvda",
      "meta"
     ]
    },
@@ -132,22 +132,22 @@
     "matches": []
    },
    "globalTech": {
-    "score": 1.25,
+    "score": 1.75,
     "matches": [
-     "technology",
-     "ai"
+     "ai",
+     "technology"
     ]
    }
   },
   "tickerOpinions": [
    {
     "ticker": "NVDA",
-    "mentions": 9,
+    "mentions": 6,
     "snippets": [
      "tiny over its expanded partnership with $NVDA and lidar sensors. For $OUST, $AEVA, and W... Hesai Technology, a Chinese lidar maker faces US national scrutiny o",
      "tiny over its expanded partnership with $NVDA and lidar sensors. For $OUST, $AEVA, and Western lidar bros, this is generally positive if competitors get regulat"
     ],
-    "sentiment": "bearish"
+    "sentiment": "neutral"
    },
    {
     "ticker": "LITE",
@@ -186,15 +186,6 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "SPCX",
-    "mentions": 3,
-    "snippets": [
-     "Raymond James initiated coverage of $SPCX with “Strong Buy”. Giving it a $800 PT, valuing SpaceX at a ~$10T valuation. No words. Jokes about “insti... Raymo",
-     "... Raymond James initiated coverage of $SPCX with “Strong Buy”. Giving it a $800 PT, valuing SpaceX at a ~$10T valuation. No words. Jokes about “institutional”"
-    ],
-    "sentiment": "bullish"
-   },
-   {
     "ticker": "RDDT",
     "mentions": 3,
     "snippets": [
@@ -218,15 +209,6 @@
     "snippets": [
      "ith $NVDA and lidar sensors. For $OUST, $AEVA, and W... Hesai Technology, a Chinese lidar maker faces US national scrutiny over its expanded partnership with $N",
      "ith $NVDA and lidar sensors. For $OUST, $AEVA, and Western lidar bros, this is generally positive if competitors get regulated out. Since there were warnings th"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "CCXI",
-    "mentions": 2,
-    "snippets": [
-     "0 for 2026... Really need Elon's $TSLA, $CCXI (Agility), Apptronik, and Figure to catchup. And for more US Gov. subsidies to pour into upstream supply chains +",
-     "nd 4x valuations. Then Agility Robotics $CCXI, which has broader commercialization. Is at ~$4.3B pre-money and publicly available before the name change. At clo"
     ],
     "sentiment": "bullish"
    },
@@ -276,6 +258,15 @@
     "sentiment": "bearish"
    },
    {
+    "ticker": "SPCX",
+    "mentions": 2,
+    "snippets": [
+     "Raymond James initiated coverage of $SPCX with “Strong Buy”. Giving it a $800 PT, valuing SpaceX at a ~$10T valuation. No words. Jokes about “insti... Raymo",
+     "... Raymond James initiated coverage of $SPCX with “Strong Buy”. Giving it a $800 PT, valuing SpaceX at a ~$10T valuation. No words. Jokes about “institutional”"
+    ],
+    "sentiment": "bullish"
+   },
+   {
     "ticker": "CRVW",
     "mentions": 1,
     "snippets": [
@@ -296,6 +287,14 @@
     "mentions": 1,
     "snippets": [
      "d 14,000 for 2026... Really need Elon's $TSLA, $CCXI (Agility), Apptronik, and Figure to catchup. And for more US Gov. subsidies to pour into upstream supply ch"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "CCXI",
+    "mentions": 1,
+    "snippets": [
+     "0 for 2026... Really need Elon's $TSLA, $CCXI (Agility), Apptronik, and Figure to catchup. And for more US Gov. subsidies to pour into upstream supply chains +"
     ],
     "sentiment": "neutral"
    },
@@ -338,17 +337,19 @@
      "ecovery with familiar faces like $HOOD, $HIMS, and $RDDT though."
     ],
     "sentiment": "neutral"
-   },
-   {
-    "ticker": "AMZN",
-    "mentions": 1,
-    "snippets": [
-     "the name change. At closer pricing that $AMZN, $NVDA, SoftBank, and Foxconn vaulted it at. Yet some end up paying 4-5x prices of already hiked private investor"
-    ],
-    "sentiment": "bullish"
    }
   ],
   "opinionSummaries": [
+   {
+    "time": "Wed, 08 Jul 2026 10:14:45 GMT",
+    "text": "Trump: “Spain is a terrible partner in NATO. They don't participate. They don't pay. Cut off all trade with Spain” Tbh no clue what’s going on anymore…",
+    "tickers": ""
+   },
+   {
+    "time": "Wed, 08 Jul 2026 08:42:26 GMT",
+    "text": "Trump: Memorandum of Understanding with Iran “is over” “It’s a waste of time dealing with them,” Trump said at the NATO summit. Always an exciting time with markets.",
+    "tickers": ""
+   },
    {
     "time": "Tue, 07 Jul 2026 19:49:55 GMT",
     "text": "Hesai Technology, a Chinese lidar maker faces US national scrutiny over its expanded partnership with $NVDA and lidar sensors. For $OUST, $AEVA, and Western lidar bros, this is generally positive if c...",
@@ -363,16 +364,6 @@
     "time": "Tue, 07 Jul 2026 17:39:23 GMT",
     "text": "How is the US so far behind? Xinhua: China's output of humanoids are expected to hit 100,000+ this year. Even Morgan Stanley originally projected 14,000 for 2026... Really need Elon's $TSLA, $CCXI (Ag...",
     "tickers": "$TSLA, $CCXI"
-   },
-   {
-    "time": "Tue, 07 Jul 2026 16:38:39 GMT",
-    "text": "This is the average visual TA bro, takes a 50% 50% coinflip: If it goes the other way, they say \"ABC Pattern Invalidated\", should have known... If they get the coinflip right, they promote their $40/m...",
-    "tickers": ""
-   },
-   {
-    "time": "Tue, 07 Jul 2026 14:03:29 GMT",
-    "text": "Just putting it out there: If everything crashes together from $NBIS, $MRVL, $INTC, $SNDK, $AMD, $SIVE, $MU, $LITE, and others... Which are all down -4% to -10%+ today so far. Probably doesn't have an...",
-    "tickers": "$NBIS, $MRVL, $INTC, $SNDK, $AMD, $SIVE, $MU, $LITE"
    }
   ],
   "attempts": [
@@ -382,5 +373,5 @@
    }
   ]
  },
- "cachedAt": 1783484311617
+ "cachedAt": 1783508570714
 }
