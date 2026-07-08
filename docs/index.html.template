@@ -4566,29 +4566,12 @@
         lines.push('');
       }
 
-      // 机会评级（基于平均评分）
+      // 机会评级（基于FactorEngine排名结果）
       try {
-        var allFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
-        var scores = [];
-        allFunds.forEach(function(fund) {
-          var cached = navCacheData[fund.code];
-          if (!cached || !Array.isArray(cached) || cached.length < 10) return;
-          var sorted = cached.slice().sort(function(a, b) { return a.date < b.date ? -1 : 1; });
-          var navArr = sorted.map(function(x) { return x.nav; });
-          var rawScores = FactorEngine.computeAll(navArr, fund);
-          var weights = FactorEngine.getDefaultWeights();
-          var totalWeight = 0, weightedSum = 0;
-          Object.keys(rawScores).forEach(function(fid) {
-            if (rawScores[fid] === null || rawScores[fid] === undefined || isNaN(rawScores[fid])) return;
-            var w = weights[fid] || 1;
-            weightedSum += rawScores[fid] * w;
-            totalWeight += Math.abs(w);
-          });
-          var score = totalWeight > 0 ? weightedSum / totalWeight : null;
-          if (score !== null) scores.push(score);
-        });
-        if (scores.length > 0) {
-          var avgScore = scores.reduce(function(s, v) { return s + v; }, 0) / scores.length;
+        var ranked = computeRankings(navCacheData);
+        var scored = ranked.filter(function(r) { return r.composite !== null; });
+        if (scored.length > 0) {
+          var avgScore = scored.reduce(function(s, r) { return s + r.composite; }, 0) / scored.length;
           var opportunity = avgScore >= 25 ? '极佳机会' : (avgScore >= 20 ? '良好机会' : (avgScore >= 15 ? '正常机会' : '谨慎观望'));
           lines.push('=== 机会评级 ===');
           lines.push('平均评分: ' + Math.round(avgScore * 10) / 10);
