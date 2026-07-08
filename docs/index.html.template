@@ -4566,6 +4566,48 @@
         lines.push('');
       }
 
+      // 机会评级（基于平均评分）
+      try {
+        var allFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
+        var scores = [];
+        allFunds.forEach(function(fund) {
+          var cached = navCacheData[fund.code];
+          if (!cached || !Array.isArray(cached) || cached.length < 10) return;
+          var sorted = cached.slice().sort(function(a, b) { return a.date < b.date ? -1 : 1; });
+          var navArr = sorted.map(function(x) { return x.nav; });
+          var rawScores = FactorEngine.computeAll(navArr, fund);
+          var weights = FactorEngine.getDefaultWeights();
+          var totalWeight = 0, weightedSum = 0;
+          Object.keys(rawScores).forEach(function(fid) {
+            if (rawScores[fid] === null || rawScores[fid] === undefined || isNaN(rawScores[fid])) return;
+            var w = weights[fid] || 1;
+            weightedSum += rawScores[fid] * w;
+            totalWeight += Math.abs(w);
+          });
+          var score = totalWeight > 0 ? weightedSum / totalWeight : null;
+          if (score !== null) scores.push(score);
+        });
+        if (scores.length > 0) {
+          var avgScore = scores.reduce(function(s, v) { return s + v; }, 0) / scores.length;
+          var opportunity = avgScore >= 30 ? '极佳机会' : (avgScore >= 25 ? '良好机会' : (avgScore >= 20 ? '正常机会' : '谨慎观望'));
+          lines.push('=== 机会评级 ===');
+          lines.push('平均评分: ' + Math.round(avgScore * 10) / 10);
+          lines.push('机会评级: ' + opportunity);
+          lines.push('含义: ≥30极佳(大胆买), 25-29良好(积极买), 20-24正常(正常买), <20谨慎(少买)');
+          lines.push('');
+        }
+      } catch(e) {}
+
+      // 市场情绪
+      if (typeof newsData !== 'undefined' && newsData && newsData.sentiment) {
+        var sentiment = newsData.sentiment;
+        var moodText = sentiment.overall > 10 ? '偏乐观' : (sentiment.overall < -10 ? '偏悲观' : '中性');
+        lines.push('=== 市场情绪 ===');
+        lines.push('情绪: ' + moodText + ' (分数:' + sentiment.overall + ')');
+        lines.push('利好: ' + sentiment.positive + '条, 利空: ' + sentiment.negative + '条');
+        lines.push('');
+      }
+
       // 基金类型→底层持仓映射（精简版）
       lines.push('基金底层参考：');
       lines.push('- 纳指类：英伟达、苹果、微软、谷歌、亚马逊等美股科技');
