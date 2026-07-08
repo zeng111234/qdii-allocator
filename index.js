@@ -466,7 +466,7 @@ async function sendReport(result, textContent, aiCommentary, topN, dailyBrief) {
 
     const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
     const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result, dailyBrief: dailyBrief }, smtpConfig);
-    if (!success) { console.error("[error] email failed"); process.exit(1); }
+    if (!success) { console.warn("[warn] email failed, continuing..."); }
   }
 }
 
