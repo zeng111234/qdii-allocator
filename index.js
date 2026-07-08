@@ -444,6 +444,26 @@ async function sendReport(result, textContent, aiCommentary, topN, dailyBrief) {
     console.log("[5/5] email skipped (SMTP not configured)");
   } else {
     console.log("[5/5] Sending email...");
+
+    // 加载 FactorEngine 排名（与页面一致）
+    const fs = require('fs');
+    const path = require('path');
+    const factorRankingsPath = path.join(__dirname, 'data', 'factor-rankings.json');
+    let factorRankings = null;
+    try {
+      if (fs.existsSync(factorRankingsPath)) {
+        factorRankings = JSON.parse(fs.readFileSync(factorRankingsPath, 'utf-8'));
+        console.log("[邮件] 使用FactorEngine排名 (" + factorRankings.ranked.filter(function(r) { return !r.deduped; }).length + "只推荐)");
+      }
+    } catch(e) {
+      console.warn("[邮件] 加载FactorEngine排名失败:", e.message);
+    }
+
+    // 如果有FactorEngine排名，替换result.ranked
+    if (factorRankings && factorRankings.ranked) {
+      result.ranked = factorRankings.ranked.filter(function(r) { return !r.deduped; }).slice(0, topN);
+    }
+
     const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
     const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result, dailyBrief: dailyBrief }, smtpConfig);
     if (!success) { console.error("[error] email failed"); process.exit(1); }

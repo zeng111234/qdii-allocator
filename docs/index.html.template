@@ -2156,55 +2156,21 @@
      * Inspired by qlib158 RSI/MA cross factors.
      * Positive = price above MAs (uptrend), negative = below (downtrend).
      */
-    FactorEngine.register('momentum_ma_dev', 'MA偏离度', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 20) return null;
-      var latest = navArr[navArr.length - 1];
-      var ma5 = FactorEngine.tsMean(navArr, 5);
-      var ma10 = FactorEngine.tsMean(navArr, 10);
-      var ma20 = FactorEngine.tsMean(navArr, 20);
-      if (!ma5 || !ma10 || !ma20 || ma5 === 0 || ma10 === 0 || ma20 === 0) return null;
-      // Weighted: short-term MA deviation matters more
-      var dev = (latest / ma5 - 1) * 0.5 + (latest / ma10 - 1) * 0.3 + (latest / ma20 - 1) * 0.2;
-      return Math.round(dev * 10000) / 100; // percentage
-    }, -0.3); // [温和逆向] 低于均线加分，但不过度
 
     /**
      * 20-day return (momentum_20d).
      * Classic price momentum factor from qlib158.
      */
-    FactorEngine.register('momentum_20d', '20日收益', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 20) return null;
-      var ret = (navArr[navArr.length - 1] / navArr[navArr.length - 21] - 1) * 100;
-      return Math.round(ret * 100) / 100;
-    }, 0.3); // [降权] 短期动量不应主导
 
     /**
      * 60-day return (momentum_60d).
      * Medium-term momentum.
      */
-    FactorEngine.register('momentum_60d', '60日收益', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 15) return null;
-      var ret = (navArr[navArr.length - 1] / navArr[0] - 1) * 100; // 用全部可用数据
-      return Math.round(ret * 100) / 100;
-    }, 0.3); // [降权] 中期动量降权
 
     /**
      * RSI-14: Relative Strength Index.
      * Classic oscillator from qlib158/alpha101.
      */
-    FactorEngine.register('momentum_rsi', 'RSI(14)', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 15) return null;
-      var gains = 0, losses = 0;
-      for (var i = navArr.length - 14; i < navArr.length; i++) {
-        var chg = navArr[i] - navArr[i - 1];
-        if (chg > 0) gains += chg;
-        else losses -= chg; // make positive
-      }
-      if (gains + losses < 1e-10) return 50;
-      var rs = gains / (losses > 1e-10 ? losses : 1e-10);
-      var rsi = 100 - 100 / (1 + rs);
-      return Math.round(rsi * 100) / 100;
-    }, 0.5);
 
     // ── Volatility Factors ──
 
@@ -2225,33 +2191,13 @@
       // Annualize: std * sqrt(252)
       var annVol = std * Math.sqrt(252) * 100;
       return Math.round(annVol * 100) / 100;
-    }, -0.5); // [降低权重] 波动率不应过度影响排名
+    }, -1.0);
 
     /**
      * Downside deviation (20-day).
      * From Vibe-Trading metrics.py sortino_ratio computation.
      * Only counts negative returns.
      */
-    FactorEngine.register('volatility_down', '下行波动率', 'volatility', function(navArr) {
-      if (!navArr || navArr.length < 20) return null;
-      var negReturns = [];
-      for (var i = navArr.length - 21; i < navArr.length; i++) {
-        var r = navArr[i] / navArr[i - 1] - 1;
-        if (r < 0) negReturns.push(r);
-        else negReturns.push(0);
-      }
-      if (negReturns.length < 5) return null;
-      var sumSq = 0;
-      var mean = 0;
-      for (var j = 0; j < negReturns.length; j++) mean += negReturns[j];
-      mean /= negReturns.length;
-      for (var j = 0; j < negReturns.length; j++) {
-        var d = negReturns[j] - mean;
-        sumSq += d * d;
-      }
-      var downStd = Math.sqrt(sumSq / (negReturns.length - 1));
-      return Math.round(downStd * Math.sqrt(252) * 100 * 100) / 100;
-    }, -0.8);
 
     // ── Trend Factors ──
 
@@ -2283,15 +2229,6 @@
      * (current - 60d_low) / (60d_high - 60d_low)
      * 1.0 = at 60d high, 0.0 = at 60d low.
      */
-    FactorEngine.register('trend_range_pos', '区间位置', 'trend', function(navArr) {
-      if (!navArr || navArr.length < 15) return null;
-      var high = FactorEngine.tsMax(navArr, 60);
-      var low = FactorEngine.tsMin(navArr, 60);
-      var latest = navArr[navArr.length - 1];
-      var range = high - low;
-      if (range < 1e-10) return 50; // flat
-      return Math.round(((latest - low) / range) * 100 * 100) / 100;
-    }, -0.3); // [温和逆向] 位置低加分，但不过度
 
     // ── Drawdown Factors ──
 
@@ -2309,36 +2246,13 @@
       if (peak <= 0) return null;
       var currentDD = (navArr[navArr.length - 1] - peak) / peak * 100;
       return Math.round(currentDD * 100) / 100; // negative number
-    }, 0.5); // [修正] 回撤越小越好
+    }, -0.5); // [轻微偏好] 适度回撤是机会
 
     /**
      * Drawdown recovery speed.
      * Measures how quickly fund recovers: days since last trough vs peak proximity.
      * Score 0-100: 100 = fully recovered, 0 = deep in drawdown.
      */
-    FactorEngine.register('drawdown_recovery', '回撤恢复', 'drawdown', function(navArr) {
-      if (!navArr || navArr.length < 20) return null;
-      // Find the trough in last 60 days
-      var lookback = Math.min(60, navArr.length);
-      var peak = -Infinity, trough = Infinity, troughIdx = 0;
-      for (var i = navArr.length - lookback; i < navArr.length; i++) {
-        if (navArr[i] > peak) peak = navArr[i];
-      }
-      // Find trough after the peak
-      var peakIdx = 0;
-      for (var i = 0; i < navArr.length; i++) {
-        if (navArr[i] === peak) peakIdx = i;
-      }
-      trough = peak;
-      for (var i = peakIdx; i < navArr.length; i++) {
-        if (navArr[i] < trough) { trough = navArr[i]; troughIdx = i; }
-      }
-      if (peak <= 0 || peak === trough) return 100; // no drawdown
-      // Recovery ratio: how much of the drawdown has been recovered
-      var currentNAV = navArr[navArr.length - 1];
-      var recoveryPct = (currentNAV - trough) / (peak - trough) * 100;
-      return Math.round(Math.max(0, Math.min(100, recoveryPct)) * 100) / 100;
-    }, 0.8);
 
     // ── Quality Factors ──
 
@@ -2367,7 +2281,7 @@
       var rfDaily = 0.02 / 252;
       var sharpe = (mean - rfDaily) / std * Math.sqrt(252);
       return Math.round(sharpe * 100) / 100;
-    }, 1.5); // [降低权重] 夏普比率不应过度影响排名
+    }, 2.5); // [降低权重] 夏普比率不应过度影响排名
 
     /**
      * Decay-linear weighted return: recent returns weighted more.
@@ -2426,7 +2340,7 @@
       var deviation = base - 50;
       var adjusted = 50 + deviation * sensitivity;
       return Math.max(10, Math.min(90, Math.round(adjusted)));
-    }, 0.5); // [降低权重] 估值温度不应过度影响排名
+    }, 1.5);
 
     /**
      * Fee penalty: management fee + custody fee.
@@ -2450,43 +2364,10 @@
     // ═══ 补充技术面维度 ═══
 
     // MACD 动量
-    FactorEngine.register('macd_momentum', 'MACD动量', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 20) return null;
-      var closes = navArr; // 已经是纯数值数组
-      function ema(arr, n) {
-        var k = 2 / (n + 1), result = [arr[0]];
-        for (var i = 1; i < arr.length; i++) result.push(arr[i] * k + result[i-1] * (1-k));
-        return result;
-      }
-      var ema12 = ema(closes, 12), ema26 = ema(closes, 26);
-      var macdLine = ema12.map(function(v, i) { return v - ema26[i]; });
-      var signal = ema(macdLine.slice(-9), 9);
-      var histogram = macdLine[macdLine.length - 1] - signal[signal.length - 1];
-      var lastPrice = closes[closes.length - 1];
-      var pctHistogram = (histogram / (lastPrice || 1)) * 1000;
-      return Math.max(0, Math.min(100, 50 + pctHistogram * 500));
-    }, 1.0);
 
     // 布林带位置
-    FactorEngine.register('bollinger_pos', '布林带位置', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 20) return null;
-      var closes = navArr; // 已经是纯数值数组
-      var n = 20, slice = closes.slice(-n);
-      var mean = slice.reduce(function(s, v) { return s + v; }, 0) / n;
-      var std = Math.sqrt(slice.reduce(function(s, v) { return s + (v - mean) * (v - mean); }, 0) / n);
-      var last = closes[closes.length - 1];
-      if (std === 0) return 50;
-      var z = (last - mean) / std;
-      // z 在 -2 到 2 之间，中轨=50
-      return Math.max(0, Math.min(100, 50 + z * 25));
-    }, 1.5);
 
     // 5日动量
-    FactorEngine.register('momentum_5d', '5日动量', 'momentum', function(navArr) {
-      if (!navArr || navArr.length < 5) return null;
-      var n = navArr.length;
-      return ((navArr[n - 1] / navArr[n - 5]) - 1) * 100;
-    }, 1.0);
 
     // 120日动量（长期）
     FactorEngine.register('momentum_120d', '120日收益', 'momentum', function(navArr) {
@@ -2511,31 +2392,8 @@
     // ═══ 资金面维度 ═══
 
     // 成交量趋势（用净值变动幅度模拟）
-    FactorEngine.register('volume_trend', '资金流入趋势', 'quality', function(navArr) {
-      if (!navArr || navArr.length < 20) return null;
-      var recent = navArr.slice(-10), older = navArr.slice(-20, -10);
-      var recentVol = recent.reduce(function(s, d) { return s + Math.abs(d.change || 0); }, 0) / 10;
-      var olderVol = older.reduce(function(s, d) { return s + Math.abs(d.change || 0); }, 0) / 10;
-      if (olderVol === 0 && recentVol === 0) return null; // 没有变动数据
-      if (olderVol === 0) return 70; // 近期有变动但前期没有，偏正面
-      var ratio = recentVol / olderVol;
-      return Math.max(0, Math.min(100, 50 + (ratio - 1) * 50));
-    }, 1.2);
 
     // 最大回撤恢复速度
-    FactorEngine.register('recovery_speed', '回撤恢复速度', 'drawdown', function(navArr) {
-      if (!navArr || navArr.length < 15) return null;
-      var closes = navArr; // 已经是纯数值数组
-      var peak = closes[0], maxDD = 0, maxDDIdx = 0;
-      for (var i = 1; i < closes.length; i++) {
-        if (closes[i] > peak) peak = closes[i];
-        var dd = (peak - closes[i]) / peak;
-        if (dd > maxDD) { maxDD = dd; maxDDIdx = i; }
-      }
-      if (maxDD === 0) return 80; // 没有回撤，高分
-      // 从最大回撤点到现在恢复了多少
-      var ddNav = closes[maxDDIdx], nowNav = closes[closes.length - 1];
-      var peakNav = closes.slice(0, maxDDIdx + 1).reduce(function(a,b){return Math.max(a,b);}, 0);
       var recovery = peakNav > ddNav ? (nowNav - ddNav) / (peakNav - ddNav) : 0;
       // 恢复越快越好，值域 10-90
       return Math.max(10, Math.min(90, 10 + recovery * 80));
@@ -2560,46 +2418,8 @@
     }, 1.5);
 
     // 新闻情绪因子：基于当日新闻利好/利空
-    FactorEngine.register('news_sentiment', '📰 新闻情绪', 'sentiment', function(navArr, fundMeta) {
-      if (typeof newsData === 'undefined' || !newsData || !newsData.items) return null;
-      var type = fundMeta ? (fundMeta.type || '') : '';
-      var score = 0;
-      var keywords = [];
-      if (type.indexOf('纳指') >= 0 || type.indexOf('纳斯达克') >= 0) keywords = ['nasdaq','纳斯达克','英伟达','nvda','ai','芯片','半导体','苹果','微软','谷歌'];
-      else if (type.indexOf('标普') >= 0) keywords = ['标普','美联储','利率','通胀','华尔街','美国'];
-      else if (type.indexOf('港股') >= 0 || type.indexOf('香港') >= 0) keywords = ['港股','恒生','亚太','中国','亚洲'];
-      else if (type.indexOf('日本') >= 0) keywords = ['日本','日经','日元','丰田'];
-      else if (type.indexOf('全球') >= 0 || type.indexOf('欧洲') >= 0) keywords = ['全球','欧洲','欧股','dax','德国'];
-      else if (type.indexOf('石油') >= 0 || type.indexOf('能源') >= 0 || type.indexOf('商品') >= 0) keywords = ['石油','原油','能源','黄金','大宗商品'];
-      else keywords = ['基金','定投','QDII','净值'];
-      
-      newsData.items.slice(0, 15).forEach(function(n) {
-        var title = (n.title || '').toLowerCase();
-        var matched = keywords.some(function(k) { return title.indexOf(k.toLowerCase()) >= 0; });
-        if (matched) score += (n._score || 0);
-      });
-      // 归一化到 0-100
-      if (score > 0) return Math.min(100, 50 + score * 10);
-      if (score < 0) return Math.max(0, 50 + score * 10);
-      return null; // 没有匹配到任何新闻，返回 null 而不是 50
-    }, 0.5); // [降低权重] 新闻情绪不应过度影响排名
 
     // 外部信号因子：基于 Twitter 观点
-    FactorEngine.register('external_signal', '🌐 外部信号', 'sentiment', function(navArr, fundMeta) {
-      if (typeof externalSignalsData === 'undefined' || !externalSignalsData || !externalSignalsData.tickerOpinions) return null;
-      var type = fundMeta ? (fundMeta.type || '') : '';
-      var tickers = externalSignalsData.tickerOpinions || [];
-      if (tickers.length === 0) return null; // 没有外部信号数据
-      var bullish = 0, bearish = 0;
-      tickers.forEach(function(t) {
-        if (t.sentiment === '看涨') bullish += t.mentions || 1;
-        else if (t.sentiment === '看淡') bearish += t.mentions || 1;
-      });
-      var net = bullish - bearish;
-      if (net > 0) return Math.min(100, 50 + net * 5);
-      if (net < 0) return Math.max(0, 50 + net * 5);
-      return null; // 没有明确方向，返回 null
-    }, 0.5); // [降低权重] 外部信号不应过度影响排名
 
     // 相关性因子：与已有持仓的相关性（低相关加分）
     FactorEngine.register('portfolio_diversity', '🛡️ 分散度', 'diversity', function(navArr, fundMeta) {
@@ -2625,7 +2445,7 @@
       // 0% → 100, -5% → 90, -15% → 70, -30% → 40
       var score = Math.max(0, Math.min(100, 100 + dist * 2));
       return Math.round(score * 100) / 100;
-    }, 1.5); // [修正] 距离高点越近越好
+    }, -1.5); // [逆向] 近高点扣分
 
     // ═══════════════════════════════════════════════════════════════
     //  Ranking State & Render

@@ -334,6 +334,36 @@ async function build() {
     console.log('[构建] 跳过数据文件复制: ' + e.message);
   }
 
+  // 计算 FactorEngine 排名并保存（用于邮件和AI助手）
+  try {
+    const factorEngine = require('./lib/factor-engine');
+    const navCache = JSON.parse(fs.readFileSync(NAV_CACHE, 'utf-8'));
+    const rankings = factorEngine.computeRankings(funds.funds, navCache, marketTemperature, portfolio);
+
+    // 只保存有评分的基金
+    const ranked = rankings.filter(function(r) { return r.composite !== null; }).map(function(r, i) {
+      return {
+        rank: i + 1,
+        code: r.code,
+        name: r.name,
+        type: r.type,
+        indexGroup: r.indexGroup,
+        score: r.composite,
+        deduped: r.deduped || false
+      };
+    });
+
+    fs.writeFileSync(path.join(__dirname, 'data', 'factor-rankings.json'), JSON.stringify({
+      date: new Date().toISOString().slice(0, 10),
+      ranked: ranked,
+      generatedAt: new Date().toISOString()
+    }, null, 2), 'utf-8');
+
+    console.log('[构建] FactorEngine排名: ' + ranked.filter(function(r) { return !r.deduped; }).length + '只推荐');
+  } catch(e) {
+    console.log('[构建] FactorEngine排名计算失败: ' + e.message);
+  }
+
   console.log('[构建] 完成！持仓: ' + portfolio.holdings.length + '只基金, 最新净值: ' + Object.keys(latestNavs).length + '只');
 }
 
