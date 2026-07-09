@@ -1,0 +1,277 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e3]:
+    - generic [ref=f5e4]:
+      - heading "QDII Fund Allocator" [level=1] [ref=f5e5]
+      - paragraph [ref=f5e6]: 智能基金定投管理系统
+    - button "👁️ 显示" [ref=f5e7] [cursor=pointer]
+  - generic [ref=f5e8]:
+    - generic [ref=f5e9]: 🟢 今天是交易日 · 可以买入基金 · T+2 结算
+    - generic [ref=f5e10]:
+      - generic [ref=f5e11]:
+        - generic [ref=f5e12]:
+          - generic [ref=f5e13]: 总投入
+          - generic [ref=f5e14]: "1681"
+        - generic [ref=f5e15]:
+          - generic [ref=f5e16]: 当前市值
+          - generic [ref=f5e17]: "1656.64"
+        - generic [ref=f5e18]:
+          - generic [ref=f5e19]: 总盈亏
+          - generic [ref=f5e20]: "-24.36"
+        - generic [ref=f5e21]:
+          - generic [ref=f5e22]: 7/6盈亏
+          - generic [ref=f5e23]: "+2.07"
+        - generic [ref=f5e24]:
+          - generic [ref=f5e25]: 持仓
+          - generic [ref=f5e26]: 21只
+        - generic [ref=f5e27]:
+          - generic [ref=f5e28]: 净值日期
+          - generic [ref=f5e29]: 2026-07-06
+      - generic [ref=f5e30]:
+        - table [ref=f5e33]:
+          - row [ref=f5e34]:
+            - cell
+            - cell [ref=f5e35]
+            - cell [ref=f5e39]
+          - row [ref=f5e43]:
+            - cell
+            - cell [ref=f5e44]
+            - cell [ref=f5e48]
+        - generic [ref=f5e51]:
+          - generic [ref=f5e52]: 收益率 -1.45%
+          - generic [ref=f5e54]: 盈亏线 0%
+    - generic [ref=f5e58]:
+      - generic [ref=f5e59]:
+        - generic [ref=f5e60]: 🌡️ 市场温度 53(正常)
+        - generic [ref=f5e61]:
+          - generic [ref=f5e62]: 建议投入
+          - generic [ref=f5e63]: 50元
+          - generic [ref=f5e64]: 1x
+      - generic [ref=f5e68]: 基于2026-07-07推荐数据(均分22.0)
+    - generic [ref=f5e70] [cursor=pointer]: 🏆 今日推荐 Top5 (AI+量化评分) ▼
+    - generic [ref=f5e71]:
+      - generic [ref=f5e72]:
+        - generic [ref=f5e73] [cursor=pointer]: 持仓
+        - generic [ref=f5e74] [cursor=pointer]: 买入
+        - generic [ref=f5e75] [cursor=pointer]: 批量
+        - generic [ref=f5e76] [cursor=pointer]: 洞察
+        - generic [ref=f5e77] [cursor=pointer]: 风险
+        - generic [ref=f5e78] [cursor=pointer]: 评分
+        - generic [ref=f5e79] [cursor=pointer]: 辩论
+        - generic [ref=f5e80] [cursor=pointer]: 模拟
+        - generic [ref=f5e81] [cursor=pointer]: 💬 AI
+      - generic [ref=f5e82]:
+        - generic [ref=f5e83]:
+          - generic [ref=f5e84]: ☁️ 云同步
+          - button "⬆️ 上传" [ref=f5e85] [cursor=pointer]
+          - button "⬇️ 下载" [ref=f5e86] [cursor=pointer]
+          - button "📤 导出" [ref=f5e87] [cursor=pointer]
+          - button "📥 导入" [ref=f5e88] [cursor=pointer]
+        - generic [ref=f5e89]:
+          - generic [ref=f5e90] [cursor=pointer]:
+            - generic [ref=f5e91]:
+              - generic [ref=f5e92]: 国泰纳斯达克100(QDII)160213
+              - generic [ref=f5e93]:
+                - generic [ref=f5e94]: "-1.99"
+                - generic [ref=f5e95]: "-2.62%"
+            - generic [ref=f5e96]:
+              - generic [ref=f5e97]: 投入 76元
+              - generic [ref=f5e98]: 4笔
+          - generic [ref=f5e99] [cursor=pointer]:
+            - generic [ref=f5e100]:
+              - generic [ref=f5e101]: 广发全球精选QDII-A270023
+              - generic [ref=f5e102]:
+                - generic [ref=f5e103]: "+0.86"
+                - generic [ref=f5e104]: +1.92%
+            - generic [ref=f5e105]:
+              - generic [ref=f5e106]: 投入 45元
+              - generic [ref=f5e107]: 3笔
+              - generic [ref=f5e108]: 限200元
+          - generic [ref=f5e109] [cursor=pointer]:
+            - generic [ref=f5e110]:
+              - generic [ref=f5e111]: 广发纳斯达克100A(QDII)270042
+              - generic [ref=f5e112]:
+                - generic [ref=f5e113]: "-0.07"
+                - generic [ref=f5e114]: "-0.04%"
+            - generic [ref=f5e115]:
+              - generic [ref=f5e116]: 投入 200元
+              - generic [ref=f5e117]: 17笔
+              - generic [ref=f5e118]: 限10元
+          - generic [ref=f5e119] [cursor=pointer]:
+            - generic [ref=f5e120]:
+              - generic [ref=f5e121]: 建信新兴市场优选QDII-A539002
+              - generic [ref=f5e122]:
+                - generic [ref=f5e123]: "-4.10"
+                - generic [ref=f5e124]: "-3.53%"
+            - generic [ref=f5e125]:
+              - generic [ref=f5e126]: 投入 116元
+              - generic [ref=f5e127]: 6笔
+              - generic [ref=f5e128]: 限30元
+          - generic [ref=f5e129] [cursor=pointer]:
+            - generic [ref=f5e130]:
+              - generic [ref=f5e131]: 华安纳斯达克100A(QDII)040046
+              - generic [ref=f5e132]:
+                - generic [ref=f5e133]: "-1.20"
+                - generic [ref=f5e134]: "-0.85%"
+            - generic [ref=f5e135]:
+              - generic [ref=f5e136]: 投入 140元
+              - generic [ref=f5e137]: 10笔
+              - generic [ref=f5e138]: 限10元
+          - generic [ref=f5e139] [cursor=pointer]:
+            - generic [ref=f5e140]:
+              - generic [ref=f5e141]: 大成纳斯达克100(QDII)000834
+              - generic [ref=f5e142]:
+                - generic [ref=f5e143]: "-0.71"
+                - generic [ref=f5e144]: "-0.78%"
+            - generic [ref=f5e145]:
+              - generic [ref=f5e146]: 投入 90元
+              - generic [ref=f5e147]: 8笔
+              - generic [ref=f5e148]: 限10元
+          - generic [ref=f5e149] [cursor=pointer]:
+            - generic [ref=f5e150]:
+              - generic [ref=f5e151]: 万家纳斯达克100指数(QDII)A019067
+              - generic [ref=f5e152]:
+                - generic [ref=f5e153]: "-0.02"
+                - generic [ref=f5e154]: "-0.05%"
+            - generic [ref=f5e155]:
+              - generic [ref=f5e156]: 投入 50元
+              - generic [ref=f5e157]: 1笔
+          - generic [ref=f5e158] [cursor=pointer]:
+            - generic [ref=f5e159]:
+              - generic [ref=f5e160]: 华泰柏瑞纳斯达克100指数(QDII)A019524
+              - generic [ref=f5e161]:
+                - generic [ref=f5e162]: "+0.27"
+                - generic [ref=f5e163]: +0.31%
+            - generic [ref=f5e164]:
+              - generic [ref=f5e165]: 投入 90元
+              - generic [ref=f5e166]: 9笔
+              - generic [ref=f5e167]: 限10元
+          - generic [ref=f5e168] [cursor=pointer]:
+            - generic [ref=f5e169]:
+              - generic [ref=f5e170]: 广发纳斯达克生物科技A(QDII)001092
+              - generic [ref=f5e171]:
+                - generic [ref=f5e172]: "+2.47"
+                - generic [ref=f5e173]: +4.95%
+            - generic [ref=f5e174]:
+              - generic [ref=f5e175]: 投入 50元
+              - generic [ref=f5e176]: 5笔
+              - generic [ref=f5e177]: 限10元
+          - generic [ref=f5e178] [cursor=pointer]:
+            - generic [ref=f5e179]:
+              - generic [ref=f5e180]: 大成标普500ETF联接A(QDII)015558
+              - generic [ref=f5e181]:
+                - generic [ref=f5e182]: "-0.93"
+                - generic [ref=f5e183]: "-4.66%"
+            - generic [ref=f5e184]:
+              - generic [ref=f5e185]: 投入 20元
+              - generic [ref=f5e186]: 2笔
+          - generic [ref=f5e187] [cursor=pointer]:
+            - generic [ref=f5e188]:
+              - generic [ref=f5e189]: 银华全球新能源车量化优选(QDII)A015204
+              - generic [ref=f5e190]:
+                - generic [ref=f5e191]: "-1.31"
+                - generic [ref=f5e192]: "-6.54%"
+            - generic [ref=f5e193]:
+              - generic [ref=f5e194]: 投入 20元
+              - generic [ref=f5e195]: 1笔
+          - generic [ref=f5e196] [cursor=pointer]:
+            - generic [ref=f5e197]:
+              - generic [ref=f5e198]: 大成标普500A(QDII)096001
+              - generic [ref=f5e199]:
+                - generic [ref=f5e200]: "+2.79"
+                - generic [ref=f5e201]: +3.10%
+            - generic [ref=f5e202]:
+              - generic [ref=f5e203]: 投入 90元
+              - generic [ref=f5e204]: 5笔
+              - generic [ref=f5e205]: 限10元
+          - generic [ref=f5e206] [cursor=pointer]:
+            - generic [ref=f5e207]:
+              - generic [ref=f5e208]: 华安德国DAX30A(QDII)000614
+              - generic [ref=f5e209]:
+                - generic [ref=f5e210]: "+0.34"
+                - generic [ref=f5e211]: +1.71%
+            - generic [ref=f5e212]:
+              - generic [ref=f5e213]: 投入 20元
+              - generic [ref=f5e214]: 1笔
+              - generic [ref=f5e215]: 限300元
+          - generic [ref=f5e216] [cursor=pointer]:
+            - generic [ref=f5e217]:
+              - generic [ref=f5e218]: 天弘全球高端制造QDII-A016664
+              - generic [ref=f5e219]:
+                - generic [ref=f5e220]: "-8.78"
+                - generic [ref=f5e221]: "-6.09%"
+            - generic [ref=f5e222]:
+              - generic [ref=f5e223]: 投入 144元
+              - generic [ref=f5e224]: 8笔
+              - generic [ref=f5e225]: 限100元
+          - generic [ref=f5e226] [cursor=pointer]:
+            - generic [ref=f5e227]:
+              - generic [ref=f5e228]: 易方达全球成长精选QDII-A012920
+              - generic [ref=f5e229]:
+                - generic [ref=f5e230]: "-10.75"
+                - generic [ref=f5e231]: "-3.32%"
+            - generic [ref=f5e232]:
+              - generic [ref=f5e233]: 投入 324元
+              - generic [ref=f5e234]: 19笔
+          - generic [ref=f5e235] [cursor=pointer]:
+            - generic [ref=f5e236]:
+              - generic [ref=f5e237]: 摩根标普500指数(QDII)A017641
+              - generic [ref=f5e238]:
+                - generic [ref=f5e239]: "+0.60"
+                - generic [ref=f5e240]: +2.01%
+            - generic [ref=f5e241]:
+              - generic [ref=f5e242]: 投入 30元
+              - generic [ref=f5e243]: 3笔
+              - generic [ref=f5e244]: 限10元
+          - generic [ref=f5e245] [cursor=pointer]:
+            - generic [ref=f5e246]:
+              - generic [ref=f5e247]: 博时亚太精选QDII-A050015
+              - generic [ref=f5e248]:
+                - generic [ref=f5e249]: "+0.01"
+                - generic [ref=f5e250]: +0.14%
+            - generic [ref=f5e251]:
+              - generic [ref=f5e252]: 投入 10元
+              - generic [ref=f5e253]: 1笔
+          - generic [ref=f5e254] [cursor=pointer]:
+            - generic [ref=f5e255]:
+              - generic [ref=f5e256]: 摩根日本精选股票(QDII)A007280
+              - generic [ref=f5e257]:
+                - generic [ref=f5e258]: "-0.06"
+                - generic [ref=f5e259]: "-0.21%"
+            - generic [ref=f5e260]:
+              - generic [ref=f5e261]: 投入 30元
+              - generic [ref=f5e262]: 2笔
+              - generic [ref=f5e263]: 限500元
+          - generic [ref=f5e264] [cursor=pointer]:
+            - generic [ref=f5e265]:
+              - generic [ref=f5e266]: 嘉实全球产业升级股票(QDII)A017730
+              - generic [ref=f5e267]:
+                - generic [ref=f5e268]: "-1.63"
+                - generic [ref=f5e269]: "-10.18%"
+            - generic [ref=f5e270]:
+              - generic [ref=f5e271]: 投入 16元
+              - generic [ref=f5e272]: 1笔
+              - generic [ref=f5e273]: 限100元
+          - generic [ref=f5e274] [cursor=pointer]:
+            - generic [ref=f5e275]:
+              - generic [ref=f5e276]: 国富全球科技互联混合(QDII)A006373
+              - generic [ref=f5e277]:
+                - generic [ref=f5e278]: "+0.12"
+                - generic [ref=f5e279]: +1.23%
+            - generic [ref=f5e280]:
+              - generic [ref=f5e281]: 投入 10元
+              - generic [ref=f5e282]: 1笔
+              - generic [ref=f5e283]: 限10元
+          - generic [ref=f5e284] [cursor=pointer]:
+            - generic [ref=f5e285]:
+              - generic [ref=f5e286]: 天弘越南市场股票(QDII)A008763
+              - generic [ref=f5e287]:
+                - generic [ref=f5e288]: "-0.30"
+                - generic [ref=f5e289]: "-0.27%"
+            - generic [ref=f5e290]:
+              - generic [ref=f5e291]: 投入 110元
+              - generic [ref=f5e292]: 3笔
+              - generic [ref=f5e293]: 限100元
+          - generic [ref=f5e294]:
+            - generic [ref=f5e295]: 合计 21只
+            - generic [ref=f5e296]: 投入 1681.00 · 市值 1656.64 · 盈亏 -24.36
+  - generic [ref=f5e297]: QDII Fund Allocator · 数据仅供参考，投资需谨慎
