@@ -4348,7 +4348,7 @@
       try {
         var response = await fetch(config.baseUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'api-key': config.apiKey },
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + config.apiKey },
           body: JSON.stringify({ model: config.model || 'Qwen/Qwen3-8B', messages: [{ role: 'user', content: 'hi' }], max_tokens: 5 })
         });
         if (response.ok) {
@@ -4753,10 +4753,10 @@
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'api-key': config.apiKey
+              'Authorization': 'Bearer ' + config.apiKey
             },
             body: JSON.stringify({
-              model: config.model || 'mimo-v2.5-pro',
+              model: config.model || 'Qwen/Qwen3-8B',
               messages: messages,
               temperature: 0.3,
               max_tokens: 2000,
