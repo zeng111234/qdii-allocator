@@ -680,7 +680,7 @@
         </button>
         
         <div style="font-size:11px;color:var(--text3);margin-top:12px;line-height:1.6">
-          💡 辩论分析会调用 LLM 进行多视角分析，需要配置 API Key。每次辩论约消耗 4 次 API 调用。
+          💡 辩论分析基于评分数据进行多角度量化分析，自动从看多/看空/风控三个视角评估。
         </div>
       </div>
 
@@ -3357,7 +3357,7 @@
       }
 
       // 购买金额建议
-      html += '<div style="margin-top:10px;padding:8px;background:var(--state-blue-bg);border-radius:8px;font-size:11px;color:var(--text2)">💡 <b>定投策略：</b>按评分高低分配预算，限购额度低的优先买（稀缺=好货）。建议每天总预算 50-100 元。</div>';
+      html += '<div style="margin-top:10px;padding:8px;background:var(--state-blue-bg);border-radius:8px;font-size:11px;color:var(--text2)">💡 <b>定投策略：</b>按评分高低分配预算，关注回撤和估值而非限购额度。</div>';
 
       content.innerHTML = html;
     }
@@ -3767,9 +3767,9 @@
       disputes.push('当前市场估值：Bull 看好长期增长，Bear 担忧短期回调');
       
       // 激进/保守/中立 三方评估
-      var aggressiveView = '积极加仓，把握 QDII 稀缺性溢价。重点关注限购额度低的高评分基金。';
-      var conservativeView = '控制仓位，预留现金应对 QDII 额度调整。避免追高近期涨幅过大的基金。';
-      var neutralView = '维持现有配置，定投为主。择机小幅调仓优化结构。';
+      var aggressiveView = '积极加仓，关注评分高且回撤合理的基金。注意分散持仓避免过度集中。';
+      var conservativeView = '控制仓位，避免追高近期涨幅过大的基金。关注估值和趋势信号。';
+      var neutralView = '维持现有配置，定投为主。根据评分和估值择机小幅调仓。';
       
       var decision = '【多智能体辩论结果】\n\n';
       decision += '━━━ 📈 看多阵营 ━━━\n';
@@ -3788,7 +3788,7 @@
       if (riskLevel === '高') {
         decision += '组合集中度过高，建议减少 ' + maxType + ' 配置，增加其他类型基金分散风险。';
       } else {
-        decision += '组合结构合理，保持定投节奏。重点关注评分高且限购额度低的稀缺基金。';
+        decision += '组合结构合理，保持定投节奏。重点关注评分高、回撤小、估值合理的基金。';
       }
       
       debateState.finalDecision = { finalDecision: decision };
@@ -4688,7 +4688,7 @@
           else if (p.limit <= 100) normal.push(code + '限' + p.limit + '元');
         });
         if (scarce.length > 0) {
-          lines.push('=== 稀缺基金（限购≤10元，建议优先买入） ===');
+          lines.push('=== 限购≤10元的基金（注意：限购低不代表基金好，仅反映额度紧张） ===');
           lines.push(scarce.join(', '));
           lines.push('');
         }
