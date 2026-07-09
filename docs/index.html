@@ -4749,7 +4749,11 @@
           });
         } else {
           // GitHub Pages 直接调用（API Key 在 localStorage 中）
-          response = await fetch(config.baseUrl, {
+          var apiUrl = config.baseUrl;
+          if (apiUrl && !apiUrl.endsWith('/chat/completions')) {
+            apiUrl = apiUrl + '/chat/completions';
+          }
+          response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
