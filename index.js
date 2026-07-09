@@ -462,6 +462,22 @@ async function sendReport(result, textContent, aiCommentary, topN, dailyBrief) {
     // 如果有FactorEngine排名，替换result.ranked
     if (factorRankings && factorRankings.ranked) {
       result.ranked = factorRankings.ranked.filter(function(r) { return !r.deduped; }).slice(0, topN);
+
+      // 补全 indicators（factor-rankings.json 不含技术指标，需要从 nav-cache 计算）
+      try {
+        const navCache = fundData.loadNavCache();
+        for (let ri = 0; ri < result.ranked.length; ri++) {
+          const fr = result.ranked[ri];
+          if (fr.indicators) continue; // 已有则跳过
+          const navHistory = navCache[fr.code];
+          if (navHistory && navHistory.length >= 5) {
+            fr.indicators = fundData.calcIndicators(navHistory);
+          }
+        }
+        console.log("[邮件] 已补全 " + result.ranked.length + " 只基金的技术指标");
+      } catch(e) {
+        console.warn("[邮件] 补全技术指标失败:", e.message);
+      }
     }
 
     const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
