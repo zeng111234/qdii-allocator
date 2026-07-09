@@ -510,52 +510,11 @@
   </style>
 </head>
 <body>
-  <!-- 🔒 密码保护层 -->
-  <div id="auth-overlay" style="
-    position: fixed; inset: 0; z-index: 9999;
-    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-    display: flex; align-items: center; justify-content: center;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  ">
-    <div style="background: white; border-radius: 18px; padding: 36px 28px; width: 320px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
-      <div style="font-size: 40px; margin-bottom: 12px;">🛩️</div>
-      <h2 style="font-size: 18px; color: #1e293b; margin-bottom: 6px;">QDII Pilot</h2>
-      <p style="font-size: 13px; color: #94a3b8; margin-bottom: 20px;">输入访问密码</p>
-      <input id="auth-pwd" type="password" placeholder="密码"
-        style="width: 100%; padding: 12px 14px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; outline: none; text-align: center; letter-spacing: 4px;"
-        onkeydown="if(event.key==='Enter')checkAuth()">
-      <p id="auth-err" style="color: #ef4444; font-size: 12px; margin-top: 8px; display: none;">密码错误</p>
-      <button onclick="checkAuth()" style="width: 100%; margin-top: 16px; padding: 12px; background: #6366f1; color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 600; cursor: pointer;">进入</button>
-    </div>
+  <!-- 免责声明（替代假密码保护） -->
+  <div style="background:#fef3c7;border-bottom:1px solid #f59e0b;padding:8px 16px;text-align:center;font-size:12px;color:#92400e;">
+    ⚠️ 本工具仅供参考，不构成投资建议。投资有风险，入市需谨慎。
   </div>
-  <script>
-  (function() {
-    var H = '1480551';
-    function hash(s){var h=0;for(var i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0;}return String(h);}
-    function unlock(){
-      document.getElementById('auth-overlay').style.display='none';
-      document.body.style.overflow='';
-      var hdr=document.querySelector('.header');if(hdr)hdr.style.filter='';
-      var ctr=document.querySelector('.container');if(ctr)ctr.style.filter='';
-    }
-    if(sessionStorage.getItem('_qf_auth')===H){unlock();return;}
-    document.body.style.overflow='hidden';
-    var hdr=document.querySelector('.header');if(hdr)hdr.style.filter='blur(8px)';
-    var ctr=document.querySelector('.container');if(ctr)ctr.style.filter='blur(8px)';
-    window.checkAuth=function(){
-      var p=document.getElementById('auth-pwd').value;
-      if(hash(p)===H){
-        sessionStorage.setItem('_qf_auth',H);
-        unlock();
-      }else{
-        document.getElementById('auth-err').style.display='block';
-        document.getElementById('auth-pwd').value='';
-        document.getElementById('auth-pwd').focus();
-      }
-    };
-  })();
-  </script>
-  <!-- 🔒 密码保护层结束 -->
+
   <script src="https://unpkg.com/lightweight-charts@4/dist/lightweight-charts.standalone.production.js"></script>
 
   <div class="header">
@@ -1416,6 +1375,8 @@
 
       // External Signals (X/Twitter)
       if (externalSignalsData && externalSignalsData.tickerOpinions && externalSignalsData.tickerOpinions.length > 0) {
+        // [security] HTML 转义函数，防止外部数据中的恶意代码
+        function _escH(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
         html += '<div class="card-title" style="margin-top:18px">📡 外部信号（@aleabitoreddit）</div>';
         var bullish = externalSignalsData.tickerOpinions.filter(function(t) { return t.sentiment === 'bullish'; });
         var others = externalSignalsData.tickerOpinions.filter(function(t) { return t.sentiment !== 'bullish'; });
@@ -1423,14 +1384,14 @@
           html += '<div style="font-size:12px;color:var(--text2);margin-bottom:8px">看涨信号:</div>';
           bullish.forEach(function(t) {
             html += '<div style="display:inline-block;background:var(--state-green-bg);border:1px solid var(--state-green-border);border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font-size:12px;color:var(--state-green-text)">';
-            html += '🟢 $' + t.ticker + ' <span style="color:var(--text3)">(' + t.mentions + '次)</span></div>';
+            html += '🟢 $' + _escH(t.ticker) + ' <span style="color:var(--text3)">(' + t.mentions + '次)</span></div>';
           });
         }
         if (others.length > 0) {
           html += '<div style="font-size:12px;color:var(--text2);margin-top:8px;margin-bottom:4px">其他提及:</div>';
           others.slice(0, 8).forEach(function(t) {
             html += '<div style="display:inline-block;background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font-size:12px">';
-            html += '$' + t.ticker + ' <span style="color:var(--text3)">(' + t.mentions + ')</span></div>';
+            html += '$' + _escH(t.ticker) + ' <span style="color:var(--text3)">(' + t.mentions + ')</span></div>';
           });
         }
         // Theme scores
@@ -1446,7 +1407,7 @@
             var bgColor = e[1].score > 0 ? 'var(--state-green-bg)' : 'var(--state-red-bg)';
             var borderColor = e[1].score > 0 ? '#86efac' : '#fca5a5';
             html += '<div style="display:inline-block;background:' + bgColor + ';border:1px solid ' + borderColor + ';border-radius:6px;padding:4px 10px;margin:2px 4px 2px 0;font-size:12px">';
-            html += emoji + ' ' + e[0] + ' ' + (e[1].score > 0 ? '+' : '') + e[1].score + '</div>';
+            html += emoji + ' ' + _escH(e[0]) + ' ' + (e[1].score > 0 ? '+' : '') + e[1].score + '</div>';
           });
         }
         if (externalSignalsData.cachedAt) {
@@ -3617,6 +3578,8 @@
       // 显示辩论结果
       if (debateState.finalDecision && debateState.finalDecision.finalDecision) {
         var decision = debateState.finalDecision.finalDecision;
+        // [security] 先转义 HTML，防止 LLM 输出中的恶意代码执行
+        decision = decision.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         // 结构化格式化
         var formatted = decision
           .replace(/━━━ (.+?) ━━━/g, '<div style="font-weight:700;font-size:13px;margin:12px 0 6px;color:var(--primary)">$1</div>')
@@ -3944,13 +3907,17 @@
 
     /* ── Walk-Forward Backtest + Performance Attribution (from Vibe-Trading backtest/) ── */
     // ── Firebase Cloud Sync ──
-    // [fix] Firebase credentials injected by build-pages.js from environment variables
+    // [security] Firebase credentials — Key 不再嵌入前端，需通过 Web Server 代理
     var FIREBASE_URL = 'FIREBASE_URL_PLACEHOLDER';
-    var FIREBASE_KEY = 'FIREBASE_KEY_PLACEHOLDER';
+    var FIREBASE_KEY = ''; // [security] 不在前端暴露 Key
     var FIREBASE_PATH = '/portfolio.json';
 
+    function firebaseAvailable() {
+      return FIREBASE_URL && FIREBASE_URL !== 'FIREBASE_URL_PLACEHOLDER' && FIREBASE_URL !== 'undefined' && FIREBASE_KEY;
+    }
+
     function syncLoad() {
-      if (!FIREBASE_URL || FIREBASE_URL === 'FIREBASE_URL_PLACEHOLDER' || FIREBASE_URL === 'undefined') return;
+      if (!firebaseAvailable()) return;
       fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY)
         .then(function(r) { return r.json(); })
         .then(function(data) {
@@ -3967,7 +3934,7 @@
     }
 
     function syncSave() {
-      if (!FIREBASE_URL || FIREBASE_URL === 'FIREBASE_URL_PLACEHOLDER' || FIREBASE_URL === 'undefined') return;
+      if (!firebaseAvailable()) return;
       fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -3976,7 +3943,7 @@
     }
 
     function firebaseUpload() {
-      if (!FIREBASE_URL || FIREBASE_URL === 'FIREBASE_URL_PLACEHOLDER') { showToast('Firebase 未配置', true); return; }
+      if (!firebaseAvailable()) { showToast('⚠️ Firebase 同步需要通过 Web Server 访问（GitHub Pages 版本不支持）', true); return; }
       fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
@@ -3988,7 +3955,7 @@
     }
 
     function firebaseDownload() {
-      if (!FIREBASE_URL || FIREBASE_URL === 'FIREBASE_URL_PLACEHOLDER') { showToast('Firebase 未配置', true); return; }
+      if (!firebaseAvailable()) { showToast('⚠️ Firebase 同步需要通过 Web Server 访问（GitHub Pages 版本不支持）', true); return; }
       fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY)
         .then(function(r) { return r.json(); })
         .then(function(data) {
@@ -4770,20 +4737,33 @@
         var recentHistory = aiChatHistory.slice(-10);
         recentHistory.forEach(function(m) { messages.push({ role: m.role, content: m.content }); });
 
-        var response = await fetch(config.baseUrl, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'api-key': config.apiKey
-          },
-          body: JSON.stringify({
-            model: config.model || 'mimo-v2.5-pro',
-            messages: messages,
-            temperature: 0.3,
-            max_tokens: 2000,
-            stream: true
-          })
-        });
+        // [security] 优先通过服务器代理，避免前端暴露 API Key
+        var useProxy = typeof location !== 'undefined' && location.pathname.indexOf('.github.io') === -1;
+        var response;
+        if (useProxy) {
+          // 通过 Web Server 代理
+          response = await fetch('/api/llm-proxy', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: messages, model: config.model, baseUrl: config.baseUrl })
+          });
+        } else {
+          // GitHub Pages 直接调用（API Key 在 localStorage 中）
+          response = await fetch(config.baseUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'api-key': config.apiKey
+            },
+            body: JSON.stringify({
+              model: config.model || 'mimo-v2.5-pro',
+              messages: messages,
+              temperature: 0.3,
+              max_tokens: 2000,
+              stream: true
+            })
+          });
+        }
 
         if (!response.ok) {
           var errText = await response.text();
