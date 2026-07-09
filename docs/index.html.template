@@ -4738,7 +4738,7 @@
         recentHistory.forEach(function(m) { messages.push({ role: m.role, content: m.content }); });
 
         // [security] 优先通过服务器代理，避免前端暴露 API Key
-        var useProxy = typeof location !== 'undefined' && location.pathname.indexOf('.github.io') === -1;
+        var useProxy = typeof location !== 'undefined' && location.hostname.indexOf('.github.io') === -1;
         var response;
         if (useProxy) {
           // 通过 Web Server 代理
