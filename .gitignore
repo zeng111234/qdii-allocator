@@ -49,3 +49,8 @@ reasonix.toml
 fix-github-mcp.*
 github-mcp-config.txt
 runs.json
+
+# Playwright MCP temp files
+.playwright-mcp/
+*.png
+docs/index.html.template.bak
