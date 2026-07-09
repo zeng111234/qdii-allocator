@@ -533,6 +533,30 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1783598425614",
+      "fundCode": "016664",
+      "fundName": "天弘全球高端制造QDII-A",
+      "type": "均值回归",
+      "thesis": "系统推荐#1，分数51.99。1年涨149.95%加9分，3年累计227.28%加15.2分，夏普1.42加3.6分，最大回撤-30.39%扣4.6分，长期牛市+3分，低于MA10加24.2",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-07-09T12:00:25.614Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
@@ -540,6 +564,6 @@
     "validated": 2,
     "invalidated": 8,
     "expired": 0,
-    "total": 5
+    "total": 6
   }
 }
