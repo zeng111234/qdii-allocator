@@ -581,6 +581,78 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1783684438415",
+      "fundCode": "006373",
+      "fundName": "国富全球科技互联混合(QDII)A",
+      "type": "均值回归",
+      "thesis": "系统推荐#1，分数31.81。1年涨90.26%加2.7分，3年累计199.8%加6.7分，夏普1.5加2.3分，最大回撤-22.26%扣4.5分，长期牛市+2分，回撤15.07%加0.7分",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-07-10T11:53:58.415Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1783684438416",
+      "fundCode": "050015",
+      "fundName": "博时亚太精选QDII-A",
+      "type": "均值回归",
+      "thesis": "系统推荐#4，分数12.83。1年涨48.6%加1.5分，3年累计54.25%加1.8分，夏普0.69加1分，最大回撤-25.48%扣5.1分，长期牛市+2分，回撤7.94%加1.8分，低于",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-07-10T11:53:58.416Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1783684438416",
+      "fundCode": "000369",
+      "fundName": "广发全球医疗保健指数人民币(QDII)A",
+      "type": "稀缺溢价",
+      "thesis": "系统推荐#5，分数12.69。1年涨10.88%加0.3分，3年累计16.56%加0.6分，最大回撤-15.13%扣3分，长期牛市+2分，回撤1.6%加2.8分，低于MA10加0.5分，多头",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-07-10T11:53:58.416Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
@@ -588,6 +660,6 @@
     "validated": 2,
     "invalidated": 8,
     "expired": 0,
-    "total": 7
+    "total": 10
   }
 }

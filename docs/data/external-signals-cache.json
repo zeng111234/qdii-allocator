@@ -3,8 +3,22 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-07-10T04:57:10.484Z",
+  "fetchedAt": "2026-07-10T11:49:18.169Z",
   "items": [
+   {
+    "title": "The \"Mythical Golden Egg Dragon Candle\" predicted the $SIVE rally today. If you look at the Golden Egg hatching indicator I drew, you can tell it pred...",
+    "text": "The \"Mythical Golden Egg Dragon Candle\" predicted the $SIVE rally today. If you look at the Golden Egg hatching indicator I drew, you can tell it predicts Sivers CEO buying on the open market a day later. Do you guys think it's time I should sell courses on TA? Serenity: @EUlmsten wow the mythical golden egg dragon candle was spotted over the $SIVEF chart. Something big is coming...",
+    "time": "Fri, 10 Jul 2026 11:17:10 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2075539824589860866",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "Yep, it’s interesting to witness retail capitulation. After we got Bloomberg Meta compute article cleared up by their internal memo. And the 2 report...",
+    "text": "Yep, it’s interesting to witness retail capitulation. After we got Bloomberg Meta compute article cleared up by their internal memo. And the 2 reports on delays were denied by Nvidia. Both of which caused the selloff in the first place... So Photonics / Nvidia’s roadmap hasn’t fundamentally changed: $LITE is still completely sold out for the next 2 years and likely into 2029. $SIVE is about to volume ramp with GlobalFoundries, Jabil, Poet, Ayar, and other hyperscaler suppliers. $TSM COUPE and their TW suppliers from Shunsin to Foci aren’t randomly disappearing into the void. $AAOI and their $471m/month h2 2027 revenue projections haven’t changed. $IQE and their epiwafer contracts with Macom and Tower Semi haven’t disappeared. $AXTI ownership of 40% of the InP substrate supply chains haven’t suddenly disappeared. As with any theme from Rocketlab + Space sector 50% drop back in 2025. Or Nebius + Neocloud 50% drop entering 2026. Or the Samsung/SK Hynix crash from Iran War LNG/Helium/Oil fears few months ago. Volatility from indiscriminate thematic selloffs isn’t typically representative of individual company fundamentals. Retail tends to build conviction over price movements and imaginary charts, then lose that when a stock drops. And institutions are probably placing limit orders to capitalize on that. Conviction shouldn’t be tied to the quote of a stock on a certain day, but long term revenue or operating income growth. Lee: 40% swing from the panic/X hysteria lows. I would not rely on X is an indicator but it can be a good contrarian tool. More to the point I think photonic sector is starting to bottom. $SIVE",
+    "time": "Fri, 10 Jul 2026 08:23:29 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2075496116481884524",
+    "source": "x-rsshub"
+   },
    {
     "title": "\"China is shipping ~90% of the world's humanoid robots. We cannot keep taking them lightly.\" Elon's comment: \"For now\" Meanwhile, 1X today posts a vid...",
     "text": "\"China is shipping ~90% of the world's humanoid robots. We cannot keep taking them lightly.\" Elon's comment: \"For now\" Meanwhile, 1X today posts a video of the most advanced humanoid hand. Looks like the inflection point for American humanoid programs is here? Both technologically with players like 1X and with mass production with $TSLA? I'm am personally long on Agility through $CCXI targeting commercialization with Amazon and others. But I'm proud to see American robotics as a whole go brrrr. Elon Musk: @PeterDiamandis For now",
@@ -74,29 +88,16 @@
     "time": "Tue, 07 Jul 2026 19:49:55 GMT",
     "link": "https://x.com/aleabitoreddit/status/2074581698604593367",
     "source": "x-rsshub"
-   },
-   {
-    "title": "Just Bloomberg and $META doing damage control after crashing the market with Meta Compute framing: Spokesperson: \"Meta is still hungry for even more c...",
-    "text": "Just Bloomberg and $META doing damage control after crashing the market with Meta Compute framing: Spokesperson: \"Meta is still hungry for even more computing power. It is still moving forward with plans for expensive new data centers and recently inked major computing deals with $CRVW, Google, $ORCL, and others.\" Just dropped that in with the Meta Muse announcement, and evenn threw in the \"expensive\" framing with DCs to signal capex. But little late given we're likely seeing a lot of margin liquidation cascades and heavy losses from media framing earlier.",
-    "time": "Tue, 07 Jul 2026 18:56:07 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2074568161299771394",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "How is the US so far behind? Xinhua: China's output of humanoids are expected to hit 100,000+ this year. Even Morgan Stanley originally projected 14,0...",
-    "text": "How is the US so far behind? Xinhua: China's output of humanoids are expected to hit 100,000+ this year. Even Morgan Stanley originally projected 14,000 for 2026... Really need Elon's $TSLA, $CCXI (Agility), Apptronik, and Figure to catchup. And for more US Gov. subsidies to pour into upstream supply chains + rare earths. Cause this disparity between US vs. China mass production is getting ridiculous... But it almost feels like the start of Russia/US Space race Sputnik Moment for robotics?",
-    "time": "Tue, 07 Jul 2026 17:39:23 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2074548850996707412",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
     "score": 3,
     "matches": [
-     "nasdaq",
      "meta",
+     "nvidia",
      "ai",
+     "nasdaq",
      "chip",
      "nvda"
     ]
@@ -114,18 +115,22 @@
     "matches": []
    },
    "hongkong": {
-    "score": 0.75,
+    "score": 0.5,
     "matches": [
      "china"
     ]
    },
    "oil": {
-    "score": 0,
-    "matches": []
+    "score": 0.25,
+    "matches": [
+     "oil"
+    ]
    },
    "commodities": {
-    "score": 0,
-    "matches": []
+    "score": 0.5,
+    "matches": [
+     "gold"
+    ]
    },
    "bonds": {
     "score": 0,
@@ -134,6 +139,7 @@
    "globalTech": {
     "score": 3,
     "matches": [
+     "cloud",
      "ai",
      "chip",
      "technology"
@@ -142,47 +148,56 @@
   },
   "tickerOpinions": [
    {
-    "ticker": "META",
-    "mentions": 6,
-    "snippets": [
-     "Nothing like an internal $META memo getting published. Showing AI ramping as usual: - LTAs signed with Samsung and $SNDK for memory - LTAs signed",
-     "signed with... Nothing like an internal $META memo getting published. Showing AI ramping as usual: - LTAs signed with Samsung and $SNDK for memory - LTAs signed"
-    ],
-    "sentiment": "bearish"
-   },
-   {
     "ticker": "SIVE",
-    "mentions": 5,
+    "mentions": 9,
     "snippets": [
-     "Three new $SIVE insider purchases today. Most notably: $SIVEF CEO Vikram bought 1,000,000 SEK worth of shares on the open market t",
-     "rket today. This is follow... Three new $SIVE insider purchases today. Most notably: $SIVEF CEO Vikram bought 1,000,000 SEK worth of shares on the open market t"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "CCXI",
-    "mentions": 3,
-    "snippets": [
-     "m am personally long on Agility through $CCXI targeting commercialization with Amazon and others. But I'm proud to see American robotics as a whole go brrrr. El",
-     "FB lasers - leader of US humanoids with $CCXI inside a future trillion dollar theme And so on… At cheaper valuations. While I might do things like lowering marg"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "TSLA",
-    "mentions": 2,
-    "snippets": [
-     "s like 1X and with mass production with $TSLA? I'm am personally long on Agility through $CCXI targeting commercialization with Amazon and others. But I'm proud",
-     "d 14,000 for 2026... Really need Elon's $TSLA, $CCXI (Agility), Apptronik, and Figure to catchup. And for more US Gov. subsidies to pour into upstream supply ch"
+     "Golden Egg Dragon Candle\" predicted the $SIVE rally today. If you look at the Golden Egg hatching indicator I drew, you can tell it pred... The \"Mythical Golden",
+     "Golden Egg Dragon Candle\" predicted the $SIVE rally today. If you look at the Golden Egg hatching indicator I drew, you can tell it predicts Sivers CEO buying o"
     ],
     "sentiment": "bullish"
    },
    {
+    "ticker": "META",
+    "mentions": 4,
+    "snippets": [
+     "Nothing like an internal $META memo getting published. Showing AI ramping as usual: - LTAs signed with Samsung and $SNDK for memory - LTAs signed",
+     "signed with... Nothing like an internal $META memo getting published. Showing AI ramping as usual: - LTAs signed with Samsung and $SNDK for memory - LTAs signed"
+    ],
+    "sentiment": "neutral"
+   },
+   {
     "ticker": "SIVEF",
+    "mentions": 3,
+    "snippets": [
+     "egg dragon candle was spotted over the $SIVEF chart. Something big is coming...",
+     "insider purchases today. Most notably: $SIVEF CEO Vikram bought 1,000,000 SEK worth of shares on the open market today. This is follow... Three new $SIVE insid"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "LITE",
     "mentions": 2,
     "snippets": [
-     "insider purchases today. Most notably: $SIVEF CEO Vikram bought 1,000,000 SEK worth of shares on the open market today. This is follow... Three new $SIVE insid",
-     "insider purchases today. Most notably: $SIVEF CEO Vikram bought 1,000,000 SEK worth of shares on the open market today. This is following the massive drop on S"
+     "s roadmap hasn’t fundamentally changed: $LITE is still completely sold out for the next 2 years and likely into 2029. $SIVE is about to volume ramp with GlobalF",
+     "h for upstream laser suppliers too like $LITE and $SIVE that are used in western lidar players."
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "AXTI",
+    "mentions": 2,
+    "snippets": [
+     "com and Tower Semi haven’t disappeared. $AXTI ownership of 40% of the InP substrate supply chains haven’t suddenly disappeared. As with any theme from Rocketlab",
+     "R Q4 - 40% of the InP supply chain with $AXTI - leader of the next optical shift with $SIVE with CW DFB lasers - leader of US humanoids with $CCXI inside a futu"
+    ],
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "CCXI",
+    "mentions": 2,
+    "snippets": [
+     "m am personally long on Agility through $CCXI targeting commercialization with Amazon and others. But I'm proud to see American robotics as a whole go brrrr. El",
+     "FB lasers - leader of US humanoids with $CCXI inside a future trillion dollar theme And so on… At cheaper valuations. While I might do things like lowering marg"
     ],
     "sentiment": "neutral"
    },
@@ -250,6 +265,38 @@
     "sentiment": "bullish"
    },
    {
+    "ticker": "TSM",
+    "mentions": 1,
+    "snippets": [
+     "Ayar, and other hyperscaler suppliers. $TSM COUPE and their TW suppliers from Shunsin to Foci aren’t randomly disappearing into the void. $AAOI and their $471m"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "AAOI",
+    "mentions": 1,
+    "snippets": [
+     "’t randomly disappearing into the void. $AAOI and their $471m/month h2 2027 revenue projections haven’t changed. $IQE and their epiwafer contracts with Macom an"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "IQE",
+    "mentions": 1,
+    "snippets": [
+     "27 revenue projections haven’t changed. $IQE and their epiwafer contracts with Macom and Tower Semi haven’t disappeared. $AXTI ownership of 40% of the InP subst"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "TSLA",
+    "mentions": 1,
+    "snippets": [
+     "s like 1X and with mass production with $TSLA? I'm am personally long on Agility through $CCXI targeting commercialization with Amazon and others. But I'm proud"
+    ],
+    "sentiment": "bullish"
+   },
+   {
     "ticker": "GFS",
     "mentions": 1,
     "snippets": [
@@ -272,41 +319,19 @@
      "rship over: - the next hyperscaler with $NBIS, projecting $7-9B ARR Q4 - 40% of the InP supply chain with $AXTI - leader of the next optical shift with $SIVE wi"
     ],
     "sentiment": "bearish"
-   },
-   {
-    "ticker": "AXTI",
-    "mentions": 1,
-    "snippets": [
-     "R Q4 - 40% of the InP supply chain with $AXTI - leader of the next optical shift with $SIVE with CW DFB lasers - leader of US humanoids with $CCXI inside a futu"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "LITE",
-    "mentions": 1,
-    "snippets": [
-     "h for upstream laser suppliers too like $LITE and $SIVE that are used in western lidar players."
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "CRVW",
-    "mentions": 1,
-    "snippets": [
-     "cently inked major computing deals with $CRVW, Google, $ORCL, and others.\" Just dropped that in with the Meta Muse announcement, and evenn threw in the \"expensi"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "ORCL",
-    "mentions": 1,
-    "snippets": [
-     "jor computing deals with $CRVW, Google, $ORCL, and others.\" Just dropped that in with the Meta Muse announcement, and evenn threw in the \"expensive\" framing wit"
-    ],
-    "sentiment": "bearish"
    }
   ],
   "opinionSummaries": [
+   {
+    "time": "Fri, 10 Jul 2026 11:17:10 GMT",
+    "text": "The \"Mythical Golden Egg Dragon Candle\" predicted the $SIVE rally today. If you look at the Golden Egg hatching indicator I drew, you can tell it predicts Sivers CEO buying on the open market a day la...",
+    "tickers": "$SIVE"
+   },
+   {
+    "time": "Fri, 10 Jul 2026 08:23:29 GMT",
+    "text": "Yep, it’s interesting to witness retail capitulation. After we got Bloomberg Meta compute article cleared up by their internal memo. And the 2 reports on delays were denied by Nvidia. Both of which ca...",
+    "tickers": ""
+   },
    {
     "time": "Thu, 09 Jul 2026 19:35:56 GMT",
     "text": "\"China is shipping ~90% of the world's humanoid robots. We cannot keep taking them lightly.\" Elon's comment: \"For now\" Meanwhile, 1X today posts a video of the most advanced humanoid hand. Looks like ...",
@@ -321,16 +346,6 @@
     "time": "Thu, 09 Jul 2026 12:46:14 GMT",
     "text": "Nothing like an internal $META memo getting published. Showing AI ramping as usual: - LTAs signed with Samsung and $SNDK for memory - LTAs signed with Sumitomo Electric for fiber optics - Expected to ...",
     "tickers": "$META, $SNDK"
-   },
-   {
-    "time": "Wed, 08 Jul 2026 22:08:52 GMT",
-    "text": "Wow, looks like Elon + xAI at $SPCX managed to build an Anthropic Opus-level LLM with Grok 4.5. That’s much more cost efficient as well… Kinda emulating what Chinese vendors have been doing to compete...",
-    "tickers": "$SPCX"
-   },
-   {
-    "time": "Wed, 08 Jul 2026 21:16:03 GMT",
-    "text": "$META to build a new $10B DC in Canada to expand AI capacity. So much for the media framing of “Meta Compute”as overbuilding and cutting capex.",
-    "tickers": "$META"
    }
   ],
   "attempts": [
@@ -340,5 +355,5 @@
    }
   ]
  },
- "cachedAt": 1783659430485
+ "cachedAt": 1783684158170
 }
