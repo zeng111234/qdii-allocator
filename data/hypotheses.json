@@ -557,6 +557,30 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1783659730786",
+      "fundCode": "040018",
+      "fundName": "华安香港精选QDII-A",
+      "type": "均值回归",
+      "thesis": "系统推荐#4，分数21.29。1年涨36.43%加1.1分，3年累计101.4%加3.4分，夏普0.96加1.4分，最大回撤-19.24%扣3.8分，回撤12.51%加1.1分，低于MA10",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -8,
+        "timeHorizon": 30
+      },
+      "status": "active",
+      "createdAt": "2026-07-10T05:02:10.786Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
@@ -564,6 +588,6 @@
     "validated": 2,
     "invalidated": 8,
     "expired": 0,
-    "total": 6
+    "total": 7
   }
 }
