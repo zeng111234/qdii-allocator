@@ -118,7 +118,7 @@ async function build() {
   }
 
   // 抓取新闻数据嵌入（避免前端 CORS 问题）
-  let newsData = { items: [], sentiment: null, fetchedAt: null };
+  const newsData = { items: [], sentiment: null, fetchedAt: null };
   try {
     const [globalRaw, usRaw, hkRaw, futuresRaw, fundRaw] = await Promise.all([
       httpGetSync(
@@ -434,7 +434,7 @@ async function build() {
   template = template.replace(/var todayPicks = \{.*?\};/s, "var todayPicks = " + JSON.stringify(todayPicks) + ";");
 
   // 嵌入限购额度（从 fund-info-cache.json + funds.json 合并）
-  let purchaseLimits = {};
+  const purchaseLimits = {};
   try {
     const infoCachePath = path.join(__dirname, "data", "fund-info-cache.json");
     if (fs.existsSync(infoCachePath)) {
