@@ -28,81 +28,6 @@
       }
     },
     {
-      "id": "H1781496689158",
-      "fundCode": "016664",
-      "fundName": "天弘全球高端制造QDII-A",
-      "type": "均值回归",
-      "thesis": "系统推荐#2，分数19.97。1年涨174.89%加35分，3年累计232.13%加11.6分，夏普1.55加7分，最大回撤-30.39%扣4.6分，长期牛市+3分，近期新高扣15.1分，高",
-      "conditions": {
-        "target": 10,
-        "stopLoss": -8,
-        "timeHorizon": 30
-      },
-      "status": "invalidated",
-      "createdAt": "2026-06-15T04:11:29.158Z",
-      "navAtCreation": 3.6332,
-      "validatedAt": null,
-      "invalidatedAt": "2026-07-08T11:08:49.007Z",
-      "outcome": {
-        "return": -9,
-        "holdingDays": 22
-      },
-      "followUpReturns": {
-        "3d": 6.51,
-        "7d": 9.93,
-        "14d": 4.18,
-        "30d": null
-      }
-    },
-    {
-      "id": "H1781496689158",
-      "fundCode": "270023",
-      "fundName": "广发全球精选QDII-A",
-      "type": "均值回归",
-      "thesis": "系统推荐#3，分数18.2。1年涨62.2%加12.4分，3年累计156.28%加7.8分，夏普1.68加7.6分，最大回撤-20.74%扣3.1分，长期牛市+3分，近期新高扣10.4分，",
-      "conditions": {
-        "target": 10,
-        "stopLoss": -8,
-        "timeHorizon": 30
-      },
-      "status": "active",
-      "createdAt": "2026-06-15T04:11:29.158Z",
-      "navAtCreation": 7.0679,
-      "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
-      "followUpReturns": {
-        "3d": 4.92,
-        "7d": 8.43,
-        "14d": 3.89,
-        "30d": null
-      }
-    },
-    {
-      "id": "H1781496689158",
-      "fundCode": "096001",
-      "fundName": "大成标普500A(QDII)",
-      "type": "稀缺溢价",
-      "thesis": "系统推荐#4，分数17.12。1年涨10.69%加2.1分，3年累计36.27%加1.8分，夏普0.58加2.6分，最大回撤-19.56%扣2.9分，长期牛市+3分，近期新高扣1.1分，低于",
-      "conditions": {
-        "target": 10,
-        "stopLoss": -8,
-        "timeHorizon": 30
-      },
-      "status": "active",
-      "createdAt": "2026-06-15T04:11:29.158Z",
-      "navAtCreation": 2.7727,
-      "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
-      "followUpReturns": {
-        "3d": -1.17,
-        "7d": -0.86,
-        "14d": 0.68,
-        "30d": null
-      }
-    },
-    {
       "id": "H1781496689159",
       "fundCode": "486002",
       "fundName": "工银全球精选QDII-A",
@@ -150,33 +75,6 @@
         "3d": 8.46,
         "7d": null,
         "14d": null,
-        "30d": null
-      }
-    },
-    {
-      "id": "H1781500363575",
-      "fundCode": "539002",
-      "fundName": "建信新兴市场优选QDII-A",
-      "type": "均值回归",
-      "thesis": "系统推荐#4，分数16.4。1年涨137.89%加27.6分，3年累计232.13%加11.6分，最大回撤-11.61%扣1.7分，近期新高扣13.9分，高于MA10扣1.6分，30日涨2",
-      "conditions": {
-        "target": 10,
-        "stopLoss": -8,
-        "timeHorizon": 30
-      },
-      "status": "invalidated",
-      "createdAt": "2026-06-15T05:12:43.575Z",
-      "navAtCreation": 2.769,
-      "validatedAt": null,
-      "invalidatedAt": "2026-07-06T08:54:45.478Z",
-      "outcome": {
-        "return": -9.61,
-        "holdingDays": 17
-      },
-      "followUpReturns": {
-        "3d": 4.12,
-        "7d": 6.32,
-        "14d": 0.04,
         "30d": null
       }
     },
@@ -283,33 +181,6 @@
       }
     },
     {
-      "id": "H1782302494832",
-      "fundCode": "005598",
-      "fundName": "富国蓝筹精选QDII-A",
-      "type": "趋势跟踪",
-      "thesis": "系统推荐#3，分数38.05。1年涨99.38%加19.9分，3年累计101.26%加5.1分，夏普1.04加4.7分，最大回撤-38.43%扣5.8分，长期牛市+3分，低于MA10加16.",
-      "conditions": {
-        "target": 10,
-        "stopLoss": -8,
-        "timeHorizon": 30
-      },
-      "status": "validated",
-      "createdAt": "2026-06-24T12:01:34.832Z",
-      "navAtCreation": 3.7259,
-      "validatedAt": "2026-06-30T05:11:33.744Z",
-      "invalidatedAt": null,
-      "outcome": {
-        "return": 11.21,
-        "holdingDays": 5
-      },
-      "followUpReturns": {
-        "3d": 11.21,
-        "7d": null,
-        "14d": null,
-        "30d": null
-      }
-    },
-    {
       "id": "H1782302494833",
       "fundCode": "016664",
       "fundName": "天弘全球高端制造QDII-A",
@@ -332,30 +203,6 @@
       "followUpReturns": {
         "3d": 0.12,
         "7d": 0.54,
-        "14d": null,
-        "30d": null
-      }
-    },
-    {
-      "id": "H1782302494833",
-      "fundCode": "001092",
-      "fundName": "广发纳斯达克生物科技A(QDII)",
-      "type": "稀缺溢价",
-      "thesis": "系统推荐#5，分数29.07。1年涨35.41%加7.1分，3年累计33.16%加1.7分，夏普0.52加2.3分，最大回撤-22.25%扣3.3分，长期牛市+3分，低于MA10加5.2分，",
-      "conditions": {
-        "target": 10,
-        "stopLoss": -8,
-        "timeHorizon": 30
-      },
-      "status": "active",
-      "createdAt": "2026-06-24T12:01:34.833Z",
-      "navAtCreation": 1.543,
-      "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
-      "followUpReturns": {
-        "3d": 4.34,
-        "7d": 4.15,
         "14d": null,
         "30d": null
       }
@@ -556,7 +403,9 @@
         "7d": null,
         "14d": null,
         "30d": null
-      }
+      },
+      "_needsNavBackfill": true,
+      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
     },
     {
       "id": "H1783659730786",
@@ -580,7 +429,9 @@
         "7d": null,
         "14d": null,
         "30d": null
-      }
+      },
+      "_needsNavBackfill": true,
+      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
     },
     {
       "id": "H1783684438415",
@@ -604,7 +455,9 @@
         "7d": null,
         "14d": null,
         "30d": null
-      }
+      },
+      "_needsNavBackfill": true,
+      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
     },
     {
       "id": "H1783684438416",
@@ -628,38 +481,16 @@
         "7d": null,
         "14d": null,
         "30d": null
-      }
-    },
-    {
-      "id": "H1783684438416",
-      "fundCode": "000369",
-      "fundName": "广发全球医疗保健指数人民币(QDII)A",
-      "type": "稀缺溢价",
-      "thesis": "系统推荐#5，分数12.69。1年涨10.88%加0.3分，3年累计16.56%加0.6分，最大回撤-15.13%扣3分，长期牛市+2分，回撤1.6%加2.8分，低于MA10加0.5分，多头",
-      "conditions": {
-        "target": 10,
-        "stopLoss": -8,
-        "timeHorizon": 30
       },
-      "status": "active",
-      "createdAt": "2026-07-10T11:53:58.416Z",
-      "navAtCreation": null,
-      "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
-      "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
-      }
+      "_needsNavBackfill": true,
+      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
     }
   ],
   "stats": {
-    "active": 14,
-    "validated": 2,
-    "invalidated": 8,
-    "expired": 0,
-    "total": 10
+    "total": 19,
+    "active": 12,
+    "validated": 1,
+    "invalidated": 6,
+    "expired": 0
   }
 }
