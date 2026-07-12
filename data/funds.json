@@ -91,7 +91,7 @@
       "shareClass": "A",
       "feeRate": 1.05,
       "custodyFee": 0.2,
-      "dailyLimit": 0,
+      "dailyLimit": 10,
       "status": "suspended",
       "settleDays": 2,
       "minPurchase": 10,
@@ -245,7 +245,7 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 0,
+      "dailyLimit": 100,
       "minPurchase": 10,
       "status": "suspended",
       "note": "LOF品种",
@@ -273,7 +273,7 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.25,
-      "dailyLimit": 0,
+      "dailyLimit": 10,
       "minPurchase": 10,
       "status": "suspended",
       "note": "标普500，费率较低",
@@ -287,7 +287,7 @@
       "shareClass": "A",
       "feeRate": 1.4,
       "custodyFee": 0.3,
-      "dailyLimit": 0,
+      "dailyLimit": 500,
       "minPurchase": 10,
       "status": "suspended",
       "note": "全球不动产基金",
@@ -487,6 +487,6 @@
       "indexGroup": "GLOBAL"
     }
   ],
-  "_lastUpdated": "2026-07-08",
+  "_lastUpdated": "2026-07-12",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring"
 }

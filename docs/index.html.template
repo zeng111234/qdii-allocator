@@ -1260,9 +1260,44 @@
       showToast('买入 ' + holding.name + ' ' + amount + '元');
       // Auto-sync to Firebase
       syncSave();
-      // Auto-create hypothesis
-      var hType = amount >= 50 ? '趋势跟踪' : '均值回归';
-      var hThesis = '买入 ' + holding.name + ' ' + amount + '元，预期' + (hType === '趋势跟踪' ? '趋势延续' : '超跌反弹');
+      // Auto-create hypothesis with improved type detection
+      var hType = '趋势跟踪'; // 默认趋势跟踪
+      var hThesis = '买入 ' + holding.name + ' ' + amount + '元';
+      
+      // 基于基金特征优化类型判断
+      if (holding.indicators) {
+        var drawdown = holding.indicators.drawdown || 0;
+        var volatility = holding.indicators.volatility || 0;
+        var recentReturn = holding.indicators.recentReturn || 0;
+        var daysSinceHigh = holding.indicators.daysSinceHigh || 0;
+        
+        // 均值回归：超跌反弹（回撤大、波动率适中、近期跌幅大）
+        if (drawdown < -10 && volatility < 20 && recentReturn < -5) {
+          hType = '均值回归';
+          hThesis += '，预期超跌反弹';
+        }
+        // 稀缺溢价：限购额度低、近期表现稳定
+        else if (holding.dailyLimit <= 100 && Math.abs(recentReturn) < 10) {
+          hType = '稀缺溢价';
+          hThesis += '，稀缺基金稳定持有';
+        }
+        // 趋势跟踪：趋势强劲、回撤小、近期表现好
+        else if (drawdown > -5 && recentReturn > 0 && daysSinceHigh < 30) {
+          hType = '趋势跟踪';
+          hThesis += '，预期趋势延续';
+        }
+        // 外部信号：如果外部信号得分高
+        else if (holding.externalSignalScore > 10) {
+          hType = '外部信号';
+          hThesis += '，基于外部信号';
+        }
+        // 分散配置：如果基金与持仓相关性低
+        else if (holding.correlationScore && holding.correlationScore < 0.3) {
+          hType = '分散配置';
+          hThesis += '，分散组合风险';
+        }
+      }
+      
       createHypothesisLocal(code, holding.name, hType, hThesis);
       document.getElementById('buyResult').innerHTML = '<div style="background:var(--state-green-bg);border:1px solid var(--state-green-border);border-radius:8px;padding:10px;font-size:12px;color:var(--state-green-text)">✅ 已保存 · 已创建投资假设</div>';
     }
@@ -3509,14 +3544,42 @@
 
     function createHypothesisLocal(fundCode, fundName, type, thesis) {
       var data = loadHypothesesLocal();
+      
+      // 为不同类型的假设设置不同的验证条件
+      var conditions;
+      switch(type) {
+        case '均值回归':
+          conditions = { target: 5, stopLoss: -10, timeHorizon: 14 };
+          break;
+        case '稀缺溢价':
+          conditions = { target: 8, stopLoss: -10, timeHorizon: 30 };
+          break;
+        case '趋势跟踪':
+          conditions = { target: 10, stopLoss: -6, timeHorizon: 21 };
+          break;
+        case '外部信号':
+          conditions = { target: 7, stopLoss: -7, timeHorizon: 14 };
+          break;
+        case '分散配置':
+          conditions = { target: 5, stopLoss: -12, timeHorizon: 30 };
+          break;
+        default:
+          conditions = { target: 8, stopLoss: -8, timeHorizon: 30 };
+      }
+      
       var h = {
         id: 'H' + Date.now(),
         fundCode: fundCode,
         fundName: fundName,
         type: type,
         thesis: thesis,
+        conditions: conditions,
         status: 'active',
         createdAt: new Date().toISOString(),
+        navAtCreation: null,
+        validatedAt: null,
+        invalidatedAt: null,
+        outcome: null,
         followUpReturns: { '3d': null, '7d': null, '14d': null, '30d': null }
       };
       data.hypotheses.push(h);
