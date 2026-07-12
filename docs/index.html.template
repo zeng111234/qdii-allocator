@@ -544,6 +544,11 @@
       <div id="temp-content"></div>
     </div>
 
+    <!-- [fix] Buy Signal Banner -->
+    <div class="card" id="buy-signal-card" style="display:none;margin-bottom:12px">
+      <div id="buy-signal-content"></div>
+    </div>
+
     <!-- Today's Picks (collapsible) -->
     <div class="card" id="picks-card" style="display:none">
       <div class="card-title" onclick="togglePicks()" style="cursor:pointer;user-select:none">
@@ -1107,6 +1112,20 @@
       }
       var html = '';
       var grandInv = 0, grandVal = 0;
+      // [fix] 按品类统计持仓集中度
+      var categoryMap = {
+        '纳指100':'美股科技','纳指生物科技':'美股科技','纳指科技':'美股科技',
+        '标普500':'美股宽基','标普科技':'美股宽基','标普消费':'美股宽基','标普医疗':'美股宽基',
+        '全球精选':'全球','全球股票':'全球','全球科技':'全球','全球成长':'全球','全球制造':'全球','全球产业升级':'全球',
+        '亚太精选':'亚太','新兴市场':'亚太','越南':'亚太',
+        '港股精选':'港股','恒生指数':'港股',
+        '德国':'欧洲','日本':'日本',
+        '石油能源':'商品','大宗商品':'商品','黄金':'商品',
+        '美国REITs':'REITs','全球不动产':'REITs',
+        '新能源车':'主题'
+      };
+      var corrMap = {'美股科技':'美股','美股宽基':'美股','全球':'美股','主题':'美股'};
+      var catValues = {};
       portfolioData.holdings.forEach(function(h, i) {
         var inv = h.buys.reduce(function(s, b) { return s + b.amount; }, 0);
         var navNow = 0;
@@ -1133,6 +1152,10 @@
         var limit = fund && fund.dailyLimit && fund.dailyLimit < 10000 ? '限' + fund.dailyLimit + '元' : '';
         grandInv += inv;
         grandVal += val;
+        // [fix] 按品类累加持仓市值
+        var fundType = fund ? fund.type : '';
+        var cat = categoryMap[fundType] || corrMap[fundType] || fundType || '其他';
+        catValues[cat] = (catValues[cat] || 0) + val;
 
         html += '<div class="holding-row" onclick="toggleDetail(' + i + ')">';
         html += '<div class="holding-top">';
@@ -1152,6 +1175,30 @@
         });
         html += '</div></div>';
       });
+      // [fix] 持仓集中度仪表盘
+      if (grandVal > 0) {
+        var catEntries = Object.keys(catValues).map(function(k) { return { cat: k, val: catValues[k], pct: catValues[k] / grandVal * 100 }; });
+        catEntries.sort(function(a, b) { return b.pct - a.pct; });
+        var maxPct = catEntries.length > 0 ? catEntries[0].pct : 0;
+        var warnColor = maxPct > 60 ? '#ef4444' : (maxPct > 40 ? '#f97316' : '#22c55e');
+        var warnText = maxPct > 60 ? '⚠️ 集中度过高，建议分散配置' : (maxPct > 40 ? '⚡ 偏重配置，可适当分散' : '✅ 配置均衡');
+        html += '<div style="padding:10px 12px;margin-bottom:8px;background:var(--card-bg);border-radius:10px;border:1px solid var(--border)">';
+        html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">';
+        html += '<span style="font-size:13px;font-weight:600;color:var(--text1)">📊 持仓集中度</span>';
+        html += '<span style="font-size:11px;color:' + warnColor + '">' + warnText + '</span>';
+        html += '</div>';
+        catEntries.forEach(function(e) {
+          var barColor = e.pct > 50 ? '#ef4444' : (e.pct > 30 ? '#f97316' : '#3b82f6');
+          html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;font-size:12px">';
+          html += '<span style="width:60px;color:var(--text2);text-align:right">' + e.cat + '</span>';
+          html += '<div style="flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden">';
+          html += '<div style="height:100%;width:' + Math.min(e.pct, 100) + '%;background:' + barColor + ';border-radius:3px"></div>';
+          html += '</div>';
+          html += '<span style="width:45px;color:var(--text1);font-weight:600">' + e.pct.toFixed(1) + '%</span>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
       // 底部汇总：和顶部 summary 交叉验证
       var grandPnl = grandVal - grandInv;
       var gpCls = grandPnl >= 0 ? 'positive' : 'negative';
@@ -2206,8 +2253,10 @@
       }
       if (peak <= 0) return null;
       var currentDD = (navArr[navArr.length - 1] - peak) / peak * 100;
-      return Math.round(currentDD * 100) / 100; // negative number
-    }, -0.5); // [轻微偏好] 适度回撤是机会
+      // [fix] 回撤上限-25%：超过-25%不再额外加分，防止接飞刀
+      if (currentDD < -25) currentDD = -25;
+      return Math.round(currentDD * 100) / 100;
+    }, -0.5);
 
     /**
      * Drawdown recovery speed.
@@ -3246,6 +3295,71 @@
       card.style.display = 'block';
     }
 
+    // [fix] Buy Signal Banner
+    function renderBuySignal() {
+      var card = document.getElementById('buy-signal-card');
+      var content = document.getElementById('buy-signal-content');
+      if (!card || !content) return;
+
+      var bi = todayPicks && todayPicks.budgetInfo ? todayPicks.budgetInfo : null;
+      var signal, reason, avgScore;
+
+      if (bi && bi.buySignal) {
+        signal = bi.buySignal;
+        reason = bi.buySignalReason || '';
+        avgScore = bi.avgScore || 0;
+      } else {
+        // [fix] 无budgetInfo时，基于市场温度+评分自行计算
+        var temp = marketTemperature ? marketTemperature.temperature : 50;
+        var ranked = todayPicks && todayPicks.ranked ? todayPicks.ranked : [];
+        avgScore = ranked.length > 0 ? ranked.reduce(function(s, r) { return s + (r.score || 0); }, 0) / ranked.length : 0;
+        var reasons = [];
+        if (temp >= 80 || avgScore < 8) {
+          signal = 'STOP';
+          if (temp >= 80) reasons.push('市场极热(温度' + temp + ')');
+          if (avgScore < 8) reasons.push('评分极低(均分' + avgScore.toFixed(1) + ')');
+        } else if (temp >= 65 || avgScore < 12) {
+          signal = 'CAUTION';
+          if (temp >= 65) reasons.push('市场偏热(温度' + temp + ')');
+          if (avgScore < 12) reasons.push('评分偏低(均分' + avgScore.toFixed(1) + ')');
+        } else {
+          signal = 'GO';
+        }
+        reason = reasons.length > 0 ? reasons.join('，') : '市场正常';
+      }
+
+      var color, bgColor, emoji, title, subtitle;
+      if (signal === 'STOP') {
+        color = '#ef4444'; bgColor = 'rgba(239,68,68,0.12)';
+        emoji = '🔴'; title = '今日建议观望';
+        subtitle = '市场过热或评分过低，暂不建议买入';
+      } else if (signal === 'CAUTION') {
+        color = '#f97316'; bgColor = 'rgba(249,115,22,0.12)';
+        emoji = '🟡'; title = '谨慎操作';
+        subtitle = '建议减半投入，控制风险';
+      } else {
+        card.style.display = 'none';
+        return;
+      }
+
+      content.innerHTML = '<div style="padding:14px 16px;background:' + bgColor + ';border-radius:12px;border:1px solid ' + color + '30">'
+        + '<div style="display:flex;align-items:center;gap:10px">'
+        + '<span style="font-size:28px">' + emoji + '</span>'
+        + '<div style="flex:1">'
+        + '<div style="font-size:16px;font-weight:700;color:' + color + '">' + title + '</div>'
+        + '<div style="font-size:12px;color:var(--text2);margin-top:2px">' + subtitle + '</div>'
+        + (reason ? '<div style="font-size:11px;color:var(--text3);margin-top:4px">' + reason + '</div>' : '')
+        + '</div>'
+        + '<div style="text-align:right">'
+        + '<div style="font-size:11px;color:var(--text3)">Top均分</div>'
+        + '<div style="font-size:18px;font-weight:700;color:' + color + '">' + (avgScore ? avgScore.toFixed(1) : '-') + '</div>'
+        + '</div>'
+        + '</div>'
+        + '</div>';
+
+      card.style.display = 'block';
+    }
+
     // Today's picks
     function renderPicks() {
       var card = document.getElementById('picks-card');
@@ -3369,6 +3483,7 @@
       loadFundOptions();
       renderTradeBanner();
       renderTemperature();
+      renderBuySignal();
       renderPicks();
     } catch(e) {
       console.error('Init error:', e.message, e.stack);
