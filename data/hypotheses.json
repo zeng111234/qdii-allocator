@@ -484,11 +484,59 @@
       },
       "_needsNavBackfill": true,
       "_backfillNote": "基准净值待补充，暂不参与胜率计算"
+    },
+    {
+      "id": "H1783917545468-escw",
+      "fundCode": "000041",
+      "fundName": "华夏全球股票(QDII)(人民币)",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#3，分数8.61。1年涨15.83%加0.5分，3年累计61.32%加2分，夏普0.98加1.5分，最大回撤-17.54%扣3.5分，长期牛市+2分，回撤6.46%加1.4分，低",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-13T04:39:05.468Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1783917545469-6gtp",
+      "fundCode": "017641",
+      "fundName": "摩根标普500指数(QDII)A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#5，分数7.95。1年涨14.19%加0.4分，3年累计54.08%加1.8分，夏普1.14加1.7分，最大回撤-17.4%扣3.5分，长期牛市+2分，近高点-0.2%-1.5分",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-13T04:39:05.469Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 19,
-    "active": 12,
+    "total": 20,
+    "active": 13,
     "validated": 1,
     "invalidated": 6,
     "expired": 0
