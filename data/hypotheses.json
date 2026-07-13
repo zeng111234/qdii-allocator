@@ -420,7 +420,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-10T05:02:10.786Z",
-      "navAtCreation": null,
+      "navAtCreation": 3.301,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -446,7 +446,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-10T11:53:58.415Z",
-      "navAtCreation": null,
+      "navAtCreation": 7.4301,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -472,7 +472,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-10T11:53:58.416Z",
-      "navAtCreation": null,
+      "navAtCreation": 1.369,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -532,11 +532,83 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1783944280715-x1aq",
+      "fundCode": "000179",
+      "fundName": "广发美国房地产A(QDII)",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#1，分数14.35。1年涨12.04%加0.4分，3年累计24.16%加0.8分，最大回撤-20%扣4分，长期牛市+2分，回撤4.96%加0.8分，低于MA10加8.6分，近高点-",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-13T12:04:40.715Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1783944280715-5h23",
+      "fundCode": "001092",
+      "fundName": "广发纳斯达克生物科技A(QDII)",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#2，分数12.16。1年涨35.56%加1.1分，3年累计46.57%加1.6分，夏普0.62加0.9分，最大回撤-22.25%扣4.5分，长期牛市+2分，低于MA10加2.7分，",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-13T12:04:40.715Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1783944280716-m4c5",
+      "fundCode": "270023",
+      "fundName": "广发全球精选QDII-A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#5，分数10.8。1年涨62.57%加1.9分，3年累计155.75%加5.2分，夏普1.44加2.2分，最大回撤-20.74%扣4.1分，长期牛市+2分，近高点-10.2%-1",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-13T12:04:40.716Z",
+      "navAtCreation": null,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 20,
-    "active": 13,
+    "total": 24,
+    "active": 17,
     "validated": 1,
     "invalidated": 6,
     "expired": 0
