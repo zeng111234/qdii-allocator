@@ -194,9 +194,12 @@ node index.js --hypotheses
 ```bash
 # 启动 Web 界面
 node index.js --web
+node index.js --web 3001
 
 # 手机访问：http://你的IP:3000/quick
 ```
+
+> 如果本机 `3000` 端口已被占用，建议先指定一个空闲端口，例如 `--web3001`，避免启动失败。
 
 ---
 

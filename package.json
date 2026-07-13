@@ -1,6 +1,6 @@
 {
   "name": "qdii-fund-allocator",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "QDII fund daily allocation tool",
   "type": "commonjs",
   "main": "index.js",

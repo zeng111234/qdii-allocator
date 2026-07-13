@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.1] - 2026-07-13
+
+### Fixed
+
+- 修复 nodemailer 安全风险，升级到 9.0.3，并补齐发布前安全收尾流程
+- 清理 ESLint warnings，修复未使用变量以提升代码质量一致性
+- 补充 `/health` 健康检查端点、请求日志与统一异常处理，便于监控告警
+
+### Changed
+
+- 更新发布前验收流程与版本号，补齐发布说明
+
 ## [1.2.0] - 2026-07-13
 
 ### Added
