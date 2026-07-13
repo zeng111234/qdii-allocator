@@ -404,8 +404,7 @@
         "14d": null,
         "30d": null
       },
-      "_needsNavBackfill": true,
-      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
+      "_needsNavBackfill": false
     },
     {
       "id": "H1783659730786",
@@ -430,8 +429,7 @@
         "14d": null,
         "30d": null
       },
-      "_needsNavBackfill": true,
-      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
+      "_needsNavBackfill": false
     },
     {
       "id": "H1783684438415",
@@ -456,8 +454,7 @@
         "14d": null,
         "30d": null
       },
-      "_needsNavBackfill": true,
-      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
+      "_needsNavBackfill": false
     },
     {
       "id": "H1783684438416",
@@ -482,8 +479,7 @@
         "14d": null,
         "30d": null
       },
-      "_needsNavBackfill": true,
-      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
+      "_needsNavBackfill": false
     },
     {
       "id": "H1783917545468-escw",
@@ -507,7 +503,9 @@
         "7d": null,
         "14d": null,
         "30d": null
-      }
+      },
+      "_needsNavBackfill": true,
+      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
     },
     {
       "id": "H1783917545469-6gtp",
@@ -531,7 +529,9 @@
         "7d": null,
         "14d": null,
         "30d": null
-      }
+      },
+      "_needsNavBackfill": true,
+      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
     },
     {
       "id": "H1783944280715-x1aq",
@@ -555,7 +555,9 @@
         "7d": null,
         "14d": null,
         "30d": null
-      }
+      },
+      "_needsNavBackfill": true,
+      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
     },
     {
       "id": "H1783944280715-5h23",
@@ -579,7 +581,9 @@
         "7d": null,
         "14d": null,
         "30d": null
-      }
+      },
+      "_needsNavBackfill": true,
+      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
     },
     {
       "id": "H1783944280716-m4c5",
@@ -603,14 +607,17 @@
         "7d": null,
         "14d": null,
         "30d": null
-      }
+      },
+      "_needsNavBackfill": true,
+      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
     }
   ],
   "stats": {
-    "total": 24,
-    "active": 17,
+    "total": 28,
+    "active": 21,
     "validated": 1,
     "invalidated": 6,
-    "expired": 0
+    "expired": 0,
+    "winRate": 14.29
   }
 }

@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-07-13
+
+### Added
+
+- AI问答助手场景识别系统：自动识别"买什么"、"市场情绪"、"持仓分析"等场景
+- 市场温度计算函数：基于FactorEngine评分计算市场温度值和等级
+- 假设追踪胜率统计函数：统计验证通过/否定，计算胜率
+- 外部信号情绪解析函数：分析多空信号数量和情绪总结
+- Smart QA单元测试：9个测试用例，覆盖场景识别、数据注入、格式清理
+
+### Changed
+
+- 优化胜率计算公式：排除expired假设，只计算validated/(validated+invalidated)
+- 改进navAtCreation回填逻辑：支持向前回填，减少\_needsNavBackfill标记
+- 增强AI问答Prompt数据注入：从4类增加到12类（市场温度、假设胜率、外部信号、基金限购等）
+- 结构化输出格式要求：针对不同场景提供结构化输出模板
+- 清理Daily Brief思维链：移除`<think>`、`<ANALYSIS_BLOCK>`、`<ORDERS_JSON>`等标签
+
+### Fixed
+
+- 修复external-signals-cache.json解析逻辑：支持{data: [...]}格式
+- 修复中文引号语法错误：将中文引号替换为英文单引号
+- 修复后续收益计算净值查找：支持向前回填，提高计算准确性
+
 ## [1.1.0] - 2026-07-12
 
 ### Added

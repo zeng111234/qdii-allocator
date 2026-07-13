@@ -40,6 +40,9 @@ data/portfolio.*.json
 # Runtime artifacts
 data/review-report.md
 
+# Backup files
+backups/
+
 # Windows artifacts
 nul
 *.bat
