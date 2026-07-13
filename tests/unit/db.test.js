@@ -1,15 +1,15 @@
 /**
  * db.js 核心测试 — 只测数据读写正确性
  */
-var test = require('node:test');
-var assert = require('node:assert');
-var db = require('../../lib/db');
+const test = require('node:test');
+const assert = require('node:assert');
+const db = require('../../lib/db');
 
 // ─── 空库查询返回空 ───
 
 test('getNavHistory: 不存在的基金返回空数组', async function () {
   await db.getDb(); // 初始化数据库
-  var result = await db.getNavHistory('999999');
+  const result = await db.getNavHistory('999999');
   assert.ok(Array.isArray(result));
   assert.strictEqual(result.length, 0);
   db.closeDb();
@@ -17,7 +17,7 @@ test('getNavHistory: 不存在的基金返回空数组', async function () {
 
 test('getLatestNav: 不存在的基金返回 null', async function () {
   await db.getDb();
-  var result = await db.getLatestNav('999999');
+  const result = await db.getLatestNav('999999');
   assert.strictEqual(result, null);
   db.closeDb();
 });
@@ -26,14 +26,14 @@ test('getLatestNav: 不存在的基金返回 null', async function () {
 
 test('upsertNavRecords: 写入2条记录后读出值完全一致', async function () {
   await db.getDb(); // 必须先初始化数据库
-  var records = [
+  const records = [
     { date: '2020-01-01', nav: 1.0, accNav: 1.0, changeRate: 0 },
     { date: '2020-01-02', nav: 1.1, accNav: 1.1, changeRate: 10 }
   ];
-  var count = db.upsertNavRecords('TEST001', records);
+  const count = db.upsertNavRecords('TEST001', records);
   assert.strictEqual(count, 2, '应插入2条记录，得到' + count);
 
-  var history = await db.getNavHistory('TEST001');
+  const history = await db.getNavHistory('TEST001');
   assert.strictEqual(history.length, 2, '应读出2条记录，得到' + history.length);
   assert.strictEqual(history[0].date, '2020-01-01');
   assert.strictEqual(history[0].nav, 1.0);
@@ -46,6 +46,6 @@ test('upsertNavRecords: 写入2条记录后读出值完全一致', async functio
 // ─── migrateFromJson ───
 
 test('migrateFromJson: 不存在的文件返回 {migrated:0, funds:0}', async function () {
-  var result = await db.migrateFromJson('/non/existent/path.json');
+  const result = await db.migrateFromJson('/non/existent/path.json');
   assert.ok(result && result.migrated === 0 && result.funds === 0);
 });

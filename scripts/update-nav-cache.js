@@ -61,7 +61,7 @@ async function fetchFundHistory(code, targetCount) {
   const maxPages = Math.ceil(targetCount / pageSize) + 2; // 多拉几页确保够
   const existing = nav[code] || [];
   const existingDates = new Set(existing.map(function(r) { return r.date; }));
-  let newRecords = [];
+  const newRecords = [];
 
   for (let page = 1; page <= maxPages; page++) {
     const records = await fetchPage(code, startDate, pageSize, page);

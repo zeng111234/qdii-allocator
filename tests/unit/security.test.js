@@ -37,7 +37,7 @@ test("security: no atob() encoded secrets in source", () => {
   for (const f of files) {
     const fp = path.join(ROOT, f);
     if (!fs.existsSync(fp)) continue;
-    const content = fs.readFileSync(fp, "utf-8");
+    const _content = fs.readFileSync(fp, "utf-8");
     const findings = scanFile(fp, ATOB_RE);
     assert.strictEqual(findings.length, 0, `atob() encoded secret found in ${f}`);
   }
