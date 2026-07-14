@@ -48,7 +48,7 @@
         "3d": 0.13,
         "7d": 0.09,
         "14d": -1.15,
-        "30d": null
+        "30d": -1.13
       }
     },
     {
@@ -99,7 +99,7 @@
         "3d": 5.32,
         "7d": -0.64,
         "14d": -0.85,
-        "30d": null
+        "30d": -0.97
       }
     },
     {
@@ -123,7 +123,7 @@
         "3d": 2.92,
         "7d": -0.67,
         "14d": -0.57,
-        "30d": null
+        "30d": -1.95
       }
     },
     {
@@ -227,8 +227,8 @@
       "followUpReturns": {
         "3d": -0.89,
         "7d": -1.53,
-        "14d": null,
-        "30d": null
+        "14d": -1.05,
+        "30d": -1.05
       }
     },
     {
@@ -304,9 +304,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": 1.98,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "7d": -2.65,
+        "14d": -2.65,
+        "30d": -2.65
       }
     },
     {
@@ -328,9 +328,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -0.94,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "7d": -1.27,
+        "14d": -1.27,
+        "30d": -1.27
       }
     },
     {
@@ -352,9 +352,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": 0.11,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "7d": -0.1,
+        "14d": -0.1,
+        "30d": -0.1
       }
     },
     {
@@ -376,9 +376,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -0.97,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "7d": -0.23,
+        "14d": -0.23,
+        "30d": -0.23
       }
     },
     {
@@ -399,10 +399,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": -3.35,
+        "7d": -3.35,
+        "14d": -3.35,
+        "30d": -3.35
       },
       "_needsNavBackfill": false
     },
@@ -424,10 +424,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": 0,
+        "7d": 0,
+        "14d": 0,
+        "30d": 0
       },
       "_needsNavBackfill": false
     },
@@ -449,10 +449,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": 0,
+        "7d": 0,
+        "14d": 0,
+        "30d": 0
       },
       "_needsNavBackfill": false
     },
@@ -474,10 +474,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": 0,
+        "7d": 0,
+        "14d": 0,
+        "30d": 0
       },
       "_needsNavBackfill": false
     },
@@ -494,7 +494,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-13T04:39:05.468Z",
-      "navAtCreation": null,
+      "navAtCreation": 1.4308,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -504,8 +504,7 @@
         "14d": null,
         "30d": null
       },
-      "_needsNavBackfill": true,
-      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
+      "_needsNavBackfill": false
     },
     {
       "id": "H1783917545469-6gtp",
@@ -520,7 +519,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-13T04:39:05.469Z",
-      "navAtCreation": null,
+      "navAtCreation": 1.6873,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -530,8 +529,7 @@
         "14d": null,
         "30d": null
       },
-      "_needsNavBackfill": true,
-      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
+      "_needsNavBackfill": false
     },
     {
       "id": "H1783944280715-x1aq",
@@ -546,7 +544,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-13T12:04:40.715Z",
-      "navAtCreation": null,
+      "navAtCreation": 1.265,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -556,8 +554,7 @@
         "14d": null,
         "30d": null
       },
-      "_needsNavBackfill": true,
-      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
+      "_needsNavBackfill": false
     },
     {
       "id": "H1783944280715-5h23",
@@ -572,7 +569,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-13T12:04:40.715Z",
-      "navAtCreation": null,
+      "navAtCreation": 1.624,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -582,8 +579,7 @@
         "14d": null,
         "30d": null
       },
-      "_needsNavBackfill": true,
-      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
+      "_needsNavBackfill": false
     },
     {
       "id": "H1783944280716-m4c5",
@@ -598,7 +594,7 @@
       },
       "status": "active",
       "createdAt": "2026-07-13T12:04:40.716Z",
-      "navAtCreation": null,
+      "navAtCreation": 6.8796,
       "validatedAt": null,
       "invalidatedAt": null,
       "outcome": null,
@@ -608,13 +604,12 @@
         "14d": null,
         "30d": null
       },
-      "_needsNavBackfill": true,
-      "_backfillNote": "基准净值待补充，暂不参与胜率计算"
+      "_needsNavBackfill": false
     }
   ],
   "stats": {
-    "total": 28,
-    "active": 21,
+    "total": 24,
+    "active": 17,
     "validated": 1,
     "invalidated": 6,
     "expired": 0,

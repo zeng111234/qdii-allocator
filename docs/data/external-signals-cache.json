@@ -3,8 +3,29 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-07-13T11:59:35.683Z",
+  "fetchedAt": "2026-07-14T04:07:41.475Z",
   "items": [
+   {
+    "title": "So Jensen himself went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical ...",
+    "text": "So Jensen himself went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical interconnects is progressing fully in line with the original plan with no material delay. - Debunked the rumor that the next-generation flagship, Rubin Ultra, would be delayed until 2028 and said it would be on track to ship next year - Rack system optimizations, like replacing Kyber with a new design are architectural optimizations, not impacting delivery timelines. 2. On ASIC competition: no loss of market share. - Talked about how a leading frontier lab that previously relied heavily on internal ASICs has shifted nearly 50% of its compute load to Nvidia 3. On over-reliance on hyperscalers. - AI frontier labs currently contributing to ~20% of demand. - Traditional cloud providers, Nvidia provides Vera CPUs and high-speed networking - Sovereign AI Serenity: Apparently there’s a new popular trend to bearpost trillion dollar companies. Like $NVDA or $TSM. By finding isolating technical details, then blowing it out of proportions by claiming their whole program is delayed. -> if the company doesn’t respond, stock prices/sentiment",
+    "time": "Tue, 14 Jul 2026 01:51:24 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2076846994614792663",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "TLDR of Innolight investor relations takeaways: 1. \"Overall, 1.6T market demand has not contracted; instead, 800G demand has increased significantly c...",
+    "text": "TLDR of Innolight investor relations takeaways: 1. \"Overall, 1.6T market demand has not contracted; instead, 800G demand has increased significantly compared with previous expectations\" Prob most important takeaway as a whole was 800G demand revision (also longer tail demand). Which is a bullish read through on US transceiver makers like $AAOI, $COHR, $LITE. Lot of new customers like neoclouds, AI model companies, contributing to overall demand rather than just hyperscalers, diversification always a bonus. 2. Innolight said the shortage covers the module supply chain broadly including: - Optical chips. - Electrical chips. - PCBs. - Other module materials From last ER, I think they singled out EMLs and CW optical chips as the most constrained. So Innolight's bottleneck list mention broadened since then. They expect some of the component availability to improve gradually from the second half of 2026 through the first half of 2027. Think a lot of this is already known from earlier though. But just some confirmation + easing timelines (EML is extremely bottlenecked, same with CW, this is probably talking about other components). 3. Innolight said module-production equipment is not the constraint. Equipment lead times remain relatively short. So this isn't really a bottleneck compared to others. 4. The overall proportion of silicon photonics continues to trend upward. Last year it was mainly 800G. This year, some 800G customers are further increasing their silicon-photonics proportion. 1.6T also added some new customers Positive for SiPH penetration eg. $SIVE / $JBL, since this shifts away from EML toward CW. Basically: main surprising takeaway is just 800g demand go brrr. Apart from that just reaffirming bottlenecks/timelines/market speculation.",
+    "time": "Mon, 13 Jul 2026 23:17:46 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2076808331453415674",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "Morgan Stanley note on CPO today. Key participants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Ligh...",
+    "text": "Morgan Stanley note on CPO today. Key participants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Lightmatter, Ayar Labs, Marvell/Celestial, and POET in optical engines and photonics, - $TSM, $GFS, and $TSEM in silicon photonics foundry capacity I’ve covered all of these before, like Tower Semi. But I’m especially happy that Morgan Stanley validated my research that $SIVE is one of the critical global players in CPO. A small $1.5B laser company next to your two leading $60B+ companies… If you also synthesize Rosenblatt Securities recent note that China laser suppliers were quite far from having CPO lasers. This kinda magnifies importance of the three Western leaders of that laser chokepoint.",
+    "time": "Mon, 13 Jul 2026 19:20:46 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2076748688559587338",
+    "source": "x-rsshub"
+   },
    {
     "title": "Just a semi recap TLDR: - $GLW glass bridge per Morgan Stanley has potential, but hard to displace FAU (like FOCI) in short term - $SPCX Starlink Gen ...",
     "text": "Just a semi recap TLDR: - $GLW glass bridge per Morgan Stanley has potential, but hard to displace FAU (like FOCI) in short term - $SPCX Starlink Gen 3 is scaling to 100,000 units (10x prev gen) creating possible capacity constraints for suppliers of switches to CCL. - PCB supply shortages are projected to persist until 2028, and component shortages/price hikes are already forcing ODMs like Inventec to issue conservative H2 shipment - DeepSeek and Zhipu are developing custom ASICs to bypass $NVDA (kinda expected by now). - Anthropic has achieved a $30B ARR and is projected to hit >$1B in Q3 profit. Turns out these frontier labs are more profitable than people think. - US admin pressured $AAPL to source from $INTC, in exchange for tariff exception. Kinda pressuring alignment away from TSM. - $TSM plans a 30x expansion of its Photonic Integrated Circuit (PIC) capacity by 2028, growing from 500 to 25,000 wafers per month - Hanmi Semiconductor is entering the CoWoS packaging equipment market - $NVDA and NTT hosting a conference July 24th to discuss CPO strategies. - 5x general NAND flash price hike this year, market size $489B by next year triggered by RAG/inference. Samsung and SK Hynix make emergency fab investments, NAND equipment suppliers go brrrr. - Gas turbine bottleneck, 40% supply gap accompanied by staggering 5-year delivery cycles (mega-fabs need them for mass production). - AI probe card assembly has hit a severe bottleneck apparently. Which is attempted to by solved with things like Innovation Service's machines. - Nanya, 79.5% gross margins reported, memory go brr. 4x capex for capacity/advanced packaging. - CXMT's STAR Market IPO on July 16, so should bring a lot of attention to memory players in that supply chain. - KYEC $1.4B investment into US for $TSM Arizona output test facilities. Lot of these players like $AMKR and others should go brr in 2028. - $INTC CEO warned last month that helium could hinder the manufacturing costs and delivery times of AI chips - 3D NAND word lines are shifting from Tungsten to Molybdenum starting at the 375-layer node - SambaNova secured JPM for AI inference and raised $1B at an $11B valuation. - HBM prices projections to double in 2027 as $NVDA Rubin platform drives demand. - $MU provides $500 million in funding to support GlobalWafers' US manufacturing capacity - $META 'Iris' will enter mass production in September via $AVGO and TSMC and Meta aims to double computing power to 14GW by 2027. - Largan Precision has secured its first CPO FAU order, mass production slated for middle of next year (kinda indication around Foci and others). - Samsung and SK Hynix have delayed the implementation of hybrid bonding packaging technology for HBM4 apparently - Memory costs (DRAM/NAND) have reached 60% of the BOM for sub-$400 smartphones, causing a severe volume contraction. - SK Hynix successfully rasied $26.5 billion through a Nasdaq ADR - $TSLA issued procurement guidelines requiring suppliers to reach weekly production of 1,000 units by September and double to 2,000-2,500 by year end for its 3rd gen Optimus robot. Apparently Alliance Technology and A-Link may be in this supply chain harmonic reducers and vision lenses? Kinda go through all this stuff every day, but don't wanna be a news reporter so just consolidated stuff I found interesting.",
@@ -67,39 +88,18 @@
     "time": "Fri, 10 Jul 2026 17:31:39 GMT",
     "link": "https://x.com/aleabitoreddit/status/2075634064518955297",
     "source": "x-rsshub"
-   },
-   {
-    "title": "[Subscribers Only] Just an interesting channel check regarding China …",
-    "text": "[Subscribers Only] Just an interesting channel check regarding China …",
-    "time": "Fri, 10 Jul 2026 17:20:11 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2075631179018166699",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Sk Hynix is now trading under $SKHYV! It's now up an insane 16%. I wonder how Sk Hynix over in Korea is going to react on Monday.",
-    "text": "Sk Hynix is now trading under $SKHYV! It's now up an insane 16%. I wonder how Sk Hynix over in Korea is going to react on Monday. Serenity: Why do I have this weird feeling the main reason retail is excited SK Hynix NASDAQ listing. Is because they can do degen option calls instead of individual stock purchases.",
-    "time": "Fri, 10 Jul 2026 16:01:02 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2075611260771852590",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "[Subscribers Only] I'm actually very curious what happens when SK Hyn…",
-    "text": "[Subscribers Only] I'm actually very curious what happens when SK Hyn…",
-    "time": "Fri, 10 Jul 2026 15:25:05 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2075602213913948296",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
-    "score": -0.5,
+    "score": -0.75,
     "matches": [
-     "nasdaq",
      "nvda",
-     "meta",
+     "nvidia",
      "ai",
-     "semiconductor",
-     "chip"
+     "chip",
+     "nasdaq",
+     "meta"
     ]
    },
    "sp500": {
@@ -138,24 +138,70 @@
     ]
    },
    "globalTech": {
-    "score": -1,
+    "score": -1.25,
     "matches": [
-     "technology",
+     "cloud",
      "ai",
-     "semiconductor",
-     "chip"
+     "chip",
+     "technology",
+     "semiconductor"
     ]
    }
   },
   "tickerOpinions": [
    {
     "ticker": "NVDA",
-    "mentions": 7,
+    "mentions": 10,
     "snippets": [
-     "u are developing custom ASICs to bypass $NVDA (kinda expected by now). - Anthropic has achieved a $30B ARR and is projected to hit >$1B in Q3 profit. Turns out",
-     "the CoWoS packaging equipment market - $NVDA and NTT hosting a conference July 24th to discuss CPO strategies. - 5x general NAND flash price hike this year, ma"
+     "self went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical ... So Jensen himself w",
+     "self went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical interconnects is progre"
     ],
     "sentiment": "bearish"
+   },
+   {
+    "ticker": "TSM",
+    "mentions": 6,
+    "snippets": [
+     "rillion dollar companies. Like $NVDA or $TSM. By finding isolating technical details, then blowing it out of proportions by claiming their whole program is dela",
+     "OET in optical engines and photonics, - $TSM, $GFS, and $TSEM in silicon photonics foundry capacity I’ve covered all of these before, like Tower Semi. But I’m e"
+    ],
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "AAOI",
+    "mentions": 5,
+    "snippets": [
+     "d through on US transceiver makers like $AAOI, $COHR, $LITE. Lot of new customers like neoclouds, AI model companies, contributing to overall demand rather than",
+     "o be an indirect response on B. Riley's $AAOI sell report regarding optimizations tha... Regarding $AMZN RNG + OpenAI’s MRC and VCSELs. In what appears to be an"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "LITE",
+    "mentions": 5,
+    "snippets": [
+     "S transceiver makers like $AAOI, $COHR, $LITE. Lot of new customers like neoclouds, AI model companies, contributing to overall demand rather than just hypersca",
+     "rticipants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Ligh... Morgan Stanley note on CPO today. Key particip"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "SIVE",
+    "mentions": 5,
+    "snippets": [
+     "omers Positive for SiPH penetration eg. $SIVE / $JBL, since this shifts away from EML toward CW. Basically: main surprising takeaway is just 800g demand go brrr",
+     "CPO today. Key participants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Ligh... Morgan Stanley note on CPO t"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "COHR",
+    "mentions": 4,
+    "snippets": [
+     "gh on US transceiver makers like $AAOI, $COHR, $LITE. Lot of new customers like neoclouds, AI model companies, contributing to overall demand rather than just h",
+     "day. Key participants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Ligh... Morgan Stanley note on CPO today. K"
+    ],
+    "sentiment": "bullish"
    },
    {
     "ticker": "INTC",
@@ -163,24 +209,6 @@
     "snippets": [
      "US admin pressured $AAPL to source from $INTC, in exchange for tariff exception. Kinda pressuring alignment away from TSM. - $TSM plans a 30x expansion of its P",
      "MKR and others should go brr in 2028. - $INTC CEO warned last month that helium could hinder the manufacturing costs and delivery times of AI chips - 3D NAND wo"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "TSM",
-    "mentions": 4,
-    "snippets": [
-     "a pressuring alignment away from TSM. - $TSM plans a 30x expansion of its Photonic Integrated Circuit (PIC) capacity by 2028, growing from 500 to 25,000 wafers",
-     "in. - KYEC $1.4B investment into US for $TSM Arizona output test facilities. Lot of these players like $AMKR and others should go brr in 2028. - $INTC CEO warne"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "AAOI",
-    "mentions": 4,
-    "snippets": [
-     "o be an indirect response on B. Riley's $AAOI sell report regarding optimizations tha... Regarding $AMZN RNG + OpenAI’s MRC and VCSELs. In what appears to be an",
-     "o be an indirect response on B. Riley's $AAOI sell report regarding optimizations that \"flattens networks and cuts transceiver TAM 40-50%\". Rosenblatt TLDR: The"
     ],
     "sentiment": "neutral"
    },
@@ -230,20 +258,26 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "LITE",
-    "mentions": 2,
+    "ticker": "JBL",
+    "mentions": 1,
     "snippets": [
-     "t optical sector weakness from $AAOI to $LITE: \"Stocks in the Optical sector have traded poorly for the last 1-2 months\" due to CPO... Rosenblatt on recent opti",
-     "t optical sector weakness from $AAOI to $LITE: \"Stocks in the Optical sector have traded poorly for the last 1-2 months\" due to CPO delay reports and China capa"
+     "sitive for SiPH penetration eg. $SIVE / $JBL, since this shifts away from EML toward CW. Basically: main surprising takeaway is just 800g demand go brrr. Apart"
     ],
     "sentiment": "bullish"
    },
    {
-    "ticker": "SKHYV",
-    "mentions": 2,
+    "ticker": "GFS",
+    "mentions": 1,
     "snippets": [
-     "Sk Hynix is now trading under $SKHYV! It's now up an insane 16%. I wonder how Sk Hynix over in Korea is going to react on Monday. Sk Hynix is now trad",
-     "n Monday. Sk Hynix is now trading under $SKHYV! It's now up an insane 16%. I wonder how Sk Hynix over in Korea is going to react on Monday. Serenity: Why do I h"
+     "optical engines and photonics, - $TSM, $GFS, and $TSEM in silicon photonics foundry capacity I’ve covered all of these before, like Tower Semi. But I’m especia"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "TSEM",
+    "mentions": 1,
+    "snippets": [
+     "ngines and photonics, - $TSM, $GFS, and $TSEM in silicon photonics foundry capacity I’ve covered all of these before, like Tower Semi. But I’m especially happy"
     ],
     "sentiment": "neutral"
    },
@@ -304,31 +338,30 @@
     "sentiment": "neutral"
    },
    {
-    "ticker": "SIVE",
-    "mentions": 1,
-    "snippets": [
-     "ents. Which happens to supports my core $SIVE thesis. I feel like Rosenblatt and I share the same views on a lot of things, I like the way they roll."
-    ],
-    "sentiment": "bearish"
-   },
-   {
     "ticker": "SIVEF",
     "mentions": 1,
     "snippets": [
      "ser weakness, read is very positive for $SIVEF, $COHR, and others moving forward. I've been long on CPO sector, but seems like institutions want entry points, j"
     ],
     "sentiment": "bullish"
-   },
-   {
-    "ticker": "COHR",
-    "mentions": 1,
-    "snippets": [
-     "ness, read is very positive for $SIVEF, $COHR, and others moving forward. I've been long on CPO sector, but seems like institutions want entry points, just a bi"
-    ],
-    "sentiment": "bullish"
    }
   ],
   "opinionSummaries": [
+   {
+    "time": "Tue, 14 Jul 2026 01:51:24 GMT",
+    "text": "So Jensen himself went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical interconnects is progressing fully in line with th...",
+    "tickers": "$NVDA"
+   },
+   {
+    "time": "Mon, 13 Jul 2026 23:17:46 GMT",
+    "text": "TLDR of Innolight investor relations takeaways: 1. \"Overall, 1.6T market demand has not contracted; instead, 800G demand has increased significantly compared with previous expectations\" Prob most impo...",
+    "tickers": ""
+   },
+   {
+    "time": "Mon, 13 Jul 2026 19:20:46 GMT",
+    "text": "Morgan Stanley note on CPO today. Key participants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Lightmatter, Ayar Labs, Marvell/Celestial, and POET in...",
+    "tickers": "$SIVE, $COHR, $LITE"
+   },
    {
     "time": "Mon, 13 Jul 2026 00:45:13 GMT",
     "text": "Just a semi recap TLDR: - $GLW glass bridge per Morgan Stanley has potential, but hard to displace FAU (like FOCI) in short term - $SPCX Starlink Gen 3 is scaling to 100,000 units (10x prev gen) creat...",
@@ -337,21 +370,6 @@
    {
     "time": "Sun, 12 Jul 2026 18:27:32 GMT",
     "text": "Looks like the Strait of Hormuz is open for the 50th time this year per Trump. I’m getting tired looking at macro.",
-    "tickers": ""
-   },
-   {
-    "time": "Sun, 12 Jul 2026 11:25:10 GMT",
-    "text": "Apparently there’s a new popular trend to bearpost trillion dollar companies. Like $NVDA or $TSM. By finding isolating technical details, then blowing it out of proportions by claiming their whole pro...",
-    "tickers": "$NVDA, $TSM"
-   },
-   {
-    "time": "Sun, 12 Jul 2026 11:00:31 GMT",
-    "text": "[Subscribers Only] Was just doing more research into Nippon Chemical …",
-    "tickers": ""
-   },
-   {
-    "time": "Sun, 12 Jul 2026 10:12:33 GMT",
-    "text": "So there's a IBK Research report on Boston Dynamics value chains from last month. Just a summary: IBK maps these companies to Atlas as suppliers: - Hwashin (010690) / body, arms, legs - LG Energy (373...",
     "tickers": ""
    }
   ],
@@ -362,5 +380,5 @@
    }
   ]
  },
- "cachedAt": 1783943975685
+ "cachedAt": 1784002061476
 }
