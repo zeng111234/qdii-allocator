@@ -332,8 +332,8 @@
       "followUpReturns": {
         "3d": -0.94,
         "7d": -5.37,
-        "14d": -5.37,
-        "30d": -5.37
+        "14d": -3.36,
+        "30d": -3.36
       }
     },
     {
@@ -356,8 +356,8 @@
       "followUpReturns": {
         "3d": 0.11,
         "7d": -3.62,
-        "14d": -3.62,
-        "30d": -3.62
+        "14d": -1.56,
+        "30d": -1.56
       }
     },
     {
@@ -431,9 +431,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -2.42,
-        "7d": -2.42,
-        "14d": -2.42,
-        "30d": -2.42
+        "7d": -1.85,
+        "14d": -1.85,
+        "30d": -1.85
       },
       "_needsNavBackfill": false
     },
@@ -481,9 +481,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -0.44,
-        "7d": -0.44,
-        "14d": -0.44,
-        "30d": -0.44
+        "7d": -1.1,
+        "14d": -1.1,
+        "30d": -1.1
       },
       "_needsNavBackfill": false
     },
@@ -611,14 +611,62 @@
         "30d": -3.91
       },
       "_needsNavBackfill": false
+    },
+    {
+      "id": "H1784112737223-6bzg",
+      "fundCode": "320013",
+      "fundName": "诺安全球黄金(QDII-FOF)A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#2，分数6.36。3年累计75.58%加0.5分，夏普0.92加0.9分，最大回撤-25.52%扣7.7分，回撤7.42%加1.8分，低于MA10加8.2分，空头排列-2.5分，",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-15T10:52:17.223Z",
+      "navAtCreation": 1.935,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1784112737224-85l7",
+      "fundCode": "008763",
+      "fundName": "天弘越南市场股票(QDII)A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#3，分数5.08。最大回撤-22.54%扣6.8分，长期熊市-3分，低于MA10加9.6分，近高点-12.9%-3分，波动0.6%扣0.7分，历史推荐亏钱100%扣2.5分，费率",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-15T10:52:17.224Z",
+      "navAtCreation": 1.6001,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 24,
+    "total": 26,
     "active": 17,
     "validated": 1,
     "invalidated": 8,
     "expired": 0,
-    "winRate": 14.29
+    "winRate": 11.11
   }
 }
