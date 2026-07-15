@@ -438,7 +438,7 @@
       "name": "长城全球新能源车(QDII)A",
       "type": "新能源车",
       "feeRate": 1.2,
-      "dailyLimit": 500,
+      "dailyLimit": 1000,
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
