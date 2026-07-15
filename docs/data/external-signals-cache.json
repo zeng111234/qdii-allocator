@@ -3,8 +3,36 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-07-14T10:43:26.579Z",
+  "fetchedAt": "2026-07-15T04:09:14.252Z",
   "items": [
+   {
+    "title": "Well, looks like SLC NAND is forcasted to rise up 120-170% for H2 2026 per Trendforce. There's $MU (21%), Kioxia (20%) as largest share, but clearer b...",
+    "text": "Well, looks like SLC NAND is forcasted to rise up 120-170% for H2 2026 per Trendforce. There's $MU (21%), Kioxia (20%) as largest share, but clearer beneficiaries appears to be: 1. Winbond (2344): ~15% of the SLC NAND market 2. Macronix (2337): ~11% market share 3. SkyHigh Memory via Puya Semi: ~14% market share Given Micron at $1T and others are a bit large relative to SLC NAND TAM. (source: Q1 2026 Winbond presentation/Trendforce).",
+    "time": "Wed, 15 Jul 2026 03:08:23 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2077228758491386121",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "$AEHR back up +36.4% today off earnings! 2027 guide: $130-$150m (160-200% growth) from 2026 revenue. Sees opportunity to guide higher (assumes no memo...",
+    "text": "$AEHR back up +36.4% today off earnings! 2027 guide: $130-$150m (160-200% growth) from 2026 revenue. Sees opportunity to guide higher (assumes no memory revenue or little to none from newly benchmarked AI customer). Q4 bookings: $60.7M, effective backlog is $100.6M. - Lead AI processor wafer-level burn-in customer is significantly ramping their products. - Engaged with additional AI processor customers who are evaluating wafer-level burn-in. - Benchmark customer, which was a “major supplier of AI accelerators, CPUs and network processors” “exceeded their expectations. From management: The potential revenue opportunity from one of these devices is \"significant to Aehr\". So another benchmark win for potential HVM in the future. - Wafer level burn-in benchmark with a \"global leader in NAND flash completed\". Now evaluating a development agreement for HBM/NAND Seems like $SNDK since there was HBF related discussions from last quarter I think. - \"Our package level burn-in business for AI processors also gained momentum over the year … from our lead hyperscale customer for Sonoma systems\" - Silicon photonics customer already ramping, newer networking customers has forecast additional systems Basically the amount of global semi companies that map to $AEHR is pretty ridiculous across silicon photonics, memory, AI processors, and others. I don’t quite think that $130-$150m guidance is representative of actualized revenue for 2027 if these hyperscalers/semi companies convert to HVM. Typically with these types of qualification into HVM players, markets don’t really judge it by current quarter, but what’s to come. And it looks very positive so far in terms of reactions... $116 -> $60 -> $94 all in the span of a month is pretty insane volatility tho, so good to know what you're holding. Serenity: $AEHR looks extremely promising at ~$1.1B MC. Aehr is starting to remind me of an early $TER, mixed with pre-earnings $AAOI. If we look at the timeline and speculated customers: Feb 11th: Sonoma production win for Hyperscaler's AI ASIC processors. (likely $GOOGL, $AMZN,",
+    "time": "Wed, 15 Jul 2026 01:48:14 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2077208587005542464",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "$NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a multi-billion dollar agreement with $SP...",
+    "text": "$NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a multi-billion dollar agreement with $SPCX earlier. Interesting to say the least, seeing Nebius drop -5% off the news today. Also... counterparty to get this done kinda reminds me of OpenAI, where they might not have the funds to actually execute on these LTAs yet compared to $META or $MSFT. But generally positive long term developments, customer diversification was one of the core strengths of Nebius.",
+    "time": "Tue, 14 Jul 2026 14:57:21 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2077044786402660829",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "Two different capacity expansion announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of ...",
+    "text": "Two different capacity expansion announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of its 300mm Silicon Photonics (SiPho), Silicon Germanium (SiGe), and advanced packaging capabilities. Targeting $1.2B net profit, and $3.6B revenue in 2028 (with a ~$28B MC, that's ~23.3 2028 forward p/e). AAOI announced the commencement of its buildout, roughly 400,000 square feet of manufacturing to make 800g/1.6T production go brrr. The overall expansion is also supported by the local city government in Texas. (they also $20.85M worth of subsidies from the State earlier). This one isn't exactly as materially new as Tower, since AAOI originally announced these plans before. Just commencement of it. Regardless, glad to see both of these companies in their Anime training arc phase as they power up.",
+    "time": "Tue, 14 Jul 2026 14:35:50 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2077039373711970804",
+    "source": "x-rsshub"
+   },
    {
     "title": "So Jensen himself went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical ...",
     "text": "So Jensen himself went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical interconnects is progressing fully in line with the original plan with no material delay. - Debunked the rumor that the next-generation flagship, Rubin Ultra, would be delayed until 2028 and said it would be on track to ship next year - Rack system optimizations, like replacing Kyber with a new design are architectural optimizations, not impacting delivery timelines. 2. On ASIC competition: no loss of market share. - Talked about how a leading frontier lab that previously relied heavily on internal ASICs has shifted nearly 50% of its compute load to Nvidia 3. On over-reliance on hyperscalers. - AI frontier labs currently contributing to ~20% of demand. - Traditional cloud providers, Nvidia provides Vera CPUs and high-speed networking - Sovereign AI Serenity: Apparently there’s a new popular trend to bearpost trillion dollar companies. Like $NVDA or $TSM. By finding isolating technical details, then blowing it out of proportions by claiming their whole program is delayed. -> if the company doesn’t respond, stock prices/sentiment",
@@ -60,46 +88,18 @@
     "time": "Sun, 12 Jul 2026 10:12:33 GMT",
     "link": "https://x.com/aleabitoreddit/status/2076248337863639506",
     "source": "x-rsshub"
-   },
-   {
-    "title": "Apparently, Korean Beauty was where all the alpha is. APR (278470.KS) is up 529% over the past 2Y, wildly outperforming both $NVDA and $INTC. Every fe...",
-    "text": "Apparently, Korean Beauty was where all the alpha is. APR (278470.KS) is up 529% over the past 2Y, wildly outperforming both $NVDA and $INTC. Every female I know talks about their \"Medicube\" stick, then buying products... where you put a whole salmon's family tree on your face for better skin. The world's female population creates a bigger structural demand than hyperscalers for memory or lasers? Should have known... 우아한 브리핑: @Liberty0918 반도체 쏟아붓는 와중에 K뷰티가 또 터지네. 1Q 순익 41% 폭증에 하반기 대장주 예고라. 수출 150억 달러 시대 문턱인데, 미국·유럽 기초 카테고리 중심으로 구조적 성장 중. ODM 쪽 레버리지 제대로 먹는 기업들 영업이익률 30%대 찍는 거 보면 단순 소비재가 아니라 기술+브랜드 모멘텀 섞인",
-    "time": "Sat, 11 Jul 2026 19:47:54 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2076030743655109063",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Contrarian take, but Sam Altman / OpenAI is doing something right if he's pissing off every Mag7 like $AAPL. By building their own ecosystem instead o...",
-    "text": "Contrarian take, but Sam Altman / OpenAI is doing something right if he's pissing off every Mag7 like $AAPL. By building their own ecosystem instead of being sucked into another. It's been awhile since $GOOGL, Apple, Microsoft, and others had some genuine disruptors.",
-    "time": "Sat, 11 Jul 2026 10:45:46 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2075894311741440041",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Regarding $AMZN RNG + OpenAI’s MRC and VCSELs. In what appears to be an indirect response on B. Riley's $AAOI sell report regarding optimizations tha...",
-    "text": "Regarding $AMZN RNG + OpenAI’s MRC and VCSELs. In what appears to be an indirect response on B. Riley's $AAOI sell report regarding optimizations that \"flattens networks and cuts transceiver TAM 40-50%\". Rosenblatt TLDR: They've already modeled for this, even though each XPU may use fewer transceivers. The number of XPUs is growing so quickly that total optical demand should still rise. On lasers architectures for CPO: VCSELs are useful as a credible bridge for NPO/short reach. Ideal architecture though for CPO is UHP CW over other lasers, and cites Broadcom for that statements. Which happens to supports my core $SIVE thesis. I feel like Rosenblatt and I share the same views on a lot of things, I like the way they roll.",
-    "time": "Fri, 10 Jul 2026 18:17:16 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2075645547978084371",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Rosenblatt on recent optical sector weakness from $AAOI to $LITE: \"Stocks in the Optical sector have traded poorly for the last 1-2 months\" due to CPO...",
-    "text": "Rosenblatt on recent optical sector weakness from $AAOI to $LITE: \"Stocks in the Optical sector have traded poorly for the last 1-2 months\" due to CPO delay reports and China capacity scares. \"We think short sellers... do not actually strongly believe in the thesis.\" Multiple short sellers told them they will likely close their positions... late July and early August. Further, they say they plan to buy Optical stocks in 2027 for the scale up CPO opportunity. Hilarious report on laser weakness, read is very positive for $SIVEF, $COHR, and others moving forward. I've been long on CPO sector, but seems like institutions want entry points, just a bit later on.",
-    "time": "Fri, 10 Jul 2026 17:31:39 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2075634064518955297",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
-    "score": -0.75,
+    "score": 0.5,
     "matches": [
+     "ai",
+     "meta",
      "nvda",
      "nvidia",
-     "ai",
      "chip",
-     "nasdaq",
-     "meta"
+     "nasdaq"
     ]
    },
    "sp500": {
@@ -115,7 +115,7 @@
     "matches": []
    },
    "hongkong": {
-    "score": 1,
+    "score": 0.5,
     "matches": [
      "china"
     ]
@@ -131,17 +131,17 @@
     "matches": []
    },
    "bonds": {
-    "score": -0.25,
+    "score": 0,
     "matches": [
      "bond",
      "yield"
     ]
    },
    "globalTech": {
-    "score": -1.25,
+    "score": 0.25,
     "matches": [
-     "cloud",
      "ai",
+     "cloud",
      "chip",
      "technology",
      "semiconductor"
@@ -151,7 +151,7 @@
   "tickerOpinions": [
    {
     "ticker": "NVDA",
-    "mentions": 10,
+    "mentions": 8,
     "snippets": [
      "self went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical ... So Jensen himself w",
      "self went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical interconnects is progre"
@@ -168,35 +168,62 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "AAOI",
-    "mentions": 5,
+    "ticker": "AEHR",
+    "mentions": 4,
     "snippets": [
-     "d through on US transceiver makers like $AAOI, $COHR, $LITE. Lot of new customers like neoclouds, AI model companies, contributing to overall demand rather than",
-     "o be an indirect response on B. Riley's $AAOI sell report regarding optimizations tha... Regarding $AMZN RNG + OpenAI’s MRC and VCSELs. In what appears to be an"
+     "$AEHR back up +36.4% today off earnings! 2027 guide: $130-$150m (160-200% growth) from 2026 revenue. Sees opportunity to",
+     "ity to guide higher (assumes no memo... $AEHR back up +36.4% today off earnings! 2027 guide: $130-$150m (160-200% growth) from 2026 revenue. Sees opportunity to"
     ],
     "sentiment": "bullish"
    },
    {
-    "ticker": "LITE",
-    "mentions": 5,
+    "ticker": "AAOI",
+    "mentions": 4,
     "snippets": [
-     "S transceiver makers like $AAOI, $COHR, $LITE. Lot of new customers like neoclouds, AI model companies, contributing to overall demand rather than just hypersca",
-     "rticipants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Ligh... Morgan Stanley note on CPO today. Key particip"
+     "an early $TER, mixed with pre-earnings $AAOI. If we look at the timeline and speculated customers: Feb 11th: Sonoma production win for Hyperscaler's AI ASIC pr",
+     "on announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of ... Two different capacity expansion ann"
     ],
     "sentiment": "bullish"
    },
    {
     "ticker": "SIVE",
-    "mentions": 5,
+    "mentions": 4,
     "snippets": [
      "omers Positive for SiPH penetration eg. $SIVE / $JBL, since this shifts away from EML toward CW. Basically: main surprising takeaway is just 800g demand go brrr",
      "CPO today. Key participants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Ligh... Morgan Stanley note on CPO t"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "MU",
+    "mentions": 3,
+    "snippets": [
+     "70% for H2 2026 per Trendforce. There's $MU (21%), Kioxia (20%) as largest share, but clearer b... Well, looks like SLC NAND is forcasted to rise up 120-170% fo",
+     "70% for H2 2026 per Trendforce. There's $MU (21%), Kioxia (20%) as largest share, but clearer beneficiaries appears to be: 1. Winbond (2344): ~15% of the SLC NA"
+    ],
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "SPCX",
+    "mentions": 3,
+    "snippets": [
+     "d a multi-billion dollar agreement with $SPCX earlier. Interesting to say the least, seeing Nebius drop -5% off the news today. Also... counterparty to get this",
+     "isplace FAU (like FOCI) in short term - $SPCX Starlink Gen ... Just a semi recap TLDR: - $GLW glass bridge per Morgan Stanley has potential, but hard to displac"
+    ],
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "TSEM",
+    "mentions": 3,
+    "snippets": [
+     "ty expansion announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of ... Two different capacity exp",
+     "ty expansion announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of its 300mm Silicon Photonics (S"
     ],
     "sentiment": "neutral"
    },
    {
     "ticker": "COHR",
-    "mentions": 4,
+    "mentions": 3,
     "snippets": [
      "gh on US transceiver makers like $AAOI, $COHR, $LITE. Lot of new customers like neoclouds, AI model companies, contributing to overall demand rather than just h",
      "day. Key participants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Ligh... Morgan Stanley note on CPO today. K"
@@ -204,22 +231,31 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "INTC",
-    "mentions": 4,
-    "snippets": [
-     "US admin pressured $AAPL to source from $INTC, in exchange for tariff exception. Kinda pressuring alignment away from TSM. - $TSM plans a 30x expansion of its P",
-     "MKR and others should go brr in 2028. - $INTC CEO warned last month that helium could hinder the manufacturing costs and delivery times of AI chips - 3D NAND wo"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "AAPL",
+    "ticker": "LITE",
     "mentions": 3,
     "snippets": [
-     "than people think. - US admin pressured $AAPL to source from $INTC, in exchange for tariff exception. Kinda pressuring alignment away from TSM. - $TSM plans a 3",
-     "ght if he's pissing off every Mag7 like $AAPL. By building their own ecosystem instead o... Contrarian take, but Sam Altman / OpenAI is doing something right if"
+     "S transceiver makers like $AAOI, $COHR, $LITE. Lot of new customers like neoclouds, AI model companies, contributing to overall demand rather than just hypersca",
+     "rticipants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Ligh... Morgan Stanley note on CPO today. Key particip"
     ],
-    "sentiment": "bearish"
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "NBIS",
+    "mentions": 2,
+    "snippets": [
+     "$NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a multi-bil",
+     "ti-billion dollar agreement with $SP... $NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a multi-bil"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "META",
+    "mentions": 2,
+    "snippets": [
+     "y execute on these LTAs yet compared to $META or $MSFT. But generally positive long term developments, customer diversification was one of the core strengths of",
+     "obalWafers' US manufacturing capacity - $META 'Iris' will enter mass production in September via $AVGO and TSMC and Meta aims to double computing power to 14GW"
+    ],
+    "sentiment": "neutral"
    },
    {
     "ticker": "GLW",
@@ -231,11 +267,11 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "SPCX",
+    "ticker": "INTC",
     "mentions": 2,
     "snippets": [
-     "isplace FAU (like FOCI) in short term - $SPCX Starlink Gen ... Just a semi recap TLDR: - $GLW glass bridge per Morgan Stanley has potential, but hard to displac",
-     "isplace FAU (like FOCI) in short term - $SPCX Starlink Gen 3 is scaling to 100,000 units (10x prev gen) creating possible capacity constraints for suppliers of"
+     "US admin pressured $AAPL to source from $INTC, in exchange for tariff exception. Kinda pressuring alignment away from TSM. - $TSM plans a 30x expansion of its P",
+     "MKR and others should go brr in 2028. - $INTC CEO warned last month that helium could hinder the manufacturing costs and delivery times of AI chips - 3D NAND wo"
     ],
     "sentiment": "bearish"
    },
@@ -249,13 +285,52 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "AMZN",
-    "mentions": 2,
+    "ticker": "SNDK",
+    "mentions": 1,
     "snippets": [
-     "Regarding $AMZN RNG + OpenAI’s MRC and VCSELs. In what appears to be an indirect response on B. Riley's $AAOI sell report regardin",
-     "egarding optimizations tha... Regarding $AMZN RNG + OpenAI’s MRC and VCSELs. In what appears to be an indirect response on B. Riley's $AAOI sell report regardin"
+     "pment agreement for HBM/NAND Seems like $SNDK since there was HBF related discussions from last quarter I think. - \"Our package level burn-in business for AI pr"
     ],
-    "sentiment": "bearish"
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "TER",
+    "mentions": 1,
+    "snippets": [
+     "hr is starting to remind me of an early $TER, mixed with pre-earnings $AAOI. If we look at the timeline and speculated customers: Feb 11th: Sonoma production wi"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "GOOGL",
+    "mentions": 1,
+    "snippets": [
+     "perscaler's AI ASIC processors. (likely $GOOGL, $AMZN,"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "AMZN",
+    "mentions": 1,
+    "snippets": [
+     "r's AI ASIC processors. (likely $GOOGL, $AMZN,"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "SP",
+    "mentions": 1,
+    "snippets": [
+     "d a multi-billion dollar agreement with $SP... $NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a mu"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "MSFT",
+    "mentions": 1,
+    "snippets": [
+     "on these LTAs yet compared to $META or $MSFT. But generally positive long term developments, customer diversification was one of the core strengths of Nebius."
+    ],
+    "sentiment": "bullish"
    },
    {
     "ticker": "JBL",
@@ -274,34 +349,18 @@
     "sentiment": "neutral"
    },
    {
-    "ticker": "TSEM",
+    "ticker": "AAPL",
     "mentions": 1,
     "snippets": [
-     "ngines and photonics, - $TSM, $GFS, and $TSEM in silicon photonics foundry capacity I’ve covered all of these before, like Tower Semi. But I’m especially happy"
+     "than people think. - US admin pressured $AAPL to source from $INTC, in exchange for tariff exception. Kinda pressuring alignment away from TSM. - $TSM plans a 3"
     ],
-    "sentiment": "neutral"
+    "sentiment": "bearish"
    },
    {
     "ticker": "AMKR",
     "mentions": 1,
     "snippets": [
      "t facilities. Lot of these players like $AMKR and others should go brr in 2028. - $INTC CEO warned last month that helium could hinder the manufacturing costs a"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "MU",
-    "mentions": 1,
-    "snippets": [
-     "s $NVDA Rubin platform drives demand. - $MU provides $500 million in funding to support GlobalWafers' US manufacturing capacity - $META 'Iris' will enter mass p"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "META",
-    "mentions": 1,
-    "snippets": [
-     "obalWafers' US manufacturing capacity - $META 'Iris' will enter mass production in September via $AVGO and TSMC and Meta aims to double computing power to 14GW"
     ],
     "sentiment": "bearish"
    },
@@ -328,49 +387,33 @@
      "ow) - Unitree, Fourier, AGibot, UBtech, $XPEV as the Chinese leaders. - Neura, Pal Robotics, Wandercraft, Oversonic, as the EU leaders. They also did quite a lo"
     ],
     "sentiment": "neutral"
-   },
-   {
-    "ticker": "GOOGL",
-    "mentions": 1,
-    "snippets": [
-     "ed into another. It's been awhile since $GOOGL, Apple, Microsoft, and others had some genuine disruptors."
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "SIVEF",
-    "mentions": 1,
-    "snippets": [
-     "ser weakness, read is very positive for $SIVEF, $COHR, and others moving forward. I've been long on CPO sector, but seems like institutions want entry points, j"
-    ],
-    "sentiment": "bullish"
    }
   ],
   "opinionSummaries": [
    {
+    "time": "Wed, 15 Jul 2026 03:08:23 GMT",
+    "text": "Well, looks like SLC NAND is forcasted to rise up 120-170% for H2 2026 per Trendforce. There's $MU (21%), Kioxia (20%) as largest share, but clearer beneficiaries appears to be: 1. Winbond (2344): ~15...",
+    "tickers": "$MU"
+   },
+   {
+    "time": "Wed, 15 Jul 2026 01:48:14 GMT",
+    "text": "$AEHR back up +36.4% today off earnings! 2027 guide: $130-$150m (160-200% growth) from 2026 revenue. Sees opportunity to guide higher (assumes no memory revenue or little to none from newly benchmarke...",
+    "tickers": "$AEHR"
+   },
+   {
+    "time": "Tue, 14 Jul 2026 14:57:21 GMT",
+    "text": "$NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a multi-billion dollar agreement with $SPCX earlier. Interesting to say the least, seeing N...",
+    "tickers": "$NBIS, $SPCX"
+   },
+   {
+    "time": "Tue, 14 Jul 2026 14:35:50 GMT",
+    "text": "Two different capacity expansion announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of its 300mm Silicon Photonics (SiPho), Silicon Germa...",
+    "tickers": "$TSEM, $AAOI"
+   },
+   {
     "time": "Tue, 14 Jul 2026 01:51:24 GMT",
     "text": "So Jensen himself went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical interconnects is progressing fully in line with th...",
     "tickers": "$NVDA"
-   },
-   {
-    "time": "Mon, 13 Jul 2026 23:17:46 GMT",
-    "text": "TLDR of Innolight investor relations takeaways: 1. \"Overall, 1.6T market demand has not contracted; instead, 800G demand has increased significantly compared with previous expectations\" Prob most impo...",
-    "tickers": ""
-   },
-   {
-    "time": "Mon, 13 Jul 2026 19:20:46 GMT",
-    "text": "Morgan Stanley note on CPO today. Key participants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Lightmatter, Ayar Labs, Marvell/Celestial, and POET in...",
-    "tickers": "$SIVE, $COHR, $LITE"
-   },
-   {
-    "time": "Mon, 13 Jul 2026 00:45:13 GMT",
-    "text": "Just a semi recap TLDR: - $GLW glass bridge per Morgan Stanley has potential, but hard to displace FAU (like FOCI) in short term - $SPCX Starlink Gen 3 is scaling to 100,000 units (10x prev gen) creat...",
-    "tickers": "$GLW, $SPCX"
-   },
-   {
-    "time": "Sun, 12 Jul 2026 18:27:32 GMT",
-    "text": "Looks like the Strait of Hormuz is open for the 50th time this year per Trump. I’m getting tired looking at macro.",
-    "tickers": ""
    }
   ],
   "attempts": [
@@ -380,5 +423,5 @@
    }
   ]
  },
- "cachedAt": 1784025806581
+ "cachedAt": 1784088554253
 }

@@ -123,7 +123,7 @@
         "3d": 2.92,
         "7d": -0.67,
         "14d": -0.57,
-        "30d": -1.95
+        "30d": -1.54
       }
     },
     {
@@ -296,17 +296,20 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-07-06T08:54:45.475Z",
       "navAtCreation": 3.4867,
       "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
+      "invalidatedAt": "2026-07-15T04:13:57.408Z",
+      "outcome": {
+        "return": -8.93,
+        "holdingDays": 7
+      },
       "followUpReturns": {
         "3d": 1.98,
-        "7d": -2.65,
-        "14d": -2.65,
-        "30d": -2.65
+        "7d": -8.93,
+        "14d": -8.93,
+        "30d": -8.93
       }
     },
     {
@@ -328,9 +331,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -0.94,
-        "7d": -1.27,
-        "14d": -1.27,
-        "30d": -1.27
+        "7d": -5.37,
+        "14d": -5.37,
+        "30d": -5.37
       }
     },
     {
@@ -352,9 +355,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": 0.11,
-        "7d": -0.1,
-        "14d": -0.1,
-        "30d": -0.1
+        "7d": -3.62,
+        "14d": -3.62,
+        "30d": -3.62
       }
     },
     {
@@ -376,9 +379,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -0.97,
-        "7d": -0.23,
-        "14d": -0.23,
-        "30d": -0.23
+        "7d": -6.19,
+        "14d": -6.19,
+        "30d": -6.19
       }
     },
     {
@@ -392,17 +395,20 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-07-09T12:00:25.614Z",
       "navAtCreation": 3.4582,
       "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
+      "invalidatedAt": "2026-07-15T04:13:57.409Z",
+      "outcome": {
+        "return": -9.96,
+        "holdingDays": 4
+      },
       "followUpReturns": {
-        "3d": -3.35,
-        "7d": -3.35,
-        "14d": -3.35,
-        "30d": -3.35
+        "3d": -9.96,
+        "7d": -9.96,
+        "14d": -9.96,
+        "30d": -9.96
       },
       "_needsNavBackfill": false
     },
@@ -424,10 +430,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": 0,
-        "7d": 0,
-        "14d": 0,
-        "30d": 0
+        "3d": -2.42,
+        "7d": -2.42,
+        "14d": -2.42,
+        "30d": -2.42
       },
       "_needsNavBackfill": false
     },
@@ -449,10 +455,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": 0,
-        "7d": 0,
-        "14d": 0,
-        "30d": 0
+        "3d": -3.62,
+        "7d": -3.62,
+        "14d": -3.62,
+        "30d": -3.62
       },
       "_needsNavBackfill": false
     },
@@ -474,10 +480,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": 0,
-        "7d": 0,
-        "14d": 0,
-        "30d": 0
+        "3d": -0.44,
+        "7d": -0.44,
+        "14d": -0.44,
+        "30d": -0.44
       },
       "_needsNavBackfill": false
     },
@@ -499,10 +505,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": -2.57,
+        "7d": -2.57,
+        "14d": -2.57,
+        "30d": -2.57
       },
       "_needsNavBackfill": false
     },
@@ -524,10 +530,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": -0.79,
+        "7d": -0.79,
+        "14d": -0.79,
+        "30d": -0.79
       },
       "_needsNavBackfill": false
     },
@@ -549,10 +555,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": 0.55,
+        "7d": 0.55,
+        "14d": 0.55,
+        "30d": 0.55
       },
       "_needsNavBackfill": false
     },
@@ -574,10 +580,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": -1.48,
+        "7d": -1.48,
+        "14d": -1.48,
+        "30d": -1.48
       },
       "_needsNavBackfill": false
     },
@@ -599,10 +605,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": -3.91,
+        "7d": -3.91,
+        "14d": -3.91,
+        "30d": -3.91
       },
       "_needsNavBackfill": false
     }
@@ -611,7 +617,7 @@
     "total": 24,
     "active": 17,
     "validated": 1,
-    "invalidated": 6,
+    "invalidated": 8,
     "expired": 0,
     "winRate": 14.29
   }
