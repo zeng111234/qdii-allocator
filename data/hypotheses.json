@@ -123,7 +123,7 @@
         "3d": 2.92,
         "7d": -0.67,
         "14d": -0.57,
-        "30d": -1.54
+        "30d": -0.25
       }
     },
     {
@@ -380,8 +380,8 @@
       "followUpReturns": {
         "3d": -0.97,
         "7d": -6.19,
-        "14d": -6.19,
-        "30d": -6.19
+        "14d": -3.7,
+        "30d": -3.7
       }
     },
     {
@@ -456,9 +456,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -3.62,
-        "7d": -3.62,
-        "14d": -3.62,
-        "30d": -3.62
+        "7d": -1.01,
+        "14d": -1.01,
+        "30d": -1.01
       },
       "_needsNavBackfill": false
     },
@@ -505,10 +505,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": -2.57,
-        "7d": -2.57,
-        "14d": -2.57,
-        "30d": -2.57
+        "3d": -1.06,
+        "7d": -1.06,
+        "14d": -1.06,
+        "30d": -1.06
       },
       "_needsNavBackfill": false
     },
@@ -530,10 +530,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": -0.79,
-        "7d": -0.79,
-        "14d": -0.79,
-        "30d": -0.79
+        "3d": -0.39,
+        "7d": -0.39,
+        "14d": -0.39,
+        "30d": -0.39
       },
       "_needsNavBackfill": false
     },
@@ -555,10 +555,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": 0.55,
-        "7d": 0.55,
-        "14d": 0.55,
-        "30d": 0.55
+        "3d": 0.47,
+        "7d": 0.47,
+        "14d": 0.47,
+        "30d": 0.47
       },
       "_needsNavBackfill": false
     },
@@ -580,10 +580,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": -1.48,
-        "7d": -1.48,
-        "14d": -1.48,
-        "30d": -1.48
+        "3d": -1.91,
+        "7d": -1.91,
+        "14d": -1.91,
+        "30d": -1.91
       },
       "_needsNavBackfill": false
     },
@@ -605,10 +605,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": -3.91,
-        "7d": -3.91,
-        "14d": -3.91,
-        "30d": -3.91
+        "3d": -1.95,
+        "7d": -1.95,
+        "14d": -1.95,
+        "30d": -1.95
       },
       "_needsNavBackfill": false
     },
@@ -659,11 +659,59 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1784175454905-gkt3",
+      "fundCode": "000369",
+      "fundName": "广发全球医疗保健指数人民币(QDII)A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#1，分数10.32。最大回撤-15.13%扣4.5分，长期牛市+1.5分，低于MA10加9.6分，近高点-5.7%-6分，波动1.16%扣1.4分，费率0.8%扣0.6分，连续推荐",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-16T04:17:34.905Z",
+      "navAtCreation": 2.466,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
+    },
+    {
+      "id": "H1784175454906-9xt5",
+      "fundCode": "019067",
+      "fundName": "万家纳斯达克100指数(QDII)A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#4，分数4.04。夏普-1.99扣2分，长期牛市+1.5分，近高点-0.1%-1.5分，多头排列+1.5分，近高点-0.6%-6分，费率1%扣0.8分，连续推荐2天扣1.6分，稳",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-16T04:17:34.906Z",
+      "navAtCreation": 1.2591,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 26,
-    "active": 17,
+    "total": 28,
+    "active": 19,
     "validated": 1,
     "invalidated": 8,
     "expired": 0,

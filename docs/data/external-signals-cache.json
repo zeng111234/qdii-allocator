@@ -3,8 +3,29 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-07-15T10:47:22.895Z",
+  "fetchedAt": "2026-07-16T04:12:55.959Z",
   "items": [
+   {
+    "title": "Anthropic to IPO as early as October per Bloomberg. This is following their $65B financing at a $965 billion valuation last May. Hmm, would you all in...",
+    "text": "Anthropic to IPO as early as October per Bloomberg. This is following their $65B financing at a $965 billion valuation last May. Hmm, would you all invest in Anthropic at a $1T+ valuation?",
+    "time": "Wed, 15 Jul 2026 16:56:28 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2077437150715666900",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "$AAPL looks to acquire AI chip companies for running AI (Source: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend....",
+    "text": "$AAPL looks to acquire AI chip companies for running AI (Source: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend. But what if Apple joined the others after M&amp;A? A possible scenario is that they revise capex largely upward for their own AI buildout. Since they probably witnessed Google cutting off Meta from compute constraints... or what happens when you partner with OpenAI for LLMs. Then learned how important it is to have your own infrastructure. This scenario would be quite bullish thematically from optical networking to foundries and something markets would not expect? We'll see what happens.",
+    "time": "Wed, 15 Jul 2026 15:53:21 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2077421268991926703",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "$NVDA CEO, Jensen Huang in Tokyo today said: \"The reports are not true. Vera Rubin is already in production. Giant amounts of production incoming\" As ...",
+    "text": "$NVDA CEO, Jensen Huang in Tokyo today said: \"The reports are not true. Vera Rubin is already in production. Giant amounts of production incoming\" As a flat denial to the accusation that their AI servers would be delayed. Jensen appears to be using the Umbrella term for Rubin Ultra/Kyber, then pointed to current gen ramp. Regardless, lot of damage has been done already to Nvidia supply chains stock prices, after the multiple delay reports. Even if Nvidia refuted them by clarifying Kyber change was an architecture optimization, not impacting timelines. It's a very dangerous and growing trend for folks to post overreaching broader claims from technical nuances to grow viewcount... Especially if they get Jensen has to respond. In the end, I'm trusting $NVDA on timelines since they probably have the greatest visibility into their own supply chain.",
+    "time": "Wed, 15 Jul 2026 14:54:52 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2077406548012466390",
+    "source": "x-rsshub"
+   },
    {
     "title": "Well, looks like SLC NAND is forcasted to rise up 120-170% for H2 2026 per Trendforce. There's $MU (21%), Kioxia (20%) as largest share, but clearer b...",
     "text": "Well, looks like SLC NAND is forcasted to rise up 120-170% for H2 2026 per Trendforce. There's $MU (21%), Kioxia (20%) as largest share, but clearer beneficiaries appears to be: 1. Winbond (2344): ~15% of the SLC NAND market 2. Macronix (2337): ~11% market share 3. SkyHigh Memory via Puya Semi: ~14% market share Given Micron at $1T and others are a bit large relative to SLC NAND TAM. (source: Q1 2026 Winbond presentation/Trendforce).",
@@ -67,39 +88,18 @@
     "time": "Sun, 12 Jul 2026 18:27:32 GMT",
     "link": "https://x.com/aleabitoreddit/status/2076372905450188998",
     "source": "x-rsshub"
-   },
-   {
-    "title": "Apparently there’s a new popular trend to bearpost trillion dollar companies. Like $NVDA or $TSM. By finding isolating technical details, then blowin...",
-    "text": "Apparently there’s a new popular trend to bearpost trillion dollar companies. Like $NVDA or $TSM. By finding isolating technical details, then blowing it out of proportions by claiming their whole program is delayed. -> if the company doesn’t respond, stock prices/sentiment are damaged. -> if the company issues a response, they can’t go into detail since supply chains are confidential… but people still doubt them -> Poster gain more impressions, then does it again with more views the next time. Don’t quite think this is very healthy, with more folks copying that playbook. Especially around incentive structures.",
-    "time": "Sun, 12 Jul 2026 11:25:10 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2076266613675069628",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "[Subscribers Only] Was just doing more research into Nippon Chemical …",
-    "text": "[Subscribers Only] Was just doing more research into Nippon Chemical …",
-    "time": "Sun, 12 Jul 2026 11:00:31 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2076260409221456071",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "So there's a IBK Research report on Boston Dynamics value chains from last month. Just a summary: IBK maps these companies to Atlas as suppliers: - Hw...",
-    "text": "So there's a IBK Research report on Boston Dynamics value chains from last month. Just a summary: IBK maps these companies to Atlas as suppliers: - Hwashin (010690) / body, arms, legs - LG Energy (373220) / battery - Hyundai Autoever (307950) / integration - Hyundai Mobis (012330) / actuators As for humanoid volume ramps: They're modeling for, 11.29K in 2028, 20k 2029, 30k in 2030... 40k in 2031, and 50k in 2032. Not quite sure why IBK and other institutions are a fan of linearly modeling S-curve volume ramps... Like adding +10K per year, don't quite think it's volume ramp is going to work like that... if I had to guess it would look more like: - 15-20k 2028 - 40k-70k 2029 - 90k-140k for 2030 Since Boston Dynamics is projecting 30k capacity by 2028 (I'm sure they'd aim to get more online by 2029-2030), as China collectively is already doing 100k EOY in 2026. In terms of competitive landscape they name: - $TSLA, Figure, Apptronik, $CCXI (Agility), as US players. Then Boston Dynamics (Korea parent owned now) - Unitree, Fourier, AGibot, UBtech, $XPEV as the Chinese leaders. - Neura, Pal Robotics, Wandercraft, Oversonic, as the EU leaders. They also did quite a lot of valuation modeling around Hyundai Mobis/Hyundai Autoever/Glovis. Regarding the BD economic ownership from 27.9% from Hyundai Motor, 11.3% from Mobis, and 11.3% from Glovis. So at least institution are valuing humanoid segments inside companies lot more now. Then from report assumptions: - 31 actuators per Atlas - $1K per actuator in 2028 - $134K Atlas ASP, Which implies actuator cost of final selling price is roughly 23–28%. Probably the more interesting statement was IBK stated that actuator capacity is biggest signal for volume ramp. eg. every 310,000 units of actuator capacity supports 10,000 more robots. So tracking actuator outputs, yields, ASP is a cleaner read on 2028-2030 ramp. I didn't have much personal takeaways, but hopefully others find it interesting, maybe around Hwashin as a core supplier or around actuator capacity as an indicator.",
-    "time": "Sun, 12 Jul 2026 10:12:33 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2076248337863639506",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
-    "score": 0.5,
+    "score": 2.75,
     "matches": [
-     "ai",
+     "apple",
      "meta",
-     "nvda",
-     "nvidia",
+     "ai",
      "chip",
-     "nasdaq"
+     "nvda",
+     "nvidia"
     ]
    },
    "sp500": {
@@ -115,34 +115,31 @@
     "matches": []
    },
    "hongkong": {
-    "score": 0.5,
+    "score": 0.25,
     "matches": [
      "china"
     ]
    },
    "oil": {
-    "score": 0.25,
-    "matches": [
-     "energy"
-    ]
+    "score": 0,
+    "matches": []
    },
    "commodities": {
     "score": 0,
     "matches": []
    },
    "bonds": {
-    "score": 0,
+    "score": -0.25,
     "matches": [
-     "bond",
-     "yield"
+     "bond"
     ]
    },
    "globalTech": {
-    "score": 0.25,
+    "score": 1.75,
     "matches": [
      "ai",
-     "cloud",
      "chip",
+     "cloud",
      "technology",
      "semiconductor"
     ]
@@ -151,21 +148,21 @@
   "tickerOpinions": [
    {
     "ticker": "NVDA",
-    "mentions": 8,
+    "mentions": 9,
     "snippets": [
-     "self went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical ... So Jensen himself w",
-     "self went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical interconnects is progre"
+     "$NVDA CEO, Jensen Huang in Tokyo today said: \"The reports are not true. Vera Rubin is already in production. Giant amoun",
+     "amounts of production incoming\" As ... $NVDA CEO, Jensen Huang in Tokyo today said: \"The reports are not true. Vera Rubin is already in production. Giant amoun"
     ],
     "sentiment": "bearish"
    },
    {
-    "ticker": "TSM",
-    "mentions": 6,
+    "ticker": "META",
+    "mentions": 4,
     "snippets": [
-     "rillion dollar companies. Like $NVDA or $TSM. By finding isolating technical details, then blowing it out of proportions by claiming their whole program is dela",
-     "OET in optical engines and photonics, - $TSM, $GFS, and $TSEM in silicon photonics foundry capacity I’ve covered all of these before, like Tower Semi. But I’m e"
+     "rce: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend.... $AAPL looks to acquire AI chip companies for running AI (Source: T",
+     "rce: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend. But what if Apple joined the others after M&amp;A? A possible scenari"
     ],
-    "sentiment": "bearish"
+    "sentiment": "bullish"
    },
    {
     "ticker": "AEHR",
@@ -186,11 +183,38 @@
     "sentiment": "bullish"
    },
    {
+    "ticker": "TSM",
+    "mentions": 4,
+    "snippets": [
+     "rillion dollar companies. Like $NVDA or $TSM. By finding isolating technical details, then blowing it out of proportions by claiming their whole program is dela",
+     "OET in optical engines and photonics, - $TSM, $GFS, and $TSEM in silicon photonics foundry capacity I’ve covered all of these before, like Tower Semi. But I’m e"
+    ],
+    "sentiment": "bearish"
+   },
+   {
     "ticker": "SIVE",
     "mentions": 4,
     "snippets": [
      "omers Positive for SiPH penetration eg. $SIVE / $JBL, since this shifts away from EML toward CW. Basically: main surprising takeaway is just 800g demand go brrr",
      "CPO today. Key participants include: - $SIVE, $COHR, and $LITE in laser supply - Broadcom and Nvidia in switch platforms - Ligh... Morgan Stanley note on CPO t"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "AAPL",
+    "mentions": 3,
+    "snippets": [
+     "$AAPL looks to acquire AI chip companies for running AI (Source: The Information) Right now, $MSFT, $META, Amazon, Googl",
+     "Google are carrying AI capex spend.... $AAPL looks to acquire AI chip companies for running AI (Source: The Information) Right now, $MSFT, $META, Amazon, Googl"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "MSFT",
+    "mentions": 3,
+    "snippets": [
+     "AI (Source: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend.... $AAPL looks to acquire AI chip companies for running AI (So",
+     "AI (Source: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend. But what if Apple joined the others after M&amp;A? A possible"
     ],
     "sentiment": "bullish"
    },
@@ -249,15 +273,6 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "META",
-    "mentions": 2,
-    "snippets": [
-     "y execute on these LTAs yet compared to $META or $MSFT. But generally positive long term developments, customer diversification was one of the core strengths of",
-     "obalWafers' US manufacturing capacity - $META 'Iris' will enter mass production in September via $AVGO and TSMC and Meta aims to double computing power to 14GW"
-    ],
-    "sentiment": "neutral"
-   },
-   {
     "ticker": "GLW",
     "mentions": 2,
     "snippets": [
@@ -272,15 +287,6 @@
     "snippets": [
      "US admin pressured $AAPL to source from $INTC, in exchange for tariff exception. Kinda pressuring alignment away from TSM. - $TSM plans a 30x expansion of its P",
      "MKR and others should go brr in 2028. - $INTC CEO warned last month that helium could hinder the manufacturing costs and delivery times of AI chips - 3D NAND wo"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "TSLA",
-    "mentions": 2,
-    "snippets": [
-     "ed $26.5 billion through a Nasdaq ADR - $TSLA issued procurement guidelines requiring suppliers to reach weekly production of 1,000 units by September and doubl",
-     "s of competitive landscape they name: - $TSLA, Figure, Apptronik, $CCXI (Agility), as US players. Then Boston Dynamics (Korea parent owned now) - Unitree, Fouri"
     ],
     "sentiment": "bearish"
    },
@@ -325,14 +331,6 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "MSFT",
-    "mentions": 1,
-    "snippets": [
-     "on these LTAs yet compared to $META or $MSFT. But generally positive long term developments, customer diversification was one of the core strengths of Nebius."
-    ],
-    "sentiment": "bullish"
-   },
-   {
     "ticker": "JBL",
     "mentions": 1,
     "snippets": [
@@ -347,14 +345,6 @@
      "optical engines and photonics, - $TSM, $GFS, and $TSEM in silicon photonics foundry capacity I’ve covered all of these before, like Tower Semi. But I’m especia"
     ],
     "sentiment": "neutral"
-   },
-   {
-    "ticker": "AAPL",
-    "mentions": 1,
-    "snippets": [
-     "than people think. - US admin pressured $AAPL to source from $INTC, in exchange for tariff exception. Kinda pressuring alignment away from TSM. - $TSM plans a 3"
-    ],
-    "sentiment": "bearish"
    },
    {
     "ticker": "AMKR",
@@ -373,23 +363,30 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "CCXI",
+    "ticker": "TSLA",
     "mentions": 1,
     "snippets": [
-     "they name: - $TSLA, Figure, Apptronik, $CCXI (Agility), as US players. Then Boston Dynamics (Korea parent owned now) - Unitree, Fourier, AGibot, UBtech, $XPEV"
+     "ed $26.5 billion through a Nasdaq ADR - $TSLA issued procurement guidelines requiring suppliers to reach weekly production of 1,000 units by September and doubl"
     ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "XPEV",
-    "mentions": 1,
-    "snippets": [
-     "ow) - Unitree, Fourier, AGibot, UBtech, $XPEV as the Chinese leaders. - Neura, Pal Robotics, Wandercraft, Oversonic, as the EU leaders. They also did quite a lo"
-    ],
-    "sentiment": "neutral"
+    "sentiment": "bearish"
    }
   ],
   "opinionSummaries": [
+   {
+    "time": "Wed, 15 Jul 2026 16:56:28 GMT",
+    "text": "Anthropic to IPO as early as October per Bloomberg. This is following their $65B financing at a $965 billion valuation last May. Hmm, would you all invest in Anthropic at a $1T+ valuation?",
+    "tickers": ""
+   },
+   {
+    "time": "Wed, 15 Jul 2026 15:53:21 GMT",
+    "text": "$AAPL looks to acquire AI chip companies for running AI (Source: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend. But what if Apple joined the others after M&A? A ...",
+    "tickers": "$AAPL, $MSFT, $META"
+   },
+   {
+    "time": "Wed, 15 Jul 2026 14:54:52 GMT",
+    "text": "$NVDA CEO, Jensen Huang in Tokyo today said: \"The reports are not true. Vera Rubin is already in production. Giant amounts of production incoming\" As a flat denial to the accusation that their AI serv...",
+    "tickers": "$NVDA"
+   },
    {
     "time": "Wed, 15 Jul 2026 03:08:23 GMT",
     "text": "Well, looks like SLC NAND is forcasted to rise up 120-170% for H2 2026 per Trendforce. There's $MU (21%), Kioxia (20%) as largest share, but clearer beneficiaries appears to be: 1. Winbond (2344): ~15...",
@@ -399,21 +396,6 @@
     "time": "Wed, 15 Jul 2026 01:48:14 GMT",
     "text": "$AEHR back up +36.4% today off earnings! 2027 guide: $130-$150m (160-200% growth) from 2026 revenue. Sees opportunity to guide higher (assumes no memory revenue or little to none from newly benchmarke...",
     "tickers": "$AEHR"
-   },
-   {
-    "time": "Tue, 14 Jul 2026 14:57:21 GMT",
-    "text": "$NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a multi-billion dollar agreement with $SPCX earlier. Interesting to say the least, seeing N...",
-    "tickers": "$NBIS, $SPCX"
-   },
-   {
-    "time": "Tue, 14 Jul 2026 14:35:50 GMT",
-    "text": "Two different capacity expansion announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of its 300mm Silicon Photonics (SiPho), Silicon Germa...",
-    "tickers": "$TSEM, $AAOI"
-   },
-   {
-    "time": "Tue, 14 Jul 2026 01:51:24 GMT",
-    "text": "So Jensen himself went out to do damage control with $NVDA delays reports apparently: 1. Jensen Huang said no delays: - 800V and rack-to-rack optical interconnects is progressing fully in line with th...",
-    "tickers": "$NVDA"
    }
   ],
   "attempts": [
@@ -423,5 +405,5 @@
    }
   ]
  },
- "cachedAt": 1784112442896
+ "cachedAt": 1784175175961
 }
