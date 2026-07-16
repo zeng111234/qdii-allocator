@@ -121,12 +121,10 @@ async function build() {
   template = template.replace(/var diaryData = \{.*?\};/s, "var diaryData = " + JSON.stringify(diary) + ";");
 
   // 替换 Firebase 配置（从 .env 读取，不提交到 git）
-  // [security] 只注入 URL，不注入 Key（Key 不应暴露在前端）
+  // [security] 只注入 URL；访问令牌由用户保存在浏览器 localStorage 中。
   if (env.FIREBASE_URL) {
     template = template.replace("FIREBASE_URL_PLACEHOLDER", env.FIREBASE_URL);
-    // 不再注入 FIREBASE_KEY — 前端通过 Web Server 代理 Firebase 请求
-    template = template.replace("FIREBASE_KEY_PLACEHOLDER", "");
-    console.log("[构建] Firebase URL 已注入（Key 不注入前端，需通过代理访问）");
+    console.log("[构建] Firebase URL 已注入（访问令牌不写入构建产物）");
   } else {
     console.log("[构建] ⚠️ 未找到 .env 中的 Firebase 配置");
   }

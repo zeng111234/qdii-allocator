@@ -283,7 +283,8 @@ http://你的IP:3000/quick
 
 1. 在 [Firebase Console](https://console.firebase.google.com/) 创建项目和 Realtime Database
 2. 在 `.env` 中配置 `FIREBASE_URL` 和 `FIREBASE_KEY`
-3. 页面持仓 Tab 顶部显示 **⬆️ 上传** / **⬇️ 下载** 按钮
+3. 页面持仓 Tab 顶部点击 **⚙️ 同步设置**，填写数据库 URL 和访问令牌；配置仅保存在当前浏览器
+4. 使用 **⬆️ 上传** / **⬇️ 下载** 按钮同步；GitHub Pages 和本地 Web 页面均支持
 
 **同步机制**：
 
