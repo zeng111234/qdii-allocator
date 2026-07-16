@@ -59,6 +59,19 @@ async function build() {
     console.log("[构建] ⚠️ portfolio.json 不存在，使用空持仓");
   }
   const funds = JSON.parse(fs.readFileSync(FUNDS, "utf-8"));
+  const fundMetaByCode = {};
+  (funds.funds || []).forEach(function (fund) { fundMetaByCode[fund.code] = fund; });
+  portfolio.holdings = (portfolio.holdings || []).map(function (holding) {
+    const meta = fundMetaByCode[holding.code] || {};
+    return Object.assign({}, holding, {
+      name: meta.name || holding.name,
+      type: meta.type || holding.type || "未映射",
+      indexGroup: meta.indexGroup || holding.indexGroup || null,
+      feeRate: meta.feeRate !== undefined ? meta.feeRate : holding.feeRate,
+      custodyFee: meta.custodyFee !== undefined ? meta.custodyFee : holding.custodyFee,
+      dailyLimit: meta.dailyLimit !== undefined ? meta.dailyLimit : holding.dailyLimit
+    });
+  });
 
   // 读取净值缓存，提取每只基金的最新净值（文件可能不存在，由 daily-plan 生成）
   let navCache = {};
@@ -81,6 +94,7 @@ async function build() {
   try {
     if (fs.existsSync(DAILY_BRIEF)) {
       dailyBrief = JSON.parse(fs.readFileSync(DAILY_BRIEF, "utf-8"));
+      if (!dailyBrief.date || dailyBrief.date !== new Date().toISOString().slice(0, 10)) dailyBrief = null;
     }
   } catch (e) {}
 
@@ -404,33 +418,52 @@ async function build() {
   }
   template = template.replace("MARKET_TEMPERATURE_DATA", JSON.stringify(marketTemperature));
 
-  // 嵌入今日推荐（从 history.json 取最新记录）
-  let todayPicks = { date: null, ranked: [], strategy: null };
+  // 唯一推荐计划：页面、邮件、AI、追踪和回测只能消费这个结构。
+  let recommendationPlan = null;
   try {
+    const recommendationEngine = require("./lib/recommendation-engine");
     const historyPath = path.join(__dirname, "data", "history.json");
-    if (fs.existsSync(historyPath)) {
-      const historyData = JSON.parse(fs.readFileSync(historyPath, "utf-8"));
-      const records = historyData.records || historyData;
-      if (Array.isArray(records) && records.length > 0) {
-        const latest = records[records.length - 1];
-        todayPicks = {
-          date: latest.date,
-          strategy: latest.strategy,
-          budgetInfo: latest.budgetInfo || null,
-          marketTemperature: latest.marketTemperature || null,
-          ranked: (latest.ranked || []).slice(0, 10).map(function (r) {
-            return { code: r.code, name: r.name, score: r.score, reason: r.reason ? r.reason.substring(0, 80) : "" };
-          }),
-          allRanked: (latest.ranked || []).map(function (r) {
-            return { code: r.code, name: r.name, score: r.score, reason: r.reason ? r.reason.substring(0, 120) : "" };
-          })
-        };
-      }
-    }
-    console.log("[构建] 今日推荐: " + todayPicks.ranked.length + "只 (" + (todayPicks.date || "无") + ")");
+    const history = fs.existsSync(historyPath) ? JSON.parse(fs.readFileSync(historyPath, "utf-8")) : { records: [] };
+    recommendationPlan = recommendationEngine.buildRecommendationPlan({
+      funds: funds.funds,
+      navCache: navCache,
+      portfolio: portfolio,
+      history: history,
+      marketTemperature: marketTemperature,
+      asOf: new Date().toISOString().slice(0, 10),
+      budget: Math.min((funds.config && funds.config.defaultBudget) || 50, 50),
+      liveEnabled: process.env.RECOMMENDATION_LIVE_ENABLED === "true"
+    });
+    fs.writeFileSync(
+      path.join(__dirname, "data", "recommendation-plan.json"),
+      JSON.stringify(recommendationPlan, null, 2),
+      "utf-8"
+    );
   } catch (e) {
-    console.log("[构建] 今日推荐获取失败: " + e.message);
+    console.log("[构建] 推荐计划生成失败，强制 PAUSE: " + e.message);
+    recommendationPlan = {
+      asOf: new Date().toISOString().slice(0, 10), action: "PAUSE", budget: 0,
+      dataFreshness: { status: "ERROR" }, candidates: [], portfolioRisk: {}, signalHealth: { status: "PAUSE" }, marketRanking: []
+    };
   }
+
+  // 嵌入今日推荐（只读取 RecommendationPlan）
+  let todayPicks = { date: null, ranked: [], strategy: null };
+  todayPicks = {
+    date: recommendationPlan.asOf,
+    strategy: "RecommendationPlan",
+    action: recommendationPlan.action,
+    dataFreshness: recommendationPlan.dataFreshness,
+    signalHealth: recommendationPlan.signalHealth,
+    budget: recommendationPlan.budget,
+    ranked: (recommendationPlan.candidates || []).map(function (candidate) {
+      return Object.assign({}, candidate, { score: candidate.marketScore, reason: candidate.reasons.join("；") });
+    }),
+    allRanked: (recommendationPlan.marketRanking || []).map(function (candidate, index) {
+      return Object.assign({ rank: index + 1, score: candidate.marketScore }, candidate);
+    })
+  };
+  console.log("[构建] 推荐计划: " + recommendationPlan.action + "，候选" + todayPicks.ranked.length + "只");
   template = template.replace(/var todayPicks = \{.*?\};/s, "var todayPicks = " + JSON.stringify(todayPicks) + ";");
 
   // 嵌入限购额度（从 fund-info-cache.json + funds.json 合并）
@@ -485,6 +518,11 @@ async function build() {
         cachedAt: ext.cachedAt || ext.fetchedAt || extRaw.fetchedAt || null,
         status: ext.status || "unknown"
       };
+      const signalTimestamp = ext.fetchedAt || ext.cachedAt || extRaw.fetchedAt || extRaw.cachedAt;
+      const signalDate = signalTimestamp ? new Date(signalTimestamp).toISOString().slice(0, 10) : null;
+      if (signalDate !== new Date().toISOString().slice(0, 10)) {
+        externalSignals = { items: [], tickerOpinions: [], themeScores: {}, cachedAt: signalTimestamp || null, status: "stale" };
+      }
     }
     console.log(
       "[构建] 外部信号: " +
@@ -564,26 +602,17 @@ async function build() {
     console.log("[构建] 跳过数据文件复制: " + e.message);
   }
 
-  // 计算 FactorEngine 排名并保存（用于邮件和AI助手）
+  // 保存统一排名视图（兼容旧消费者，但数据源只有 RecommendationPlan）
   try {
-    const factorEngine = require("./lib/factor-engine");
-    const navCache = JSON.parse(fs.readFileSync(NAV_CACHE, "utf-8"));
-    const rankings = factorEngine.computeRankings(funds.funds, navCache, marketTemperature, portfolio);
-
-    // 只保存有评分的基金
-    const ranked = rankings
-      .filter(function (r) {
-        return r.composite !== null;
-      })
-      .map(function (r, i) {
+    const ranked = (recommendationPlan.marketRanking || []).map(function (r, i) {
         return {
           rank: i + 1,
           code: r.code,
           name: r.name,
-          type: r.type,
           indexGroup: r.indexGroup,
-          score: r.composite,
-          deduped: r.deduped || false
+          score: r.marketScore,
+          blockedBy: r.blockedBy || [],
+          deduped: (r.blockedBy || []).indexOf("INDEX_CORE_ONLY") >= 0
         };
       });
 
@@ -592,6 +621,7 @@ async function build() {
       JSON.stringify(
         {
           date: new Date().toISOString().slice(0, 10),
+          action: recommendationPlan.action,
           ranked: ranked,
           generatedAt: new Date().toISOString()
         },

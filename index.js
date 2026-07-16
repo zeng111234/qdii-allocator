@@ -27,6 +27,8 @@ const { backfillFollowUp: backfillHistoryFollowUp } = require("./lib/history-tra
 const { validateConfig } = require("./lib/config");
 const { runMultiAgentDebate, formatDebateReport } = require("./lib/multi-agent-debate");
 const riskAlert = require("./lib/risk-alert");
+const recommendationEngine = require("./lib/recommendation-engine");
+const historyTracker = require("./lib/history-tracker");
 
 const FUNDS_FILE = path.join(__dirname, "data", "funds.json");
 const STRATEGY_MAP = {
@@ -45,7 +47,7 @@ function loadFunds() {
 
 function parseArgs() {
   const args = process.argv.slice(2);
-  const opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, walkForward: false, walkForwardTrain: 90, walkForwardTest: 30, hypothesisReport: false, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000, multiAgent: false };
+  const opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, walkForward: false, walkForwardTrain: 120, walkForwardTest: 30, hypothesisReport: false, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000, multiAgent: false };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--dry-run") opts.dryRun = true;
     else if (args[i] === "--strategy") opts.strategy = args[++i];
@@ -445,40 +447,7 @@ async function sendReport(result, textContent, aiCommentary, topN, dailyBrief) {
   } else {
     console.log("[5/5] Sending email...");
 
-    // 加载 FactorEngine 排名（与页面一致）
-    const fs = require('fs');
-    const path = require('path');
-    const factorRankingsPath = path.join(__dirname, 'data', 'factor-rankings.json');
-    let factorRankings = null;
-    try {
-      if (fs.existsSync(factorRankingsPath)) {
-        factorRankings = JSON.parse(fs.readFileSync(factorRankingsPath, 'utf-8'));
-        console.log("[邮件] 使用FactorEngine排名 (" + factorRankings.ranked.filter(function(r) { return !r.deduped; }).length + "只推荐)");
-      }
-    } catch(e) {
-      console.warn("[邮件] 加载FactorEngine排名失败:", e.message);
-    }
-
-    // 如果有FactorEngine排名，替换result.ranked
-    if (factorRankings && factorRankings.ranked) {
-      result.ranked = factorRankings.ranked.filter(function(r) { return !r.deduped; }).slice(0, topN);
-
-      // 补全 indicators（factor-rankings.json 不含技术指标，需要从 nav-cache 计算）
-      try {
-        const navCache = fundData.loadNavCache();
-        for (let ri = 0; ri < result.ranked.length; ri++) {
-          const fr = result.ranked[ri];
-          if (fr.indicators) continue; // 已有则跳过
-          const navHistory = navCache[fr.code];
-          if (navHistory && navHistory.length >= 5) {
-            fr.indicators = fundData.calcIndicators(navHistory);
-          }
-        }
-        console.log("[邮件] 已补全 " + result.ranked.length + " 只基金的技术指标");
-      } catch(e) {
-        console.warn("[邮件] 补全技术指标失败:", e.message);
-      }
-    }
+    // result 已由 RecommendationPlan 固化；邮件不得替换排名或金额。
 
     const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
     const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result, dailyBrief: dailyBrief }, smtpConfig);
@@ -556,7 +525,8 @@ async function main() {
       result = await dyn.allocateDynamic(budget, funds, {
         lookbackDays: lookbackDays, topN: topN, minPurchase: minPurchase,
         enableHistory: true, externalSignals: externalSignals,
-        externalSignalMaxScore: config.externalSignalMaxScore || 3
+        externalSignalMaxScore: config.externalSignalMaxScore || 3,
+        saveHistory: false
       });
       textContent = dyn.formatDynamicResult(result);
     } else {
@@ -584,7 +554,9 @@ async function main() {
 
   result.marketSnapshot = marketSnapshot;
   result.marketNews = marketNews;
-  result.externalSignals = externalSignals;
+  const currentSignalStamp = externalSignals && (externalSignals.fetchedAt || externalSignals.cachedAt);
+  const currentSignalDate = currentSignalStamp ? new Date(currentSignalStamp).toISOString().slice(0, 10) : null;
+  result.externalSignals = currentSignalDate === new Date().toISOString().slice(0, 10) ? externalSignals : null;
 
   // [修复] 原问题：风险预警检查（现在 llmApiKey 已正确声明在上方）
   if (marketSnapshot.length > 0 && llmApiKey && llmBaseUrl && llmModel) {
@@ -615,6 +587,36 @@ async function main() {
       }
     } catch(e) { console.warn("[风控] 计算失败:", e.message); }
   }
+
+  // 在所有展示和 AI 之前执行确定性硬风控。
+  const planAsOf = new Date().toISOString().slice(0, 10);
+  let historyData = { records: [] };
+  try {
+    if (fs.existsSync(historyTracker.HISTORY_FILE)) historyData = JSON.parse(fs.readFileSync(historyTracker.HISTORY_FILE, "utf-8"));
+  } catch (e) {
+    console.warn("[推荐计划] 历史读取失败，强制 PAUSE:", e.message);
+  }
+  const recommendationPlan = recommendationEngine.buildRecommendationPlan({
+    funds: funds,
+    navCache: fundData.loadNavCache(),
+    portfolio: portfolio.loadPortfolio(),
+    history: historyData,
+    marketTemperature: result.marketTemperature,
+    asOf: planAsOf,
+    budget: Math.min(budget, 50),
+    liveEnabled: process.env.RECOMMENDATION_LIVE_ENABLED === "true"
+  });
+  result.recommendationPlan = recommendationPlan;
+  result.ranked = recommendationPlan.candidates.map(function (candidate, index) {
+    return Object.assign({ rank: index + 1, score: candidate.marketScore, reason: candidate.reasons.join("；") }, candidate);
+  });
+  result.allRanked = recommendationPlan.marketRanking || [];
+  result.date = recommendationPlan.asOf;
+  result.budget = recommendationPlan.budget;
+  textContent = recommendationEngine.formatRecommendationPlan(recommendationPlan);
+  historyTracker.saveRecommendationPlan(recommendationPlan);
+  fs.writeFileSync(path.join(__dirname, "data", "recommendation-plan.json"), JSON.stringify(recommendationPlan, null, 2), "utf-8");
+  console.log("[推荐计划] " + recommendationPlan.action + "，真实建议金额 " + recommendationPlan.budget + "元");
 
   // [fix] 定投建议（基于市场温度）
   if (result.marketTemperature && result.budget) {
