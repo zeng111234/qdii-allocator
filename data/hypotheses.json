@@ -332,8 +332,8 @@
       "followUpReturns": {
         "3d": -0.94,
         "7d": -5.37,
-        "14d": -3.36,
-        "30d": -3.36
+        "14d": -5.01,
+        "30d": -5.01
       }
     },
     {
@@ -356,8 +356,8 @@
       "followUpReturns": {
         "3d": 0.11,
         "7d": -3.62,
-        "14d": -1.56,
-        "30d": -1.56
+        "14d": -2.11,
+        "30d": -2.11
       }
     },
     {
@@ -431,9 +431,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -2.42,
-        "7d": -1.85,
-        "14d": -1.85,
-        "30d": -1.85
+        "7d": 0.36,
+        "14d": 0.36,
+        "30d": 0.36
       },
       "_needsNavBackfill": false
     },
@@ -481,9 +481,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -0.44,
-        "7d": -1.1,
-        "14d": -1.1,
-        "30d": -1.1
+        "7d": 0.8,
+        "14d": 0.8,
+        "30d": 0.8
       },
       "_needsNavBackfill": false
     },
@@ -654,10 +654,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": -1.36,
+        "7d": -1.36,
+        "14d": -1.36,
+        "30d": -1.36
       }
     },
     {
@@ -707,11 +707,35 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1784199796929-grw5",
+      "fundCode": "015204",
+      "fundName": "银华全球新能源车量化优选(QDII)A",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#4，分数1.17。夏普0.78加0.8分，最大回撤-24.91%扣7.5分，长期牛市+1.5分，回撤6.11%加1.2分，低于MA10加3分，空头排列-2.5分，近高点-8.9%",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-16T11:03:16.929Z",
+      "navAtCreation": 1.5054,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 28,
-    "active": 19,
+    "total": 29,
+    "active": 20,
     "validated": 1,
     "invalidated": 8,
     "expired": 0,
