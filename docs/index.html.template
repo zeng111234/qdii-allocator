@@ -588,6 +588,7 @@
           <span style="flex:1"></span>
           <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseUpload()">⬆️ 上传</button>
           <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseDownload()">⬇️ 下载</button>
+          <button class="btn" style="background:var(--bg);color:var(--text2);border:1px solid var(--border);font-size:11px;padding:5px 10px" onclick="configureFirebase()">⚙️ 同步设置</button>
           <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="exportData()">📤 导出</button>
           <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="importData()">📥 导入</button>
         </div>
@@ -4071,19 +4072,69 @@
 
     /* ── Walk-Forward Backtest + Performance Attribution (from Vibe-Trading backtest/) ── */
     // ── Firebase Cloud Sync ──
-    // [security] Firebase credentials — Key 不再嵌入前端，需通过 Web Server 代理
+    // [security] 构建产物只包含数据库 URL；访问令牌由用户在浏览器本地配置。
     var FIREBASE_URL = 'FIREBASE_URL_PLACEHOLDER';
-    var FIREBASE_KEY = ''; // [security] 不在前端暴露 Key
     var FIREBASE_PATH = '/portfolio.json';
+    var FIREBASE_CONFIG_KEY = 'qdii-firebase-config';
+
+    function getFirebaseConfig() {
+      var saved = {};
+      try { saved = JSON.parse(localStorage.getItem(FIREBASE_CONFIG_KEY)) || {}; } catch(e) {}
+      var builtUrl = FIREBASE_URL && FIREBASE_URL !== 'FIREBASE_URL_PLACEHOLDER' && FIREBASE_URL !== 'undefined'
+        ? FIREBASE_URL : '';
+      return { url: (saved.url || builtUrl).replace(/\/$/, ''), token: saved.token || '' };
+    }
+
+    function isValidFirebaseUrl(value) {
+      try {
+        var parsed = new URL(value);
+        return parsed.protocol === 'https:' &&
+          (parsed.hostname.endsWith('.firebaseio.com') || parsed.hostname.endsWith('.firebasedatabase.app'));
+      } catch(e) { return false; }
+    }
+
+    function configureFirebase() {
+      var current = getFirebaseConfig();
+      var url = window.prompt('Firebase Realtime Database URL（仅保存在当前浏览器）', current.url);
+      if (url === null) return false;
+      url = url.trim().replace(/\/$/, '');
+      if (!isValidFirebaseUrl(url)) {
+        showToast('请输入有效的 Firebase Realtime Database HTTPS 地址', true);
+        return false;
+      }
+      var token = window.prompt('Firebase 访问令牌/数据库密钥（仅保存在当前浏览器；留空则保留已保存令牌）', '');
+      if (token === null) return false;
+      token = token.trim() || current.token;
+      if (!token) {
+        showToast('Firebase 访问令牌不能为空', true);
+        return false;
+      }
+      try {
+        localStorage.setItem(FIREBASE_CONFIG_KEY, JSON.stringify({ url: url, token: token }));
+        showToast('✅ Firebase 同步配置已保存到当前浏览器');
+        return true;
+      } catch(e) {
+        showToast('无法保存 Firebase 配置: ' + e.message, true);
+        return false;
+      }
+    }
 
     function firebaseAvailable() {
-      return FIREBASE_URL && FIREBASE_URL !== 'FIREBASE_URL_PLACEHOLDER' && FIREBASE_URL !== 'undefined' && FIREBASE_KEY;
+      var config = getFirebaseConfig();
+      return isValidFirebaseUrl(config.url) && !!config.token;
+    }
+
+    function firebaseRequest(method) {
+      var config = getFirebaseConfig();
+      var options = { method: method, headers: { 'Content-Type': 'application/json' } };
+      if (method === 'PUT') options.body = JSON.stringify(portfolioData);
+      return fetch(config.url + FIREBASE_PATH + '?auth=' + encodeURIComponent(config.token), options);
     }
 
     function syncLoad() {
       if (!firebaseAvailable()) return;
-      fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY)
-        .then(function(r) { return r.json(); })
+      firebaseRequest('GET')
+        .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(function(data) {
           if (data && data.holdings && data.holdings.length > 0) {
             var merged = mergePortfolio(portfolioData, data);
@@ -4099,29 +4150,21 @@
 
     function syncSave() {
       if (!firebaseAvailable()) return;
-      fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(portfolioData)
-      }).catch(function() { /* silent fail */ });
+      firebaseRequest('PUT').catch(function() { /* silent fail */ });
     }
 
     function firebaseUpload() {
-      if (!firebaseAvailable()) { showToast('⚠️ Firebase 同步需要通过 Web Server 访问（GitHub Pages 版本不支持）', true); return; }
-      fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(portfolioData)
-      }).then(function(r) {
+      if (!firebaseAvailable() && !configureFirebase()) return;
+      firebaseRequest('PUT').then(function(r) {
         if (r.ok) showToast('⬆️ 已上传到 Firebase，' + portfolioData.holdings.length + ' 只基金');
         else showToast('上传失败: ' + r.status, true);
       }).catch(function(e) { showToast('上传失败: ' + e.message, true); });
     }
 
     function firebaseDownload() {
-      if (!firebaseAvailable()) { showToast('⚠️ Firebase 同步需要通过 Web Server 访问（GitHub Pages 版本不支持）', true); return; }
-      fetch(FIREBASE_URL + FIREBASE_PATH + '?auth=' + FIREBASE_KEY)
-        .then(function(r) { return r.json(); })
+      if (!firebaseAvailable() && !configureFirebase()) return;
+      firebaseRequest('GET')
+        .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(function(data) {
           if (data && data.holdings && data.holdings.length > 0) {
             var merged = mergePortfolio(portfolioData, data);
