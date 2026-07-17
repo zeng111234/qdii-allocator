@@ -14,6 +14,9 @@ test("public template contains no personal holdings and starts in syncing state"
   assert.match(template, /sync-revision/);
   assert.match(template, /cloudWriteReady && todayPicks\.action === 'BUY'/);
   assert.match(template, /系统预算 0 元/);
+  assert.match(template, /function loadLegacyChromeReadOnlySnapshot\(\)/);
+  assert.match(template, /detail\.status === 'CONFIG_MISSING' \|\| detail\.status === 'EMPTY'/);
+  assert.match(template, /source: 'Chrome 本地只读'/);
 });
 
 test("browser sync uses Firebase Web SDK Google auth and uid-scoped ledger", function () {

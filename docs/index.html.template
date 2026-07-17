@@ -2925,6 +2925,26 @@
       return { holdings: [] };
     }
 
+    function loadLegacyChromeReadOnlySnapshot() {
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        var legacy = JSON.parse(raw);
+        if (!legacy || !Array.isArray(legacy.holdings) || legacy.holdings.length === 0) return false;
+        portfolioData = legacy;
+        cloudWriteReady = false;
+        renderCloudState({ status: 'OFFLINE', source: 'Chrome 本地只读' });
+        updateSummary();
+        updateHoldings();
+        renderTradeBanner();
+        renderTemperature();
+        return true;
+      } catch (error) {
+        console.error('Chrome legacy snapshot:', error.message);
+        return false;
+      }
+    }
+
     // 自动结算回填：遍历待确认买入，用净值缓存回填
     function autoSettleInBrowser() {
       if (!portfolioData || !portfolioData.holdings) return;
@@ -4033,6 +4053,12 @@
       var detail = event.detail || {};
       cloudWriteReady = false;
       renderCloudState(detail);
+      if (detail.status === 'CONFIG_MISSING' || detail.status === 'EMPTY') {
+        if (loadLegacyChromeReadOnlySnapshot()) {
+          showToast('已恢复 Chrome 本地持仓（只读），不会覆盖云端');
+          return;
+        }
+      }
       if (detail.status === 'SIGNED_OUT') {
         document.getElementById('summary').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:20px">请先 Google 登录；云端校验成功前不显示金额</div>';
       }
