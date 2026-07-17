@@ -172,6 +172,18 @@ test("calcSettleDate - T+2 default", function () {
   assert.ok(result.hasOwnProperty("skipped"));
 });
 
+test("QDII T+2 confirms later but uses the trade-date NAV", function () {
+  const portfolio = require("../../lib/portfolio");
+  const navs = [
+    { date: "2026-06-10", nav: 1.00 },
+    { date: "2026-06-11", nav: 1.05 },
+    { date: "2026-06-12", nav: 1.10 }
+  ];
+  const resolved = portfolio.resolveTradeNav(navs, "2026-06-10");
+  assert.deepEqual(resolved, { date: "2026-06-10", nav: 1.00 });
+  assert.equal(portfolio.calcSettleDate("2026-06-10", 2).date, "2026-06-12");
+});
+
 // ========== findNavOnOrAfter ==========
 
 test("findNavOnOrAfter - null navs returns null", function () {

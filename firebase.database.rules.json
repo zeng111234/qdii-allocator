@@ -1,0 +1,15 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "users": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && auth.uid === $uid",
+        "portfolioLedger": {
+          ".validate": "newData.hasChildren(['schemaVersion', 'revision', 'updatedAt', 'checksum', 'transactions']) && newData.child('schemaVersion').val() === 2 && newData.child('revision').isNumber() && newData.child('revision').val() >= 1"
+        }
+      }
+    }
+  }
+}

@@ -5,11 +5,14 @@ on:
     branches: [main]
     paths:
       - 'docs/index.html.template'
-      - 'docs/index.html'
+      - 'docs/firebase-sync.js'
+      - 'firebase.database.rules.json'
       - 'data/funds.json'
       - 'data/history.json'
       - 'data/nav-cache.json'
       - 'build-pages.js'
+      - 'lib/allocation-policy.js'
+      - 'lib/recommendation-engine.js'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
   schedule:
@@ -45,7 +48,10 @@ jobs:
         run: node build-pages.js
         env:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
-          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
+          FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
+          FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4

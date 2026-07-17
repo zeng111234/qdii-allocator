@@ -20,11 +20,9 @@ const ROOT = __dirname;
 // - docs/index.html (构建产物，由 CI 构建)
 const SYNC_FILES = [
   // 数据文件 (git tracked)
-  'data/portfolio.json',
   'data/nav-cache.json',
   'data/history.json',
   'data/funds.json',
-  'data/hypotheses.json',
   'data/factor-rankings.json',
 
   // 构建后的数据文件 (git tracked)

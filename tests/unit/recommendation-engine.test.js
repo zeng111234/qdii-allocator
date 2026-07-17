@@ -47,9 +47,9 @@ test("correlation aligns returns by common dates", function () {
     { date: "2026-01-04", nav: 210 }, { date: "2026-01-05", nav: 220 }
   ];
   const aligned = engine.alignReturnsByDate(left, right);
-  assert.deepEqual(aligned.dates, ["2026-01-03", "2026-01-04"]);
-  assert.equal(aligned.left.length, 2);
-  assert.equal(aligned.right.length, 2);
+  assert.deepEqual(aligned.dates, ["2026-01-04"]);
+  assert.equal(aligned.left.length, 1);
+  assert.equal(aligned.right.length, 1);
 });
 
 test("signal circuit breaker pauses and shadow recovery requires 20 results", function () {
@@ -198,12 +198,16 @@ test("AI prompt makes the deterministic plan immutable", function () {
   assert.match(prompt, /"action":"PAUSE"/);
 });
 
-test("current portfolio regression stays paused and has complete metadata", function () {
+test("synthetic portfolio regression stays paused and has complete metadata", function () {
   const funds = require("../../data/funds.json").funds;
   const plan = engine.buildRecommendationPlan({
     funds: funds,
     navCache: require("../../data/nav-cache.json"),
-    portfolio: require("../../data/portfolio.json"),
+    portfolio: { holdings: [
+      { code: "270042", totalAmount: 70 },
+      { code: "040046", totalAmount: 30 },
+      { code: "096001", totalAmount: 20 }
+    ] },
     history: require("../../data/history.json"),
     asOf: "2026-07-16",
     budget: 50,

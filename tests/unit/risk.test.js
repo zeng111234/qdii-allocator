@@ -82,9 +82,26 @@ test('alignReturnsByDate pairs returns by date and ignores missing dates', funct
     { date: '2026-01-04', nav: 242 }
   ];
   const aligned = risk.alignReturnsByDate(left, right);
-  assert.deepEqual(aligned.dates, ['2026-01-03', '2026-01-04']);
-  assert.equal(aligned.left.length, 2);
-  assert.equal(aligned.right.length, 2);
+  assert.deepEqual(aligned.dates, ['2026-01-04']);
+  assert.equal(aligned.left.length, 1);
+  assert.equal(aligned.right.length, 1);
+});
+
+test('calcCorrelationMatrix aligns identical date intervals with missing NAV rows', function () {
+  const left = [];
+  const right = [];
+  let leftNav = 100;
+  let rightNav = 200;
+  for (let i = 0; i < 15; i++) {
+    const date = '2026-01-' + String(i + 1).padStart(2, '0');
+    const change = 1 + (i % 3) * 0.01;
+    leftNav *= change;
+    rightNav *= change;
+    left.push({ date: date, nav: leftNav });
+    if (i !== 2) right.push({ date: date, nav: rightNav });
+  }
+  const result = risk.calcCorrelationMatrix([{ code: 'A' }, { code: 'B' }], 60, { A: left, B: right });
+  assert.ok(result.matrix[0][1] > 0.99);
 });
 
 test('TWR excludes external cash flows and XIRR uses actual dated cash flows', function () {

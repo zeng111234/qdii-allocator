@@ -1,6 +1,6 @@
 /**
  * 构建 GitHub Pages 页面
- * 把数据嵌入到 HTML 中，不需要 token
+ * 只把公共市场数据嵌入 HTML；个人账本由浏览器登录后从 Firebase 加载。
  */
 
 const fs = require("fs");
@@ -9,11 +9,9 @@ const https = require("https");
 
 const TEMPLATE = path.join(__dirname, "docs", "index.html.template");
 const OUTPUT = path.join(__dirname, "docs", "index.html");
-const PORTFOLIO = path.join(__dirname, "data", "portfolio.json");
 const FUNDS = path.join(__dirname, "data", "funds.json");
 const NAV_CACHE = path.join(__dirname, "data", "nav-cache.json");
 const DAILY_BRIEF = path.join(__dirname, "data", "daily-brief.json");
-const DIARY = path.join(__dirname, "data", "diary.json");
 
 // 加载 .env（不依赖 dotenv 包）+ 环境变量 fallback（CI 中 secrets 通过 env 传入）
 function loadEnv() {
@@ -51,27 +49,9 @@ async function build() {
   // 读取模板
   let template = fs.readFileSync(TEMPLATE, "utf-8");
 
-  // 读取数据（portfolio.json 可能不存在，由 Firebase 同步或 daily-plan 生成）
-  let portfolio = { holdings: [], startDate: null };
-  if (fs.existsSync(PORTFOLIO)) {
-    portfolio = JSON.parse(fs.readFileSync(PORTFOLIO, "utf-8"));
-  } else {
-    console.log("[构建] ⚠️ portfolio.json 不存在，使用空持仓");
-  }
+  // 公共页面绝不读取或嵌入个人持仓。
+  const portfolio = { holdings: [], startDate: null };
   const funds = JSON.parse(fs.readFileSync(FUNDS, "utf-8"));
-  const fundMetaByCode = {};
-  (funds.funds || []).forEach(function (fund) { fundMetaByCode[fund.code] = fund; });
-  portfolio.holdings = (portfolio.holdings || []).map(function (holding) {
-    const meta = fundMetaByCode[holding.code] || {};
-    return Object.assign({}, holding, {
-      name: meta.name || holding.name,
-      type: meta.type || holding.type || "未映射",
-      indexGroup: meta.indexGroup || holding.indexGroup || null,
-      feeRate: meta.feeRate !== undefined ? meta.feeRate : holding.feeRate,
-      custodyFee: meta.custodyFee !== undefined ? meta.custodyFee : holding.custodyFee,
-      dailyLimit: meta.dailyLimit !== undefined ? meta.dailyLimit : holding.dailyLimit
-    });
-  });
 
   // 读取净值缓存，提取每只基金的最新净值（文件可能不存在，由 daily-plan 生成）
   let navCache = {};
@@ -98,14 +78,6 @@ async function build() {
     }
   } catch (e) {}
 
-  // 读取投资日记
-  let diary = { entries: [] };
-  try {
-    if (fs.existsSync(DIARY)) {
-      diary = JSON.parse(fs.readFileSync(DIARY, "utf-8"));
-    }
-  } catch (e) {}
-
   // 嵌入数据
   // [fix] 用正则替换硬编码的数据变量（占位符已被替换为实际数据）
   template = template.replace(
@@ -118,17 +90,18 @@ async function build() {
     /var dailyBriefData = \{.*?\};/s,
     "var dailyBriefData = " + JSON.stringify(dailyBrief) + ";"
   );
-  template = template.replace(/var diaryData = \{.*?\};/s, "var diaryData = " + JSON.stringify(diary) + ";");
 
-  // 替换 Firebase 配置（从 .env 读取，不提交到 git）
-  // [security] 只注入 URL，不注入 Key（Key 不应暴露在前端）
-  if (env.FIREBASE_URL) {
-    template = template.replace("FIREBASE_URL_PLACEHOLDER", env.FIREBASE_URL);
-    // 不再注入 FIREBASE_KEY — 前端通过 Web Server 代理 Firebase 请求
-    template = template.replace("FIREBASE_KEY_PLACEHOLDER", "");
-    console.log("[构建] Firebase URL 已注入（Key 不注入前端，需通过代理访问）");
+  // Firebase Web 配置是公开的项目标识；数据库访问权限只由 Google Auth + Rules 决定。
+  if (env.FIREBASE_URL && env.FIREBASE_WEB_API_KEY && env.FIREBASE_AUTH_DOMAIN && env.FIREBASE_PROJECT_ID && env.FIREBASE_APP_ID) {
+    template = template
+      .replace("FIREBASE_URL_PLACEHOLDER", env.FIREBASE_URL)
+      .replace("FIREBASE_WEB_API_KEY_PLACEHOLDER", env.FIREBASE_WEB_API_KEY)
+      .replace("FIREBASE_AUTH_DOMAIN_PLACEHOLDER", env.FIREBASE_AUTH_DOMAIN)
+      .replace("FIREBASE_PROJECT_ID_PLACEHOLDER", env.FIREBASE_PROJECT_ID)
+      .replace("FIREBASE_APP_ID_PLACEHOLDER", env.FIREBASE_APP_ID);
+    console.log("[构建] Firebase Web SDK 配置已注入；未注入数据库长期密钥");
   } else {
-    console.log("[构建] ⚠️ 未找到 .env 中的 Firebase 配置");
+    console.log("[构建] ⚠️ Firebase Web 配置不完整，页面将保持未同步/预算0");
   }
 
   // 抓取新闻数据嵌入（避免前端 CORS 问题）
@@ -543,13 +516,7 @@ async function build() {
   );
 
   // 嵌入假设数据
-  let hypotheses = { hypotheses: [], stats: { total: 0, validated: 0, invalidated: 0, expired: 0 } };
-  try {
-    const hypPath = path.join(__dirname, "data", "hypotheses.json");
-    if (fs.existsSync(hypPath)) {
-      hypotheses = JSON.parse(fs.readFileSync(hypPath, "utf-8"));
-    }
-  } catch (e) {}
+  const hypotheses = { hypotheses: [], stats: { total: 0, validated: 0, invalidated: 0, expired: 0 } };
   template = template.replace(
     /var hypothesesData = \{.*?\};/s,
     "var hypothesesData = " + JSON.stringify(hypotheses) + ";"

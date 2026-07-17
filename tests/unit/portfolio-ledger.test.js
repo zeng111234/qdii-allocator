@@ -48,3 +48,13 @@ test("migration preview exposes fund count transaction count total and checksum"
   assert.match(result.chrome.checksum, /^[a-f0-9]{64}$/);
   assert.equal(result.allEqual, false);
 });
+
+test("stable transaction ids do not depend on Chrome holding order", function () {
+  const left = { holdings: [
+    { code: "B", buys: [{ date: "2026-01-03", amount: 20, nav: 4, shares: 5 }] },
+    { code: "A", buys: [{ date: "2026-01-02", amount: 10, nav: 2, shares: 5 }] }
+  ] };
+  const right = { holdings: left.holdings.slice().reverse() };
+  const options = { revision: 1, updatedAt: "2026-07-17T00:00:00.000Z" };
+  assert.equal(ledger.migrateLegacyPortfolio(left, options).checksum, ledger.migrateLegacyPortfolio(right, options).checksum);
+});

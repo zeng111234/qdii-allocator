@@ -323,8 +323,7 @@ async function handleAnalysisCommands(opts, funds, config) {
     const goalPlanner = require("./lib/goal-planner");
     const hypothesisEngine = require("./lib/hypothesis-engine");
     const navCache = require("./lib/utils").loadNavCache();
-    let portfolioData = null;
-    try { portfolioData = require("./data/portfolio.json"); } catch (e) {}
+    const portfolioData = require("./lib/portfolio").loadPortfolio();
     const hStats = hypothesisEngine.getHypothesisStats();
     goalPlanner.updateGoals(portfolioData, hStats, navCache);
     console.log(goalPlanner.formatGoalReport());

@@ -40,21 +40,15 @@ jobs:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
       - run: npm ci
-      # [fix] 从 Firebase 同步最新持仓数据（用户可能在 Page 上录了买入）
-      - name: Sync portfolio from Firebase
-        continue-on-error: true
-        run: |
-          node -e "
-            const portfolio = require('./lib/portfolio');
-            portfolio.loadPortfolioAsync().then(function(data) {
-              console.log('Portfolio synced: ' + (data.holdings ? data.holdings.length : 0) + ' holdings');
-            }).catch(function(e) {
-              console.warn('Firebase sync failed, using local:', e.message);
-            });
-          "
+      - name: Configure private ledger temp path
+        run: echo "PRIVATE_LEDGER_PATH=$RUNNER_TEMP/portfolio-ledger.json" >> "$GITHUB_ENV"
+      - name: Fetch and validate private PortfolioLedgerV2
+        run: node scripts/fetch-private-ledger.js
         env:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
+          FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+          PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
       - name: Update NAV cache
         continue-on-error: true
         run: node scripts/update-nav-cache.js
@@ -107,17 +101,26 @@ jobs:
           MAIL_TO: ${{ secrets.MAIL_TO }}
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
+          FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+          PORTFOLIO_FILE: ${{ env.PRIVATE_LEDGER_PATH }}
+          PORTFOLIO_READ_ONLY: 1
       - name: Build GitHub Pages
         run: node build-pages.js
         env:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
-          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
+          FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
+          FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+          FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      - name: Remove private ledger temp file
+        if: always()
+        run: rm -f "$PRIVATE_LEDGER_PATH"
       - name: Commit updated data and pages
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # [fix] only add tracked files, skip gitignored caches
-          git add data/history.json data/nav-cache.json data/portfolio.json data/hypotheses.json
+          git add data/history.json data/nav-cache.json
           # 复制外部信号到 docs/data/ (因为 data/external-signals-cache.json 被 gitignore)
           cp -f data/external-signals-cache.json docs/data/external-signals-cache.json 2>/dev/null || true
           git add -f docs/data/nav-cache.json docs/data/news.json docs/data/external-signals-cache.json

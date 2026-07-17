@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+.playwright-cli/
 
 # Environment
 .env
@@ -21,6 +22,9 @@ docs/index.html
 
 # Data caches (auto-generated, large files)
 # [fix] nav-cache.json 需要跟踪,否则CI环境无法获取历史数据
+data/portfolio.json
+data/private-*.json
+data/*ledger*.json
 data/nav-cache.db
 data/fund-info-cache.json
 data/external-signals-cache.json

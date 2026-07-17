@@ -319,7 +319,7 @@ qdii-allocator/
 │   └── fix-hypotheses-data.js  # 假设数据修复脚本
 ├── data/
 │   ├── funds.json              # 基金池配置（32只）
-│   ├── portfolio.json          # 持仓记录
+│   ├── portfolio.json          # 本地私有快照（gitignore，不提交）
 │   ├── hypotheses.json         # 假设追踪数据
 │   ├── nav-cache.json          # 净值缓存（自动更新）
 │   ├── external-signals-cache.json # 外部信号缓存
