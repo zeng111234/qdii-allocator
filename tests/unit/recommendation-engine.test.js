@@ -63,6 +63,64 @@ test("signal circuit breaker pauses and shadow recovery requires 20 results", fu
   assert.equal(recovered.status, "HEALTHY");
 });
 
+test("plan exposes every deterministic pause reason without weakening the live gate", function () {
+  const weakHistory = Array.from({ length: 15 }, function (_, i) {
+    return {
+      date: "2026-06-" + String(i + 1).padStart(2, "0"),
+      action: "BUY",
+      ranked: [{ code: "A", followUp5dReturn: i < 3 ? 1 : -2 }]
+    };
+  });
+  const plan = engine.buildRecommendationPlan({
+    funds: [{ code: "A", name: "A", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 100, feeRate: 0.5 }],
+    navCache: { A: navSeries("2025-10-01", 288, 0.001) },
+    portfolio: { holdings: [] },
+    history: { records: weakHistory },
+    asOf: "2026-07-15",
+    budget: 50,
+    liveEnabled: false
+  });
+
+  assert.equal(plan.action, "PAUSE");
+  assert.deepEqual(plan.pauseReasons, ["LIVE_DISABLED", "SIGNAL_BREAKER"]);
+});
+
+test("plan partitions BUY and PAUSE history into disjoint live and shadow samples", function () {
+  const liveRecords = Array.from({ length: 15 }, function (_, i) {
+    return {
+      date: "2026-05-" + String(i + 1).padStart(2, "0"),
+      action: "BUY",
+      ranked: [{ code: "A", followUp5dReturn: i < 3 ? 1 : -2 }]
+    };
+  });
+  const shadowRecords = Array.from({ length: 20 }, function (_, i) {
+    return {
+      date: "2026-06-" + String(i + 1).padStart(2, "0"),
+      action: "PAUSE",
+      ranked: [{ code: "A", followUp5dReturn: i < 11 ? 1 : -0.5 }]
+    };
+  });
+  const duplicatedShadowRecord = Object.assign({}, shadowRecords[19], {
+    ranked: [{ code: "A", followUp5dReturn: 1 }]
+  });
+  const plan = engine.buildRecommendationPlan({
+    funds: [{ code: "A", name: "A", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 100, feeRate: 0.5 }],
+    navCache: { A: navSeries("2025-10-01", 288, 0.001) },
+    portfolio: { holdings: [] },
+    history: { records: liveRecords.concat(shadowRecords, duplicatedShadowRecord) },
+    asOf: "2026-07-15",
+    budget: 50,
+    liveEnabled: true,
+    limits: { maxFundWeight: 1, maxIndexGroupWeight: 1 }
+  });
+
+  assert.equal(plan.signalHealth.matured.count, 15);
+  assert.equal(plan.signalHealth.shadow.count, 20);
+  assert.equal(plan.signalHealth.recovered, true);
+  assert.equal(plan.action, "BUY");
+  assert.deepEqual(plan.pauseReasons, []);
+});
+
 test("plan enforces concentration, max two candidates and shadow PAUSE", function () {
   const funds = [
     { code: "A", name: "A", type: "纳指100", indexGroup: "NDX100", status: "active", dailyLimit: 100, feeRate: 0.5 },

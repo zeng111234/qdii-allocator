@@ -596,11 +596,13 @@ async function main() {
   } catch (e) {
     console.warn("[推荐计划] 历史读取失败，强制 PAUSE:", e.message);
   }
+  const recommendationHistory = recommendationEngine.partitionRecommendationHistory(historyData);
   const recommendationPlan = recommendationEngine.buildRecommendationPlan({
     funds: funds,
     navCache: fundData.loadNavCache(),
     portfolio: portfolio.loadPortfolio(),
-    history: historyData,
+    history: recommendationHistory.liveHistory,
+    shadowHistory: recommendationHistory.shadowHistory,
     marketTemperature: result.marketTemperature,
     asOf: planAsOf,
     budget: Math.min(budget, 50),

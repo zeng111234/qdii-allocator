@@ -424,11 +424,13 @@ async function build() {
     const recommendationEngine = require("./lib/recommendation-engine");
     const historyPath = path.join(__dirname, "data", "history.json");
     const history = fs.existsSync(historyPath) ? JSON.parse(fs.readFileSync(historyPath, "utf-8")) : { records: [] };
+    const recommendationHistory = recommendationEngine.partitionRecommendationHistory(history);
     recommendationPlan = recommendationEngine.buildRecommendationPlan({
       funds: funds.funds,
       navCache: navCache,
       portfolio: portfolio,
-      history: history,
+      history: recommendationHistory.liveHistory,
+      shadowHistory: recommendationHistory.shadowHistory,
       marketTemperature: marketTemperature,
       asOf: new Date().toISOString().slice(0, 10),
       budget: Math.min((funds.config && funds.config.defaultBudget) || 50, 50),
@@ -442,7 +444,7 @@ async function build() {
   } catch (e) {
     console.log("[构建] 推荐计划生成失败，强制 PAUSE: " + e.message);
     recommendationPlan = {
-      asOf: new Date().toISOString().slice(0, 10), action: "PAUSE", budget: 0,
+      asOf: new Date().toISOString().slice(0, 10), action: "PAUSE", pauseReasons: ["DATA_ERROR"], budget: 0,
       dataFreshness: { status: "ERROR" }, candidates: [], portfolioRisk: {}, signalHealth: { status: "PAUSE" }, marketRanking: []
     };
   }
@@ -453,6 +455,7 @@ async function build() {
     date: recommendationPlan.asOf,
     strategy: "RecommendationPlan",
     action: recommendationPlan.action,
+    pauseReasons: recommendationPlan.pauseReasons,
     dataFreshness: recommendationPlan.dataFreshness,
     signalHealth: recommendationPlan.signalHealth,
     budget: recommendationPlan.budget,

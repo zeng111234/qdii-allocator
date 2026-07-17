@@ -1379,14 +1379,13 @@
         html += '<div style="font-size:13px;color:var(--text3);line-height:1.7">暂无投资假设。在买入基金时，系统会自动创建投资假设并追踪收益。</div>';
       } else {
         var activeHyps = hypData.hypotheses.filter(function(h) { return h.status === 'active'; });
-        var closedHyps = hypData.hypotheses.filter(function(h) { return h.status !== 'active'; });
-        var validated = closedHyps.filter(function(h) { return h.status === 'validated'; });
-        var winRate = closedHyps.length > 0 ? Math.round(validated.length / closedHyps.length * 100) : null;
-        var winRateDisplay = winRate !== null ? winRate + '% (' + closedHyps.length + '个)' : '样本不足';
+        var outcomeStats = getHypothesisOutcomeStats(hypData.hypotheses);
+        var winRate = outcomeStats.winRate;
+        var winRateDisplay = winRate !== null ? winRate + '% (' + outcomeStats.sampleCount + '个)' : '样本不足';
         html += '<div class="insight-grid">';
         html += '<div class="insight-stat blue"><div class="label">活跃假设</div><div class="value">' + activeHyps.length + '</div></div>';
-        html += '<div class="insight-stat green"><div class="label">已验证</div><div class="value">' + validated.length + '</div></div>';
-        html += '<div class="insight-stat ' + (winRate !== null && winRate >= 50 ? 'green' : 'red') + '"><div class="label">胜率</div><div class="value">' + winRateDisplay + '</div></div>';
+        html += '<div class="insight-stat green"><div class="label">达到止盈</div><div class="value">' + outcomeStats.validated + '</div></div>';
+        html += '<div class="insight-stat ' + (winRate !== null && winRate >= 50 ? 'green' : 'red') + '"><div class="label">止盈/止损命中率</div><div class="value">' + winRateDisplay + '</div><div style="font-size:10px;color:var(--text3);margin-top:4px">' + outcomeStats.validated + '胜 / ' + outcomeStats.invalidated + '负；活跃与过期不计入</div></div>';
         html += '</div>';
         activeHyps.slice(0, 5).forEach(function(h) {
           var ret3d = h.followUpReturns && h.followUpReturns['3d'] !== null ? h.followUpReturns['3d'] + '%' : 'N/A';
@@ -3330,6 +3329,72 @@
       card.style.display = 'block';
     }
 
+    function getHypothesisOutcomeStats(hypotheses) {
+      var source = Array.isArray(hypotheses) ? hypotheses : [];
+      var validated = source.filter(function(h) { return h && h.status === 'validated'; }).length;
+      var invalidated = source.filter(function(h) { return h && h.status === 'invalidated'; }).length;
+      var sampleCount = validated + invalidated;
+      return {
+        validated: validated,
+        invalidated: invalidated,
+        sampleCount: sampleCount,
+        winRate: sampleCount > 0 ? Math.round(validated / sampleCount * 100) : null
+      };
+    }
+
+    function formatMetric(value, digits) {
+      var number = Number(value);
+      if (!Number.isFinite(number)) return '暂无';
+      var precision = digits === undefined ? 2 : digits;
+      return Number(number.toFixed(precision)).toString();
+    }
+
+    function getTodayPicksAverage(plan) {
+      var ranked = plan && Array.isArray(plan.ranked) ? plan.ranked : [];
+      var scores = ranked.map(function(row) {
+        return Number(row && (row.score !== undefined ? row.score : row.marketScore));
+      }).filter(Number.isFinite);
+      if (scores.length === 0) return null;
+      return Number((scores.reduce(function(sum, score) { return sum + score; }, 0) / scores.length).toFixed(2));
+    }
+
+    function formatPauseReason(reason) {
+      var raw = reason && typeof reason === 'object' ? (reason.message || reason.code || JSON.stringify(reason)) : String(reason || '');
+      var labels = {
+        SIGNAL_CIRCUIT_BREAKER: '近期5日推荐表现触发信号熔断',
+        RECENT_WIN_RATE_LOW: '近期5日正收益率低于门槛',
+        RECENT_AVERAGE_RETURN_LOW: '近期5日平均收益低于门槛',
+        LIVE_DISABLED: '真实买入总闸未开启',
+        DATA_STALE: '净值数据时效不合格',
+        UNKNOWN_HOLDINGS: '存在无法识别的持仓',
+        NO_ELIGIBLE_CANDIDATES: '没有通过硬风控的候选'
+      };
+      return labels[raw] ? labels[raw] + '（' + raw + '）' : raw;
+    }
+
+    function buildPauseDetails(plan) {
+      var safePlan = plan || {};
+      var health = safePlan.signalHealth || {};
+      var matured = health.matured || {};
+      var shadow = health.shadow || {};
+      var details = ['确定性风控状态：' + (safePlan.action || 'PAUSE'), '信号健康度：' + (health.status || '未知')];
+      var reasons = Array.isArray(safePlan.pauseReasons) ? safePlan.pauseReasons.map(formatPauseReason).filter(Boolean) : [];
+      if (reasons.length > 0) details.push('暂停原因：' + reasons.join('、'));
+      else if (health.breakerTriggered) details.push('暂停原因：近期5日推荐表现触发信号熔断');
+      if (Number(matured.count) > 0) {
+        details.push('最近' + matured.count + '个成熟5日结果：胜率' + formatMetric(matured.winRate) + '%，平均收益' + formatMetric(matured.averageReturn) + '%');
+      }
+      details.push('熔断阈值：成熟样本至少15个，胜率40%以下或平均收益-1%及以下');
+      details.push('恢复条件：至少20个影子5日结果，胜率达到50%，平均收益大于0%');
+      if (Number(shadow.count) > 0) {
+        details.push('当前影子结果：' + shadow.count + '个，胜率' + formatMetric(shadow.winRate) + '%，平均收益' + formatMetric(shadow.averageReturn) + '%');
+      }
+      if (safePlan.dataFreshness) {
+        details.push('数据时效：' + (safePlan.dataFreshness.status || '未知') + (safePlan.dataFreshness.latestNavDate ? '，最新净值' + safePlan.dataFreshness.latestNavDate : ''));
+      }
+      return details.join('；');
+    }
+
     // [fix] Buy Signal Banner
     function renderBuySignal() {
       var card = document.getElementById('buy-signal-card');
@@ -3337,32 +3402,31 @@
       if (!card || !content) return;
 
       var bi = todayPicks && todayPicks.budgetInfo ? todayPicks.budgetInfo : null;
-      var signal, reason, avgScore;
+      var signal, reason, avgScore = getTodayPicksAverage(todayPicks);
 
       if (todayPicks && (todayPicks.action === 'PAUSE' || todayPicks.action === 'HOLD')) {
         signal = 'STOP';
-        reason = '确定性风控状态：' + todayPicks.action + '；信号健康度：' + ((todayPicks.signalHealth && todayPicks.signalHealth.status) || '未知');
-        avgScore = 0;
+        reason = buildPauseDetails(todayPicks);
       } else
 
       if (bi && bi.buySignal) {
         signal = bi.buySignal;
         reason = bi.buySignalReason || '';
-        avgScore = bi.avgScore || 0;
+        avgScore = Number.isFinite(Number(bi.avgScore)) ? Number(bi.avgScore) : avgScore;
       } else {
         // [fix] 无budgetInfo时，基于市场温度+评分自行计算
         var temp = marketTemperature ? marketTemperature.temperature : 50;
         var ranked = todayPicks && todayPicks.ranked ? todayPicks.ranked : [];
-        avgScore = ranked.length > 0 ? ranked.reduce(function(s, r) { return s + (r.score || 0); }, 0) / ranked.length : 0;
+        avgScore = getTodayPicksAverage({ ranked: ranked });
         var reasons = [];
-        if (temp >= 80 || avgScore < 8) {
+        if (temp >= 80 || (avgScore !== null && avgScore < 8)) {
           signal = 'STOP';
           if (temp >= 80) reasons.push('市场极热(温度' + temp + ')');
-          if (avgScore < 8) reasons.push('评分极低(均分' + avgScore.toFixed(1) + ')');
-        } else if (temp >= 65 || avgScore < 12) {
+          if (avgScore !== null && avgScore < 8) reasons.push('评分极低(均分' + avgScore.toFixed(1) + ')');
+        } else if (temp >= 65 || (avgScore !== null && avgScore < 12)) {
           signal = 'CAUTION';
           if (temp >= 65) reasons.push('市场偏热(温度' + temp + ')');
-          if (avgScore < 12) reasons.push('评分偏低(均分' + avgScore.toFixed(1) + ')');
+          if (avgScore !== null && avgScore < 12) reasons.push('评分偏低(均分' + avgScore.toFixed(1) + ')');
         } else {
           signal = 'GO';
         }
@@ -3373,7 +3437,9 @@
       if (signal === 'STOP') {
         color = '#ef4444'; bgColor = 'rgba(239,68,68,0.12)';
         emoji = '🔴'; title = '今日建议观望';
-        subtitle = '市场过热或评分过低，暂不建议买入';
+        subtitle = todayPicks && (todayPicks.action === 'PAUSE' || todayPicks.action === 'HOLD')
+          ? '确定性风控要求今天不买；候选只作影子观察'
+          : '当前条件未通过买入门槛';
       } else if (signal === 'CAUTION') {
         color = '#f97316'; bgColor = 'rgba(249,115,22,0.12)';
         emoji = '🟡'; title = '谨慎操作';
@@ -3393,7 +3459,7 @@
         + '</div>'
         + '<div style="text-align:right">'
         + '<div style="font-size:11px;color:var(--text3)">Top均分</div>'
-        + '<div style="font-size:18px;font-weight:700;color:' + color + '">' + (avgScore ? avgScore.toFixed(1) : '-') + '</div>'
+        + '<div style="font-size:18px;font-weight:700;color:' + color + '">' + (avgScore !== null ? avgScore.toFixed(1) : '-') + '</div>'
         + '</div>'
         + '</div>'
         + '</div>';
@@ -3461,7 +3527,7 @@
         html += '</div>';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:11px;color:var(--text3)">';
         html += '<div>' + r.code + ' · ' + limitText + '</div>';
-        html += '<div style="color:var(--primary);font-weight:600">' + (todayPicks.action === 'BUY' ? ('建议买入 ' + suggestAmt + ' 元') : '影子观察 · 不买入') + '</div>';
+        html += '<div style="color:var(--primary);font-weight:600">' + (todayPicks.action === 'BUY' ? ('建议买入 ' + suggestAmt + ' 元') : '影子观察 · 金额 0 元 · 不实买') + '</div>';
         html += '</div>';
 
         // 显示推荐理由（截取前80字符）
@@ -3492,7 +3558,7 @@
       }
 
       // 购买金额建议
-      html += '<div style="margin-top:10px;padding:8px;background:var(--state-blue-bg);border-radius:8px;font-size:11px;color:var(--text2)">💡 <b>系统状态：</b>' + (todayPicks.action === 'BUY' ? '仅执行统一计划中的金额。' : '当前暂停真实买入，仅保留影子观察。') + '</div>';
+      html += '<div style="margin-top:10px;padding:8px;background:var(--state-blue-bg);border-radius:8px;font-size:11px;color:var(--text2)">💡 <b>系统状态：</b>' + (todayPicks.action === 'BUY' ? '仅执行统一计划中的金额。' : '影子观察=金额 0 元、只记录候选后续表现、不实买。') + '</div>';
 
       content.innerHTML = html;
     }
@@ -4482,7 +4548,56 @@
     // ========== AI 助手模块 ==========
     var AI_CONFIG_KEY = 'qdii-ai-config';
     var AI_CHAT_KEY = 'qdii-ai-chat';
+    var AI_CHAT_PLAN_KEY = 'qdii-ai-chat-plan';
     var aiChatHistory = [];
+
+    function getPlanFingerprint(plan) {
+      if (!plan || (!plan.date && !plan.asOf) || !plan.action) return '';
+      return String(plan.date || plan.asOf) + '|' + String(plan.action);
+    }
+
+    function syncChatPlanScope(plan) {
+      var chatKey = typeof AI_CHAT_KEY !== 'undefined' ? AI_CHAT_KEY : 'qdii-ai-chat';
+      var planKey = typeof AI_CHAT_PLAN_KEY !== 'undefined' ? AI_CHAT_PLAN_KEY : 'qdii-ai-chat-plan';
+      var current = getPlanFingerprint(plan);
+      if (!current) return false;
+      var previous = localStorage.getItem(planKey);
+      var changed = Boolean(previous && previous !== current);
+      if (changed) localStorage.removeItem(chatKey);
+      localStorage.setItem(planKey, current);
+      return changed;
+    }
+
+    function isTodayBuyQuestion(text) {
+      return /今天.*(买什么|买哪|该买|能买)|现在.*(买什么|买哪|该买)|今日.*(买什么|买哪|该买)/.test(String(text || '').replace(/\s+/g, ''));
+    }
+
+    function isMarketSentimentQuestion(text) {
+      return /(市场情绪|新闻.*情绪|外部信号.*情绪|情绪如何)/.test(String(text || '').replace(/\s+/g, ''));
+    }
+
+    function buildMarketSentimentDisclosure(plan, news, externalSignals) {
+      var newsSource = news || {};
+      var externalSource = externalSignals || {};
+      var newsCount = Array.isArray(newsSource.items) ? newsSource.items.length : 0;
+      var externalCount = Array.isArray(externalSource.tickerOpinions) ? externalSource.tickerOpinions.length : 0;
+      var parts = [
+        '📌 数据说明：新闻数据时效 ' + (newsSource.fetchedAt || '未知') + '，覆盖' + newsCount + '条',
+        '外部信号状态 ' + (externalSource.status || '未知') + '，数据时效 ' + (externalSource.cachedAt || '未知') + '，覆盖' + externalCount + '条'
+      ];
+      if (newsCount < 5 || externalCount === 0 || externalSource.status === 'stale') {
+        parts.push('覆盖不足，只能作为背景解释');
+      }
+      parts.push('市场情绪不得改变确定性计划 ' + ((plan && plan.action) || 'PAUSE'));
+      return parts.join('；') + '。';
+    }
+
+    function buildNoBuyAnswer(plan) {
+      var safePlan = plan || {};
+      return '今天不买。' + (safePlan.date || safePlan.asOf ? '计划日期：' + (safePlan.date || safePlan.asOf) + '；' : '') +
+        '确定性计划状态为 ' + (safePlan.action || 'PAUSE') + '，今日预算 0元。\n' +
+        buildPauseDetails(safePlan) + '。\n影子候选金额为0，只记录后续表现，不执行真实买入。';
+    }
 
     function getAiConfig() {
       try { return JSON.parse(localStorage.getItem(AI_CONFIG_KEY)) || {}; } catch(e) { return {}; }
@@ -4573,6 +4688,7 @@
     }
 
     function loadChatHistory() {
+      syncChatPlanScope(typeof todayPicks !== 'undefined' ? todayPicks : null);
       try { aiChatHistory = JSON.parse(localStorage.getItem(AI_CHAT_KEY)) || []; } catch(e) { aiChatHistory = []; }
       if (aiChatHistory.length > 0) renderChatHistory();
     }
@@ -4676,41 +4792,37 @@
       return html;
     }
 
-    function buildSystemPrompt() {
+    function buildSystemPrompt(question) {
       var lines = [];
       lines.push('你是QDII基金投资助手。风格轻松口语化，像朋友聊天。回答控制在500字以内，用emoji。');
       lines.push('直接回答问题，不要输出思考过程。');
       lines.push('');
-      lines.push('核心原则：');
-      lines.push('- 评分高≠推荐买，要看持仓分散、回撤、限购');
-      lines.push('- 同指数基金底层重叠（如多只纳指都是英伟达+苹果），要指出');
-      lines.push('- 推荐要说明理由，不能只说"评分最高"');
-      lines.push('- 用户总投入约1000元，每次建议30-100元');
+      lines.push('=== 不可更改的 RecommendationPlan ===');
+      var plan = typeof todayPicks !== 'undefined' && todayPicks ? todayPicks : {};
+      lines.push('计划日期: ' + (plan.date || plan.asOf || '未知'));
+      lines.push('action: ' + (plan.action || 'PAUSE'));
+      lines.push('预算: ' + (Number(plan.budget) || 0) + '元');
+      var freshness = plan.dataFreshness || {};
+      lines.push('数据时效: ' + (freshness.status || '未知') + (freshness.latestNavDate ? '，最新净值' + freshness.latestNavDate : ''));
+      if (plan.action === 'PAUSE' || plan.action === 'HOLD') lines.push(buildPauseDetails(plan));
+      var planCandidates = Array.isArray(plan.ranked) ? plan.ranked : [];
+      if (planCandidates.length === 0) {
+        lines.push('候选: 无');
+      } else {
+        planCandidates.forEach(function(candidate, index) {
+          lines.push((index + 1) + '. ' + candidate.name + '(' + candidate.code + ') 评分' +
+            formatMetric(candidate.score !== undefined ? candidate.score : candidate.marketScore) +
+            '，建议金额' + (Number(candidate.proposedAmount) || 0) + '元' +
+            (candidate.reason ? '，理由：' + candidate.reason : '') +
+            (candidate.blockedBy && candidate.blockedBy.length ? '，阻止原因：' + candidate.blockedBy.join('、') : ''));
+        });
+      }
+      lines.push('硬规则：只能解释以上 RecommendationPlan，不得新增基金、重算排名、改变 action、预算或建议金额。');
+      lines.push('PAUSE/HOLD 必须明确回答今天不买、预算0元；市场情绪不得覆盖或弱化 PAUSE。');
       lines.push('');
 
-      // 市场温度
-      if (typeof marketTemperature !== 'undefined' && marketTemperature) {
-        lines.push('=== 市场温度 ===');
-        lines.push('温度: ' + marketTemperature.temperature + '/100 (' + marketTemperature.level + ')');
-        lines.push('建议投入倍数: ' + marketTemperature.multiplier + 'x');
-        lines.push('含义: ≤20极冷(多投), 21-35偏冷, 36-65正常, 66-80偏热, ≥81极热(少投)');
-        lines.push('');
-      }
-
-      // 机会评级（基于FactorEngine排名结果）
-      try {
-        var ranked = computeRankings(navCacheData);
-        var scored = ranked.filter(function(r) { return r.composite !== null; });
-        if (scored.length > 0) {
-          var avgScore = scored.reduce(function(s, r) { return s + r.composite; }, 0) / scored.length;
-          var opportunity = avgScore >= 25 ? '极佳机会' : (avgScore >= 20 ? '良好机会' : (avgScore >= 15 ? '正常机会' : '谨慎观望'));
-          lines.push('=== 机会评级 ===');
-          lines.push('平均评分: ' + Math.round(avgScore * 10) / 10);
-          lines.push('机会评级: ' + opportunity);
-          lines.push('含义: ≥25极佳(大胆买), 20-24良好(积极买), 15-19正常(正常买), <15谨慎(少买)');
-          lines.push('');
-        }
-      } catch(e) {}
+      // “今天买什么”只能解释确定性计划，不注入任何浏览器自算数据。
+      if (isTodayBuyQuestion(question)) return lines.join('\n');
 
       // 市场情绪
       if (typeof newsData !== 'undefined' && newsData && newsData.sentiment) {
@@ -4719,6 +4831,13 @@
         lines.push('=== 市场情绪 ===');
         lines.push('情绪: ' + moodText + ' (分数:' + sentiment.overall + ')');
         lines.push('利好: ' + sentiment.positive + '条, 利空: ' + sentiment.negative + '条');
+        lines.push('新闻数据时效: ' + (newsData.fetchedAt || '未知') + '；覆盖: ' + ((newsData.items && newsData.items.length) || 0) + '条');
+        if (!newsData.items || newsData.items.length < 5) lines.push('覆盖不足：新闻样本少于5条，只能作解释，不能用于改变买卖状态。');
+        lines.push('约束：市场情绪只解释背景，不得覆盖 RecommendationPlan 的 ' + (plan.action || 'PAUSE') + ' 状态。');
+        lines.push('');
+      } else {
+        lines.push('=== 市场情绪 ===');
+        lines.push('数据时效未知且覆盖不足：没有可用情绪样本，不得据此改变 RecommendationPlan。');
         lines.push('');
       }
 
@@ -4759,63 +4878,6 @@
       });
       lines.push('总投入: ' + totalInv + '元, 总市值: ' + totalVal.toFixed(0) + '元, 总盈亏: ' + (totalVal - totalInv).toFixed(2) + '元, ' + holdings.length + '只基金');
       lines.push('');
-
-      // 全量评分数据（用客户端FactorEngine实时计算，和评分Tab完全一致）
-      try {
-        var allFunds = fundsData.funds.filter(function(f) { return f.status === 'active'; });
-        var clientRanked = [];
-        allFunds.forEach(function(fund) {
-          var cached = navCacheData[fund.code];
-          if (!cached || !Array.isArray(cached) || cached.length < 10) return;
-          var sorted = cached.slice().sort(function(a, b) { return a.date < b.date ? -1 : 1; });
-          var navArr = sorted.map(function(x) { return x.nav; });
-          var rawScores = FactorEngine.computeAll(navArr, fund);
-          var weights = FactorEngine.getDefaultWeights();
-          var totalWeight = 0, weightedSum = 0;
-          Object.keys(rawScores).forEach(function(fid) {
-            if (rawScores[fid] === null || rawScores[fid] === undefined || isNaN(rawScores[fid])) return;
-            var w = weights[fid] || 1;
-            weightedSum += rawScores[fid] * w;
-            totalWeight += Math.abs(w);
-          });
-          var score = totalWeight > 0 ? Math.round(weightedSum / totalWeight * 10) / 10 : null;
-          if (score !== null) clientRanked.push({ code: fund.code, name: fund.name, type: fund.type, score: score });
-        });
-        clientRanked.sort(function(a, b) { return b.score - a.score; });
-
-        lines.push('=== 全量基金评分（' + clientRanked.length + '只，含详情） ===');
-        clientRanked.forEach(function(f, i) {
-          var limitInfo = purchaseLimits ? purchaseLimits[f.code] : null;
-          var limit = limitInfo ? (limitInfo.limit ? ' 限购' + limitInfo.limit + '元' : '') : '';
-          var inPortfolio = holdings.some(function(h) { return h.code === f.code; });
-          var tag = inPortfolio ? ' [已持有]' : '';
-          
-          // 获取基金详情
-          var fundInfo = fundsData.funds.find(function(x) { return x.code === f.code; });
-          var fee = fundInfo ? (fundInfo.feeRate || 0) : 0;
-          var feeStr = fee > 0 ? ' 费率' + fee + '%' : '';
-          
-          // 获取技术指标
-          var cached = navCacheData[f.code];
-          var techStr = '';
-          if (cached && cached.length >= 20) {
-            var navs = cached.map(function(x) { return x.nav; });
-            var latest = navs[navs.length - 1];
-            var ma20 = navs.slice(-20).reduce(function(s, v) { return s + v; }, 0) / 20;
-            var ma60 = navs.length >= 60 ? navs.slice(-60).reduce(function(s, v) { return s + v; }, 0) / 60 : ma20;
-            var change5d = navs.length >= 5 ? ((latest / navs[navs.length - 5] - 1) * 100).toFixed(1) : 'N/A';
-            var change30d = navs.length >= 30 ? ((latest / navs[navs.length - 30] - 1) * 100).toFixed(1) : 'N/A';
-            var fromPeak = navs.length >= 20 ? ((latest / Math.max.apply(null, navs) - 1) * 100).toFixed(1) : 'N/A';
-            techStr = ' 5日' + change5d + '% 30日' + change30d + '% 距高点' + fromPeak + '%';
-          }
-          
-          lines.push((i+1) + '. ' + f.name + ' (' + f.code + ') 评分:' + f.score + ' 类型:' + (f.type||'') + limit + feeStr + techStr + tag);
-        });
-        lines.push('');
-      } catch(e) {
-        lines.push('（评分数据加载失败）');
-        lines.push('');
-      }
 
       // 新闻（带情绪评分）
       if (newsData && newsData.items && newsData.items.length > 0) {
@@ -4872,18 +4934,27 @@
       if (!text) return;
       if (!retryText) { input.value = ''; input.style.height = 'auto'; }
 
-      var config = getAiConfig();
-      if (!config.apiKey) {
-        toggleAiConfig();
-        showToast('请先配置 API Key', true);
-        return;
-      }
-
       // 显示用户消息
       if (!retryText) {
         appendMessage('user', text);
         aiChatHistory.push({ role: 'user', content: text });
         saveChatHistory();
+      }
+
+      // PAUSE/HOLD 下，“今天买什么”直接消费确定性计划，不调用 LLM。
+      if (isTodayBuyQuestion(text) && todayPicks && todayPicks.action !== 'BUY') {
+        var localAnswer = buildNoBuyAnswer(todayPicks);
+        appendMessage('assistant', localAnswer);
+        aiChatHistory.push({ role: 'assistant', content: localAnswer });
+        saveChatHistory();
+        return;
+      }
+
+      var config = getAiConfig();
+      if (!config.apiKey) {
+        toggleAiConfig();
+        showToast('请先配置 API Key', true);
+        return;
       }
 
       // 显示加载状态
@@ -4895,7 +4966,7 @@
       bubble.innerHTML = '<div style="display:flex;align-items:center;gap:8px"><div class="loading"></div> <span style="color:var(--text3)">AI 正在分析...</span></div>';
 
       try {
-        var systemPrompt = buildSystemPrompt();
+        var systemPrompt = buildSystemPrompt(text);
         var messages = [{ role: 'system', content: systemPrompt }];
         // 加入最近的聊天历史（最多10条）
         var recentHistory = aiChatHistory.slice(-10);
@@ -4982,6 +5053,13 @@
         if (fullText) {
           // 清理思维链
           fullText = fullText.replace(/<think>[\s\S]*?<\/think>/gi, '').replace(/<thinking>[\s\S]*?<\/thinking>/gi, '').trim();
+          if (isMarketSentimentQuestion(text)) {
+            fullText += '\n\n' + buildMarketSentimentDisclosure(
+              typeof todayPicks !== 'undefined' ? todayPicks : null,
+              typeof newsData !== 'undefined' ? newsData : null,
+              typeof externalSignalsData !== 'undefined' ? externalSignalsData : null
+            );
+          }
           var elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
           bubble.innerHTML = renderMarkdown(fullText) + '<div style="font-size:10px;color:var(--text3);margin-top:4px;text-align:right">⏱️ ' + elapsed + 's</div>';
           aiChatHistory.push({ role: 'assistant', content: fullText });
