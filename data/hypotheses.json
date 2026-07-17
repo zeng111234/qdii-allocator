@@ -123,7 +123,7 @@
         "3d": 2.92,
         "7d": -0.67,
         "14d": -0.57,
-        "30d": -0.25
+        "30d": -2.22
       }
     },
     {
@@ -380,8 +380,8 @@
       "followUpReturns": {
         "3d": -0.97,
         "7d": -6.19,
-        "14d": -3.7,
-        "30d": -3.7
+        "14d": -4.63,
+        "30d": -4.63
       }
     },
     {
@@ -456,9 +456,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -3.62,
-        "7d": -1.01,
-        "14d": -1.01,
-        "30d": -1.01
+        "7d": -2.62,
+        "14d": -2.62,
+        "30d": -2.62
       },
       "_needsNavBackfill": false
     },
@@ -505,10 +505,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": -1.06,
-        "7d": -1.06,
-        "14d": -1.06,
-        "30d": -1.06
+        "3d": -1.79,
+        "7d": -1.79,
+        "14d": -1.79,
+        "30d": -1.79
       },
       "_needsNavBackfill": false
     },
@@ -530,10 +530,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": -0.39,
-        "7d": -0.39,
-        "14d": -0.39,
-        "30d": -0.39
+        "3d": -0.14,
+        "7d": -0.14,
+        "14d": -0.14,
+        "30d": -0.14
       },
       "_needsNavBackfill": false
     },
@@ -555,10 +555,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": 0.47,
-        "7d": 0.47,
-        "14d": 0.47,
-        "30d": 0.47
+        "3d": 0.24,
+        "7d": 0.24,
+        "14d": 0.24,
+        "30d": 0.24
       },
       "_needsNavBackfill": false
     },
@@ -580,10 +580,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": -1.91,
-        "7d": -1.91,
-        "14d": -1.91,
-        "30d": -1.91
+        "3d": -1.35,
+        "7d": -1.35,
+        "14d": -1.35,
+        "30d": -1.35
       },
       "_needsNavBackfill": false
     },
@@ -605,10 +605,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": -1.95,
-        "7d": -1.95,
-        "14d": -1.95,
-        "30d": -1.95
+        "3d": -2.17,
+        "7d": -2.17,
+        "14d": -2.17,
+        "30d": -2.17
       },
       "_needsNavBackfill": false
     },
@@ -630,10 +630,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": 0.93,
+        "7d": 0.93,
+        "14d": 0.93,
+        "30d": 0.93
       }
     },
     {
@@ -702,10 +702,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": 0.01,
+        "7d": 0.01,
+        "14d": 0.01,
+        "30d": 0.01
       }
     },
     {
@@ -731,11 +731,35 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1784261855120-vh6e",
+      "fundCode": "160216",
+      "fundName": "国泰大宗商品(QDII-LOF)",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#5，分数2.29。最大回撤-24.97%扣7.5分，回撤8.85%加2.3分，低于MA10加3.6分，空头排列-2.5分，波动1.18%扣1.4分，历史推荐亏钱100%扣2.5分",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-17T04:17:35.120Z",
+      "navAtCreation": 0.618,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 29,
-    "active": 20,
+    "total": 30,
+    "active": 21,
     "validated": 1,
     "invalidated": 8,
     "expired": 0,

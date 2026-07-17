@@ -9570,7 +9570,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -2.65,
-          "followUp10dReturn": null
+          "followUp10dReturn": -8.58
         },
         {
           "rank": 2,
@@ -9614,7 +9614,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -0.23,
-          "followUp10dReturn": null
+          "followUp10dReturn": -4.63
         },
         {
           "rank": 4,
@@ -9636,7 +9636,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -2.46,
-          "followUp10dReturn": null
+          "followUp10dReturn": -7.34
         },
         {
           "rank": 5,
@@ -9702,7 +9702,7 @@
             "longTermTrend": "neutral"
           },
           "followUp5dReturn": -1.89,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.68
         },
         {
           "rank": 8,
@@ -9724,7 +9724,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 0.26,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1
         },
         {
           "rank": 9,
@@ -9768,7 +9768,7 @@
             "longTermTrend": "neutral"
           },
           "followUp5dReturn": -1.25,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.59
         }
       ],
       "allScores": [
@@ -13435,6 +13435,57 @@
           "name": "华夏全球股票(QDII)(人民币)",
           "score": 0.93,
           "status": "active"
+        }
+      ]
+    },
+    {
+      "date": "2026-07-17",
+      "strategy": "RecommendationPlan",
+      "action": "PAUSE",
+      "budget": 0,
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-07-16",
+        "maxTradingDayLag": 2,
+        "observationCount": 4
+      },
+      "signalHealth": {
+        "status": "PAUSE",
+        "matured": {
+          "count": 30,
+          "winRate": 16.67,
+          "averageReturn": -2.44
+        },
+        "shadow": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "breakerTriggered": true,
+        "recovered": false
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 74.17,
+          "suitabilityScore": 74.17,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "001092",
+          "name": "广发纳斯达克生物科技A(QDII)",
+          "score": 63.58,
+          "suitabilityScore": 63.58,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
         }
       ]
     }
