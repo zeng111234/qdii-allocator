@@ -72,6 +72,46 @@ test('calcCorrelationMatrix - unknown fund returns null in matrix', function () 
   assert.strictEqual(result.matrix[1][1], 1);
 });
 
+test('alignReturnsByDate pairs returns by date and ignores missing dates', function () {
+  const left = [
+    { date: '2026-01-01', nav: 100 }, { date: '2026-01-02', nav: 110 },
+    { date: '2026-01-03', nav: 121 }, { date: '2026-01-04', nav: 133.1 }
+  ];
+  const right = [
+    { date: '2026-01-01', nav: 200 }, { date: '2026-01-03', nav: 220 },
+    { date: '2026-01-04', nav: 242 }
+  ];
+  const aligned = risk.alignReturnsByDate(left, right);
+  assert.deepEqual(aligned.dates, ['2026-01-03', '2026-01-04']);
+  assert.equal(aligned.left.length, 2);
+  assert.equal(aligned.right.length, 2);
+});
+
+test('TWR excludes external cash flows and XIRR uses actual dated cash flows', function () {
+  const twr = risk.calculateTWR([
+    { date: '2026-01-01', openingValue: 100, closingValue: 110, netCashFlow: 0 },
+    { date: '2026-01-02', openingValue: 110, closingValue: 231, netCashFlow: 100 }
+  ]);
+  assert.ok(Math.abs(twr - 0.21) < 1e-10);
+  const xirr = risk.calculateXIRR([
+    { date: '2025-01-01', amount: -100 },
+    { date: '2026-01-01', amount: 110 }
+  ]);
+  assert.ok(Math.abs(xirr - 0.10) < 0.001);
+});
+
+test('cluster concentration aggregates wrappers and holding count adds no health bonus', function () {
+  const holdings = [
+    { code: 'A', totalShares: 60, latestNav: 1, indexGroup: 'NDX100', riskBucket: 'GROWTH_TECH' },
+    { code: 'B', totalShares: 40, latestNav: 1, indexGroup: 'NDX100', riskBucket: 'GROWTH_TECH' }
+  ];
+  const concentration = risk.calculateClusterConcentration(holdings);
+  assert.equal(concentration.indexGroups.NDX100, 100);
+  assert.equal(concentration.buckets.GROWTH_TECH, 100);
+  assert.equal(concentration.effectiveExposureCount, 1);
+  assert.equal(risk.diversificationScore([{ indexGroup: 'NDX100' }]), risk.diversificationScore(holdings));
+});
+
 // ========== calcPortfolioRisk ==========
 
 test('calcPortfolioRisk - null/empty returns null', function () {

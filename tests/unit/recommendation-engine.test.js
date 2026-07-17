@@ -111,6 +111,11 @@ test("plan partitions BUY and PAUSE history into disjoint live and shadow sample
     asOf: "2026-07-15",
     budget: 50,
     liveEnabled: true,
+    acceptance: {
+      rollingWindows: 12, nonOverlappingWindows: 6, medianExcess12Week: 0.01,
+      drawdownGapPercentagePoints: 1.5, shadowWeeks: 8, hardRiskViolations: 0,
+      feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true
+    },
     limits: { maxFundWeight: 1, maxIndexGroupWeight: 1 }
   });
 
@@ -121,7 +126,7 @@ test("plan partitions BUY and PAUSE history into disjoint live and shadow sample
   assert.deepEqual(plan.pauseReasons, []);
 });
 
-test("plan enforces concentration, max two candidates and shadow PAUSE", function () {
+test("plan treats same-index funds as routing wrappers rather than fake diversification", function () {
   const funds = [
     { code: "A", name: "A", type: "纳指100", indexGroup: "NDX100", status: "active", dailyLimit: 100, feeRate: 0.5 },
     { code: "B", name: "B", type: "纳指100", indexGroup: "NDX100", status: "active", dailyLimit: 100, feeRate: 1 },
@@ -130,12 +135,53 @@ test("plan enforces concentration, max two candidates and shadow PAUSE", functio
   const navCache = { A: navSeries("2025-10-01", 288, 0.002), B: navSeries("2025-10-01", 288, 0.0015), C: navSeries("2025-10-01", 288, 0.001) };
   const plan = engine.buildRecommendationPlan({
     funds, navCache, portfolio: { holdings: [{ code: "A", buys: [{ amount: 30 }] }, { code: "B", buys: [{ amount: 30 }] }] },
-    asOf: "2026-07-15", budget: 50, liveEnabled: false, coreByIndexGroup: { NDX100: "A" }
+    asOf: "2026-07-15", budget: 50, liveEnabled: false
   });
   assert.equal(plan.action, "PAUSE");
   assert.ok(plan.candidates.length <= 2);
-  assert.equal(plan.candidates.find(function (c) { return c.code === "B"; }).blockedBy.includes("INDEX_CORE_ONLY"), true);
+  assert.equal(plan.marketRanking.find(function (c) { return c.code === "B"; }).blockedBy.includes("INDEX_CORE_ONLY"), false);
+  assert.equal(plan.bucketExposure.GROWTH_TECH > 0, true);
   assert.ok(plan.candidates.every(function (c) { return c.proposedAmount === 0; }));
+});
+
+test("RecommendationPlanV2 exposes allocation, sync, anchor, routes and benchmark acceptance", function () {
+  const plan = engine.buildRecommendationPlan({
+    funds: [{ code: "A", name: "A", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 50, minPurchase: 10, feeRate: 0.5 }],
+    navCache: { A: navSeries("2025-10-01", 288, 0.001) },
+    portfolio: { holdings: [{ code: "A", totalAmount: 100 }] },
+    history: { records: [] },
+    asOf: "2026-07-17",
+    syncRevision: 7,
+    riskAnchorValue: 1000,
+    currentValue: 950,
+    liveEnabled: false,
+    benchmarkComparison: { medianExcess12Week: -1.17, drawdownGapPercentagePoints: 0.86 }
+  });
+  assert.equal(plan.schemaVersion, "RecommendationPlanV2");
+  assert.equal(plan.allocationWeek, "2026-07-13");
+  assert.equal(plan.syncRevision, 7);
+  assert.equal(plan.riskAnchorValue, 1000);
+  assert.ok(Object.prototype.hasOwnProperty.call(plan.bucketExposure, "US_BROAD"));
+  assert.ok(Object.prototype.hasOwnProperty.call(plan.targetGap, "US_BROAD"));
+  assert.deepEqual(plan.executionRoutes, []);
+  assert.equal(plan.confidence, "LOW");
+  assert.equal(plan.benchmarkComparison.medianExcess12Week, -1.17);
+});
+
+test("live acceptance requires every sample, excess, drawdown, cost and shadow gate", function () {
+  const failed = engine.evaluateLiveAcceptance({
+    rollingWindows: 21, nonOverlappingWindows: 7, medianExcess12Week: -1.17,
+    drawdownGapPercentagePoints: 0.86, shadowWeeks: 8, hardRiskViolations: 0,
+    feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true
+  });
+  assert.equal(failed.passed, false);
+  assert.ok(failed.failures.includes("MEDIAN_EXCESS_NOT_POSITIVE"));
+  const passed = engine.evaluateLiveAcceptance({
+    rollingWindows: 12, nonOverlappingWindows: 6, medianExcess12Week: 0.01,
+    drawdownGapPercentagePoints: 2, shadowWeeks: 8, hardRiskViolations: 0,
+    feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true
+  });
+  assert.equal(passed.passed, true);
 });
 
 test("AI output validator rejects codes, amounts and actions outside the plan", function () {
