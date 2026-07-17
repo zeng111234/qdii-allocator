@@ -323,17 +323,20 @@
         "stopLoss": -8,
         "timeHorizon": 30
       },
-      "status": "active",
+      "status": "invalidated",
       "createdAt": "2026-07-06T08:54:45.476Z",
       "navAtCreation": 1.9929,
       "validatedAt": null,
-      "invalidatedAt": null,
-      "outcome": null,
+      "invalidatedAt": "2026-07-17T10:50:11.397Z",
+      "outcome": {
+        "return": -8.98,
+        "holdingDays": 10
+      },
       "followUpReturns": {
         "3d": -0.94,
         "7d": -5.37,
-        "14d": -5.01,
-        "30d": -5.01
+        "14d": -8.98,
+        "30d": -8.98
       }
     },
     {
@@ -356,8 +359,8 @@
       "followUpReturns": {
         "3d": 0.11,
         "7d": -3.62,
-        "14d": -2.11,
-        "30d": -2.11
+        "14d": -5.77,
+        "30d": -5.77
       }
     },
     {
@@ -431,9 +434,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -2.42,
-        "7d": 0.36,
-        "14d": 0.36,
-        "30d": 0.36
+        "7d": -2.73,
+        "14d": -2.73,
+        "30d": -2.73
       },
       "_needsNavBackfill": false
     },
@@ -481,9 +484,9 @@
       "outcome": null,
       "followUpReturns": {
         "3d": -0.44,
-        "7d": 0.8,
-        "14d": 0.8,
-        "30d": 0.8
+        "7d": -1.53,
+        "14d": -1.53,
+        "30d": -1.53
       },
       "_needsNavBackfill": false
     },
@@ -505,10 +508,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": -1.79,
-        "7d": -1.79,
-        "14d": -1.79,
-        "30d": -1.79
+        "3d": -4.71,
+        "7d": -4.71,
+        "14d": -4.71,
+        "30d": -4.71
       },
       "_needsNavBackfill": false
     },
@@ -726,10 +729,10 @@
       "invalidatedAt": null,
       "outcome": null,
       "followUpReturns": {
-        "3d": null,
-        "7d": null,
-        "14d": null,
-        "30d": null
+        "3d": -1.37,
+        "7d": -1.37,
+        "14d": -1.37,
+        "30d": -1.37
       }
     },
     {
@@ -755,13 +758,37 @@
         "14d": null,
         "30d": null
       }
+    },
+    {
+      "id": "H1784285411393-qv1i",
+      "fundCode": "040046",
+      "fundName": "华安纳斯达克100A(QDII)",
+      "type": "趋势跟踪",
+      "thesis": "系统推荐#2，分数4.82。3年累计67.19%加0.4分，夏普0.91加0.9分，最大回撤-23.03%扣6.9分，长期牛市+1.5分，回撤4.92%加0.8分，低于MA10加6.3分，",
+      "conditions": {
+        "target": 10,
+        "stopLoss": -6,
+        "timeHorizon": 21
+      },
+      "status": "active",
+      "createdAt": "2026-07-17T10:50:11.393Z",
+      "navAtCreation": 8.1202,
+      "validatedAt": null,
+      "invalidatedAt": null,
+      "outcome": null,
+      "followUpReturns": {
+        "3d": null,
+        "7d": null,
+        "14d": null,
+        "30d": null
+      }
     }
   ],
   "stats": {
-    "total": 30,
-    "active": 21,
+    "total": 31,
+    "active": 22,
     "validated": 1,
-    "invalidated": 8,
+    "invalidated": 9,
     "expired": 0,
     "winRate": 11.11
   }
