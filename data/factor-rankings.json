@@ -96,7 +96,6 @@
       "score": 56.75,
       "blockedBy": [
         "TREND_DETERIORATING",
-        "UNKNOWN_RISK_BUCKET",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -148,7 +147,6 @@
       "indexGroup": "GLOBAL_MEDICAL",
       "score": 53.83,
       "blockedBy": [
-        "UNKNOWN_RISK_BUCKET",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -306,7 +304,6 @@
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING",
-        "UNKNOWN_RISK_BUCKET",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -375,7 +372,6 @@
       "score": 34.92,
       "blockedBy": [
         "TREND_DETERIORATING",
-        "UNKNOWN_RISK_BUCKET",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -409,5 +405,5 @@
       "deduped": false
     }
   ],
-  "generatedAt": "2026-07-18T14:17:13.212Z"
+  "generatedAt": "2026-07-18T15:36:30.917Z"
 }

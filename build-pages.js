@@ -12,6 +12,7 @@ const OUTPUT = path.join(__dirname, "docs", "index.html");
 const FUNDS = path.join(__dirname, "data", "funds.json");
 const NAV_CACHE = path.join(__dirname, "data", "nav-cache.json");
 const DAILY_BRIEF = path.join(__dirname, "data", "daily-brief.json");
+const PERSONALIZED_DECISION = path.join(__dirname, "lib", "personalized-decision.js");
 
 // 加载 .env（不依赖 dotenv 包）+ 环境变量 fallback（CI 中 secrets 通过 env 传入）
 function loadEnv() {
@@ -431,6 +432,7 @@ async function build() {
     pauseReasons: recommendationPlan.pauseReasons,
     dataFreshness: recommendationPlan.dataFreshness,
     signalHealth: recommendationPlan.signalHealth,
+    liveAcceptance: recommendationPlan.liveAcceptance,
     budget: recommendationPlan.budget,
     ranked: (recommendationPlan.candidates || []).map(function (candidate) {
       return Object.assign({}, candidate, { score: candidate.marketScore, reason: candidate.reasons.join("；") });
@@ -565,9 +567,10 @@ async function build() {
   try {
     fs.mkdirSync(path.join(__dirname, "docs", "data"), { recursive: true });
     fs.copyFileSync(NAV_CACHE, path.join(__dirname, "docs", "data", "nav-cache.json"));
+    fs.copyFileSync(PERSONALIZED_DECISION, path.join(__dirname, "docs", "personalized-decision.js"));
     // 保存新闻数据到独立文件，前端可通过同源 fetch 加载
     fs.writeFileSync(path.join(__dirname, "docs", "data", "news.json"), JSON.stringify(newsData), "utf-8");
-    console.log("[构建] 已复制 nav-cache.json + news.json 到 docs/data/");
+    console.log("[构建] 已复制公开数据和个性化决策模块到 docs/");
   } catch (e) {
     console.log("[构建] 跳过数据文件复制: " + e.message);
   }

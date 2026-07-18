@@ -593,6 +593,7 @@
         <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
           <span id="sync-status" style="font-size:12px;color:var(--text2)">☁️ Firebase 用户账本</span>
           <span style="flex:1"></span>
+          <button id="decision-anchor-btn" class="btn" style="display:none;background:var(--state-yellow-bg);color:var(--state-yellow-text);border:1px solid var(--state-yellow-border);font-size:11px;padding:5px 10px" onclick="firebaseSetRiskAnchor()">⚓ 设置风险锚点</button>
           <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseMigrateChrome()">🧾 预览迁移</button>
           <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseDownload()">↻ 云端刷新</button>
           <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="exportData()">📤 导出</button>
@@ -779,6 +780,7 @@
       appId: 'FIREBASE_APP_ID_PLACEHOLDER'
     };
   </script>
+  <script src="./personalized-decision.js"></script>
   <script type="module" src="./firebase-sync.js"></script>
   <script>
     var portfolioData = {"holdings":[]};
@@ -810,6 +812,8 @@
     var todayPicks = {"date":"2026-07-02","ranked":[{"code":"539001","name":"建信纳斯达克100A(QDII)","score":22.2,"reason":"1年涨9.05%加1.8分，3年累计254.64%加12.7分，夏普0.48加2.2分，最大回撤-28.65%扣4.3分，长期牛市+3分，近期新高扣2.4分，低"},{"code":"161125","name":"易方达标普500A(QDII-LOF)","score":21.9,"reason":"1年涨12.99%加2.6分，3年累计208.93%加10.4分，夏普0.66加3分，最大回撤-32.93%扣4.9分，长期牛市+3分，近期新高扣2.9分，低于"},{"code":"001092","name":"广发纳斯达克生物科技A(QDII)","score":20.4,"reason":"夏普1.58加7.1分，最大回撤-7.8%扣1.2分，低于MA10加7.1分，5日涨4.34%扣1.3分，波动1.44%扣0.7分，费率0.8%扣0.6分"},{"code":"096001","name":"大成标普500A(QDII)","score":19.4,"reason":"夏普2.24加10.1分，低于MA10加1.3分，费率0.6%扣0.5分"},{"code":"040018","name":"华安香港精选QDII-A","score":19,"reason":"1年涨8.94%加1.8分，3年累计271.4%加13.6分，夏普0.4加1.8分，最大回撤-44.66%扣6.7分，长期牛市+3分，近期新高扣3.5分，低于M"},{"code":"270042","name":"广发纳斯达克100A(QDII)","score":18.1,"reason":"夏普2.77加12.5分，最大回撤-7.09%扣1.1分，近期新高扣3.1分，低于MA10加2.5分，5日涨3.46%扣1分，波动2.04%扣1分，费率0.8%"},{"code":"000834","name":"大成纳斯达克100(QDII)","score":17.1,"reason":"夏普2.64加11.9分，最大回撤-7.16%扣1.1分，近期新高扣3.3分，低于MA10加2.3分，5日涨3.51%扣1.1分，波动2.07%扣1分，费率0."},{"code":"017641","name":"摩根标普500指数(QDII)A","score":16.5,"reason":"夏普2.35加10.6分，近期新高扣2.9分，低于MA10加1.3分，波动1.02%扣0.5分，费率1%扣0.8分"},{"code":"019524","name":"华泰柏瑞纳斯达克100指数(QDII)A","score":13.7,"reason":"夏普2.55加11.5分，近期新高扣4.9分，波动1.95%扣1分，费率1.05%扣0.8分"},{"code":"270023","name":"广发全球精选QDII-A","score":13.2,"reason":"夏普3.95加17.8分，最大回撤-8.91%扣1.3分，近期新高扣3.3分，低于MA10加4.4分，30日涨21.8%过热-2.7分，60日涨49.6%过热-"}],"allRanked":[{"code":"539001","name":"建信纳斯达克100A(QDII)","score":22.2,"reason":"1年涨9.05%加1.8分，3年累计254.64%加12.7分，夏普0.48加2.2分，最大回撤-28.65%扣4.3分，长期牛市+3分，近期新高扣2.4分，低于MA10加2.4分，60日涨27.6%过热-0.8分，波动1.93%扣1分，费"},{"code":"161125","name":"易方达标普500A(QDII-LOF)","score":21.9,"reason":"1年涨12.99%加2.6分，3年累计208.93%加10.4分，夏普0.66加3分，最大回撤-32.93%扣4.9分，长期牛市+3分，近期新高扣2.9分，低于MA10加0.9分，波动1.04%扣0.5分，费率0.6%扣0.5分，稳定收益+"},{"code":"001092","name":"广发纳斯达克生物科技A(QDII)","score":20.4,"reason":"夏普1.58加7.1分，最大回撤-7.8%扣1.2分，低于MA10加7.1分，5日涨4.34%扣1.3分，波动1.44%扣0.7分，费率0.8%扣0.6分"},{"code":"096001","name":"大成标普500A(QDII)","score":19.4,"reason":"夏普2.24加10.1分，低于MA10加1.3分，费率0.6%扣0.5分"},{"code":"040018","name":"华安香港精选QDII-A","score":19,"reason":"1年涨8.94%加1.8分，3年累计271.4%加13.6分，夏普0.4加1.8分，最大回撤-44.66%扣6.7分，长期牛市+3分，近期新高扣3.5分，低于MA10加1.8分，波动2.58%扣1.3分，费率1.5%扣1.2分"},{"code":"270042","name":"广发纳斯达克100A(QDII)","score":18.1,"reason":"夏普2.77加12.5分，最大回撤-7.09%扣1.1分，近期新高扣3.1分，低于MA10加2.5分，5日涨3.46%扣1分，波动2.04%扣1分，费率0.8%扣0.6分"},{"code":"000834","name":"大成纳斯达克100(QDII)","score":17.1,"reason":"夏普2.64加11.9分，最大回撤-7.16%扣1.1分，近期新高扣3.3分，低于MA10加2.3分，5日涨3.51%扣1.1分，波动2.07%扣1分，费率0.8%扣0.6分"},{"code":"017641","name":"摩根标普500指数(QDII)A","score":16.5,"reason":"夏普2.35加10.6分，近期新高扣2.9分，低于MA10加1.3分，波动1.02%扣0.5分，费率1%扣0.8分"},{"code":"019524","name":"华泰柏瑞纳斯达克100指数(QDII)A","score":13.7,"reason":"夏普2.55加11.5分，近期新高扣4.9分，波动1.95%扣1分，费率1.05%扣0.8分"},{"code":"270023","name":"广发全球精选QDII-A","score":13.2,"reason":"夏普3.95加17.8分，最大回撤-8.91%扣1.3分，近期新高扣3.3分，低于MA10加4.4分，30日涨21.8%过热-2.7分，60日涨49.6%过热-7.4分，5日涨4.48%扣1.3分，波动3.23%扣1.6分，费率1.6%扣1"}]};
     var purchaseLimits = {"100055":{"limit":1000,"status":"开放申购","premium":0,"minPurchase":10},"110025":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"118002":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"160125":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"160213":{"limit":100,"status":"暂停申购","premium":0,"minPurchase":10},"160216":{"limit":1000,"status":"限大额","premium":0,"minPurchase":10},"160421":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"161125":{"limit":10,"status":"暂停申购","premium":0,"minPurchase":10},"161126":{"limit":10,"status":"暂停申购","premium":0,"minPurchase":10},"161127":{"limit":10,"status":"暂停申购","premium":0,"minPurchase":10},"161128":{"limit":10,"status":"暂停申购","premium":0,"minPurchase":10},"161129":{"limit":10,"status":"暂停申购","premium":0,"minPurchase":10},"161130":{"limit":10,"status":"暂停申购","premium":0,"minPurchase":10},"162415":{"limit":1000,"status":"限大额","premium":0,"minPurchase":10},"163208":{"limit":500,"status":"暂停申购","premium":0,"minPurchase":10},"164701":{"limit":500,"status":"限大额","premium":0,"minPurchase":10},"206011":{"limit":100000,"status":"限大额","premium":0,"minPurchase":10},"270023":{"limit":200,"status":"限大额","premium":0,"minPurchase":10},"270042":{"limit":10,"status":"暂停申购","premium":0,"minPurchase":10},"486002":{"limit":100,"status":"限大额","premium":0,"minPurchase":10},"501060":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"501226":{"limit":500,"status":"限大额","premium":0,"minPurchase":10},"539001":{"limit":100,"status":"限大额","premium":0,"minPurchase":10},"539002":{"limit":30,"status":"限大额","premium":0,"minPurchase":10},"539003":{"limit":10,"status":"限大额","premium":0,"minPurchase":10},"040046":{"limit":10,"status":"限大额","premium":0,"minPurchase":10},"004070":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"050030":{"limit":2000,"status":"限大额","premium":0,"minPurchase":10},"002230":{"limit":100000,"status":"限大额","premium":0,"minPurchase":10},"006479":{"limit":10,"status":"限大额","premium":0,"minPurchase":10},"007571":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"000179":{"limit":1000,"status":"限大额","premium":0,"minPurchase":10},"005598":{"limit":99999999999,"status":"开放申购","premium":0,"minPurchase":10},"000834":{"limit":10,"status":"限大额","premium":0,"minPurchase":10},"001092":{"limit":10,"status":"限大额","premium":0,"minPurchase":10},"002400":{"limit":1000000,"status":"限大额","premium":0,"minPurchase":10},"096001":{"limit":10,"status":"限大额","premium":0,"minPurchase":10},"040018":{"limit":10000000000,"status":"开放申购","premium":0,"minPurchase":10},"000614":{"limit":300,"status":"限大额","premium":0,"minPurchase":10},"000369":{"limit":100,"status":"限大额","premium":0,"minPurchase":10},"050025":{"limit":100,"status":"暂停申购","premium":0,"minPurchase":10},"006861":{"limit":1000000,"status":"限大额","premium":0,"minPurchase":10},"002280":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"000988":{"limit":100,"status":"暂停申购","premium":0,"minPurchase":10},"050015":{"limit":1000000,"status":"限大额","premium":0,"minPurchase":10},"012812":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"019638":{"limit":5000000,"status":"限大额","premium":0,"minPurchase":10},"019639":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"019067":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"017936":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"017937":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"012414":{"limit":300000,"status":"限大额","premium":0,"minPurchase":10},"012417":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"012418":{"limit":100,"status":"暂停申购","premium":0,"minPurchase":10},"012348":{"limit":1000,"status":"限大额","premium":0,"minPurchase":10},"012349":{"limit":100,"status":"限大额","premium":0,"minPurchase":10},"012350":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"012351":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"017641":{"limit":10,"status":"限大额","premium":0,"minPurchase":10},"015558":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"012920":{"limit":10,"status":"限大额","premium":0,"minPurchase":10},"015204":{"limit":100000000000,"status":"开放申购","premium":0,"minPurchase":10},"016664":{"limit":100,"status":"暂停申购","premium":0,"minPurchase":10},"019524":{"limit":10,"status":"限大额","premium":0,"minPurchase":10},"007280":{"limit":500,"status":"限大额","premium":0,"minPurchase":10},"008763":{"limit":100,"status":"限大额","premium":0,"minPurchase":10},"005698":{"limit":1000,"status":"限大额","premium":0,"minPurchase":10},"017730":{"limit":100,"status":"限大额","premium":0,"minPurchase":10},"008253":{"limit":20,"status":"暂停申购","premium":0,"minPurchase":10},"006373":{"limit":10,"status":"开放申购","premium":0,"minPurchase":10}};
     var tradingHolidays = ["2026-01-01","2026-01-02","2026-01-03","2026-02-15","2026-02-16","2026-02-17","2026-02-18","2026-02-19","2026-02-20","2026-02-21","2026-04-04","2026-04-05","2026-04-06","2026-05-01","2026-05-02","2026-05-03","2026-05-04","2026-05-05","2026-06-19","2026-06-20","2026-06-21","2026-10-01","2026-10-02","2026-10-03","2026-10-04","2026-10-05","2026-10-06","2026-10-07"];
+    var publicTodayPicks = JSON.parse(JSON.stringify(todayPicks));
+    var currentCloudDetail = null;
     var hypothesesData = {"hypotheses":[],"stats":{"total":0,"validated":0,"invalidated":0,"expired":0}};
 
     // [fix] 市场温度和估值数据（由 build-pages.js 嵌入）
@@ -3105,6 +3109,40 @@
       }
     }
 
+    function actionAllowsPurchase(plan) {
+      var safePlan = plan || {};
+      return (safePlan.action === 'BUY' || safePlan.action === 'TACTICAL_PAUSE') && Number(safePlan.budget) > 0;
+    }
+
+    function updateAnchorButton(detail) {
+      var button = document.getElementById('decision-anchor-btn');
+      if (!button) return;
+      var hasLedger = !!(detail && detail.ledger && Number(detail.ledger.revision) > 0);
+      var hasAnchor = !!(detail && detail.decisionState && Number(detail.decisionState.riskAnchorValue) > 0);
+      button.style.display = hasLedger && !hasAnchor && detail.readOnly !== true ? 'inline-block' : 'none';
+    }
+
+    function refreshPersonalizedPlan(detail) {
+      currentCloudDetail = detail || currentCloudDetail;
+      updateAnchorButton(currentCloudDetail);
+      if (!currentCloudDetail || !window.QdiiPersonalizedDecision) return;
+      todayPicks = window.QdiiPersonalizedDecision.personalizePlan({
+        basePlan: publicTodayPicks,
+        ledger: currentCloudDetail.ledger,
+        decisionState: currentCloudDetail.decisionState,
+        portfolio: portfolioData,
+        funds: fundsData.funds || [],
+        navCache: navCacheData,
+        asOf: publicTodayPicks.date || new Date().toISOString().slice(0, 10),
+        readOnly: currentCloudDetail.readOnly === true
+      });
+      renderTradeBanner();
+      renderTemperature();
+      renderBuySignal();
+      renderPicks();
+      if (typeof syncChatPlanScope === 'function') syncChatPlanScope(todayPicks);
+    }
+
     // Trading calendar banner
     function renderTradeBanner() {
       var banner = document.getElementById('trade-banner');
@@ -3115,13 +3153,13 @@
       var isWeekend = day === 0 || day === 6;
       var isTradeDay = !isHoliday && !isWeekend;
 
-      var executionReady = cloudWriteReady && todayPicks.action === 'BUY';
+      var executionReady = cloudWriteReady && actionAllowsPurchase(todayPicks);
       if (isTradeDay && executionReady) {
         banner.style.display = 'block';
         banner.style.background = 'var(--state-green-bg)';
         banner.style.color = 'var(--state-green-text)';
         banner.style.border = '1px solid var(--state-green-border)';
-        banner.innerHTML = '🟢 今天是交易日 · 统一计划允许执行 · T日净值成交、T+2确认';
+        banner.innerHTML = '🟢 今天是交易日 · 个性化计划允许投入' + Number(todayPicks.budget || 0) + '元 · T日净值成交、T+2确认';
       } else if (isTradeDay) {
         banner.style.display = 'block';
         banner.style.background = 'var(--state-yellow-bg)';
@@ -3153,7 +3191,7 @@
       var peData = mt.peData || {};
       var reason = mt.reason || '';
       // 市场温度只解释或降低预算；未同步或 PAUSE 时绝不能显示可投入金额。
-      var executionReady = cloudWriteReady && todayPicks.action === 'BUY';
+      var executionReady = cloudWriteReady && actionAllowsPurchase(todayPicks);
       var adjustedBudget = executionReady ? Math.max(0, Number(todayPicks.budget) || 0) : 0;
       var budgetStatus = executionReady ? (multiplier + 'x，仅作风险解释') : (cloudWriteReady ? 'PAUSE' : '未同步');
 
@@ -3231,7 +3269,8 @@
     function getTodayPicksAverage(plan) {
       var ranked = plan && Array.isArray(plan.ranked) ? plan.ranked : [];
       var scores = ranked.map(function(row) {
-        return Number(row && (row.score !== undefined ? row.score : row.marketScore));
+        var raw = row && (row.score !== undefined ? row.score : row.marketScore);
+        return raw === null || raw === undefined ? NaN : Number(raw);
       }).filter(Number.isFinite);
       if (scores.length === 0) return null;
       return Number((scores.reduce(function(sum, score) { return sum + score; }, 0) / scores.length).toFixed(2));
@@ -3245,6 +3284,13 @@
         RECENT_AVERAGE_RETURN_LOW: '近期5日平均收益低于门槛',
         LIVE_DISABLED: '真实买入总闸未开启',
         DATA_STALE: '净值数据时效不合格',
+        SYNC_REQUIRED: '云端账本尚未同步',
+        EMPTY_PORTFOLIO: '云端账本没有可计算的持仓',
+        OFFLINE_READ_ONLY: '离线快照仅供查看，禁止生成投入金额',
+        RISK_ANCHOR_MISSING: '尚未设置迁移市值风险锚点',
+        RISK_ANCHOR_LEDGER_MISMATCH: '风险锚点来自更新的账本，需重新核对迁移',
+        RISK_ANCHOR_DRAWDOWN_10: '相对风险锚点回撤达到-10%',
+        TACTICAL_CORE_ONLY: '择时信号暂停，仅允许低配核心桶小额定投',
         UNKNOWN_HOLDINGS: '存在无法识别的持仓',
         NO_ELIGIBLE_CANDIDATES: '没有通过硬风控的候选'
       };
@@ -3271,6 +3317,10 @@
       if (safePlan.dataFreshness) {
         details.push('数据时效：' + (safePlan.dataFreshness.status || '未知') + (safePlan.dataFreshness.latestNavDate ? '，最新净值' + safePlan.dataFreshness.latestNavDate : ''));
       }
+      if (safePlan.personalized) {
+        details.push('云端账本 revision：' + Number(safePlan.syncRevision || 0));
+        if (safePlan.riskAnchorValue) details.push('风险锚点：' + formatMetric(safePlan.riskAnchorValue) + '元，当前回撤' + formatMetric(Number(safePlan.riskAnchorDrawdown || 0) * 100) + '%');
+      }
       return details.join('；');
     }
 
@@ -3283,12 +3333,13 @@
       var bi = todayPicks && todayPicks.budgetInfo ? todayPicks.budgetInfo : null;
       var signal, reason, avgScore = getTodayPicksAverage(todayPicks);
 
-      if (todayPicks && (todayPicks.action === 'PAUSE' || todayPicks.action === 'HOLD')) {
+      if (todayPicks && (todayPicks.action === 'HARD_PAUSE' || todayPicks.action === 'PAUSE' || todayPicks.action === 'HOLD')) {
         signal = 'STOP';
         reason = buildPauseDetails(todayPicks);
-      } else
-
-      if (bi && bi.buySignal) {
+      } else if (todayPicks && todayPicks.action === 'TACTICAL_PAUSE') {
+        signal = 'CAUTION';
+        reason = buildPauseDetails(todayPicks);
+      } else if (bi && bi.buySignal) {
         signal = bi.buySignal;
         reason = bi.buySignalReason || '';
         avgScore = Number.isFinite(Number(bi.avgScore)) ? Number(bi.avgScore) : avgScore;
@@ -3316,13 +3367,15 @@
       if (signal === 'STOP') {
         color = '#ef4444'; bgColor = 'rgba(239,68,68,0.12)';
         emoji = '🔴'; title = '今日建议观望';
-        subtitle = todayPicks && (todayPicks.action === 'PAUSE' || todayPicks.action === 'HOLD')
+        subtitle = todayPicks && (todayPicks.action === 'HARD_PAUSE' || todayPicks.action === 'PAUSE' || todayPicks.action === 'HOLD')
           ? '确定性风控要求今天不买；候选只作影子观察'
           : '当前条件未通过买入门槛';
       } else if (signal === 'CAUTION') {
         color = '#f97316'; bgColor = 'rgba(249,115,22,0.12)';
-        emoji = '🟡'; title = '谨慎操作';
-        subtitle = '建议减半投入，控制风险';
+        emoji = '🟡'; title = todayPicks.action === 'TACTICAL_PAUSE' ? '仅核心小额定投' : '谨慎操作';
+        subtitle = todayPicks.action === 'TACTICAL_PAUSE'
+          ? 'TOP择时继续暂停，只向真实持仓中的低配核心桶投入' + Number(todayPicks.budget || 0) + '元'
+          : '建议减半投入，控制风险';
       } else {
         card.style.display = 'none';
         return;
@@ -3359,11 +3412,10 @@
       card.style.display = 'block';
       var html = '';
 
-      // 只有 RecommendationPlan=BUY 时才展示投入金额。
-      if (todayPicks.action === 'BUY' && marketTemperature && marketTemperature.multiplier) {
+      // 市场温度只能解释风险，不能改变个性化计划金额。
+      if (actionAllowsPurchase(todayPicks) && marketTemperature) {
         var mt = marketTemperature;
-        var baseBudget = 50;
-        var adjustedBudget = Math.round(baseBudget * mt.multiplier);
+        var adjustedBudget = Number(todayPicks.budget || 0);
         var tempColor = mt.temperature <= 35 ? '#3b82f6' : (mt.temperature >= 65 ? '#ef4444' : '#22c55e');
         html += '<div style="padding:10px 12px;margin-bottom:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--border)">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center">';
@@ -3371,7 +3423,7 @@
         html += '<div style="text-align:right">';
         html += '<div style="font-size:11px;color:var(--text3)">建议今日投入</div>';
         html += '<div style="font-size:20px;font-weight:700;color:' + tempColor + '">' + adjustedBudget + '元</div>';
-        html += '<div style="font-size:10px;color:var(--text3)">' + mt.multiplier + 'x（正常' + baseBudget + '元）</div>';
+        html += '<div style="font-size:10px;color:var(--text3)">市场温度仅作解释，不增加预算</div>';
         html += '</div></div>';
         if (mt.reason && mt.reason !== '市场正常') {
           html += '<div style="font-size:10px;color:var(--text3);margin-top:4px">' + mt.reason + '</div>';
@@ -3383,7 +3435,7 @@
 
       // 不在浏览器中重新评分，只展示构建时生成的统一计划。
       var picksRanked = (todayPicks.ranked || []).slice();
-      picksRanked.sort(function(a, b) { return b.score - a.score; });
+      picksRanked.sort(function(a, b) { return Number(b.score || 0) - Number(a.score || 0); });
 
       // Top 5 详细卡片
       picksRanked.slice(0, 5).forEach(function(r, i) {
@@ -3402,11 +3454,11 @@
         html += '<div style="padding:10px;margin-bottom:6px;border-radius:8px;background:' + bgColor + ';border:1px solid var(--border)">';
         html += '<div style="display:flex;justify-content:space-between;align-items:center">';
         html += '<div><span style="font-weight:700">' + medal + '</span> <span style="font-weight:600">' + r.name + '</span></div>';
-        html += '<div style="text-align:right"><span style="font-weight:700;font-size:18px;color:var(--primary)">' + r.score + '</span><span style="font-size:11px;color:var(--text3)">分</span></div>';
+        html += '<div style="text-align:right"><span style="font-weight:700;font-size:18px;color:var(--primary)">' + (r.score === null || r.score === undefined ? '核心' : r.score) + '</span><span style="font-size:11px;color:var(--text3)">' + (r.score === null || r.score === undefined ? '定投' : '分') + '</span></div>';
         html += '</div>';
         html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:11px;color:var(--text3)">';
         html += '<div>' + r.code + ' · ' + limitText + '</div>';
-        html += '<div style="color:var(--primary);font-weight:600">' + (todayPicks.action === 'BUY' ? ('建议买入 ' + suggestAmt + ' 元') : '影子观察 · 金额 0 元 · 不实买') + '</div>';
+        html += '<div style="color:var(--primary);font-weight:600">' + (actionAllowsPurchase(todayPicks) && suggestAmt > 0 ? ('建议投入 ' + suggestAmt + ' 元') : '影子观察 · 金额 0 元 · 不实买') + '</div>';
         html += '</div>';
 
         // 显示推荐理由（截取前80字符）
@@ -3437,7 +3489,7 @@
       }
 
       // 购买金额建议
-      html += '<div style="margin-top:10px;padding:8px;background:var(--state-blue-bg);border-radius:8px;font-size:11px;color:var(--text2)">💡 <b>系统状态：</b>' + (todayPicks.action === 'BUY' ? '仅执行统一计划中的金额。' : '影子观察=金额 0 元、只记录候选后续表现、不实买。') + '</div>';
+      html += '<div style="margin-top:10px;padding:8px;background:var(--state-blue-bg);border-radius:8px;font-size:11px;color:var(--text2)">💡 <b>系统状态：</b>' + (actionAllowsPurchase(todayPicks) ? '仅执行云端持仓个性化计划中的金额；不因新闻或市场温度加码。' : '影子观察=金额 0 元、只记录候选后续表现、不实买。') + '</div>';
 
       content.innerHTML = html;
     }
@@ -4046,6 +4098,28 @@
       catch (error) { showToast('云端刷新失败：' + error.message, true); }
     }
 
+    async function firebaseSetRiskAnchor() {
+      if (!window.QdiiCloudSync || !currentCloudDetail || !currentCloudDetail.ledger) {
+        showToast('请先完成云端账本同步', true);
+        return;
+      }
+      var summary = calcSummary();
+      if (!(Number(summary.value) > 0)) {
+        showToast('当前市值无效，不能设置风险锚点', true);
+        return;
+      }
+      var message = '将当前市值 ' + summary.value + ' 元设为风险锚点。\n' +
+        '之后回撤达到-7.5%将停止成长科技新增，达到-10%将停止全部新增。\n' +
+        '该操作不会买卖基金，是否继续？';
+      if (!confirm(message)) return;
+      try {
+        await window.QdiiCloudSync.initializeRiskAnchor(summary.value, currentCloudDetail.ledger.revision);
+        showToast('风险锚点已保存到Firebase');
+      } catch (error) {
+        showToast('风险锚点设置失败：' + error.message, true);
+      }
+    }
+
     async function firebaseMigrateChrome() {
       if (!window.QdiiCloudSync) { showToast('Firebase SDK 尚未加载', true); return; }
       var raw = localStorage.getItem(STORAGE_KEY);
@@ -4067,6 +4141,8 @@
     window.addEventListener('qdii-cloud-state', function(event) {
       var detail = event.detail || {};
       cloudWriteReady = false;
+      currentCloudDetail = null;
+      updateAnchorButton(null);
       renderCloudState(detail);
       if (detail.status === 'CONFIG_MISSING' || detail.status === 'EMPTY') {
         if (loadLegacyChromeReadOnlySnapshot()) {
@@ -4090,6 +4166,7 @@
         revision: detail.ledger && detail.ledger.revision
       });
       updateSummary();
+      refreshPersonalizedPlan(detail);
       updateHoldings();
       renderTradeBanner();
       renderTemperature();
@@ -4493,6 +4570,22 @@
         buildPauseDetails(safePlan) + '。\n影子候选金额为0，只记录后续表现，不执行真实买入。';
     }
 
+    function buildDeterministicBuyAnswer(plan) {
+      var safePlan = plan || {};
+      var routes = Array.isArray(safePlan.executionRoutes) ? safePlan.executionRoutes : [];
+      var lines = [
+        '确定性计划状态：' + (safePlan.action || 'HARD_PAUSE') + '；今日总预算' + Number(safePlan.budget || 0) + '元；云端账本 revision ' + Number(safePlan.syncRevision || 0) + '。'
+      ];
+      routes.forEach(function(route, index) {
+        lines.push((index + 1) + '. ' + (route.name || route.code) + '(' + route.code + ')：' + Number(route.amount || 0) + '元，目标桶 ' + route.bucket + '。');
+      });
+      if (safePlan.action === 'TACTICAL_PAUSE') {
+        lines.push('TOP择时与成长科技新增仍暂停；这里只执行低配核心桶的小额定投，新闻和市场温度不能增加金额。');
+      }
+      lines.push('QDII通常按有效申请日净值成交，T+2主要是确认时间；以上仅为计划记录，不会自动下单。');
+      return lines.join('\n');
+    }
+
     function getAiConfig() {
       try { return JSON.parse(localStorage.getItem(AI_CONFIG_KEY)) || {}; } catch(e) { return {}; }
     }
@@ -4835,9 +4928,11 @@
         saveChatHistory();
       }
 
-      // PAUSE/HOLD 下，“今天买什么”直接消费确定性计划，不调用 LLM。
-      if (isTodayBuyQuestion(text) && todayPicks && todayPicks.action !== 'BUY') {
-        var localAnswer = buildNoBuyAnswer(todayPicks);
+      // “今天买什么”始终直接消费确定性计划，不调用 LLM。
+      if (isTodayBuyQuestion(text) && todayPicks) {
+        var localAnswer = actionAllowsPurchase(todayPicks)
+          ? buildDeterministicBuyAnswer(todayPicks)
+          : buildNoBuyAnswer(todayPicks);
         appendMessage('assistant', localAnswer);
         aiChatHistory.push({ role: 'assistant', content: localAnswer });
         saveChatHistory();

@@ -12,7 +12,7 @@ test("public template contains no personal holdings and starts in syncing state"
   assert.doesNotMatch(template, /"holdings":\[\{"code"/);
   assert.match(template, /正在同步/);
   assert.match(template, /sync-revision/);
-  assert.match(template, /cloudWriteReady && todayPicks\.action === 'BUY'/);
+  assert.match(template, /cloudWriteReady && actionAllowsPurchase\(todayPicks\)/);
   assert.match(template, /系统预算 0 元/);
   assert.match(template, /function loadLegacyChromeReadOnlySnapshot\(\)/);
   assert.match(template, /detail\.status === 'CONFIG_MISSING' \|\| detail\.status === 'EMPTY'/);
@@ -32,6 +32,17 @@ test("browser sync uses Firebase Web SDK Google auth and uid-scoped ledger", fun
   assert.match(source, /本地只读快照/);
   assert.doesNotMatch(source, /FIREBASE_KEY|localStorage.*(?:key|token)/i);
   assert.doesNotMatch(template, /api\.github\.com\/gists|GIST_TOKEN_KEY|qdii-gist-token/);
+});
+
+test("personalized decision state is uid-scoped and never initialized silently", function () {
+  const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  assert.match(source, /users.*uid.*decisionState/s);
+  assert.match(source, /initializeRiskAnchor/);
+  assert.match(source, /RISK_ANCHOR_ALREADY_SET/);
+  assert.doesNotMatch(source, /try\s*\{\s*await initializeRiskAnchor\(/);
+  assert.match(template, /personalized-decision\.js/);
+  assert.match(template, /firebaseSetRiskAnchor/);
+  assert.match(template, /refreshPersonalizedPlan/);
 });
 
 test("database rules allow only the authenticated uid path", function () {

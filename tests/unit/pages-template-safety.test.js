@@ -128,6 +128,24 @@ test("non-BUY buy question has a deterministic zero-budget answer", function () 
   assert.ok(sendSource.indexOf("isTodayBuyQuestion(text)") < sendSource.indexOf("getAiConfig()"), "local PAUSE response must happen before API configuration/fetch");
 });
 
+test("tactical core DCA question is answered locally from exact routes", function () {
+  const ctx = loadHelpers(["buildDeterministicBuyAnswer"]);
+  const answer = ctx.buildDeterministicBuyAnswer({
+    date: "2026-07-18",
+    action: "TACTICAL_PAUSE",
+    budget: 20,
+    syncRevision: 3,
+    executionRoutes: [{ code: "SPX", name: "标普通道", amount: 20, bucket: "US_BROAD" }]
+  });
+  assert.match(answer, /标普通道\(SPX\)/);
+  assert.match(answer, /20元/);
+  assert.match(answer, /US_BROAD/);
+  assert.match(answer, /revision 3/);
+  const sendSource = extractBetweenFunctions("sendAiMessage", "askQuick");
+  assert.match(sendSource, /buildDeterministicBuyAnswer/);
+  assert.ok(sendSource.indexOf("buildDeterministicBuyAnswer") < sendSource.indexOf("getAiConfig()"));
+});
+
 test("AI prompt treats RecommendationPlan as immutable and removes browser ranking advice", function () {
   const source = extractFunction("buildSystemPrompt");
   assert.match(source, /todayPicks/);

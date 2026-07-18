@@ -11,9 +11,11 @@ const config = window.QDII_FIREBASE_CONFIG || {};
 const configured = [config.apiKey, config.authDomain, config.databaseURL, config.projectId, config.appId]
   .every(function (value) { return value && !String(value).includes("PLACEHOLDER"); });
 const snapshotPrefix = "qdii-ledger-snapshot-v2:";
+const decisionSnapshotPrefix = "qdii-decision-state-v1:";
 let auth = null;
 let database = null;
 let currentLedger = null;
+let currentDecisionState = null;
 let currentUser = null;
 
 function emit(name, detail) {
@@ -86,21 +88,61 @@ function derivePortfolio(ledger) {
   const holdings = {};
   ledger.transactions.forEach(function (transaction) {
     const tx = canonicalTransaction(transaction);
-    if (!holdings[tx.code]) holdings[tx.code] = { code: tx.code, buys: [] };
-    if (tx.type === "BUY") holdings[tx.code].buys.push({
+    const sign = tx.type === "SELL" ? -1 : 1;
+    if (!holdings[tx.code]) holdings[tx.code] = { code: tx.code, buys: [], totalAmount: 0, totalShares: 0 };
+    holdings[tx.code].totalAmount += sign * tx.amount;
+    holdings[tx.code].totalShares += sign * tx.shares;
+    holdings[tx.code].buys.push({
       id: tx.id, date: tx.tradeDate, settleDate: tx.settleDate,
-      amount: tx.amount, nav: tx.nav, shares: tx.shares
+      type: tx.type, amount: sign * tx.amount, nav: tx.nav, shares: sign * tx.shares
     });
   });
-  return { holdings: Object.values(holdings).filter(function (holding) { return holding.buys.length > 0; }) };
+  return { holdings: Object.values(holdings).filter(function (holding) { return holding.totalShares > 0 || holding.totalAmount > 0; }) };
 }
 
 function ledgerPath(uid) {
   return "users/" + uid + "/portfolioLedger";
 }
 
+function decisionStatePath(uid) {
+  return "users/" + uid + "/decisionState";
+}
+
+function normalizeDecisionState(state) {
+  if (!state) return null;
+  if (Number(state.schemaVersion) !== 1 || !Number.isInteger(Number(state.revision)) || Number(state.revision) < 1) {
+    throw new Error("INVALID_DECISION_STATE");
+  }
+  const riskAnchorValue = Number(state.riskAnchorValue);
+  if (!(riskAnchorValue > 0)) throw new Error("INVALID_RISK_ANCHOR");
+  return {
+    schemaVersion: 1,
+    revision: Number(state.revision),
+    updatedAt: String(state.updatedAt || ""),
+    riskAnchorValue: riskAnchorValue,
+    riskAnchorAt: String(state.riskAnchorAt || state.updatedAt || ""),
+    riskAnchorLedgerRevision: Number(state.riskAnchorLedgerRevision || 0),
+    cashBalance: Math.max(0, Number(state.cashBalance) || 0)
+  };
+}
+
 function saveSnapshot(uid, ledger) {
   localStorage.setItem(snapshotPrefix + uid, JSON.stringify(ledger));
+}
+
+function saveDecisionSnapshot(uid, state) {
+  if (state) localStorage.setItem(decisionSnapshotPrefix + uid, JSON.stringify(state));
+  else localStorage.removeItem(decisionSnapshotPrefix + uid);
+}
+
+function emitLedger(source, readOnly) {
+  emit("qdii-cloud-ledger", {
+    ledger: currentLedger,
+    decisionState: currentDecisionState,
+    portfolio: derivePortfolio(currentLedger),
+    source: source,
+    readOnly: readOnly === true
+  });
 }
 
 async function loadLedger() {
@@ -109,18 +151,28 @@ async function loadLedger() {
     const snapshot = localStorage.getItem(snapshotPrefix + currentUser.uid);
     if (!snapshot) throw new Error("OFFLINE_WITHOUT_SNAPSHOT");
     currentLedger = await validateLedger(JSON.parse(snapshot));
-    emit("qdii-cloud-ledger", { ledger: currentLedger, portfolio: derivePortfolio(currentLedger), source: "本地只读快照", readOnly: true });
+    const decisionSnapshot = localStorage.getItem(decisionSnapshotPrefix + currentUser.uid);
+    currentDecisionState = decisionSnapshot ? normalizeDecisionState(JSON.parse(decisionSnapshot)) : null;
+    emitLedger("本地只读快照", true);
     return currentLedger;
   }
-  const result = await get(ref(database, ledgerPath(currentUser.uid)));
-  if (!result.exists()) {
+  const results = await Promise.all([
+    get(ref(database, ledgerPath(currentUser.uid))),
+    get(ref(database, decisionStatePath(currentUser.uid)))
+  ]);
+  const ledgerResult = results[0];
+  const decisionResult = results[1];
+  if (!ledgerResult.exists()) {
     currentLedger = null;
+    currentDecisionState = null;
     emit("qdii-cloud-state", { status: "EMPTY", source: "云端", uid: currentUser.uid });
     return null;
   }
-  currentLedger = await validateLedger(result.val());
+  currentLedger = await validateLedger(ledgerResult.val());
+  currentDecisionState = decisionResult.exists() ? normalizeDecisionState(decisionResult.val()) : null;
   saveSnapshot(currentUser.uid, currentLedger);
-  emit("qdii-cloud-ledger", { ledger: currentLedger, portfolio: derivePortfolio(currentLedger), source: "Firebase 云端", readOnly: false });
+  saveDecisionSnapshot(currentUser.uid, currentDecisionState);
+  emitLedger("Firebase 云端", false);
   return currentLedger;
 }
 
@@ -137,8 +189,43 @@ async function writeLedger(nextLedger, expectedRevision) {
   if (!result.committed) throw new Error("REVISION_CONFLICT");
   currentLedger = nextLedger;
   saveSnapshot(currentUser.uid, currentLedger);
-  emit("qdii-cloud-ledger", { ledger: currentLedger, portfolio: derivePortfolio(currentLedger), source: "Firebase 云端", readOnly: false });
+  emitLedger("Firebase 云端", false);
   return currentLedger;
+}
+
+async function writeDecisionState(nextState, expectedRevision) {
+  if (!currentUser) throw new Error("AUTH_REQUIRED");
+  if (!currentLedger) throw new Error("SYNC_REQUIRED");
+  if (!navigator.onLine) throw new Error("OFFLINE_READ_ONLY");
+  const normalized = normalizeDecisionState(nextState);
+  const target = ref(database, decisionStatePath(currentUser.uid));
+  const result = await runTransaction(target, function (existing) {
+    const actualRevision = existing ? Number(existing.revision) : 0;
+    if (actualRevision !== Number(expectedRevision)) return;
+    return normalized;
+  }, { applyLocally: false });
+  if (!result.committed) throw new Error("DECISION_REVISION_CONFLICT");
+  currentDecisionState = normalized;
+  saveDecisionSnapshot(currentUser.uid, currentDecisionState);
+  emitLedger("Firebase 云端", false);
+  return currentDecisionState;
+}
+
+async function initializeRiskAnchor(value, ledgerRevision) {
+  if (currentDecisionState && Number(currentDecisionState.riskAnchorValue) > 0) throw new Error("RISK_ANCHOR_ALREADY_SET");
+  if (!currentLedger || Number(currentLedger.revision) !== Number(ledgerRevision)) throw new Error("LEDGER_REVISION_CONFLICT");
+  const riskAnchorValue = Number(value);
+  if (!(riskAnchorValue > 0)) throw new Error("INVALID_RISK_ANCHOR");
+  const now = new Date().toISOString();
+  return writeDecisionState({
+    schemaVersion: 1,
+    revision: 1,
+    updatedAt: now,
+    riskAnchorValue: riskAnchorValue,
+    riskAnchorAt: now,
+    riskAnchorLedgerRevision: Number(currentLedger.revision),
+    cashBalance: 0
+  }, 0);
 }
 
 async function saveLegacyPortfolio(portfolio) {
@@ -187,6 +274,7 @@ async function bootstrap() {
     currentUser = user;
     if (!user) {
       currentLedger = null;
+      currentDecisionState = null;
       emit("qdii-cloud-state", { status: "SIGNED_OUT", source: "未登录" });
       return;
     }
@@ -200,7 +288,9 @@ window.QdiiCloudSync = {
   bootstrap: bootstrap, signIn: signIn, signOut: function () { return signOut(auth); },
   loadLedger: loadLedger, saveLegacyPortfolio: saveLegacyPortfolio,
   previewLegacy: previewLegacy, overwriteWithLegacy: overwriteWithLegacy,
-  getCurrentLedger: function () { return currentLedger; }
+  initializeRiskAnchor: initializeRiskAnchor,
+  getCurrentLedger: function () { return currentLedger; },
+  getCurrentDecisionState: function () { return currentDecisionState; }
 };
 
 bootstrap();

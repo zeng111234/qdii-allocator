@@ -1,0 +1,157 @@
+const test = require("node:test");
+const assert = require("node:assert/strict");
+
+const decision = require("../../lib/personalized-decision");
+
+function ledger(transactions, revision) {
+  return {
+    schemaVersion: 2,
+    revision: revision || 3,
+    updatedAt: "2026-07-18T00:00:00.000Z",
+    transactions: transactions || []
+  };
+}
+
+function buy(id, code, date, amount, shares) {
+  return {
+    id: id,
+    type: "BUY",
+    code: code,
+    tradeDate: date,
+    settleDate: date,
+    amount: amount,
+    nav: shares ? amount / shares : 0,
+    shares: shares || 0,
+    createdAt: date + "T00:00:00.000Z"
+  };
+}
+
+const funds = [
+  { code: "SPX", name: "标普通道", indexGroup: "SPX500", status: "active", dailyLimit: 20, minPurchase: 10, feeRate: 0.6 },
+  { code: "NDX", name: "纳指通道", indexGroup: "NDX100", status: "active", dailyLimit: 20, minPurchase: 10, feeRate: 0.8 },
+  { code: "JP", name: "日本通道", indexGroup: "JAPAN", status: "active", dailyLimit: 20, minPurchase: 10, feeRate: 0.9 },
+  { code: "MED", name: "医疗通道", indexGroup: "GLOBAL_MEDICAL", status: "active", dailyLimit: 20, minPurchase: 10, feeRate: 0.8 },
+  { code: "GLOBAL", name: "全球通道", indexGroup: "GLOBAL", status: "active", dailyLimit: 20, minPurchase: 10, feeRate: 1.2 }
+];
+
+const navCache = {
+  SPX: [{ date: "2026-07-17", nav: 1 }],
+  NDX: [{ date: "2026-07-17", nav: 1 }],
+  JP: [{ date: "2026-07-17", nav: 1 }],
+  MED: [{ date: "2026-07-17", nav: 1 }],
+  GLOBAL: [{ date: "2026-07-17", nav: 1 }]
+};
+
+const pausedBasePlan = {
+  date: "2026-07-18",
+  action: "PAUSE",
+  pauseReasons: ["LIVE_DISABLED", "SIGNAL_BREAKER"],
+  dataFreshness: { status: "FRESH", latestNavDate: "2026-07-17", maxTradingDayLag: 1 },
+  signalHealth: { status: "PAUSE", breakerTriggered: true },
+  ranked: [],
+  allRanked: []
+};
+
+function baseInput(overrides) {
+  const sourceLedger = ledger([
+    buy("1", "SPX", "2026-07-01", 100, 100),
+    buy("2", "NDX", "2026-07-01", 700, 700),
+    buy("3", "JP", "2026-07-01", 100, 100),
+    buy("4", "MED", "2026-07-01", 100, 100)
+  ]);
+  return Object.assign({
+    basePlan: pausedBasePlan,
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger),
+    decisionState: { schemaVersion: 1, revision: 1, riskAnchorValue: 1000, cashBalance: 0 },
+    funds: funds,
+    navCache: navCache,
+    asOf: "2026-07-18",
+    readOnly: false
+  }, overrides || {});
+}
+
+test("missing sync or risk anchor is a hard pause", function () {
+  const noLedger = decision.personalizePlan(baseInput({ ledger: null }));
+  assert.equal(noLedger.action, "HARD_PAUSE");
+  assert.equal(noLedger.budget, 0);
+  assert.ok(noLedger.pauseReasons.includes("SYNC_REQUIRED"));
+
+  const noAnchor = decision.personalizePlan(baseInput({ decisionState: null }));
+  assert.equal(noAnchor.action, "HARD_PAUSE");
+  assert.ok(noAnchor.pauseReasons.includes("RISK_ANCHOR_MISSING"));
+});
+
+test("signal breaker becomes capped tactical core DCA using the cloud ledger exposure", function () {
+  const plan = decision.personalizePlan(baseInput());
+  assert.equal(plan.action, "TACTICAL_PAUSE");
+  assert.equal(plan.syncRevision, 3);
+  assert.equal(plan.portfolioRisk.holdingCount, 4);
+  assert.equal(plan.bucketExposure.GROWTH_TECH, 0.7);
+  assert.equal(plan.budget, 20);
+  assert.deepEqual(plan.executionRoutes.map(function (route) { return [route.code, route.amount, route.bucket]; }), [
+    ["SPX", 20, "US_BROAD"]
+  ]);
+  assert.equal(plan.executionRoutes.some(function (route) { return route.bucket === "GROWTH_TECH"; }), false);
+});
+
+test("weekly tactical cap and risk anchor remain deterministic hard limits", function () {
+  const sourceLedger = ledger([
+    buy("1", "SPX", "2026-07-01", 100, 100),
+    buy("2", "NDX", "2026-07-01", 700, 700),
+    buy("3", "JP", "2026-07-01", 100, 100),
+    buy("4", "MED", "2026-07-01", 100, 100),
+    buy("5", "SPX", "2026-07-14", 40, 40)
+  ]);
+  const capped = decision.personalizePlan(baseInput({
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger)
+  }));
+  assert.equal(capped.weeklySpent, 40);
+  assert.equal(capped.budget, 10);
+
+  const stopped = decision.personalizePlan(baseInput({
+    decisionState: { schemaVersion: 1, revision: 2, riskAnchorValue: 1200, cashBalance: 0 }
+  }));
+  assert.equal(stopped.action, "HARD_PAUSE");
+  assert.equal(stopped.budget, 0);
+  assert.ok(stopped.pauseReasons.includes("RISK_ANCHOR_DRAWDOWN_10"));
+});
+
+test("global and global medical holdings map to explicit buckets", function () {
+  const sourceLedger = ledger([
+    buy("1", "GLOBAL", "2026-07-01", 100, 100),
+    buy("2", "MED", "2026-07-01", 100, 100)
+  ]);
+  const plan = decision.personalizePlan(baseInput({
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger),
+    decisionState: { schemaVersion: 1, revision: 1, riskAnchorValue: 200, cashBalance: 0 }
+  }));
+  assert.deepEqual(plan.portfolioRisk.unknownHoldings, []);
+  assert.equal(plan.bucketExposure.NON_US, 0.5);
+  assert.equal(plan.bucketExposure.DEFENSIVE, 0.5);
+});
+
+test("minus 7.5 percent anchor drawdown blocks growth even after live acceptance", function () {
+  const sourceLedger = ledger([
+    buy("1", "SPX", "2026-07-01", 700, 700),
+    buy("2", "NDX", "2026-07-01", 100, 100),
+    buy("3", "JP", "2026-07-01", 100, 100),
+    buy("4", "MED", "2026-07-01", 100, 100)
+  ]);
+  const plan = decision.personalizePlan(baseInput({
+    basePlan: Object.assign({}, pausedBasePlan, {
+      action: "BUY",
+      pauseReasons: [],
+      signalHealth: { status: "HEALTHY" },
+      liveAcceptance: { passed: true }
+    }),
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger),
+    decisionState: { schemaVersion: 1, revision: 1, riskAnchorValue: 1100, cashBalance: 0 }
+  }));
+  assert.equal(plan.action, "BUY");
+  assert.equal(plan.executionRoutes.some(function (route) { return route.bucket === "GROWTH_TECH"; }), false);
+  assert.equal(plan.executionRoutes[0].bucket, "NON_US");
+});

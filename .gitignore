@@ -19,6 +19,7 @@ coverage/
 
 # Build output (built by CI, not committed)
 docs/index.html
+docs/personalized-decision.js
 
 # Data caches (auto-generated, large files)
 # [fix] nav-cache.json 需要跟踪,否则CI环境无法获取历史数据
