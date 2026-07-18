@@ -174,6 +174,11 @@ test("market sentiment reply always discloses freshness, coverage and cannot ove
   assert.match(sendSource, /buildMarketSentimentDisclosure/);
 });
 
+test("stale external signals stay visible with a non-trading disclaimer", function () {
+  assert.match(template, /非当日缓存/);
+  assert.match(template, /不参与加仓或预算计算/);
+});
+
 test("chat history is scoped to plan date and action", function () {
   const storage = new Map([
     ["qdii-ai-chat", JSON.stringify([{ role: "assistant", content: "old BUY answer" }])],

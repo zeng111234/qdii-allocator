@@ -12,6 +12,7 @@ on:
       - 'data/nav-cache.json'
       - 'build-pages.js'
       - 'lib/allocation-policy.js'
+      - 'lib/external-signal-display.js'
       - 'lib/personalized-decision.js'
       - 'lib/recommendation-engine.js'
       - '.github/workflows/pages.yml'

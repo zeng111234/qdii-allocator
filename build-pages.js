@@ -6,6 +6,7 @@
 const fs = require("fs");
 const path = require("path");
 const https = require("https");
+const { normalizeExternalSignalsForPage } = require("./lib/external-signal-display");
 
 const TEMPLATE = path.join(__dirname, "docs", "index.html.template");
 const OUTPUT = path.join(__dirname, "docs", "index.html");
@@ -488,19 +489,7 @@ async function build() {
       : path.join(__dirname, "docs", "data", "external-signals-cache.json");
     if (fs.existsSync(extPath)) {
       const extRaw = JSON.parse(fs.readFileSync(extPath, "utf-8"));
-      const ext = extRaw.data || extRaw;
-      externalSignals = {
-        items: (ext.items || []).slice(0, 10),
-        tickerOpinions: ext.tickerOpinions || [],
-        themeScores: ext.themeScores || {},
-        cachedAt: ext.cachedAt || ext.fetchedAt || extRaw.fetchedAt || null,
-        status: ext.status || "unknown"
-      };
-      const signalTimestamp = ext.fetchedAt || ext.cachedAt || extRaw.fetchedAt || extRaw.cachedAt;
-      const signalDate = signalTimestamp ? new Date(signalTimestamp).toISOString().slice(0, 10) : null;
-      if (signalDate !== new Date().toISOString().slice(0, 10)) {
-        externalSignals = { items: [], tickerOpinions: [], themeScores: {}, cachedAt: signalTimestamp || null, status: "stale" };
-      }
+      externalSignals = normalizeExternalSignalsForPage(extRaw);
     }
     console.log(
       "[构建] 外部信号: " +
