@@ -17,6 +17,9 @@ test("public template contains no personal holdings and starts in syncing state"
   assert.match(template, /function loadLegacyChromeReadOnlySnapshot\(\)/);
   assert.match(template, /detail\.status === 'CONFIG_MISSING' \|\| detail\.status === 'EMPTY'/);
   assert.match(template, /source: 'Chrome 本地只读'/);
+  assert.match(template, /function renderUnavailableLedgerState\(detail\)/);
+  assert.match(template, /当前浏览器没有可显示的持仓数据/);
+  assert.match(template, /请在保存持仓的 Chrome 中打开本网站/);
 });
 
 test("browser sync uses Firebase Web SDK Google auth and uid-scoped ledger", function () {
