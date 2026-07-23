@@ -622,13 +622,11 @@ async function main() {
   // [fix] 定投建议（基于市场温度）
   if (result.marketTemperature && result.budget) {
     const mt = result.marketTemperature;
-    const adjustedBudget = Math.round(result.budget * mt.multiplier);
-    if (mt.multiplier > 1) {
-      console.log("[定投建议] 市场偏冷(" + mt.level + ")，建议今日投入" + adjustedBudget + "元（正常" + result.budget + "元的" + mt.multiplier + "倍）");
-    } else if (mt.multiplier < 1) {
-      console.log("[定投建议] 市场偏热(" + mt.level + ")，建议今日投入" + adjustedBudget + "元（正常" + result.budget + "元的" + mt.multiplier + "倍），或暂停一天");
+    const reducedBudget = mt.multiplier < 1 ? Math.round(result.budget * mt.multiplier) : result.budget;
+    if (mt.multiplier < 1) {
+      console.log("[定投建议] 市场偏热(" + mt.level + ")，系统金额最多降到" + reducedBudget + "元；不得因温度或新闻加码");
     } else {
-      console.log("[定投建议] 市场正常，建议今日投入" + result.budget + "元");
+      console.log("[定投建议] 市场温度只作解释，今日仍按确定性计划投入" + result.budget + "元");
     }
   }
 

@@ -108,7 +108,8 @@ test("weekly tactical cap and risk anchor remain deterministic hard limits", fun
     portfolio: decision.derivePortfolio(sourceLedger)
   }));
   assert.equal(capped.weeklySpent, 40);
-  assert.equal(capped.budget, 10);
+  assert.equal(capped.budget, 20);
+  assert.equal(capped.budgetPolicy.tacticalWeeklyBudget, 100);
 
   const stopped = decision.personalizePlan(baseInput({
     decisionState: { schemaVersion: 1, revision: 2, riskAnchorValue: 1200, cashBalance: 0 }
@@ -116,6 +117,30 @@ test("weekly tactical cap and risk anchor remain deterministic hard limits", fun
   assert.equal(stopped.action, "HARD_PAUSE");
   assert.equal(stopped.budget, 0);
   assert.ok(stopped.pauseReasons.includes("RISK_ANCHOR_DRAWDOWN_10"));
+});
+
+test("tactical mode cuts daily amount to 10 yuan when market is overheated", function () {
+  const plan = decision.personalizePlan(baseInput({
+    marketTemperature: { temperature: 80, level: "偏热" }
+  }));
+  assert.equal(plan.action, "TACTICAL_PAUSE");
+  assert.equal(plan.budget, 10);
+  assert.equal(plan.budgetPolicy.overheatReduced, true);
+});
+
+test("tactical mode can buy underweight growth when anchor drawdown allows it", function () {
+  const sourceLedger = ledger([
+    buy("1", "SPX", "2026-07-01", 500, 500),
+    buy("2", "NDX", "2026-07-01", 100, 100),
+    buy("3", "JP", "2026-07-01", 300, 300),
+    buy("4", "MED", "2026-07-01", 100, 100)
+  ]);
+  const plan = decision.personalizePlan(baseInput({
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger)
+  }));
+  assert.equal(plan.action, "TACTICAL_PAUSE");
+  assert.equal(plan.executionRoutes[0].bucket, "GROWTH_TECH");
 });
 
 test("global and global medical holdings map to explicit buckets", function () {

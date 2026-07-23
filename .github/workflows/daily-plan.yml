@@ -29,13 +29,13 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
       # [fix] add dependency caching
       - name: Cache node_modules
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
@@ -43,7 +43,16 @@ jobs:
       - name: Configure private ledger temp path
         run: echo "PRIVATE_LEDGER_PATH=$RUNNER_TEMP/portfolio-ledger.json" >> "$GITHUB_ENV"
       - name: Fetch and validate private PortfolioLedgerV2
-        run: node scripts/fetch-private-ledger.js
+        run: |
+          set +e
+          node scripts/fetch-private-ledger.js
+          status=$?
+          if [ "$status" -eq 0 ]; then
+            echo "PRIVATE_LEDGER_AVAILABLE=1" >> "$GITHUB_ENV"
+          else
+            echo "PRIVATE_LEDGER_AVAILABLE=0" >> "$GITHUB_ENV"
+            echo "::warning::Private PortfolioLedgerV2 unavailable; public market data and Pages will still update, personalized email/action is skipped."
+          fi
         env:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
@@ -79,6 +88,7 @@ jobs:
           LLM_MODEL: ${{ secrets.LLM_MODEL }}
       # [fix] replaced eval injection with safe direct command
       - name: Run allocation strategy & send email
+        if: env.PRIVATE_LEDGER_AVAILABLE == '1'
         run: |
           STRATEGY="${{ inputs.strategy }}"
           if [ -z "$STRATEGY" ]; then STRATEGY="dynamic"; fi
@@ -104,6 +114,9 @@ jobs:
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
           PORTFOLIO_FILE: ${{ env.PRIVATE_LEDGER_PATH }}
           PORTFOLIO_READ_ONLY: 1
+      - name: Skip personalized allocation when private ledger is unavailable
+        if: env.PRIVATE_LEDGER_AVAILABLE != '1'
+        run: echo "Private ledger unavailable; skipping personalized allocation and email."
       - name: Build GitHub Pages
         run: node build-pages.js
         env:
@@ -120,7 +133,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           # [fix] only add tracked files, skip gitignored caches
-          git add data/history.json data/nav-cache.json
+          git add data/history.json data/nav-cache.json data/recommendation-plan.json
           # 复制外部信号到 docs/data/ (因为 data/external-signals-cache.json 被 gitignore)
           cp -f data/external-signals-cache.json docs/data/external-signals-cache.json 2>/dev/null || true
           git add -f docs/data/nav-cache.json docs/data/news.json docs/data/external-signals-cache.json

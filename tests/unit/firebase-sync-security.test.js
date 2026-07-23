@@ -59,4 +59,6 @@ test("Actions never commit the private portfolio and always removes its temp led
   assert.match(workflow, /PRIVATE_LEDGER_PATH/);
   assert.match(workflow, /rm -f "\$PRIVATE_LEDGER_PATH"/);
   assert.doesNotMatch(workflow, /continue-on-error:\s*true\s*\n\s*run:[^\n]*portfolio/i);
+  assert.match(workflow, /PRIVATE_LEDGER_AVAILABLE=0/);
+  assert.match(workflow, /public market data and Pages will still update/);
 });

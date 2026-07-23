@@ -430,10 +430,13 @@ async function build() {
     date: recommendationPlan.asOf,
     strategy: "RecommendationPlan",
     action: recommendationPlan.action,
+    strategyVersion: recommendationPlan.strategyVersion,
+    allocationWeek: recommendationPlan.allocationWeek,
     pauseReasons: recommendationPlan.pauseReasons,
     dataFreshness: recommendationPlan.dataFreshness,
     signalHealth: recommendationPlan.signalHealth,
     liveAcceptance: recommendationPlan.liveAcceptance,
+    budgetPolicy: recommendationPlan.budgetPolicy,
     budget: recommendationPlan.budget,
     ranked: (recommendationPlan.candidates || []).map(function (candidate) {
       return Object.assign({}, candidate, { score: candidate.marketScore, reason: candidate.reasons.join("；") });

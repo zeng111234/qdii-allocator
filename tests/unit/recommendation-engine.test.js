@@ -53,12 +53,12 @@ test("correlation aligns returns by common dates", function () {
 });
 
 test("signal circuit breaker pauses and shadow recovery requires 20 results", function () {
-  const weak = Array.from({ length: 15 }, function (_, i) { return { followUp5dReturn: i < 3 ? 1 : -2 }; });
+  const weak = Array.from({ length: 15 }, function (_, i) { return { strategyVersion: engine.CURRENT_STRATEGY_VERSION, followUp5dReturn: i < 3 ? 1 : -2 }; });
   const paused = engine.evaluateSignalHealth(weak, []);
   assert.equal(paused.status, "PAUSE");
 
   const recovered = engine.evaluateSignalHealth(weak, Array.from({ length: 20 }, function (_, i) {
-    return { followUp5dReturn: i < 11 ? 1 : -0.5 };
+    return { strategyVersion: engine.CURRENT_STRATEGY_VERSION, followUp5dReturn: i < 11 ? 1 : -0.5 };
   }));
   assert.equal(recovered.status, "HEALTHY");
 });
@@ -67,6 +67,7 @@ test("plan exposes every deterministic pause reason without weakening the live g
   const weakHistory = Array.from({ length: 15 }, function (_, i) {
     return {
       date: "2026-06-" + String(i + 1).padStart(2, "0"),
+      strategyVersion: engine.CURRENT_STRATEGY_VERSION,
       action: "BUY",
       ranked: [{ code: "A", followUp5dReturn: i < 3 ? 1 : -2 }]
     };
@@ -89,6 +90,7 @@ test("plan partitions BUY and PAUSE history into disjoint live and shadow sample
   const liveRecords = Array.from({ length: 15 }, function (_, i) {
     return {
       date: "2026-05-" + String(i + 1).padStart(2, "0"),
+      strategyVersion: engine.CURRENT_STRATEGY_VERSION,
       action: "BUY",
       ranked: [{ code: "A", followUp5dReturn: i < 3 ? 1 : -2 }]
     };
@@ -96,6 +98,7 @@ test("plan partitions BUY and PAUSE history into disjoint live and shadow sample
   const shadowRecords = Array.from({ length: 20 }, function (_, i) {
     return {
       date: "2026-06-" + String(i + 1).padStart(2, "0"),
+      strategyVersion: engine.CURRENT_STRATEGY_VERSION,
       action: "PAUSE",
       ranked: [{ code: "A", followUp5dReturn: i < 11 ? 1 : -0.5 }]
     };
@@ -124,6 +127,30 @@ test("plan partitions BUY and PAUSE history into disjoint live and shadow sample
   assert.equal(plan.signalHealth.recovered, true);
   assert.equal(plan.action, "BUY");
   assert.deepEqual(plan.pauseReasons, []);
+});
+
+test("legacy recommendation history is preserved but isolated from the v2.1 signal breaker", function () {
+  const weakLegacy = Array.from({ length: 15 }, function (_, i) {
+    return {
+      date: "2026-04-" + String(i + 1).padStart(2, "0"),
+      action: "BUY",
+      ranked: [{ code: "A", followUp5dReturn: i < 3 ? 1 : -2 }]
+    };
+  });
+  const partitioned = engine.partitionRecommendationHistory({ records: weakLegacy });
+  assert.equal(partitioned.liveHistory.length, 0);
+  assert.equal(partitioned.legacyHistory.length, 15);
+  const plan = engine.buildRecommendationPlan({
+    funds: [{ code: "A", name: "A", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 100, feeRate: 0.5 }],
+    navCache: { A: navSeries("2025-10-01", 288, 0.001) },
+    portfolio: { holdings: [] },
+    history: { records: weakLegacy },
+    asOf: "2026-07-15",
+    budget: 50,
+    liveEnabled: false
+  });
+  assert.equal(plan.signalHealth.status, "WARMING_UP");
+  assert.equal(plan.pauseReasons.includes("SIGNAL_BREAKER"), false);
 });
 
 test("plan treats same-index funds as routing wrappers rather than fake diversification", function () {
@@ -214,7 +241,8 @@ test("synthetic portfolio regression stays paused and has complete metadata", fu
     liveEnabled: false
   });
   assert.equal(plan.action, "PAUSE");
-  assert.equal(plan.signalHealth.status, "PAUSE");
+  assert.equal(plan.signalHealth.status, "WARMING_UP");
+  assert.equal(plan.pauseReasons.includes("SIGNAL_BREAKER"), false);
   assert.equal(plan.portfolioRisk.unknownHoldings.length, 0);
   assert.ok(plan.candidates.filter(function (candidate) { return candidate.indexGroup === "NDX100"; }).length <= 1);
 });
