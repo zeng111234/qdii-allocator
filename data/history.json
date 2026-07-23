@@ -11666,7 +11666,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.5,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.25
         },
         {
           "rank": 3,
@@ -11732,7 +11732,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -7.46,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.69
         },
         {
           "rank": 6,
@@ -11754,7 +11754,7 @@
             "longTermTrend": "neutral"
           },
           "followUp5dReturn": 0,
-          "followUp10dReturn": null
+          "followUp10dReturn": 3.1
         },
         {
           "rank": 7,
@@ -11776,7 +11776,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -0.92,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.92
         },
         {
           "rank": 8,
@@ -11798,7 +11798,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -4.19,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.82
         },
         {
           "rank": 9,
@@ -11842,7 +11842,7 @@
             "longTermTrend": "bear"
           },
           "followUp5dReturn": -3.27,
-          "followUp10dReturn": null
+          "followUp10dReturn": -6.29
         }
       ],
       "allScores": [
@@ -13522,8 +13522,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 73.67,
-          "suitabilityScore": 73.67,
+          "score": 73.42,
+          "suitabilityScore": 73.42,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -13531,10 +13531,10 @@
         },
         {
           "rank": 2,
-          "code": "001092",
-          "name": "广发纳斯达克生物科技A(QDII)",
-          "score": 60.08,
-          "suitabilityScore": 60.08,
+          "code": "000614",
+          "name": "华安德国DAX30A(QDII)",
+          "score": 48.75,
+          "suitabilityScore": 48.75,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
