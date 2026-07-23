@@ -35,14 +35,14 @@
       ]
     },
     {
-      "code": "501226",
-      "name": "长城全球新能源车(QDII)A",
-      "indexGroup": "EV",
-      "marketScore": 60.42,
-      "suitabilityScore": 15.42,
+      "code": "096001",
+      "name": "大成标普500A(QDII)",
+      "indexGroup": "SPX500",
+      "marketScore": 61.17,
+      "suitabilityScore": 16.17,
       "proposedAmount": 0,
       "reasons": [
-        "市场评分 60.42",
+        "市场评分 61.17",
         "影子候选，不执行真实买入"
       ],
       "blockedBy": [
@@ -136,10 +136,10 @@
       ]
     },
     {
-      "code": "501226",
-      "name": "长城全球新能源车(QDII)A",
-      "indexGroup": "EV",
-      "marketScore": 60.42,
+      "code": "096001",
+      "name": "大成标普500A(QDII)",
+      "indexGroup": "SPX500",
+      "marketScore": 61.17,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -147,10 +147,10 @@
       ]
     },
     {
-      "code": "096001",
-      "name": "大成标普500A(QDII)",
-      "indexGroup": "SPX500",
-      "marketScore": 60.17,
+      "code": "501226",
+      "name": "长城全球新能源车(QDII)A",
+      "indexGroup": "EV",
+      "marketScore": 60.42,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -172,7 +172,7 @@
       "code": "001092",
       "name": "广发纳斯达克生物科技A(QDII)",
       "indexGroup": "NASDAQ_BIO",
-      "marketScore": 58.5,
+      "marketScore": 58.33,
       "blockedBy": [
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
@@ -182,7 +182,7 @@
       "code": "019524",
       "name": "华泰柏瑞纳斯达克100指数(QDII)A",
       "indexGroup": "NDX100",
-      "marketScore": 58.17,
+      "marketScore": 58,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -224,7 +224,7 @@
       "code": "040046",
       "name": "华安纳斯达克100A(QDII)",
       "indexGroup": "NDX100",
-      "marketScore": 56.25,
+      "marketScore": 56.08,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -246,7 +246,7 @@
       "code": "007280",
       "name": "摩根日本精选股票(QDII)A",
       "indexGroup": "JAPAN",
-      "marketScore": 54.75,
+      "marketScore": 54.58,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -290,7 +290,7 @@
       "code": "270023",
       "name": "广发全球精选QDII-A",
       "indexGroup": "GLOBAL",
-      "marketScore": 53.33,
+      "marketScore": 53.17,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -322,7 +322,7 @@
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
-      "marketScore": 50.42,
+      "marketScore": 50.33,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -333,7 +333,7 @@
       "code": "016664",
       "name": "天弘全球高端制造QDII-A",
       "indexGroup": "GLOBAL_MFG",
-      "marketScore": 49.75,
+      "marketScore": 49.58,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
@@ -391,7 +391,7 @@
       "code": "000988",
       "name": "华安标普全球石油QDII-A",
       "indexGroup": "OIL",
-      "marketScore": 39.83,
+      "marketScore": 39.67,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -402,7 +402,7 @@
       "code": "000041",
       "name": "华夏全球股票(QDII)(人民币)",
       "indexGroup": "GLOBAL",
-      "marketScore": 38.58,
+      "marketScore": 38.25,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -424,22 +424,11 @@
       "code": "005698",
       "name": "华夏全球科技先锋混合(QDII)A",
       "indexGroup": "GLOBAL_TECH",
-      "marketScore": 37,
+      "marketScore": 36.83,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ]
-    },
-    {
-      "code": "160216",
-      "name": "国泰大宗商品(QDII-LOF)",
-      "indexGroup": "COMMODITY",
-      "marketScore": 33.17,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ]
@@ -456,10 +445,21 @@
       ]
     },
     {
+      "code": "160216",
+      "name": "国泰大宗商品(QDII-LOF)",
+      "indexGroup": "COMMODITY",
+      "marketScore": 33.08,
+      "blockedBy": [
+        "DRAWDOWN_OVER_20",
+        "FUND_WEIGHT_LIMIT",
+        "INDEX_GROUP_LIMIT"
+      ]
+    },
+    {
       "code": "040018",
       "name": "华安香港精选QDII-A",
       "indexGroup": "HK",
-      "marketScore": 26.58,
+      "marketScore": 27.42,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",

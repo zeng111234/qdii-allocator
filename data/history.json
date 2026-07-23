@@ -10302,7 +10302,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -5.4,
-          "followUp10dReturn": null
+          "followUp10dReturn": -13.32
         },
         {
           "rank": 2,
@@ -10324,7 +10324,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -4.63,
-          "followUp10dReturn": null
+          "followUp10dReturn": -16.2
         },
         {
           "rank": 3,
@@ -10346,7 +10346,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -2.43,
-          "followUp10dReturn": null
+          "followUp10dReturn": -9.01
         },
         {
           "rank": 4,
@@ -10368,7 +10368,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.15,
-          "followUp10dReturn": null
+          "followUp10dReturn": -5.05
         },
         {
           "rank": 5,
@@ -10390,7 +10390,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -2.6,
-          "followUp10dReturn": null
+          "followUp10dReturn": -4.9
         },
         {
           "rank": 6,
@@ -10412,7 +10412,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -0.66,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.48
         },
         {
           "rank": 7,
@@ -10434,7 +10434,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 0.04,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.05
         },
         {
           "rank": 8,
@@ -10456,7 +10456,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -2.27,
-          "followUp10dReturn": null
+          "followUp10dReturn": -8.11
         },
         {
           "rank": 9,
@@ -10478,7 +10478,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 0.1,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1
         },
         {
           "rank": 10,
@@ -10500,7 +10500,7 @@
             "longTermTrend": "bear"
           },
           "followUp5dReturn": -2.83,
-          "followUp10dReturn": null
+          "followUp10dReturn": -3.56
         }
       ],
       "allScores": [
@@ -10743,7 +10743,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -9.96,
-          "followUp10dReturn": null
+          "followUp10dReturn": -22.05
         },
         {
           "rank": 2,
@@ -10765,7 +10765,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -10.7,
-          "followUp10dReturn": null
+          "followUp10dReturn": -20.38
         },
         {
           "rank": 3,
@@ -10787,7 +10787,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -4.47,
-          "followUp10dReturn": null
+          "followUp10dReturn": -9.51
         },
         {
           "rank": 4,
@@ -10809,7 +10809,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -5.27,
-          "followUp10dReturn": null
+          "followUp10dReturn": -11.08
         },
         {
           "rank": 5,
@@ -10831,7 +10831,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -3.72,
-          "followUp10dReturn": null
+          "followUp10dReturn": -7.76
         },
         {
           "rank": 6,
@@ -10853,7 +10853,7 @@
             "longTermTrend": "neutral"
           },
           "followUp5dReturn": -4.56,
-          "followUp10dReturn": null
+          "followUp10dReturn": -10.93
         },
         {
           "rank": 7,
@@ -10875,7 +10875,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.16,
-          "followUp10dReturn": null
+          "followUp10dReturn": -7.76
         },
         {
           "rank": 8,
@@ -10897,7 +10897,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -0.62,
-          "followUp10dReturn": null
+          "followUp10dReturn": -4.13
         },
         {
           "rank": 9,
@@ -10919,7 +10919,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 0.17,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.68
         },
         {
           "rank": 10,
@@ -10941,7 +10941,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -2.75,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.92
         }
       ],
       "allScores": [
@@ -11184,7 +11184,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.01,
-          "followUp10dReturn": null
+          "followUp10dReturn": -9.05
         },
         {
           "rank": 2,
@@ -11206,7 +11206,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.85,
-          "followUp10dReturn": null
+          "followUp10dReturn": -8.94
         },
         {
           "rank": 3,
@@ -11228,7 +11228,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -2.11,
-          "followUp10dReturn": null
+          "followUp10dReturn": -9.2
         },
         {
           "rank": 4,
@@ -11250,7 +11250,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.1,
-          "followUp10dReturn": null
+          "followUp10dReturn": -7.09
         },
         {
           "rank": 5,
@@ -11272,7 +11272,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.67,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1
         },
         {
           "rank": 6,
@@ -11294,7 +11294,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -0.41,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.93
         },
         {
           "rank": 7,
@@ -11316,7 +11316,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 0.02,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.03
         },
         {
           "rank": 8,
@@ -11338,7 +11338,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 0.47,
-          "followUp10dReturn": null
+          "followUp10dReturn": 2.45
         },
         {
           "rank": 9,
@@ -11360,7 +11360,7 @@
             "longTermTrend": "bear"
           },
           "followUp5dReturn": -0.13,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.02
         },
         {
           "rank": 10,
@@ -11382,7 +11382,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -0.64,
-          "followUp10dReturn": null
+          "followUp10dReturn": -4.55
         }
       ],
       "allScores": [
@@ -11643,7 +11643,7 @@
             "maxDrawdown": -20,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 1.89,
           "followUp10dReturn": null
         },
         {
@@ -11665,7 +11665,7 @@
             "maxDrawdown": -22.25,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.5,
           "followUp10dReturn": null
         },
         {
@@ -11687,8 +11687,8 @@
             "maxDrawdown": -25.48,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": -6.68,
+          "followUp10dReturn": -1.83
         },
         {
           "rank": 4,
@@ -11709,8 +11709,8 @@
             "maxDrawdown": -31.14,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": -10.84,
+          "followUp10dReturn": -8.37
         },
         {
           "rank": 5,
@@ -11731,7 +11731,7 @@
             "maxDrawdown": -20.74,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -7.46,
           "followUp10dReturn": null
         },
         {
@@ -11753,7 +11753,7 @@
             "maxDrawdown": -25.44,
             "longTermTrend": "neutral"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0,
           "followUp10dReturn": null
         },
         {
@@ -11775,7 +11775,7 @@
             "maxDrawdown": -15.13,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.92,
           "followUp10dReturn": null
         },
         {
@@ -11797,7 +11797,7 @@
             "maxDrawdown": -23.85,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -4.19,
           "followUp10dReturn": null
         },
         {
@@ -11819,8 +11819,8 @@
             "maxDrawdown": -19.24,
             "longTermTrend": "neutral"
           },
-          "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp5dReturn": -6.67,
+          "followUp10dReturn": -2.36
         },
         {
           "rank": 10,
@@ -11841,7 +11841,7 @@
             "maxDrawdown": -22.54,
             "longTermTrend": "bear"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -3.27,
           "followUp10dReturn": null
         }
       ],
@@ -12103,7 +12103,7 @@
             "maxDrawdown": -20,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 2.28,
           "followUp10dReturn": null
         },
         {
@@ -12125,7 +12125,7 @@
             "maxDrawdown": -23.85,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -2.3,
           "followUp10dReturn": null
         },
         {
@@ -12147,7 +12147,7 @@
             "maxDrawdown": -31.14,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -9.61,
           "followUp10dReturn": null
         },
         {
@@ -12169,7 +12169,7 @@
             "maxDrawdown": -28.17,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -3.56,
           "followUp10dReturn": null
         },
         {
@@ -12191,7 +12191,7 @@
             "maxDrawdown": -25.48,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -2.07,
           "followUp10dReturn": null
         },
         {
@@ -12213,7 +12213,7 @@
             "maxDrawdown": -22.25,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.38,
           "followUp10dReturn": null
         },
         {
@@ -12235,7 +12235,7 @@
             "maxDrawdown": -17.4,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.54,
           "followUp10dReturn": null
         },
         {
@@ -12257,7 +12257,7 @@
             "maxDrawdown": -25.44,
             "longTermTrend": "neutral"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.25,
           "followUp10dReturn": null
         },
         {
@@ -12279,7 +12279,7 @@
             "maxDrawdown": -17.88,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.52,
           "followUp10dReturn": null
         },
         {
@@ -12301,7 +12301,7 @@
             "maxDrawdown": -23.75,
             "longTermTrend": "neutral"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.48,
           "followUp10dReturn": null
         }
       ],
@@ -12563,7 +12563,7 @@
             "maxDrawdown": -17.54,
             "longTermTrend": "neutral"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -2.21,
           "followUp10dReturn": null
         },
         {
@@ -12585,7 +12585,7 @@
             "maxDrawdown": -25.52,
             "longTermTrend": "neutral"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.92,
           "followUp10dReturn": null
         },
         {
@@ -12607,7 +12607,7 @@
             "maxDrawdown": -22.54,
             "longTermTrend": "bear"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.95,
           "followUp10dReturn": null
         },
         {
@@ -12629,7 +12629,7 @@
             "maxDrawdown": -20,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 2.21,
           "followUp10dReturn": null
         },
         {
@@ -12651,7 +12651,7 @@
             "maxDrawdown": -22.25,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.62,
           "followUp10dReturn": null
         },
         {
@@ -12673,7 +12673,7 @@
             "maxDrawdown": -1.34,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.02,
           "followUp10dReturn": null
         },
         {
@@ -12695,7 +12695,7 @@
             "maxDrawdown": -25.48,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -3.04,
           "followUp10dReturn": null
         },
         {
@@ -12717,7 +12717,7 @@
             "maxDrawdown": -24.97,
             "longTermTrend": "neutral"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.13,
           "followUp10dReturn": null
         },
         {
@@ -12739,7 +12739,7 @@
             "maxDrawdown": -19.24,
             "longTermTrend": "neutral"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -5.07,
           "followUp10dReturn": null
         },
         {
@@ -12761,7 +12761,7 @@
             "maxDrawdown": -14.14,
             "longTermTrend": "bear"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.5,
           "followUp10dReturn": null
         }
       ],
@@ -13023,7 +13023,7 @@
             "maxDrawdown": -15.13,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.23,
           "followUp10dReturn": null
         },
         {
@@ -13045,7 +13045,7 @@
             "maxDrawdown": -22.54,
             "longTermTrend": "bear"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -3.17,
           "followUp10dReturn": null
         },
         {
@@ -13067,7 +13067,7 @@
             "maxDrawdown": -1.34,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.01,
           "followUp10dReturn": null
         },
         {
@@ -13089,7 +13089,7 @@
             "maxDrawdown": -24.91,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.23,
           "followUp10dReturn": null
         },
         {
@@ -13111,7 +13111,7 @@
             "maxDrawdown": -20,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.23,
           "followUp10dReturn": null
         },
         {
@@ -13133,7 +13133,7 @@
             "maxDrawdown": -28.36,
             "longTermTrend": "bear"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.71,
           "followUp10dReturn": null
         },
         {
@@ -13155,7 +13155,7 @@
             "maxDrawdown": -35.85,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.95,
           "followUp10dReturn": null
         },
         {
@@ -13177,7 +13177,7 @@
             "maxDrawdown": -14.14,
             "longTermTrend": "bear"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.39,
           "followUp10dReturn": null
         },
         {
@@ -13199,7 +13199,7 @@
             "maxDrawdown": -17.88,
             "longTermTrend": "bull"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -3.26,
           "followUp10dReturn": null
         },
         {
@@ -13221,7 +13221,7 @@
             "maxDrawdown": -19.24,
             "longTermTrend": "neutral"
           },
-          "followUp5dReturn": null,
+          "followUp5dReturn": -6.38,
           "followUp10dReturn": null
         }
       ],
@@ -13473,7 +13473,7 @@
           "suitabilityScore": 73.84,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.64,
           "followUp10dReturn": null
         },
         {
@@ -13482,6 +13482,59 @@
           "name": "广发纳斯达克生物科技A(QDII)",
           "score": 64.29,
           "suitabilityScore": 64.29,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": -0.25,
+          "followUp10dReturn": null
+        }
+      ]
+    },
+    {
+      "date": "2026-07-23",
+      "strategy": "RecommendationPlan",
+      "strategyVersion": "allocation-v2.1-balanced",
+      "allocationWeek": "2026-07-20",
+      "action": "PAUSE",
+      "budget": 0,
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-07-22",
+        "maxTradingDayLag": 2,
+        "observationCount": 4
+      },
+      "signalHealth": {
+        "status": "WARMING_UP",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 73.67,
+          "suitabilityScore": 73.67,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "001092",
+          "name": "广发纳斯达克生物科技A(QDII)",
+          "score": 60.08,
+          "suitabilityScore": 60.08,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
