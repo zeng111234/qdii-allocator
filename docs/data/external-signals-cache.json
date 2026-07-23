@@ -1,398 +1,427 @@
 {
- "data": {
-  "sourceUrl": "https://x.com/aleabitoreddit",
-  "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
-  "status": "ok",
-  "fetchedAt": "2026-07-17T10:45:13.460Z",
-  "items": [
-   {
-    "title": "Kim Sunwoo of Meritz Securities: \"This Is Not the Time to Sell Samsung Electronics and $SKHY\" They claim markets are excessively misunderstanding the ...",
-    "text": "Kim Sunwoo of Meritz Securities: \"This Is Not the Time to Sell Samsung Electronics and $SKHY\" They claim markets are excessively misunderstanding the situation with semis. And that DRAM shortage will intensify in the second half of this year. - H2 2026: \"suppliers can fulfill only 75%–80% of DRAM demand\". - 2027: \"fulfillment is expected to fall into the 60% range.\" In the article, they attached market forecasts that show SK Hynix with a 2027 3.5x P/E and Samsung a 3.9x P/E. Think the $INTC CEO said it best around timeframes with his quote \"no relief in memory supply or pricing until at least 2028\". Especially after $MU 16 LTAs with favorable take or pay volume contracts... memory demand seems structural.",
-    "time": "Fri, 17 Jul 2026 03:16:07 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077955479742173422",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "My guess is we’re close to market bottom on semis from $INTC to $LITE. A good indicator is if everyone on $RDDT blew up their portfolios to $0.",
-    "text": "My guess is we’re close to market bottom on semis from $INTC to $LITE. A good indicator is if everyone on $RDDT blew up their portfolios to $0.",
-    "time": "Thu, 16 Jul 2026 15:57:05 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077784594959725056",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Lot of people were curious about $SIVE capacity volume ramp modeling through fab-light (Win Semi + others): Using 10% of Win's wafer capacity as a low...",
-    "text": "Lot of people were curious about $SIVE capacity volume ramp modeling through fab-light (Win Semi + others): Using 10% of Win's wafer capacity as a low-end allocation (65% yield assumption, $50-$75 ASP): Sivers would support $341-$512M worth of annual array revenue. Given upper end of managements 50-60%+ gross margin target, would be roughly: $205–307M of annual gross profit. Against Sivers current ~$1.1B MC, would be ~: 3.6–5.4× MC/gross profit if this capacity scenario plays out in 2028. And at 15% would be $307–461M in gross profit (2.4–3.6× MC/gross profit) Sivers CEO also replied that they're working with more fabs for capacity. And from an older deck, there looks to be more qualifications since 2024. So capacity targets might be larger than what's stated here as CPO takes off. I also expect to see revenue pipeline projections hiked in future quarters, as more qualification suppliers to into HVM. _ As for demand side, CW also happens to be very bottlenecked. Lumentum are buying CW off the open market due to EML obligations from their ER transcript. And $AMD are signing LTAs to secure CW capacity (from Trendforce). So when Sivers is ramping with $GFS, $JBL, Ayar, $POET, O-NET and others... Given the current constraints, it's highly likely any independent qualified capacity that comes online would be absorbed. And as a cherry on top, Morgan Stanley named $SIVE (~$1.1B) as one of the three leading CPO laser players . Alongside $55B+ players Coherent and Lumentum in their recent note for a reason... _ TLDR: Sivers only needs a low end allocation from Win to make substantial gross income relative to current valuations. I think the largest revenue upside that isn't modeled in if they TAM expansion with M&amp;A after US NASDAQ listing. By copying the Lumentum playbook with Cloud Light to build out entire transceiver modules or with optical engines. Anders Storm: @seonu63038896 Your assumptions are wrong. Win Semiconductors has a InP capacity of 35.000 wafers per year. Assume even a low number 10% of that is 3500 wafers. There are approximately 3000 CW arrays on a wafer, price per Array >$50. At only 10% of this capacity Sivers could sell for more than",
-    "time": "Thu, 16 Jul 2026 14:54:42 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077768896061563339",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Today, $MU announced it signed memory LTAs with $QCOM. Interesting reaction to see Micron proceeded to drop 5.37% right after. Doesn’t quite feel lik...",
-    "text": "Today, $MU announced it signed memory LTAs with $QCOM. Interesting reaction to see Micron proceeded to drop 5.37% right after. Doesn’t quite feel like there’s anything individually wrong with memory or AI names with all these structural agreements signed? More like the tail end of deleveraging / margin cascades.",
-    "time": "Thu, 16 Jul 2026 13:54:10 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077753660592033828",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "I hope there's someone at X can fix this subscription bug. Many people are reporting that subscriptions don't renew anymore.",
-    "text": "I hope there's someone at X can fix this subscription bug. Many people are reporting that subscriptions don't renew anymore. Xtine Fang: Why does X automatically unsubscribe me from Serenity?? I have had to re-sub 3 times already @aleabitoreddit @nikitabier",
-    "time": "Thu, 16 Jul 2026 13:06:22 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077741631135191234",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Anthropic to IPO as early as October per Bloomberg. This is following their $65B financing at a $965 billion valuation last May. Hmm, would you all in...",
-    "text": "Anthropic to IPO as early as October per Bloomberg. This is following their $65B financing at a $965 billion valuation last May. Hmm, would you all invest in Anthropic at a $1T+ valuation?",
-    "time": "Wed, 15 Jul 2026 16:56:28 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077437150715666900",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "$AAPL looks to acquire AI chip companies for running AI (Source: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend....",
-    "text": "$AAPL looks to acquire AI chip companies for running AI (Source: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend. But what if Apple joined the others after M&amp;A? A possible scenario is that they revise capex largely upward for their own AI buildout. Since they probably witnessed Google cutting off Meta from compute constraints... or what happens when you partner with OpenAI for LLMs. Then learned how important it is to have your own infrastructure. This scenario would be quite bullish thematically from optical networking to foundries and something markets would not expect? We'll see what happens.",
-    "time": "Wed, 15 Jul 2026 15:53:21 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077421268991926703",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "$NVDA CEO, Jensen Huang in Tokyo today said: \"The reports are not true. Vera Rubin is already in production. Giant amounts of production incoming\" As ...",
-    "text": "$NVDA CEO, Jensen Huang in Tokyo today said: \"The reports are not true. Vera Rubin is already in production. Giant amounts of production incoming\" As a flat denial to the accusation that their AI servers would be delayed. Jensen appears to be using the Umbrella term for Rubin Ultra/Kyber, then pointed to current gen ramp. Regardless, lot of damage has been done already to Nvidia supply chains stock prices, after the multiple delay reports. Even if Nvidia refuted them by clarifying Kyber change was an architecture optimization, not impacting timelines. It's a very dangerous and growing trend for folks to post overreaching broader claims from technical nuances to grow viewcount... Especially if they get Jensen has to respond. In the end, I'm trusting $NVDA on timelines since they probably have the greatest visibility into their own supply chain.",
-    "time": "Wed, 15 Jul 2026 14:54:52 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077406548012466390",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Well, looks like SLC NAND is forcasted to rise up 120-170% for H2 2026 per Trendforce. There's $MU (21%), Kioxia (20%) as largest share, but clearer b...",
-    "text": "Well, looks like SLC NAND is forcasted to rise up 120-170% for H2 2026 per Trendforce. There's $MU (21%), Kioxia (20%) as largest share, but clearer beneficiaries appears to be: 1. Winbond (2344): ~15% of the SLC NAND market 2. Macronix (2337): ~11% market share 3. SkyHigh Memory via Puya Semi: ~14% market share Given Micron at $1T and others are a bit large relative to SLC NAND TAM. (source: Q1 2026 Winbond presentation/Trendforce).",
-    "time": "Wed, 15 Jul 2026 03:08:23 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077228758491386121",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "$AEHR back up +36.4% today off earnings! 2027 guide: $130-$150m (160-200% growth) from 2026 revenue. Sees opportunity to guide higher (assumes no memo...",
-    "text": "$AEHR back up +36.4% today off earnings! 2027 guide: $130-$150m (160-200% growth) from 2026 revenue. Sees opportunity to guide higher (assumes no memory revenue or little to none from newly benchmarked AI customer). Q4 bookings: $60.7M, effective backlog is $100.6M. - Lead AI processor wafer-level burn-in customer is significantly ramping their products. - Engaged with additional AI processor customers who are evaluating wafer-level burn-in. - Benchmark customer, which was a “major supplier of AI accelerators, CPUs and network processors” “exceeded their expectations. From management: The potential revenue opportunity from one of these devices is \"significant to Aehr\". So another benchmark win for potential HVM in the future. - Wafer level burn-in benchmark with a \"global leader in NAND flash completed\". Now evaluating a development agreement for HBM/NAND Seems like $SNDK since there was HBF related discussions from last quarter I think. - \"Our package level burn-in business for AI processors also gained momentum over the year … from our lead hyperscale customer for Sonoma systems\" - Silicon photonics customer already ramping, newer networking customers has forecast additional systems Basically the amount of global semi companies that map to $AEHR is pretty ridiculous across silicon photonics, memory, AI processors, and others. I don’t quite think that $130-$150m guidance is representative of actualized revenue for 2027 if these hyperscalers/semi companies convert to HVM. Typically with these types of qualification into HVM players, markets don’t really judge it by current quarter, but what’s to come. And it looks very positive so far in terms of reactions... $116 -> $60 -> $94 all in the span of a month is pretty insane volatility tho, so good to know what you're holding. Serenity: $AEHR looks extremely promising at ~$1.1B MC. Aehr is starting to remind me of an early $TER, mixed with pre-earnings $AAOI. If we look at the timeline and speculated customers: Feb 11th: Sonoma production win for Hyperscaler's AI ASIC processors. (likely $GOOGL, $AMZN,",
-    "time": "Wed, 15 Jul 2026 01:48:14 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077208587005542464",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "$NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a multi-billion dollar agreement with $SP...",
-    "text": "$NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a multi-billion dollar agreement with $SPCX earlier. Interesting to say the least, seeing Nebius drop -5% off the news today. Also... counterparty to get this done kinda reminds me of OpenAI, where they might not have the funds to actually execute on these LTAs yet compared to $META or $MSFT. But generally positive long term developments, customer diversification was one of the core strengths of Nebius.",
-    "time": "Tue, 14 Jul 2026 14:57:21 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077044786402660829",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Two different capacity expansion announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of ...",
-    "text": "Two different capacity expansion announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of its 300mm Silicon Photonics (SiPho), Silicon Germanium (SiGe), and advanced packaging capabilities. Targeting $1.2B net profit, and $3.6B revenue in 2028 (with a ~$28B MC, that's ~23.3 2028 forward p/e). AAOI announced the commencement of its buildout, roughly 400,000 square feet of manufacturing to make 800g/1.6T production go brrr. The overall expansion is also supported by the local city government in Texas. (they also $20.85M worth of subsidies from the State earlier). This one isn't exactly as materially new as Tower, since AAOI originally announced these plans before. Just commencement of it. Regardless, glad to see both of these companies in their Anime training arc phase as they power up.",
-    "time": "Tue, 14 Jul 2026 14:35:50 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2077039373711970804",
-    "source": "x-rsshub"
-   }
-  ],
-  "themeScores": {
-   "nasdaq": {
-    "score": 3,
-    "matches": [
-     "ai",
-     "nasdaq",
-     "semiconductor",
-     "apple",
-     "meta",
-     "chip"
+  "data": {
+    "sourceUrl": "https://x.com/aleabitoreddit",
+    "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
+    "status": "ok",
+    "fetchedAt": "2026-07-23T10:13:10.499Z",
+    "items": [
+      {
+        "title": "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen more than 40% in China since the...",
+        "text": "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen more than 40% in China since the start of the year from sources. - Month-on-month increases topping 10% for some products CPUs were already a bottleneck, following CPU ratios due to AI inference... But the broader trend of LTAs seems to be appearing from: - Memory, with $MU, Samsung, $SNDK, and SK Hynix signing DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Trendforce reports that $AMD and hyperscalers are now pursuing CW LTAs. And I'm sure there's many more from MLCCs to all the way to substrates. +1 for the bottleneck investors... hard to be a \"bubble that pops\" if you have take or pay demand spanning multiple years.",
+        "time": "Thu, 23 Jul 2026 04:49:37 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2080153334888182065",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "Just some notes from $TSLA transcripts: Elon Musk: \"I think Optimus will be the biggest product ever\" from Q2 earnings transcripts. Even from Q1, Elon...",
+        "text": "Just some notes from $TSLA transcripts: Elon Musk: \"I think Optimus will be the biggest product ever\" from Q2 earnings transcripts. Even from Q1, Elon Stated: \"I think Optimus will be our biggest product. Not just Tesla's biggest product ever, but probably the biggest product ever. And I remain convinced of that conclusion\". It's very rare to see such high conviction reiterated from Elon regarding humanoids both directionally and TAM-wise. In terms of upstream suppliers opportunities, Karn Budhiraj, VP of $TSLA supply chains stated: \"We’re seeing the same level of investment going to memory and also new specific items like metal injection molded parts, flexible printed circuits, and all sorts of nonlinear technologies...\" And that they had to build new supply chains from scratch. So would be interesting to look at for new supply chain supplier opportunities apart from the known ones. Just pulled older slides and it looks like capacity targets for Fremont are 1M and Giga Texas was 10M, so at scale, $TSLA seems to be the clear US leader. If you're looking at that S-Curve opportunity ramp. On a side note, Elon also gave a shoutout to $MU with likely reasonably priced LTAs, given his statement: \"We really appreciate Micron making room for Tesla in the years to come and giving us actually a very significant allocation on reasonable terms given the pretty insane pricing of memory these days.\" (Just for structural memory demand). Elon also gave a shoutout to Panasonic which had invested many billions in increasing battery cell production (will need to do deeper DD into Panasonic after this), then Samsung and $TSM. Just takeaways from Tesla earnings TLDR: Elon tends to be directionally correct on where the future is heading, such as with EV or Space. He seems extremely bullish on humanoids.",
+        "time": "Thu, 23 Jul 2026 04:35:37 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2080149813065396454",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "$GOOGL updates FY 2026 capex guidance: To $195B-$205B. Up from $180B-$190B. Google is also expected to significantly increase capex in 2027. This is p...",
+        "text": "$GOOGL updates FY 2026 capex guidance: To $195B-$205B. Up from $180B-$190B. Google is also expected to significantly increase capex in 2027. This is perhaps the most bullish read through on upstream semis from a hyperscaler.",
+        "time": "Wed, 22 Jul 2026 21:02:27 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2080035769062916479",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "$GOOGL now has 950M monthly Gemini users and processes 22B API tokens/min. Compared to 750M back in February. Absurd growth adding 200 million more us...",
+        "text": "$GOOGL now has 950M monthly Gemini users and processes 22B API tokens/min. Compared to 750M back in February. Absurd growth adding 200 million more users in a few months. Kinda explains why they ran out of compute, then cut allocations to $META and others. Very unlikely AI capex will slow down given. Serenity: $GOOGL reported earnings today: EPS: $9.11 actual vs $2.91 expected - retail reactions to EPS blowout is kinda just accounting noise, since $SPCX, Anthropic, and others were likely large contributors. Revenue: $119.7B actual vs. $116.98B expected Google Cloud Revenue: $24.77B",
+        "time": "Wed, 22 Jul 2026 20:45:31 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2080031508656746874",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "$GOOGL reported earnings today: EPS: $9.11 actual vs $2.91 expected - retail reactions to EPS blowout is kinda just accounting noise, since $SPCX, Ant...",
+        "text": "$GOOGL reported earnings today: EPS: $9.11 actual vs $2.91 expected - retail reactions to EPS blowout is kinda just accounting noise, since $SPCX, Anthropic, and others were likely large contributors. Revenue: $119.7B actual vs. $116.98B expected Google Cloud Revenue: $24.77B +82% Y/Y, vs. 63-65% expected ($22.2-$22.6B) - this is a very large beat and most material part so far. Cloud Operating Income: ~$8.81B, implying 35.6% margin vs. 32.9% Q1. Capex: $44.92B vs ~$44.15B (basically in line). So initial read through is Google Cloud accelerating growth with expanding margins is genuinely bullish for AI demand. Their former $180-$190B capex guidance is already extremely large, and as long as we get around these numbers in the earnings call + forward projections... Should be good to go for $LITE and the other optics/networking trade. (eg. last earnings, they said DC and networking would be ~40% of capex spend). Hyperscaler earnings transcripts are probably the most important thing to pay attention to with the AI capex trade. And that should be in 3 minutes.",
+        "time": "Wed, 22 Jul 2026 20:27:50 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2080027058063958323",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "$AMD to invest $5B in Anthropic. Anthropic in turn will sign a 2 GW deal to buy AMD’s latest chips, worth tens of billions of dollars. Looks like the...",
+        "text": "$AMD to invest $5B in Anthropic. Anthropic in turn will sign a 2 GW deal to buy AMD’s latest chips, worth tens of billions of dollars. Looks like they’re copying the $NVDA playbook with Anthropic last year.",
+        "time": "Wed, 22 Jul 2026 15:10:40 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2079947242455335379",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "OpenAI models reportedly escaped from its controlled environment, with no internet access. Exploited zero day vulnerabilities and hacked into Hugging ...",
+        "text": "OpenAI models reportedly escaped from its controlled environment, with no internet access. Exploited zero day vulnerabilities and hacked into Hugging Face to cheat on benchmarks. Hugging face then used China GLM models to carry out its defense.&nbsp; OpenAI said it was an “an unprecedented cyber incident.” We’re getting closer and closer to Skynet. And I’m sure markets will love it.",
+        "time": "Tue, 21 Jul 2026 21:02:48 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2079673469567226149",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ...",
+        "text": "Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%",
+        "time": "Tue, 21 Jul 2026 17:41:05 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2079622706572804368",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "It's slightly more nuanced. Basically, $AMD SF event is tomorrow, Wed/Thurs (July 22, 23). From Jefferies client note, AMD is expected to provide addi...",
+        "text": "It's slightly more nuanced. Basically, $AMD SF event is tomorrow, Wed/Thurs (July 22, 23). From Jefferies client note, AMD is expected to provide additional disclosures around their likely scale-up CPO roadmap + MI500. If they confirm CPO route, would positive thematically since it's not just $NVDA forcing the transition. As for $SIVE, we'll get a better read if they're directly in AMD supply chains. Since right now, it's possible to map it through $GFS (reportedly involved in AMD MI500 CPO work) or AYAR (which AMD invested in). But no formal confirmations. So if you're turning in: - CPO thematic positive: MI500 explicitly commits to CPO/optical UALink. - AMD gives details using Ayar Labs or GF SCALE for MI500 CPO: That would be extremely positive for $SIVE, given they're the upstream laser supplier / reference laser. Currently, Blayne Curtis from Jefferies expect AMD to work with $ALAB on UAL and $AVGO on ESUN... but juicy details are here: \"We are looking for whether AMD commits to a CPO based scale up solution and who supplies the optical engine\" We'll get a broader read through on the supply chain come Wednesday/Thursday, too early to tell today. Henry T: @aleabitoreddit You going to unpack the AMD - GFS news? Looks pretty tasty for sivers…",
+        "time": "Tue, 21 Jul 2026 09:14:20 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2079495178793201678",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "Memory names from Kioxia finished up a whopping +17.18%. Samsung up +6.15%. Optical networking from $SIVE, $LITE, and $AAOI are showing signs of recov...",
+        "text": "Memory names from Kioxia finished up a whopping +17.18%. Samsung up +6.15%. Optical networking from $SIVE, $LITE, and $AAOI are showing signs of recovery, all up 4%+. Neoclouds from $NBIS to $IREN all up 4%+ premarket. $INTC to $AMD to $MRVL all up 4%+. Does the Cramer effect work on the entire AI trade? Jim Cramer: Miserable close... Miserable market for the moment. watch tonight....",
+        "time": "Tue, 21 Jul 2026 08:13:03 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2079479755481776221",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "If you’re curious why $NBIS is up after hours. $NVDA disclosed it owns 9.3% beneficial ownership of Nebius via SEC filings. Not exactly too new since...",
+        "text": "If you’re curious why $NBIS is up after hours. $NVDA disclosed it owns 9.3% beneficial ownership of Nebius via SEC filings. Not exactly too new since it dates back to Nvidia’s existing share position of 1.19M shares + $2B prefunded warrant of ~21M shares. But great for sentiment having Nvidia be a large shareholder of the Neocloud leader.",
+        "time": "Mon, 20 Jul 2026 21:38:14 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2079319999915925938",
+        "source": "x-rsshub"
+      },
+      {
+        "title": "TBH, casually posting novel information discovery to X is how research should be done. Apparently this was #16 on the Smale's list of Mathematical Pro...",
+        "text": "TBH, casually posting novel information discovery to X is how research should be done. Apparently this was #16 on the Smale's list of Mathematical Problems for the Next Century? Kinda shows that the value generated from AI does not scale linearly with token costs... After seeing this, bears are still probably going to say: \"B-but where's the profit coming from after AI usage?\" AI + capex is likely going to keep going brrr. levent: hello there the jacobian conjecture is false thanx to my close friend akhil for asking about it and my other close friend fable for working during the world cup final ((1+xy)^3 z + y^2 (1+xy) (4+3xy), y + 3 x (1+xy)^2 z + 3 x y^2 (4+3xy), 2 x - 3 x^2 y - x^3 z): \\C^3\\to \\C^3,",
+        "time": "Mon, 20 Jul 2026 19:36:23 GMT",
+        "link": "https://x.com/aleabitoreddit/status/2079289335351062693",
+        "source": "x-rsshub"
+      }
+    ],
+    "themeScores": {
+      "nasdaq": {
+        "score": 3,
+        "matches": [
+          "ai",
+          "meta",
+          "tesla",
+          "nvda",
+          "chip",
+          "nvidia"
+        ]
+      },
+      "sp500": {
+        "score": 0,
+        "matches": []
+      },
+      "biotech": {
+        "score": 0,
+        "matches": []
+      },
+      "reit": {
+        "score": 0.5,
+        "matches": [
+          "reit"
+        ]
+      },
+      "hongkong": {
+        "score": 0.5,
+        "matches": [
+          "china"
+        ]
+      },
+      "oil": {
+        "score": 0,
+        "matches": []
+      },
+      "commodities": {
+        "score": 0.5,
+        "matches": [
+          "metal"
+        ]
+      },
+      "bonds": {
+        "score": 0,
+        "matches": []
+      },
+      "globalTech": {
+        "score": 3,
+        "matches": [
+          "ai",
+          "cloud",
+          "chip"
+        ]
+      }
+    },
+    "tickerOpinions": [
+      {
+        "ticker": "AMD",
+        "mentions": 9,
+        "snippets": [
+          "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen more than 40",
+          "han 40% in China since the... $INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen more than 40"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "GOOGL",
+        "mentions": 7,
+        "snippets": [
+          "$GOOGL updates FY 2026 capex guidance: To $195B-$205B. Up from $180B-$190B. Google is also expected to significantly inc",
+          "ly increase capex in 2027. This is p... $GOOGL updates FY 2026 capex guidance: To $195B-$205B. Up from $180B-$190B. Google is also expected to significantly inc"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "LITE",
+        "mentions": 5,
+        "snippets": [
+          "gning DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Trendforce reports that $AMD and hyperscalers are now pursuing CW LTAs. And I'",
+          "projections... Should be good to go for $LITE and the other optics/networking trade. (eg. last earnings, they said DC and networking would be ~40% of capex spen"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "NBIS",
+        "mentions": 5,
+        "snippets": [
+          "IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +",
+          "IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $IN"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "INTC",
+        "mentions": 4,
+        "snippets": [
+          "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen mo",
+          "sen more than 40% in China since the... $INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen mo"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "MU",
+        "mentions": 4,
+        "snippets": [
+          "ms to be appearing from: - Memory, with $MU, Samsung, $SNDK, and SK Hynix signing DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Tr",
+          "side note, Elon also gave a shoutout to $MU with likely reasonably priced LTAs, given his statement: \"We really appreciate Micron making room for Tesla in the y"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "TSLA",
+        "mentions": 4,
+        "snippets": [
+          "Just some notes from $TSLA transcripts: Elon Musk: \"I think Optimus will be the biggest product ever\" from Q2 earnings transcripts. Even from",
+          "n from Q1, Elon... Just some notes from $TSLA transcripts: Elon Musk: \"I think Optimus will be the biggest product ever\" from Q2 earnings transcripts. Even from"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "NVDA",
+        "mentions": 4,
+        "snippets": [
+          "dollars. Looks like they’re copying the $NVDA playbook with Anthropic last year.",
+          "sitive thematically since it's not just $NVDA forcing the transition. As for $SIVE, we'll get a better read if they're directly in AMD supply chains. Since righ"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "AAOI",
+        "mentions": 4,
+        "snippets": [
+          "AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +",
+          "AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AM"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "SIVE",
+        "mentions": 4,
+        "snippets": [
+          "st $NVDA forcing the transition. As for $SIVE, we'll get a better read if they're directly in AMD supply chains. Since right now, it's possible to map it throug",
+          "O: That would be extremely positive for $SIVE, given they're the upstream laser supplier / reference laser. Currently, Blayne Curtis from Jefferies expect AMD t"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "SPCX",
+        "mentions": 3,
+        "snippets": [
+          "t is kinda just accounting noise, since $SPCX, Anthropic, and others were likely large contributors. Revenue: $119.7B actual vs. $116.98B expected Google Cloud",
+          "t is kinda just accounting noise, since $SPCX, Ant... $GOOGL reported earnings today: EPS: $9.11 actual vs $2.91 expected - retail reactions to EPS blowout is k"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "SNDK",
+        "mentions": 2,
+        "snippets": [
+          "ring from: - Memory, with $MU, Samsung, $SNDK, and SK Hynix signing DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Trendforce repor",
+          "$LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "SIVEF",
+        "mentions": 2,
+        "snippets": [
+          "Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow",
+          ".. Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54%"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "IQEF",
+        "mentions": 2,
+        "snippets": [
+          "ric single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic si",
+          "ric single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "AEHR",
+        "mentions": 2,
+        "snippets": [
+          "y recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day reco",
+          "y recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $T"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "CIFR",
+        "mentions": 2,
+        "snippets": [
+          "IVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day recovery. $SIVEF +",
+          "IVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $L"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "LPK",
+        "mentions": 2,
+        "snippets": [
+          "$CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR",
+          "$CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRV"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "AXTI",
+        "mentions": 2,
+        "snippets": [
+          "$NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS",
+          "$NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "MRVL",
+        "mentions": 2,
+        "snippets": [
+          "% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%",
+          "all up 4%+ premarket. $INTC to $AMD to $MRVL all up 4%+. Does the Cramer effect work on the entire AI trade? Jim Cramer: Miserable close... Miserable market fo"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "COHR",
+        "mentions": 1,
+        "snippets": [
+          "RAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Trendforce reports that $AMD and hyperscalers are now pursuing CW LTAs. And I'm sure"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "TSM",
+        "mentions": 1,
+        "snippets": [
+          "Panasonic after this), then Samsung and $TSM. Just takeaways from Tesla earnings TLDR: Elon tends to be directionally correct on where the future is heading, su"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "META",
+        "mentions": 1,
+        "snippets": [
+          "out of compute, then cut allocations to $META and others. Very unlikely AI capex will slow down given. Serenity: $GOOGL reported earnings today: EPS: $9.11 actu"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "SOI",
+        "mentions": 1,
+        "snippets": [
+          "$AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "TSEM",
+        "mentions": 1,
+        "snippets": [
+          "2% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%"
+        ],
+        "sentiment": "neutral"
+      },
+      {
+        "ticker": "GFS",
+        "mentions": 1,
+        "snippets": [
+          "ht now, it's possible to map it through $GFS (reportedly involved in AMD MI500 CPO work) or AYAR (which AMD invested in). But no formal confirmations. So if you"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "ALAB",
+        "mentions": 1,
+        "snippets": [
+          "from Jefferies expect AMD to work with $ALAB on UAL and $AVGO on ESUN... but juicy details are here: \"We are looking for whether AMD commits to a CPO based sca"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "AVGO",
+        "mentions": 1,
+        "snippets": [
+          "xpect AMD to work with $ALAB on UAL and $AVGO on ESUN... but juicy details are here: \"We are looking for whether AMD commits to a CPO based scale up solution an"
+        ],
+        "sentiment": "bullish"
+      },
+      {
+        "ticker": "IREN",
+        "mentions": 1,
+        "snippets": [
+          "ry, all up 4%+. Neoclouds from $NBIS to $IREN all up 4%+ premarket. $INTC to $AMD to $MRVL all up 4%+. Does the Cramer effect work on the entire AI trade? Jim C"
+        ],
+        "sentiment": "neutral"
+      }
+    ],
+    "opinionSummaries": [
+      {
+        "time": "Thu, 23 Jul 2026 04:49:37 GMT",
+        "text": "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen more than 40% in China since the start of the year from sources. - Month-on-month ...",
+        "tickers": "$INTC, $AMD"
+      },
+      {
+        "time": "Thu, 23 Jul 2026 04:35:37 GMT",
+        "text": "Just some notes from $TSLA transcripts: Elon Musk: \"I think Optimus will be the biggest product ever\" from Q2 earnings transcripts. Even from Q1, Elon Stated: \"I think Optimus will be our biggest prod...",
+        "tickers": "$TSLA"
+      },
+      {
+        "time": "Wed, 22 Jul 2026 21:02:27 GMT",
+        "text": "$GOOGL updates FY 2026 capex guidance: To $195B-$205B. Up from $180B-$190B. Google is also expected to significantly increase capex in 2027. This is perhaps the most bullish read through on upstream s...",
+        "tickers": "$GOOGL"
+      },
+      {
+        "time": "Wed, 22 Jul 2026 20:45:31 GMT",
+        "text": "$GOOGL now has 950M monthly Gemini users and processes 22B API tokens/min. Compared to 750M back in February. Absurd growth adding 200 million more users in a few months. Kinda explains why they ran o...",
+        "tickers": "$GOOGL"
+      },
+      {
+        "time": "Wed, 22 Jul 2026 20:27:50 GMT",
+        "text": "$GOOGL reported earnings today: EPS: $9.11 actual vs $2.91 expected - retail reactions to EPS blowout is kinda just accounting noise, since $SPCX, Anthropic, and others were likely large contributors....",
+        "tickers": "$GOOGL, $SPCX"
+      }
+    ],
+    "attempts": [
+      {
+        "url": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
+        "status": "ok"
+      }
     ]
-   },
-   "sp500": {
-    "score": 0,
-    "matches": []
-   },
-   "biotech": {
-    "score": 0,
-    "matches": []
-   },
-   "reit": {
-    "score": 0,
-    "matches": []
-   },
-   "hongkong": {
-    "score": 0,
-    "matches": []
-   },
-   "oil": {
-    "score": 0,
-    "matches": []
-   },
-   "commodities": {
-    "score": 0,
-    "matches": []
-   },
-   "bonds": {
-    "score": 0.75,
-    "matches": [
-     "yield",
-     "bond"
-    ]
-   },
-   "globalTech": {
-    "score": 3,
-    "matches": [
-     "ai",
-     "cloud",
-     "semiconductor",
-     "chip"
-    ]
-   }
-  },
-  "tickerOpinions": [
-   {
-    "ticker": "MU",
-    "mentions": 5,
-    "snippets": [
-     "until at least 2028\". Especially after $MU 16 LTAs with favorable take or pay volume contracts... memory demand seems structural.",
-     "Today, $MU announced it signed memory LTAs with $QCOM. Interesting reaction to see Micron proceeded to drop 5.37% right after."
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "AEHR",
-    "mentions": 4,
-    "snippets": [
-     "$AEHR back up +36.4% today off earnings! 2027 guide: $130-$150m (160-200% growth) from 2026 revenue. Sees opportunity to",
-     "ity to guide higher (assumes no memo... $AEHR back up +36.4% today off earnings! 2027 guide: $130-$150m (160-200% growth) from 2026 revenue. Sees opportunity to"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "INTC",
-    "mentions": 3,
-    "snippets": [
-     "x P/E and Samsung a 3.9x P/E. Think the $INTC CEO said it best around timeframes with his quote \"no relief in memory supply or pricing until at least 2028\". Esp",
-     "re close to market bottom on semis from $INTC to $LITE. A good indicator is if everyone on $RDDT blew up their portfolios to $0. My guess is we’re close to mark"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "SIVE",
-    "mentions": 3,
-    "snippets": [
-     "Lot of people were curious about $SIVE capacity volume ramp modeling through fab-light (Win Semi + others): Using 10% of Win's wafer capacity as a low...",
-     "low... Lot of people were curious about $SIVE capacity volume ramp modeling through fab-light (Win Semi + others): Using 10% of Win's wafer capacity as a low-en"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "MSFT",
-    "mentions": 3,
-    "snippets": [
-     "AI (Source: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend.... $AAPL looks to acquire AI chip companies for running AI (So",
-     "AI (Source: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend. But what if Apple joined the others after M&amp;A? A possible"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "META",
-    "mentions": 3,
-    "snippets": [
-     "rce: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend.... $AAPL looks to acquire AI chip companies for running AI (Source: T",
-     "rce: The Information) Right now, $MSFT, $META, Amazon, Google are carrying AI capex spend. But what if Apple joined the others after M&amp;A? A possible scenari"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "NVDA",
-    "mentions": 3,
-    "snippets": [
-     "$NVDA CEO, Jensen Huang in Tokyo today said: \"The reports are not true. Vera Rubin is already in production. Giant amoun",
-     "amounts of production incoming\" As ... $NVDA CEO, Jensen Huang in Tokyo today said: \"The reports are not true. Vera Rubin is already in production. Giant amoun"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "AAOI",
-    "mentions": 3,
-    "snippets": [
-     "an early $TER, mixed with pre-earnings $AAOI. If we look at the timeline and speculated customers: Feb 11th: Sonoma production win for Hyperscaler's AI ASIC pr",
-     "on announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of ... Two different capacity expansion ann"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "SKHY",
-    "mentions": 2,
-    "snippets": [
-     "he Time to Sell Samsung Electronics and $SKHY\" They claim markets are excessively misunderstanding the ... Kim Sunwoo of Meritz Securities: \"This Is Not the Tim",
-     "he Time to Sell Samsung Electronics and $SKHY\" They claim markets are excessively misunderstanding the situation with semis. And that DRAM shortage will intensi"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "LITE",
-    "mentions": 2,
-    "snippets": [
-     "to market bottom on semis from $INTC to $LITE. A good indicator is if everyone on $RDDT blew up their portfolios to $0. My guess is we’re close to market bottom",
-     "to market bottom on semis from $INTC to $LITE. A good indicator is if everyone on $RDDT blew up their portfolios to $0."
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "RDDT",
-    "mentions": 2,
-    "snippets": [
-     "ITE. A good indicator is if everyone on $RDDT blew up their portfolios to $0. My guess is we’re close to market bottom on semis from $INTC to $LITE. A good indi",
-     "ITE. A good indicator is if everyone on $RDDT blew up their portfolios to $0."
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "QCOM",
-    "mentions": 2,
-    "snippets": [
-     "MU announced it signed memory LTAs with $QCOM. Interesting reaction to see Micron proceeded to drop 5.37% right after. Doesn’t quite feel lik... Today, $MU anno",
-     "MU announced it signed memory LTAs with $QCOM. Interesting reaction to see Micron proceeded to drop 5.37% right after. Doesn’t quite feel like there’s anything"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "AAPL",
-    "mentions": 2,
-    "snippets": [
-     "$AAPL looks to acquire AI chip companies for running AI (Source: The Information) Right now, $MSFT, $META, Amazon, Googl",
-     "Google are carrying AI capex spend.... $AAPL looks to acquire AI chip companies for running AI (Source: The Information) Right now, $MSFT, $META, Amazon, Googl"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "NBIS",
-    "mentions": 2,
-    "snippets": [
-     "$NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a multi-bil",
-     "ti-billion dollar agreement with $SP... $NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a multi-bil"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "TSEM",
-    "mentions": 2,
-    "snippets": [
-     "ty expansion announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of ... Two different capacity exp",
-     "ty expansion announcements today across $TSEM and $AAOI. Tower Semi, supported by the Japanese government, announced expansion of its 300mm Silicon Photonics (S"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "AMD",
-    "mentions": 1,
-    "snippets": [
-     "ligations from their ER transcript. And $AMD are signing LTAs to secure CW capacity (from Trendforce). So when Sivers is ramping with $GFS, $JBL, Ayar, $POET, O"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "GFS",
-    "mentions": 1,
-    "snippets": [
-     "dforce). So when Sivers is ramping with $GFS, $JBL, Ayar, $POET, O-NET and others... Given the current constraints, it's highly likely any independent qualified"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "JBL",
-    "mentions": 1,
-    "snippets": [
-     "). So when Sivers is ramping with $GFS, $JBL, Ayar, $POET, O-NET and others... Given the current constraints, it's highly likely any independent qualified capac"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "POET",
-    "mentions": 1,
-    "snippets": [
-     "ivers is ramping with $GFS, $JBL, Ayar, $POET, O-NET and others... Given the current constraints, it's highly likely any independent qualified capacity that com"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "SNDK",
-    "mentions": 1,
-    "snippets": [
-     "pment agreement for HBM/NAND Seems like $SNDK since there was HBF related discussions from last quarter I think. - \"Our package level burn-in business for AI pr"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "TER",
-    "mentions": 1,
-    "snippets": [
-     "hr is starting to remind me of an early $TER, mixed with pre-earnings $AAOI. If we look at the timeline and speculated customers: Feb 11th: Sonoma production wi"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "GOOGL",
-    "mentions": 1,
-    "snippets": [
-     "perscaler's AI ASIC processors. (likely $GOOGL, $AMZN,"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "AMZN",
-    "mentions": 1,
-    "snippets": [
-     "r's AI ASIC processors. (likely $GOOGL, $AMZN,"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "SP",
-    "mentions": 1,
-    "snippets": [
-     "d a multi-billion dollar agreement with $SP... $NBIS signs $1B+ compute agreement with Reflection AI, for GB300 access through 2029. Reflection also signed a mu"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "SPCX",
-    "mentions": 1,
-    "snippets": [
-     "d a multi-billion dollar agreement with $SPCX earlier. Interesting to say the least, seeing Nebius drop -5% off the news today. Also... counterparty to get this"
-    ],
-    "sentiment": "bullish"
-   }
-  ],
-  "opinionSummaries": [
-   {
-    "time": "Fri, 17 Jul 2026 03:16:07 GMT",
-    "text": "Kim Sunwoo of Meritz Securities: \"This Is Not the Time to Sell Samsung Electronics and $SKHY\" They claim markets are excessively misunderstanding the situation with semis. And that DRAM shortage will ...",
-    "tickers": "$SKHY"
-   },
-   {
-    "time": "Thu, 16 Jul 2026 15:57:05 GMT",
-    "text": "My guess is we’re close to market bottom on semis from $INTC to $LITE. A good indicator is if everyone on $RDDT blew up their portfolios to $0.",
-    "tickers": "$INTC, $LITE, $RDDT"
-   },
-   {
-    "time": "Thu, 16 Jul 2026 14:54:42 GMT",
-    "text": "Lot of people were curious about $SIVE capacity volume ramp modeling through fab-light (Win Semi + others): Using 10% of Win's wafer capacity as a low-end allocation (65% yield assumption, $50-$75 ASP...",
-    "tickers": "$SIVE"
-   },
-   {
-    "time": "Thu, 16 Jul 2026 13:54:10 GMT",
-    "text": "Today, $MU announced it signed memory LTAs with $QCOM. Interesting reaction to see Micron proceeded to drop 5.37% right after. Doesn’t quite feel like there’s anything individually wrong with memory o...",
-    "tickers": "$MU, $QCOM"
-   },
-   {
-    "time": "Thu, 16 Jul 2026 13:06:22 GMT",
-    "text": "I hope there's someone at X can fix this subscription bug. Many people are reporting that subscriptions don't renew anymore. Xtine Fang: Why does X automatically unsubscribe me from Serenity?? I have ...",
-    "tickers": ""
-   }
-  ],
-  "attempts": [
-   {
-    "url": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
-    "status": "ok"
-   }
-  ]
- },
- "cachedAt": 1784285113462
+  }
 }
