@@ -3,8 +3,43 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-07-23T11:08:10.924Z",
+  "fetchedAt": "2026-07-24T04:20:07.777Z",
   "items": [
+   {
+    "title": "Not exactly for $AAOI (they're working on CPO too, just a little further behind in commercialization). There's a podcast that featured the $SIVE CEO r...",
+    "text": "Not exactly for $AAOI (they're working on CPO too, just a little further behind in commercialization). There's a podcast that featured the $SIVE CEO recently called: \"Market Insights: Photonics &amp; AI\". Most interesting take was: \"Pluggables will be around for the next 10 years\". There's a lot of CPO + RNG/MRC optimization TAM cannablization arguments for pluggables recently, but looks like it's here to stay. And that there's going to be multiple architecture paths going forward (CEO also NPO alongside CPO as an major opportunity in the next 5 years). As for challenges: Vickram stated manufacturing capacity + availability of raw material is the main bottleneck. Likely referencing the existing bottlenecks with upstream CW laser ramp. From the podcast, seems like a large focus was on pluggable markets due to larger near-term TAM (which is understandable with $JBL + other players), with CPO being the north star. So it might be interesting if $SIVE M&amp;A ambitions were to acquire more pluggable optical transceiver IP, like what $LITE did with Cloud Light. But TLDR: Lot of different paths moving forward, pluggable here to stay, CPO seems like North Star for where industry is heading. Feels like there's room for every qualified laser supplier given the industry demand is growing faster than what they can all collectively make. S: @aleabitoreddit Is AAOI in trouble if CPO is coming soon?",
+    "time": "Fri, 24 Jul 2026 00:11:40 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2080445777395298454",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "RT AMD: The feeling’s mutual. 🤝",
+    "text": "RT AMD The feeling’s mutual. 🤝 Serenity: $AMD reached out directly to hand me some special swag! Apparently they only made 30 of these bandanas? I love AMD and Lisa Su now.",
+    "time": "Thu, 23 Jul 2026 20:47:09 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2080440952859365612",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "From $AMD Advancing AI, channel checks: Helios networking partners told me they expect AMD to pursue CPO for future generations of Helios scale up net...",
+    "text": "From $AMD Advancing AI, channel checks: Helios networking partners told me they expect AMD to pursue CPO for future generations of Helios scale up networking. And expects other hyperscalers + industry to go down the CPO route. One AI infra executive at a company involved in a hyperscaler CPO programs said they had seen no indication of CPO scale up supply chain delays. Pushing back on recent 3rd party delay reports. This was informal commentary, not official AMD or partner guidance.",
+    "time": "Thu, 23 Jul 2026 20:46:57 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2080394259535221222",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "$AMD reached out directly to hand me some special swag! Apparently they only made 30 of these bandanas? I love AMD and Lisa Su now.",
+    "text": "$AMD reached out directly to hand me some special swag! Apparently they only made 30 of these bandanas? I love AMD and Lisa Su now.",
+    "time": "Thu, 23 Jul 2026 19:48:45 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2080379612736221325",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "I have this feeling that Lisa from $AMD likes AI. It’s cool getting to meet some of you at the event!",
+    "text": "I have this feeling that Lisa from $AMD likes AI. It’s cool getting to meet some of you at the event!",
+    "time": "Thu, 23 Jul 2026 16:49:57 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2080334612807758136",
+    "source": "x-rsshub"
+   },
    {
     "title": "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen more than 40% in China since the...",
     "text": "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen more than 40% in China since the start of the year from sources. - Month-on-month increases topping 10% for some products CPUs were already a bottleneck, following CPU ratios due to AI inference... But the broader trend of LTAs seems to be appearing from: - Memory, with $MU, Samsung, $SNDK, and SK Hynix signing DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Trendforce reports that $AMD and hyperscalers are now pursuing CW LTAs. And I'm sure there's many more from MLCCs to all the way to substrates. +1 for the bottleneck investors... hard to be a \"bubble that pops\" if you have take or pay demand spanning multiple years.",
@@ -53,41 +88,6 @@
     "time": "Tue, 21 Jul 2026 21:02:48 GMT",
     "link": "https://x.com/aleabitoreddit/status/2079673469567226149",
     "source": "x-rsshub"
-   },
-   {
-    "title": "Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ...",
-    "text": "Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%",
-    "time": "Tue, 21 Jul 2026 17:41:05 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2079622706572804368",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "It's slightly more nuanced. Basically, $AMD SF event is tomorrow, Wed/Thurs (July 22, 23). From Jefferies client note, AMD is expected to provide addi...",
-    "text": "It's slightly more nuanced. Basically, $AMD SF event is tomorrow, Wed/Thurs (July 22, 23). From Jefferies client note, AMD is expected to provide additional disclosures around their likely scale-up CPO roadmap + MI500. If they confirm CPO route, would positive thematically since it's not just $NVDA forcing the transition. As for $SIVE, we'll get a better read if they're directly in AMD supply chains. Since right now, it's possible to map it through $GFS (reportedly involved in AMD MI500 CPO work) or AYAR (which AMD invested in). But no formal confirmations. So if you're turning in: - CPO thematic positive: MI500 explicitly commits to CPO/optical UALink. - AMD gives details using Ayar Labs or GF SCALE for MI500 CPO: That would be extremely positive for $SIVE, given they're the upstream laser supplier / reference laser. Currently, Blayne Curtis from Jefferies expect AMD to work with $ALAB on UAL and $AVGO on ESUN... but juicy details are here: \"We are looking for whether AMD commits to a CPO based scale up solution and who supplies the optical engine\" We'll get a broader read through on the supply chain come Wednesday/Thursday, too early to tell today. Henry T: @aleabitoreddit You going to unpack the AMD - GFS news? Looks pretty tasty for sivers…",
-    "time": "Tue, 21 Jul 2026 09:14:20 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2079495178793201678",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Memory names from Kioxia finished up a whopping +17.18%. Samsung up +6.15%. Optical networking from $SIVE, $LITE, and $AAOI are showing signs of recov...",
-    "text": "Memory names from Kioxia finished up a whopping +17.18%. Samsung up +6.15%. Optical networking from $SIVE, $LITE, and $AAOI are showing signs of recovery, all up 4%+. Neoclouds from $NBIS to $IREN all up 4%+ premarket. $INTC to $AMD to $MRVL all up 4%+. Does the Cramer effect work on the entire AI trade? Jim Cramer: Miserable close... Miserable market for the moment. watch tonight....",
-    "time": "Tue, 21 Jul 2026 08:13:03 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2079479755481776221",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "If you’re curious why $NBIS is up after hours. $NVDA disclosed it owns 9.3% beneficial ownership of Nebius via SEC filings. Not exactly too new since...",
-    "text": "If you’re curious why $NBIS is up after hours. $NVDA disclosed it owns 9.3% beneficial ownership of Nebius via SEC filings. Not exactly too new since it dates back to Nvidia’s existing share position of 1.19M shares + $2B prefunded warrant of ~21M shares. But great for sentiment having Nvidia be a large shareholder of the Neocloud leader.",
-    "time": "Mon, 20 Jul 2026 21:38:14 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2079319999915925938",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "TBH, casually posting novel information discovery to X is how research should be done. Apparently this was #16 on the Smale's list of Mathematical Pro...",
-    "text": "TBH, casually posting novel information discovery to X is how research should be done. Apparently this was #16 on the Smale's list of Mathematical Problems for the Next Century? Kinda shows that the value generated from AI does not scale linearly with token costs... After seeing this, bears are still probably going to say: \"B-but where's the profit coming from after AI usage?\" AI + capex is likely going to keep going brrr. levent: hello there the jacobian conjecture is false thanx to my close friend akhil for asking about it and my other close friend fable for working during the world cup final ((1+xy)^3 z + y^2 (1+xy) (4+3xy), y + 3 x (1+xy)^2 z + 3 x y^2 (4+3xy), 2 x - 3 x^2 y - x^3 z): \\C^3\\to \\C^3,",
-    "time": "Mon, 20 Jul 2026 19:36:23 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2079289335351062693",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
@@ -98,8 +98,7 @@
      "meta",
      "tesla",
      "nvda",
-     "chip",
-     "nvidia"
+     "chip"
     ]
    },
    "sp500": {
@@ -139,8 +138,8 @@
    "globalTech": {
     "score": 3,
     "matches": [
-     "ai",
      "cloud",
+     "ai",
      "chip"
     ]
    }
@@ -148,10 +147,10 @@
   "tickerOpinions": [
    {
     "ticker": "AMD",
-    "mentions": 9,
+    "mentions": 12,
     "snippets": [
-     "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen more than 40",
-     "han 40% in China since the... $INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen more than 40"
+     "AMD The feeling’s mutual. 🤝 Serenity: $AMD reached out directly to hand me some special swag! Apparently they only made 30 of these bandanas? I love AMD and L",
+     "From $AMD Advancing AI, channel checks: Helios networking partners told me they expect AMD to pursue CPO for future generatio"
     ],
     "sentiment": "bullish"
    },
@@ -165,42 +164,6 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "LITE",
-    "mentions": 5,
-    "snippets": [
-     "gning DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Trendforce reports that $AMD and hyperscalers are now pursuing CW LTAs. And I'",
-     "projections... Should be good to go for $LITE and the other optics/networking trade. (eg. last earnings, they said DC and networking would be ~40% of capex spen"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "NBIS",
-    "mentions": 5,
-    "snippets": [
-     "IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +",
-     "IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $IN"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "INTC",
-    "mentions": 4,
-    "snippets": [
-     "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen mo",
-     "sen more than 40% in China since the... $INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen mo"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "MU",
-    "mentions": 4,
-    "snippets": [
-     "ms to be appearing from: - Memory, with $MU, Samsung, $SNDK, and SK Hynix signing DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Tr",
-     "side note, Elon also gave a shoutout to $MU with likely reasonably priced LTAs, given his statement: \"We really appreciate Micron making room for Tesla in the y"
-    ],
-    "sentiment": "bullish"
-   },
-   {
     "ticker": "TSLA",
     "mentions": 4,
     "snippets": [
@@ -210,29 +173,20 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "NVDA",
-    "mentions": 4,
+    "ticker": "SIVE",
+    "mentions": 3,
     "snippets": [
-     "dollars. Looks like they’re copying the $NVDA playbook with Anthropic last year.",
-     "sitive thematically since it's not just $NVDA forcing the transition. As for $SIVE, we'll get a better read if they're directly in AMD supply chains. Since righ"
+     "n). There's a podcast that featured the $SIVE CEO r... Not exactly for $AAOI (they're working on CPO too, just a little further behind in commercialization). Th",
+     "n). There's a podcast that featured the $SIVE CEO recently called: \"Market Insights: Photonics &amp; AI\". Most interesting take was: \"Pluggables will be around"
     ],
     "sentiment": "bullish"
    },
    {
-    "ticker": "AAOI",
-    "mentions": 4,
+    "ticker": "LITE",
+    "mentions": 3,
     "snippets": [
-     "AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +",
-     "AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AM"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "SIVE",
-    "mentions": 4,
-    "snippets": [
-     "st $NVDA forcing the transition. As for $SIVE, we'll get a better read if they're directly in AMD supply chains. Since right now, it's possible to map it throug",
-     "O: That would be extremely positive for $SIVE, given they're the upstream laser supplier / reference laser. Currently, Blayne Curtis from Jefferies expect AMD t"
+     "gable optical transceiver IP, like what $LITE did with Cloud Light. But TLDR: Lot of different paths moving forward, pluggable here to stay, CPO seems like Nort",
+     "gning DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Trendforce reports that $AMD and hyperscalers are now pursuing CW LTAs. And I'"
     ],
     "sentiment": "bullish"
    },
@@ -246,74 +200,45 @@
     "sentiment": "bullish"
    },
    {
+    "ticker": "AAOI",
+    "mentions": 2,
+    "snippets": [
+     "Not exactly for $AAOI (they're working on CPO too, just a little further behind in commercialization). There's a podcast that featured t",
+     "ured the $SIVE CEO r... Not exactly for $AAOI (they're working on CPO too, just a little further behind in commercialization). There's a podcast that featured t"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "INTC",
+    "mentions": 2,
+    "snippets": [
+     "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen mo",
+     "sen more than 40% in China since the... $INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen mo"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "MU",
+    "mentions": 2,
+    "snippets": [
+     "ms to be appearing from: - Memory, with $MU, Samsung, $SNDK, and SK Hynix signing DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Tr",
+     "side note, Elon also gave a shoutout to $MU with likely reasonably priced LTAs, given his statement: \"We really appreciate Micron making room for Tesla in the y"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "JBL",
+    "mentions": 1,
+    "snippets": [
+     "-term TAM (which is understandable with $JBL + other players), with CPO being the north star. So it might be interesting if $SIVE M&amp;A ambitions were to acqu"
+    ],
+    "sentiment": "bullish"
+   },
+   {
     "ticker": "SNDK",
-    "mentions": 2,
+    "mentions": 1,
     "snippets": [
-     "ring from: - Memory, with $MU, Samsung, $SNDK, and SK Hynix signing DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Trendforce repor",
-     "$LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "SIVEF",
-    "mentions": 2,
-    "snippets": [
-     "Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow",
-     ".. Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54%"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "IQEF",
-    "mentions": 2,
-    "snippets": [
-     "ric single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic si",
-     "ric single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "AEHR",
-    "mentions": 2,
-    "snippets": [
-     "y recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day reco",
-     "y recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $T"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "CIFR",
-    "mentions": 2,
-    "snippets": [
-     "IVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day recovery. $SIVEF +",
-     "IVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $L"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "LPK",
-    "mentions": 2,
-    "snippets": [
-     "$CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR",
-     "$CIFR +17.82% $NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRV"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "AXTI",
-    "mentions": 2,
-    "snippets": [
-     "$NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU ... Wow, a historic single day recovery. $SIVEF +30.89% $IQEF +28.6% $AEHR +26.53% $CIFR +17.82% $NBIS",
-     "$NBIS +17.3% $AAOI +15.6% $LPK +14.48% $AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "MRVL",
-    "mentions": 2,
-    "snippets": [
-     "% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%",
-     "all up 4%+ premarket. $INTC to $AMD to $MRVL all up 4%+. Does the Cramer effect work on the entire AI trade? Jim Cramer: Miserable close... Miserable market fo"
+     "ring from: - Memory, with $MU, Samsung, $SNDK, and SK Hynix signing DRAM/NAND LTAs. - Photonics, with $LITE, $COHR signing EML LTAs. And recent Trendforce repor"
     ],
     "sentiment": "neutral"
    },
@@ -342,79 +267,39 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "SOI",
+    "ticker": "NVDA",
     "mentions": 1,
     "snippets": [
-     "$AXTI +14.12% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "TSEM",
-    "mentions": 1,
-    "snippets": [
-     "2% $MU +12.54% $SNDK +12.8% $SOI +11.1% $TSEM +10.39% $LITE +9.25% $INTC +8.22% $AMD +8.11% $MRVL +7.27%"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "GFS",
-    "mentions": 1,
-    "snippets": [
-     "ht now, it's possible to map it through $GFS (reportedly involved in AMD MI500 CPO work) or AYAR (which AMD invested in). But no formal confirmations. So if you"
+     "dollars. Looks like they’re copying the $NVDA playbook with Anthropic last year."
     ],
     "sentiment": "bullish"
-   },
-   {
-    "ticker": "ALAB",
-    "mentions": 1,
-    "snippets": [
-     "from Jefferies expect AMD to work with $ALAB on UAL and $AVGO on ESUN... but juicy details are here: \"We are looking for whether AMD commits to a CPO based sca"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "AVGO",
-    "mentions": 1,
-    "snippets": [
-     "xpect AMD to work with $ALAB on UAL and $AVGO on ESUN... but juicy details are here: \"We are looking for whether AMD commits to a CPO based scale up solution an"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "IREN",
-    "mentions": 1,
-    "snippets": [
-     "ry, all up 4%+. Neoclouds from $NBIS to $IREN all up 4%+ premarket. $INTC to $AMD to $MRVL all up 4%+. Does the Cramer effect work on the entire AI trade? Jim C"
-    ],
-    "sentiment": "neutral"
    }
   ],
   "opinionSummaries": [
    {
-    "time": "Thu, 23 Jul 2026 04:49:37 GMT",
-    "text": "$INTC and $AMD to sign CPU LTAs with Chinese customers for AI DCs (Reuters). - Prices of some CPU products have risen more than 40% in China since the start of the year from sources. - Month-on-month ...",
-    "tickers": "$INTC, $AMD"
+    "time": "Fri, 24 Jul 2026 00:11:40 GMT",
+    "text": "Not exactly for $AAOI (they're working on CPO too, just a little further behind in commercialization). There's a podcast that featured the $SIVE CEO recently called: \"Market Insights: Photonics & AI\"....",
+    "tickers": "$AAOI, $SIVE"
    },
    {
-    "time": "Thu, 23 Jul 2026 04:35:37 GMT",
-    "text": "Just some notes from $TSLA transcripts: Elon Musk: \"I think Optimus will be the biggest product ever\" from Q2 earnings transcripts. Even from Q1, Elon Stated: \"I think Optimus will be our biggest prod...",
-    "tickers": "$TSLA"
+    "time": "Thu, 23 Jul 2026 20:47:09 GMT",
+    "text": "RT AMD The feeling’s mutual. 🤝 Serenity: $AMD reached out directly to hand me some special swag! Apparently they only made 30 of these bandanas? I love AMD and Lisa Su now.",
+    "tickers": "$AMD"
    },
    {
-    "time": "Wed, 22 Jul 2026 21:02:27 GMT",
-    "text": "$GOOGL updates FY 2026 capex guidance: To $195B-$205B. Up from $180B-$190B. Google is also expected to significantly increase capex in 2027. This is perhaps the most bullish read through on upstream s...",
-    "tickers": "$GOOGL"
+    "time": "Thu, 23 Jul 2026 20:46:57 GMT",
+    "text": "From $AMD Advancing AI, channel checks: Helios networking partners told me they expect AMD to pursue CPO for future generations of Helios scale up networking. And expects other hyperscalers + industry...",
+    "tickers": "$AMD"
    },
    {
-    "time": "Wed, 22 Jul 2026 20:45:31 GMT",
-    "text": "$GOOGL now has 950M monthly Gemini users and processes 22B API tokens/min. Compared to 750M back in February. Absurd growth adding 200 million more users in a few months. Kinda explains why they ran o...",
-    "tickers": "$GOOGL"
+    "time": "Thu, 23 Jul 2026 19:48:45 GMT",
+    "text": "$AMD reached out directly to hand me some special swag! Apparently they only made 30 of these bandanas? I love AMD and Lisa Su now.",
+    "tickers": "$AMD"
    },
    {
-    "time": "Wed, 22 Jul 2026 20:27:50 GMT",
-    "text": "$GOOGL reported earnings today: EPS: $9.11 actual vs $2.91 expected - retail reactions to EPS blowout is kinda just accounting noise, since $SPCX, Anthropic, and others were likely large contributors....",
-    "tickers": "$GOOGL, $SPCX"
+    "time": "Thu, 23 Jul 2026 16:49:57 GMT",
+    "text": "I have this feeling that Lisa from $AMD likes AI. It’s cool getting to meet some of you at the event!",
+    "tickers": "$AMD"
    }
   ],
   "attempts": [
@@ -424,5 +309,5 @@
    }
   ]
  },
- "cachedAt": 1784804890926
+ "cachedAt": 1784866807778
 }

@@ -11644,7 +11644,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 1.89,
-          "followUp10dReturn": null
+          "followUp10dReturn": 1.57
         },
         {
           "rank": 2,
@@ -12280,7 +12280,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.52,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.04
         },
         {
           "rank": 10,
@@ -13535,6 +13535,59 @@
           "name": "华安德国DAX30A(QDII)",
           "score": 48.75,
           "suitabilityScore": 48.75,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
+    },
+    {
+      "date": "2026-07-24",
+      "strategy": "RecommendationPlan",
+      "strategyVersion": "allocation-v2.1-balanced",
+      "allocationWeek": "2026-07-20",
+      "action": "PAUSE",
+      "budget": 0,
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-07-23",
+        "maxTradingDayLag": 2,
+        "observationCount": 4
+      },
+      "signalHealth": {
+        "status": "WARMING_UP",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 72.75,
+          "suitabilityScore": 72.75,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 54.25,
+          "suitabilityScore": 54.25,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
