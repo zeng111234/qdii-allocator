@@ -3163,8 +3163,19 @@
       currentCloudDetail = detail || currentCloudDetail;
       updateAnchorButton(currentCloudDetail);
       if (!currentCloudDetail || !window.QdiiPersonalizedDecision) return;
+      var backendState = currentCloudDetail.strategyState;
+      var backendPlan = backendState && backendState.latestPlan;
+      var basePlan = backendPlan && backendPlan.dataFreshness && backendPlan.dataFreshness.status === 'FRESH'
+        ? Object.assign({}, publicTodayPicks, backendPlan, {
+          date: backendPlan.asOf,
+          ranked: (backendPlan.candidates || []).map(function(candidate) {
+            return Object.assign({}, candidate, { score: candidate.marketScore, proposedAmount: 0 });
+          }),
+          strategyState: backendState
+        })
+        : publicTodayPicks;
       todayPicks = window.QdiiPersonalizedDecision.personalizePlan({
-        basePlan: publicTodayPicks,
+        basePlan: basePlan,
         ledger: currentCloudDetail.ledger,
         decisionState: currentCloudDetail.decisionState,
         portfolio: portfolioData,
@@ -3172,7 +3183,7 @@
         navCache: navCacheData,
         marketTemperature: marketTemperature,
         signalConfirmation: buildSignalConfirmation(newsData, externalSignalsData),
-        asOf: publicTodayPicks.date || new Date().toISOString().slice(0, 10),
+        asOf: basePlan.date || new Date().toISOString().slice(0, 10),
         readOnly: currentCloudDetail.readOnly === true
       });
       renderTradeBanner();

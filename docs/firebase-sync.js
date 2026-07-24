@@ -12,10 +12,12 @@ const configured = [config.apiKey, config.authDomain, config.databaseURL, config
   .every(function (value) { return value && !String(value).includes("PLACEHOLDER"); });
 const snapshotPrefix = "qdii-ledger-snapshot-v2:";
 const decisionSnapshotPrefix = "qdii-decision-state-v1:";
+const strategySnapshotPrefix = "qdii-strategy-state-v1:";
 let auth = null;
 let database = null;
 let currentLedger = null;
 let currentDecisionState = null;
+let currentStrategyState = null;
 let currentUser = null;
 
 function emit(name, detail) {
@@ -116,6 +118,10 @@ function decisionStatePath(uid) {
   return "users/" + uid + "/decisionState";
 }
 
+function strategyStatePath(uid) {
+  return "users/" + uid + "/strategyState";
+}
+
 function normalizeDecisionState(state) {
   if (!state) return null;
   if (Number(state.schemaVersion) !== 1 || !Number.isInteger(Number(state.revision)) || Number(state.revision) < 1) {
@@ -134,6 +140,14 @@ function normalizeDecisionState(state) {
   };
 }
 
+function normalizeStrategyState(state) {
+  if (!state) return null;
+  if (Number(state.schemaVersion) !== 1 || !state.latestPlan || !Array.isArray(state.observations)) {
+    throw new Error("INVALID_STRATEGY_STATE");
+  }
+  return state;
+}
+
 function saveSnapshot(uid, ledger) {
   localStorage.setItem(snapshotPrefix + uid, JSON.stringify(ledger));
 }
@@ -143,10 +157,16 @@ function saveDecisionSnapshot(uid, state) {
   else localStorage.removeItem(decisionSnapshotPrefix + uid);
 }
 
+function saveStrategySnapshot(uid, state) {
+  if (state) localStorage.setItem(strategySnapshotPrefix + uid, JSON.stringify(state));
+  else localStorage.removeItem(strategySnapshotPrefix + uid);
+}
+
 function emitLedger(source, readOnly) {
   emit("qdii-cloud-ledger", {
     ledger: currentLedger,
     decisionState: currentDecisionState,
+    strategyState: currentStrategyState,
     portfolio: derivePortfolio(currentLedger),
     source: source,
     readOnly: readOnly === true
@@ -161,25 +181,32 @@ async function loadLedger() {
     currentLedger = await validateLedger(JSON.parse(snapshot));
     const decisionSnapshot = localStorage.getItem(decisionSnapshotPrefix + currentUser.uid);
     currentDecisionState = decisionSnapshot ? normalizeDecisionState(JSON.parse(decisionSnapshot)) : null;
+    const strategySnapshot = localStorage.getItem(strategySnapshotPrefix + currentUser.uid);
+    currentStrategyState = strategySnapshot ? normalizeStrategyState(JSON.parse(strategySnapshot)) : null;
     emitLedger("本地只读快照", true);
     return currentLedger;
   }
   const results = await Promise.all([
     readLedgerAt(ref(database, ledgerPath(currentUser.uid))),
-    get(ref(database, decisionStatePath(currentUser.uid)))
+    get(ref(database, decisionStatePath(currentUser.uid))),
+    get(ref(database, strategyStatePath(currentUser.uid)))
   ]);
   const ledgerResult = results[0];
   const decisionResult = results[1];
+  const strategyResult = results[2];
   if (!ledgerResult) {
     currentLedger = null;
     currentDecisionState = null;
+    currentStrategyState = null;
     emit("qdii-cloud-state", { status: "EMPTY", source: "云端", uid: currentUser.uid });
     return null;
   }
   currentLedger = ledgerResult;
   currentDecisionState = decisionResult.exists() ? normalizeDecisionState(decisionResult.val()) : null;
+  currentStrategyState = strategyResult.exists() ? normalizeStrategyState(strategyResult.val()) : null;
   saveSnapshot(currentUser.uid, currentLedger);
   saveDecisionSnapshot(currentUser.uid, currentDecisionState);
+  saveStrategySnapshot(currentUser.uid, currentStrategyState);
   emitLedger("Firebase 云端", false);
   return currentLedger;
 }
@@ -387,6 +414,7 @@ async function bootstrap() {
     if (!user) {
       currentLedger = null;
       currentDecisionState = null;
+      currentStrategyState = null;
       emit("qdii-cloud-state", { status: "SIGNED_OUT", source: "未登录" });
       return;
     }

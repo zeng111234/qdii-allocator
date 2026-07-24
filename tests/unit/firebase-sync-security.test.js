@@ -27,6 +27,7 @@ test("browser sync uses Firebase Web SDK Google auth and uid-scoped ledger", fun
   assert.match(source, /firebase-app\.js/);
   assert.match(source, /GoogleAuthProvider/);
   assert.match(source, /users.*uid.*portfolioLedger/s);
+  assert.match(source, /users.*uid.*strategyState/s);
   assert.match(source, /runTransaction/);
   assert.match(source, /REVISION_CONFLICT/);
   assert.match(source, /本地只读快照/);
@@ -60,11 +61,23 @@ test("personalized decision state is uid-scoped and never initialized silently",
   assert.match(template, /refreshPersonalizedPlan/);
 });
 
+test("browser accepts only server-written strategy state and uses it as a fresh plan source", function () {
+  const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  assert.match(source, /normalizeStrategyState/);
+  assert.match(source, /strategyStatePath/);
+  assert.match(source, /strategyState: currentStrategyState/);
+  assert.match(template, /backendState = currentCloudDetail\.strategyState/);
+  assert.match(template, /backendPlan\.dataFreshness\.status === 'FRESH'/);
+});
+
 test("database rules allow only the authenticated uid path", function () {
   const rules = JSON.parse(fs.readFileSync(path.join(root, "firebase.database.rules.json"), "utf8"));
   const userRule = rules.rules.users.$uid;
-  assert.match(userRule[".read"], /auth\.uid === \$uid/);
-  assert.match(userRule[".write"], /auth\.uid === \$uid/);
+  assert.match(userRule.portfolioLedger[".read"], /auth\.uid === \$uid/);
+  assert.match(userRule.portfolioLedger[".write"], /auth\.uid === \$uid/);
+  assert.match(userRule.decisionState[".write"], /auth\.uid === \$uid/);
+  assert.match(userRule.strategyState[".read"], /auth\.uid === \$uid/);
+  assert.equal(userRule.strategyState[".write"], false);
   assert.equal(rules.rules[".read"], false);
   assert.equal(rules.rules[".write"], false);
 });

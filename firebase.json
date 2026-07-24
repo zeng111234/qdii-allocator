@@ -1,0 +1,9 @@
+{
+  "functions": {
+    "source": ".",
+    "codebase": "strategy"
+  },
+  "database": {
+    "rules": "firebase.database.rules.json"
+  }
+}
