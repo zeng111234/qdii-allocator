@@ -12126,7 +12126,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -2.3,
-          "followUp10dReturn": null
+          "followUp10dReturn": -3.37
         },
         {
           "rank": 3,
@@ -12148,7 +12148,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -9.61,
-          "followUp10dReturn": null
+          "followUp10dReturn": -12.4
         },
         {
           "rank": 4,
@@ -12170,7 +12170,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -3.56,
-          "followUp10dReturn": null
+          "followUp10dReturn": -4.56
         },
         {
           "rank": 5,
@@ -12192,7 +12192,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -2.07,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.96
         },
         {
           "rank": 6,
@@ -13575,8 +13575,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 72.75,
-          "suitabilityScore": 72.75,
+          "score": 73.25,
+          "suitabilityScore": 73.25,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -13584,10 +13584,10 @@
         },
         {
           "rank": 2,
-          "code": "000369",
-          "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 54.25,
-          "suitabilityScore": 54.25,
+          "code": "100055",
+          "name": "富国全球科技互联网股票(QDII)A",
+          "score": 60.25,
+          "suitabilityScore": 60.25,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
