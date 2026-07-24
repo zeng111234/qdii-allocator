@@ -559,8 +559,8 @@
     <!-- Today's Picks (collapsible) -->
     <div class="card" id="picks-card" style="display:none">
       <div class="card-title" onclick="togglePicks()" style="cursor:pointer;user-select:none">
-        🏆 今日推荐 Top5
-        <span style="font-size:11px;color:var(--text3)">(AI+量化评分)</span>
+        🏆 今日可执行计划
+        <span style="font-size:11px;color:var(--text3)">(仅显示通过账户风控的基金通道)</span>
         <span id="picks-arrow" style="font-size:11px;color:var(--text3);transition:transform 0.2s">▼</span>
       </div>
       <div id="picks-content" style="display:none"></div>
@@ -3132,6 +3132,33 @@
       button.style.display = hasLedger && !hasAnchor && detail.readOnly !== true ? 'inline-block' : 'none';
     }
 
+    function buildSignalConfirmation(news, externalSignals, nowMs) {
+      var now = Number(nowMs) || Date.now();
+      var maxAgeMs = 24 * 60 * 60 * 1000;
+      var newsSource = news || {};
+      var externalSource = externalSignals || {};
+      var newsCount = Array.isArray(newsSource.items) ? newsSource.items.length : 0;
+      var opinions = Array.isArray(externalSource.tickerOpinions) ? externalSource.tickerOpinions : [];
+      var sentiment = newsSource.sentiment || {};
+      var newsAt = Date.parse(newsSource.fetchedAt || '');
+      var externalRawAt = externalSource.cachedAt;
+      var externalAt = typeof externalRawAt === 'number' ? externalRawAt : Date.parse(externalRawAt || '');
+      var newsFresh = Number.isFinite(newsAt) && now >= newsAt && now - newsAt <= maxAgeMs;
+      var externalFresh = Number.isFinite(externalAt) && now >= externalAt && now - externalAt <= maxAgeMs;
+      var newsBullish = newsFresh && newsCount >= 5 && Number(sentiment.overall) > 10 && Number(sentiment.positive) > Number(sentiment.negative);
+      var bullish = opinions.filter(function(item) { return item && item.sentiment === 'bullish'; }).length;
+      var bearish = opinions.filter(function(item) { return item && item.sentiment === 'bearish'; }).length;
+      var externalBullish = externalFresh && externalSource.status === 'ok' && opinions.length >= 2 && bullish >= 2 && bullish > bearish;
+      if (newsBullish && externalBullish) {
+        return { status: 'CONFIRMED', fresh: true, reason: '新闻与外部信号均新鲜且偏多', newsCount: newsCount, externalCount: opinions.length };
+      }
+      return {
+        status: 'INSUFFICIENT', fresh: newsFresh && externalFresh,
+        reason: !newsFresh || !externalFresh ? '新闻或外部信号已过期' : '新闻与外部信号未形成偏多共识',
+        newsCount: newsCount, externalCount: opinions.length
+      };
+    }
+
     function refreshPersonalizedPlan(detail) {
       currentCloudDetail = detail || currentCloudDetail;
       updateAnchorButton(currentCloudDetail);
@@ -3144,6 +3171,7 @@
         funds: fundsData.funds || [],
         navCache: navCacheData,
         marketTemperature: marketTemperature,
+        signalConfirmation: buildSignalConfirmation(newsData, externalSignalsData),
         asOf: publicTodayPicks.date || new Date().toISOString().slice(0, 10),
         readOnly: currentCloudDetail.readOnly === true
       });
@@ -3332,6 +3360,7 @@
         details.push('云端账本 revision：' + Number(safePlan.syncRevision || 0));
         if (safePlan.budgetPolicy) details.push('本周已买' + formatMetric(safePlan.budgetPolicy.weeklySpent) + '元，剩余额度' + formatMetric(safePlan.budgetPolicy.weeklyRemaining) + '元');
         if (safePlan.budgetPolicy && safePlan.budgetPolicy.overheatReduced) details.push('市场温度偏热，战术单日上限降为' + formatMetric(safePlan.budgetPolicy.dailyLimit) + '元');
+        if (safePlan.budgetPolicy && safePlan.budgetPolicy.signalConfirmation) details.push('新闻/外部确认：' + safePlan.budgetPolicy.signalConfirmation.reason);
         if (safePlan.riskAnchorValue) details.push('风险锚点：' + formatMetric(safePlan.riskAnchorValue) + '元，当前回撤' + formatMetric(Number(safePlan.riskAnchorDrawdown || 0) * 100) + '%');
       }
       return details.join('；');
@@ -3444,7 +3473,7 @@
         html += '</div>';
       }
 
-      html += '<div style="font-size:11px;color:var(--text3);margin-bottom:8px">' + todayPicks.date + ' · ' + (todayPicks.strategy || '') + ' · <span style="color:var(--primary)">' + (todayPicks.action || 'HOLD') + '</span></div>';
+      html += '<div style="font-size:11px;color:var(--text3);margin-bottom:8px">' + todayPicks.date + ' · ' + (todayPicks.strategy || '') + ' · <span style="color:var(--primary)">' + (todayPicks.action || 'HOLD') + '</span><br>市场强度榜只反映相对历史因子，不代表买点；本卡仅展示可执行通道。</div>';
 
       // 不在浏览器中重新评分，只展示构建时生成的统一计划。
       var picksRanked = (todayPicks.ranked || []).slice();
@@ -4315,6 +4344,7 @@
         .then(function(data) {
           if (data && data.items && data.items.length > 0) {
             newsData = data;
+            if (currentCloudDetail) refreshPersonalizedPlan(currentCloudDetail);
             loadNewsSentiment();
             showToast('新闻已刷新，共 ' + data.items.length + ' 条');
           } else {

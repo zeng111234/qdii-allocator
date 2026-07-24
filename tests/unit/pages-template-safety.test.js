@@ -174,6 +174,22 @@ test("market sentiment reply always discloses freshness, coverage and cannot ove
   assert.match(sendSource, /buildMarketSentimentDisclosure/);
 });
 
+test("signal confirmation requires fresh news and external coverage before calling consensus bullish", function () {
+  const ctx = loadHelpers(["buildSignalConfirmation"]);
+  const now = Date.parse("2026-07-24T12:00:00Z");
+  const confirmed = ctx.buildSignalConfirmation(
+    { fetchedAt: "2026-07-24T11:00:00Z", items: [{}, {}, {}, {}, {}], sentiment: { overall: 20, positive: 4, negative: 1 } },
+    { cachedAt: Date.parse("2026-07-24T11:30:00Z"), status: "ok", tickerOpinions: [{ sentiment: "bullish" }, { sentiment: "bullish" }] }, now
+  );
+  assert.equal(confirmed.status, "CONFIRMED");
+  const stale = ctx.buildSignalConfirmation(
+    { fetchedAt: "2026-07-22T11:00:00Z", items: [{}, {}, {}, {}, {}], sentiment: { overall: 20, positive: 4, negative: 1 } },
+    { cachedAt: "2026-07-24T11:30:00Z", status: "ok", tickerOpinions: [{ sentiment: "bullish" }, { sentiment: "bullish" }] }, now
+  );
+  assert.equal(stale.status, "INSUFFICIENT");
+  assert.match(template, /if \(currentCloudDetail\) refreshPersonalizedPlan\(currentCloudDetail\)/);
+});
+
 test("stale external signals stay visible with a non-trading disclaimer", function () {
   assert.match(template, /非当日缓存/);
   assert.match(template, /不参与加仓或预算计算/);

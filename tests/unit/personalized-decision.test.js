@@ -88,11 +88,22 @@ test("signal breaker becomes capped tactical core DCA using the cloud ledger exp
   assert.equal(plan.syncRevision, 3);
   assert.equal(plan.portfolioRisk.holdingCount, 4);
   assert.equal(plan.bucketExposure.GROWTH_TECH, 0.7);
-  assert.equal(plan.budget, 20);
+  assert.equal(plan.budget, 10);
   assert.deepEqual(plan.executionRoutes.map(function (route) { return [route.code, route.amount, route.bucket]; }), [
-    ["SPX", 20, "US_BROAD"]
+    ["SPX", 10, "US_BROAD"]
   ]);
   assert.equal(plan.executionRoutes.some(function (route) { return route.bucket === "GROWTH_TECH"; }), false);
+  assert.equal(plan.budgetPolicy.tacticalWeeklyBudget, 50);
+});
+
+test("fresh cross-source positive confirmation can raise tactical core DCA to 20 yuan", function () {
+  const plan = decision.personalizePlan(baseInput({
+    signalConfirmation: { status: "CONFIRMED", fresh: true, reason: "新闻与外部主题均偏多" }
+  }));
+  assert.equal(plan.action, "TACTICAL_PAUSE");
+  assert.equal(plan.budget, 20);
+  assert.equal(plan.budgetPolicy.signalConfirmation.status, "CONFIRMED");
+  assert.deepEqual(plan.executionRoutes.map(function (route) { return route.bucket; }), ["US_BROAD"]);
 });
 
 test("weekly tactical cap and risk anchor remain deterministic hard limits", function () {
@@ -108,8 +119,8 @@ test("weekly tactical cap and risk anchor remain deterministic hard limits", fun
     portfolio: decision.derivePortfolio(sourceLedger)
   }));
   assert.equal(capped.weeklySpent, 40);
-  assert.equal(capped.budget, 20);
-  assert.equal(capped.budgetPolicy.tacticalWeeklyBudget, 100);
+  assert.equal(capped.budget, 10);
+  assert.equal(capped.budgetPolicy.tacticalWeeklyBudget, 50);
 
   const stopped = decision.personalizePlan(baseInput({
     decisionState: { schemaVersion: 1, revision: 2, riskAnchorValue: 1200, cashBalance: 0 }
@@ -128,7 +139,7 @@ test("tactical mode cuts daily amount to 10 yuan when market is overheated", fun
   assert.equal(plan.budgetPolicy.overheatReduced, true);
 });
 
-test("tactical mode can buy underweight growth when anchor drawdown allows it", function () {
+test("tactical mode never adds to growth technology even when it is underweight", function () {
   const sourceLedger = ledger([
     buy("1", "SPX", "2026-07-01", 500, 500),
     buy("2", "NDX", "2026-07-01", 100, 100),
@@ -140,7 +151,8 @@ test("tactical mode can buy underweight growth when anchor drawdown allows it", 
     portfolio: decision.derivePortfolio(sourceLedger)
   }));
   assert.equal(plan.action, "TACTICAL_PAUSE");
-  assert.equal(plan.executionRoutes[0].bucket, "GROWTH_TECH");
+  assert.equal(plan.budget, 0);
+  assert.equal(plan.executionRoutes.length, 0);
 });
 
 test("global and global medical holdings map to explicit buckets", function () {
