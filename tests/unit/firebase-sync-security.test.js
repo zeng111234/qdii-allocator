@@ -54,10 +54,13 @@ test("personalized decision state is uid-scoped and never initialized silently",
   const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
   assert.match(source, /users.*uid.*decisionState/s);
   assert.match(source, /initializeRiskAnchor/);
+  assert.match(source, /schemaVersion: 2/);
+  assert.match(source, /riskAnchorTransactionIds/);
   assert.match(source, /RISK_ANCHOR_ALREADY_SET/);
   assert.doesNotMatch(source, /try\s*\{\s*await initializeRiskAnchor\(/);
   assert.match(template, /personalized-decision\.js/);
   assert.match(template, /firebaseSetRiskAnchor/);
+  assert.match(template, /decision-anchor-card/);
   assert.match(template, /refreshPersonalizedPlan/);
 });
 

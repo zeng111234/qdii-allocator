@@ -538,6 +538,8 @@
       <button id="cloud-sign-in" onclick="firebaseSignIn()" style="display:none;float:right;border:0;background:transparent;color:var(--primary);font-weight:600;cursor:pointer">Google 登录</button>
     </div>
 
+    <div id="decision-anchor-card" style="display:none;margin-bottom:12px;padding:12px 14px;border:1px solid var(--state-yellow-border);background:var(--state-yellow-bg);border-radius:10px;font-size:12px;color:var(--state-yellow-text)"></div>
+
     <!-- Summary -->
     <div class="card">
       <div id="summary" class="summary-grid"></div>
@@ -3132,6 +3134,20 @@
       button.style.display = hasLedger && !hasAnchor && detail.readOnly !== true ? 'inline-block' : 'none';
     }
 
+    function renderAnchorSetupCard(detail, plan) {
+      var card = document.getElementById('decision-anchor-card');
+      if (!card) return;
+      var needsAnchor = !!(plan && plan.decisionMode === 'ACTION_REQUIRED' && plan.blockedStage === 'RISK_ANCHOR_SETUP');
+      var writable = !!(detail && detail.readOnly !== true && detail.ledger && Number(detail.ledger.revision) > 0);
+      if (!needsAnchor || !writable) { card.style.display = 'none'; return; }
+      var value = Number(plan.portfolioRisk && plan.portfolioRisk.currentValue) || 0;
+      card.innerHTML = '<div style="font-weight:700;margin-bottom:4px">⚓ 需要完成一次风险锚点初始化</div>'
+        + '<div>已校验云端账本 revision ' + Number(plan.syncRevision || 0) + '，将当前市值 ' + formatMetric(value) + ' 元作为后续回撤比较起点。</div>'
+        + '<div style="margin-top:4px">此操作不会买卖基金；完成后系统会立即重新计算可执行预算。</div>'
+        + '<button class="btn" style="margin-top:8px;width:auto;padding:6px 10px;background:var(--state-yellow-text);color:white;font-size:12px" onclick="firebaseSetRiskAnchor()">初始化并重新计算</button>';
+      card.style.display = 'block';
+    }
+
     function buildSignalConfirmation(news, externalSignals, nowMs) {
       var now = Number(nowMs) || Date.now();
       var maxAgeMs = 24 * 60 * 60 * 1000;
@@ -3186,6 +3202,7 @@
         asOf: basePlan.date || new Date().toISOString().slice(0, 10),
         readOnly: currentCloudDetail.readOnly === true
       });
+      renderAnchorSetupCard(currentCloudDetail, todayPicks);
       renderTradeBanner();
       renderTemperature();
       renderBuySignal();
@@ -3341,6 +3358,12 @@
         RISK_ANCHOR_LEDGER_MISMATCH: '风险锚点来自更新的账本，需重新核对迁移',
         RISK_ANCHOR_DRAWDOWN_10: '相对风险锚点回撤达到-10%',
         TACTICAL_CORE_ONLY: '择时信号暂停，仅允许低配核心桶小额定投',
+        NO_ELIGIBLE_CORE_ROUTE: '没有可执行的低配核心桶通道',
+        NO_UNDERWEIGHT_CORE_BUCKET: '现有核心桶均不低配',
+        NO_ELIGIBLE_EXISTING_CHANNEL: '低配桶没有可用的现有基金通道',
+        CONCENTRATION_OR_MIN_PURCHASE_BLOCK: '通道受到集中度上限或最小申购额限制',
+        PARTIAL_ROUTE_CAPACITY: '部分预算受限购或集中度上限未分配',
+        WEEKLY_BUDGET_EXHAUSTED: '本周战术定投额度已用完',
         UNKNOWN_HOLDINGS: '存在无法识别的持仓',
         NO_ELIGIBLE_CANDIDATES: '没有通过硬风控的候选'
       };
@@ -3372,7 +3395,16 @@
         if (safePlan.budgetPolicy) details.push('本周已买' + formatMetric(safePlan.budgetPolicy.weeklySpent) + '元，剩余额度' + formatMetric(safePlan.budgetPolicy.weeklyRemaining) + '元');
         if (safePlan.budgetPolicy && safePlan.budgetPolicy.overheatReduced) details.push('市场温度偏热，战术单日上限降为' + formatMetric(safePlan.budgetPolicy.dailyLimit) + '元');
         if (safePlan.budgetPolicy && safePlan.budgetPolicy.signalConfirmation) details.push('新闻/外部确认：' + safePlan.budgetPolicy.signalConfirmation.reason);
-        if (safePlan.riskAnchorValue) details.push('风险锚点：' + formatMetric(safePlan.riskAnchorValue) + '元，当前回撤' + formatMetric(Number(safePlan.riskAnchorDrawdown || 0) * 100) + '%');
+        if (safePlan.riskAnchorValue) {
+          var adjustedAnchor = Number(safePlan.adjustedRiskAnchorValue || safePlan.riskAnchorValue);
+          var netCashFlow = Number(safePlan.riskAnchorNetCashFlow || 0);
+          details.push('风险锚点：' + formatMetric(adjustedAnchor) + '元（后续净现金流' + formatMetric(netCashFlow) + '元），当前回撤' + formatMetric(Number(safePlan.riskAnchorDrawdown || 0) * 100) + '%');
+        }
+        var routeDiagnostics = safePlan.routeDiagnostics || {};
+        if (Number(routeDiagnostics.requestedBudget) > 0 && Number(routeDiagnostics.allocatedBudget) === 0) {
+          var routeReasons = Array.isArray(routeDiagnostics.blockReasons) ? routeDiagnostics.blockReasons.map(formatPauseReason).filter(Boolean) : [];
+          if (routeReasons.length > 0) details.push('执行通道：' + routeReasons.join('、'));
+        }
       }
       return details.join('；');
     }

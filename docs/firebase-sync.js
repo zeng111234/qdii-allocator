@@ -124,18 +124,23 @@ function strategyStatePath(uid) {
 
 function normalizeDecisionState(state) {
   if (!state) return null;
-  if (Number(state.schemaVersion) !== 1 || !Number.isInteger(Number(state.revision)) || Number(state.revision) < 1) {
+  const schemaVersion = Number(state.schemaVersion);
+  if ((schemaVersion !== 1 && schemaVersion !== 2) || !Number.isInteger(Number(state.revision)) || Number(state.revision) < 1) {
     throw new Error("INVALID_DECISION_STATE");
   }
   const riskAnchorValue = Number(state.riskAnchorValue);
   if (!(riskAnchorValue > 0)) throw new Error("INVALID_RISK_ANCHOR");
+  const riskAnchorTransactionIds = Array.isArray(state.riskAnchorTransactionIds)
+    ? Array.from(new Set(state.riskAnchorTransactionIds.map(function (id) { return String(id || ""); }).filter(Boolean))).sort()
+    : [];
   return {
-    schemaVersion: 1,
+    schemaVersion: schemaVersion,
     revision: Number(state.revision),
     updatedAt: String(state.updatedAt || ""),
     riskAnchorValue: riskAnchorValue,
     riskAnchorAt: String(state.riskAnchorAt || state.updatedAt || ""),
     riskAnchorLedgerRevision: Number(state.riskAnchorLedgerRevision || 0),
+    riskAnchorTransactionIds: riskAnchorTransactionIds,
     cashBalance: Math.max(0, Number(state.cashBalance) || 0)
   };
 }
@@ -332,12 +337,13 @@ async function initializeRiskAnchor(value, ledgerRevision) {
   if (!(riskAnchorValue > 0)) throw new Error("INVALID_RISK_ANCHOR");
   const now = new Date().toISOString();
   return writeDecisionState({
-    schemaVersion: 1,
+    schemaVersion: 2,
     revision: 1,
     updatedAt: now,
     riskAnchorValue: riskAnchorValue,
     riskAnchorAt: now,
     riskAnchorLedgerRevision: Number(currentLedger.revision),
+    riskAnchorTransactionIds: currentLedger.transactions.map(function (transaction) { return String(transaction.id); }).filter(Boolean).sort(),
     cashBalance: 0
   }, 0);
 }

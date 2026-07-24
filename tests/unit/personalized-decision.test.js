@@ -26,6 +26,20 @@ function buy(id, code, date, amount, shares) {
   };
 }
 
+function sell(id, code, date, amount, shares) {
+  return {
+    id: id,
+    type: "SELL",
+    code: code,
+    tradeDate: date,
+    settleDate: date,
+    amount: amount,
+    nav: shares ? amount / shares : 0,
+    shares: shares || 0,
+    createdAt: date + "T00:00:00.000Z"
+  };
+}
+
 const funds = [
   { code: "SPX", name: "标普通道", indexGroup: "SPX500", status: "active", dailyLimit: 20, minPurchase: 10, feeRate: 0.6 },
   { code: "NDX", name: "纳指通道", indexGroup: "NDX100", status: "active", dailyLimit: 20, minPurchase: 10, feeRate: 0.8 },
@@ -79,6 +93,8 @@ test("missing sync or risk anchor is a hard pause", function () {
 
   const noAnchor = decision.personalizePlan(baseInput({ decisionState: null }));
   assert.equal(noAnchor.action, "HARD_PAUSE");
+  assert.equal(noAnchor.decisionMode, "ACTION_REQUIRED");
+  assert.equal(noAnchor.blockedStage, "RISK_ANCHOR_SETUP");
   assert.ok(noAnchor.pauseReasons.includes("RISK_ANCHOR_MISSING"));
 });
 
@@ -153,6 +169,67 @@ test("tactical mode never adds to growth technology even when it is underweight"
   assert.equal(plan.action, "TACTICAL_PAUSE");
   assert.equal(plan.budget, 0);
   assert.equal(plan.executionRoutes.length, 0);
+  assert.equal(plan.decisionMode, "TACTICAL_DCA");
+  assert.ok(plan.routeDiagnostics.blockReasons.includes("NO_ELIGIBLE_CORE_ROUTE"));
+});
+
+test("risk anchor drawdown removes post-anchor cash flows before applying a hard stop", function () {
+  const sourceLedger = ledger([
+    buy("1", "SPX", "2026-07-01", 100, 100),
+    buy("2", "NDX", "2026-07-01", 700, 700),
+    buy("3", "JP", "2026-07-01", 100, 100),
+    buy("4", "MED", "2026-07-01", 100, 100),
+    buy("5", "SPX", "2026-07-19", 100, 100)
+  ]);
+  const lowerNav = Object.assign({}, navCache, {
+    SPX: [{ date: "2026-07-19", nav: 0.9 }],
+    NDX: [{ date: "2026-07-19", nav: 0.9 }],
+    JP: [{ date: "2026-07-19", nav: 0.9 }],
+    MED: [{ date: "2026-07-19", nav: 0.9 }]
+  });
+  const plan = decision.personalizePlan(baseInput({
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger),
+    navCache: lowerNav,
+    decisionState: {
+      schemaVersion: 2,
+      revision: 1,
+      riskAnchorValue: 1000,
+      riskAnchorAt: "2026-07-18T00:00:00.000Z",
+      riskAnchorLedgerRevision: 3,
+      riskAnchorTransactionIds: ["1", "2", "3", "4"],
+      cashBalance: 0
+    }
+  }));
+  assert.equal(plan.adjustedRiskAnchorValue, 1100);
+  assert.equal(plan.riskAnchorNetCashFlow, 100);
+  assert.equal(plan.riskAnchorDrawdown, -0.1);
+  assert.equal(plan.action, "HARD_PAUSE");
+  assert.equal(plan.decisionMode, "RISK_STOP");
+  assert.ok(plan.pauseReasons.includes("RISK_ANCHOR_DRAWDOWN_10"));
+});
+
+test("risk anchor treats post-anchor redemptions as negative net cash flow", function () {
+  const sourceLedger = ledger([
+    buy("1", "SPX", "2026-07-01", 1000, 1000),
+    sell("2", "SPX", "2026-07-19", 100, 100)
+  ]);
+  const plan = decision.personalizePlan(baseInput({
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger),
+    decisionState: {
+      schemaVersion: 2,
+      revision: 1,
+      riskAnchorValue: 1000,
+      riskAnchorAt: "2026-07-18T00:00:00.000Z",
+      riskAnchorLedgerRevision: 3,
+      riskAnchorTransactionIds: ["1"],
+      cashBalance: 0
+    }
+  }));
+  assert.equal(plan.riskAnchorNetCashFlow, -100);
+  assert.equal(plan.adjustedRiskAnchorValue, 900);
+  assert.equal(plan.riskAnchorDrawdown, 0);
 });
 
 test("global and global medical holdings map to explicit buckets", function () {

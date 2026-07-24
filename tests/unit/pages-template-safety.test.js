@@ -174,6 +174,22 @@ test("market sentiment reply always discloses freshness, coverage and cannot ove
   assert.match(sendSource, /buildMarketSentimentDisclosure/);
 });
 
+test("risk-anchor setup is explicit and zero-budget route failures are explained", function () {
+  assert.match(template, /id="decision-anchor-card"/);
+  assert.match(template, /需要完成一次风险锚点初始化/);
+  assert.match(template, /不会买卖基金/);
+  const ctx = loadHelpers(["formatMetric", "formatPauseReason", "buildPauseDetails"]);
+  const details = ctx.buildPauseDetails({
+    action: "TACTICAL_PAUSE",
+    budget: 0,
+    personalized: true,
+    decisionMode: "TACTICAL_DCA",
+    routeDiagnostics: { requestedBudget: 10, allocatedBudget: 0, blockReasons: ["NO_ELIGIBLE_CORE_ROUTE"] },
+    signalHealth: { status: "PAUSE", matured: {}, shadow: {} }
+  });
+  assert.match(details, /没有可执行的低配核心桶通道/);
+});
+
 test("signal confirmation requires fresh news and external coverage before calling consensus bullish", function () {
   const ctx = loadHelpers(["buildSignalConfirmation"]);
   const now = Date.parse("2026-07-24T12:00:00Z");
