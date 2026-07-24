@@ -1,14 +1,15 @@
 {
-  "date": "2026-07-18",
+  "date": "2026-07-24",
   "action": "PAUSE",
   "ranked": [
     {
       "rank": 1,
-      "code": "017641",
-      "name": "摩根标普500指数(QDII)A",
-      "indexGroup": "SPX500",
-      "score": 74.83,
+      "code": "501226",
+      "name": "长城全球新能源车(QDII)A",
+      "indexGroup": "EV",
+      "score": 64.78,
       "blockedBy": [
+        "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -16,11 +17,12 @@
     },
     {
       "rank": 2,
-      "code": "000834",
-      "name": "大成纳斯达克100(QDII)",
+      "code": "019524",
+      "name": "华泰柏瑞纳斯达克100指数(QDII)A",
       "indexGroup": "NDX100",
-      "score": 64.42,
+      "score": 62.5,
       "blockedBy": [
+        "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -28,11 +30,12 @@
     },
     {
       "rank": 3,
-      "code": "270042",
-      "name": "广发纳斯达克100A(QDII)",
-      "indexGroup": "NDX100",
-      "score": 63.75,
+      "code": "017730",
+      "name": "嘉实全球产业升级股票(QDII)A",
+      "indexGroup": "GLOBAL_UPGRADE",
+      "score": 61.85,
       "blockedBy": [
+        "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -40,11 +43,12 @@
     },
     {
       "rank": 4,
-      "code": "001092",
-      "name": "广发纳斯达克生物科技A(QDII)",
-      "indexGroup": "NASDAQ_BIO",
-      "score": 63.17,
+      "code": "096001",
+      "name": "大成标普500A(QDII)",
+      "indexGroup": "SPX500",
+      "score": 61.09,
       "blockedBy": [
+        "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -52,11 +56,12 @@
     },
     {
       "rank": 5,
-      "code": "096001",
-      "name": "大成标普500A(QDII)",
-      "indexGroup": "SPX500",
-      "score": 61.58,
+      "code": "040046",
+      "name": "华安纳斯达克100A(QDII)",
+      "indexGroup": "NDX100",
+      "score": 60.44,
       "blockedBy": [
+        "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -64,12 +69,11 @@
     },
     {
       "rank": 6,
-      "code": "017730",
-      "name": "嘉实全球产业升级股票(QDII)A",
-      "indexGroup": "GLOBAL_UPGRADE",
-      "score": 57.75,
+      "code": "000834",
+      "name": "大成纳斯达克100(QDII)",
+      "indexGroup": "NDX100",
+      "score": 58.59,
       "blockedBy": [
-        "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
@@ -78,11 +82,12 @@
     },
     {
       "rank": 7,
-      "code": "539001",
-      "name": "建信纳斯达克100A(QDII)",
-      "indexGroup": "NDX100",
-      "score": 56.83,
+      "code": "270023",
+      "name": "广发全球精选QDII-A",
+      "indexGroup": "GLOBAL",
+      "score": 58.26,
       "blockedBy": [
+        "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -90,10 +95,10 @@
     },
     {
       "rank": 8,
-      "code": "270023",
-      "name": "广发全球精选QDII-A",
-      "indexGroup": "GLOBAL",
-      "score": 56.75,
+      "code": "007280",
+      "name": "摩根日本精选股票(QDII)A",
+      "indexGroup": "JAPAN",
+      "score": 57.18,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -103,12 +108,11 @@
     },
     {
       "rank": 9,
-      "code": "040046",
-      "name": "华安纳斯达克100A(QDII)",
-      "indexGroup": "NDX100",
-      "score": 56.42,
+      "code": "000369",
+      "name": "广发全球医疗保健指数人民币(QDII)A",
+      "indexGroup": "GLOBAL_MEDICAL",
+      "score": 56.85,
       "blockedBy": [
-        "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -116,10 +120,10 @@
     },
     {
       "rank": 10,
-      "code": "007280",
-      "name": "摩根日本精选股票(QDII)A",
-      "indexGroup": "JAPAN",
-      "score": 55.08,
+      "code": "001092",
+      "name": "广发纳斯达克生物科技A(QDII)",
+      "indexGroup": "NASDAQ_BIO",
+      "score": 53.37,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -129,12 +133,11 @@
     },
     {
       "rank": 11,
-      "code": "501226",
-      "name": "长城全球新能源车(QDII)A",
-      "indexGroup": "EV",
-      "score": 55.08,
+      "code": "000614",
+      "name": "华安德国DAX30A(QDII)",
+      "indexGroup": "EUROPE",
+      "score": 53.15,
       "blockedBy": [
-        "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -142,10 +145,10 @@
     },
     {
       "rank": 12,
-      "code": "000369",
-      "name": "广发全球医疗保健指数人民币(QDII)A",
-      "indexGroup": "GLOBAL_MEDICAL",
-      "score": 53.83,
+      "code": "019067",
+      "name": "万家纳斯达克100指数(QDII)A",
+      "indexGroup": "NDX100",
+      "score": 51.74,
       "blockedBy": [
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
@@ -154,11 +157,13 @@
     },
     {
       "rank": 13,
-      "code": "006373",
-      "name": "国富全球科技互联混合(QDII)A",
-      "indexGroup": "GLOBAL_TECH",
-      "score": 53.67,
+      "code": "016664",
+      "name": "天弘全球高端制造QDII-A",
+      "indexGroup": "GLOBAL_MFG",
+      "score": 51.63,
       "blockedBy": [
+        "DRAWDOWN_OVER_20",
+        "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
@@ -167,12 +172,12 @@
     },
     {
       "rank": 14,
-      "code": "000614",
-      "name": "华安德国DAX30A(QDII)",
-      "indexGroup": "EUROPE",
-      "score": 53.42,
+      "code": "320013",
+      "name": "诺安全球黄金(QDII-FOF)A",
+      "indexGroup": "GOLD",
+      "score": 51.09,
       "blockedBy": [
-        "TREND_DETERIORATING",
+        "DRAWDOWN_OVER_20",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -180,10 +185,10 @@
     },
     {
       "rank": 15,
-      "code": "019524",
-      "name": "华泰柏瑞纳斯达克100指数(QDII)A",
-      "indexGroup": "NDX100",
-      "score": 53,
+      "code": "015204",
+      "name": "银华全球新能源车量化优选(QDII)A",
+      "indexGroup": "EV",
+      "score": 47.94,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -193,23 +198,10 @@
     },
     {
       "rank": 16,
-      "code": "539002",
-      "name": "建信新兴市场优选QDII-A",
-      "indexGroup": "EMERGING",
-      "score": 53,
-      "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
-      "deduped": false
-    },
-    {
-      "rank": 17,
-      "code": "016664",
-      "name": "天弘全球高端制造QDII-A",
-      "indexGroup": "GLOBAL_MFG",
-      "score": 51.09,
+      "code": "008253",
+      "name": "华宝致远混合(QDII)A",
+      "indexGroup": "GLOBAL",
+      "score": 45.54,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING",
@@ -219,11 +211,24 @@
       "deduped": false
     },
     {
+      "rank": 17,
+      "code": "000988",
+      "name": "华安标普全球石油QDII-A",
+      "indexGroup": "OIL",
+      "score": 43.8,
+      "blockedBy": [
+        "TREND_DETERIORATING",
+        "FUND_WEIGHT_LIMIT",
+        "INDEX_GROUP_LIMIT"
+      ],
+      "deduped": false
+    },
+    {
       "rank": 18,
-      "code": "100055",
-      "name": "富国全球科技互联网股票(QDII)A",
-      "indexGroup": "GLOBAL_TECH",
-      "score": 50.67,
+      "code": "050015",
+      "name": "博时亚太精选QDII-A",
+      "indexGroup": "APAC",
+      "score": 42.28,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -233,11 +238,12 @@
     },
     {
       "rank": 19,
-      "code": "019067",
-      "name": "万家纳斯达克100指数(QDII)A",
-      "indexGroup": "NDX100",
-      "score": 49.42,
+      "code": "000041",
+      "name": "华夏全球股票(QDII)(人民币)",
+      "indexGroup": "GLOBAL",
+      "score": 41.41,
       "blockedBy": [
+        "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -245,11 +251,14 @@
     },
     {
       "rank": 20,
-      "code": "000988",
-      "name": "华安标普全球石油QDII-A",
-      "indexGroup": "OIL",
-      "score": 47.42,
+      "code": "005698",
+      "name": "华夏全球科技先锋混合(QDII)A",
+      "indexGroup": "GLOBAL_TECH",
+      "score": 39.68,
       "blockedBy": [
+        "DRAWDOWN_OVER_20",
+        "FIVE_DAY_DROP_OVER_8",
+        "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -257,12 +266,12 @@
     },
     {
       "rank": 21,
-      "code": "000179",
-      "name": "广发美国房地产A(QDII)",
-      "indexGroup": "US_REIT",
-      "score": 45.5,
+      "code": "160216",
+      "name": "国泰大宗商品(QDII-LOF)",
+      "indexGroup": "COMMODITY",
+      "score": 38.91,
       "blockedBy": [
-        "TREND_DETERIORATING",
+        "DRAWDOWN_OVER_20",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -270,12 +279,12 @@
     },
     {
       "rank": 22,
-      "code": "050015",
-      "name": "博时亚太精选QDII-A",
-      "indexGroup": "APAC",
-      "score": 43.42,
+      "code": "015558",
+      "name": "大成标普500ETF联接A(QDII)",
+      "indexGroup": "SPX500",
+      "score": 38.59,
       "blockedBy": [
-        "TREND_DETERIORATING",
+        "DRAWDOWN_OVER_20",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
@@ -283,10 +292,10 @@
     },
     {
       "rank": 23,
-      "code": "015204",
-      "name": "银华全球新能源车量化优选(QDII)A",
-      "indexGroup": "EV",
-      "score": 43.08,
+      "code": "040018",
+      "name": "华安香港精选QDII-A",
+      "indexGroup": "HK",
+      "score": 29.78,
       "blockedBy": [
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
@@ -296,108 +305,11 @@
     },
     {
       "rank": 24,
-      "code": "008253",
-      "name": "华宝致远混合(QDII)A",
-      "indexGroup": "GLOBAL",
-      "score": 40.58,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
-      "deduped": false
-    },
-    {
-      "rank": 25,
-      "code": "320013",
-      "name": "诺安全球黄金(QDII-FOF)A",
-      "indexGroup": "GOLD",
-      "score": 40.25,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
-      "deduped": false
-    },
-    {
-      "rank": 26,
-      "code": "005698",
-      "name": "华夏全球科技先锋混合(QDII)A",
-      "indexGroup": "GLOBAL_TECH",
-      "score": 39.5,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
-      "deduped": false
-    },
-    {
-      "rank": 27,
-      "code": "015558",
-      "name": "大成标普500ETF联接A(QDII)",
-      "indexGroup": "SPX500",
-      "score": 39.33,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
-      "deduped": false
-    },
-    {
-      "rank": 28,
       "code": "008763",
       "name": "天弘越南市场股票(QDII)A",
       "indexGroup": "VIETNAM",
-      "score": 35.75,
+      "score": 29.57,
       "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
-      "deduped": false
-    },
-    {
-      "rank": 29,
-      "code": "000041",
-      "name": "华夏全球股票(QDII)(人民币)",
-      "indexGroup": "GLOBAL",
-      "score": 34.92,
-      "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
-      "deduped": false
-    },
-    {
-      "rank": 30,
-      "code": "040018",
-      "name": "华安香港精选QDII-A",
-      "indexGroup": "HK",
-      "score": 28.75,
-      "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
-      "deduped": false
-    },
-    {
-      "rank": 31,
-      "code": "160216",
-      "name": "国泰大宗商品(QDII-LOF)",
-      "indexGroup": "COMMODITY",
-      "score": 27.75,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING",
         "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
@@ -405,5 +317,5 @@
       "deduped": false
     }
   ],
-  "generatedAt": "2026-07-18T15:42:29.304Z"
+  "generatedAt": "2026-07-24T01:50:44.101Z"
 }
