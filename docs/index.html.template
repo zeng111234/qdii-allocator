@@ -4163,9 +4163,13 @@
 
     function formatMigrationError(error) {
       var code = error && error.message ? error.message : String(error || 'UNKNOWN_ERROR');
-      if (code === 'REVISION_CONFLICT') return '云端账本在预览后发生变化，未覆盖，请先云端刷新后重新预览。云端数据未改变。';
+      if (code === 'ETAG_CONFLICT') return '云端账本已被其他设备修改，未覆盖；请云端刷新后重新预览。云端数据未改变。';
       if (code === 'OFFLINE_READ_ONLY') return '当前离线，不能覆盖云端账本。云端数据未改变。';
       if (code === 'AUTH_REQUIRED') return '请先使用 Google 登录后再迁移。云端数据未改变。';
+      if (code === 'AUTH_EXPIRED') return '登录凭证已过期，已刷新一次仍不可用；请重新使用 Google 登录。云端数据未改变。';
+      if (code === 'PERMISSION_DENIED') return '当前 Google 账户无权写入此账本。云端数据未改变。';
+      if (code === 'ETAG_MISSING') return '云端未返回并发校验标识，未覆盖。云端数据未改变。';
+      if (code === 'NETWORK_REQUEST_FAILED') return '连接 Firebase 失败，请检查网络后重试。云端数据未改变。';
       if (code === 'READBACK_MISMATCH') return '写入后回读校验失败，请立即云端刷新并导出核对；页面不会把它当作成功。';
       if (code === 'INVALID_CHROME_PORTFOLIO') return 'Chrome 持仓存在无效或重复项目，未写入云端。';
       return '未完成迁移（' + code + '）。云端数据未改变。';
@@ -4189,7 +4193,7 @@
           '\n\n确认后将先下载迁移备份，再用 Chrome 覆盖旧云端账本。继续？';
         if (!confirm(message)) return;
         downloadMigrationBackup(legacy, preview);
-        var result = await window.QdiiCloudSync.overwriteWithLegacy(legacy, preview.cloudRevision, preview.cloudChecksum);
+        var result = await window.QdiiCloudSync.overwriteWithLegacy(legacy, preview);
         showToast('Chrome 账本迁移完成：' + preview.activeFundCount + '只；云端 revision=' + result.revision);
       } catch (error) {
         showToast('迁移失败：' + formatMigrationError(error), true);

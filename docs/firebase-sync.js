@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
 import {
   browserLocalPersistence, getAuth, GoogleAuthProvider, onAuthStateChanged,
-  setPersistence, signInWithPopup, signOut
+  getIdToken, setPersistence, signInWithPopup, signOut
 } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
 import {
   get, getDatabase, ref, runTransaction
@@ -189,28 +189,87 @@ async function readLedgerAt(target) {
   return snapshot.exists() ? validateLedger(snapshot.val()) : null;
 }
 
-async function writeLedger(nextLedger, expectedRevision, expectedChecksum) {
+function ledgerRestUrl(idToken) {
+  const base = String(config.databaseURL || "").replace(/\/$/, "");
+  return base + "/users/" + encodeURIComponent(currentUser.uid) + "/portfolioLedger.json?auth=" + encodeURIComponent(idToken);
+}
+
+async function ledgerIdToken(forceRefresh) {
+  if (!currentUser) throw new Error("AUTH_REQUIRED");
+  try {
+    return await getIdToken(currentUser, forceRefresh === true);
+  } catch (error) {
+    throw new Error("AUTH_EXPIRED");
+  }
+}
+
+async function readLedgerWithEtag(forceRefresh) {
+  if (!currentUser) throw new Error("AUTH_REQUIRED");
+  if (!navigator.onLine) throw new Error("OFFLINE_READ_ONLY");
+  const token = await ledgerIdToken(forceRefresh);
+  let response;
+  try {
+    response = await fetch(ledgerRestUrl(token), {
+      headers: { "X-Firebase-ETag": "true", "Cache-Control": "no-cache" },
+      cache: "no-store"
+    });
+  } catch (error) {
+    throw new Error("NETWORK_REQUEST_FAILED");
+  }
+  if (response.status === 401) throw new Error("AUTH_EXPIRED");
+  if (response.status === 403) throw new Error("PERMISSION_DENIED");
+  if (!response.ok) throw new Error("FIREBASE_HTTP_" + response.status);
+  const etag = response.headers.get("ETag");
+  if (!etag) throw new Error("ETAG_MISSING");
+  const payload = await response.json();
+  return { ledger: payload === null ? null : await validateLedger(payload), etag: etag };
+}
+
+async function conditionalWriteLedger(nextLedger, expected, forceRefresh) {
+  const preflight = await readLedgerWithEtag(forceRefresh);
+  const remoteLedger = preflight.ledger;
+  const remoteRevision = remoteLedger ? Number(remoteLedger.revision) : 0;
+  const remoteChecksum = remoteLedger ? remoteLedger.checksum : null;
+  if (remoteRevision !== Number(expected.revision) ||
+      (expected.checksum !== undefined && remoteChecksum !== expected.checksum) ||
+      (expected.etag !== undefined && preflight.etag !== expected.etag)) {
+    throw new Error("ETAG_CONFLICT");
+  }
+  if (Number(nextLedger.revision) !== Number(expected.revision) + 1) throw new Error("INVALID_NEXT_REVISION");
+  const token = await ledgerIdToken(forceRefresh);
+  let response;
+  try {
+    response = await fetch(ledgerRestUrl(token), {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "if-match": expected.etag || preflight.etag,
+        "Cache-Control": "no-cache"
+      },
+      cache: "no-store",
+      body: JSON.stringify(nextLedger)
+    });
+  } catch (error) {
+    throw new Error("NETWORK_REQUEST_FAILED");
+  }
+  if (response.status === 412) throw new Error("ETAG_CONFLICT");
+  if (response.status === 401) throw new Error("AUTH_EXPIRED");
+  if (response.status === 403) throw new Error("PERMISSION_DENIED");
+  if (!response.ok) throw new Error("FIREBASE_HTTP_" + response.status);
+}
+
+async function writeLedger(nextLedger, expected) {
   if (!currentUser) throw new Error("AUTH_REQUIRED");
   if (!navigator.onLine) throw new Error("OFFLINE_READ_ONLY");
   await validateLedger(nextLedger);
-  const target = ref(database, ledgerPath(currentUser.uid));
-  const remoteLedger = await readLedgerAt(target);
-  const remoteRevision = remoteLedger ? Number(remoteLedger.revision) : 0;
-  const remoteChecksum = remoteLedger ? remoteLedger.checksum : null;
-  if (remoteRevision !== Number(expectedRevision) ||
-      (expectedChecksum !== undefined && remoteChecksum !== expectedChecksum)) {
-    throw new Error("REVISION_CONFLICT");
+  try {
+    await conditionalWriteLedger(nextLedger, expected, false);
+  } catch (error) {
+    if (!error || error.message !== "AUTH_EXPIRED") throw error;
+    await conditionalWriteLedger(nextLedger, expected, true);
   }
-  if (Number(nextLedger.revision) !== Number(expectedRevision) + 1) throw new Error("INVALID_NEXT_REVISION");
-  const result = await runTransaction(target, function (existing) {
-    const actualRevision = existing ? Number(existing.revision) : 0;
-    const actualChecksum = existing ? existing.checksum : null;
-    if (actualRevision !== Number(expectedRevision) ||
-        (expectedChecksum !== undefined && actualChecksum !== expectedChecksum)) return;
-    return nextLedger;
-  }, { applyLocally: false });
-  if (!result.committed) throw new Error("REVISION_CONFLICT");
-  const verifiedLedger = await readLedgerAt(target);
+  const verified = await readLedgerWithEtag(false);
+  const verifiedLedger = verified.ledger;
   if (!verifiedLedger || verifiedLedger.checksum !== nextLedger.checksum ||
       Number(verifiedLedger.revision) !== Number(nextLedger.revision)) {
     throw new Error("READBACK_MISMATCH");
@@ -264,7 +323,7 @@ async function saveLegacyPortfolio(portfolio) {
   if (Array.from(previousIds).some(function (id) { return !migratedIds.has(id); })) throw new Error("IMMUTABLE_LEDGER_DELETE_FORBIDDEN");
   migrated.updatedAt = new Date().toISOString();
   migrated.checksum = await checksumTransactions(migrated.transactions);
-  return writeLedger(migrated, currentLedger.revision, currentLedger.checksum);
+  return writeLedger(migrated, { revision: currentLedger.revision, checksum: currentLedger.checksum });
 }
 
 async function previewLegacy(portfolio) {
@@ -280,7 +339,8 @@ async function previewLegacy(portfolio) {
       invalidHoldings.push({ index: index + 1, code: code || "-", reason: "MISSING_TRANSACTIONS" });
     }
   });
-  const cloudRevision = currentLedger ? Number(currentLedger.revision) : 0;
+  const cloud = await readLedgerWithEtag(false);
+  const cloudRevision = cloud.ledger ? Number(cloud.ledger.revision) : 0;
   const ledger = await migrateLegacyPortfolio(portfolio, cloudRevision + 1);
   const activeFundCount = derivePortfolio(ledger).holdings.length;
   if (activeFundCount !== holdings.length) {
@@ -295,14 +355,17 @@ async function previewLegacy(portfolio) {
     totalInvested: ledger.transactions.reduce(function (sum, tx) { return sum + (tx.type === "BUY" ? tx.amount : -tx.amount); }, 0),
     checksum: ledger.checksum,
     cloudRevision: cloudRevision,
-    cloudChecksum: currentLedger ? currentLedger.checksum : null,
+    cloudChecksum: cloud.ledger ? cloud.ledger.checksum : null,
+    cloudEtag: cloud.etag,
     nextRevision: cloudRevision + 1
   };
 }
 
-async function overwriteWithLegacy(portfolio, expectedCloudRevision, expectedCloudChecksum) {
-  const ledger = await migrateLegacyPortfolio(portfolio, Number(expectedCloudRevision) + 1);
-  return writeLedger(ledger, expectedCloudRevision, expectedCloudChecksum);
+async function overwriteWithLegacy(portfolio, preview) {
+  const ledger = await migrateLegacyPortfolio(portfolio, Number(preview.cloudRevision) + 1);
+  return writeLedger(ledger, {
+    revision: preview.cloudRevision, checksum: preview.cloudChecksum, etag: preview.cloudEtag
+  });
 }
 
 async function signIn() {

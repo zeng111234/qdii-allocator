@@ -34,15 +34,18 @@ test("browser sync uses Firebase Web SDK Google auth and uid-scoped ledger", fun
   assert.doesNotMatch(template, /api\.github\.com\/gists|GIST_TOKEN_KEY|qdii-gist-token/);
 });
 
-test("Chrome migration increments the cloud revision and verifies the committed ledger", function () {
+test("Chrome migration uses an ETag conditional write and verifies the committed ledger", function () {
   const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
-  assert.match(source, /async function readLedgerAt\(target\)/);
-  assert.match(source, /const remoteLedger = await readLedgerAt\(target\);/);
-  assert.match(source, /remoteLedger \? Number\(remoteLedger\.revision\) : 0/);
-  assert.match(source, /expectedChecksum !== undefined && remoteChecksum !== expectedChecksum/);
-  assert.match(source, /const verifiedLedger = await readLedgerAt\(target\);/);
+  assert.match(source, /getIdToken/);
+  assert.match(source, /async function readLedgerWithEtag/);
+  assert.match(source, /"X-Firebase-ETag": "true"/);
+  assert.match(source, /"if-match": expected\.etag/);
+  assert.match(source, /response\.status === 412/);
+  assert.match(source, /ETAG_CONFLICT/);
+  assert.match(source, /const verified = await readLedgerWithEtag\(false\)/);
   assert.match(source, /READBACK_MISMATCH/);
-  assert.match(source, /migrateLegacyPortfolio\(portfolio, Number\(expectedCloudRevision\) \+ 1\)/);
+  assert.match(source, /migrateLegacyPortfolio\(portfolio, Number\(preview\.cloudRevision\) \+ 1\)/);
+  assert.match(source, /cloudEtag: cloud\.etag/);
   assert.match(source, /nextRevision: cloudRevision \+ 1/);
 });
 

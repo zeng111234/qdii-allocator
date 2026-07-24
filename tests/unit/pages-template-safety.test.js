@@ -193,10 +193,12 @@ test("migration preview requires a valid active Chrome portfolio and shows the v
   assert.match(source, /preview\.activeFundCount/);
   assert.match(source, /preview\.nextRevision/);
   assert.match(source, /下载迁移备份/);
-  assert.match(source, /overwriteWithLegacy\(legacy, preview\.cloudRevision, preview\.cloudChecksum\)/);
+  assert.match(source, /overwriteWithLegacy\(legacy, preview\)/);
   assert.match(source, /云端 revision=' \+ result\.revision/);
   assert.match(source, /formatMigrationError\(error\)/);
-  assert.match(extractFunction("formatMigrationError"), /云端数据未改变/);
+  const errorSource = extractFunction("formatMigrationError");
+  assert.match(errorSource, /ETAG_CONFLICT/);
+  assert.match(errorSource, /PERMISSION_DENIED/);
 });
 
 test("AI connection test and chat use the same normalized chat-completions URL", function () {
