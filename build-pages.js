@@ -39,13 +39,13 @@ async function build() {
   // HTTP 工具函数（提取到顶层，供多处使用）
   const httpGetSync = url =>
     new Promise((resolve, reject) => {
-      https
-        .get(url, { timeout: 8000 }, res => {
-          let data = "";
-          res.on("data", c => (data += c));
-          res.on("end", () => resolve(data));
-        })
-        .on("error", reject);
+      const req = https.get(url, { timeout: 8000 }, res => {
+        let data = "";
+        res.on("data", c => (data += c));
+        res.on("end", () => resolve(data));
+      });
+      req.on("timeout", () => req.destroy(new Error("HTTP_TIMEOUT")));
+      req.on("error", reject);
     });
 
   // 读取模板
