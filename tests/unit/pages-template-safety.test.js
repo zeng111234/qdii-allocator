@@ -187,6 +187,14 @@ test("cloud ledger holdings fall back to the public fund name when names are not
   assert.match(extractFunction("updateHoldings"), /getHoldingDisplayName\(h, fund\)/);
 });
 
+test("AI connection test and chat use the same normalized chat-completions URL", function () {
+  const ctx = loadHelpers(["getAiChatCompletionsUrl"]);
+  assert.equal(ctx.getAiChatCompletionsUrl("https://api.example.com/v1"), "https://api.example.com/v1/chat/completions");
+  assert.equal(ctx.getAiChatCompletionsUrl("https://api.example.com/v1/chat/completions/"), "https://api.example.com/v1/chat/completions");
+  assert.match(extractFunction("testAiConnection"), /fetch\(getAiChatCompletionsUrl\(config\.baseUrl\), \{/);
+  assert.match(extractBetweenFunctions("sendAiMessage", "askQuick"), /var apiUrl = getAiChatCompletionsUrl\(config\.baseUrl\);/);
+});
+
 test("chat history is scoped to plan date and action", function () {
   const storage = new Map([
     ["qdii-ai-chat", JSON.stringify([{ role: "assistant", content: "old BUY answer" }])],

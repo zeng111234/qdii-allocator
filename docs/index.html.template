@@ -4603,6 +4603,11 @@
       try { return JSON.parse(localStorage.getItem(AI_CONFIG_KEY)) || {}; } catch(e) { return {}; }
     }
 
+    function getAiChatCompletionsUrl(baseUrl) {
+      var normalized = String(baseUrl || '').trim().replace(/\/+$/, '');
+      return normalized.endsWith('/chat/completions') ? normalized : normalized + '/chat/completions';
+    }
+
     function saveAiConfig() {
       var config = {
         apiKey: document.getElementById('aiApiKey').value.trim(),
@@ -4625,7 +4630,7 @@
       resultEl.style.color = 'var(--text3)';
       resultEl.textContent = '⏳ 测试中...';
       try {
-        var response = await fetch(config.baseUrl, {
+        var response = await fetch(getAiChatCompletionsUrl(config.baseUrl), {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + config.apiKey },
           body: JSON.stringify({ model: config.model || 'Qwen/Qwen3-8B', messages: [{ role: 'user', content: 'hi' }], max_tokens: 5 })
@@ -4986,10 +4991,7 @@
           });
         } else {
           // GitHub Pages 直接调用（API Key 在 localStorage 中）
-          var apiUrl = config.baseUrl;
-          if (apiUrl && !apiUrl.endsWith('/chat/completions')) {
-            apiUrl = apiUrl + '/chat/completions';
-          }
+          var apiUrl = getAiChatCompletionsUrl(config.baseUrl);
           response = await fetch(apiUrl, {
             method: 'POST',
             headers: {
