@@ -34,6 +34,18 @@ test("browser sync uses Firebase Web SDK Google auth and uid-scoped ledger", fun
   assert.doesNotMatch(template, /api\.github\.com\/gists|GIST_TOKEN_KEY|qdii-gist-token/);
 });
 
+test("Chrome migration increments the cloud revision and verifies the committed ledger", function () {
+  const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  assert.match(source, /async function readLedgerAt\(target\)/);
+  assert.match(source, /const remoteLedger = await readLedgerAt\(target\);/);
+  assert.match(source, /remoteLedger \? Number\(remoteLedger\.revision\) : 0/);
+  assert.match(source, /expectedChecksum !== undefined && remoteChecksum !== expectedChecksum/);
+  assert.match(source, /const verifiedLedger = await readLedgerAt\(target\);/);
+  assert.match(source, /READBACK_MISMATCH/);
+  assert.match(source, /migrateLegacyPortfolio\(portfolio, Number\(expectedCloudRevision\) \+ 1\)/);
+  assert.match(source, /nextRevision: cloudRevision \+ 1/);
+});
+
 test("personalized decision state is uid-scoped and never initialized silently", function () {
   const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
   assert.match(source, /users.*uid.*decisionState/s);

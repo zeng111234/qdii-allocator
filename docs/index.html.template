@@ -4133,6 +4133,44 @@
       }
     }
 
+    function downloadMigrationBackup(legacy, preview) {
+      var payload = {
+        schemaVersion: 1,
+        exportedAt: new Date().toISOString(),
+        purpose: 'Chrome 到 Firebase 账本迁移前备份',
+        chrome: legacy,
+        cloudLedger: window.QdiiCloudSync.getCurrentLedger(),
+        preview: {
+          rawFundCount: preview.rawFundCount,
+          activeFundCount: preview.activeFundCount,
+          transactionCount: preview.transactionCount,
+          totalInvested: preview.totalInvested,
+          cloudRevision: preview.cloudRevision,
+          cloudChecksum: preview.cloudChecksum,
+          nextRevision: preview.nextRevision
+        }
+      };
+      var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      var url = URL.createObjectURL(blob);
+      var link = document.createElement('a');
+      link.href = url;
+      link.download = 'qdii-migration-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      setTimeout(function () { URL.revokeObjectURL(url); }, 0);
+    }
+
+    function formatMigrationError(error) {
+      var code = error && error.message ? error.message : String(error || 'UNKNOWN_ERROR');
+      if (code === 'REVISION_CONFLICT') return '云端账本在预览后发生变化，未覆盖，请先云端刷新后重新预览。云端数据未改变。';
+      if (code === 'OFFLINE_READ_ONLY') return '当前离线，不能覆盖云端账本。云端数据未改变。';
+      if (code === 'AUTH_REQUIRED') return '请先使用 Google 登录后再迁移。云端数据未改变。';
+      if (code === 'READBACK_MISMATCH') return '写入后回读校验失败，请立即云端刷新并导出核对；页面不会把它当作成功。';
+      if (code === 'INVALID_CHROME_PORTFOLIO') return 'Chrome 持仓存在无效或重复项目，未写入云端。';
+      return '未完成迁移（' + code + '）。云端数据未改变。';
+    }
+
     async function firebaseMigrateChrome() {
       if (!window.QdiiCloudSync) { showToast('Firebase SDK 尚未加载', true); return; }
       var raw = localStorage.getItem(STORAGE_KEY);
@@ -4140,14 +4178,21 @@
       try {
         var legacy = JSON.parse(raw);
         var preview = await window.QdiiCloudSync.previewLegacy(legacy);
-        var message = 'Chrome 迁移预览\n基金：' + preview.fundCount + '只\n交易：' + preview.transactionCount +
-          '笔\n总投入：' + preview.totalInvested + '元\n校验和：' + preview.checksum +
-          '\n云端 revision：' + preview.cloudRevision + '\n\n确认后 Chrome 将作为权威源覆盖旧云端账本。继续？';
+        if (preview.invalidHoldings.length > 0) {
+          showToast('迁移预览未通过：Chrome 原始' + preview.rawFundCount + '只、有效' + preview.activeFundCount +
+            '只；请先处理无效或重复项目。', true);
+          return;
+        }
+        var message = 'Chrome 迁移预览\nChrome 原始基金：' + preview.rawFundCount + '只\n有效持仓：' + preview.activeFundCount +
+          '只\n交易：' + preview.transactionCount + '笔\n总投入：' + preview.totalInvested + '元\nChrome 校验和：' + preview.checksum +
+          '\n云端 revision：' + preview.cloudRevision + '\n目标 revision：' + preview.nextRevision +
+          '\n\n确认后将先下载迁移备份，再用 Chrome 覆盖旧云端账本。继续？';
         if (!confirm(message)) return;
-        await window.QdiiCloudSync.overwriteWithLegacy(legacy, preview.cloudRevision);
-        showToast('Chrome 账本迁移完成；云端 revision=1');
+        downloadMigrationBackup(legacy, preview);
+        var result = await window.QdiiCloudSync.overwriteWithLegacy(legacy, preview.cloudRevision, preview.cloudChecksum);
+        showToast('Chrome 账本迁移完成：' + preview.activeFundCount + '只；云端 revision=' + result.revision);
       } catch (error) {
-        showToast('迁移失败：' + error.message, true);
+        showToast('迁移失败：' + formatMigrationError(error), true);
       }
     }
 

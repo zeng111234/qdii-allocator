@@ -45,10 +45,15 @@ async function checksumTransactions(transactions) {
 
 async function migrateLegacyPortfolio(portfolio, revision) {
   const drafts = [];
-  ((portfolio && portfolio.holdings) || []).slice().sort(function (a, b) { return a.code.localeCompare(b.code); }).forEach(function (holding) {
+  const fundNames = {};
+  ((portfolio && portfolio.holdings) || []).slice().sort(function (a, b) {
+    return String((a && a.code) || "").localeCompare(String((b && b.code) || ""));
+  }).forEach(function (holding) {
+    const code = String((holding && holding.code) || "").trim();
+    if (code && holding.name) fundNames[code] = String(holding.name).trim();
     (holding.buys || []).forEach(function (buy) {
       drafts.push(canonicalTransaction({
-        type: "BUY", code: holding.code, tradeDate: buy.tradeDate || buy.date, settleDate: buy.settleDate,
+        type: "BUY", code: code, tradeDate: buy.tradeDate || buy.date, settleDate: buy.settleDate,
         amount: buy.amount, nav: buy.nav, shares: buy.shares, createdAt: buy.createdAt
       }));
     });
@@ -66,7 +71,7 @@ async function migrateLegacyPortfolio(portfolio, revision) {
   }
   const ledger = {
     schemaVersion: 2, revision: Number(revision || 1), updatedAt: new Date().toISOString(),
-    transactions: drafts
+    transactions: drafts, fundNames: fundNames
   };
   ledger.checksum = await checksumTransactions(ledger.transactions);
   return ledger;
@@ -86,10 +91,13 @@ async function validateLedger(ledger) {
 
 function derivePortfolio(ledger) {
   const holdings = {};
+  const fundNames = (ledger && ledger.fundNames) || {};
   ledger.transactions.forEach(function (transaction) {
     const tx = canonicalTransaction(transaction);
     const sign = tx.type === "SELL" ? -1 : 1;
-    if (!holdings[tx.code]) holdings[tx.code] = { code: tx.code, buys: [], totalAmount: 0, totalShares: 0 };
+    if (!holdings[tx.code]) holdings[tx.code] = {
+      code: tx.code, name: fundNames[tx.code] || "", buys: [], totalAmount: 0, totalShares: 0
+    };
     holdings[tx.code].totalAmount += sign * tx.amount;
     holdings[tx.code].totalShares += sign * tx.shares;
     holdings[tx.code].buys.push({
@@ -157,18 +165,18 @@ async function loadLedger() {
     return currentLedger;
   }
   const results = await Promise.all([
-    get(ref(database, ledgerPath(currentUser.uid))),
+    readLedgerAt(ref(database, ledgerPath(currentUser.uid))),
     get(ref(database, decisionStatePath(currentUser.uid)))
   ]);
   const ledgerResult = results[0];
   const decisionResult = results[1];
-  if (!ledgerResult.exists()) {
+  if (!ledgerResult) {
     currentLedger = null;
     currentDecisionState = null;
     emit("qdii-cloud-state", { status: "EMPTY", source: "云端", uid: currentUser.uid });
     return null;
   }
-  currentLedger = await validateLedger(ledgerResult.val());
+  currentLedger = ledgerResult;
   currentDecisionState = decisionResult.exists() ? normalizeDecisionState(decisionResult.val()) : null;
   saveSnapshot(currentUser.uid, currentLedger);
   saveDecisionSnapshot(currentUser.uid, currentDecisionState);
@@ -176,18 +184,38 @@ async function loadLedger() {
   return currentLedger;
 }
 
-async function writeLedger(nextLedger, expectedRevision) {
+async function readLedgerAt(target) {
+  const snapshot = await get(target);
+  return snapshot.exists() ? validateLedger(snapshot.val()) : null;
+}
+
+async function writeLedger(nextLedger, expectedRevision, expectedChecksum) {
   if (!currentUser) throw new Error("AUTH_REQUIRED");
   if (!navigator.onLine) throw new Error("OFFLINE_READ_ONLY");
   await validateLedger(nextLedger);
   const target = ref(database, ledgerPath(currentUser.uid));
+  const remoteLedger = await readLedgerAt(target);
+  const remoteRevision = remoteLedger ? Number(remoteLedger.revision) : 0;
+  const remoteChecksum = remoteLedger ? remoteLedger.checksum : null;
+  if (remoteRevision !== Number(expectedRevision) ||
+      (expectedChecksum !== undefined && remoteChecksum !== expectedChecksum)) {
+    throw new Error("REVISION_CONFLICT");
+  }
+  if (Number(nextLedger.revision) !== Number(expectedRevision) + 1) throw new Error("INVALID_NEXT_REVISION");
   const result = await runTransaction(target, function (existing) {
     const actualRevision = existing ? Number(existing.revision) : 0;
-    if (actualRevision !== Number(expectedRevision)) return;
+    const actualChecksum = existing ? existing.checksum : null;
+    if (actualRevision !== Number(expectedRevision) ||
+        (expectedChecksum !== undefined && actualChecksum !== expectedChecksum)) return;
     return nextLedger;
   }, { applyLocally: false });
   if (!result.committed) throw new Error("REVISION_CONFLICT");
-  currentLedger = nextLedger;
+  const verifiedLedger = await readLedgerAt(target);
+  if (!verifiedLedger || verifiedLedger.checksum !== nextLedger.checksum ||
+      Number(verifiedLedger.revision) !== Number(nextLedger.revision)) {
+    throw new Error("READBACK_MISMATCH");
+  }
+  currentLedger = verifiedLedger;
   saveSnapshot(currentUser.uid, currentLedger);
   emitLedger("Firebase 云端", false);
   return currentLedger;
@@ -236,24 +264,45 @@ async function saveLegacyPortfolio(portfolio) {
   if (Array.from(previousIds).some(function (id) { return !migratedIds.has(id); })) throw new Error("IMMUTABLE_LEDGER_DELETE_FORBIDDEN");
   migrated.updatedAt = new Date().toISOString();
   migrated.checksum = await checksumTransactions(migrated.transactions);
-  return writeLedger(migrated, currentLedger.revision);
+  return writeLedger(migrated, currentLedger.revision, currentLedger.checksum);
 }
 
 async function previewLegacy(portfolio) {
-  const ledger = await migrateLegacyPortfolio(portfolio, 1);
+  const holdings = ((portfolio && portfolio.holdings) || []);
+  const invalidHoldings = [];
+  const codes = new Set();
+  holdings.forEach(function (holding, index) {
+    const code = String((holding && holding.code) || "").trim();
+    if (!code) invalidHoldings.push({ index: index + 1, code: "-", reason: "MISSING_CODE" });
+    else if (codes.has(code)) invalidHoldings.push({ index: index + 1, code: code, reason: "DUPLICATE_CODE" });
+    else codes.add(code);
+    if (!holding || !Array.isArray(holding.buys) || holding.buys.length === 0) {
+      invalidHoldings.push({ index: index + 1, code: code || "-", reason: "MISSING_TRANSACTIONS" });
+    }
+  });
+  const cloudRevision = currentLedger ? Number(currentLedger.revision) : 0;
+  const ledger = await migrateLegacyPortfolio(portfolio, cloudRevision + 1);
+  const activeFundCount = derivePortfolio(ledger).holdings.length;
+  if (activeFundCount !== holdings.length) {
+    invalidHoldings.push({ index: 0, code: "-", reason: "ACTIVE_FUND_COUNT_MISMATCH" });
+  }
   return {
     ledger: ledger,
-    fundCount: ((portfolio && portfolio.holdings) || []).length,
+    rawFundCount: holdings.length,
+    activeFundCount: activeFundCount,
+    invalidHoldings: invalidHoldings,
     transactionCount: ledger.transactions.length,
     totalInvested: ledger.transactions.reduce(function (sum, tx) { return sum + (tx.type === "BUY" ? tx.amount : -tx.amount); }, 0),
     checksum: ledger.checksum,
-    cloudRevision: currentLedger ? currentLedger.revision : 0
+    cloudRevision: cloudRevision,
+    cloudChecksum: currentLedger ? currentLedger.checksum : null,
+    nextRevision: cloudRevision + 1
   };
 }
 
-async function overwriteWithLegacy(portfolio, expectedCloudRevision) {
-  const ledger = await migrateLegacyPortfolio(portfolio, 1);
-  return writeLedger(ledger, expectedCloudRevision);
+async function overwriteWithLegacy(portfolio, expectedCloudRevision, expectedCloudChecksum) {
+  const ledger = await migrateLegacyPortfolio(portfolio, Number(expectedCloudRevision) + 1);
+  return writeLedger(ledger, expectedCloudRevision, expectedCloudChecksum);
 }
 
 async function signIn() {

@@ -187,6 +187,18 @@ test("cloud ledger holdings fall back to the public fund name when names are not
   assert.match(extractFunction("updateHoldings"), /getHoldingDisplayName\(h, fund\)/);
 });
 
+test("migration preview requires a valid active Chrome portfolio and shows the verified revision", function () {
+  const source = extractFunction("firebaseMigrateChrome");
+  assert.match(source, /preview\.rawFundCount/);
+  assert.match(source, /preview\.activeFundCount/);
+  assert.match(source, /preview\.nextRevision/);
+  assert.match(source, /下载迁移备份/);
+  assert.match(source, /overwriteWithLegacy\(legacy, preview\.cloudRevision, preview\.cloudChecksum\)/);
+  assert.match(source, /云端 revision=' \+ result\.revision/);
+  assert.match(source, /formatMigrationError\(error\)/);
+  assert.match(extractFunction("formatMigrationError"), /云端数据未改变/);
+});
+
 test("AI connection test and chat use the same normalized chat-completions URL", function () {
   const ctx = loadHelpers(["getAiChatCompletionsUrl"]);
   assert.equal(ctx.getAiChatCompletionsUrl("https://api.example.com/v1"), "https://api.example.com/v1/chat/completions");
