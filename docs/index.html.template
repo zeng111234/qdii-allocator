@@ -1125,6 +1125,13 @@
         '<span><span style="display:inline-block;width:16px;height:0;border-top:1px solid rgba(148,163,184,0.4);vertical-align:middle;margin-right:4px"></span>盈亏线 0%</span>';
     }
 
+    function getHoldingDisplayName(holding, fund) {
+      var savedName = holding && holding.name ? String(holding.name).trim() : '';
+      if (savedName) return savedName;
+      if (fund && fund.name) return fund.name;
+      return holding && holding.code ? holding.code : '未知基金';
+    }
+
     function updateHoldings() {
       var c = document.getElementById('holdings');
       if (!portfolioData.holdings.length) {
@@ -1180,7 +1187,7 @@
 
         html += '<div class="holding-row" onclick="toggleDetail(' + i + ')">';
         html += '<div class="holding-top">';
-        html += '<div><span class="holding-name">' + h.name + '</span><span class="holding-code">' + h.code + '</span></div>';
+        html += '<div><span class="holding-name">' + getHoldingDisplayName(h, fund) + '</span><span class="holding-code">' + h.code + '</span></div>';
         html += '<div class="holding-pnl"><div class="amount ' + cls + '">' + sign + pnl.toFixed(2) + '</div>';
         html += '<div class="rate ' + cls + '">' + sign + pnlPct.toFixed(2) + '%</div></div>';
         html += '</div>';

@@ -179,6 +179,14 @@ test("stale external signals stay visible with a non-trading disclaimer", functi
   assert.match(template, /不参与加仓或预算计算/);
 });
 
+test("cloud ledger holdings fall back to the public fund name when names are not stored", function () {
+  const ctx = loadHelpers(["getHoldingDisplayName"]);
+  assert.equal(ctx.getHoldingDisplayName({ code: "017641" }, { name: "摩根标普500指数(QDII)A" }), "摩根标普500指数(QDII)A");
+  assert.equal(ctx.getHoldingDisplayName({ code: "017641", name: "已存名称" }, { name: "公共名称" }), "已存名称");
+  assert.equal(ctx.getHoldingDisplayName({ code: "017641" }, null), "017641");
+  assert.match(extractFunction("updateHoldings"), /getHoldingDisplayName\(h, fund\)/);
+});
+
 test("chat history is scoped to plan date and action", function () {
   const storage = new Map([
     ["qdii-ai-chat", JSON.stringify([{ role: "assistant", content: "old BUY answer" }])],
