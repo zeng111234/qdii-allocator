@@ -12104,7 +12104,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 2.28,
-          "followUp10dReturn": null
+          "followUp10dReturn": 1.57
         },
         {
           "rank": 2,
@@ -12214,7 +12214,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 0.38,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.13
         },
         {
           "rank": 7,
@@ -12236,7 +12236,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -0.54,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.86
         },
         {
           "rank": 8,
@@ -12258,7 +12258,7 @@
             "longTermTrend": "neutral"
           },
           "followUp5dReturn": 0.25,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.61
         },
         {
           "rank": 9,
@@ -12302,7 +12302,7 @@
             "longTermTrend": "neutral"
           },
           "followUp5dReturn": 0.48,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.81
         }
       ],
       "allScores": [
@@ -12674,7 +12674,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": 0.02,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.03
         },
         {
           "rank": 7,
@@ -13588,6 +13588,59 @@
           "name": "富国全球科技互联网股票(QDII)A",
           "score": 60.25,
           "suitabilityScore": 60.25,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
+    },
+    {
+      "date": "2026-07-27",
+      "strategy": "RecommendationPlan",
+      "strategyVersion": "allocation-v2.1-balanced",
+      "allocationWeek": "2026-07-27",
+      "action": "PAUSE",
+      "budget": 0,
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-07-24",
+        "maxTradingDayLag": 2,
+        "observationCount": 4
+      },
+      "signalHealth": {
+        "status": "WARMING_UP",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 72.08,
+          "suitabilityScore": 72.08,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "539002",
+          "name": "建信新兴市场优选QDII-A",
+          "score": 62.17,
+          "suitabilityScore": 62.17,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
