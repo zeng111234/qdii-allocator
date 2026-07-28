@@ -13046,7 +13046,7 @@
             "longTermTrend": "bear"
           },
           "followUp5dReturn": -3.17,
-          "followUp10dReturn": null
+          "followUp10dReturn": -7.51
         },
         {
           "rank": 3,
@@ -13090,7 +13090,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.23,
-          "followUp10dReturn": null
+          "followUp10dReturn": -3.43
         },
         {
           "rank": 5,
@@ -13112,7 +13112,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -0.23,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.92
         },
         {
           "rank": 6,
@@ -13134,7 +13134,7 @@
             "longTermTrend": "bear"
           },
           "followUp5dReturn": -0.71,
-          "followUp10dReturn": null
+          "followUp10dReturn": -3.3
         },
         {
           "rank": 7,
@@ -13156,7 +13156,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.95,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.34
         },
         {
           "rank": 8,
@@ -13178,7 +13178,7 @@
             "longTermTrend": "bear"
           },
           "followUp5dReturn": -0.39,
-          "followUp10dReturn": null
+          "followUp10dReturn": 1.18
         },
         {
           "rank": 9,
@@ -13222,7 +13222,7 @@
             "longTermTrend": "neutral"
           },
           "followUp5dReturn": -6.38,
-          "followUp10dReturn": null
+          "followUp10dReturn": -4.08
         }
       ],
       "allScores": [
@@ -13474,7 +13474,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.64,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.69
         },
         {
           "rank": 2,
@@ -13485,7 +13485,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.25,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.87
         }
       ]
     },
@@ -13526,7 +13526,7 @@
           "suitabilityScore": 73.42,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.01,
           "followUp10dReturn": null
         },
         {
@@ -13537,7 +13537,7 @@
           "suitabilityScore": 48.75,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 2.15,
           "followUp10dReturn": null
         }
       ]
@@ -13657,7 +13657,7 @@
       "budget": 0,
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-07-27",
+        "latestNavDate": "2026-07-28",
         "maxTradingDayLag": 2,
         "observationCount": 4
       },
@@ -13669,9 +13669,9 @@
           "averageReturn": null
         },
         "shadow": {
-          "count": 0,
-          "winRate": null,
-          "averageReturn": null
+          "count": 2,
+          "winRate": 100,
+          "averageReturn": 1.08
         },
         "breakerTriggered": false,
         "recovered": false
@@ -13681,8 +13681,8 @@
           "rank": 1,
           "code": "096001",
           "name": "大成标普500A(QDII)",
-          "score": 63.17,
-          "suitabilityScore": 63.17,
+          "score": 66.25,
+          "suitabilityScore": 66.25,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -13692,8 +13692,8 @@
           "rank": 2,
           "code": "000369",
           "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 61.5,
-          "suitabilityScore": 61.5,
+          "score": 60.92,
+          "suitabilityScore": 60.92,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
