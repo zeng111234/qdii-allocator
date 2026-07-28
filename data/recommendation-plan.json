@@ -4,7 +4,7 @@
   "allocationWeek": "2026-07-27",
   "syncRevision": 0,
   "riskAnchorValue": null,
-  "asOf": "2026-07-27",
+  "asOf": "2026-07-28",
   "action": "PAUSE",
   "pauseReasons": [
     "LIVE_DISABLED",
@@ -13,7 +13,7 @@
   "dataFreshness": {
     "status": "FRESH",
     "latestNavDate": "2026-07-27",
-    "maxTradingDayLag": 1,
+    "maxTradingDayLag": 2,
     "observationCount": 4
   },
   "budget": 0,
