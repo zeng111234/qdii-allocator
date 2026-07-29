@@ -13024,7 +13024,7 @@
             "longTermTrend": "bull"
           },
           "followUp5dReturn": -1.23,
-          "followUp10dReturn": null
+          "followUp10dReturn": 1.03
         },
         {
           "rank": 2,
@@ -13694,6 +13694,59 @@
           "name": "广发全球医疗保健指数人民币(QDII)A",
           "score": 60.92,
           "suitabilityScore": 60.92,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
+    },
+    {
+      "date": "2026-07-29",
+      "strategy": "RecommendationPlan",
+      "strategyVersion": "allocation-v2.1-balanced",
+      "allocationWeek": "2026-07-27",
+      "action": "PAUSE",
+      "budget": 0,
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-07-28",
+        "maxTradingDayLag": 2,
+        "observationCount": 4
+      },
+      "signalHealth": {
+        "status": "WARMING_UP",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 2,
+          "winRate": 100,
+          "averageReturn": 1.08
+        },
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "096001",
+          "name": "大成标普500A(QDII)",
+          "score": 66.17,
+          "suitabilityScore": 66.17,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 62.67,
+          "suitabilityScore": 62.67,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
