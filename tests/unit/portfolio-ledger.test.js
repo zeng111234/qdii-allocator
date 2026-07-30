@@ -58,3 +58,18 @@ test("stable transaction ids do not depend on Chrome holding order", function ()
   const options = { revision: 1, updatedAt: "2026-07-17T00:00:00.000Z" };
   assert.equal(ledger.migrateLegacyPortfolio(left, options).checksum, ledger.migrateLegacyPortfolio(right, options).checksum);
 });
+
+test("zero-share buys stay visible as pending reconciliation instead of becoming fake holdings", function () {
+  const source = ledger.createLedger([
+    { id: "settled", type: "BUY", code: "A", tradeDate: "2026-07-01", amount: 100, nav: 10, shares: 10 },
+    { id: "pending", type: "BUY", code: "B", tradeDate: "2026-07-16", amount: 50, nav: 0, shares: 0 }
+  ], { revision: 2, updatedAt: "2026-07-17T00:00:00.000Z" });
+
+  const portfolio = ledger.derivePortfolio(source);
+  assert.deepEqual(portfolio.holdings.map(function (holding) { return holding.code; }), ["A"]);
+  assert.equal(portfolio.pendingHoldings.length, 1);
+  assert.equal(portfolio.pendingHoldings[0].code, "B");
+  assert.equal(portfolio.pendingInvested, 50);
+  assert.equal(portfolio.confirmedInvested, 100);
+  assert.equal(portfolio.totalInvested, 150);
+});

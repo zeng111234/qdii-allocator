@@ -13,6 +13,7 @@ const configured = [config.apiKey, config.authDomain, config.databaseURL, config
 const snapshotPrefix = "qdii-ledger-snapshot-v2:";
 const decisionSnapshotPrefix = "qdii-decision-state-v1:";
 const strategySnapshotPrefix = "qdii-strategy-state-v1:";
+const publicDecisionStateKey = "qdii-public-decision-state-v1";
 let auth = null;
 let database = null;
 let currentLedger = null;
@@ -98,16 +99,30 @@ function derivePortfolio(ledger) {
     const tx = canonicalTransaction(transaction);
     const sign = tx.type === "SELL" ? -1 : 1;
     if (!holdings[tx.code]) holdings[tx.code] = {
-      code: tx.code, name: fundNames[tx.code] || "", buys: [], totalAmount: 0, totalShares: 0
+      code: tx.code, name: fundNames[tx.code] || "", buys: [], totalAmount: 0, totalShares: 0, pendingBuys: [], pendingAmount: 0
     };
-    holdings[tx.code].totalAmount += sign * tx.amount;
-    holdings[tx.code].totalShares += sign * tx.shares;
-    holdings[tx.code].buys.push({
+    const holding = holdings[tx.code];
+    holding.totalAmount += sign * tx.amount;
+    holding.totalShares += sign * tx.shares;
+    const buy = {
       id: tx.id, date: tx.tradeDate, settleDate: tx.settleDate,
       type: tx.type, amount: sign * tx.amount, nav: tx.nav, shares: sign * tx.shares
-    });
+    };
+    holding.buys.push(buy);
+    if (tx.type === "BUY" && tx.amount > 0 && tx.shares === 0) {
+      holding.pendingBuys.push(buy);
+      holding.pendingAmount += tx.amount;
+    }
   });
-  return { holdings: Object.values(holdings).filter(function (holding) { return holding.totalShares > 0 || holding.totalAmount > 0; }) };
+  const allHoldings = Object.values(holdings);
+  const pendingHoldings = allHoldings.filter(function (holding) { return holding.pendingAmount > 0; }).map(function (holding) {
+    return { code: holding.code, name: holding.name, totalAmount: holding.pendingAmount, buys: holding.pendingBuys };
+  });
+  return {
+    holdings: allHoldings.filter(function (holding) { return holding.totalShares > 0; }),
+    pendingHoldings: pendingHoldings,
+    pendingInvested: pendingHoldings.reduce(function (sum, holding) { return sum + holding.totalAmount; }, 0)
+  };
 }
 
 function ledgerPath(uid) {
@@ -165,6 +180,32 @@ function saveDecisionSnapshot(uid, state) {
 function saveStrategySnapshot(uid, state) {
   if (state) localStorage.setItem(strategySnapshotPrefix + uid, JSON.stringify(state));
   else localStorage.removeItem(strategySnapshotPrefix + uid);
+}
+
+function loadPublicDecisionState() {
+  const saved = localStorage.getItem(publicDecisionStateKey);
+  return saved ? normalizeDecisionState(JSON.parse(saved)) : null;
+}
+
+function initializePublicRiskAnchor(value, ledgerRevision) {
+  if (currentDecisionState && Number(currentDecisionState.riskAnchorValue) > 0) throw new Error("RISK_ANCHOR_ALREADY_SET");
+  if (!currentLedger || Number(currentLedger.revision) !== Number(ledgerRevision)) throw new Error("LEDGER_REVISION_CONFLICT");
+  const riskAnchorValue = Number(value);
+  if (!(riskAnchorValue > 0)) throw new Error("INVALID_RISK_ANCHOR");
+  const now = new Date().toISOString();
+  currentDecisionState = normalizeDecisionState({
+    schemaVersion: 2,
+    revision: 1,
+    updatedAt: now,
+    riskAnchorValue: riskAnchorValue,
+    riskAnchorAt: now,
+    riskAnchorLedgerRevision: Number(currentLedger.revision),
+    riskAnchorTransactionIds: currentLedger.transactions.map(function (transaction) { return String(transaction.id); }).filter(Boolean).sort(),
+    cashBalance: 0
+  });
+  localStorage.setItem(publicDecisionStateKey, JSON.stringify(currentDecisionState));
+  emitLedger("公开只读快照", true);
+  return currentDecisionState;
 }
 
 function emitLedger(source, readOnly) {
@@ -408,7 +449,17 @@ async function signIn() {
 
 async function bootstrap() {
   if (window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true) {
+    const publicLedger = window.QDII_PUBLIC_PORTFOLIO_LEDGER;
     emit("qdii-cloud-state", { status: "PUBLIC_SNAPSHOT", source: "公开账本快照" });
+    if (!publicLedger) return;
+    try {
+      currentLedger = await validateLedger(publicLedger);
+      currentDecisionState = loadPublicDecisionState();
+      currentStrategyState = null;
+      emitLedger("公开只读快照", true);
+    } catch (error) {
+      emit("qdii-cloud-state", { status: "ERROR", source: "公开账本快照无效", error: error.message });
+    }
     return;
   }
   if (!configured) {
@@ -439,6 +490,7 @@ window.QdiiCloudSync = {
   loadLedger: loadLedger, saveLegacyPortfolio: saveLegacyPortfolio,
   previewLegacy: previewLegacy, overwriteWithLegacy: overwriteWithLegacy,
   initializeRiskAnchor: initializeRiskAnchor,
+  initializePublicRiskAnchor: initializePublicRiskAnchor,
   getCurrentLedger: function () { return currentLedger; },
   getCurrentDecisionState: function () { return currentDecisionState; }
 };

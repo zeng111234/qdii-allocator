@@ -775,6 +775,7 @@
 
   <script>
     window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT = QDII_PUBLIC_PORTFOLIO_SNAPSHOT_PLACEHOLDER;
+    window.QDII_PUBLIC_PORTFOLIO_LEDGER = PUBLIC_PORTFOLIO_LEDGER_PLACEHOLDER;
     window.QDII_FIREBASE_CONFIG = {
       apiKey: 'FIREBASE_WEB_API_KEY_PLACEHOLDER',
       authDomain: 'FIREBASE_AUTH_DOMAIN_PLACEHOLDER',
@@ -928,6 +929,10 @@
       });
       var pnl = Math.round((totalVal - totalInv) * 100) / 100;
       var todayPnl = Math.round((totalVal - totalValPrev) * 100) / 100;
+      var pendingHoldings = Array.isArray(portfolioData.pendingHoldings) ? portfolioData.pendingHoldings : [];
+      var reconciliationPending = pendingHoldings.reduce(function(sum, holding) {
+        return sum + (Number(holding.totalAmount) || 0);
+      }, 0);
       var hasPrevData = false;
       portfolioData.holdings.forEach(function(h) { if (getPrevNav(h.code)) hasPrevData = true; });
       // 生成日期标签：最新净值日期 vs 前一交易日
@@ -944,7 +949,8 @@
       }
       return {
         invested: Math.round(totalInv * 100) / 100,
-        pending: Math.round(pendingInv * 100) / 100,
+        pending: Math.round(Math.max(pendingInv, reconciliationPending) * 100) / 100,
+        pendingCount: pendingHoldings.length,
         value: Math.round(totalVal * 100) / 100,
         pnl: pnl,
         todayPnl: todayPnl,
@@ -962,13 +968,16 @@
       var todayCls = s.todayPnl >= 0 ? 'positive' : 'negative';
       var todaySign = s.todayPnl >= 0 ? '+' : '';
       var todayStr = s.hasPrevData ? (todaySign + s.todayPnl) : '--';
+      var pendingNotice = s.pending > 0
+        ? '<div style="grid-column:1/-1;margin-top:8px;padding:8px 10px;background:var(--state-yellow-bg);border:1px solid var(--state-yellow-border);border-radius:8px;font-size:12px;color:var(--state-yellow-text)">⚠️ 另有 ' + s.pendingCount + ' 只/笔待核验交易，共 ' + s.pending + ' 元，未计入当前市值与盈亏；请用基金平台确认净值和份额。</div>'
+        : '';
       document.getElementById('summary').innerHTML =
-        '<div class="summary-item"><div class="label">总投入</div><div class="value">' + s.invested + '</div></div>' +
+        '<div class="summary-item"><div class="label">已确认投入</div><div class="value">' + s.invested + '</div></div>' +
         '<div class="summary-item"><div class="label">当前市值</div><div class="value">' + s.value + '</div></div>' +
         '<div class="summary-item"><div class="label">总盈亏</div><div class="value ' + cls + '">' + sign + s.pnl + '</div></div>' +
         '<div class="summary-item"><div class="label">' + s.pnlLabel + '</div><div class="value ' + todayCls + '">' + todayStr + '</div></div>' +
         '<div class="summary-item"><div class="label">持仓</div><div class="value">' + s.count + '只</div></div>' +
-        '<div class="summary-item"><div class="label">净值日期</div><div class="value" style="font-size:12px">' + (s.latestDate || '--') + '</div></div>';
+        '<div class="summary-item"><div class="label">净值日期</div><div class="value" style="font-size:12px">' + (s.latestDate || '--') + '</div></div>' + pendingNotice;
 
       // 渲染收益曲线图
       renderPortfolioChart();
@@ -1143,6 +1152,13 @@
       }
       var html = '';
       var grandInv = 0, grandVal = 0;
+      var pendingHoldings = Array.isArray(portfolioData.pendingHoldings) ? portfolioData.pendingHoldings : [];
+      if (pendingHoldings.length) {
+        var pendingText = pendingHoldings.map(function(holding) {
+          return getHoldingDisplayName(holding, fundsData.funds.find(function(f) { return f.code === holding.code; })) + '(' + holding.code + ') ' + Number(holding.totalAmount || 0) + '元';
+        }).join('；');
+        html += '<div style="padding:10px 12px;margin-bottom:8px;background:var(--state-yellow-bg);border:1px solid var(--state-yellow-border);border-radius:10px;font-size:12px;color:var(--state-yellow-text)">⚠️ 待核验交易：' + pendingText + '。这不是已确认持仓，不纳入市值、盈亏或风险权重。</div>';
+      }
       // [fix] 按品类统计持仓集中度
       var categoryMap = {
         '纳指100':'美股科技','纳指生物科技':'美股科技','纳指科技':'美股科技',
@@ -3146,19 +3162,21 @@
       if (!button) return;
       var hasLedger = !!(detail && detail.ledger && Number(detail.ledger.revision) > 0);
       var hasAnchor = !!(detail && detail.decisionState && Number(detail.decisionState.riskAnchorValue) > 0);
-      button.style.display = hasLedger && !hasAnchor && detail.readOnly !== true ? 'inline-block' : 'none';
+      var publicSnapshot = window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true;
+      button.style.display = hasLedger && !hasAnchor && (detail.readOnly !== true || publicSnapshot) ? 'inline-block' : 'none';
     }
 
     function renderAnchorSetupCard(detail, plan) {
       var card = document.getElementById('decision-anchor-card');
       if (!card) return;
       var needsAnchor = !!(plan && plan.decisionMode === 'ACTION_REQUIRED' && plan.blockedStage === 'RISK_ANCHOR_SETUP');
-      var writable = !!(detail && detail.readOnly !== true && detail.ledger && Number(detail.ledger.revision) > 0);
-      if (!needsAnchor || !writable) { card.style.display = 'none'; return; }
+      var publicSnapshot = window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true;
+      var canInitialize = !!(detail && detail.ledger && Number(detail.ledger.revision) > 0 && (detail.readOnly !== true || publicSnapshot));
+      if (!needsAnchor || !canInitialize) { card.style.display = 'none'; return; }
       var value = Number(plan.portfolioRisk && plan.portfolioRisk.currentValue) || 0;
       card.innerHTML = '<div style="font-weight:700;margin-bottom:4px">⚓ 需要完成一次风险锚点初始化</div>'
-        + '<div>已校验云端账本 revision ' + Number(plan.syncRevision || 0) + '，将当前市值 ' + formatMetric(value) + ' 元作为后续回撤比较起点。</div>'
-        + '<div style="margin-top:4px">此操作不会买卖基金；完成后系统会立即重新计算可执行预算。</div>'
+        + '<div>已校验账本 revision ' + Number(plan.syncRevision || 0) + '，将当前市值 ' + formatMetric(value) + ' 元作为后续回撤比较起点。</div>'
+        + '<div style="margin-top:4px">此操作不会买卖基金；完成后系统会立即重新计算只读计划。' + (publicSnapshot ? '锚点仅保存在此浏览器。' : '') + '</div>'
         + '<button class="btn" style="margin-top:8px;width:auto;padding:6px 10px;background:var(--state-yellow-text);color:white;font-size:12px" onclick="firebaseSetRiskAnchor()">初始化并重新计算</button>';
       card.style.display = 'block';
     }
@@ -3235,13 +3253,20 @@
       var isWeekend = day === 0 || day === 6;
       var isTradeDay = !isHoliday && !isWeekend;
 
-      var executionReady = cloudWriteReady && actionAllowsPurchase(todayPicks);
+      var planAllowsPurchase = actionAllowsPurchase(todayPicks);
+      var executionReady = cloudWriteReady && planAllowsPurchase;
       if (isTradeDay && executionReady) {
         banner.style.display = 'block';
         banner.style.background = 'var(--state-green-bg)';
         banner.style.color = 'var(--state-green-text)';
         banner.style.border = '1px solid var(--state-green-border)';
         banner.innerHTML = '🟢 今天是交易日 · 个性化计划允许投入' + Number(todayPicks.budget || 0) + '元 · T日净值成交、T+2确认';
+      } else if (isTradeDay && planAllowsPurchase) {
+        banner.style.display = 'block';
+        banner.style.background = 'var(--state-blue-bg)';
+        banner.style.color = 'var(--primary)';
+        banner.style.border = '1px solid var(--state-blue-border)';
+        banner.innerHTML = '🔵 今天是交易日 · 公开只读计划建议 ' + Number(todayPicks.budget || 0) + '元 · 需在基金平台手动执行，页面不会写回账本';
       } else if (isTradeDay) {
         banner.style.display = 'block';
         banner.style.background = 'var(--state-yellow-bg)';
@@ -3277,9 +3302,10 @@
       var peData = mt.peData || {};
       var reason = mt.reason || '';
       // 市场温度只解释或降低预算；未同步或 PAUSE 时绝不能显示可投入金额。
-      var executionReady = cloudWriteReady && actionAllowsPurchase(todayPicks);
-      var adjustedBudget = executionReady ? Math.max(0, Number(todayPicks.budget) || 0) : 0;
-      var budgetStatus = executionReady ? (multiplier + 'x，仅作风险解释') : (cloudWriteReady ? 'PAUSE' : '未同步');
+      var planAllowsPurchase = actionAllowsPurchase(todayPicks);
+      var executionReady = cloudWriteReady && planAllowsPurchase;
+      var adjustedBudget = planAllowsPurchase ? Math.max(0, Number(todayPicks.budget) || 0) : 0;
+      var budgetStatus = executionReady ? (multiplier + 'x，仅作风险解释') : (planAllowsPurchase ? '只读建议，需手动执行' : (cloudWriteReady ? 'PAUSE' : '未同步'));
 
       // 颜色编码
       var tempColor, bgColor, emoji;
@@ -4227,8 +4253,13 @@
         '该操作不会买卖基金，是否继续？';
       if (!confirm(message)) return;
       try {
-        await window.QdiiCloudSync.initializeRiskAnchor(summary.value, currentCloudDetail.ledger.revision);
-        showToast('风险锚点已保存到Firebase');
+        if (currentCloudDetail.readOnly === true && window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true) {
+          await window.QdiiCloudSync.initializePublicRiskAnchor(summary.value, currentCloudDetail.ledger.revision);
+          showToast('风险锚点已保存在此浏览器；无需登录');
+        } else {
+          await window.QdiiCloudSync.initializeRiskAnchor(summary.value, currentCloudDetail.ledger.revision);
+          showToast('风险锚点已保存到Firebase');
+        }
       } catch (error) {
         showToast('风险锚点设置失败：' + error.message, true);
       }
@@ -4311,6 +4342,7 @@
         cloudWriteReady = false;
         updateSummary();
         updateHoldings();
+        if (currentCloudDetail) refreshPersonalizedPlan(currentCloudDetail);
         renderTradeBanner();
         renderTemperature();
         return;
@@ -4345,7 +4377,7 @@
       catch (error) { console.error('Local portfolio cache:', error.message); }
       cloudWriteReady = detail.readOnly !== true;
       renderCloudState({
-        status: detail.readOnly ? 'OFFLINE' : 'READY', source: detail.source,
+        status: detail.readOnly ? (window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true ? 'PUBLIC_SNAPSHOT' : 'OFFLINE') : 'READY', source: detail.source,
         revision: detail.ledger && detail.ledger.revision
       });
       updateSummary();
@@ -4353,7 +4385,7 @@
       updateHoldings();
       renderTradeBanner();
       renderTemperature();
-      showToast(detail.readOnly ? '已加载本地只读快照，不会覆盖云端' : '云端账本校验完成');
+      showToast(detail.readOnly ? (window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true ? '已加载公开只读账本，不会覆盖云端' : '已加载本地只读快照，不会覆盖云端') : '云端账本校验完成');
     });
 
     function loadNewsSentiment() {

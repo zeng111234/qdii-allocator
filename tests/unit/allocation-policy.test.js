@@ -42,6 +42,17 @@ test("same-index wrappers are one exposure and route across purchase limits", fu
   assert.equal(new Set(result.map(function (route) { return route.exposureKey; })).size, 1);
 });
 
+test("bucket exposure uses latest market value when shares and NAV are available", function () {
+  const result = allocation.calculateBucketExposure(
+    [{ code: "SPX", totalAmount: 100, totalShares: 10 }],
+    [{ code: "SPX", indexGroup: "SPX500" }],
+    0,
+    { SPX: [{ date: "2026-07-01", nav: 8 }] }
+  );
+  assert.equal(result.values.US_BROAD, 80);
+  assert.equal(result.totalValue, 80);
+});
+
 test("PAUSE, stale data, growth overweight and risk anchor stop deterministic spending", function () {
   const policy = allocation.createAllocationPolicy({ riskAnchorValue: 1000 });
   assert.equal(allocation.allowedBudget({ policy: policy, action: "PAUSE", currentValue: 1000 }), 0);

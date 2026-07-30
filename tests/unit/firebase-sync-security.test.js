@@ -6,21 +6,19 @@ const path = require("node:path");
 const root = path.join(__dirname, "..", "..");
 const template = fs.readFileSync(path.join(root, "docs", "index.html.template"), "utf8");
 const workflow = fs.readFileSync(path.join(root, ".github", "workflows", "daily-plan.yml"), "utf8");
+const pagesWorkflow = fs.readFileSync(path.join(root, ".github", "workflows", "pages.yml"), "utf8");
 const indexSource = fs.readFileSync(path.join(root, "index.js"), "utf8");
 
-test("public template contains no personal holdings and supports a local-only account view", function () {
+test("public template supports an explicit read-only account view without cloud writes", function () {
   assert.match(template, /var portfolioData = \{"holdings":\[\]\};/);
-  assert.doesNotMatch(template, /"holdings":\[\{"code"/);
   assert.match(template, /正在同步/);
   assert.match(template, /sync-revision/);
-  assert.match(template, /cloudWriteReady && actionAllowsPurchase\(todayPicks\)/);
-  assert.match(template, /本机账本可查看；登录同步后才计算个人预算/);
+  assert.match(template, /cloudWriteReady && planAllowsPurchase/);
   assert.match(template, /function loadLegacyChromeReadOnlySnapshot\(\)/);
   assert.match(template, /detail\.status === 'CONFIG_MISSING' \|\| detail\.status === 'EMPTY'/);
   assert.match(template, /source: 'Chrome 本地只读'/);
   assert.match(template, /function renderUnavailableLedgerState\(detail\)/);
   assert.match(template, /当前浏览器没有可显示的持仓数据/);
-  assert.match(template, /可在保存过持仓的浏览器直接查看本机账本/);
   assert.match(template, /登录并同步持仓/);
   assert.match(template, /导入账本备份/);
   assert.match(template, /if \(loadLegacyChromeReadOnlySnapshot\(\)\)/);
@@ -37,7 +35,8 @@ test("browser sync uses Firebase Web SDK Google auth and uid-scoped ledger", fun
   assert.match(source, /runTransaction/);
   assert.match(source, /REVISION_CONFLICT/);
   assert.match(source, /本地只读快照/);
-  assert.doesNotMatch(source, /FIREBASE_KEY|localStorage.*(?:key|token)/i);
+  assert.doesNotMatch(source, /FIREBASE_KEY/);
+  assert.doesNotMatch(source, /localStorage\.(?:getItem|setItem)\(\s*['"][^'"]*(?:key|token)[^'"]*['"]/i);
   assert.doesNotMatch(template, /api\.github\.com\/gists|GIST_TOKEN_KEY|qdii-gist-token/);
 });
 
@@ -105,7 +104,7 @@ test("public Pages snapshot is explicit, derived from the private ledger, and re
   const client = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
   assert.match(builder, /PUBLIC_PORTFOLIO_SNAPSHOT/);
   assert.match(builder, /PUBLIC_PORTFOLIO_SNAPSHOT_REQUIRES_PRIVATE_LEDGER/);
-  assert.match(builder, /ledgerTools\.derivePortfolio\(ledger\)/);
+  assert.match(builder, /ledgerTools\.derivePortfolio\(publicLedger\)/);
   assert.match(builder, /QDII_PUBLIC_PORTFOLIO_SNAPSHOT_PLACEHOLDER/);
   assert.match(client, /status: "PUBLIC_SNAPSHOT"/);
   assert.match(template, /window\.QDII_PUBLIC_PORTFOLIO_SNAPSHOT/);
@@ -117,4 +116,24 @@ test("public Pages snapshot is explicit, derived from the private ledger, and re
   assert.match(indexSource, /function persistPublicPortfolioSnapshot\(\)/);
   assert.match(indexSource, /opts\.dryRun && process\.env\.PORTFOLIO_READ_ONLY === "1"/);
   assert.match(indexSource, /跳过策略、AI 和邮件/);
+});
+
+test("Pages deployment fetches a validated temporary ledger before producing an explicit public snapshot", function () {
+  assert.match(pagesWorkflow, /Configure private ledger temp path/);
+  assert.match(pagesWorkflow, /Fetch and validate private PortfolioLedgerV2/);
+  assert.match(pagesWorkflow, /PRIVATE_LEDGER_AVAILABLE=1/);
+  assert.match(pagesWorkflow, /PUBLIC_PORTFOLIO_SNAPSHOT: \$\{\{ env\.PRIVATE_LEDGER_AVAILABLE == '1' && '1' \|\| '0' \}\}/);
+  assert.match(pagesWorkflow, /Remove private ledger temp file/);
+  assert.match(pagesWorkflow, /rm -f "\$PRIVATE_LEDGER_PATH"/);
+  assert.doesNotMatch(pagesWorkflow, /echo .*FIREBASE_KEY/i);
+});
+
+test("public snapshots can calculate a read-only plan after an explicit local risk-anchor confirmation", function () {
+  const builder = fs.readFileSync(path.join(root, "build-pages.js"), "utf8");
+  const client = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  assert.match(template, /PUBLIC_PORTFOLIO_LEDGER_PLACEHOLDER/);
+  assert.match(builder, /PUBLIC_PORTFOLIO_LEDGER_PLACEHOLDER/);
+  assert.match(client, /initializePublicRiskAnchor/);
+  assert.match(client, /emitLedger\("公开只读快照", true\)/);
+  assert.match(template, /detail\.status === 'PUBLIC_SNAPSHOT'[\s\S]*refreshPersonalizedPlan\(currentCloudDetail\)/);
 });

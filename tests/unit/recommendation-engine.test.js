@@ -171,6 +171,18 @@ test("plan treats same-index funds as routing wrappers rather than fake diversif
   assert.ok(plan.candidates.every(function (c) { return c.proposedAmount === 0; }));
 });
 
+test("market ranking exposes one entry per index group while retaining routing alternatives", function () {
+  const funds = [
+    { code: "A", name: "纳指A", type: "纳指100", indexGroup: "NDX100", status: "active", dailyLimit: 100, feeRate: 0.5 },
+    { code: "B", name: "纳指B", type: "纳指100", indexGroup: "NDX100", status: "active", dailyLimit: 100, feeRate: 0.8 },
+    { code: "C", name: "标普", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 100, feeRate: 0.6 }
+  ];
+  const navCache = { A: navSeries("2025-10-01", 288, 0.002), B: navSeries("2025-10-01", 288, 0.001), C: navSeries("2025-10-01", 288, 0.0015) };
+  const plan = engine.buildRecommendationPlan({ funds: funds, navCache: navCache, portfolio: { holdings: [] }, asOf: "2026-07-15", budget: 50, liveEnabled: false });
+  assert.equal(plan.marketRanking.filter(function (row) { return row.indexGroup === "NDX100"; }).length, 1);
+  assert.equal(plan.marketRanking.find(function (row) { return row.indexGroup === "NDX100"; }).channelCount, 2);
+});
+
 test("RecommendationPlanV2 exposes allocation, sync, anchor, routes and benchmark acceptance", function () {
   const plan = engine.buildRecommendationPlan({
     funds: [{ code: "A", name: "A", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 50, minPurchase: 10, feeRate: 0.5 }],

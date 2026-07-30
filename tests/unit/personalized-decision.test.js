@@ -112,6 +112,13 @@ test("signal breaker becomes capped tactical core DCA using the cloud ledger exp
   assert.equal(plan.budgetPolicy.tacticalWeeklyBudget, 50);
 });
 
+test("read-only snapshots can calculate a plan but cannot make cloud writes", function () {
+  const plan = decision.personalizePlan(baseInput({ readOnly: true }));
+  assert.equal(plan.action, "TACTICAL_PAUSE");
+  assert.equal(plan.budget, 10);
+  assert.equal(plan.readOnly, true);
+});
+
 test("fresh cross-source positive confirmation can raise tactical core DCA to 20 yuan", function () {
   const plan = decision.personalizePlan(baseInput({
     signalConfirmation: { status: "CONFIRMED", fresh: true, reason: "新闻与外部主题均偏多" }

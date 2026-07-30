@@ -33,19 +33,27 @@ function loadEnv() {
   return env;
 }
 
-function loadPublicPortfolioSnapshot(env) {
+function loadPublicLedger(env) {
   if (env.PUBLIC_PORTFOLIO_SNAPSHOT === "1") {
     const ledgerPath = env.PRIVATE_LEDGER_PATH;
     if (!ledgerPath || !fs.existsSync(ledgerPath)) {
       throw new Error("PUBLIC_PORTFOLIO_SNAPSHOT_REQUIRES_PRIVATE_LEDGER");
     }
-    const ledger = JSON.parse(fs.readFileSync(ledgerPath, "utf-8"));
+    const source = JSON.parse(fs.readFileSync(ledgerPath, "utf-8"));
+    const ledger = Number(source.schemaVersion) === 2 && Array.isArray(source.transactions)
+      ? source
+      : ledgerTools.migrateLegacyPortfolio(source, { revision: 1 });
     const validation = ledgerTools.validateLedger(ledger);
     if (!validation.valid) {
       throw new Error("INVALID_PUBLIC_PORTFOLIO_SNAPSHOT:" + validation.errors.join(","));
     }
-    return ledgerTools.derivePortfolio(ledger);
+    return ledger;
   }
+  return null;
+}
+
+function loadPublicPortfolioSnapshot(env, publicLedger) {
+  if (publicLedger) return ledgerTools.derivePortfolio(publicLedger);
   if (!fs.existsSync(RECOMMENDATION_PLAN)) return { holdings: [], startDate: null };
   const plan = JSON.parse(fs.readFileSync(RECOMMENDATION_PLAN, "utf-8"));
   const snapshot = plan.publicPortfolioSnapshot;
@@ -76,7 +84,8 @@ async function build() {
   // 读取模板
   let template = fs.readFileSync(TEMPLATE, "utf-8");
 
-  const portfolio = loadPublicPortfolioSnapshot(env);
+  const publicLedger = loadPublicLedger(env);
+  const portfolio = loadPublicPortfolioSnapshot(env, publicLedger);
   const publicPortfolioSnapshot = env.PUBLIC_PORTFOLIO_SNAPSHOT === "1" || portfolio.holdings.length > 0;
   console.log(publicPortfolioSnapshot
     ? "[构建] 已嵌入公开只读持仓快照：" + portfolio.holdings.length + "只基金"
@@ -117,6 +126,10 @@ async function build() {
   template = template.replace(
     "QDII_PUBLIC_PORTFOLIO_SNAPSHOT_PLACEHOLDER",
     publicPortfolioSnapshot ? "true" : "false"
+  );
+  template = template.replace(
+    "PUBLIC_PORTFOLIO_LEDGER_PLACEHOLDER",
+    JSON.stringify(publicLedger)
   );
   template = template.replace(/var fundsData = \{.*?\};/s, "var fundsData = " + JSON.stringify(funds) + ";");
   template = template.replace(/var navCacheData = \{.*?\};/s, "var navCacheData = " + JSON.stringify(latestNavs) + ";");

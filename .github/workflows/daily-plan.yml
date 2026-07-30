@@ -120,6 +120,8 @@ jobs:
       - name: Build GitHub Pages
         run: node build-pages.js
         env:
+          PRIVATE_LEDGER_PATH: ${{ env.PRIVATE_LEDGER_PATH }}
+          PUBLIC_PORTFOLIO_SNAPSHOT: ${{ env.PRIVATE_LEDGER_AVAILABLE == '1' && '1' || '0' }}
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
