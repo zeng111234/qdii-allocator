@@ -4780,6 +4780,21 @@
       return parts.join('；') + '。';
     }
 
+    function buildMarketSentimentAnswer(plan, news, externalSignals) {
+      var newsSource = news || {};
+      var sentiment = newsSource.sentiment || {};
+      var score = Number(sentiment.overall) || 0;
+      var mood = score > 10 ? '偏乐观' : (score < -10 ? '偏悲观' : '中性');
+      var positive = Number(sentiment.positive) || 0;
+      var negative = Number(sentiment.negative) || 0;
+      var lines = [
+        '市场情绪：' + mood + '（新闻情绪分数 ' + score + '）。',
+        '新闻利好 ' + positive + ' 条、利空 ' + negative + ' 条；外部信号仅作交叉参考。',
+        buildMarketSentimentDisclosure(plan, newsSource, externalSignals)
+      ];
+      return lines.join('\n');
+    }
+
     function buildNoBuyAnswer(plan) {
       var safePlan = plan || {};
       return '今天不买。' + (safePlan.date || safePlan.asOf ? '计划日期：' + (safePlan.date || safePlan.asOf) + '；' : '') +
@@ -5157,6 +5172,19 @@
           : buildNoBuyAnswer(todayPicks);
         appendMessage('assistant', localAnswer);
         aiChatHistory.push({ role: 'assistant', content: localAnswer });
+        saveChatHistory();
+        return;
+      }
+
+      // 静态 Pages 也能直接解释已嵌入的新闻与外部信号，不能因为 AI 服务不可达而报错。
+      if (isMarketSentimentQuestion(text)) {
+        var sentimentAnswer = buildMarketSentimentAnswer(
+          typeof todayPicks !== 'undefined' ? todayPicks : null,
+          typeof newsData !== 'undefined' ? newsData : null,
+          typeof externalSignalsData !== 'undefined' ? externalSignalsData : null
+        );
+        appendMessage('assistant', sentimentAnswer);
+        aiChatHistory.push({ role: 'assistant', content: sentimentAnswer });
         saveChatHistory();
         return;
       }

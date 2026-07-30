@@ -165,7 +165,7 @@ test("AI prompt treats RecommendationPlan as immutable and removes browser ranki
 });
 
 test("market sentiment reply always discloses freshness, coverage and cannot override PAUSE", function () {
-  const ctx = loadHelpers(["isMarketSentimentQuestion", "buildMarketSentimentDisclosure"]);
+  const ctx = loadHelpers(["isMarketSentimentQuestion", "buildMarketSentimentDisclosure", "buildMarketSentimentAnswer"]);
   assert.equal(ctx.isMarketSentimentQuestion("根据今天的新闻和外部信号，市场情绪如何？"), true);
   const disclosure = ctx.buildMarketSentimentDisclosure(
     { action: "PAUSE" },
@@ -178,6 +178,12 @@ test("market sentiment reply always discloses freshness, coverage and cannot ove
   assert.match(disclosure, /不得改变.*PAUSE/);
   const sendSource = extractBetweenFunctions("sendAiMessage", "askQuick");
   assert.match(sendSource, /buildMarketSentimentDisclosure/);
+  assert.match(ctx.buildMarketSentimentAnswer(
+    { action: "HARD_PAUSE" },
+    { fetchedAt: "2026-07-30T00:00:00Z", items: [{ title: "one" }], sentiment: { overall: 12, positive: 3, negative: 1 } },
+    { status: "current", cachedAt: "2026-07-30T00:00:00Z", tickerOpinions: [{ ticker: "SPX" }] }
+  ), /偏乐观/);
+  assert.ok(sendSource.indexOf("isMarketSentimentQuestion(text)") < sendSource.indexOf("getAiConfig()"), "market sentiment must have a local fallback before any AI network call");
 });
 
 test("risk-anchor setup is explicit and zero-budget route failures are explained", function () {
