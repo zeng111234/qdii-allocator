@@ -61,6 +61,12 @@ test("PAUSE keeps the real candidate Top average", function () {
   assert.doesNotMatch(extractFunction("renderBuySignal"), /avgScore\s*=\s*0/);
 });
 
+test("summary distinguishes confirmed holdings from pending record groups", function () {
+  assert.match(template, /recordCount:\s*portfolioData\.holdings\.length \+ pendingHoldings\.length/);
+  assert.match(template, /持仓记录/);
+  assert.match(template, /已确认.*待核验/);
+});
+
 test("pause banner explains supplied reasons, breaker metrics, thresholds and recovery", function () {
   const ctx = loadHelpers(["formatMetric", "formatPauseReason", "buildPauseDetails"]);
   const text = ctx.buildPauseDetails({

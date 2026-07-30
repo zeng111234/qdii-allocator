@@ -957,7 +957,8 @@
         hasPrevData: hasPrevData,
         pnlLabel: pnlLabel,
         latestDate: latestDate,
-        count: portfolioData.holdings.length
+        count: portfolioData.holdings.length,
+        recordCount: portfolioData.holdings.length + pendingHoldings.length
       };
     }
 
@@ -976,7 +977,7 @@
         '<div class="summary-item"><div class="label">当前市值</div><div class="value">' + s.value + '</div></div>' +
         '<div class="summary-item"><div class="label">总盈亏</div><div class="value ' + cls + '">' + sign + s.pnl + '</div></div>' +
         '<div class="summary-item"><div class="label">' + s.pnlLabel + '</div><div class="value ' + todayCls + '">' + todayStr + '</div></div>' +
-        '<div class="summary-item"><div class="label">持仓</div><div class="value">' + s.count + '只</div></div>' +
+        '<div class="summary-item"><div class="label">持仓记录</div><div class="value">' + s.recordCount + '条</div><div style="font-size:11px;color:var(--text3);margin-top:4px">' + s.count + '已确认 · ' + s.pendingCount + '待核验</div></div>' +
         '<div class="summary-item"><div class="label">净值日期</div><div class="value" style="font-size:12px">' + (s.latestDate || '--') + '</div></div>' + pendingNotice;
 
       // 渲染收益曲线图
