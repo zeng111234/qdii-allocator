@@ -534,8 +534,8 @@
 
     <div id="cloud-sync-banner" style="margin-bottom:12px;padding:10px 14px;border:1px solid var(--state-blue-border);background:var(--state-blue-bg);border-radius:10px;font-size:12px;color:var(--text2)">
       <strong id="cloud-sync-state">⏳ 正在同步</strong>
-      <span style="margin-left:6px">来源：<span id="sync-source">等待云端校验</span> · revision <span id="sync-revision">-</span></span>
-      <button id="cloud-sign-in" onclick="firebaseSignIn()" style="display:none;float:right;border:0;background:transparent;color:var(--primary);font-weight:600;cursor:pointer">Google 登录</button>
+      <span id="cloud-sync-detail" style="margin-left:6px">来源：<span id="sync-source">等待云端校验</span> <span id="sync-revision-detail">· revision <span id="sync-revision">-</span></span></span>
+      <button id="cloud-sign-in" onclick="firebaseSignIn()" style="display:none;float:right;border:0;background:transparent;color:var(--primary);font-weight:600;cursor:pointer">登录并同步持仓</button>
     </div>
 
     <div id="decision-anchor-card" style="display:none;margin-bottom:12px;padding:12px 14px;border:1px solid var(--state-yellow-border);background:var(--state-yellow-bg);border-radius:10px;font-size:12px;color:var(--state-yellow-text)"></div>
@@ -2918,9 +2918,15 @@
     var STORAGE_KEY = 'qdii-portfolio';
     var cloudWriteReady = false;
     function saveLocal() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(portfolioData));
+      } catch (error) {
+        showToast('本机账本保存失败：' + error.message, true);
+        return Promise.reject(error);
+      }
       if (!cloudWriteReady || !window.QdiiCloudSync) {
-        showToast('未通过云端账本校验，本次修改未保存', true);
-        return Promise.reject(new Error('CLOUD_NOT_READY'));
+        showToast('已保存在此浏览器；登录后可同步到其他设备');
+        return Promise.resolve({ localOnly: true });
       }
       return window.QdiiCloudSync.saveLegacyPortfolio(portfolioData).catch(function(error) {
         cloudWriteReady = false;
@@ -2937,8 +2943,15 @@
     }
 
     function loadLocal() {
-      // 旧 Chrome 数据只用于显式迁移预览，绝不在启动时静默覆盖云端。
-      return { holdings: [] };
+      // 本机副本只在当前浏览器显示，绝不在启动时静默覆盖云端。
+      try {
+        var raw = localStorage.getItem(STORAGE_KEY);
+        var local = raw ? JSON.parse(raw) : null;
+        return local && Array.isArray(local.holdings) ? local : { holdings: [] };
+      } catch (error) {
+        console.error('Local portfolio:', error.message);
+        return { holdings: [] };
+      }
     }
 
     function loadLegacyChromeReadOnlySnapshot() {
@@ -2971,7 +2984,7 @@
           '<div style="font-weight:700;color:var(--text);margin-bottom:8px">⚠️ 当前浏览器没有持仓数据</div>' +
           '<div style="font-size:13px;color:var(--text2);line-height:1.7">' + reason + '</div>' +
           '<div style="font-size:12px;color:var(--text3);line-height:1.7;margin-top:8px">' +
-            '请在保存持仓的 Chrome 中打开本网站；要在不同浏览器查看，请先配置 Firebase 并完成 Google 登录同步。' +
+            '可在保存过持仓的浏览器直接查看本机账本；只有需要跨浏览器同步或恢复云端账本时才需要 Google 登录。' +
           '</div>' +
         '</div>';
     }
@@ -3232,7 +3245,9 @@
         banner.style.background = 'var(--state-yellow-bg)';
         banner.style.color = 'var(--state-yellow-text)';
         banner.style.border = '1px solid var(--state-yellow-border)';
-        banner.innerHTML = '🟡 今天是交易日 · 系统预算 0 元 · T+2仅为确认，不代表按两天后净值成交';
+        banner.innerHTML = cloudWriteReady
+          ? '🟡 今天是交易日 · 系统预算 0 元 · T+2仅为确认，不代表按两天后净值成交'
+          : '🟡 今天是交易日 · 本机账本可查看；登录同步后才计算个人预算 · T+2仅为确认，不代表按两天后净值成交';
       } else {
         banner.style.display = 'block';
         banner.style.background = 'var(--state-yellow-bg)';
@@ -4155,12 +4170,21 @@
       var stateEl = document.getElementById('cloud-sync-state');
       var sourceEl = document.getElementById('sync-source');
       var revisionEl = document.getElementById('sync-revision');
+      var detailEl = document.getElementById('cloud-sync-detail');
+      var revisionDetailEl = document.getElementById('sync-revision-detail');
       var signInEl = document.getElementById('cloud-sign-in');
-      if (stateEl) stateEl.textContent = status.status === 'SYNCING' ? '⏳ 正在同步' :
-        (status.status === 'READY' ? '✅ 已校验' : (status.status === 'OFFLINE' ? '⚠️ 本地只读快照' : '⛔ 未同步'));
-      if (sourceEl) sourceEl.textContent = status.source || '未知';
+      var signedOut = status.status === 'SIGNED_OUT';
+      if (stateEl) stateEl.textContent = status.status === 'SYNCING' ? '⏳ 正在核对持仓' :
+        (status.status === 'READY' ? '✅ 持仓已同步' : (status.status === 'OFFLINE' ? '💾 正在查看本机账本' : (signedOut ? '👋 正在查看公开行情' : '⚠️ 同步暂不可用')));
+      if (sourceEl) sourceEl.textContent = signedOut ? '登录后可跨设备同步' : (status.source || '未知');
       if (revisionEl) revisionEl.textContent = status.revision === undefined ? '-' : status.revision;
-      if (signInEl) signInEl.style.display = status.status === 'SIGNED_OUT' ? 'inline' : 'none';
+      if (detailEl) detailEl.style.display = status.status === 'ERROR' ? 'inline' : '';
+      if (revisionDetailEl) revisionDetailEl.style.display = (signedOut || status.status === 'OFFLINE' || status.status === 'ERROR') ? 'none' : 'inline';
+      if (signInEl) {
+        signInEl.textContent = status.status === 'OFFLINE' ? '登录并备份持仓' : '登录并同步持仓';
+        signInEl.style.display = (status.status === 'SIGNED_OUT' ||
+          (status.status === 'OFFLINE' && status.source === 'Chrome 本地只读')) ? 'inline' : 'none';
+      }
       if (status.error) console.error('Cloud sync:', status.error);
     }
 
@@ -4287,13 +4311,24 @@
         return;
       }
       if (detail.status === 'SIGNED_OUT') {
-        document.getElementById('summary').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:20px">请先 Google 登录；云端校验成功前不显示金额</div>';
+        if (loadLegacyChromeReadOnlySnapshot()) {
+          showToast('已打开此浏览器的本机账本；登录后才会同步到其他设备');
+          return;
+        }
+        document.getElementById('summary').innerHTML =
+          '<div style="grid-column:1/-1;text-align:center;padding:20px">' +
+            '<div style="font-weight:700;color:var(--text);margin-bottom:8px">想看你的持仓和收益？</div>' +
+            '<div style="font-size:13px;color:var(--text2);line-height:1.7">此浏览器还没有本机账本。登录只用于从云端取回一次；之后会保存在这里，日常查看无需重复登录。</div>' +
+            '<button onclick="firebaseSignIn()" style="margin-top:12px;border:0;border-radius:8px;background:var(--primary);color:#fff;padding:8px 14px;font-weight:600;cursor:pointer">登录并同步持仓</button>' +
+          '</div>';
       }
     });
 
     window.addEventListener('qdii-cloud-ledger', function(event) {
       var detail = event.detail || {};
       portfolioData = detail.portfolio || { holdings: [] };
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(portfolioData)); }
+      catch (error) { console.error('Local portfolio cache:', error.message); }
       cloudWriteReady = detail.readOnly !== true;
       renderCloudState({
         status: detail.readOnly ? 'OFFLINE' : 'READY', source: detail.source,

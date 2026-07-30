@@ -7,19 +7,22 @@ const root = path.join(__dirname, "..", "..");
 const template = fs.readFileSync(path.join(root, "docs", "index.html.template"), "utf8");
 const workflow = fs.readFileSync(path.join(root, ".github", "workflows", "daily-plan.yml"), "utf8");
 
-test("public template contains no personal holdings and starts in syncing state", function () {
+test("public template contains no personal holdings and supports a local-only account view", function () {
   assert.match(template, /var portfolioData = \{"holdings":\[\]\};/);
   assert.doesNotMatch(template, /"holdings":\[\{"code"/);
   assert.match(template, /正在同步/);
   assert.match(template, /sync-revision/);
   assert.match(template, /cloudWriteReady && actionAllowsPurchase\(todayPicks\)/);
-  assert.match(template, /系统预算 0 元/);
+  assert.match(template, /本机账本可查看；登录同步后才计算个人预算/);
   assert.match(template, /function loadLegacyChromeReadOnlySnapshot\(\)/);
   assert.match(template, /detail\.status === 'CONFIG_MISSING' \|\| detail\.status === 'EMPTY'/);
   assert.match(template, /source: 'Chrome 本地只读'/);
   assert.match(template, /function renderUnavailableLedgerState\(detail\)/);
   assert.match(template, /当前浏览器没有可显示的持仓数据/);
-  assert.match(template, /请在保存持仓的 Chrome 中打开本网站/);
+  assert.match(template, /可在保存过持仓的浏览器直接查看本机账本/);
+  assert.match(template, /登录并同步持仓/);
+  assert.match(template, /if \(loadLegacyChromeReadOnlySnapshot\(\)\)/);
+  assert.match(template, /localStorage\.setItem\(STORAGE_KEY, JSON\.stringify\(portfolioData\)\)/);
 });
 
 test("browser sync uses Firebase Web SDK Google auth and uid-scoped ledger", function () {
