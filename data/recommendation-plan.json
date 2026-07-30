@@ -19,42 +19,35 @@
   "budget": 0,
   "candidates": [
     {
-      "code": "017641",
-      "name": "摩根标普500指数(QDII)A",
-      "indexGroup": "SPX500",
-      "marketScore": 72.58,
-      "suitabilityScore": 27.58,
-      "proposedAmount": 0,
-      "reasons": [
-        "市场评分 72.58",
-        "影子候选，不执行真实买入"
-      ],
-      "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ]
-    },
-    {
       "code": "096001",
       "name": "大成标普500A(QDII)",
       "indexGroup": "SPX500",
       "marketScore": 70.67,
-      "suitabilityScore": 40.67,
+      "suitabilityScore": 70.67,
       "proposedAmount": 0,
       "reasons": [
         "市场评分 70.67",
         "影子候选，不执行真实买入"
       ],
-      "blockedBy": [
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ]
+      "blockedBy": []
+    },
+    {
+      "code": "000369",
+      "name": "广发全球医疗保健指数人民币(QDII)A",
+      "indexGroup": "GLOBAL_MEDICAL",
+      "marketScore": 65.5,
+      "suitabilityScore": 65.5,
+      "proposedAmount": 0,
+      "reasons": [
+        "市场评分 65.5",
+        "影子候选，不执行真实买入"
+      ],
+      "blockedBy": []
     }
   ],
   "portfolioRisk": {
-    "holdingCount": 0,
-    "totalAmount": 0,
+    "holdingCount": 24,
+    "totalAmount": 1827,
     "unknownHoldings": [],
     "maxFundWeight": 0.2,
     "maxIndexGroupWeight": 0.35
@@ -94,18 +87,18 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0,
-    "GROWTH_TECH": 0,
-    "NON_US": 0,
-    "DEFENSIVE": 0,
+    "US_BROAD": 0.08757525998905309,
+    "GROWTH_TECH": 0.7186644772851669,
+    "NON_US": 0.1811713191023536,
+    "DEFENSIVE": 0.012588943623426382,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
-    "US_BROAD": 0.3,
-    "GROWTH_TECH": 0.25,
-    "NON_US": 0.25,
-    "DEFENSIVE": 0.1,
+    "US_BROAD": 0.21,
+    "GROWTH_TECH": -0.47,
+    "NON_US": 0.07,
+    "DEFENSIVE": 0.09,
     "CASH": 0.1
   },
   "executionRoutes": [],
@@ -131,9 +124,7 @@
       "indexGroup": "SPX500",
       "marketScore": 72.58,
       "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -141,40 +132,28 @@
       "name": "大成标普500A(QDII)",
       "indexGroup": "SPX500",
       "marketScore": 70.67,
-      "blockedBy": [
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ]
+      "blockedBy": []
     },
     {
       "code": "000369",
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
       "marketScore": 65.5,
-      "blockedBy": [
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ]
+      "blockedBy": []
     },
     {
       "code": "001092",
       "name": "广发纳斯达克生物科技A(QDII)",
       "indexGroup": "NASDAQ_BIO",
       "marketScore": 63.25,
-      "blockedBy": [
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ]
+      "blockedBy": []
     },
     {
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
       "marketScore": 62.67,
-      "blockedBy": [
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ]
+      "blockedBy": []
     },
     {
       "code": "017730",
@@ -184,9 +163,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -195,8 +172,7 @@
       "indexGroup": "US_REIT",
       "marketScore": 59.5,
       "blockedBy": [
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
       ]
     },
     {
@@ -208,8 +184,7 @@
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
       ]
     },
     {
@@ -219,7 +194,6 @@
       "marketScore": 55.33,
       "blockedBy": [
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ]
     },
@@ -230,7 +204,6 @@
       "marketScore": 53.58,
       "blockedBy": [
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ]
     },
@@ -241,7 +214,6 @@
       "marketScore": 52.33,
       "blockedBy": [
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ]
     },
@@ -252,7 +224,6 @@
       "marketScore": 52.08,
       "blockedBy": [
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ]
     },
@@ -264,9 +235,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -277,8 +246,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
       ]
     },
     {
@@ -289,9 +257,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -300,7 +266,6 @@
       "indexGroup": "NDX100",
       "marketScore": 50.67,
       "blockedBy": [
-        "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ]
     },
@@ -312,9 +277,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -323,9 +286,7 @@
       "indexGroup": "JAPAN",
       "marketScore": 50.25,
       "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -335,7 +296,7 @@
       "marketScore": 48.33,
       "blockedBy": [
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
+        "PORTFOLIO_FULL",
         "INDEX_GROUP_LIMIT"
       ]
     },
@@ -347,9 +308,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -360,9 +319,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -371,9 +328,7 @@
       "indexGroup": "EV",
       "marketScore": 45.08,
       "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -382,9 +337,7 @@
       "indexGroup": "SPX500",
       "marketScore": 41.5,
       "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "DRAWDOWN_OVER_20"
       ]
     },
     {
@@ -396,8 +349,7 @@
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
       ]
     },
     {
@@ -406,9 +358,7 @@
       "indexGroup": "APAC",
       "marketScore": 38.58,
       "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -418,8 +368,7 @@
       "marketScore": 38.25,
       "blockedBy": [
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
       ]
     },
     {
@@ -430,8 +379,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
       ]
     },
     {
@@ -441,8 +389,7 @@
       "marketScore": 36.42,
       "blockedBy": [
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
       ]
     },
     {
@@ -451,9 +398,7 @@
       "indexGroup": "VIETNAM",
       "marketScore": 35.08,
       "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -464,9 +409,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ]
     },
     {
@@ -477,8 +420,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
       ]
     }
   ],
