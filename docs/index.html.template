@@ -3045,10 +3045,11 @@
       var input = prompt('粘贴从另一台设备导出的数据：');
       if (!input) return;
       try {
-        var data = JSON.parse(input);
+        var payload = JSON.parse(input);
+        var data = payload && payload.chrome && payload.chrome.holdings ? payload.chrome : payload;
         if (data && data.holdings) {
           portfolioData = data;
-          saveLocal();
+          saveLocal().catch(function () {});
           updateSummary();
           updateHoldings();
           showToast('导入成功！' + data.holdings.length + '只基金');
@@ -4318,8 +4319,9 @@
         document.getElementById('summary').innerHTML =
           '<div style="grid-column:1/-1;text-align:center;padding:20px">' +
             '<div style="font-weight:700;color:var(--text);margin-bottom:8px">想看你的持仓和收益？</div>' +
-            '<div style="font-size:13px;color:var(--text2);line-height:1.7">此浏览器还没有本机账本。登录只用于从云端取回一次；之后会保存在这里，日常查看无需重复登录。</div>' +
+            '<div style="font-size:13px;color:var(--text2);line-height:1.7">此浏览器还没有本机账本。登录只用于从云端取回一次；也可以导入备份。两种方式完成后，日常查看无需重复登录。</div>' +
             '<button onclick="firebaseSignIn()" style="margin-top:12px;border:0;border-radius:8px;background:var(--primary);color:#fff;padding:8px 14px;font-weight:600;cursor:pointer">登录并同步持仓</button>' +
+            '<button onclick="importData()" style="margin:12px 0 0 8px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text);padding:8px 14px;font-weight:600;cursor:pointer">导入账本备份</button>' +
           '</div>';
       }
     });

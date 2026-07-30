@@ -21,8 +21,10 @@ test("public template contains no personal holdings and supports a local-only ac
   assert.match(template, /当前浏览器没有可显示的持仓数据/);
   assert.match(template, /可在保存过持仓的浏览器直接查看本机账本/);
   assert.match(template, /登录并同步持仓/);
+  assert.match(template, /导入账本备份/);
   assert.match(template, /if \(loadLegacyChromeReadOnlySnapshot\(\)\)/);
   assert.match(template, /localStorage\.setItem\(STORAGE_KEY, JSON\.stringify\(portfolioData\)\)/);
+  assert.match(template, /payload && payload\.chrome && payload\.chrome\.holdings \? payload\.chrome : payload/);
 });
 
 test("browser sync uses Firebase Web SDK Google auth and uid-scoped ledger", function () {
