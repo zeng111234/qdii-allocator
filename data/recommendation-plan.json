@@ -22,11 +22,11 @@
       "code": "096001",
       "name": "大成标普500A(QDII)",
       "indexGroup": "SPX500",
-      "marketScore": 70.67,
-      "suitabilityScore": 70.67,
+      "marketScore": 68.83,
+      "suitabilityScore": 68.83,
       "proposedAmount": 0,
       "reasons": [
-        "市场评分 70.67",
+        "市场评分 68.83",
         "影子候选，不执行真实买入"
       ],
       "blockedBy": []
@@ -35,11 +35,11 @@
       "code": "000369",
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
-      "marketScore": 65.5,
-      "suitabilityScore": 65.5,
+      "marketScore": 66.67,
+      "suitabilityScore": 66.67,
       "proposedAmount": 0,
       "reasons": [
-        "市场评分 65.5",
+        "市场评分 66.67",
         "影子候选，不执行真实买入"
       ],
       "blockedBy": []
@@ -64,6 +64,7 @@
       "winRate": 75,
       "averageReturn": -0.7
     },
+    "evidenceSource": "SHADOW",
     "breakerTriggered": false,
     "recovered": false
   },
@@ -87,18 +88,18 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.08757525998905309,
-    "GROWTH_TECH": 0.7186644772851669,
-    "NON_US": 0.1811713191023536,
-    "DEFENSIVE": 0.012588943623426382,
+    "US_BROAD": 0.10300771824863196,
+    "GROWTH_TECH": 0.7002701976365576,
+    "NON_US": 0.181489225747663,
+    "DEFENSIVE": 0.015232858367147302,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
-    "US_BROAD": 0.21,
-    "GROWTH_TECH": -0.47,
+    "US_BROAD": 0.2,
+    "GROWTH_TECH": -0.45,
     "NON_US": 0.07,
-    "DEFENSIVE": 0.09,
+    "DEFENSIVE": 0.08,
     "CASH": 0.1
   },
   "executionRoutes": [],
@@ -122,306 +123,241 @@
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 72.58,
+      "marketScore": 74.42,
       "blockedBy": [
         "TREND_DETERIORATING"
+      ],
+      "channelCount": 3,
+      "routingAlternatives": [
+        "096001",
+        "015558"
       ]
-    },
-    {
-      "code": "096001",
-      "name": "大成标普500A(QDII)",
-      "indexGroup": "SPX500",
-      "marketScore": 70.67,
-      "blockedBy": []
     },
     {
       "code": "000369",
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
-      "marketScore": 65.5,
-      "blockedBy": []
-    },
-    {
-      "code": "001092",
-      "name": "广发纳斯达克生物科技A(QDII)",
-      "indexGroup": "NASDAQ_BIO",
-      "marketScore": 63.25,
-      "blockedBy": []
+      "marketScore": 66.67,
+      "blockedBy": [],
+      "channelCount": 1,
+      "routingAlternatives": []
     },
     {
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
-      "marketScore": 62.67,
-      "blockedBy": []
-    },
-    {
-      "code": "017730",
-      "name": "嘉实全球产业升级股票(QDII)A",
-      "indexGroup": "GLOBAL_UPGRADE",
-      "marketScore": 60.5,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING"
-      ]
+      "marketScore": 62.5,
+      "blockedBy": [],
+      "channelCount": 1,
+      "routingAlternatives": []
     },
     {
       "code": "000179",
       "name": "广发美国房地产A(QDII)",
       "indexGroup": "US_REIT",
-      "marketScore": 59.5,
+      "marketScore": 62.17,
       "blockedBy": [
         "PORTFOLIO_FULL"
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
+    {
+      "code": "001092",
+      "name": "广发纳斯达克生物科技A(QDII)",
+      "indexGroup": "NASDAQ_BIO",
+      "marketScore": 61.25,
+      "blockedBy": [],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
+    {
+      "code": "017730",
+      "name": "嘉实全球产业升级股票(QDII)A",
+      "indexGroup": "GLOBAL_UPGRADE",
+      "marketScore": 58.58,
+      "blockedBy": [
+        "DRAWDOWN_OVER_20",
+        "FIVE_DAY_DROP_OVER_8",
+        "TREND_DETERIORATING"
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
+    {
+      "code": "270042",
+      "name": "广发纳斯达克100A(QDII)",
+      "indexGroup": "NDX100",
+      "marketScore": 56.58,
+      "blockedBy": [
+        "TREND_DETERIORATING",
+        "INDEX_GROUP_LIMIT"
+      ],
+      "channelCount": 6,
+      "routingAlternatives": [
+        "040046",
+        "019067",
+        "000834",
+        "539001",
+        "019524"
       ]
     },
     {
       "code": "501226",
       "name": "长城全球新能源车(QDII)A",
       "indexGroup": "EV",
-      "marketScore": 55.75,
+      "marketScore": 54.75,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING",
         "PORTFOLIO_FULL"
-      ]
-    },
-    {
-      "code": "040046",
-      "name": "华安纳斯达克100A(QDII)",
-      "indexGroup": "NDX100",
-      "marketScore": 55.33,
-      "blockedBy": [
-        "TREND_DETERIORATING",
-        "INDEX_GROUP_LIMIT"
-      ]
-    },
-    {
-      "code": "019524",
-      "name": "华泰柏瑞纳斯达克100指数(QDII)A",
-      "indexGroup": "NDX100",
-      "marketScore": 53.58,
-      "blockedBy": [
-        "TREND_DETERIORATING",
-        "INDEX_GROUP_LIMIT"
-      ]
-    },
-    {
-      "code": "000834",
-      "name": "大成纳斯达克100(QDII)",
-      "indexGroup": "NDX100",
-      "marketScore": 52.33,
-      "blockedBy": [
-        "TREND_DETERIORATING",
-        "INDEX_GROUP_LIMIT"
-      ]
-    },
-    {
-      "code": "270042",
-      "name": "广发纳斯达克100A(QDII)",
-      "indexGroup": "NDX100",
-      "marketScore": 52.08,
-      "blockedBy": [
-        "TREND_DETERIORATING",
-        "INDEX_GROUP_LIMIT"
-      ]
-    },
-    {
-      "code": "100055",
-      "name": "富国全球科技互联网股票(QDII)A",
-      "indexGroup": "GLOBAL_TECH",
-      "marketScore": 51.83,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING"
-      ]
-    },
-    {
-      "code": "320013",
-      "name": "诺安全球黄金(QDII-FOF)A",
-      "indexGroup": "GOLD",
-      "marketScore": 51.58,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "TREND_DETERIORATING",
-        "PORTFOLIO_FULL"
-      ]
-    },
-    {
-      "code": "006373",
-      "name": "国富全球科技互联混合(QDII)A",
-      "indexGroup": "GLOBAL_TECH",
-      "marketScore": 50.75,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING"
-      ]
-    },
-    {
-      "code": "019067",
-      "name": "万家纳斯达克100指数(QDII)A",
-      "indexGroup": "NDX100",
-      "marketScore": 50.67,
-      "blockedBy": [
-        "INDEX_GROUP_LIMIT"
-      ]
-    },
-    {
-      "code": "270023",
-      "name": "广发全球精选QDII-A",
-      "indexGroup": "GLOBAL",
-      "marketScore": 50.58,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING"
+      ],
+      "channelCount": 2,
+      "routingAlternatives": [
+        "015204"
       ]
     },
     {
       "code": "007280",
       "name": "摩根日本精选股票(QDII)A",
       "indexGroup": "JAPAN",
-      "marketScore": 50.25,
+      "marketScore": 53.75,
       "blockedBy": [
         "TREND_DETERIORATING"
-      ]
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
     },
     {
-      "code": "539001",
-      "name": "建信纳斯达克100A(QDII)",
-      "indexGroup": "NDX100",
-      "marketScore": 48.33,
+      "code": "320013",
+      "name": "诺安全球黄金(QDII-FOF)A",
+      "indexGroup": "GOLD",
+      "marketScore": 53.58,
       "blockedBy": [
+        "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING",
-        "PORTFOLIO_FULL",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
+    {
+      "code": "100055",
+      "name": "富国全球科技互联网股票(QDII)A",
+      "indexGroup": "GLOBAL_TECH",
+      "marketScore": 53.33,
+      "blockedBy": [
+        "DRAWDOWN_OVER_20",
+        "FIVE_DAY_DROP_OVER_8",
+        "TREND_DETERIORATING"
+      ],
+      "channelCount": 3,
+      "routingAlternatives": [
+        "006373",
+        "005698"
       ]
     },
     {
       "code": "539002",
       "name": "建信新兴市场优选QDII-A",
       "indexGroup": "EMERGING",
-      "marketScore": 48,
+      "marketScore": 50.33,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING"
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
+    {
+      "code": "270023",
+      "name": "广发全球精选QDII-A",
+      "indexGroup": "GLOBAL",
+      "marketScore": 49.25,
+      "blockedBy": [
+        "DRAWDOWN_OVER_20",
+        "FIVE_DAY_DROP_OVER_8",
+        "TREND_DETERIORATING"
+      ],
+      "channelCount": 3,
+      "routingAlternatives": [
+        "008253",
+        "000041"
       ]
     },
     {
       "code": "016664",
       "name": "天弘全球高端制造QDII-A",
       "indexGroup": "GLOBAL_MFG",
-      "marketScore": 45.25,
+      "marketScore": 44.75,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING"
-      ]
-    },
-    {
-      "code": "015204",
-      "name": "银华全球新能源车量化优选(QDII)A",
-      "indexGroup": "EV",
-      "marketScore": 45.08,
-      "blockedBy": [
-        "TREND_DETERIORATING"
-      ]
-    },
-    {
-      "code": "015558",
-      "name": "大成标普500ETF联接A(QDII)",
-      "indexGroup": "SPX500",
-      "marketScore": 41.5,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20"
-      ]
-    },
-    {
-      "code": "008253",
-      "name": "华宝致远混合(QDII)A",
-      "indexGroup": "GLOBAL",
-      "marketScore": 41.25,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "PORTFOLIO_FULL"
-      ]
-    },
-    {
-      "code": "050015",
-      "name": "博时亚太精选QDII-A",
-      "indexGroup": "APAC",
-      "marketScore": 38.58,
-      "blockedBy": [
-        "TREND_DETERIORATING"
-      ]
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
     },
     {
       "code": "000988",
       "name": "华安标普全球石油QDII-A",
       "indexGroup": "OIL",
-      "marketScore": 38.25,
+      "marketScore": 39.75,
       "blockedBy": [
-        "TREND_DETERIORATING",
         "PORTFOLIO_FULL"
-      ]
-    },
-    {
-      "code": "160216",
-      "name": "国泰大宗商品(QDII-LOF)",
-      "indexGroup": "COMMODITY",
-      "marketScore": 37.92,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "TREND_DETERIORATING",
-        "PORTFOLIO_FULL"
-      ]
-    },
-    {
-      "code": "000041",
-      "name": "华夏全球股票(QDII)(人民币)",
-      "indexGroup": "GLOBAL",
-      "marketScore": 36.42,
-      "blockedBy": [
-        "TREND_DETERIORATING",
-        "PORTFOLIO_FULL"
-      ]
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
     },
     {
       "code": "008763",
       "name": "天弘越南市场股票(QDII)A",
       "indexGroup": "VIETNAM",
-      "marketScore": 35.08,
-      "blockedBy": [
-        "TREND_DETERIORATING"
-      ]
+      "marketScore": 38.58,
+      "blockedBy": [],
+      "channelCount": 1,
+      "routingAlternatives": []
     },
     {
-      "code": "005698",
-      "name": "华夏全球科技先锋混合(QDII)A",
-      "indexGroup": "GLOBAL_TECH",
-      "marketScore": 34.83,
+      "code": "050015",
+      "name": "博时亚太精选QDII-A",
+      "indexGroup": "APAC",
+      "marketScore": 38.08,
       "blockedBy": [
-        "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING"
-      ]
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
+    {
+      "code": "160216",
+      "name": "国泰大宗商品(QDII-LOF)",
+      "indexGroup": "COMMODITY",
+      "marketScore": 33.58,
+      "blockedBy": [
+        "DRAWDOWN_OVER_20",
+        "TREND_DETERIORATING",
+        "PORTFOLIO_FULL"
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
     },
     {
       "code": "040018",
       "name": "华安香港精选QDII-A",
       "indexGroup": "HK",
-      "marketScore": 30.08,
+      "marketScore": 28.42,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
+        "FIVE_DAY_DROP_OVER_8",
         "TREND_DETERIORATING",
         "PORTFOLIO_FULL"
-      ]
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
     }
   ],
   "observationPool": [
@@ -431,7 +367,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-07-28"
+      "latestNavDate": "2026-07-29"
     },
     {
       "code": "160213",
@@ -447,7 +383,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-07-28"
+      "latestNavDate": "2026-07-29"
     },
     {
       "code": "163208",
@@ -474,7 +410,9 @@
           }
         ],
         "totalAmount": 40,
-        "totalShares": 6.8565
+        "totalShares": 6.8565,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "160213",
@@ -517,7 +455,9 @@
           }
         ],
         "totalAmount": 76,
-        "totalShares": 16.3698
+        "totalShares": 16.3698,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "270023",
@@ -549,7 +489,9 @@
           }
         ],
         "totalAmount": 45,
-        "totalShares": 6.6778
+        "totalShares": 6.6778,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "270042",
@@ -707,7 +649,9 @@
           }
         ],
         "totalAmount": 200,
-        "totalShares": 24.1414
+        "totalShares": 24.1414,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "539002",
@@ -767,7 +711,9 @@
           }
         ],
         "totalAmount": 116,
-        "totalShares": 43.5577
+        "totalShares": 43.5577,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "000834",
@@ -845,7 +791,9 @@
           }
         ],
         "totalAmount": 90,
-        "totalShares": 13.9793
+        "totalShares": 13.9793,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "040046",
@@ -941,7 +889,9 @@
           }
         ],
         "totalAmount": 140,
-        "totalShares": 16.6609
+        "totalShares": 16.6609,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "001092",
@@ -1002,7 +952,9 @@
           }
         ],
         "totalAmount": 60,
-        "totalShares": 37.7338
+        "totalShares": 37.7338,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "012920",
@@ -1179,7 +1131,9 @@
           }
         ],
         "totalAmount": 324,
-        "totalShares": 67.5932
+        "totalShares": 67.5932,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "015204",
@@ -1195,7 +1149,9 @@
           }
         ],
         "totalAmount": 20,
-        "totalShares": 12.1625
+        "totalShares": 12.1625,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "000614",
@@ -1211,7 +1167,9 @@
           }
         ],
         "totalAmount": 20,
-        "totalShares": 10.1662
+        "totalShares": 10.1662,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "019524",
@@ -1316,7 +1274,9 @@
           }
         ],
         "totalAmount": 110,
-        "totalShares": 66.3381
+        "totalShares": 66.3381,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "019067",
@@ -1332,7 +1292,9 @@
           }
         ],
         "totalAmount": 50,
-        "totalShares": 39.6983
+        "totalShares": 39.6983,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "096001",
@@ -1383,7 +1345,9 @@
           }
         ],
         "totalAmount": 90,
-        "totalShares": 33.019
+        "totalShares": 33.019,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "015558",
@@ -1408,7 +1372,9 @@
           }
         ],
         "totalAmount": 20,
-        "totalShares": 13.3265
+        "totalShares": 13.3265,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "016664",
@@ -1486,7 +1452,9 @@
           }
         ],
         "totalAmount": 144,
-        "totalShares": 39.4619
+        "totalShares": 39.4619,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "017641",
@@ -1538,7 +1506,9 @@
           }
         ],
         "totalAmount": 50,
-        "totalShares": 30.149
+        "totalShares": 30.149,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "050015",
@@ -1553,7 +1523,9 @@
           }
         ],
         "totalAmount": 10,
-        "totalShares": 7.0522
+        "totalShares": 7.0522,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "007280",
@@ -1578,7 +1550,9 @@
           }
         ],
         "totalAmount": 30,
-        "totalShares": 13.2421
+        "totalShares": 13.2421,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "017730",
@@ -1594,7 +1568,9 @@
           }
         ],
         "totalAmount": 16,
-        "totalShares": 3.1114
+        "totalShares": 3.1114,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "006373",
@@ -1619,7 +1595,9 @@
           }
         ],
         "totalAmount": 20,
-        "totalShares": 2.677
+        "totalShares": 2.677,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "008763",
@@ -1653,7 +1631,9 @@
           }
         ],
         "totalAmount": 110,
-        "totalShares": 66.878
+        "totalShares": 66.878,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "000369",
@@ -1669,7 +1649,9 @@
           }
         ],
         "totalAmount": 23,
-        "totalShares": 9.3268
+        "totalShares": 9.3268,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "005698",
@@ -1685,13 +1667,33 @@
           }
         ],
         "totalAmount": 23,
-        "totalShares": 7.0107
+        "totalShares": 7.0107,
+        "pendingBuys": [],
+        "pendingAmount": 0
       }
     ],
+    "pendingHoldings": [
+      {
+        "code": "008253",
+        "totalAmount": 50,
+        "buys": [
+          {
+            "id": "tx_b1e270529cd1a4f833ad78fd",
+            "date": "2026-07-16",
+            "amount": 50,
+            "nav": 0,
+            "shares": 0,
+            "type": "BUY"
+          }
+        ]
+      }
+    ],
+    "pendingInvested": 50,
+    "confirmedInvested": 1827,
     "totalInvested": 1877,
     "transactionCount": 120,
     "revision": 2,
     "checksum": "c917dbbde17f7b04505dfd783362bf09790b8abcf8980b53b56040c649f20bb9"
   },
-  "publicPortfolioSnapshotUpdatedAt": "2026-07-30T05:20:57.968Z"
+  "publicPortfolioSnapshotUpdatedAt": "2026-07-30T11:10:59.748Z"
 }
