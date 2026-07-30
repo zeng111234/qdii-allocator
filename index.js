@@ -596,10 +596,11 @@ async function main() {
     console.warn("[推荐计划] 历史读取失败，强制 PAUSE:", e.message);
   }
   const recommendationHistory = recommendationEngine.partitionRecommendationHistory(historyData);
+  const portfolioSnapshot = portfolio.loadPortfolio();
   const recommendationPlan = recommendationEngine.buildRecommendationPlan({
     funds: funds,
     navCache: fundData.loadNavCache(),
-    portfolio: portfolio.loadPortfolio(),
+    portfolio: portfolioSnapshot,
     history: recommendationHistory.liveHistory,
     shadowHistory: recommendationHistory.shadowHistory,
     marketTemperature: result.marketTemperature,
@@ -614,6 +615,9 @@ async function main() {
   result.allRanked = recommendationPlan.marketRanking || [];
   result.date = recommendationPlan.asOf;
   result.budget = recommendationPlan.budget;
+  if (process.env.PORTFOLIO_READ_ONLY === "1") {
+    recommendationPlan.publicPortfolioSnapshot = portfolioSnapshot;
+  }
   textContent = recommendationEngine.formatRecommendationPlan(recommendationPlan);
   historyTracker.saveRecommendationPlan(recommendationPlan);
   fs.writeFileSync(path.join(__dirname, "data", "recommendation-plan.json"), JSON.stringify(recommendationPlan, null, 2), "utf-8");

@@ -774,6 +774,7 @@
   <div id="toast" class="toast"></div>
 
   <script>
+    window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT = QDII_PUBLIC_PORTFOLIO_SNAPSHOT_PLACEHOLDER;
     window.QDII_FIREBASE_CONFIG = {
       apiKey: 'FIREBASE_WEB_API_KEY_PLACEHOLDER',
       authDomain: 'FIREBASE_AUTH_DOMAIN_PLACEHOLDER',
@@ -3246,9 +3247,11 @@
         banner.style.background = 'var(--state-yellow-bg)';
         banner.style.color = 'var(--state-yellow-text)';
         banner.style.border = '1px solid var(--state-yellow-border)';
-        banner.innerHTML = cloudWriteReady
+        banner.innerHTML = window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT
+          ? '🟡 今天是交易日 · 正在使用公开只读账本快照，不能直接写回持仓 · T+2仅为确认，不代表按两天后净值成交'
+          : (cloudWriteReady
           ? '🟡 今天是交易日 · 系统预算 0 元 · T+2仅为确认，不代表按两天后净值成交'
-          : '🟡 今天是交易日 · 本机账本可查看；登录同步后才计算个人预算 · T+2仅为确认，不代表按两天后净值成交';
+          : '🟡 今天是交易日 · 本机账本可查看；登录同步后才计算个人预算 · T+2仅为确认，不代表按两天后净值成交');
       } else {
         banner.style.display = 'block';
         banner.style.background = 'var(--state-yellow-bg)';
@@ -4175,12 +4178,13 @@
       var revisionDetailEl = document.getElementById('sync-revision-detail');
       var signInEl = document.getElementById('cloud-sign-in');
       var signedOut = status.status === 'SIGNED_OUT';
+      var publicSnapshot = status.status === 'PUBLIC_SNAPSHOT';
       if (stateEl) stateEl.textContent = status.status === 'SYNCING' ? '⏳ 正在核对持仓' :
-        (status.status === 'READY' ? '✅ 持仓已同步' : (status.status === 'OFFLINE' ? '💾 正在查看本机账本' : (signedOut ? '👋 正在查看公开行情' : '⚠️ 同步暂不可用')));
-      if (sourceEl) sourceEl.textContent = signedOut ? '登录后可跨设备同步' : (status.source || '未知');
+        (status.status === 'READY' ? '✅ 持仓已同步' : (status.status === 'OFFLINE' ? '💾 正在查看本机账本' : (publicSnapshot ? '🌐 正在查看公开账本' : (signedOut ? '👋 正在查看公开行情' : '⚠️ 同步暂不可用'))));
+      if (sourceEl) sourceEl.textContent = (signedOut || publicSnapshot) ? (publicSnapshot ? '无需登录，只读快照' : '登录后可跨设备同步') : (status.source || '未知');
       if (revisionEl) revisionEl.textContent = status.revision === undefined ? '-' : status.revision;
       if (detailEl) detailEl.style.display = status.status === 'ERROR' ? 'inline' : '';
-      if (revisionDetailEl) revisionDetailEl.style.display = (signedOut || status.status === 'OFFLINE' || status.status === 'ERROR') ? 'none' : 'inline';
+      if (revisionDetailEl) revisionDetailEl.style.display = (signedOut || publicSnapshot || status.status === 'OFFLINE' || status.status === 'ERROR') ? 'none' : 'inline';
       if (signInEl) {
         signInEl.textContent = status.status === 'OFFLINE' ? '登录并备份持仓' : '登录并同步持仓';
         signInEl.style.display = (status.status === 'SIGNED_OUT' ||
@@ -4303,6 +4307,14 @@
       currentCloudDetail = null;
       updateAnchorButton(null);
       renderCloudState(detail);
+      if (detail.status === 'PUBLIC_SNAPSHOT') {
+        cloudWriteReady = false;
+        updateSummary();
+        updateHoldings();
+        renderTradeBanner();
+        renderTemperature();
+        return;
+      }
       if (detail.status === 'CONFIG_MISSING' || detail.status === 'EMPTY') {
         if (loadLegacyChromeReadOnlySnapshot()) {
           showToast('已恢复 Chrome 本地持仓（只读），不会覆盖云端');

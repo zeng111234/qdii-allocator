@@ -407,6 +407,10 @@ async function signIn() {
 }
 
 async function bootstrap() {
+  if (window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true) {
+    emit("qdii-cloud-state", { status: "PUBLIC_SNAPSHOT", source: "公开账本快照" });
+    return;
+  }
   if (!configured) {
     emit("qdii-cloud-state", { status: "CONFIG_MISSING", source: "未配置" });
     return;

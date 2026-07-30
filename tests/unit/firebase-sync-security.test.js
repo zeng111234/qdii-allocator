@@ -6,6 +6,7 @@ const path = require("node:path");
 const root = path.join(__dirname, "..", "..");
 const template = fs.readFileSync(path.join(root, "docs", "index.html.template"), "utf8");
 const workflow = fs.readFileSync(path.join(root, ".github", "workflows", "daily-plan.yml"), "utf8");
+const indexSource = fs.readFileSync(path.join(root, "index.js"), "utf8");
 
 test("public template contains no personal holdings and supports a local-only account view", function () {
   assert.match(template, /var portfolioData = \{"holdings":\[\]\};/);
@@ -97,4 +98,19 @@ test("Actions never commit the private portfolio and always removes its temp led
   assert.doesNotMatch(workflow, /continue-on-error:\s*true\s*\n\s*run:[^\n]*portfolio/i);
   assert.match(workflow, /PRIVATE_LEDGER_AVAILABLE=0/);
   assert.match(workflow, /public market data and Pages will still update/);
+});
+
+test("public Pages snapshot is explicit, derived from the private ledger, and read-only in the browser", function () {
+  const builder = fs.readFileSync(path.join(root, "build-pages.js"), "utf8");
+  const client = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  assert.match(builder, /PUBLIC_PORTFOLIO_SNAPSHOT/);
+  assert.match(builder, /PUBLIC_PORTFOLIO_SNAPSHOT_REQUIRES_PRIVATE_LEDGER/);
+  assert.match(builder, /ledgerTools\.derivePortfolio\(ledger\)/);
+  assert.match(builder, /QDII_PUBLIC_PORTFOLIO_SNAPSHOT_PLACEHOLDER/);
+  assert.match(client, /status: "PUBLIC_SNAPSHOT"/);
+  assert.match(template, /window\.QDII_PUBLIC_PORTFOLIO_SNAPSHOT/);
+  assert.match(template, /status === 'PUBLIC_SNAPSHOT'/);
+  assert.match(builder, /plan\.publicPortfolioSnapshot/);
+  assert.match(indexSource, /process\.env\.PORTFOLIO_READ_ONLY === "1"/);
+  assert.match(indexSource, /recommendationPlan\.publicPortfolioSnapshot = portfolioSnapshot/);
 });

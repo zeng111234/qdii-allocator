@@ -1,18 +1,21 @@
 /**
  * 构建 GitHub Pages 页面
- * 只把公共市场数据嵌入 HTML；个人账本由浏览器登录后从 Firebase 加载。
+ * 公共页面默认只嵌入市场数据；显式开启 PUBLIC_PORTFOLIO_SNAPSHOT=1 时，
+ * 将运行时私有账本派生为公开只读持仓快照。
  */
 
 const fs = require("fs");
 const path = require("path");
 const https = require("https");
 const { normalizeExternalSignalsForPage } = require("./lib/external-signal-display");
+const ledgerTools = require("./lib/portfolio-ledger");
 
 const TEMPLATE = path.join(__dirname, "docs", "index.html.template");
 const OUTPUT = path.join(__dirname, "docs", "index.html");
 const FUNDS = path.join(__dirname, "data", "funds.json");
 const NAV_CACHE = path.join(__dirname, "data", "nav-cache.json");
 const DAILY_BRIEF = path.join(__dirname, "data", "daily-brief.json");
+const RECOMMENDATION_PLAN = path.join(__dirname, "data", "recommendation-plan.json");
 const PERSONALIZED_DECISION = path.join(__dirname, "lib", "personalized-decision.js");
 
 // 加载 .env（不依赖 dotenv 包）+ 环境变量 fallback（CI 中 secrets 通过 env 传入）
@@ -28,6 +31,28 @@ function loadEnv() {
       });
   }
   return env;
+}
+
+function loadPublicPortfolioSnapshot(env) {
+  if (env.PUBLIC_PORTFOLIO_SNAPSHOT === "1") {
+    const ledgerPath = env.PRIVATE_LEDGER_PATH;
+    if (!ledgerPath || !fs.existsSync(ledgerPath)) {
+      throw new Error("PUBLIC_PORTFOLIO_SNAPSHOT_REQUIRES_PRIVATE_LEDGER");
+    }
+    const ledger = JSON.parse(fs.readFileSync(ledgerPath, "utf-8"));
+    const validation = ledgerTools.validateLedger(ledger);
+    if (!validation.valid) {
+      throw new Error("INVALID_PUBLIC_PORTFOLIO_SNAPSHOT:" + validation.errors.join(","));
+    }
+    return ledgerTools.derivePortfolio(ledger);
+  }
+  if (!fs.existsSync(RECOMMENDATION_PLAN)) return { holdings: [], startDate: null };
+  const plan = JSON.parse(fs.readFileSync(RECOMMENDATION_PLAN, "utf-8"));
+  const snapshot = plan.publicPortfolioSnapshot;
+  if (!snapshot || !Array.isArray(snapshot.holdings)) {
+    return { holdings: [], startDate: null };
+  }
+  return snapshot;
 }
 
 async function build() {
@@ -51,8 +76,11 @@ async function build() {
   // 读取模板
   let template = fs.readFileSync(TEMPLATE, "utf-8");
 
-  // 公共页面绝不读取或嵌入个人持仓。
-  const portfolio = { holdings: [], startDate: null };
+  const portfolio = loadPublicPortfolioSnapshot(env);
+  const publicPortfolioSnapshot = env.PUBLIC_PORTFOLIO_SNAPSHOT === "1" || portfolio.holdings.length > 0;
+  console.log(publicPortfolioSnapshot
+    ? "[构建] 已嵌入公开只读持仓快照：" + portfolio.holdings.length + "只基金"
+    : "[构建] 未启用公开持仓快照，页面不嵌入个人持仓");
   const funds = JSON.parse(fs.readFileSync(FUNDS, "utf-8"));
 
   // 读取净值缓存，提取每只基金的最新净值（文件可能不存在，由 daily-plan 生成）
@@ -85,6 +113,10 @@ async function build() {
   template = template.replace(
     /var portfolioData = \{.*?\};/s,
     "var portfolioData = " + JSON.stringify(portfolio) + ";"
+  );
+  template = template.replace(
+    "QDII_PUBLIC_PORTFOLIO_SNAPSHOT_PLACEHOLDER",
+    publicPortfolioSnapshot ? "true" : "false"
   );
   template = template.replace(/var fundsData = \{.*?\};/s, "var fundsData = " + JSON.stringify(funds) + ";");
   template = template.replace(/var navCacheData = \{.*?\};/s, "var navCacheData = " + JSON.stringify(latestNavs) + ";");
