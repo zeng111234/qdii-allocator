@@ -113,4 +113,7 @@ test("public Pages snapshot is explicit, derived from the private ledger, and re
   assert.match(builder, /plan\.publicPortfolioSnapshot/);
   assert.match(indexSource, /process\.env\.PORTFOLIO_READ_ONLY === "1"/);
   assert.match(indexSource, /recommendationPlan\.publicPortfolioSnapshot = portfolioSnapshot/);
+  assert.match(indexSource, /function persistPublicPortfolioSnapshot\(\)/);
+  assert.match(indexSource, /opts\.dryRun && process\.env\.PORTFOLIO_READ_ONLY === "1"/);
+  assert.match(indexSource, /跳过策略、AI 和邮件/);
 });

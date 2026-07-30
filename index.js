@@ -278,6 +278,21 @@ function handleQuickCommands(opts) {
   return false;
 }
 
+function persistPublicPortfolioSnapshot() {
+  const planFile = path.join(__dirname, "data", "recommendation-plan.json");
+  let plan = {};
+  try {
+    if (fs.existsSync(planFile)) plan = JSON.parse(fs.readFileSync(planFile, "utf-8"));
+  } catch (error) {
+    console.warn("[公开快照] 旧推荐计划读取失败，将仅写入持仓快照:", error.message);
+  }
+  const snapshot = portfolio.loadPortfolio();
+  plan.publicPortfolioSnapshot = snapshot;
+  plan.publicPortfolioSnapshotUpdatedAt = new Date().toISOString();
+  fs.writeFileSync(planFile, JSON.stringify(plan, null, 2), "utf-8");
+  console.log("[公开快照] 已写入 " + snapshot.holdings.length + "只基金");
+}
+
 // [修复] 原问题：回测/走步回测/假设/目标/回填命令从main()中拆分
 
 /**
@@ -472,6 +487,12 @@ async function main() {
   console.log("");
 
   const opts = parseArgs();
+
+  if (opts.dryRun && process.env.PORTFOLIO_READ_ONLY === "1") {
+    persistPublicPortfolioSnapshot();
+    console.log("[公开快照] dry-run 已完成，跳过策略、AI 和邮件");
+    return;
+  }
 
   // 处理快捷命令
   if (handleQuickCommands(opts)) return;
