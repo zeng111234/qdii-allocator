@@ -535,6 +535,7 @@
     <div id="cloud-sync-banner" style="margin-bottom:12px;padding:10px 14px;border:1px solid var(--state-blue-border);background:var(--state-blue-bg);border-radius:10px;font-size:12px;color:var(--text2)">
       <strong id="cloud-sync-state">⏳ 正在同步</strong>
       <span id="cloud-sync-detail" style="margin-left:6px">来源：<span id="sync-source">等待云端校验</span> <span id="sync-revision-detail">· revision <span id="sync-revision">-</span></span></span>
+      <span id="decision-anchor-status" style="margin-left:6px">· ⚓ 风险锚点：待校验</span>
       <button id="cloud-sign-in" onclick="firebaseSignIn()" style="display:none;float:right;border:0;background:transparent;color:var(--primary);font-weight:600;cursor:pointer">登录并同步持仓</button>
     </div>
 
@@ -3160,11 +3161,19 @@
 
     function updateAnchorButton(detail) {
       var button = document.getElementById('decision-anchor-btn');
-      if (!button) return;
+      var status = document.getElementById('decision-anchor-status');
       var hasLedger = !!(detail && detail.ledger && Number(detail.ledger.revision) > 0);
       var hasAnchor = !!(detail && detail.decisionState && Number(detail.decisionState.riskAnchorValue) > 0);
       var publicSnapshot = window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true;
-      button.style.display = hasLedger && !hasAnchor && (detail.readOnly !== true || publicSnapshot) ? 'inline-block' : 'none';
+      if (button) button.style.display = hasLedger && !hasAnchor && (detail.readOnly !== true || publicSnapshot) ? 'inline-block' : 'none';
+      if (!status) return;
+      if (!hasLedger) {
+        status.textContent = '· ⚓ 风险锚点：待账本校验';
+      } else if (hasAnchor) {
+        status.textContent = '· ⚓ 风险锚点：已设置（账本 r' + Number(detail.ledger.revision) + '，决策 r' + Number(detail.decisionState.revision || 0) + '）';
+      } else {
+        status.textContent = '· ⚓ 风险锚点：未设置';
+      }
     }
 
     function renderAnchorSetupCard(detail, plan) {
@@ -4741,7 +4750,15 @@
 
     function getPlanFingerprint(plan) {
       if (!plan || (!plan.date && !plan.asOf) || !plan.action) return '';
-      return String(plan.date || plan.asOf) + '|' + String(plan.action);
+      var routes = Array.isArray(plan.executionRoutes) ? plan.executionRoutes.map(function(route) {
+        return String(route.code || '') + ':' + Number(route.amount || 0);
+      }).join(',') : '';
+      return [
+        String(plan.date || plan.asOf), String(plan.action), Number(plan.syncRevision || 0),
+        Number(plan.decisionRevision || 0), Number(plan.riskAnchorValue || 0),
+        Number(plan.adjustedRiskAnchorValue || 0), Number(plan.budget || 0),
+        String(plan.blockedStage || ''), routes
+      ].join('|');
     }
 
     function syncChatPlanScope(plan) {

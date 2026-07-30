@@ -253,10 +253,10 @@ test("AI connection test and chat use the same normalized chat-completions URL",
   assert.match(extractBetweenFunctions("sendAiMessage", "askQuick"), /var apiUrl = getAiChatCompletionsUrl\(config\.baseUrl\);/);
 });
 
-test("chat history is scoped to plan date and action", function () {
+test("chat history is scoped to the complete decision, not merely date and action", function () {
   const storage = new Map([
     ["qdii-ai-chat", JSON.stringify([{ role: "assistant", content: "old BUY answer" }])],
-    ["qdii-ai-chat-plan", "2026-07-16|BUY"]
+    ["qdii-ai-chat-plan", "2026-07-16|BUY|1|1|100|100|0||000001:100"]
   ]);
   const localStorage = {
     getItem: function (key) { return storage.has(key) ? storage.get(key) : null; },
@@ -264,8 +264,36 @@ test("chat history is scoped to plan date and action", function () {
     removeItem: function (key) { storage.delete(key); }
   };
   const ctx = loadHelpers(["getPlanFingerprint", "syncChatPlanScope"], { localStorage });
-  const changed = ctx.syncChatPlanScope({ date: "2026-07-17", action: "PAUSE" });
+  const changed = ctx.syncChatPlanScope({
+    date: "2026-07-17", action: "PAUSE", syncRevision: 2, decisionRevision: 1,
+    riskAnchorValue: 1627.35, adjustedRiskAnchorValue: 1627.35, budget: 10,
+    blockedStage: null, executionRoutes: [{ code: "017641", amount: 10 }]
+  });
   assert.equal(changed, true);
   assert.equal(storage.has("qdii-ai-chat"), false);
-  assert.equal(storage.get("qdii-ai-chat-plan"), "2026-07-17|PAUSE");
+  assert.equal(storage.get("qdii-ai-chat-plan"), "2026-07-17|PAUSE|2|1|1627.35|1627.35|10||017641:10");
+
+  storage.set("qdii-ai-chat", JSON.stringify([{ role: "assistant", content: "old anchor-missing answer" }]));
+  const anchorChanged = ctx.syncChatPlanScope({
+    date: "2026-07-17", action: "PAUSE", syncRevision: 2, decisionRevision: 2,
+    riskAnchorValue: 1627.35, adjustedRiskAnchorValue: 1627.35, budget: 10,
+    blockedStage: null, executionRoutes: [{ code: "017641", amount: 10 }]
+  });
+  assert.equal(anchorChanged, true);
+  assert.equal(storage.has("qdii-ai-chat"), false);
+});
+
+test("anchor status makes an existing public anchor visible without offering setup again", function () {
+  const button = { style: {} };
+  const status = { textContent: "" };
+  const ctx = loadHelpers(["updateAnchorButton"], {
+    window: { QDII_PUBLIC_PORTFOLIO_SNAPSHOT: true },
+    document: { getElementById: function (id) { return id === "decision-anchor-btn" ? button : status; } }
+  });
+  ctx.updateAnchorButton({
+    ledger: { revision: 2 }, decisionState: { revision: 1, riskAnchorValue: 1627.35 }, readOnly: true
+  });
+  assert.equal(button.style.display, "none");
+  assert.match(status.textContent, /已设置/);
+  assert.match(status.textContent, /账本 r2/);
 });
