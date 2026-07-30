@@ -111,6 +111,7 @@ test("public Pages snapshot is explicit, derived from the private ledger, and re
   assert.match(template, /window\.QDII_PUBLIC_PORTFOLIO_SNAPSHOT/);
   assert.match(template, /status === 'PUBLIC_SNAPSHOT'/);
   assert.match(builder, /plan\.publicPortfolioSnapshot/);
+  assert.match(builder, /recommendationPlan\.publicPortfolioSnapshot = portfolio/);
   assert.match(indexSource, /process\.env\.PORTFOLIO_READ_ONLY === "1"/);
   assert.match(indexSource, /recommendationPlan\.publicPortfolioSnapshot = portfolioSnapshot/);
   assert.match(indexSource, /function persistPublicPortfolioSnapshot\(\)/);

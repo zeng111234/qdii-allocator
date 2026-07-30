@@ -443,6 +443,10 @@ async function build() {
       budget: Math.min((funds.config && funds.config.defaultBudget) || 50, 50),
       liveEnabled: process.env.RECOMMENDATION_LIVE_ENABLED === "true"
     });
+    if (publicPortfolioSnapshot) {
+      recommendationPlan.publicPortfolioSnapshot = portfolio;
+      recommendationPlan.publicPortfolioSnapshotUpdatedAt = new Date().toISOString();
+    }
     fs.writeFileSync(
       path.join(__dirname, "data", "recommendation-plan.json"),
       JSON.stringify(recommendationPlan, null, 2),
