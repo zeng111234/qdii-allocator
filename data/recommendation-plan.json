@@ -457,5 +457,1241 @@
       ],
       "latestNavDate": "2026-07-28"
     }
-  ]
+  ],
+  "publicPortfolioSnapshot": {
+    "holdings": [
+      {
+        "code": "100055",
+        "buys": [
+          {
+            "id": "tx_c6fccf35aad457fdfc6302fd",
+            "date": "2026-07-09",
+            "settleDate": "2026-07-10",
+            "amount": 40,
+            "nav": 5.8339,
+            "shares": 6.8565,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 40,
+        "totalShares": 6.8565
+      },
+      {
+        "code": "160213",
+        "buys": [
+          {
+            "id": "tx_35e6a6b4c2b139a01fa7c834",
+            "date": "2026-05-27",
+            "settleDate": "2026-05-29",
+            "amount": 10,
+            "nav": 4.621,
+            "shares": 2.164,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_50e7f4ddfcc3f97daf078ce7",
+            "date": "2026-05-28",
+            "settleDate": "2026-06-01",
+            "amount": 10,
+            "nav": 4.646,
+            "shares": 2.1524,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_09535b33596c19040c19f7e5",
+            "date": "2026-05-28",
+            "settleDate": "2026-06-01",
+            "amount": 16,
+            "nav": 4.646,
+            "shares": 3.4438,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_f3c3352ad62eb6f9465131dc",
+            "date": "2026-05-28",
+            "settleDate": "2026-06-01",
+            "amount": 40,
+            "nav": 4.646,
+            "shares": 8.6096,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 76,
+        "totalShares": 16.3698
+      },
+      {
+        "code": "270023",
+        "buys": [
+          {
+            "id": "tx_da0f8c432e6922218948a041",
+            "date": "2026-06-09",
+            "amount": 10,
+            "nav": 6.5295,
+            "shares": 1.5315,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_11f080c266a87b659880e9c7",
+            "date": "2026-06-09",
+            "amount": 20,
+            "nav": 6.5295,
+            "shares": 3.063,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_62834569319bd5cff1a7246e",
+            "date": "2026-06-22",
+            "settleDate": "2026-06-23",
+            "amount": 15,
+            "nav": 7.2001,
+            "shares": 2.0833,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 45,
+        "totalShares": 6.6778
+      },
+      {
+        "code": "270042",
+        "buys": [
+          {
+            "id": "tx_2ac9960b24b8c333206e4d08",
+            "date": "2026-05-28",
+            "settleDate": "2026-06-01",
+            "amount": 20,
+            "nav": 8.5489,
+            "shares": 2.3395,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_ac13e1abbe0bc2a8ef11a062",
+            "date": "2026-06-01",
+            "settleDate": "2026-06-03",
+            "amount": 10,
+            "nav": 8.5667,
+            "shares": 1.1673,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_9ef9c083f315c3f69c080bcd",
+            "date": "2026-06-03",
+            "settleDate": "2026-06-05",
+            "amount": 10,
+            "nav": 8.1154,
+            "shares": 1.2322,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_ba258e3f7e445fdb1bdb4ccf",
+            "date": "2026-06-04",
+            "settleDate": "2026-06-08",
+            "amount": 10,
+            "nav": 8.237,
+            "shares": 1.214,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_1d0130c06fc544037d8156a7",
+            "date": "2026-06-05",
+            "settleDate": "2026-06-09",
+            "amount": 20,
+            "nav": 8.237,
+            "shares": 2.4281,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_0783dda9c3ed71bd8b95e557",
+            "date": "2026-06-08",
+            "settleDate": "2026-06-10",
+            "amount": 20,
+            "nav": 8.1611,
+            "shares": 2.4507,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_0d4dd8651e2d8f7d824c6ed2",
+            "date": "2026-06-09",
+            "amount": 10,
+            "nav": 8.1456,
+            "shares": 1.2277,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_59829ea90e5e01572aa61eab",
+            "date": "2026-06-10",
+            "amount": 10,
+            "nav": 7.9837,
+            "shares": 1.2526,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_ed22bdffe464e4f5be94b343",
+            "date": "2026-06-11",
+            "settleDate": "2026-06-15",
+            "amount": 10,
+            "nav": 8.539,
+            "shares": 1.1711,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_629ee8eefc8540c290d27964",
+            "date": "2026-06-12",
+            "settleDate": "2026-06-16",
+            "amount": 10,
+            "nav": 8.3791,
+            "shares": 1.1934,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_6600300eca948e3eb260d844",
+            "date": "2026-06-17",
+            "settleDate": "2026-06-18",
+            "amount": 10,
+            "nav": 8.5042,
+            "shares": 1.1759,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_eafb93d6a8e4a21cfbaec2fc",
+            "date": "2026-06-18",
+            "settleDate": "2026-06-22",
+            "amount": 10,
+            "nav": 8.49,
+            "shares": 1.1779,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_b4499904d63a2411a10a5b31",
+            "date": "2026-06-22",
+            "settleDate": "2026-06-23",
+            "amount": 10,
+            "nav": 8.2111,
+            "shares": 1.2179,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_d13590f95fe5ea96b07fbb69",
+            "date": "2026-06-23",
+            "settleDate": "2026-06-24",
+            "amount": 10,
+            "nav": 8.1772,
+            "shares": 1.2229,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_290640529be93d36a19b149e",
+            "date": "2026-06-24",
+            "settleDate": "2026-06-25",
+            "amount": 10,
+            "nav": 8.2413,
+            "shares": 1.2134,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_3f762711e8a7cd4b74492fdb",
+            "date": "2026-06-25",
+            "settleDate": "2026-06-26",
+            "amount": 10,
+            "nav": 8.1427,
+            "shares": 1.2281,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_12170c6644ab804617505be0",
+            "date": "2026-07-06",
+            "settleDate": "2026-07-07",
+            "amount": 10,
+            "nav": 8.1385,
+            "shares": 1.2287,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 200,
+        "totalShares": 24.1414
+      },
+      {
+        "code": "539002",
+        "buys": [
+          {
+            "id": "tx_7e59d4fd6321e25e9aa2918a",
+            "date": "2026-06-01",
+            "settleDate": "2026-06-03",
+            "amount": 20,
+            "nav": 2.766,
+            "shares": 7.2307,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_3b73be03127cd29d243bb7e6",
+            "date": "2026-06-04",
+            "settleDate": "2026-06-08",
+            "amount": 20,
+            "nav": 2.4589,
+            "shares": 8.1337,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_ee613d3a55f630f7df6c0494",
+            "date": "2026-06-09",
+            "amount": 30,
+            "nav": 2.534,
+            "shares": 11.839,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_9e8ca358681d892ee7e24d9a",
+            "date": "2026-06-12",
+            "settleDate": "2026-06-16",
+            "amount": 16,
+            "nav": 2.693,
+            "shares": 5.9413,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_2d09777ef46491b816842223",
+            "date": "2026-06-17",
+            "settleDate": "2026-06-18",
+            "amount": 15,
+            "nav": 2.883,
+            "shares": 5.2029,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_3c8b3409f45f4aeb16606a39",
+            "date": "2026-06-24",
+            "settleDate": "2026-06-25",
+            "amount": 15,
+            "nav": 2.879,
+            "shares": 5.2101,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 116,
+        "totalShares": 43.5577
+      },
+      {
+        "code": "000834",
+        "buys": [
+          {
+            "id": "tx_2e3ddf7e2501fd01291ce073",
+            "date": "2026-05-28",
+            "settleDate": "2026-06-01",
+            "amount": 20,
+            "nav": 6.5897,
+            "shares": 3.035,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_953fc89886df91b5db92935c",
+            "date": "2026-06-02",
+            "settleDate": "2026-06-04",
+            "amount": 10,
+            "nav": 6.5715,
+            "shares": 1.5217,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_24039e5e1d5801997332d687",
+            "date": "2026-06-04",
+            "settleDate": "2026-06-08",
+            "amount": 10,
+            "nav": 6.3505,
+            "shares": 1.5747,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_8b677d0098db00a06b2b1c08",
+            "date": "2026-06-05",
+            "settleDate": "2026-06-09",
+            "amount": 10,
+            "nav": 6.3505,
+            "shares": 1.5747,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_8e0f506b96024f095f90a0e5",
+            "date": "2026-06-08",
+            "settleDate": "2026-06-10",
+            "amount": 10,
+            "nav": 6.2888,
+            "shares": 1.5901,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_c867397a8d6c95558209296c",
+            "date": "2026-06-09",
+            "amount": 10,
+            "nav": 6.2769,
+            "shares": 1.5931,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_767814cba123537f5172bb8d",
+            "date": "2026-06-10",
+            "settleDate": "2026-06-12",
+            "amount": 10,
+            "nav": 6.3797,
+            "shares": 1.5675,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_c2146299c87b9dbde9eb708f",
+            "date": "2026-06-11",
+            "settleDate": "2026-06-15",
+            "amount": 10,
+            "nav": 6.5682,
+            "shares": 1.5225,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 90,
+        "totalShares": 13.9793
+      },
+      {
+        "code": "040046",
+        "buys": [
+          {
+            "id": "tx_ccd6a499debafe0eb6904915",
+            "date": "2026-05-28",
+            "settleDate": "2026-06-01",
+            "amount": 20,
+            "nav": 8.5813,
+            "shares": 2.3306,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_4956242e531fa9f5e6ea8846",
+            "date": "2026-05-29",
+            "settleDate": "2026-06-02",
+            "amount": 30,
+            "nav": 8.6249,
+            "shares": 3.4783,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_a826051f3377dea356722b2b",
+            "date": "2026-06-02",
+            "settleDate": "2026-06-04",
+            "amount": 10,
+            "nav": 8.558,
+            "shares": 1.1685,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_3fe66301b47ac51d245e6374",
+            "date": "2026-06-03",
+            "settleDate": "2026-06-05",
+            "amount": 20,
+            "nav": 8.1467,
+            "shares": 2.455,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_94219191aa056008b1269717",
+            "date": "2026-06-04",
+            "settleDate": "2026-06-08",
+            "amount": 10,
+            "nav": 8.2687,
+            "shares": 1.2094,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_94ee0fc6fd3bf2bb56001349",
+            "date": "2026-06-05",
+            "settleDate": "2026-06-09",
+            "amount": 10,
+            "nav": 8.2687,
+            "shares": 1.2094,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_b0988d4e2c61fee2081cdaf8",
+            "date": "2026-06-08",
+            "settleDate": "2026-06-10",
+            "amount": 10,
+            "nav": 8.1947,
+            "shares": 1.2203,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_ea0a1c0b8bb33b3a0f48558e",
+            "date": "2026-06-09",
+            "amount": 10,
+            "nav": 8.1791,
+            "shares": 1.2226,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_61e90daae1d369eb53770dca",
+            "date": "2026-06-10",
+            "settleDate": "2026-06-12",
+            "amount": 10,
+            "nav": 8.3289,
+            "shares": 1.2006,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_4a0c88ad05d707158bff190f",
+            "date": "2026-06-11",
+            "settleDate": "2026-06-15",
+            "amount": 10,
+            "nav": 8.5748,
+            "shares": 1.1662,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 140,
+        "totalShares": 16.6609
+      },
+      {
+        "code": "001092",
+        "buys": [
+          {
+            "id": "tx_e98475d48f93f4c32bb909e6",
+            "date": "2026-05-29",
+            "settleDate": "2026-06-02",
+            "amount": 10,
+            "nav": 1.406,
+            "shares": 7.1124,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_b55b2e2af3880a4c7b768e0a",
+            "date": "2026-06-26",
+            "settleDate": "2026-06-29",
+            "amount": 10,
+            "nav": 1.61,
+            "shares": 6.2112,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_554f0884bf9fe24fa096754e",
+            "date": "2026-06-29",
+            "settleDate": "2026-06-30",
+            "amount": 10,
+            "nav": 1.61,
+            "shares": 6.2112,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_bc3d7aa62dffce0f001ad5ef",
+            "date": "2026-06-30",
+            "settleDate": "2026-07-01",
+            "amount": 10,
+            "nav": 1.607,
+            "shares": 6.2228,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_dd508ac128e2b17b967773d4",
+            "date": "2026-07-06",
+            "settleDate": "2026-07-07",
+            "amount": 10,
+            "nav": 1.677,
+            "shares": 5.963,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_f930b9ff51b7225a06d3e745",
+            "date": "2026-07-07",
+            "settleDate": "2026-07-08",
+            "amount": 10,
+            "nav": 1.663,
+            "shares": 6.0132,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 60,
+        "totalShares": 37.7338
+      },
+      {
+        "code": "012920",
+        "buys": [
+          {
+            "id": "tx_42fe4479e74b9215dc8a97a6",
+            "date": "2026-06-01",
+            "settleDate": "2026-06-03",
+            "amount": 20,
+            "nav": 4.6963,
+            "shares": 4.2587,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_75ccd33ab157d360e6fe007d",
+            "date": "2026-06-05",
+            "settleDate": "2026-06-09",
+            "amount": 40,
+            "nav": 4.3249,
+            "shares": 9.2488,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_54f0f57dc8442fc454042f21",
+            "date": "2026-06-08",
+            "settleDate": "2026-06-10",
+            "amount": 20,
+            "nav": 4.4434,
+            "shares": 4.5011,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_58c68d56b3062d808070a48a",
+            "date": "2026-06-09",
+            "amount": 20,
+            "nav": 4.4508,
+            "shares": 4.4936,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_1632c16c0a50a203fbb548cf",
+            "date": "2026-06-10",
+            "settleDate": "2026-06-12",
+            "amount": 20,
+            "nav": 4.5568,
+            "shares": 4.389,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_379eeb03efcbb5d41374e2f7",
+            "date": "2026-06-11",
+            "settleDate": "2026-06-15",
+            "amount": 20,
+            "nav": 4.896,
+            "shares": 4.085,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_4a6e997aa142da8ff855051d",
+            "date": "2026-06-12",
+            "settleDate": "2026-06-16",
+            "amount": 20,
+            "nav": 4.8251,
+            "shares": 4.145,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_f134bf2fd92d765109f14aed",
+            "date": "2026-06-16",
+            "settleDate": "2026-06-17",
+            "amount": 16,
+            "nav": 4.9355,
+            "shares": 3.2418,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_d2817ce1b8cc32abb9edb51d",
+            "date": "2026-06-17",
+            "settleDate": "2026-06-18",
+            "amount": 16,
+            "nav": 5.1995,
+            "shares": 3.0772,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_82661a354dcac91b419723ee",
+            "date": "2026-06-18",
+            "settleDate": "2026-06-22",
+            "amount": 16,
+            "nav": 5.3763,
+            "shares": 2.976,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_df458ee41643d36b8331cf6f",
+            "date": "2026-06-19",
+            "settleDate": "2026-06-23",
+            "amount": 16,
+            "nav": 4.9566,
+            "shares": 3.228,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_ed3cbb5405941542c08d9699",
+            "date": "2026-06-22",
+            "settleDate": "2026-06-23",
+            "amount": 20,
+            "nav": 4.9566,
+            "shares": 4.035,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_ecdb04a2e6de5611ae3b23dd",
+            "date": "2026-06-23",
+            "settleDate": "2026-06-24",
+            "amount": 20,
+            "nav": 4.9981,
+            "shares": 4.0015,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_b21dfeece9f9d359c2b2470b",
+            "date": "2026-06-24",
+            "settleDate": "2026-06-25",
+            "amount": 10,
+            "nav": 5.2701,
+            "shares": 1.8975,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_f211b233113ed5c142052ef8",
+            "date": "2026-06-25",
+            "settleDate": "2026-06-26",
+            "amount": 10,
+            "nav": 5.015,
+            "shares": 1.994,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_a0c4192518b297643c40575d",
+            "date": "2026-06-26",
+            "settleDate": "2026-06-29",
+            "amount": 10,
+            "nav": 5.0638,
+            "shares": 1.9748,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_308ef5fb4160b1fd5cc74080",
+            "date": "2026-06-29",
+            "settleDate": "2026-06-30",
+            "amount": 10,
+            "nav": 5.2809,
+            "shares": 1.8936,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_e849001f4edd8bd9474420a2",
+            "date": "2026-06-30",
+            "settleDate": "2026-07-01",
+            "amount": 10,
+            "nav": 5.0259,
+            "shares": 1.9897,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_820ad049bad78b0c1418cdd4",
+            "date": "2026-07-01",
+            "settleDate": "2026-07-02",
+            "amount": 10,
+            "nav": 4.6234,
+            "shares": 2.1629,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 324,
+        "totalShares": 67.5932
+      },
+      {
+        "code": "015204",
+        "buys": [
+          {
+            "id": "tx_0f26e2dc69eff153293c7e99",
+            "date": "2026-06-01",
+            "settleDate": "2026-06-03",
+            "amount": 20,
+            "nav": 1.6444,
+            "shares": 12.1625,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 20,
+        "totalShares": 12.1625
+      },
+      {
+        "code": "000614",
+        "buys": [
+          {
+            "id": "tx_bc3c26e22642c84c163b8a6b",
+            "date": "2026-06-02",
+            "settleDate": "2026-06-04",
+            "amount": 20,
+            "nav": 1.9673,
+            "shares": 10.1662,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 20,
+        "totalShares": 10.1662
+      },
+      {
+        "code": "019524",
+        "buys": [
+          {
+            "id": "tx_796d19e0da239a5bb55c0bd0",
+            "date": "2026-06-02",
+            "settleDate": "2026-06-04",
+            "amount": 10,
+            "nav": 1.7068,
+            "shares": 5.8589,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_26475c1089773e69d731707c",
+            "date": "2026-06-03",
+            "settleDate": "2026-06-05",
+            "amount": 10,
+            "nav": 1.6292,
+            "shares": 6.138,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_94c5f921248994b703cef49f",
+            "date": "2026-06-04",
+            "settleDate": "2026-06-08",
+            "amount": 10,
+            "nav": 1.6536,
+            "shares": 6.0474,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_d033492272279d7df3f603ee",
+            "date": "2026-06-05",
+            "settleDate": "2026-06-09",
+            "amount": 10,
+            "nav": 1.6536,
+            "shares": 6.0474,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_9b58154fe28e902cef7e1111",
+            "date": "2026-06-08",
+            "settleDate": "2026-06-10",
+            "amount": 10,
+            "nav": 1.6388,
+            "shares": 6.102,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_11d872f42aabfec2c8831383",
+            "date": "2026-06-09",
+            "amount": 10,
+            "nav": 1.6357,
+            "shares": 6.1136,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_53aea385c8e17f6bb560415b",
+            "date": "2026-06-10",
+            "settleDate": "2026-06-12",
+            "amount": 10,
+            "nav": 1.6645,
+            "shares": 6.0078,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_01b2ffa012c7e59935a3a055",
+            "date": "2026-06-11",
+            "settleDate": "2026-06-15",
+            "amount": 10,
+            "nav": 1.7123,
+            "shares": 5.8401,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_dac080f6a965c2247130aa00",
+            "date": "2026-07-06",
+            "settleDate": "2026-07-07",
+            "amount": 10,
+            "nav": 1.6388,
+            "shares": 6.102,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_421aef530c30b87722f6c8e2",
+            "date": "2026-07-07",
+            "settleDate": "2026-07-08",
+            "amount": 10,
+            "nav": 1.6435,
+            "shares": 6.0846,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_cc26f9fafa43e7c216ab0288",
+            "date": "2026-07-08",
+            "settleDate": "2026-07-09",
+            "amount": 10,
+            "nav": 1.6677,
+            "shares": 5.9963,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 110,
+        "totalShares": 66.3381
+      },
+      {
+        "code": "019067",
+        "buys": [
+          {
+            "id": "tx_38a694719efdd68c77454cf8",
+            "date": "2026-06-03",
+            "settleDate": "2026-06-05",
+            "amount": 50,
+            "nav": 1.2595,
+            "shares": 39.6983,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 50,
+        "totalShares": 39.6983
+      },
+      {
+        "code": "096001",
+        "buys": [
+          {
+            "id": "tx_485d344393b894b69de203e5",
+            "date": "2026-06-03",
+            "settleDate": "2026-06-05",
+            "amount": 50,
+            "nav": 2.7134,
+            "shares": 18.4271,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_988c3ad7955fb134f20f33f1",
+            "date": "2026-06-05",
+            "settleDate": "2026-06-09",
+            "amount": 10,
+            "nav": 2.7094,
+            "shares": 3.6909,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_362bb2cc44fc97e60e4e7c3d",
+            "date": "2026-06-08",
+            "settleDate": "2026-06-10",
+            "amount": 10,
+            "nav": 2.7208,
+            "shares": 3.6754,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_ad0559a8308fae36b5d8de8e",
+            "date": "2026-06-09",
+            "amount": 10,
+            "nav": 2.7299,
+            "shares": 3.6631,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_e22f7ce7c1f8627c2245f7ed",
+            "date": "2026-07-06",
+            "settleDate": "2026-07-07",
+            "amount": 10,
+            "nav": 2.807,
+            "shares": 3.5625,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 90,
+        "totalShares": 33.019
+      },
+      {
+        "code": "015558",
+        "buys": [
+          {
+            "id": "tx_00a6a8800e7649c794a08d41",
+            "date": "2026-06-04",
+            "settleDate": "2026-06-08",
+            "amount": 10,
+            "nav": 1.5195,
+            "shares": 6.5811,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_9a4e3ee70dfb3c68f514e223",
+            "date": "2026-06-15",
+            "settleDate": "2026-06-16",
+            "amount": 10,
+            "nav": 1.4825,
+            "shares": 6.7454,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 20,
+        "totalShares": 13.3265
+      },
+      {
+        "code": "016664",
+        "buys": [
+          {
+            "id": "tx_a9f590ef37fdf8d74b3f82a7",
+            "date": "2026-06-04",
+            "settleDate": "2026-06-08",
+            "amount": 30,
+            "nav": 3.346,
+            "shares": 8.9659,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_a953102e2fc4c1fdd9edb2b8",
+            "date": "2026-06-09",
+            "amount": 10,
+            "nav": 3.3845,
+            "shares": 2.9546,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_0f0bbdc42ed61dddef4364a5",
+            "date": "2026-06-12",
+            "settleDate": "2026-06-16",
+            "amount": 10,
+            "nav": 3.6525,
+            "shares": 2.7379,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_e37ba98d1261ff261025b3ee",
+            "date": "2026-06-15",
+            "settleDate": "2026-06-16",
+            "amount": 16,
+            "nav": 3.6525,
+            "shares": 4.3806,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_1790750731c837930f142fcc",
+            "date": "2026-06-16",
+            "settleDate": "2026-06-17",
+            "amount": 16,
+            "nav": 3.7372,
+            "shares": 4.2813,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_9b7cc5f22d8a109529ef6a1b",
+            "date": "2026-06-18",
+            "settleDate": "2026-06-22",
+            "amount": 16,
+            "nav": 3.9939,
+            "shares": 4.0061,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_0b11486e83cc72c81c37b0ff",
+            "date": "2026-06-26",
+            "settleDate": "2026-06-29",
+            "amount": 30,
+            "nav": 3.7849,
+            "shares": 7.9262,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_c9d6444b61ec893cfa11250f",
+            "date": "2026-06-30",
+            "settleDate": "2026-07-01",
+            "amount": 16,
+            "nav": 3.8011,
+            "shares": 4.2093,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 144,
+        "totalShares": 39.4619
+      },
+      {
+        "code": "017641",
+        "buys": [
+          {
+            "id": "tx_497755aede16780a2074f416",
+            "date": "2026-06-04",
+            "settleDate": "2026-06-08",
+            "amount": 10,
+            "nav": 1.6483,
+            "shares": 6.0669,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_c55a2538350b72917c9ea48f",
+            "date": "2026-06-05",
+            "settleDate": "2026-06-09",
+            "amount": 10,
+            "nav": 1.6483,
+            "shares": 6.0669,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_feeb4d09a976d062d96ae308",
+            "date": "2026-06-08",
+            "settleDate": "2026-06-10",
+            "amount": 10,
+            "nav": 1.645,
+            "shares": 6.079,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_e1e6346f439a695c0bc66f5d",
+            "date": "2026-07-07",
+            "settleDate": "2026-07-08",
+            "amount": 10,
+            "nav": 1.6696,
+            "shares": 5.9895,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_ff545a92e2a3f56b753800e8",
+            "date": "2026-07-08",
+            "settleDate": "2026-07-09",
+            "amount": 10,
+            "nav": 1.6816,
+            "shares": 5.9467,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 50,
+        "totalShares": 30.149
+      },
+      {
+        "code": "050015",
+        "buys": [
+          {
+            "id": "tx_b5fc815661e5ffa8e28bd946",
+            "date": "2026-06-09",
+            "amount": 10,
+            "nav": 1.418,
+            "shares": 7.0522,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 10,
+        "totalShares": 7.0522
+      },
+      {
+        "code": "007280",
+        "buys": [
+          {
+            "id": "tx_d3f892db705b538e9d5e3452",
+            "date": "2026-06-12",
+            "settleDate": "2026-06-16",
+            "amount": 10,
+            "nav": 2.2655,
+            "shares": 4.414,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_38ffd72e78806855afe2298a",
+            "date": "2026-06-15",
+            "settleDate": "2026-06-16",
+            "amount": 20,
+            "nav": 2.2655,
+            "shares": 8.8281,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 30,
+        "totalShares": 13.2421
+      },
+      {
+        "code": "017730",
+        "buys": [
+          {
+            "id": "tx_7300a624269de16bb39a3aee",
+            "date": "2026-06-29",
+            "settleDate": "2026-06-30",
+            "amount": 16,
+            "nav": 5.1424,
+            "shares": 3.1114,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 16,
+        "totalShares": 3.1114
+      },
+      {
+        "code": "006373",
+        "buys": [
+          {
+            "id": "tx_70ce7520b306709d178a59e6",
+            "date": "2026-07-01",
+            "settleDate": "2026-07-02",
+            "amount": 10,
+            "nav": 7.4618,
+            "shares": 1.3402,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_aee49c8c0af57f1cbdf5fc88",
+            "date": "2026-07-08",
+            "settleDate": "2026-07-09",
+            "amount": 10,
+            "nav": 7.4808,
+            "shares": 1.3368,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 20,
+        "totalShares": 2.677
+      },
+      {
+        "code": "008763",
+        "buys": [
+          {
+            "id": "tx_e7f47c751dbe9dbe221ee22e",
+            "date": "2026-07-02",
+            "settleDate": "2026-07-03",
+            "amount": 5,
+            "nav": 1.6493,
+            "shares": 3.0316,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_07b5c0dd24caf8de71abeb9d",
+            "date": "2026-07-02",
+            "settleDate": "2026-07-03",
+            "amount": 50,
+            "nav": 1.6493,
+            "shares": 30.3159,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_73b70ce192af9be71a422a0a",
+            "date": "2026-07-03",
+            "settleDate": "2026-07-06",
+            "amount": 55,
+            "nav": 1.6403,
+            "shares": 33.5305,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 110,
+        "totalShares": 66.878
+      },
+      {
+        "code": "000369",
+        "buys": [
+          {
+            "id": "tx_f217eb74ac4a81297823ae60",
+            "date": "2026-07-13",
+            "settleDate": "2026-07-14",
+            "amount": 23,
+            "nav": 2.466,
+            "shares": 9.3268,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 23,
+        "totalShares": 9.3268
+      },
+      {
+        "code": "005698",
+        "buys": [
+          {
+            "id": "tx_e3c75ce10075236eee83b805",
+            "date": "2026-07-13",
+            "settleDate": "2026-07-14",
+            "amount": 23,
+            "nav": 3.2807,
+            "shares": 7.0107,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 23,
+        "totalShares": 7.0107
+      }
+    ],
+    "totalInvested": 1877,
+    "transactionCount": 120,
+    "revision": 2,
+    "checksum": "c917dbbde17f7b04505dfd783362bf09790b8abcf8980b53b56040c649f20bb9"
+  },
+  "publicPortfolioSnapshotUpdatedAt": "2026-07-30T05:20:57.968Z"
 }
