@@ -3,8 +3,15 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-07-30T11:05:42.938Z",
+  "fetchedAt": "2026-07-31T04:26:39.141Z",
   "items": [
+   {
+    "title": "Did Citadel really just liquidate Situational Awareness… Then brought up entire markets the next day? $NBIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK...",
+    "text": "Did Citadel really just liquidate Situational Awareness… Then brought up entire markets the next day? $NBIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK + 23.98% $BE +23.67% $SKHY +16.98% $INTC +12.16% Amid many others. This has gotta be one of the wildest liquidations I’ve seen.",
+    "time": "Thu, 30 Jul 2026 18:31:07 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2082896789880119590",
+    "source": "x-rsshub"
+   },
    {
     "title": "There's a lot of stupid commentary around Leopold raising funds. After names like $BE, $SNDK, $SHAZ, and others all had very sharp drawdowns in July. ...",
     "text": "There's a lot of stupid commentary around Leopold raising funds. After names like $BE, $SNDK, $SHAZ, and others all had very sharp drawdowns in July. Just remember... here's a man in finance that's 1. 6'5 2. Blue Eyes 3. Hedge Fund Probably better looking than you, and was up 439% through June YTD. Regarding the drawdown, Aschenbrenner acknowledged that the fund had \"not been immune\" to the market turmoil, particularly in Asia. FT separately reported that leverage amplified both its extraordinary gains and recent losses. He described the sell-off as potentially the best buying opportunity since early 2025 I'd agree with him and hope he succeeds with the raise. Since a lot of the current selloff looks like it overshot its mark through forced deleveraging.",
@@ -81,18 +88,11 @@
     "time": "Mon, 27 Jul 2026 01:12:57 GMT",
     "link": "https://x.com/aleabitoreddit/status/2081548360818004299",
     "source": "x-rsshub"
-   },
-   {
-    "title": "Just some TLDR news: - $CXMT IPO tomorrow if you like Chinese memory. - Samsung Electronics reportedly struggling to secure large FC-BGA substrates. I...",
-    "text": "Just some TLDR news: - $CXMT IPO tomorrow if you like Chinese memory. - Samsung Electronics reportedly struggling to secure large FC-BGA substrates. Ibiden (4062) reportedly requested LTA guarantees, Samsung Electro-Mechanics sought prepayments. - Samsung + $AVGO sign memory + foundry AI framework through 2030, expected to exceed $200b - $SOI expects FY2027 silicon photonics revenue to double compared to the previous year, surpassing Morgan Stanley's 60% growth projection. Photonics thesis go brrr. - SK Group + $NVDA sign $500B+ partnership to build out AI DCs and HBM4 memory. - SKC Absolics glass core delay to 2027 from reports. Targeting final reliability testing EOY, mass production next year. So if you're curious, this does push back some ramps from $LPK and others (hence drop on ER). - $QCOM price hikes by double digits for smartphone processors, due to upstream supplier hike pricing. - $META expected to issue $12B in project-level/SPV financing for El Paso, Texas AI DC expansion - Naver announced a $10 billion investment from $NVDA and Brookfield to construct a 1GW-scale AI Factory. Near term plan is 200MW by 2028. (Nvidia $1B investment, Brookfield nonbinding $9B) - 64GB DDR5 server modules rises 146% versus end-June contract pricing - $INTC brought forward 14A process mass production by a year, risk production H2 2027 and volume production in 2028, vs. 2029 HVM expectations. - Samsung Electro-Mechanics wins $200m MLCC order (existing bottleneck). - $AMD (the Bandana bottleneck), announces Helios is in full production with shipments Q3 2026. Including an up to 2GW MI455X GPU deployment with Anthropic and a 6GW infrastructure rollout with OpenAI. Gave new >50% CAGR TAM to $220B by 2030 from $26b in 2025 for CPU market. Rolls out optical interconnects for Mi500 in 2027. From channel checks, AMD is heading down to the CPO route (seems likely to use Ayar). - $ORCL wins $7B Department of War enterprise software contract - JX metal doubles semi target capacity at its KR subsidary with a 4B yen investment, with operations to begin H2 2027, amid surging demand from major customers Samsung Electronics and SK Hynix - Tungsten hexafluoride spot prices surged 2.1-2.5x Y/Y following Japan's Kanto Denka and Chuo Gas announcing permanent production halts. Fluorinated liquid supply faces a vacuum as 3M plans to exit PFAS production. - From the four optical chipmaker earnings, Yuanjie/Eoptolink/TFC Optical/Dongshan Precision: no major order cuts, 1.6T shipments expected to accelerate into 2027. Optical chip suppliers expected to capture outsized margins from shortages. - Unitree Robotics Targets 30,000 Humanoid Robot Production Capacity by 2026. Read through on humanoid TAM scaling like $CCXI and others. - Energy storage lithium batteries orders increase first half orders by 2,900% apparently in China. Not as familiar with EVE Energy and other battery makers.",
-    "time": "Sun, 26 Jul 2026 20:12:11 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2081472671129501729",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
-    "score": 2,
+    "score": 3,
     "matches": [
      "ai",
      "nvda",
@@ -115,24 +115,22 @@
     "matches": []
    },
    "hongkong": {
-    "score": 0.25,
+    "score": 0.75,
     "matches": [
      "asia",
      "china"
     ]
    },
    "oil": {
-    "score": 0.25,
+    "score": 0.75,
     "matches": [
      "oil",
      "energy"
     ]
    },
    "commodities": {
-    "score": -0.5,
-    "matches": [
-     "metal"
-    ]
+    "score": 0,
+    "matches": []
    },
    "bonds": {
     "score": 1.5,
@@ -142,32 +140,49 @@
     ]
    },
    "globalTech": {
-    "score": 2,
+    "score": 3,
     "matches": [
      "ai",
      "semiconductor",
      "chip",
-     "cloud",
-     "software"
+     "cloud"
     ]
    }
   },
   "tickerOpinions": [
    {
-    "ticker": "META",
+    "ticker": "SNDK",
     "mentions": 6,
     "snippets": [
-     "Just some takeaways from $META | $MSFT earnings calls: Microsoft: - Expected to be FCF positive in 2027, despite the increase in capex (extremely",
-     "remely posi... Just some takeaways from $META | $MSFT earnings calls: Microsoft: - Expected to be FCF positive in 2027, despite the increase in capex (extremely"
+     "BIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK... Did Citadel really just liquidate Situational Awareness… Then brought up entire markets the next day? $NBIS +26",
+     "BIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK + 23.98% $BE +23.67% $SKHY +16.98% $INTC +12.16% Amid many others. This has gotta be one of the wildest liquidatio"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "IREN",
+    "mentions": 5,
+    "snippets": [
+     "ire markets the next day? $NBIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK... Did Citadel really just liquidate Situational Awareness… Then brought up entire mar",
+     "ire markets the next day? $NBIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK + 23.98% $BE +23.67% $SKHY +16.98% $INTC +12.16% Amid many others. This has gotta be o"
     ],
     "sentiment": "bearish"
    },
    {
-    "ticker": "NVDA",
+    "ticker": "BE",
     "mentions": 5,
     "snippets": [
-     "ows through $TSM COUPE [ likely maps to $NVDA CPO products] - \"The CPO piece does flow through that 10% customer\" So now, test is ramping given management cited",
-     "infrastructure based on $AMD Helios and $NVDA Vera Rubin\" - \"Customer demand continues to exceed available capacity\" Meta: - Capex $130-$145 billion (narrowed r"
+     "EN +25.96% $SHAZ +22.82% $SNDK + 23.98% $BE +23.67% $SKHY +16.98% $INTC +12.16% Amid many others. This has gotta be one of the wildest liquidations I’ve seen.",
+     "Leopold raising funds. After names like $BE, $SNDK, $SHAZ, and others all had very sharp drawdowns in July. ... There's a lot of stupid commentary around Leopol"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "META",
+    "mentions": 5,
+    "snippets": [
+     "Just some takeaways from $META | $MSFT earnings calls: Microsoft: - Expected to be FCF positive in 2027, despite the increase in capex (extremely",
+     "remely posi... Just some takeaways from $META | $MSFT earnings calls: Microsoft: - Expected to be FCF positive in 2027, despite the increase in capex (extremely"
     ],
     "sentiment": "bearish"
    },
@@ -181,22 +196,22 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "BE",
+    "ticker": "NBIS",
     "mentions": 4,
     "snippets": [
-     "Leopold raising funds. After names like $BE, $SNDK, $SHAZ, and others all had very sharp drawdowns in July. ... There's a lot of stupid commentary around Leopol",
-     "Leopold raising funds. After names like $BE, $SNDK, $SHAZ, and others all had very sharp drawdowns in July. Just remember... here's a man in finance that's 1. 6"
+     "brought up entire markets the next day? $NBIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK... Did Citadel really just liquidate Situational Awareness… Then brought",
+     "brought up entire markets the next day? $NBIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK + 23.98% $BE +23.67% $SKHY +16.98% $INTC +12.16% Amid many others. This"
     ],
-    "sentiment": "bullish"
+    "sentiment": "neutral"
    },
    {
-    "ticker": "SNDK",
+    "ticker": "SHAZ",
     "mentions": 4,
     "snippets": [
-     "ld raising funds. After names like $BE, $SNDK, $SHAZ, and others all had very sharp drawdowns in July. ... There's a lot of stupid commentary around Leopold rai",
-     "ld raising funds. After names like $BE, $SNDK, $SHAZ, and others all had very sharp drawdowns in July. Just remember... here's a man in finance that's 1. 6'5 2."
+     "e next day? $NBIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK... Did Citadel really just liquidate Situational Awareness… Then brought up entire markets the next",
+     "e next day? $NBIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK + 23.98% $BE +23.67% $SKHY +16.98% $INTC +12.16% Amid many others. This has gotta be one of the wild"
     ],
-    "sentiment": "bullish"
+    "sentiment": "neutral"
    },
    {
     "ticker": "MSFT",
@@ -217,13 +232,13 @@
     "sentiment": "neutral"
    },
    {
-    "ticker": "IREN",
+    "ticker": "NVDA",
     "mentions": 3,
     "snippets": [
-     "e scarcity, positive for neoclouds like $IREN / $NBIS ) - Expects significant portion of compute (like the 1 GW DC in El Paso) to develop internal models. - Met",
-     "To show solidarity with the $IREN holders: I now own 1 share of IREN. To show solidarity with the $IREN holders: I now own 1 share of IREN."
+     "ows through $TSM COUPE [ likely maps to $NVDA CPO products] - \"The CPO piece does flow through that 10% customer\" So now, test is ramping given management cited",
+     "infrastructure based on $AMD Helios and $NVDA Vera Rubin\" - \"Customer demand continues to exceed available capacity\" Meta: - Capex $130-$145 billion (narrowed r"
     ],
-    "sentiment": "bearish"
+    "sentiment": "neutral"
    },
    {
     "ticker": "SIVE",
@@ -235,31 +250,13 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "CXMT",
-    "mentions": 3,
-    "snippets": [
-     "overblown. - Chinese fears from DUV to $CXMT overflooding are extremely overblown as well. We see this with every sector from time to time until people remembe",
-     "Just some TLDR news: - $CXMT IPO tomorrow if you like Chinese memory. - Samsung Electronics reportedly struggling to secure large FC-BGA substr"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "CCXI",
-    "mentions": 3,
-    "snippets": [
-     "d/Robotics programs. Agility Robotics ( $CCXI ... FCC set to ban Chinese imports of humanoid and quadruped robots per Reuters. To protect American Humanoid/Robo",
-     "d/Robotics programs. Agility Robotics ( $CCXI ) and other US humanoid players should be happy to hear this."
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "SHAZ",
+    "ticker": "INTC",
     "mentions": 2,
     "snippets": [
-     "ing funds. After names like $BE, $SNDK, $SHAZ, and others all had very sharp drawdowns in July. ... There's a lot of stupid commentary around Leopold raising fu",
-     "ing funds. After names like $BE, $SNDK, $SHAZ, and others all had very sharp drawdowns in July. Just remember... here's a man in finance that's 1. 6'5 2. Blue E"
+     "SNDK + 23.98% $BE +23.67% $SKHY +16.98% $INTC +12.16% Amid many others. This has gotta be one of the wildest liquidations I’ve seen.",
+     "ST) Never thought we'd see the US Gov / $INTC foundry playbook for CPO in specific..."
     ],
-    "sentiment": "neutral"
+    "sentiment": "bullish"
    },
    {
     "ticker": "FORM",
@@ -267,24 +264,6 @@
     "snippets": [
      "Just some interesting takeaways from $FORM earnings call on CPO: Since they attributed systems revenue nearly doubled due to: \"accelerating growth in ... Jus",
      ".. Just some interesting takeaways from $FORM earnings call on CPO: Since they attributed systems revenue nearly doubled due to: \"accelerating growth in co-pack"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "AMD",
-    "mentions": 2,
-    "snippets": [
-     "n rack-scale AI infrastructure based on $AMD Helios and $NVDA Vera Rubin\" - \"Customer demand continues to exceed available capacity\" Meta: - Capex $130-$145 bil",
-     "00m MLCC order (existing bottleneck). - $AMD (the Bandana bottleneck), announces Helios is in full production with shipments Q3 2026. Including an up to 2GW MI4"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "NBIS",
-    "mentions": 2,
-    "snippets": [
-     "ty, positive for neoclouds like $IREN / $NBIS ) - Expects significant portion of compute (like the 1 GW DC in El Paso) to develop internal models. - Meta has mu",
-     "gins/growth shows increasing demand for $NBIS and similar neocloud business models. $META + other hyperscaler notes around LTAs with $SNDK and Samsung/SK Hynix,"
     ],
     "sentiment": "neutral"
    },
@@ -307,15 +286,6 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "INTC",
-    "mentions": 2,
-    "snippets": [
-     "ST) Never thought we'd see the US Gov / $INTC foundry playbook for CPO in specific...",
-     "146% versus end-June contract pricing - $INTC brought forward 14A process mass production by a year, risk production H2 2027 and volume production in 2028, vs."
-    ],
-    "sentiment": "neutral"
-   },
-   {
     "ticker": "TER",
     "mentions": 2,
     "snippets": [
@@ -323,6 +293,15 @@
      "vershot many individual names. - $BE to $TER reported blowout results, with Bloom reporting 166% Y/Y rev growth + expanding margins + raised 2026 guidance... Te"
     ],
     "sentiment": "bullish"
+   },
+   {
+    "ticker": "CCXI",
+    "mentions": 2,
+    "snippets": [
+     "d/Robotics programs. Agility Robotics ( $CCXI ... FCC set to ban Chinese imports of humanoid and quadruped robots per Reuters. To protect American Humanoid/Robo",
+     "d/Robotics programs. Agility Robotics ( $CCXI ) and other US humanoid players should be happy to hear this."
+    ],
+    "sentiment": "neutral"
    },
    {
     "ticker": "CMXT",
@@ -334,6 +313,14 @@
     "sentiment": "bullish"
    },
    {
+    "ticker": "SKHY",
+    "mentions": 1,
+    "snippets": [
+     "SHAZ +22.82% $SNDK + 23.98% $BE +23.67% $SKHY +16.98% $INTC +12.16% Amid many others. This has gotta be one of the wildest liquidations I’ve seen."
+    ],
+    "sentiment": "neutral"
+   },
+   {
     "ticker": "TSM",
     "mentions": 1,
     "snippets": [
@@ -342,10 +329,26 @@
     "sentiment": "neutral"
    },
    {
+    "ticker": "AMD",
+    "mentions": 1,
+    "snippets": [
+     "n rack-scale AI infrastructure based on $AMD Helios and $NVDA Vera Rubin\" - \"Customer demand continues to exceed available capacity\" Meta: - Capex $130-$145 bil"
+    ],
+    "sentiment": "bearish"
+   },
+   {
     "ticker": "AMKR",
     "mentions": 1,
     "snippets": [
      "t over near-term revisions as seen with $AMKR. But as a TLDR, looks very positive for the themes I'm tracking. - Then you have $GOOGL capex raised to $195-$205B"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "CXMT",
+    "mentions": 1,
+    "snippets": [
+     "overblown. - Chinese fears from DUV to $CXMT overflooding are extremely overblown as well. We see this with every sector from time to time until people remembe"
     ],
     "sentiment": "bullish"
    },
@@ -364,49 +367,14 @@
      "d LTAs with $SNDK and Samsung/SK Hynix, $MU point to structural memory demand. Can go on and on... But when you have Jim Cramer telling every margined DC trader"
     ],
     "sentiment": "bullish"
-   },
-   {
-    "ticker": "AVGO",
-    "mentions": 1,
-    "snippets": [
-     "chanics sought prepayments. - Samsung + $AVGO sign memory + foundry AI framework through 2030, expected to exceed $200b - $SOI expects FY2027 silicon photonics"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "SOI",
-    "mentions": 1,
-    "snippets": [
-     "hrough 2030, expected to exceed $200b - $SOI expects FY2027 silicon photonics revenue to double compared to the previous year, surpassing Morgan Stanley's 60% g"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "LPK",
-    "mentions": 1,
-    "snippets": [
-     "us, this does push back some ramps from $LPK and others (hence drop on ER). - $QCOM price hikes by double digits for smartphone processors, due to upstream supp"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "QCOM",
-    "mentions": 1,
-    "snippets": [
-     "m $LPK and others (hence drop on ER). - $QCOM price hikes by double digits for smartphone processors, due to upstream supplier hike pricing. - $META expected to"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "ORCL",
-    "mentions": 1,
-    "snippets": [
-     "CPO route (seems likely to use Ayar). - $ORCL wins $7B Department of War enterprise software contract - JX metal doubles semi target capacity at its KR subsidar"
-    ],
-    "sentiment": "bearish"
    }
   ],
   "opinionSummaries": [
+   {
+    "time": "Thu, 30 Jul 2026 18:31:07 GMT",
+    "text": "Did Citadel really just liquidate Situational Awareness… Then brought up entire markets the next day? $NBIS +26.25% $IREN +25.96% $SHAZ +22.82% $SNDK + 23.98% $BE +23.67% $SKHY +16.98% $INTC +12.16% A...",
+    "tickers": "$NBIS, $IREN, $SHAZ, $SNDK, $BE, $SKHY, $INTC"
+   },
    {
     "time": "Thu, 30 Jul 2026 08:10:00 GMT",
     "text": "There's a lot of stupid commentary around Leopold raising funds. After names like $BE, $SNDK, $SHAZ, and others all had very sharp drawdowns in July. Just remember... here's a man in finance that's 1....",
@@ -426,11 +394,6 @@
     "time": "Wed, 29 Jul 2026 21:27:33 GMT",
     "text": "$AXTI enters long term agreement with $LITE for InP substrates. Lumentum has agreed to pay a deposit of $43.5M as a reservation for capacity.",
     "tickers": "$AXTI, $LITE"
-   },
-   {
-    "time": "Wed, 29 Jul 2026 20:03:30 GMT",
-    "text": "To show solidarity with the $IREN holders: I now own 1 share of IREN.",
-    "tickers": "$IREN"
    }
   ],
   "attempts": [
@@ -440,5 +403,5 @@
    }
   ]
  },
- "cachedAt": 1785409542940
+ "cachedAt": 1785471999142
 }

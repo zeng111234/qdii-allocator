@@ -13807,6 +13807,60 @@
           "followUp10dReturn": null
         }
       ]
+    },
+    {
+      "date": "2026-07-31",
+      "strategy": "RecommendationPlan",
+      "strategyVersion": "allocation-v2.1-balanced",
+      "allocationWeek": "2026-07-27",
+      "action": "PAUSE",
+      "budget": 0,
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-07-30",
+        "maxTradingDayLag": 2,
+        "observationCount": 4
+      },
+      "signalHealth": {
+        "status": "WARMING_UP",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 4,
+          "winRate": 75,
+          "averageReturn": -0.7
+        },
+        "evidenceSource": "SHADOW",
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "096001",
+          "name": "大成标普500A(QDII)",
+          "score": 69.33,
+          "suitabilityScore": 69.33,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 66.17,
+          "suitabilityScore": 66.17,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
     }
   ]
 }
