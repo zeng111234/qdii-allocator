@@ -13817,7 +13817,7 @@
       "budget": 0,
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-07-30",
+        "latestNavDate": "2026-07-31",
         "maxTradingDayLag": 2,
         "observationCount": 4
       },
@@ -13840,10 +13840,10 @@
       "ranked": [
         {
           "rank": 1,
-          "code": "096001",
-          "name": "大成标普500A(QDII)",
-          "score": 69.33,
-          "suitabilityScore": 69.33,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 68.92,
+          "suitabilityScore": 68.92,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -13851,10 +13851,10 @@
         },
         {
           "rank": 2,
-          "code": "000369",
-          "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 66.17,
-          "suitabilityScore": 66.17,
+          "code": "096001",
+          "name": "大成标普500A(QDII)",
+          "score": 68.17,
+          "suitabilityScore": 68.17,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
