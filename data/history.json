@@ -13915,6 +13915,60 @@
           "followUp10dReturn": null
         }
       ]
+    },
+    {
+      "date": "2026-08-04",
+      "strategy": "RecommendationPlan",
+      "strategyVersion": "allocation-v2.1-balanced",
+      "allocationWeek": "2026-08-03",
+      "action": "PAUSE",
+      "budget": 0,
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-08-03",
+        "maxTradingDayLag": 2,
+        "observationCount": 4
+      },
+      "signalHealth": {
+        "status": "WARMING_UP",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 6,
+          "winRate": 50,
+          "averageReturn": -0.57
+        },
+        "evidenceSource": "SHADOW",
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 71.66,
+          "suitabilityScore": 71.66,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "096001",
+          "name": "大成标普500A(QDII)",
+          "score": 66.75,
+          "suitabilityScore": 66.75,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
     }
   ]
 }
