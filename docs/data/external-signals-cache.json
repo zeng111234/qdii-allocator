@@ -3,8 +3,15 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-08-04T04:18:12.922Z",
+  "fetchedAt": "2026-08-04T11:22:13.462Z",
   "items": [
+   {
+    "title": "A very material catalyst came about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a...",
+    "text": "A very material catalyst came about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and DC devices. Which would likely hit China’s Innolight, Eoptolink, and other Chinese optical interconnect supply chains. \"The agency would ban all imports of new transceiver models and then exempt many ⁠non-Chinese suppliers from the restrictions\" We'll likely see a larger bifurcation of supply chains with even greater importance put on Western players.",
+    "time": "Tue, 04 Aug 2026 11:09:35 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2084597612175618342",
+    "source": "x-rsshub"
+   },
    {
     "title": "SK Hynix, $MU , and Samsung have sold out of 2027 capacity for DRAM/HBM. $SNDK, Samsung, Micron current annual NAND capacity has been sold out, with K...",
     "text": "SK Hynix, $MU , and Samsung have sold out of 2027 capacity for DRAM/HBM. $SNDK, Samsung, Micron current annual NAND capacity has been sold out, with Kioxia and SK Hynix expected to finalize allocations by August 2026. - Customers are being allocated only 60–70% of the volumes they initially requested - industry insiders pointed out that 2027 will enter the most severe moment of memory shortage - Allocation amounts are mostly decided, but final shipment pricing will be determined closer to delivery Source: Digitimes, citing industry sources. Hard to see those memory \"oversupply\" claims in early-mid 2027 when they're all sold out of capacity already.",
@@ -81,18 +88,11 @@
     "time": "Fri, 31 Jul 2026 08:25:39 GMT",
     "link": "https://x.com/aleabitoreddit/status/2083106805949878330",
     "source": "x-rsshub"
-   },
-   {
-    "title": "Few earnings TLDRs with my favorite $AXTI and $AMZN: Amazon: - Raised 2026 capex to $220B vs. prior $200B (partly due to higher memory costs, which is...",
-    "text": "Few earnings TLDRs with my favorite $AXTI and $AMZN: Amazon: - Raised 2026 capex to $220B vs. prior $200B (partly due to higher memory costs, which is bullish on $MU to Samsung) - Even at $220B, Amazon will not have enough capacity to meet all 2026 demand; Jassy expects the same in 2027. - Most incoming 2027 capacity is already reserved, with substantial 2028 capacity also reserved. Mostly read through on upstream semis. $GOOGL, $META, $AMZN, and $MSFT all identified compute shortage. All the narratives a few weeks earlier was \"excess compute\" from Meta and others + hyperscalers cutting back on spend... All BS. Amazon earnings was very bullish on AI semi trade. AXTI: - AXT to double InP capacity during 2026. Then double again in 2027. This is expected to make AXT \"by far the largest indium phosphide producer in the world.\" - LFG - Q2 rev was $47.6M, the highest quarterly revenue in AXT history (InP revenue reached a record $30.7M, from DC applications.) - Revenue increased 77% sequentially and 164% year over year. - InP revenue-capacity targets: $60M per quarter exiting 2026. - $130M per quarter exiting 2027 That $130m target could be hiked too since management stated they find \"whatever ways to increase that capacity expansion\" - Management said the reported backlog remains well above $100M, but that number no longer reflects all available demand. \"Customer demand continues to outpace supply, no matter how fast we add capacity.\" 800G/1.6T is driving the current cycle, while NPO/CPO extends it beyond 2027. Also they're targeting 50%-plus gross margin: \"We should definitely be targeting a number that begins with a five.\" China demand more than doubled, and their agreements with Casela, $COHR and $LITE did not materially drive Q2. This is not even considering my projected massive ASP hikes yet as InP substrates get more bottlenecked. TLDR: - Amazon too much compute demands, needs capex to fufill it, so upstream semis go brrr. - AXT world largest InP substrate supplier, high gross margins, expansion, and supply can't keep up with demand. Bullish on demand side from Amazon + capex. Bullish on upstream optical supply chains from too much demand.",
-    "time": "Fri, 31 Jul 2026 07:14:23 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2083088870942642391",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
-    "score": 1.5,
+    "score": 0.75,
     "matches": [
      "ai",
      "nvda",
@@ -114,7 +114,7 @@
     "matches": []
    },
    "hongkong": {
-    "score": 0.5,
+    "score": 0.25,
     "matches": [
      "china"
     ]
@@ -139,7 +139,7 @@
     ]
    },
    "globalTech": {
-    "score": 0.75,
+    "score": 0.5,
     "matches": [
      "ai",
      "cloud",
@@ -158,40 +158,22 @@
     "sentiment": "neutral"
    },
    {
-    "ticker": "AMZN",
-    "mentions": 7,
-    "snippets": [
-     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion",
-     "llion previousl... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "META",
+    "ticker": "SIVE",
     "mentions": 5,
     "snippets": [
-     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previou",
-     "reviousl... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previou"
+     "t for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a... A very material catalyst came about for",
+     "t for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and"
     ],
-    "sentiment": "bearish"
+    "sentiment": "neutral"
    },
    {
-    "ticker": "GOOGL",
+    "ticker": "LITE",
     "mentions": 5,
     "snippets": [
-     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl... A",
-     "l... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Am"
+     "ly chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a... A very material catalyst came about for Western supply cha",
+     "ly chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and DC devices. Which"
     ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "MSFT",
-    "mentions": 5,
-    "snippets": [
-     "rnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl... As a earnings",
-     "rnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Amazon: $220B"
-    ],
-    "sentiment": "bearish"
+    "sentiment": "neutral"
    },
    {
     "ticker": "SNDK",
@@ -203,13 +185,40 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "LITE",
+    "ticker": "AMZN",
     "mentions": 4,
     "snippets": [
-     "$LITE CEO Michael Hurlston at the RAISE Summit warned that the supply gap for InP lasers for AI DCs: Is facing a more se",
-     "ore severe supply chain crisis than ... $LITE CEO Michael Hurlston at the RAISE Summit warned that the supply gap for InP lasers for AI DCs: Is facing a more se"
+     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion",
+     "llion previousl... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion"
     ],
-    "sentiment": "bullish"
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "META",
+    "mentions": 4,
+    "snippets": [
+     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previou",
+     "reviousl... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previou"
+    ],
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "GOOGL",
+    "mentions": 4,
+    "snippets": [
+     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl... A",
+     "l... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Am"
+    ],
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "MSFT",
+    "mentions": 4,
+    "snippets": [
+     "rnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl... As a earnings",
+     "rnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Amazon: $220B"
+    ],
+    "sentiment": "bearish"
    },
    {
     "ticker": "POET",
@@ -221,31 +230,22 @@
     "sentiment": "neutral"
    },
    {
-    "ticker": "MU",
+    "ticker": "AAOI",
     "mentions": 3,
+    "snippets": [
+     "me about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a... A very material catalyst came abo",
+     "me about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceiv"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "MU",
+    "mentions": 2,
     "snippets": [
      "SK Hynix, $MU , and Samsung have sold out of 2027 capacity for DRAM/HBM. $SNDK, Samsung, Micron current annual NAND capacity has b",
      "has been sold out, with K... SK Hynix, $MU , and Samsung have sold out of 2027 capacity for DRAM/HBM. $SNDK, Samsung, Micron current annual NAND capacity has b"
     ],
     "sentiment": "bearish"
-   },
-   {
-    "ticker": "SIVE",
-    "mentions": 3,
-    "snippets": [
-     "ser chokepoint + bottleneck from $AAOI, $SIVE, $LITE, and $COHR. And glad this thesis is starting to see validation.",
-     "ittle more material than I thought with $SIVE. Originally the wording was \"... Now that I think of it more, $POET optical interposer piece is actually a little"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "COHR",
-    "mentions": 2,
-    "snippets": [
-     "ottleneck from $AAOI, $SIVE, $LITE, and $COHR. And glad this thesis is starting to see validation.",
-     "bled, and their agreements with Casela, $COHR and $LITE did not materially drive Q2. This is not even considering my projected massive ASP hikes yet as InP subs"
-    ],
-    "sentiment": "bullish"
    },
    {
     "ticker": "BE",
@@ -266,19 +266,10 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "AXTI",
-    "mentions": 2,
-    "snippets": [
-     "Few earnings TLDRs with my favorite $AXTI and $AMZN: Amazon: - Raised 2026 capex to $220B vs. prior $200B (partly due to higher memory costs, which is... Fe",
-     "... Few earnings TLDRs with my favorite $AXTI and $AMZN: Amazon: - Raised 2026 capex to $220B vs. prior $200B (partly due to higher memory costs, which is bulli"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "AAOI",
+    "ticker": "COHR",
     "mentions": 1,
     "snippets": [
-     "the laser chokepoint + bottleneck from $AAOI, $SIVE, $LITE, and $COHR. And glad this thesis is starting to see validation."
+     "ottleneck from $AAOI, $SIVE, $LITE, and $COHR. And glad this thesis is starting to see validation."
     ],
     "sentiment": "neutral"
    },
@@ -317,6 +308,11 @@
   ],
   "opinionSummaries": [
    {
+    "time": "Tue, 04 Aug 2026 11:09:35 GMT",
+    "text": "A very material catalyst came about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and DC de...",
+    "tickers": "$AAOI, $SIVE, $LITE"
+   },
+   {
     "time": "Tue, 04 Aug 2026 02:34:48 GMT",
     "text": "SK Hynix, $MU , and Samsung have sold out of 2027 capacity for DRAM/HBM. $SNDK, Samsung, Micron current annual NAND capacity has been sold out, with Kioxia and SK Hynix expected to finalize allocation...",
     "tickers": "$MU, $SNDK"
@@ -335,11 +331,6 @@
     "time": "Sun, 02 Aug 2026 03:42:29 GMT",
     "text": "Trump announced that US has cancelled its attack on Iran. And that they’ve agreed to the perimeters of a deal to open the Strait and end the nuclear program. Anyone else feel like they’ve aged a few y...",
     "tickers": ""
-   },
-   {
-    "time": "Sat, 01 Aug 2026 06:24:58 GMT",
-    "text": "$LITE CEO Michael Hurlston at the RAISE Summit warned that the supply gap for InP lasers for AI DCs: Is facing a more severe supply chain crisis than memory. And with Lumentum's 5 InP fabs, shipments ...",
-    "tickers": "$LITE"
    }
   ],
   "attempts": [
@@ -349,5 +340,5 @@
    }
   ]
  },
- "cachedAt": 1785817092923
+ "cachedAt": 1785842533464
 }

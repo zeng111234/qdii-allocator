@@ -13527,7 +13527,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.01,
-          "followUp10dReturn": null
+          "followUp10dReturn": 2.44
         },
         {
           "rank": 2,
@@ -13538,7 +13538,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 2.15,
-          "followUp10dReturn": null
+          "followUp10dReturn": 5.54
         }
       ]
     },
@@ -13580,7 +13580,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.15,
-          "followUp10dReturn": null
+          "followUp10dReturn": 2.36
         },
         {
           "rank": 2,
@@ -13591,7 +13591,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -5.11,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.6
         }
       ]
     },
@@ -13685,7 +13685,7 @@
           "suitabilityScore": 66.25,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.26,
           "followUp10dReturn": null
         },
         {
@@ -13696,7 +13696,7 @@
           "suitabilityScore": 60.92,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -2.74,
           "followUp10dReturn": null
         }
       ]
@@ -13738,7 +13738,7 @@
           "suitabilityScore": 70.5,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.58,
           "followUp10dReturn": null
         },
         {
@@ -13749,7 +13749,7 @@
           "suitabilityScore": 65.33,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -2.4,
           "followUp10dReturn": null
         }
       ]
@@ -13792,7 +13792,7 @@
           "suitabilityScore": 68.5,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.78,
           "followUp10dReturn": null
         },
         {
@@ -13803,7 +13803,7 @@
           "suitabilityScore": 66.33,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.91,
           "followUp10dReturn": null
         }
       ]
@@ -13925,7 +13925,7 @@
       "budget": 0,
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-08-03",
+        "latestNavDate": "2026-08-04",
         "maxTradingDayLag": 2,
         "observationCount": 4
       },
@@ -13937,9 +13937,9 @@
           "averageReturn": null
         },
         "shadow": {
-          "count": 6,
-          "winRate": 50,
-          "averageReturn": -0.57
+          "count": 12,
+          "winRate": 41.67,
+          "averageReturn": -0.7
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -13950,8 +13950,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 71.66,
-          "suitabilityScore": 71.66,
+          "score": 74.42,
+          "suitabilityScore": 74.42,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -13961,8 +13961,8 @@
           "rank": 2,
           "code": "096001",
           "name": "大成标普500A(QDII)",
-          "score": 66.75,
-          "suitabilityScore": 66.75,
+          "score": 67.83,
+          "suitabilityScore": 67.83,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
