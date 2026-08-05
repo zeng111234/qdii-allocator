@@ -13846,7 +13846,7 @@
           "suitabilityScore": 68.92,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 3.16,
           "followUp10dReturn": null
         },
         {
@@ -13857,7 +13857,7 @@
           "suitabilityScore": 68.17,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 2.31,
           "followUp10dReturn": null
         }
       ]
@@ -13991,9 +13991,9 @@
           "averageReturn": null
         },
         "shadow": {
-          "count": 12,
-          "winRate": 41.67,
-          "averageReturn": -0.7
+          "count": 14,
+          "winRate": 50,
+          "averageReturn": -0.21
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -14004,8 +14004,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 74.17,
-          "suitabilityScore": 74.17,
+          "score": 75.5,
+          "suitabilityScore": 75.5,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -14015,8 +14015,8 @@
           "rank": 2,
           "code": "096001",
           "name": "大成标普500A(QDII)",
-          "score": 67.67,
-          "suitabilityScore": 67.67,
+          "score": 66.75,
+          "suitabilityScore": 66.75,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
