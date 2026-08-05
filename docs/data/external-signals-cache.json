@@ -3,8 +3,22 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-08-04T11:22:13.462Z",
+  "fetchedAt": "2026-08-05T04:15:28.638Z",
   "items": [
+   {
+    "title": "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on their Medium Lift rocket, Neutron...",
+    "text": "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on their Medium Lift rocket, Neutron.",
+    "time": "Wed, 05 Aug 2026 00:16:18 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2084795597417263442",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "Bessent says: \"There may be deal Tuesday or Wednesday to open Strait of Hormuz with freedom of movement\" I think markets might like the sound of this.",
+    "text": "Bessent says: \"There may be deal Tuesday or Wednesday to open Strait of Hormuz with freedom of movement\" I think markets might like the sound of this.",
+    "time": "Tue, 04 Aug 2026 12:11:01 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2084613071423893692",
+    "source": "x-rsshub"
+   },
    {
     "title": "A very material catalyst came about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a...",
     "text": "A very material catalyst came about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and DC devices. Which would likely hit China’s Innolight, Eoptolink, and other Chinese optical interconnect supply chains. \"The agency would ban all imports of new transceiver models and then exempt many ⁠non-Chinese suppliers from the restrictions\" We'll likely see a larger bifurcation of supply chains with even greater importance put on Western players.",
@@ -74,25 +88,11 @@
     "time": "Fri, 31 Jul 2026 10:10:30 GMT",
     "link": "https://x.com/aleabitoreddit/status/2083133191112843575",
     "source": "x-rsshub"
-   },
-   {
-    "title": "Now that I think of it more, $POET optical interposer piece is actually a little more material than I thought with $SIVE. Originally the wording was \"...",
-    "text": "Now that I think of it more, $POET optical interposer piece is actually a little more material than I thought with $SIVE. Originally the wording was \"readiness\" for EOY 2026. But $POET upgraded that wording, by stating \"production\" with Sivers lasers projected EOY 2026. So a volume orders from across $JBL to $POET, should hit in H1 2027. Which makes a bit of sense, since Sivers did raise an institutional oversubscribed round for future mass production. On a side note, can't believe it's already August and 5 months left until 2027... Which was my inflection window for glass substrates, CPO, 800v, and new architectures to ramp. Luxara: @aleabitoreddit Did you see POET blogged yesterday mentioning SIVE orders?",
-    "time": "Fri, 31 Jul 2026 08:57:11 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2083114743729107236",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "For $XFAB ER transcript: Just to recap, my idea on $XFAB foundry growth opportunities stemmed from SiC for 800v and photonixfab/MTP for CPO applicabil...",
-    "text": "For $XFAB ER transcript: Just to recap, my idea on $XFAB foundry growth opportunities stemmed from SiC for 800v and photonixfab/MTP for CPO applicability. - $XFAB: \"We are making progress in co-packaged optics\". - \"The transition to 800v... is expected to support demand for both SiC and GaN... for XFAB\" So those analysts/people that were confidently bearposting about $XFAB that they had \"0 exposure to 800V, photonics, CPO\" just turned out plainly wrong. At the time I shared my idea, industry materials showed ASE and others cited photonixfab + XFAB as an upcoming CPO player in EU. And filings showed they had exposure names like $NVTS / $POWI in general. So glad $XFAB went out to explicitly clear things up to state they were developing in CPO/800v. Okay back to the ER: - \"We continue to expect photonics volume production to start in 2028\". Company currently has three silicon photonics projects in development with key partners. I thought it would ramp sometime in H2 2027, but was probably early by a few months. - Several new data center design wins, eg. 3 new SiC design wins (consistent with general 2027 ramp as 800v deployment takes off). So once those ramp in 2027-2028, (markets tend to price things ahead of time), I'd expect $XFAB to be rerated based on growth opportunities. TLDR: - Current revenue numbers not as impressive. - $XFAB confirmed direct exposure to CPO and 800V shifts (biggest win for thesis) - 800V exposure opportunities for SiC (should be 2027) - Timeline is 2028 ramp for photonics volume production Happy exposure thesis to CPO/800V was confirmed from this ER. Might be a bit of waiting for revenue ramp. jim: @aleabitoreddit What are your thoughts on the XFAB earnings yesterday? thank you in advance!",
-    "time": "Fri, 31 Jul 2026 08:25:39 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2083106805949878330",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
-    "score": 0.75,
+    "score": 0.5,
     "matches": [
      "ai",
      "nvda",
@@ -139,7 +139,7 @@
     ]
    },
    "globalTech": {
-    "score": 0.5,
+    "score": 0.25,
     "matches": [
      "ai",
      "cloud",
@@ -148,24 +148,6 @@
    }
   },
   "tickerOpinions": [
-   {
-    "ticker": "XFAB",
-    "mentions": 9,
-    "snippets": [
-     "For $XFAB ER transcript: Just to recap, my idea on $XFAB foundry growth opportunities stemmed from SiC for 800v and photonix",
-     "R transcript: Just to recap, my idea on $XFAB foundry growth opportunities stemmed from SiC for 800v and photonixfab/MTP for CPO applicabil... For $XFAB ER tran"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "SIVE",
-    "mentions": 5,
-    "snippets": [
-     "t for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a... A very material catalyst came about for",
-     "t for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and"
-    ],
-    "sentiment": "neutral"
-   },
    {
     "ticker": "LITE",
     "mentions": 5,
@@ -221,20 +203,29 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "POET",
-    "mentions": 4,
-    "snippets": [
-     "Now that I think of it more, $POET optical interposer piece is actually a little more material than I thought with $SIVE. Originally the wording was",
-     "g was \"... Now that I think of it more, $POET optical interposer piece is actually a little more material than I thought with $SIVE. Originally the wording was"
-    ],
-    "sentiment": "neutral"
-   },
-   {
     "ticker": "AAOI",
     "mentions": 3,
     "snippets": [
      "me about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a... A very material catalyst came abo",
      "me about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceiv"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "SIVE",
+    "mentions": 3,
+    "snippets": [
+     "t for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a... A very material catalyst came about for",
+     "t for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "RKLB",
+    "mentions": 2,
+    "snippets": [
+     "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on the",
+     "on their Medium Lift rocket, Neutron... $RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on the"
     ],
     "sentiment": "neutral"
    },
@@ -280,33 +271,19 @@
      "into their balance sheets. As seen with $NVDA GPUs past few years, memory this year, CPUs/MLCCs next few years, CPO in 2027, Glass Substrates in 2027, 800V in 2"
     ],
     "sentiment": "bearish"
-   },
-   {
-    "ticker": "JBL",
-    "mentions": 1,
-    "snippets": [
-     "OY 2026. So a volume orders from across $JBL to $POET, should hit in H1 2027. Which makes a bit of sense, since Sivers did raise an institutional oversubscribed"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "NVTS",
-    "mentions": 1,
-    "snippets": [
-     "ngs showed they had exposure names like $NVTS / $POWI in general. So glad $XFAB went out to explicitly clear things up to state they were developing in CPO/800v"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "POWI",
-    "mentions": 1,
-    "snippets": [
-     "ed they had exposure names like $NVTS / $POWI in general. So glad $XFAB went out to explicitly clear things up to state they were developing in CPO/800v. Okay b"
-    ],
-    "sentiment": "neutral"
    }
   ],
   "opinionSummaries": [
+   {
+    "time": "Wed, 05 Aug 2026 00:16:18 GMT",
+    "text": "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on their Medium Lift rocket, Neutron.",
+    "tickers": "$RKLB"
+   },
+   {
+    "time": "Tue, 04 Aug 2026 12:11:01 GMT",
+    "text": "Bessent says: \"There may be deal Tuesday or Wednesday to open Strait of Hormuz with freedom of movement\" I think markets might like the sound of this.",
+    "tickers": ""
+   },
    {
     "time": "Tue, 04 Aug 2026 11:09:35 GMT",
     "text": "A very material catalyst came about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and DC de...",
@@ -321,16 +298,6 @@
     "time": "Mon, 03 Aug 2026 23:35:14 GMT",
     "text": "Be Citadel: > calls for unexpected rate hike few days ago, causing market panic > reaches out and buys billions of liquidated hedge fund AI assets > no rate hike > “Bull market drivers are fully intac...",
     "tickers": ""
-   },
-   {
-    "time": "Mon, 03 Aug 2026 21:16:45 GMT",
-    "text": "The bears have gone back into hibernation",
-    "tickers": ""
-   },
-   {
-    "time": "Sun, 02 Aug 2026 03:42:29 GMT",
-    "text": "Trump announced that US has cancelled its attack on Iran. And that they’ve agreed to the perimeters of a deal to open the Strait and end the nuclear program. Anyone else feel like they’ve aged a few y...",
-    "tickers": ""
    }
   ],
   "attempts": [
@@ -340,5 +307,5 @@
    }
   ]
  },
- "cachedAt": 1785842533464
+ "cachedAt": 1785903328639
 }

@@ -4,7 +4,7 @@
   "allocationWeek": "2026-08-03",
   "syncRevision": 0,
   "riskAnchorValue": null,
-  "asOf": "2026-08-04",
+  "asOf": "2026-08-05",
   "action": "PAUSE",
   "pauseReasons": [
     "LIVE_DISABLED",
@@ -22,11 +22,11 @@
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 74.75,
-      "suitabilityScore": 74.75,
+      "marketScore": 74.5,
+      "suitabilityScore": 74.5,
       "proposedAmount": 0,
       "reasons": [
-        "市场评分 74.75",
+        "市场评分 74.5",
         "影子候选，不执行真实买入"
       ],
       "blockedBy": []
@@ -35,11 +35,11 @@
       "code": "096001",
       "name": "大成标普500A(QDII)",
       "indexGroup": "SPX500",
-      "marketScore": 68.17,
-      "suitabilityScore": 68.17,
+      "marketScore": 68,
+      "suitabilityScore": 68,
       "proposedAmount": 0,
       "reasons": [
-        "市场评分 68.17",
+        "市场评分 68",
         "影子候选，不执行真实买入"
       ],
       "blockedBy": []
@@ -88,10 +88,10 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.10056901887079792,
-    "GROWTH_TECH": 0.7002985238186054,
-    "NON_US": 0.18477308429765493,
-    "DEFENSIVE": 0.014359373012941781,
+    "US_BROAD": 0.10029420575854413,
+    "GROWTH_TECH": 0.7006140410172942,
+    "NON_US": 0.1847458147419489,
+    "DEFENSIVE": 0.01434593848221265,
     "CASH": 0,
     "UNKNOWN": 0
   },
@@ -123,7 +123,7 @@
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 74.75,
+      "marketScore": 74.5,
       "blockedBy": [],
       "channelCount": 3,
       "routingAlternatives": [
@@ -135,7 +135,7 @@
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
-      "marketScore": 65,
+      "marketScore": 64.67,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -144,7 +144,16 @@
       "code": "000369",
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
-      "marketScore": 62.25,
+      "marketScore": 61.92,
+      "blockedBy": [],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
+    {
+      "code": "007280",
+      "name": "摩根日本精选股票(QDII)A",
+      "indexGroup": "JAPAN",
+      "marketScore": 59.5,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -153,7 +162,7 @@
       "code": "040046",
       "name": "华安纳斯达克100A(QDII)",
       "indexGroup": "NDX100",
-      "marketScore": 57.5,
+      "marketScore": 56.92,
       "blockedBy": [
         "INDEX_GROUP_LIMIT"
       ],
@@ -181,28 +190,13 @@
       "code": "501226",
       "name": "长城全球新能源车(QDII)A",
       "indexGroup": "EV",
-      "marketScore": 56.25,
+      "marketScore": 56.08,
       "blockedBy": [
         "PORTFOLIO_FULL"
       ],
       "channelCount": 2,
       "routingAlternatives": [
         "015204"
-      ]
-    },
-    {
-      "code": "100055",
-      "name": "富国全球科技互联网股票(QDII)A",
-      "indexGroup": "GLOBAL_TECH",
-      "marketScore": 53.5,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "TREND_DETERIORATING"
-      ],
-      "channelCount": 3,
-      "routingAlternatives": [
-        "006373",
-        "005698"
       ]
     },
     {
@@ -217,21 +211,24 @@
       "routingAlternatives": []
     },
     {
-      "code": "007280",
-      "name": "摩根日本精选股票(QDII)A",
-      "indexGroup": "JAPAN",
-      "marketScore": 52.17,
+      "code": "006373",
+      "name": "国富全球科技互联混合(QDII)A",
+      "indexGroup": "GLOBAL_TECH",
+      "marketScore": 52.5,
       "blockedBy": [
-        "TREND_DETERIORATING"
+        "DRAWDOWN_OVER_20"
       ],
-      "channelCount": 1,
-      "routingAlternatives": []
+      "channelCount": 3,
+      "routingAlternatives": [
+        "100055",
+        "005698"
+      ]
     },
     {
       "code": "017730",
       "name": "嘉实全球产业升级股票(QDII)A",
       "indexGroup": "GLOBAL_UPGRADE",
-      "marketScore": 51.25,
+      "marketScore": 50.75,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
@@ -244,7 +241,7 @@
       "code": "539002",
       "name": "建信新兴市场优选QDII-A",
       "indexGroup": "EMERGING",
-      "marketScore": 50.17,
+      "marketScore": 50,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING"
@@ -256,15 +253,15 @@
       "code": "270023",
       "name": "广发全球精选QDII-A",
       "indexGroup": "GLOBAL",
-      "marketScore": 50.08,
+      "marketScore": 49.75,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING"
       ],
       "channelCount": 3,
       "routingAlternatives": [
-        "000041",
-        "008253"
+        "008253",
+        "000041"
       ]
     },
     {
@@ -284,7 +281,7 @@
       "code": "050015",
       "name": "博时亚太精选QDII-A",
       "indexGroup": "APAC",
-      "marketScore": 47.42,
+      "marketScore": 46.75,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -293,7 +290,7 @@
       "code": "000988",
       "name": "华安标普全球石油QDII-A",
       "indexGroup": "OIL",
-      "marketScore": 45.58,
+      "marketScore": 45.75,
       "blockedBy": [
         "PORTFOLIO_FULL"
       ],
@@ -304,7 +301,7 @@
       "code": "008763",
       "name": "天弘越南市场股票(QDII)A",
       "indexGroup": "VIETNAM",
-      "marketScore": 42.58,
+      "marketScore": 42.5,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -313,7 +310,7 @@
       "code": "016664",
       "name": "天弘全球高端制造QDII-A",
       "indexGroup": "GLOBAL_MFG",
-      "marketScore": 41.75,
+      "marketScore": 41.58,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
@@ -339,7 +336,7 @@
       "code": "040018",
       "name": "华安香港精选QDII-A",
       "indexGroup": "HK",
-      "marketScore": 23.92,
+      "marketScore": 23.25,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING",
@@ -364,7 +361,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-07-31"
+      "latestNavDate": "2026-08-03"
     },
     {
       "code": "161125",
@@ -1684,5 +1681,5 @@
     "revision": 2,
     "checksum": "c917dbbde17f7b04505dfd783362bf09790b8abcf8980b53b56040c649f20bb9"
   },
-  "publicPortfolioSnapshotUpdatedAt": "2026-08-04T11:27:25.722Z"
+  "publicPortfolioSnapshotUpdatedAt": "2026-08-05T04:20:29.983Z"
 }
