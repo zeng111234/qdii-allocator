@@ -3,8 +3,22 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-08-05T11:18:54.552Z",
+  "fetchedAt": "2026-08-06T04:17:21.778Z",
   "items": [
+   {
+    "title": "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB ...",
+    "text": "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB laser supplier to Aeva (which is known for lidar). Today, Aeva reacted with +18.26% AH on news that they signed a JDA with an optical engine player for deployment at a major hyperscaler in H2 2027, production ramp 2028. \"Optical Connectivity will leverage that foundation along with Aeva’s EXISTING high-volume manufacturing and foundry supply chain\" for: - ELSFP (similar to O-Net/Enablence + $SIVE), with Sivers as the likely CW laser + potential amplifier supplier - On-chip integrated light source (likely $SIVE DFB + Aeva PIC on the architecture/integration side) TLDR: New TAM and a hyperscaler programs for Aeva for CPO/NPO, positive read through for upstream suppliers like $SIVE. Robert Fritzson: @aleabitoreddit Do we maybe also have $SIVE involved in this $AEVA projekt? Another hyperscaler for #SiversSemiconductors? https://investors.aeva.com/news-releases/news-release-details/aeva-launches-optical-connectivity-business-signs-first-customer",
+    "time": "Thu, 06 Aug 2026 04:12:45 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2085217487864643658",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is g...",
+    "text": "Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is going to be slower.' That's all nonsense. CPO and all that thing is moving forward\" They stated that Yes there's always issues, but the process is being improved and things are getting better. To follow up on that, the CEO stated: - Viavi has POs for CPO-testing activity - “We’re already getting [CPO revenue] this quarter, and probably in December it will start accelerating.” On a side note, they also stated, 1.6T is \"ramping very quickly\", should reach parity with 800g next year, and signaled longer tail for 800g demand. TLDR: Seeing CPO test revenues hit for $VIAV to $FORM around now. Nvidia also stated switch-side CPO for scale out and scale across has entered mass production earlier. As for scale up timelines, early production should be H2 2027 for some players, with other CPO players Ayar stating 2028 is the volume inflection period. Basically, all the timelines seem to be the same as before and revenue is starting to hit testing players first.",
+    "time": "Thu, 06 Aug 2026 01:23:49 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2085174977272360987",
+    "source": "x-rsshub"
+   },
    {
     "title": "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on their Medium Lift rocket, Neutron...",
     "text": "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on their Medium Lift rocket, Neutron.",
@@ -74,31 +88,18 @@
     "time": "Fri, 31 Jul 2026 19:16:17 GMT",
     "link": "https://x.com/aleabitoreddit/status/2083270545320386734",
     "source": "x-rsshub"
-   },
-   {
-    "title": "$RDDT ER in a nutshell: Revenue: $804.9M vs. $730.4M (expected). EPS: $1.25 vs. ~$0.95. Net income: $252.8M vs. $196.5M Q3 guidance: Revenue: $860–87...",
-    "text": "$RDDT ER in a nutshell: Revenue: $804.9M vs. $730.4M (expected). EPS: $1.25 vs. ~$0.95. Net income: $252.8M vs. $196.5M Q3 guidance: Revenue: $860–870M vs. 829.1M Adjusted EBITDA: $385-395M vs. $369M Blowout financials, market always like to explain the drop 22.6% off some new BS narrative. Last quarter: \"AI will disrupt Reddit causing revenue loss!\" This quarter: \"See, DAU fell .6%!\" (proceeds to ignore any revenue/profitability growth)",
-    "time": "Fri, 31 Jul 2026 16:18:47 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2083225872207937687",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Just a TLDR of this week: Media: Hyperscalers overbuilt and are selling excess compute. -> $GOOGL, $MSFT, $META, and $AMZN: Demand for compute far exc...",
-    "text": "Just a TLDR of this week: Media: Hyperscalers overbuilt and are selling excess compute. -> $GOOGL, $MSFT, $META, and $AMZN: Demand for compute far exceeds capacity. Capex go brrr. Institutions: Emergency rate hike or 3x rate hikes, it's all over. -> Kevin Warsh: No rate Hike. Retail/Media: AI is crashing because it's a bubble. -> Citadel looking to buy AI leveraged hedge funds positions: 👀 Jim Cramer: Sell all your leveraged DC stocks. -> Koreans: SK Hynix +30%, Samsung +26.81%",
-    "time": "Fri, 31 Jul 2026 10:10:30 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2083133191112843575",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
-    "score": 0.5,
+    "score": 1.5,
     "matches": [
      "ai",
+     "semiconductor",
+     "chip",
+     "nvidia",
      "nvda",
-     "microsoft",
-     "meta",
-     "chip"
+     "microsoft"
     ]
    },
    "sp500": {
@@ -133,21 +134,32 @@
     ]
    },
    "bonds": {
-    "score": 0.75,
+    "score": 1,
     "matches": [
+     "yield",
      "rate hike"
     ]
    },
    "globalTech": {
-    "score": 0.25,
+    "score": 1,
     "matches": [
      "ai",
-     "cloud",
-     "chip"
+     "semiconductor",
+     "chip",
+     "cloud"
     ]
    }
   },
   "tickerOpinions": [
+   {
+    "ticker": "SIVE",
+    "mentions": 9,
+    "snippets": [
+     "optical source player. For background: $SIVE is viewed as the high confidence CW DFB ... The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optic",
+     "optical source player. For background: $SIVE is viewed as the high confidence CW DFB laser supplier to Aeva (which is known for lidar). Today, Aeva reacted wit"
+    ],
+    "sentiment": "bullish"
+   },
    {
     "ticker": "LITE",
     "mentions": 5,
@@ -167,40 +179,22 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "AMZN",
-    "mentions": 4,
+    "ticker": "AEVA",
+    "mentions": 3,
     "snippets": [
-     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion",
-     "llion previousl... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion"
+     "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB ... The un",
+     "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB laser supp"
     ],
-    "sentiment": "bearish"
+    "sentiment": "bullish"
    },
    {
-    "ticker": "META",
-    "mentions": 4,
+    "ticker": "VIAV",
+    "mentions": 3,
     "snippets": [
-     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previou",
-     "reviousl... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previou"
+     "Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is g...",
+     "g... Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is going"
     ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "GOOGL",
-    "mentions": 4,
-    "snippets": [
-     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl... A",
-     "l... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Am"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "MSFT",
-    "mentions": 4,
-    "snippets": [
-     "rnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl... As a earnings",
-     "rnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Amazon: $220B"
-    ],
-    "sentiment": "bearish"
+    "sentiment": "bullish"
    },
    {
     "ticker": "AAOI",
@@ -208,15 +202,6 @@
     "snippets": [
      "me about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a... A very material catalyst came abo",
      "me about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceiv"
-    ],
-    "sentiment": "neutral"
-   },
-   {
-    "ticker": "SIVE",
-    "mentions": 3,
-    "snippets": [
-     "t for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a... A very material catalyst came about for",
-     "t for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and"
     ],
     "sentiment": "neutral"
    },
@@ -248,11 +233,46 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "RDDT",
+    "ticker": "AMZN",
     "mentions": 2,
     "snippets": [
-     "$RDDT ER in a nutshell: Revenue: $804.9M vs. $730.4M (expected). EPS: $1.25 vs. ~$0.95. Net income: $252.8M vs. $196.5M",
-     "196.5M Q3 guidance: Revenue: $860–87... $RDDT ER in a nutshell: Revenue: $804.9M vs. $730.4M (expected). EPS: $1.25 vs. ~$0.95. Net income: $252.8M vs. $196.5M"
+     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion",
+     "llion previousl... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion"
+    ],
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "META",
+    "mentions": 2,
+    "snippets": [
+     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previou",
+     "reviousl... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previou"
+    ],
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "GOOGL",
+    "mentions": 2,
+    "snippets": [
+     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl... A",
+     "l... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Am"
+    ],
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "MSFT",
+    "mentions": 2,
+    "snippets": [
+     "rnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl... As a earnings",
+     "rnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Amazon: $220B"
+    ],
+    "sentiment": "bearish"
+   },
+   {
+    "ticker": "FORM",
+    "mentions": 1,
+    "snippets": [
+     "eing CPO test revenues hit for $VIAV to $FORM around now. Nvidia also stated switch-side CPO for scale out and scale across has entered mass production earlier."
     ],
     "sentiment": "bullish"
    },
@@ -275,6 +295,16 @@
   ],
   "opinionSummaries": [
    {
+    "time": "Thu, 06 Aug 2026 04:12:45 GMT",
+    "text": "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB laser supplier to Aeva (which is known for lidar)....",
+    "tickers": "$AEVA, $SIVE"
+   },
+   {
+    "time": "Thu, 06 Aug 2026 01:23:49 GMT",
+    "text": "Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is going to be slower.' That's all nonsense. CPO and a...",
+    "tickers": "$VIAV"
+   },
+   {
     "time": "Wed, 05 Aug 2026 00:16:18 GMT",
     "text": "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on their Medium Lift rocket, Neutron.",
     "tickers": "$RKLB"
@@ -288,16 +318,6 @@
     "time": "Tue, 04 Aug 2026 11:09:35 GMT",
     "text": "A very material catalyst came about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and DC de...",
     "tickers": "$AAOI, $SIVE, $LITE"
-   },
-   {
-    "time": "Tue, 04 Aug 2026 02:34:48 GMT",
-    "text": "SK Hynix, $MU , and Samsung have sold out of 2027 capacity for DRAM/HBM. $SNDK, Samsung, Micron current annual NAND capacity has been sold out, with Kioxia and SK Hynix expected to finalize allocation...",
-    "tickers": "$MU, $SNDK"
-   },
-   {
-    "time": "Mon, 03 Aug 2026 23:35:14 GMT",
-    "text": "Be Citadel: > calls for unexpected rate hike few days ago, causing market panic > reaches out and buys billions of liquidated hedge fund AI assets > no rate hike > “Bull market drivers are fully intac...",
-    "tickers": ""
    }
   ],
   "attempts": [
@@ -307,5 +327,5 @@
    }
   ]
  },
- "cachedAt": 1785928734553
+ "cachedAt": 1785989841779
 }
