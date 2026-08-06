@@ -3,8 +3,22 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-08-06T04:17:21.778Z",
+  "fetchedAt": "2026-08-06T11:20:54.676Z",
   "items": [
+   {
+    "title": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says...",
+    "text": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says to a friend“Wow, I like applied optoelectronics!”",
+    "time": "Thu, 06 Aug 2026 09:56:42 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2085304045099696547",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "[Subscribers Only] Been awhile since I've posted random thoughts! Wi…",
+    "text": "[Subscribers Only] Been awhile since I've posted random thoughts! Wi…",
+    "time": "Thu, 06 Aug 2026 07:13:39 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2085263015910478251",
+    "source": "x-rsshub"
+   },
    {
     "title": "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB ...",
     "text": "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB laser supplier to Aeva (which is known for lidar). Today, Aeva reacted with +18.26% AH on news that they signed a JDA with an optical engine player for deployment at a major hyperscaler in H2 2027, production ramp 2028. \"Optical Connectivity will leverage that foundation along with Aeva’s EXISTING high-volume manufacturing and foundry supply chain\" for: - ELSFP (similar to O-Net/Enablence + $SIVE), with Sivers as the likely CW laser + potential amplifier supplier - On-chip integrated light source (likely $SIVE DFB + Aeva PIC on the architecture/integration side) TLDR: New TAM and a hyperscaler programs for Aeva for CPO/NPO, positive read through for upstream suppliers like $SIVE. Robert Fritzson: @aleabitoreddit Do we maybe also have $SIVE involved in this $AEVA projekt? Another hyperscaler for #SiversSemiconductors? https://investors.aeva.com/news-releases/news-release-details/aeva-launches-optical-connectivity-business-signs-first-customer",
@@ -74,32 +88,16 @@
     "time": "Sat, 01 Aug 2026 06:24:58 GMT",
     "link": "https://x.com/aleabitoreddit/status/2083438823548293140",
     "source": "x-rsshub"
-   },
-   {
-    "title": "The media framing and X reactions around Leopold are egregious. Framing his successful multi-year thesis from $SNDK to $BE as a \"collapse\" or \"failure...",
-    "text": "The media framing and X reactions around Leopold are egregious. Framing his successful multi-year thesis from $SNDK to $BE as a \"collapse\" or \"failure\". After July's surprising crash, then personally attacking him on top is just pathetic to witness. It's almost like everyone is cheering for the downfall of others. Yes, July's crash exposed problems with SA’s leverage, liquidity management, and hedging. But his current YTD performance remains +80%, ranking among the best performing hedge funds. And he still has public equities after all this (just removed leverage). I think he's doing something unique while being successful at it. And this draws the envy of others.",
-    "time": "Fri, 31 Jul 2026 22:52:21 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2083324920214536208",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl...",
-    "text": "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Amazon: $220B Google: $195B-$205B Meta: $130B-$145B Microsoft: $175B We've already seen significant deleveraging and retail/institutional margin liquidations (maybe it continues for more time, who knows). But medium-long term, I'm not quite sure how anyone can be bearish the upstream semis or neoclouds. Given each hyperscaler has flagged either compute shortages, rising cloud demand + pricing power, or increased spending for chips/networking. My \"bottleneck\" thesis with many of these upstream semi supply chains is that when trillions in capital flows into things from InP substrates or memory (which were both treated as cheap commodities) or even energy. Lot of these current AI names that were treated as useless before in telecom cycles or even toilet sellers. Gets rerated when their inflection period hits and capex flows into their balance sheets. As seen with $NVDA GPUs past few years, memory this year, CPUs/MLCCs next few years, CPO in 2027, Glass Substrates in 2027, 800V in 2027, and so on.",
-    "time": "Fri, 31 Jul 2026 19:16:17 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2083270545320386734",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
-    "score": 1.5,
+    "score": 3,
     "matches": [
      "ai",
      "semiconductor",
      "chip",
-     "nvidia",
-     "nvda",
-     "microsoft"
+     "nvidia"
     ]
    },
    "sp500": {
@@ -121,17 +119,12 @@
     ]
    },
    "oil": {
-    "score": -1,
-    "matches": [
-     "oil",
-     "energy"
-    ]
+    "score": 0,
+    "matches": []
    },
    "commodities": {
-    "score": -0.5,
-    "matches": [
-     "commodities"
-    ]
+    "score": 0,
+    "matches": []
    },
    "bonds": {
     "score": 1,
@@ -141,12 +134,11 @@
     ]
    },
    "globalTech": {
-    "score": 1,
+    "score": 3,
     "matches": [
      "ai",
      "semiconductor",
-     "chip",
-     "cloud"
+     "chip"
     ]
    }
   },
@@ -161,6 +153,15 @@
     "sentiment": "bullish"
    },
    {
+    "ticker": "AAOI",
+    "mentions": 5,
+    "snippets": [
+     "dy knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says... I remain convinced nobody know",
+     "dy knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says to a friend“Wow, I like applied o"
+    ],
+    "sentiment": "bullish"
+   },
+   {
     "ticker": "LITE",
     "mentions": 5,
     "snippets": [
@@ -168,15 +169,6 @@
      "ly chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and DC devices. Which"
     ],
     "sentiment": "neutral"
-   },
-   {
-    "ticker": "SNDK",
-    "mentions": 4,
-    "snippets": [
-     "sold out of 2027 capacity for DRAM/HBM. $SNDK, Samsung, Micron current annual NAND capacity has been sold out, with K... SK Hynix, $MU , and Samsung have sold o",
-     "sold out of 2027 capacity for DRAM/HBM. $SNDK, Samsung, Micron current annual NAND capacity has been sold out, with Kioxia and SK Hynix expected to finalize all"
-    ],
-    "sentiment": "bearish"
    },
    {
     "ticker": "AEVA",
@@ -197,13 +189,22 @@
     "sentiment": "bullish"
    },
    {
-    "ticker": "AAOI",
-    "mentions": 3,
+    "ticker": "TSM",
+    "mentions": 2,
     "snippets": [
-     "me about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a... A very material catalyst came abo",
-     "me about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceiv"
+     "l life. It’s one letter too long to say $TSM or $AMD. And nobody ever says... I remain convinced nobody knows how to pronounce or talk about $AAOI in real life.",
+     "l life. It’s one letter too long to say $TSM or $AMD. And nobody ever says to a friend“Wow, I like applied optoelectronics!”"
     ],
-    "sentiment": "neutral"
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "AMD",
+    "mentions": 2,
+    "snippets": [
+     "It’s one letter too long to say $TSM or $AMD. And nobody ever says... I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. It’s on",
+     "It’s one letter too long to say $TSM or $AMD. And nobody ever says to a friend“Wow, I like applied optoelectronics!”"
+    ],
+    "sentiment": "bullish"
    },
    {
     "ticker": "RKLB",
@@ -224,47 +225,11 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "BE",
+    "ticker": "SNDK",
     "mentions": 2,
     "snippets": [
-     "cessful multi-year thesis from $SNDK to $BE as a \"collapse\" or \"failure... The media framing and X reactions around Leopold are egregious. Framing his successfu",
-     "cessful multi-year thesis from $SNDK to $BE as a \"collapse\" or \"failure\". After July's surprising crash, then personally attacking him on top is just pathetic t"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "AMZN",
-    "mentions": 2,
-    "snippets": [
-     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion",
-     "llion previousl... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "META",
-    "mentions": 2,
-    "snippets": [
-     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previou",
-     "reviousl... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previou"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "GOOGL",
-    "mentions": 2,
-    "snippets": [
-     "As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl... A",
-     "l... As a earnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Am"
-    ],
-    "sentiment": "bearish"
-   },
-   {
-    "ticker": "MSFT",
-    "mentions": 2,
-    "snippets": [
-     "rnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previousl... As a earnings",
-     "rnings recap: $AMZN, $META, $GOOGL, and $MSFT guided a 2026 combined capex forecast to ~$720-$745 Billion. Up from $695-$725B Billion previously. Amazon: $220B"
+     "sold out of 2027 capacity for DRAM/HBM. $SNDK, Samsung, Micron current annual NAND capacity has been sold out, with K... SK Hynix, $MU , and Samsung have sold o",
+     "sold out of 2027 capacity for DRAM/HBM. $SNDK, Samsung, Micron current annual NAND capacity has been sold out, with Kioxia and SK Hynix expected to finalize all"
     ],
     "sentiment": "bearish"
    },
@@ -283,17 +248,19 @@
      "ottleneck from $AAOI, $SIVE, $LITE, and $COHR. And glad this thesis is starting to see validation."
     ],
     "sentiment": "neutral"
-   },
-   {
-    "ticker": "NVDA",
-    "mentions": 1,
-    "snippets": [
-     "into their balance sheets. As seen with $NVDA GPUs past few years, memory this year, CPUs/MLCCs next few years, CPO in 2027, Glass Substrates in 2027, 800V in 2"
-    ],
-    "sentiment": "bearish"
    }
   ],
   "opinionSummaries": [
+   {
+    "time": "Thu, 06 Aug 2026 09:56:42 GMT",
+    "text": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says to a friend“Wow, I like applied optoelectronics!”",
+    "tickers": "$AAOI, $TSM, $AMD"
+   },
+   {
+    "time": "Thu, 06 Aug 2026 07:13:39 GMT",
+    "text": "[Subscribers Only] Been awhile since I've posted random thoughts! Wi…",
+    "tickers": ""
+   },
    {
     "time": "Thu, 06 Aug 2026 04:12:45 GMT",
     "text": "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB laser supplier to Aeva (which is known for lidar)....",
@@ -308,16 +275,6 @@
     "time": "Wed, 05 Aug 2026 00:16:18 GMT",
     "text": "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on their Medium Lift rocket, Neutron.",
     "tickers": "$RKLB"
-   },
-   {
-    "time": "Tue, 04 Aug 2026 12:11:01 GMT",
-    "text": "Bessent says: \"There may be deal Tuesday or Wednesday to open Strait of Hormuz with freedom of movement\" I think markets might like the sound of this.",
-    "tickers": ""
-   },
-   {
-    "time": "Tue, 04 Aug 2026 11:09:35 GMT",
-    "text": "A very material catalyst came about for Western supply chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and DC de...",
-    "tickers": "$AAOI, $SIVE, $LITE"
    }
   ],
   "attempts": [
@@ -327,5 +284,5 @@
    }
   ]
  },
- "cachedAt": 1785989841779
+ "cachedAt": 1786015254677
 }

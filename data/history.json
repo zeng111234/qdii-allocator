@@ -13633,7 +13633,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.13,
-          "followUp10dReturn": null
+          "followUp10dReturn": 1.96
         },
         {
           "rank": 2,
@@ -13644,7 +13644,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.47,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.35
         }
       ]
     },
@@ -14033,7 +14033,7 @@
       "budget": 0,
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-08-05",
+        "latestNavDate": "2026-08-06",
         "maxTradingDayLag": 2,
         "observationCount": 4
       },
@@ -14058,8 +14058,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 75.33,
-          "suitabilityScore": 75.33,
+          "score": 75.25,
+          "suitabilityScore": 75.25,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -14069,8 +14069,8 @@
           "rank": 2,
           "code": "096001",
           "name": "大成标普500A(QDII)",
-          "score": 66.25,
-          "suitabilityScore": 66.25,
+          "score": 65.83,
+          "suitabilityScore": 65.83,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
