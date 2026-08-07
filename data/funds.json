@@ -11,7 +11,12 @@
     "enableExternalSignals": true,
     "externalSignalMaxScore": 3,
     "rsshubUrl": "https://my-rsshub-z6ig.onrender.com",
-    "holidayCalendar": "CN"
+    "holidayCalendar": "CN",
+    "buyFeeRate": 0.008,
+    "sellFeeRate": 0.005,
+    "executionLagDays": 2,
+    "qdiiLagIncluded": true,
+    "optimizationTrials": 2
   },
   "funds": [
     {

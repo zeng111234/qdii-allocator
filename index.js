@@ -318,7 +318,10 @@ async function handleAnalysisCommands(opts, funds, config) {
     const navCache = require("./lib/utils").loadNavCache();
     const wfResult = walkForward.runWalkForwardBacktest(navCache, funds, {
       trainDays: opts.walkForwardTrain, testDays: opts.walkForwardTest,
-      topN: topN, stepDays: opts.walkForwardTest
+      topN: topN, stepDays: opts.walkForwardTest,
+      buyFeeRate: config.buyFeeRate, sellFeeRate: config.sellFeeRate,
+      executionLagDays: config.executionLagDays, qdiiLagIncluded: config.qdiiLagIncluded,
+      optimizationTrials: config.optimizationTrials
     });
     if (wfResult) {
       console.log("\n走步回测完成! 胜率: " + wfResult.summary.winRate + ", 累计收益: " + wfResult.summary.cumulativeReturn);
@@ -627,7 +630,10 @@ async function main() {
     try {
       const walkForward = require("./lib/walk-forward");
       const wfResult = walkForward.runWalkForwardBacktest(navCache, funds, {
-        trainDays: 120, testDays: 30, topN: 2, stepDays: 30
+        trainDays: 120, testDays: 30, topN: 2, stepDays: 30,
+        buyFeeRate: config.buyFeeRate, sellFeeRate: config.sellFeeRate,
+        executionLagDays: config.executionLagDays, qdiiLagIncluded: config.qdiiLagIncluded,
+        optimizationTrials: config.optimizationTrials
       });
       acceptanceMetrics = walkForward.buildAcceptanceMetrics(wfResult, recommendationHistory.shadowHistory);
       if (acceptanceMetrics) {
