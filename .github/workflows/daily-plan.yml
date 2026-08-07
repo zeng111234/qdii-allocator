@@ -112,6 +112,7 @@ jobs:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+          RECOMMENDATION_LIVE_ENABLED: ${{ secrets.RECOMMENDATION_LIVE_ENABLED }}
           PORTFOLIO_FILE: ${{ env.PRIVATE_LEDGER_PATH }}
           PORTFOLIO_READ_ONLY: 1
       - name: Skip personalized allocation when private ledger is unavailable
