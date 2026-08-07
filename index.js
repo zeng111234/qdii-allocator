@@ -618,9 +618,10 @@ async function main() {
   }
   const recommendationHistory = recommendationEngine.partitionRecommendationHistory(historyData);
   const portfolioSnapshot = portfolio.loadPortfolio();
+  const navCache = fundData.loadNavCache();
   const recommendationPlan = recommendationEngine.buildRecommendationPlan({
     funds: funds,
-    navCache: fundData.loadNavCache(),
+    navCache: navCache,
     portfolio: portfolioSnapshot,
     history: recommendationHistory.liveHistory,
     shadowHistory: recommendationHistory.shadowHistory,
@@ -630,8 +631,20 @@ async function main() {
     liveEnabled: process.env.RECOMMENDATION_LIVE_ENABLED === "true"
   });
   result.recommendationPlan = recommendationPlan;
+  // [fix] 候选补全指标: candidates 只含排名/金额, 邮件卡片需要 indicators/type/dailyLimit
   result.ranked = recommendationPlan.candidates.map(function (candidate, index) {
-    return Object.assign({ rank: index + 1, score: candidate.marketScore, reason: candidate.reasons.join("；") }, candidate);
+    const navRows = (navCache && navCache[candidate.code]) || [];
+    const indicators = fundData.calcIndicators(navRows);
+    const fund = funds.find(function (f) { return f.code === candidate.code; }) || {};
+    return Object.assign({
+      rank: index + 1,
+      score: candidate.marketScore,
+      reason: candidate.reasons.join("；"),
+      indicators: indicators && !indicators.error ? indicators : {},
+      type: fund.type || undefined,
+      dailyLimit: fund.dailyLimit || undefined,
+      feeRate: fund.feeRate || undefined
+    }, candidate);
   });
   result.allRanked = recommendationPlan.marketRanking || [];
   result.date = recommendationPlan.asOf;

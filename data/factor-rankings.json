@@ -19,9 +19,7 @@
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
       "score": 65.5,
-      "blockedBy": [
-        "PORTFOLIO_FULL"
-      ],
+      "blockedBy": [],
       "deduped": false
     },
     {
@@ -101,8 +99,7 @@
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "FIVE_DAY_DROP_OVER_8",
-        "TREND_DETERIORATING",
-        "PORTFOLIO_FULL"
+        "TREND_DETERIORATING"
       ],
       "deduped": false
     },
@@ -230,5 +227,5 @@
       "deduped": false
     }
   ],
-  "generatedAt": "2026-07-30T06:11:19.485Z"
+  "generatedAt": "2026-07-30T07:05:53.382Z"
 }
