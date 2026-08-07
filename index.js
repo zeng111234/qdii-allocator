@@ -619,6 +619,26 @@ async function main() {
   const recommendationHistory = recommendationEngine.partitionRecommendationHistory(historyData);
   const portfolioSnapshot = portfolio.loadPortfolio();
   const navCache = fundData.loadNavCache();
+  // [fix] 原缺陷: acceptance(回测验收)从未传入, ACCEPTANCE_GATE 永远失败。
+  // 开关开启时用真实 walk-forward 回测结果判定, 阈值不变, 不放宽不缩紧。
+  let acceptanceMetrics = null;
+  const liveEnabled = process.env.RECOMMENDATION_LIVE_ENABLED === "true";
+  if (liveEnabled) {
+    try {
+      const walkForward = require("./lib/walk-forward");
+      const wfResult = walkForward.runWalkForwardBacktest(navCache, funds, {
+        trainDays: 120, testDays: 30, topN: 2, stepDays: 30
+      });
+      acceptanceMetrics = walkForward.buildAcceptanceMetrics(wfResult, recommendationHistory.shadowHistory);
+      if (acceptanceMetrics) {
+        console.log("[验收] 回测窗口=" + acceptanceMetrics.rollingWindows + " 中位超额=" + acceptanceMetrics.medianExcess12Week +
+          "% 回撤差=" + acceptanceMetrics.drawdownGapPercentagePoints + "pp 影子周=" + acceptanceMetrics.shadowWeeks +
+          " 费率=" + acceptanceMetrics.feesIncluded + " QDII滞后=" + acceptanceMetrics.qdiiLagIncluded);
+      }
+    } catch (e) {
+      console.warn("[验收] walk-forward 回测失败:", e.message);
+    }
+  }
   const recommendationPlan = recommendationEngine.buildRecommendationPlan({
     funds: funds,
     navCache: navCache,
@@ -628,7 +648,8 @@ async function main() {
     marketTemperature: result.marketTemperature,
     asOf: planAsOf,
     budget: Math.min(budget, 50),
-    liveEnabled: process.env.RECOMMENDATION_LIVE_ENABLED === "true"
+    liveEnabled: liveEnabled,
+    acceptance: acceptanceMetrics
   });
   result.recommendationPlan = recommendationPlan;
   // [fix] 候选补全指标: candidates 只含排名/金额, 邮件卡片需要 indicators/type/dailyLimit
