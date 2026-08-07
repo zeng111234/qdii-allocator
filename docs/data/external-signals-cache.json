@@ -3,8 +3,22 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-08-06T11:20:54.676Z",
+  "fetchedAt": "2026-08-07T03:53:33.647Z",
   "items": [
+   {
+    "title": "$MTSI earnings transcript: \"Customers are coming to us with urgency due to the general supply shortage of indium phosphide DFB lasers\" Emphasis on \"Ur...",
+    "text": "$MTSI earnings transcript: \"Customers are coming to us with urgency due to the general supply shortage of indium phosphide DFB lasers\" Emphasis on \"Urgency\", CW \"DFB lasers\", \"coming to us\". CW DFB names, such as like $SIVE and $LITE should be happy to hear about this laser bottleneck getting validated.",
+    "time": "Thu, 06 Aug 2026 23:41:38 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2085511646257332581",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "Just some TLDR notes on $AAOI earnings: - Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks (helpf...",
+    "text": "Just some TLDR notes on $AAOI earnings: - Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks (helpful revenue ramp #2, timelines) - Continues to believe that AOI will have the largest AI DC transceiver production capacity in the US (reiterating ambitions during a time when their competitors might get banned) - Expects facilities toward InP capacity to come online in early 2027 (timeline FYI in terms of further ramp) - Total capacity is approaching 200,000/u per month, EOY 650,000/u per month of 800g/1.6t. EOY 2027, 930,000/u (this is the ramp i want to see) - \"increase our manufacturing capacity for our external light source or ELSFP. That's for co-packaged optics or CPO\". we anticipate ramping production later this year and into 2027, ultimately culminating in about 400,000 pieces per month in 2028 (need some time to model this into revenue) - \"As we have mentioned before, we've been manufacturing lasers internally for many years. This has allowed us to avoid some of the shortages that have affected others in the industry\" (vertical integration bull case during CW/EML laser shortages) - We believe that in the future, CPO will continue to drive increased demand for high-power lasers (thesis validation on CPO sector) - \"to our long-term objective of returning non-GAAP gross margins to around 40%\" - \"We ended the second quarter with $508.8 million in total cash equivalents\" I need to double check if the ATM finished or not - \"our ability to deliver revenue in general, and specifically when it comes to 800G products, is limited by our production capacity right now\" \"If we could produce more, we could ship more right now\" Demand > Supply validation. - \"Most of the increased capacity will be in U.S. Even so, let me say that, like I keep emphasizing, that is not good enough for the customer demand. The customer demand is 20%-40% higher.\" Unholy photonics demand validation across the whole sector, read through for $LITE, $SIVE / $JBL, and others is amazing. - \"Not in the next two, three years, especially the demand is so big. Okay? Even combined AI, $LITE, $COHR, $AVGO all together, it's still very tough to meet the customer demand in the next few years\" More optical sector demand validation. - CPO Timelines: \"If you're talking about really high volume manufacturer [for CPO market], I would say more like the late Q3 next year\" and \"We have been working very close with at least five customer\" If you care about current earnings (which I'm not really looking at closely) Revenue: $191M vs. $190m EPS: $.06 vs. $.02 TLDR: Extraordinary demand across the laser + optical sector read through. Kinda supporting Lumentum CEO statement that laser shortage is worse than memory shortages. 2027 capacity ramp on track. To map inflection period with timelines, would be around early next year, as stated in their previous earnings call. AAOI has the customers now. Limitation is making enough lasers and transceivers.",
+    "time": "Thu, 06 Aug 2026 22:54:46 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2085499853099208716",
+    "source": "x-rsshub"
+   },
    {
     "title": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says...",
     "text": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says to a friend“Wow, I like applied optoelectronics!”",
@@ -74,20 +88,6 @@
     "time": "Mon, 03 Aug 2026 21:16:45 GMT",
     "link": "https://x.com/aleabitoreddit/status/2084388023689679001",
     "source": "x-rsshub"
-   },
-   {
-    "title": "Trump announced that US has cancelled its attack on Iran. And that they’ve agreed to the perimeters of a deal to open the Strait and end the nuclear ...",
-    "text": "Trump announced that US has cancelled its attack on Iran. And that they’ve agreed to the perimeters of a deal to open the Strait and end the nuclear program. Anyone else feel like they’ve aged a few years in the past 6 months?",
-    "time": "Sun, 02 Aug 2026 03:42:29 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2083760320062083406",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "$LITE CEO Michael Hurlston at the RAISE Summit warned that the supply gap for InP lasers for AI DCs: Is facing a more severe supply chain crisis than ...",
-    "text": "$LITE CEO Michael Hurlston at the RAISE Summit warned that the supply gap for InP lasers for AI DCs: Is facing a more severe supply chain crisis than memory. And with Lumentum's 5 InP fabs, shipments would be more than 30%+ below customer demand. This is especially visible with EMLs today but is already expanding to CW, especially as CPO ramps. I've always been a fan of the laser chokepoint + bottleneck from $AAOI, $SIVE, $LITE, and $COHR. And glad this thesis is starting to see validation.",
-    "time": "Sat, 01 Aug 2026 06:24:58 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2083438823548293140",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
@@ -109,8 +109,10 @@
     "matches": []
    },
    "reit": {
-    "score": 0,
-    "matches": []
+    "score": 0.5,
+    "matches": [
+     "reit"
+    ]
    },
    "hongkong": {
     "score": 0.25,
@@ -145,19 +147,19 @@
   "tickerOpinions": [
    {
     "ticker": "SIVE",
-    "mentions": 9,
+    "mentions": 10,
     "snippets": [
-     "optical source player. For background: $SIVE is viewed as the high confidence CW DFB ... The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optic",
-     "optical source player. For background: $SIVE is viewed as the high confidence CW DFB laser supplier to Aeva (which is known for lidar). Today, Aeva reacted wit"
+     "ming to us\". CW DFB names, such as like $SIVE and $LITE should be happy to hear about this laser bottleneck getting validated.",
+     "e whole sector, read through for $LITE, $SIVE / $JBL, and others is amazing. - \"Not in the next two, three years, especially the demand is so big. Okay? Even co"
     ],
     "sentiment": "bullish"
    },
    {
     "ticker": "AAOI",
-    "mentions": 5,
+    "mentions": 6,
     "snippets": [
-     "dy knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says... I remain convinced nobody know",
-     "dy knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says to a friend“Wow, I like applied o"
+     "Just some TLDR notes on $AAOI earnings: - Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks",
+     "weeks (helpf... Just some TLDR notes on $AAOI earnings: - Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks"
     ],
     "sentiment": "bullish"
    },
@@ -165,10 +167,10 @@
     "ticker": "LITE",
     "mentions": 5,
     "snippets": [
-     "ly chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a... A very material catalyst came about for Western supply cha",
-     "ly chains from $AAOI, $SIVE / Jabil, to $LITE and Coherent: The Trump administration is drafting a ban of new Chinese optical transceivers and DC devices. Which"
+     "\". CW DFB names, such as like $SIVE and $LITE should be happy to hear about this laser bottleneck getting validated.",
+     "ross the whole sector, read through for $LITE, $SIVE / $JBL, and others is amazing. - \"Not in the next two, three years, especially the demand is so big. Okay?"
     ],
-    "sentiment": "neutral"
+    "sentiment": "bullish"
    },
    {
     "ticker": "AEVA",
@@ -187,6 +189,15 @@
      "g... Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is going"
     ],
     "sentiment": "bullish"
+   },
+   {
+    "ticker": "MTSI",
+    "mentions": 2,
+    "snippets": [
+     "$MTSI earnings transcript: \"Customers are coming to us with urgency due to the general supply shortage of indium phosphi",
+     "hosphide DFB lasers\" Emphasis on \"Ur... $MTSI earnings transcript: \"Customers are coming to us with urgency due to the general supply shortage of indium phosphi"
+    ],
+    "sentiment": "bearish"
    },
    {
     "ticker": "TSM",
@@ -234,10 +245,10 @@
     "sentiment": "bearish"
    },
    {
-    "ticker": "FORM",
+    "ticker": "JBL",
     "mentions": 1,
     "snippets": [
-     "eing CPO test revenues hit for $VIAV to $FORM around now. Nvidia also stated switch-side CPO for scale out and scale across has entered mass production earlier."
+     "sector, read through for $LITE, $SIVE / $JBL, and others is amazing. - \"Not in the next two, three years, especially the demand is so big. Okay? Even combined A"
     ],
     "sentiment": "bullish"
    },
@@ -245,12 +256,38 @@
     "ticker": "COHR",
     "mentions": 1,
     "snippets": [
-     "ottleneck from $AAOI, $SIVE, $LITE, and $COHR. And glad this thesis is starting to see validation."
+     "so big. Okay? Even combined AI, $LITE, $COHR, $AVGO all together, it's still very tough to meet the customer demand in the next few years\" More optical sector"
     ],
-    "sentiment": "neutral"
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "AVGO",
+    "mentions": 1,
+    "snippets": [
+     ". Okay? Even combined AI, $LITE, $COHR, $AVGO all together, it's still very tough to meet the customer demand in the next few years\" More optical sector demand"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "FORM",
+    "mentions": 1,
+    "snippets": [
+     "eing CPO test revenues hit for $VIAV to $FORM around now. Nvidia also stated switch-side CPO for scale out and scale across has entered mass production earlier."
+    ],
+    "sentiment": "bullish"
    }
   ],
   "opinionSummaries": [
+   {
+    "time": "Thu, 06 Aug 2026 23:41:38 GMT",
+    "text": "$MTSI earnings transcript: \"Customers are coming to us with urgency due to the general supply shortage of indium phosphide DFB lasers\" Emphasis on \"Urgency\", CW \"DFB lasers\", \"coming to us\". CW DFB na...",
+    "tickers": "$MTSI"
+   },
+   {
+    "time": "Thu, 06 Aug 2026 22:54:46 GMT",
+    "text": "Just some TLDR notes on $AAOI earnings: - Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks (helpful revenue ramp #2, timelines) - Continues to beli...",
+    "tickers": "$AAOI"
+   },
    {
     "time": "Thu, 06 Aug 2026 09:56:42 GMT",
     "text": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says to a friend“Wow, I like applied optoelectronics!”",
@@ -265,16 +302,6 @@
     "time": "Thu, 06 Aug 2026 04:12:45 GMT",
     "text": "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB laser supplier to Aeva (which is known for lidar)....",
     "tickers": "$AEVA, $SIVE"
-   },
-   {
-    "time": "Thu, 06 Aug 2026 01:23:49 GMT",
-    "text": "Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is going to be slower.' That's all nonsense. CPO and a...",
-    "tickers": "$VIAV"
-   },
-   {
-    "time": "Wed, 05 Aug 2026 00:16:18 GMT",
-    "text": "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on their Medium Lift rocket, Neutron.",
-    "tickers": "$RKLB"
    }
   ],
   "attempts": [
@@ -284,5 +311,5 @@
    }
   ]
  },
- "cachedAt": 1786015254677
+ "cachedAt": 1786074813649
 }
