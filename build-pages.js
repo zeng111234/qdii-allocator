@@ -8,6 +8,7 @@ const fs = require("fs");
 const path = require("path");
 const https = require("https");
 const { normalizeExternalSignalsForPage } = require("./lib/external-signal-display");
+const { serializeForInlineScript } = require("./lib/inline-script-json");
 const ledgerTools = require("./lib/portfolio-ledger");
 
 const TEMPLATE = path.join(__dirname, "docs", "index.html.template");
@@ -121,7 +122,7 @@ async function build() {
   // [fix] 用正则替换硬编码的数据变量（占位符已被替换为实际数据）
   template = template.replace(
     /var portfolioData = \{.*?\};/s,
-    "var portfolioData = " + JSON.stringify(portfolio) + ";"
+    "var portfolioData = " + serializeForInlineScript(portfolio) + ";"
   );
   template = template.replace(
     "QDII_PUBLIC_PORTFOLIO_SNAPSHOT_PLACEHOLDER",
@@ -129,13 +130,13 @@ async function build() {
   );
   template = template.replace(
     "PUBLIC_PORTFOLIO_LEDGER_PLACEHOLDER",
-    JSON.stringify(publicLedger)
+    serializeForInlineScript(publicLedger)
   );
-  template = template.replace(/var fundsData = \{.*?\};/s, "var fundsData = " + JSON.stringify(funds) + ";");
-  template = template.replace(/var navCacheData = \{.*?\};/s, "var navCacheData = " + JSON.stringify(latestNavs) + ";");
+  template = template.replace(/var fundsData = \{.*?\};/s, "var fundsData = " + serializeForInlineScript(funds) + ";");
+  template = template.replace(/var navCacheData = \{.*?\};/s, "var navCacheData = " + serializeForInlineScript(latestNavs) + ";");
   template = template.replace(
     /var dailyBriefData = \{.*?\};/s,
-    "var dailyBriefData = " + JSON.stringify(dailyBrief) + ";"
+    "var dailyBriefData = " + serializeForInlineScript(dailyBrief) + ";"
   );
 
   // Firebase Web 配置是公开的项目标识；数据库访问权限只由 Google Auth + Rules 决定。
@@ -363,7 +364,7 @@ async function build() {
     console.log("[构建] 新闻获取失败: " + e.message + " (使用空数据)");
   }
   // [fix] 用正则替换硬编码数据（占位符已被替换为实际数据）
-  template = template.replace(/var newsData = \{.*?\};/s, "var newsData = " + JSON.stringify(newsData) + ";");
+  template = template.replace(/var newsData = \{.*?\};/s, "var newsData = " + serializeForInlineScript(newsData) + ";");
 
   // [fix] 嵌入市场温度数据
   // 从已有历史推荐数据推算（避免CI环境API被封）
@@ -436,7 +437,7 @@ async function build() {
   } catch (e) {
     console.log("[构建] 市场温度计算失败: " + e.message + " (使用默认值)");
   }
-  template = template.replace("MARKET_TEMPERATURE_DATA", JSON.stringify(marketTemperature));
+  template = template.replace("MARKET_TEMPERATURE_DATA", serializeForInlineScript(marketTemperature));
 
   // 唯一推荐计划：页面、邮件、AI、追踪和回测只能消费这个结构。
   let recommendationPlan = null;
@@ -495,7 +496,7 @@ async function build() {
     })
   };
   console.log("[构建] 推荐计划: " + recommendationPlan.action + "，候选" + todayPicks.ranked.length + "只");
-  template = template.replace(/var todayPicks = \{.*?\};/s, "var todayPicks = " + JSON.stringify(todayPicks) + ";");
+  template = template.replace(/var todayPicks = \{.*?\};/s, "var todayPicks = " + serializeForInlineScript(todayPicks) + ";");
 
   // 嵌入限购额度（从 fund-info-cache.json + funds.json 合并）
   const purchaseLimits = {};
@@ -530,7 +531,7 @@ async function build() {
   }
   template = template.replace(
     /var purchaseLimits = \{.*?\};/s,
-    "var purchaseLimits = " + JSON.stringify(purchaseLimits) + ";"
+    "var purchaseLimits = " + serializeForInlineScript(purchaseLimits) + ";"
   );
 
   // 嵌入外部信号（X/Twitter 大V观点）
@@ -555,14 +556,14 @@ async function build() {
   }
   template = template.replace(
     /var externalSignalsData = \{.*?\};/s,
-    "var externalSignalsData = " + JSON.stringify(externalSignals) + ";"
+    "var externalSignalsData = " + serializeForInlineScript(externalSignals) + ";"
   );
 
   // 嵌入假设数据
   const hypotheses = { hypotheses: [], stats: { total: 0, validated: 0, invalidated: 0, expired: 0 } };
   template = template.replace(
     /var hypothesesData = \{.*?\};/s,
-    "var hypothesesData = " + JSON.stringify(hypotheses) + ";"
+    "var hypothesesData = " + serializeForInlineScript(hypotheses) + ";"
   );
 
   // 嵌入交易日历（2026年中国法定节假日）
@@ -598,7 +599,7 @@ async function build() {
   ];
   template = template.replace(
     /var tradingHolidays = \[.*?\];/s,
-    "var tradingHolidays = " + JSON.stringify(tradingHolidays) + ";"
+    "var tradingHolidays = " + serializeForInlineScript(tradingHolidays) + ";"
   );
 
   // 写入输出

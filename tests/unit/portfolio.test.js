@@ -6,10 +6,17 @@
 const test = require("node:test");
 const assert = require("node:assert");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
-const PORTFOLIO_FILE = path.join(__dirname, "..", "..", "data", "portfolio.json");
+const PORTFOLIO_FILE = path.join(os.tmpdir(), "trade-portfolio-" + process.pid + ".json");
+process.env.PORTFOLIO_FILE = PORTFOLIO_FILE;
 const BACKUP_FILE = PORTFOLIO_FILE + ".test-backup";
+
+test.after(function () {
+  if (fs.existsSync(PORTFOLIO_FILE)) fs.unlinkSync(PORTFOLIO_FILE);
+  if (fs.existsSync(BACKUP_FILE)) fs.unlinkSync(BACKUP_FILE);
+});
 
 function backupPortfolio() {
   if (fs.existsSync(PORTFOLIO_FILE)) {
@@ -246,6 +253,39 @@ test("calcHoldingDetail - unsettled buy excluded from totals", function () {
   const detail = portfolio.calcHoldingDetail(holding, {});
   assert.strictEqual(detail.totalAmount, 150); // 100(已结算) + 50(待结算) = 150
   assert.strictEqual(detail.totalShares, 10); // 待结算的没有shares
+});
+
+test("calcHoldingDetail - preserves risk classification metadata", function () {
+  const portfolio = require("../../lib/portfolio");
+  const detail = portfolio.calcHoldingDetail({
+    code: "270042",
+    name: "Test Fund",
+    type: "纳指100",
+    indexGroup: "NDX100",
+    riskBucket: "GROWTH_TECH",
+    buys: [{ date: "2026-05-20", amount: 100, nav: 10, shares: 10 }]
+  }, {});
+
+  assert.strictEqual(detail.type, "纳指100");
+  assert.strictEqual(detail.indexGroup, "NDX100");
+  assert.strictEqual(detail.riskBucket, "GROWTH_TECH");
+});
+
+test("calcPortfolioSummary - enriches legacy holdings from the fund catalog", function () {
+  const portfolio = require("../../lib/portfolio");
+  fs.writeFileSync(PORTFOLIO_FILE, JSON.stringify({
+    holdings: [{
+      code: "270042",
+      name: "广发纳斯达克100ETF联接",
+      buys: [{ date: "2026-05-20", amount: 100, nav: 1, shares: 100 }]
+    }],
+    startDate: "2026-05-20"
+  }), "utf8");
+
+  const summary = portfolio.calcPortfolioSummary();
+  assert.strictEqual(summary.holdings[0].indexGroup, "NDX100");
+  assert.ok(summary.holdings[0].type);
+  assert.ok(summary.holdings[0].riskBucket);
 });
 
 // ========== formatPortfolioReport ==========

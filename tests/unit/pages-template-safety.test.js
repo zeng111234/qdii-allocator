@@ -53,6 +53,73 @@ function extractBetweenFunctions(name, nextName) {
   return template.slice(start, end);
 }
 
+test("dynamic website values are HTML-escaped at critical render boundaries", function () {
+  const ctx = loadHelpers(["escapeHtml"]);
+  assert.equal(
+    ctx.escapeHtml('测试</span><img src="data:x" onerror="alert(1)">'),
+    "测试&lt;/span&gt;&lt;img src=&quot;data:x&quot; onerror=&quot;alert(1)&quot;&gt;"
+  );
+
+  const holdingsSource = extractFunction("updateHoldings");
+  assert.match(holdingsSource, /escapeHtml\(pendingText\)/);
+  assert.match(holdingsSource, /escapeHtml\(getHoldingDisplayName\(h, fund\)\)/);
+  assert.match(holdingsSource, /escapeHtml\(h\.code\)/);
+  assert.match(holdingsSource, /escapeHtml\(b\.date\)/);
+
+  assert.match(extractFunction("updateApiStatus"), /escapeHtml\(config\.model/);
+  assert.match(extractFunction("renderDailyBrief"), /renderMarkdown\(String\(briefText/);
+
+  const newsSource = extractFunction("loadNewsSentiment");
+  assert.match(newsSource, /safeExternalUrl\(n\.url\)/);
+  assert.match(newsSource, /escapeHtml\(n\.title\)/);
+  assert.match(newsSource, /rel="noopener noreferrer"/);
+
+  const sendSource = extractBetweenFunctions("sendAiMessage", "askQuick");
+  assert.match(sendSource, /renderRetryMessage\(bubble,/);
+  assert.doesNotMatch(sendSource, /text\.replace\(\/\'\/g/);
+});
+
+test("public snapshot mode disables cloud writes and impossible sync actions", function () {
+  assert.match(template, /id="cloud-migrate-btn"/);
+  assert.match(template, /id="cloud-refresh-btn"/);
+  assert.match(template, /id="portfolio-import-btn"/);
+  assert.match(template, /id="buy-submit-btn"/);
+  assert.match(template, /id="batch-submit-btn"/);
+
+  const availabilitySource = extractFunction("updateCloudActionAvailability");
+  assert.match(availabilitySource, /status\.status === 'PUBLIC_SNAPSHOT'/);
+  assert.match(availabilitySource, /cloudWriteReady/);
+  assert.match(availabilitySource, /公开只读快照/);
+
+  const importSource = extractFunction("importData");
+  assert.match(importSource, /window\.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true/);
+  assert.match(importSource, /公开只读模式不能导入/);
+});
+
+test("mobile viewport stays zoomable and tabs are keyboard-accessible controls", function () {
+  assert.match(template, /<meta name="viewport" content="width=device-width, initial-scale=1\.0">/);
+  assert.doesNotMatch(template, /user-scalable=no|maximum-scale=1/);
+  assert.match(template, /<div class="tabs" role="tablist"/);
+  assert.equal((template.match(/<button type="button" id="tab-control-/g) || []).length, 9);
+  assert.match(template, /\.tab \{[\s\S]*min-height:\s*44px/);
+  assert.match(extractFunction("switchTab"), /aria-selected/);
+});
+
+test("static website has a session-scoped visual access gate", function () {
+  assert.match(template, /id="site-access-gate"/);
+  assert.match(template, /id="site-access-form"/);
+  assert.match(template, /id="site-access-code"[^>]*type="password"[^>]*inputmode="numeric"[^>]*maxlength="4"/);
+  assert.match(template, /id="site-app"/);
+  assert.match(template, /site-access-locked/);
+  assert.match(template, /site-access-unlocked/);
+  assert.doesNotMatch(template, /['"]0315['"]/);
+
+  const submitSource = extractFunction("handleSiteAccessSubmit");
+  assert.match(submitSource, /crypto\.subtle\.digest/);
+  assert.match(submitSource, /sessionStorage\.setItem/);
+  assert.match(submitSource, /setSiteAccessState\(true\)/);
+});
+
 test("PAUSE keeps the real candidate Top average", function () {
   const ctx = loadHelpers(["getTodayPicksAverage"]);
   assert.equal(ctx.getTodayPicksAverage({ action: "PAUSE", ranked: [{ score: 75.25 }, { score: 64.83 }] }), 70.04);

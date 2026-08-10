@@ -4,6 +4,7 @@
 
 const test = require('node:test');
 const assert = require('node:assert');
+const http = require('http');
 
 const utils = require('../../lib/utils');
 
@@ -80,4 +81,25 @@ test('loadNavCache - returns object', function() {
   const cache = utils.loadNavCache();
   assert.strictEqual(typeof cache, 'object');
   assert.ok(cache !== null);
+});
+
+test('httpGetWithRetry - defaults to one retry after the initial failure', async function() {
+  let requests = 0;
+  const server = http.createServer(function(_req, res) {
+    requests++;
+    res.writeHead(503, { 'Content-Type': 'text/plain' });
+    res.end('unavailable');
+  });
+  await new Promise(function(resolve) { server.listen(0, '127.0.0.1', resolve); });
+  const address = server.address();
+
+  try {
+    await assert.rejects(
+      utils.httpGetWithRetry('http://127.0.0.1:' + address.port + '/fail', { timeoutMs: 1000, retryDelays: [1] }),
+      /HTTP 503/
+    );
+    assert.strictEqual(requests, 2, '网络调用应只有首次尝试和一次重试');
+  } finally {
+    await new Promise(function(resolve) { server.close(resolve); });
+  }
 });

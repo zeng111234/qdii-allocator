@@ -11,6 +11,7 @@
     "start": "cmd /c \"chcp 65001 >nul & node index.js\"",
     "test": "node run-tests.js",
     "sync": "node sync.js",
+    "test:browser": "node scripts/browser-smoke.js",
     "lint": "eslint lib/ index.js sync.js build-pages.js",
     "lint:fix": "eslint --fix lib/ index.js sync.js build-pages.js",
     "format": "prettier --write \"lib/**/*.js\" \"*.js\""
@@ -25,9 +26,9 @@
   "dependencies": {
     "dotenv": "^16.4.5",
     "express": "^5.2.1",
-    "express-rate-limit": "^8.5.2",
-    "firebase-admin": "^13.10.0",
-    "firebase-functions": "^7.3.0",
+    "express-rate-limit": "^8.6.2",
+    "firebase-admin": "^14.2.0",
+    "firebase-functions": "^7.3.2",
     "iconv-lite": "^0.7.2",
     "nodemailer": "^9.0.3",
     "p-limit": "^3.1.0",
@@ -36,6 +37,7 @@
   "devDependencies": {
     "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
+    "playwright-core": "^1.62.1",
     "prettier": "^3.8.4"
   }
 }

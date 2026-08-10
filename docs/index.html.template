@@ -2,9 +2,16 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="icon" href="data:,">
   <title>QDII Fund Allocator</title>
+  <script>
+    (function () {
+      var unlocked = false;
+      try { unlocked = sessionStorage.getItem('qdii-site-access-v1') === 'unlocked'; } catch (_error) {}
+      document.documentElement.classList.add(unlocked ? 'site-access-unlocked' : 'site-access-locked');
+    })();
+  </script>
   <style>
     :root {
       --primary: #6366f1;
@@ -93,6 +100,87 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    #site-app { visibility: hidden; }
+    html.site-access-unlocked #site-app { visibility: visible; }
+    html.site-access-locked body { overflow: hidden; }
+    #site-access-gate {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at 15% 15%, rgba(129, 140, 248, 0.28), transparent 34%),
+        linear-gradient(145deg, #eef2ff 0%, #f8fafc 55%, #f5f3ff 100%);
+    }
+    html.site-access-unlocked #site-access-gate { display: none; }
+    .site-access-panel {
+      width: min(100%, 390px);
+      padding: 32px 28px 28px;
+      border: 1px solid rgba(99, 102, 241, 0.18);
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.94);
+      box-shadow: 0 24px 70px rgba(76, 81, 191, 0.18);
+      text-align: center;
+    }
+    .site-access-mark {
+      display: grid;
+      place-items: center;
+      width: 58px;
+      height: 58px;
+      margin: 0 auto 18px;
+      border-radius: 18px;
+      color: white;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      box-shadow: 0 10px 26px rgba(99, 102, 241, 0.3);
+      font-size: 26px;
+    }
+    .site-access-panel h1 { font-size: 24px; line-height: 1.3; }
+    .site-access-lead { margin-top: 8px; color: var(--text2); font-size: 14px; line-height: 1.6; }
+    .site-access-form { margin-top: 24px; text-align: left; }
+    .site-access-form label { display: block; margin-bottom: 8px; color: var(--text2); font-size: 12px; font-weight: 600; }
+    .site-access-input {
+      width: 100%;
+      min-height: 50px;
+      padding: 10px 14px;
+      border: 1.5px solid var(--border2);
+      border-radius: 12px;
+      background: white;
+      color: var(--text);
+      font: 600 20px/1 system-ui, sans-serif;
+      letter-spacing: 0.5em;
+      text-align: center;
+    }
+    .site-access-input:focus { outline: 3px solid rgba(99, 102, 241, 0.18); border-color: var(--primary); }
+    .site-access-submit {
+      width: 100%;
+      min-height: 48px;
+      margin-top: 12px;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #6366f1, #7c3aed);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .site-access-submit:hover { filter: brightness(1.04); }
+    .site-access-submit:focus-visible { outline: 3px solid rgba(99, 102, 241, 0.3); outline-offset: 2px; }
+    .site-access-error { min-height: 20px; margin-top: 10px; color: var(--danger); font-size: 12px; text-align: center; }
+    .site-access-note { margin-top: 18px; color: var(--text3); font-size: 11px; line-height: 1.5; }
+
+    @media (prefers-color-scheme: dark) {
+      #site-access-gate {
+        background:
+          radial-gradient(circle at 15% 15%, rgba(99, 102, 241, 0.22), transparent 34%),
+          linear-gradient(145deg, #111827, #0f172a);
+      }
+      .site-access-panel { background: rgba(30, 41, 59, 0.96); }
+      .site-access-input { background: #0f172a; }
+    }
+
     /* Header */
     .header {
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
@@ -154,11 +242,15 @@
     .tab {
       flex: 1;
       padding: 9px 0;
+      min-height: 44px;
       text-align: center;
       cursor: pointer;
       font-size: 13px;
       font-weight: 500;
+      font-family: inherit;
       color: var(--text3);
+      background: transparent;
+      border: 0;
       border-radius: 8px;
       transition: all 0.2s;
     }
@@ -278,6 +370,7 @@
     }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-light); }
+    button:disabled, .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .ai-quick-btn { padding:5px 10px;font-size:11px;border:1px solid var(--border);border-radius:16px;background:white;cursor:pointer;color:var(--text2);transition:all 0.2s }
     .ai-quick-btn:hover { background:var(--primary);color:white;border-color:var(--primary) }
     .btn-ghost {
@@ -511,7 +604,23 @@
   </style>
 </head>
 <body>
-  <!-- 免责声明（替代假密码保护） -->
+  <div id="site-access-gate" role="dialog" aria-modal="true" aria-labelledby="site-access-title">
+    <main class="site-access-panel">
+      <div class="site-access-mark" aria-hidden="true">◈</div>
+      <h1 id="site-access-title">QDII 自用工具</h1>
+      <p class="site-access-lead">输入四位访问口令后进入</p>
+      <form id="site-access-form" class="site-access-form" novalidate>
+        <label for="site-access-code">访问口令</label>
+        <input id="site-access-code" type="password" inputmode="numeric" maxlength="4" class="site-access-input" pattern="[0-9]*" autocomplete="current-password" aria-describedby="site-access-error" autofocus>
+        <button class="site-access-submit" type="submit">进入网站</button>
+        <p id="site-access-error" class="site-access-error" role="alert" aria-live="polite"></p>
+      </form>
+      <p class="site-access-note">仅作为个人使用入口，本页面不提供数据加密。</p>
+    </main>
+  </div>
+
+  <div id="site-app" aria-hidden="true" inert tabindex="-1">
+  <!-- 免责声明 -->
   <div style="background:#fef3c7;border-bottom:1px solid #f59e0b;padding:8px 16px;text-align:center;font-size:12px;color:#92400e;">
     ⚠️ 本工具仅供参考，不构成投资建议。投资有风险，入市需谨慎。
   </div>
@@ -580,32 +689,32 @@
 
     <!-- Tabs -->
     <div class="card">
-      <div class="tabs">
-        <div class="tab active" onclick="switchTab('portfolio')">持仓</div>
-        <div class="tab" onclick="switchTab('buy')">买入</div>
-        <div class="tab" onclick="switchTab('batch')">批量</div>
-        <div class="tab" onclick="switchTab('insights')">洞察</div>
-        <div class="tab" onclick="switchTab('risk')">风险</div>
-        <div class="tab" onclick="switchTab('ranking')">评分</div>
-        <div class="tab" onclick="switchTab('debate')">辩论</div>
-        <div class="tab" onclick="switchTab('shadow')">模拟</div>
-        <div class="tab" onclick="switchTab('ai')">💬 AI</div>
+      <div class="tabs" role="tablist" aria-label="功能导航">
+        <button type="button" id="tab-control-portfolio" class="tab active" role="tab" aria-selected="true" aria-controls="tab-portfolio" tabindex="0" onclick="switchTab('portfolio')">持仓</button>
+        <button type="button" id="tab-control-buy" class="tab" role="tab" aria-selected="false" aria-controls="tab-buy" tabindex="-1" onclick="switchTab('buy')">买入</button>
+        <button type="button" id="tab-control-batch" class="tab" role="tab" aria-selected="false" aria-controls="tab-batch" tabindex="-1" onclick="switchTab('batch')">批量</button>
+        <button type="button" id="tab-control-insights" class="tab" role="tab" aria-selected="false" aria-controls="tab-insights" tabindex="-1" onclick="switchTab('insights')">洞察</button>
+        <button type="button" id="tab-control-risk" class="tab" role="tab" aria-selected="false" aria-controls="tab-risk" tabindex="-1" onclick="switchTab('risk')">风险</button>
+        <button type="button" id="tab-control-ranking" class="tab" role="tab" aria-selected="false" aria-controls="tab-ranking" tabindex="-1" onclick="switchTab('ranking')">评分</button>
+        <button type="button" id="tab-control-debate" class="tab" role="tab" aria-selected="false" aria-controls="tab-debate" tabindex="-1" onclick="switchTab('debate')">辩论</button>
+        <button type="button" id="tab-control-shadow" class="tab" role="tab" aria-selected="false" aria-controls="tab-shadow" tabindex="-1" onclick="switchTab('shadow')">模拟</button>
+        <button type="button" id="tab-control-ai" class="tab" role="tab" aria-selected="false" aria-controls="tab-ai" tabindex="-1" onclick="switchTab('ai')">💬 AI</button>
       </div>
 
-      <div id="tab-portfolio" class="tab-content active">
+      <div id="tab-portfolio" class="tab-content active" role="tabpanel" aria-labelledby="tab-control-portfolio">
         <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap;align-items:center">
           <span id="sync-status" style="font-size:12px;color:var(--text2)">☁️ Firebase 用户账本</span>
           <span style="flex:1"></span>
           <button id="decision-anchor-btn" class="btn" style="display:none;background:var(--state-yellow-bg);color:var(--state-yellow-text);border:1px solid var(--state-yellow-border);font-size:11px;padding:5px 10px" onclick="firebaseSetRiskAnchor()">⚓ 设置风险锚点</button>
-          <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseMigrateChrome()">🧾 预览迁移</button>
-          <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseDownload()">↻ 云端刷新</button>
+          <button id="cloud-migrate-btn" class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseMigrateChrome()">🧾 预览迁移</button>
+          <button id="cloud-refresh-btn" class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseDownload()">↻ 云端刷新</button>
           <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="exportData()">📤 导出</button>
-          <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="importData()">📥 导入</button>
+          <button id="portfolio-import-btn" class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="importData()">📥 导入</button>
         </div>
         <div id="holdings"></div>
       </div>
 
-      <div id="tab-buy" class="tab-content">
+      <div id="tab-buy" class="tab-content" role="tabpanel" aria-labelledby="tab-control-buy">
         <div class="form-group">
           <label>选择基金</label>
           <select id="fundSelect"><option value="">-- 请选择 --</option></select>
@@ -615,11 +724,11 @@
           <div class="form-group"><label>净值 (可选)</label><input type="number" id="nav" step="0.0001" placeholder="自动查询"></div>
         </div>
         <div class="form-group"><label>买入日期</label><input type="date" id="buyDate"></div>
-        <button class="btn btn-primary" onclick="addBuy()">确认买入</button>
+        <button id="buy-submit-btn" class="btn btn-primary" onclick="addBuy()">确认买入</button>
         <div id="buyResult" style="margin-top:10px;font-size:12px"></div>
       </div>
 
-      <div id="tab-batch" class="tab-content">
+      <div id="tab-batch" class="tab-content" role="tabpanel" aria-labelledby="tab-control-batch">
         <div style="margin-bottom:10px">
           <label style="font-size:12px;color:var(--text2);font-weight:500">买入日期</label>
           <div style="display:flex;gap:6px;align-items:center;margin-top:5px">
@@ -630,27 +739,27 @@
         <div id="batchList"></div>
         <div style="display:flex;gap:8px;margin-top:8px">
           <button class="btn btn-ghost" style="flex:1" onclick="addBatchRow()">+ 添加</button>
-          <button class="btn btn-primary" style="flex:1" onclick="submitBatch()">提交</button>
+          <button id="batch-submit-btn" class="btn btn-primary" style="flex:1" onclick="submitBatch()">提交</button>
         </div>
       </div>
 
-      <div id="tab-insights" class="tab-content">
+      <div id="tab-insights" class="tab-content" role="tabpanel" aria-labelledby="tab-control-insights">
         <div id="insights-content"></div>
       </div>
 
-      <div id="tab-risk" class="tab-content">
+      <div id="tab-risk" class="tab-content" role="tabpanel" aria-labelledby="tab-control-risk">
         <div id="risk-content">
           <div style="text-align:center;padding:20px;color:var(--text3)">正在计算风险指标...</div>
         </div>
       </div>
 
-      <div id="tab-ranking" class="tab-content">
+      <div id="tab-ranking" class="tab-content" role="tabpanel" aria-labelledby="tab-control-ranking">
         <div id="ranking-content">
           <div style="text-align:center;padding:20px;color:var(--text3)">正在计算基金评分...</div>
         </div>
       </div>
 
-      <div id="tab-debate" class="tab-content">
+      <div id="tab-debate" class="tab-content" role="tabpanel" aria-labelledby="tab-control-debate">
         <div class="card-title" style="margin-top:4px">🤖 多智能体辩论</div>
         <div style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:16px">
           借鉴 <a href="https://github.com/TauricResearch/TradingAgents" target="_blank" style="color:var(--primary)">TradingAgents</a> 的多智能体协作理念，通过 Bull/Bear 辩论机制进行多视角分析。
@@ -700,7 +809,7 @@
         </div>
       </div>
 
-      <div id="tab-shadow" class="tab-content">
+      <div id="tab-shadow" class="tab-content" role="tabpanel" aria-labelledby="tab-control-shadow">
         <div id="shadow-summary"></div>
         <div style="margin-top:12px">
           <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">
@@ -714,7 +823,7 @@
       </div>
 
       <!-- AI 助手 Tab -->
-      <div id="tab-ai" class="tab-content">
+      <div id="tab-ai" class="tab-content" role="tabpanel" aria-labelledby="tab-control-ai">
         <div id="ai-config-panel" style="display:none;margin-bottom:12px;padding:12px;background:var(--bg);border-radius:10px;border:1px solid var(--border)">
           <div class="card-title" style="margin-bottom:8px">⚙️ API 配置</div>
           <div style="font-size:11px;color:var(--text3);margin-bottom:8px">支持 OpenAI 兼容接口</div>
@@ -773,6 +882,64 @@
 
   <div class="footer">QDII Fund Allocator · 数据仅供参考，投资需谨慎</div>
   <div id="toast" class="toast"></div>
+  </div>
+
+  <script>
+    var SITE_ACCESS_SESSION_KEY = 'qdii-site-access-v1';
+    var SITE_ACCESS_CODE_DIGEST = '63075cf5a34e6685ffb9be2e009b5ece6efae26232223575ac382fafa6ae335a';
+
+    function setSiteAccessState(unlocked) {
+      var root = document.documentElement;
+      var gate = document.getElementById('site-access-gate');
+      var app = document.getElementById('site-app');
+      root.classList.toggle('site-access-locked', !unlocked);
+      root.classList.toggle('site-access-unlocked', unlocked);
+      gate.setAttribute('aria-hidden', unlocked ? 'true' : 'false');
+      app.setAttribute('aria-hidden', unlocked ? 'false' : 'true');
+      app.inert = !unlocked;
+      if (unlocked) {
+        app.focus({ preventScroll: true });
+      } else {
+        document.getElementById('site-access-code').focus();
+      }
+    }
+
+    async function handleSiteAccessSubmit(event) {
+      event.preventDefault();
+      var input = document.getElementById('site-access-code');
+      var error = document.getElementById('site-access-error');
+      var code = input.value.trim();
+      if (!/^\d{4}$/.test(code)) {
+        error.textContent = '请输入四位数字口令';
+        input.setAttribute('aria-invalid', 'true');
+        input.focus();
+        return;
+      }
+      try {
+        var bytes = new TextEncoder().encode(code);
+        var digestBuffer = await crypto.subtle.digest('SHA-256', bytes);
+        var digest = Array.from(new Uint8Array(digestBuffer)).map(function (value) {
+          return value.toString(16).padStart(2, '0');
+        }).join('');
+        if (digest !== SITE_ACCESS_CODE_DIGEST) {
+          error.textContent = '口令不正确，请重新输入';
+          input.value = '';
+          input.setAttribute('aria-invalid', 'true');
+          input.focus();
+          return;
+        }
+        try { sessionStorage.setItem(SITE_ACCESS_SESSION_KEY, 'unlocked'); } catch (_error) {}
+        error.textContent = '';
+        input.removeAttribute('aria-invalid');
+        setSiteAccessState(true);
+      } catch (_error) {
+        error.textContent = '当前浏览器无法验证口令，请刷新后重试';
+      }
+    }
+
+    document.getElementById('site-access-form').addEventListener('submit', handleSiteAccessSubmit);
+    setSiteAccessState(document.documentElement.classList.contains('site-access-unlocked'));
+  </script>
 
   <script>
     window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT = QDII_PUBLIC_PORTFOLIO_SNAPSHOT_PLACEHOLDER;
@@ -840,6 +1007,22 @@
       }, 100);
     }
 
+    function escapeHtml(value) {
+      var entities = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
+      return String(value === null || value === undefined ? '' : value).split('').map(function(character) {
+        return entities[character] || character;
+      }).join('');
+    }
+
+    function safeExternalUrl(value) {
+      try {
+        var url = new URL(String(value || ''), window.location.href);
+        return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : '';
+      } catch (error) {
+        return '';
+      }
+    }
+
     function showToast(text, isError) {
       var el = document.getElementById("toast");
       el.textContent = text;
@@ -848,11 +1031,18 @@
     }
 
     function switchTab(tab) {
-      document.querySelectorAll('.tab').forEach(function(t) { t.classList.remove('active'); });
+      document.querySelectorAll('.tab').forEach(function(t) {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false');
+        t.tabIndex = -1;
+      });
       document.querySelectorAll('.tab-content').forEach(function(c) { c.classList.remove('active'); });
       var tabs = ['portfolio', 'buy', 'batch', 'insights', 'risk', 'ranking', 'debate', 'shadow', 'ai'];
       var idx = tabs.indexOf(tab);
-      document.querySelectorAll('.tab')[idx].classList.add('active');
+      var activeTab = document.querySelectorAll('.tab')[idx];
+      activeTab.classList.add('active');
+      activeTab.setAttribute('aria-selected', 'true');
+      activeTab.tabIndex = 0;
       document.getElementById('tab-' + tab).classList.add('active');
       if (tab === 'insights') renderInsights();
       if (tab === 'risk') renderRiskDashboard();
@@ -864,6 +1054,18 @@
         if (!document.getElementById('batchList').children.length) addBatchRow();
       }
     }
+
+    document.querySelector('.tabs').addEventListener('keydown', function(event) {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight' && event.key !== 'Home' && event.key !== 'End') return;
+      var tabs = Array.from(document.querySelectorAll('.tab'));
+      var current = tabs.indexOf(document.activeElement);
+      if (current < 0) return;
+      event.preventDefault();
+      var next = event.key === 'Home' ? 0 : (event.key === 'End' ? tabs.length - 1 :
+        (current + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length);
+      tabs[next].click();
+      tabs[next].focus();
+    });
 
     function calcSummary() {
       var totalInv = 0, totalVal = 0, pendingInv = 0;
@@ -1159,7 +1361,7 @@
         var pendingText = pendingHoldings.map(function(holding) {
           return getHoldingDisplayName(holding, fundsData.funds.find(function(f) { return f.code === holding.code; })) + '(' + holding.code + ') ' + Number(holding.totalAmount || 0) + '元';
         }).join('；');
-        html += '<div style="padding:10px 12px;margin-bottom:8px;background:var(--state-yellow-bg);border:1px solid var(--state-yellow-border);border-radius:10px;font-size:12px;color:var(--state-yellow-text)">⚠️ 待核验交易：' + pendingText + '。这不是已确认持仓，不纳入市值、盈亏或风险权重。</div>';
+        html += '<div style="padding:10px 12px;margin-bottom:8px;background:var(--state-yellow-bg);border:1px solid var(--state-yellow-border);border-radius:10px;font-size:12px;color:var(--state-yellow-text)">⚠️ 待核验交易：' + escapeHtml(pendingText) + '。这不是已确认持仓，不纳入市值、盈亏或风险权重。</div>';
       }
       // [fix] 按品类统计持仓集中度
       var categoryMap = {
@@ -1208,7 +1410,7 @@
 
         html += '<div class="holding-row" onclick="toggleDetail(' + i + ')">';
         html += '<div class="holding-top">';
-        html += '<div><span class="holding-name">' + getHoldingDisplayName(h, fund) + '</span><span class="holding-code">' + h.code + '</span></div>';
+        html += '<div><span class="holding-name">' + escapeHtml(getHoldingDisplayName(h, fund)) + '</span><span class="holding-code">' + escapeHtml(h.code) + '</span></div>';
         html += '<div class="holding-pnl"><div class="amount ' + cls + '">' + sign + pnl.toFixed(2) + '</div>';
         html += '<div class="rate ' + cls + '">' + sign + pnlPct.toFixed(2) + '%</div></div>';
         html += '</div>';
@@ -1217,8 +1419,8 @@
         html += '</div>';
         html += '<div class="detail" id="detail-' + i + '">';
         h.buys.forEach(function(b, bi) {
-          html += '<div class="detail-row"><span>' + b.date + ' 买入' + b.amount + '元</span>';
-          html += '<span style="display:flex;align-items:center;gap:8px">' + (b.nav ? '净值' + b.nav : '待确认');
+          html += '<div class="detail-row"><span>' + escapeHtml(b.date) + ' 买入' + escapeHtml(b.amount) + '元</span>';
+          html += '<span style="display:flex;align-items:center;gap:8px">' + (b.nav ? '净值' + escapeHtml(b.nav) : '待确认');
           html += '<button onclick="deleteBuy(' + i + ',' + bi + ')" style="background:var(--danger);color:#fff;border:none;border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer">删除</button>';
           html += '</span></div>';
         });
@@ -3061,6 +3263,10 @@
     }
 
     function importData() {
+      if (window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true && !cloudWriteReady) {
+        showToast('公开只读模式不能导入：刷新会恢复公开快照；请改用导出备份或登录版账本', true);
+        return;
+      }
       var input = prompt('粘贴从另一台设备导出的数据：');
       if (!input) return;
       try {
@@ -4226,7 +4432,34 @@
         signInEl.style.display = (status.status === 'SIGNED_OUT' ||
           (status.status === 'OFFLINE' && status.source === 'Chrome 本地只读')) ? 'inline' : 'none';
       }
+      updateCloudActionAvailability(status);
       if (status.error) console.error('Cloud sync:', status.error);
+    }
+
+    function setCloudActionEnabled(id, enabled, reason) {
+      var button = document.getElementById(id);
+      if (!button) return;
+      button.disabled = !enabled;
+      button.setAttribute('aria-disabled', enabled ? 'false' : 'true');
+      button.title = enabled ? '' : reason;
+    }
+
+    function updateCloudActionAvailability(status) {
+      status = status || {};
+      var publicSnapshot = status.status === 'PUBLIC_SNAPSHOT';
+      var writeReady = cloudWriteReady && status.status === 'READY';
+      var writeReason = publicSnapshot
+        ? '公开只读快照不能写入或刷新云端账本'
+        : '请先登录并完成云端账本校验';
+      setCloudActionEnabled('cloud-migrate-btn', writeReady, writeReason);
+      setCloudActionEnabled('cloud-refresh-btn', writeReady, writeReason);
+      setCloudActionEnabled('buy-submit-btn', writeReady, writeReason);
+      setCloudActionEnabled('batch-submit-btn', writeReady, writeReason);
+      setCloudActionEnabled(
+        'portfolio-import-btn',
+        !publicSnapshot,
+        '公开只读快照不能导入；刷新会恢复公开快照'
+      );
     }
 
     async function firebaseSignIn() {
@@ -4433,14 +4666,14 @@
         if (bullishThemes.length > 0 || bearishThemes.length > 0) {
           html2 += '<div style="padding:8px 10px;background:var(--state-blue-bg);border-radius:8px;font-size:12px;color:var(--text2);margin-bottom:10px;line-height:1.6">';
           html2 += '💡 <b>AI 解读：</b>今日新闻';
-          if (bullishThemes.length > 0) html2 += '对<b>' + bullishThemes.join('、') + '</b>偏利好';
+          if (bullishThemes.length > 0) html2 += '对<b>' + escapeHtml(bullishThemes.join('、')) + '</b>偏利好';
           if (bullishThemes.length > 0 && bearishThemes.length > 0) html2 += '，';
-          if (bearishThemes.length > 0) html2 += '对<b>' + bearishThemes.join('、') + '</b>偏利空';
+          if (bearishThemes.length > 0) html2 += '对<b>' + escapeHtml(bearishThemes.join('、')) + '</b>偏利空';
           html2 += '。';
           // 添加关键新闻标题
           var keyNews = items.filter(function(n) { return n._score !== 0; }).slice(0, 3);
           if (keyNews.length > 0) {
-            html2 += ' 关注：<b>' + keyNews.map(function(n) { return n.title; }).join('</b>、<b>') + '</b>。';
+            html2 += ' 关注：<b>' + keyNews.map(function(n) { return escapeHtml(n.title); }).join('</b>、<b>') + '</b>。';
           }
           html2 += '</div>';
         }
@@ -4451,18 +4684,21 @@
       var sourceColors = { '环球':'#6366f1', '美股':'#ef4444', '港股':'#f59e0b', '期货':'#10b981', '基金':'#8b5cf6' };
       items.slice(0, 12).forEach(function(n) {
         var scoreEmoji = n._score > 0 ? '🟢' : (n._score < 0 ? '🔴' : '⚪');
-        var titleHtml = n.url ? '<a href="' + n.url + '" target="_blank" style="color:var(--text);text-decoration:none">' + n.title + '</a>' : n.title;
-        var srcTag = n.source ? '<span style="font-size:9px;padding:1px 4px;border-radius:3px;color:white;background:' + (sourceColors[n.source] || '#94a3b8') + ';margin-left:4px;flex-shrink:0">' + n.source + '</span>' : '';
+        var safeUrl = safeExternalUrl(n.url);
+        var safeTitle = escapeHtml(n.title);
+        var titleHtml = safeUrl ? '<a href="' + escapeHtml(safeUrl) + '" target="_blank" rel="noopener noreferrer" style="color:var(--text);text-decoration:none">' + safeTitle + '</a>' : safeTitle;
+        var source = String(n.source || '');
+        var srcTag = source ? '<span style="font-size:9px;padding:1px 4px;border-radius:3px;color:white;background:' + (sourceColors[source] || '#94a3b8') + ';margin-left:4px;flex-shrink:0">' + escapeHtml(source) + '</span>' : '';
         html2 += '<div style="display:flex;align-items:flex-start;gap:6px;padding:5px 0;border-bottom:1px solid #f1f5f9;font-size:12px">';
         html2 += '<span style="flex-shrink:0">' + scoreEmoji + '</span>';
         html2 += '<span style="flex:1">' + titleHtml + srcTag + '</span>';
-        html2 += '<span style="flex-shrink:0;color:var(--text3);font-size:10px;white-space:nowrap">' + (n.time || '').slice(11, 16) + '</span>';
+        html2 += '<span style="flex-shrink:0;color:var(--text3);font-size:10px;white-space:nowrap">' + escapeHtml(String(n.time || '').slice(11, 16)) + '</span>';
         html2 += '</div>';
       });
       html2 += '</div>';
 
       if (newsData.fetchedAt) {
-        html2 += '<div style="font-size:10px;color:var(--text3);margin-top:8px;text-align:right">抓取时间: ' + newsData.fetchedAt.replace('T', ' ').slice(0, 19) + '</div>';
+        html2 += '<div style="font-size:10px;color:var(--text3);margin-top:8px;text-align:right">抓取时间: ' + escapeHtml(String(newsData.fetchedAt).replace('T', ' ').slice(0, 19)) + '</div>';
       }
 
       el.innerHTML = html2;
@@ -4733,13 +4969,16 @@
       el.innerHTML = html2;
     }
 
-    if (dailyBriefData && dailyBriefData.content) {
+    function renderDailyBrief(content) {
+      if (!content) return;
       document.getElementById('brief-card').style.display = 'block';
-      // 简单格式化：换行变<br>，emoji保持，清理XML标签
-      var briefText = dailyBriefData.content
-        .replace(/<\/?(?:thinking|MORNING_SUMMARY|ANALYSIS_BLOCK|ORDERS_JSON|CONFIDENCE_ASSESSMENT)[^>]*>/gi, '')
-        .replace(/\n/g, '<br>');
-      document.getElementById('daily-brief').innerHTML = briefText;
+      var briefText = String(content)
+        .replace(/<\/?(?:thinking|MORNING_SUMMARY|ANALYSIS_BLOCK|ORDERS_JSON|CONFIDENCE_ASSESSMENT)[^>]*>/gi, '');
+      document.getElementById('daily-brief').innerHTML = renderMarkdown(String(briefText || ''));
+    }
+
+    if (dailyBriefData && dailyBriefData.content) {
+      renderDailyBrief(dailyBriefData.content);
     }
 
     // ========== AI 助手模块 ==========
@@ -4909,7 +5148,7 @@
       var el = document.getElementById('ai-api-status');
       if (!el) return;
       if (config.apiKey) {
-        el.innerHTML = '🟢 已配置: ' + (config.model || '未设置') + ' · <a href="#" onclick="toggleAiConfig();return false" style="color:var(--primary)">修改</a>';
+        el.innerHTML = '🟢 已配置: ' + escapeHtml(config.model || '未设置') + ' · <a href="#" onclick="toggleAiConfig();return false" style="color:var(--primary)">修改</a>';
       } else {
         el.innerHTML = '🔴 未配置 · <a href="#" onclick="toggleAiConfig();return false" style="color:var(--primary)">点击配置</a>';
       }
@@ -4982,6 +5221,21 @@
       el.appendChild(div);
       if (scroll !== false) el.scrollTop = el.scrollHeight;
       return bubble;
+    }
+
+    function renderRetryMessage(bubble, message, retryText, isError) {
+      bubble.textContent = '';
+      var status = document.createElement('span');
+      status.style.color = isError ? 'var(--danger)' : 'var(--text3)';
+      status.textContent = message;
+      bubble.appendChild(status);
+      bubble.appendChild(document.createElement('br'));
+      var retryButton = document.createElement('button');
+      retryButton.type = 'button';
+      retryButton.textContent = '🔄 重试';
+      retryButton.style.cssText = 'margin-top:6px;padding:4px 10px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer';
+      retryButton.addEventListener('click', function() { sendAiMessage(retryText); });
+      bubble.appendChild(retryButton);
     }
 
     function renderMarkdown(text) {
@@ -5318,11 +5572,11 @@
           aiChatHistory.push({ role: 'assistant', content: fullText });
           saveChatHistory();
         } else {
-          bubble.innerHTML = '<span style="color:var(--text3)">AI 未返回内容</span><br><button onclick="sendAiMessage(\'' + text.replace(/'/g, "\\'") + '\')" style="margin-top:6px;padding:4px 10px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer">🔄 重试</button>';
+          renderRetryMessage(bubble, 'AI 未返回内容', text, false);
         }
 
       } catch(err) {
-        bubble.innerHTML = '<span style="color:var(--danger)">❌ ' + err.message + '</span><br><button onclick="sendAiMessage(\'' + text.replace(/'/g, "\\'") + '\')" style="margin-top:6px;padding:4px 10px;font-size:11px;border:1px solid var(--border);border-radius:6px;background:white;cursor:pointer">🔄 重试</button>';
+        renderRetryMessage(bubble, '❌ ' + err.message, text, true);
       } finally {
         sendBtn.disabled = false;
         sendBtn.textContent = '发送';

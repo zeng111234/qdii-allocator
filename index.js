@@ -29,6 +29,7 @@ const { runMultiAgentDebate, formatDebateReport } = require("./lib/multi-agent-d
 const riskAlert = require("./lib/risk-alert");
 const recommendationEngine = require("./lib/recommendation-engine");
 const historyTracker = require("./lib/history-tracker");
+const runPolicy = require("./lib/run-policy");
 
 const FUNDS_FILE = path.join(__dirname, "data", "funds.json");
 const STRATEGY_MAP = {
@@ -490,6 +491,7 @@ async function main() {
   console.log("");
 
   const opts = parseArgs();
+  const paidProvidersEnabled = runPolicy.allowPaidProviders(opts);
 
   if (opts.dryRun && process.env.PORTFOLIO_READ_ONLY === "1") {
     persistPublicPortfolioSnapshot();
@@ -582,7 +584,7 @@ async function main() {
   result.externalSignals = currentSignalDate === new Date().toISOString().slice(0, 10) ? externalSignals : null;
 
   // [修复] 原问题：风险预警检查（现在 llmApiKey 已正确声明在上方）
-  if (marketSnapshot.length > 0 && llmApiKey && llmBaseUrl && llmModel) {
+  if (paidProvidersEnabled && marketSnapshot.length > 0 && llmApiKey && llmBaseUrl && llmModel) {
     try {
       const riskAlertResult = await riskAlert.checkAndAlert(marketSnapshot, { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel });
       if (riskAlertResult) {
@@ -704,7 +706,7 @@ async function main() {
 
   // AI 分析
   let aiCommentary = "";
-  if (llmApiKey && llmBaseUrl && llmModel) {
+  if (paidProvidersEnabled && llmApiKey && llmBaseUrl && llmModel) {
     console.log("[4/5] AI decision analysis...");
     aiCommentary = await runAIAnalysis(result, opts, { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel });
     if (aiCommentary && aiCommentary.length > 10) {
@@ -713,12 +715,12 @@ async function main() {
       console.log("[AI] " + aiCommentary);
     }
   } else {
-    console.log("[4/5] AI skipped (no LLM_API_KEY)");
+    console.log("[4/5] AI skipped (" + (paidProvidersEnabled ? "no LLM_API_KEY" : "dry-run forbids paid providers") + ")");
   }
 
   // 生成早报
   let dailyBrief = null;
-  if (llmApiKey && llmBaseUrl && llmModel) {
+  if (paidProvidersEnabled && llmApiKey && llmBaseUrl && llmModel) {
     try {
       const dailyBriefModule = require("./lib/daily-brief");
       const portfolioModule = require("./lib/portfolio");

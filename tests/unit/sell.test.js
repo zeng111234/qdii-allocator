@@ -5,10 +5,17 @@
 const test = require("node:test");
 const assert = require("node:assert");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
 
-const PORTFOLIO_FILE = path.join(__dirname, "..", "..", "data", "portfolio.json");
+const PORTFOLIO_FILE = path.join(os.tmpdir(), "trade-sell-portfolio-" + process.pid + ".json");
+process.env.PORTFOLIO_FILE = PORTFOLIO_FILE;
 const BACKUP_FILE = PORTFOLIO_FILE + ".test-backup";
+
+test.after(function () {
+  if (fs.existsSync(PORTFOLIO_FILE)) fs.unlinkSync(PORTFOLIO_FILE);
+  if (fs.existsSync(BACKUP_FILE)) fs.unlinkSync(BACKUP_FILE);
+});
 
 function backupPortfolio() {
   if (fs.existsSync(PORTFOLIO_FILE)) {

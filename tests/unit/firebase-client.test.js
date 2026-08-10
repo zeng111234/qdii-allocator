@@ -31,3 +31,28 @@ test("privateLedgerPath trims whitespace around FIREBASE_UID", function() {
     }
   }
 });
+
+test("isFirebaseAvailable requires a complete private-ledger configuration", function() {
+  const previous = {
+    url: process.env.FIREBASE_URL,
+    key: process.env.FIREBASE_KEY,
+    uid: process.env.FIREBASE_UID
+  };
+
+  try {
+    process.env.FIREBASE_URL = "https://example.firebaseio.com";
+    process.env.FIREBASE_KEY = "test-key";
+    delete process.env.FIREBASE_UID;
+    assert.equal(firebase.isFirebaseAvailable(), false);
+
+    process.env.FIREBASE_UID = "valid_uid";
+    assert.equal(firebase.isFirebaseAvailable(), true);
+  } finally {
+    if (previous.url === undefined) delete process.env.FIREBASE_URL;
+    else process.env.FIREBASE_URL = previous.url;
+    if (previous.key === undefined) delete process.env.FIREBASE_KEY;
+    else process.env.FIREBASE_KEY = previous.key;
+    if (previous.uid === undefined) delete process.env.FIREBASE_UID;
+    else process.env.FIREBASE_UID = previous.uid;
+  }
+});

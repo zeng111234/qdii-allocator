@@ -3,7 +3,18 @@
  */
 const test = require('node:test');
 const assert = require('node:assert');
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+
+const TEST_DB_FILE = path.join(os.tmpdir(), 'trade-nav-cache-' + process.pid + '.db');
+process.env.NAV_DB_FILE = TEST_DB_FILE;
 const db = require('../../lib/db');
+
+test.after(function () {
+  db.closeDb();
+  if (fs.existsSync(TEST_DB_FILE)) fs.unlinkSync(TEST_DB_FILE);
+});
 
 // ─── 空库查询返回空 ───
 
@@ -40,7 +51,11 @@ test('upsertNavRecords: 写入2条记录后读出值完全一致', async functio
   assert.strictEqual(history[1].date, '2020-01-02');
   assert.strictEqual(history[1].nav, 1.1);
 
+  assert.strictEqual(db.deleteNavRecords('TEST001'), 2);
+  assert.deepStrictEqual(db.getNavHistory('TEST001'), []);
+
   db.closeDb();
+  assert.ok(fs.existsSync(TEST_DB_FILE), '测试数据库应写入临时路径');
 });
 
 // ─── migrateFromJson ───
