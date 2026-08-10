@@ -3,8 +3,64 @@
   "sourceUrl": "https://x.com/aleabitoreddit",
   "fetchUrl": "https://my-rsshub-z6ig.onrender.com/twitter/user/aleabitoreddit",
   "status": "ok",
-  "fetchedAt": "2026-08-07T09:59:38.285Z",
+  "fetchedAt": "2026-08-10T03:14:21.743Z",
   "items": [
+   {
+    "title": "Just some near term events: - OCP APAC tomorrow (Ayar, Lightmatter, $AMD, $NVDA) and your CPO players are giving announcements/updates. This should be...",
+    "text": "Just some near term events: - OCP APAC tomorrow (Ayar, Lightmatter, $AMD, $NVDA) and your CPO players are giving announcements/updates. This should be a catalyst for certain optical players. - Earnings week: with $ASTS, $RKLB reporting today (space), $LITE on Tuesday (photonics), $NBIS in the middle of the week (Neocloud), and more. - Unitree IPO subscriptions opened up today and Listing is expected this month. Should be a potential catalyst for the humanoid + robotics sector if it opens up well eg. $CCXI. Fun week ahead.",
+    "time": "Mon, 10 Aug 2026 02:03:29 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2086634510935118161",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "All right chat, it’s that time of the month again. What’s your #1 highest conviction stock and why? I actually learn a lot from reading these, so sh...",
+    "text": "All right chat, it’s that time of the month again. What’s your #1 highest conviction stock and why? I actually learn a lot from reading these, so share some cool ideas.",
+    "time": "Sun, 09 Aug 2026 04:11:14 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2086304269943419276",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "I think it’s a good time to revisit $SIVE ~$427m/yr midpoint capacity revenue modeled projections. Given recent industry earnings: > $AAOI cited +20-...",
+    "text": "I think it’s a good time to revisit $SIVE ~$427m/yr midpoint capacity revenue modeled projections. Given recent industry earnings: > $AAOI cited +20-40% demand imbalance for transceivers (with lasers as the bottleneck). > $MTSI saying many \"Customers are coming to us with urgency due to the general supply shortage of indium phosphide DFB lasers\" (in other product lines) > US proposal ban on new Chinese optical transceivers (Innolight/Eoptolink) > AOI no meaningful participation in first-gen CPO deployments due to lasers being allocated toward transceivers. The read through is that it’s possible to apply the same capacity-demand absorption modeling applying to $AAOI, but for other laser players like Sivers too. Given the widespread shortage and demand imbalance for InP CW DFB capacity. Serenity: Lot of people were curious about $SIVE capacity volume ramp modeling through fab-light (Win Semi + others): Using 10% of Win's wafer capacity as a low-end allocation (65% yield assumption, $50-$75 ASP): Sivers would support $341-$512M worth of annual array revenue. Given upper",
+    "time": "Sun, 09 Aug 2026 00:23:56 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2086247069900300393",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "Today I'm writing a weekend guide on how to do DD when shorting $NBIS: First, you look at hyperscaler earnings for AI cloud read through: > $GOOGL: re...",
+    "text": "Today I'm writing a weekend guide on how to do DD when shorting $NBIS: First, you look at hyperscaler earnings for AI cloud read through: > $GOOGL: reports record AI cloud demand + backlog + margin increases from earnings > $AMZN: reports record AI Cloud demand + backlog + margin increases from earnings > $META: reports higher than expected prices for available capacity from earnings. Now, time to look at Nebius: -> $NBIS: Growing hundreds of percent to $7-9B ARR by Q4. Growing margins, and guided 4GW+ contracted power. -> Sees Uber/Waymo splitting, putting more focus on Avride -> Sees Clickhouse growing rapidly every quarter. Okay looks bad! But next, you need a hedge? -> Wow! A $NIKE brand executive, after the stock dropped 75% over the past 5 years, went to $LULU to save that brand next? Lululemon seems good. Conclusion: Short Nebius and go long on $LULU",
+    "time": "Sat, 08 Aug 2026 18:27:18 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2086157318065168490",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "Yes, I'm still bullish on memory like $MU / Samsung. As I said earlier, markets tend to rotate from bottleneck to bottleneck. This week it looks $AXTI...",
+    "text": "Yes, I'm still bullish on memory like $MU / Samsung. As I said earlier, markets tend to rotate from bottleneck to bottleneck. This week it looks $AXTI to $LITE in the photonics sector is the focus again. The thing is... the primary thing that changed are the stock prices, followed by some narratives + updates sprinkled in here and there. For photonics: > We already knew $COHR / $LITE lasers were completely sold out for the next 2 years during July's drop. > We knew about demand imbalance from $AAOI from last quarter's earnings calls. Nothing deteriorated fundamentally during July's crash, other than listed price after liquidations. Yet tons of people called $AAOI a \"scam\" when it dropped to $75, or $AXTI a \"scam\" on its drop to $35... But are bullish again at $140 or $80, when the transciver/InP substrate bottleneck hasn't changed at all, but maybe even got worse... (eg. draft for US ban on new china optical transceivers, scale up demand projections) For Memory: I'm witnessing a lot of retail capitulation, but the same people I'm seeing were mega bullish after $MU signed 16 SCAs and gave exceptional projections a month ago. Or were celebrating Samsung having the highest operating profit in the world. There's updates here and there eg. Rubin Ultra with memory optimizations (which Nvidia strives for every generation), with prices no longer being hiked way above expectations to the extreme. But the operating income relative to MC is just absurd around current prices, especially memory becomes structural. And the demand imbalance should be even worse next year. People tend to capitulate and follow narratives when a sector drops (eg. Helium/LNG back in Iran war), even if the bottleneck or fundamental situation hasn't really changed much (eg. $SPCX Elon earnings call reiterating memory tightness). I can't tell others what to to do: But $AAOI at $140 and $AAOI at $75 are the same company. Samsung at a $1.5T MC and Samsung at a $980B MC are the same company. Just valuations and narratives (often noise) change, and markets rotate from sector to sector. Kostas Moschovas: @aleabitoreddit Serenity, are you still bullish on memory and storage stocks?",
+    "time": "Sat, 08 Aug 2026 17:52:29 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2086148557187461412",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "I've mapped the entire Wall Street bear playbook on AI names: Have your favorite institution/media insert one of these name down below: 1. < ______ [G...",
+    "text": "I've mapped the entire Wall Street bear playbook on AI names: Have your favorite institution/media insert one of these name down below: 1. 2. 3. 4. 5. 6. in a new headline, and it's ready to go!",
+    "time": "Sat, 08 Aug 2026 06:19:25 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2085974141501612461",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "There we go, White House finally invests in more breath in critical minerals/materials. Amazing policy move, as a TLDR: - $WWR receives $25M (graphite...",
+    "text": "There we go, White House finally invests in more breath in critical minerals/materials. Amazing policy move, as a TLDR: - $WWR receives $25M (graphite) - $SRL (ASX) receives $400M (Scandium) - $FEAM receives $8M (Boron) - $HREE receives $4.8M (magnet rare earths) out of the public companies. With more private investments from $150 million into Niron Magnetics or $85 million into Standard Bauxite. It's literally spare change to the US gov, for ENORMOUS amount of downstream applications. More should be done with funding amounts to accelerate development and derisk supply chains (don't own any of the above, just support the policy move), but great announcement.",
+    "time": "Fri, 07 Aug 2026 20:21:30 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2085823672569467005",
+    "source": "x-rsshub"
+   },
+   {
+    "title": "Some more TLDR takeaways from $AAOI ER: - They also flagged DSP and TIA bottlenecks, which is a positive industry read through for names like $MXL, th...",
+    "text": "Some more TLDR takeaways from $AAOI ER: - They also flagged DSP and TIA bottlenecks, which is a positive industry read through for names like $MXL, then $SMTC and $MTSI. - For revenue growth, they're expecting more than $500 million revenue Q4, which is absurd growth. For reference: Q2: $191.9M Q3: ~$255M-$290M Q4: $500M+ By mid-2027: ~$1.41B quarterly revenue run-rate Always impressed by the revenue ramp from some of these optical players. Serenity: Wow, there's gem after gem in $AAOI earnings for $SIVE + other laser player readthrough. 1. AAOI not meaningfully participating in CPO first-gen deployments. \"We just can’t make enough of them [CPO lasers] to be involved in their current first-generation [CPO] deployments",
+    "time": "Fri, 07 Aug 2026 12:55:47 GMT",
+    "link": "https://x.com/aleabitoreddit/status/2085711500875116887",
+    "source": "x-rsshub"
+   },
    {
     "title": "I usually make fun of sellside, but Rosenblatt has pretty goated channel checks on optical names, and their reports are one of the few I like talking ...",
     "text": "I usually make fun of sellside, but Rosenblatt has pretty goated channel checks on optical names, and their reports are one of the few I like talking about. $AAOI, $LITE, $SIVE, and the laser party has started to recover around the est. timing windows. eg. last month: \"Multiple short sellers told them they will likely close their positions... late July and early August\". They might have missed that they believed $AMD would be $AAOI's first CPO customer... since AAOI said they would be missing from first-gen CPO (maybe future gen?) But lot of their talking points about China CPO laser positioning (eg. 2-3 years behind) got corroborated word-for-word from AAOI earnings today.",
@@ -32,72 +88,15 @@
     "time": "Fri, 07 Aug 2026 05:46:59 GMT",
     "link": "https://x.com/aleabitoreddit/status/2085603590903902621",
     "source": "x-rsshub"
-   },
-   {
-    "title": "[Subscribers Only] I'll be honest I'm not familiar with polysilicon o…",
-    "text": "[Subscribers Only] I'll be honest I'm not familiar with polysilicon o…",
-    "time": "Fri, 07 Aug 2026 04:05:01 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2085577928683962477",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "$MTSI earnings transcript: \"Customers are coming to us with urgency due to the general supply shortage of indium phosphide DFB lasers\" Emphasis on \"Ur...",
-    "text": "$MTSI earnings transcript: \"Customers are coming to us with urgency due to the general supply shortage of indium phosphide DFB lasers\" Emphasis on \"Urgency\", CW \"DFB lasers\", \"coming to us\". CW DFB names, such as like $SIVE and $LITE should be happy to hear about this laser bottleneck getting validated.",
-    "time": "Thu, 06 Aug 2026 23:41:38 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2085511646257332581",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Just some TLDR notes on $AAOI earnings: - Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks (helpf...",
-    "text": "Just some TLDR notes on $AAOI earnings: - Expects full qualification of 1.6T products by their hyperscaler customer within next couple of weeks (helpful revenue ramp #2, timelines) - Continues to believe that AOI will have the largest AI DC transceiver production capacity in the US (reiterating ambitions during a time when their competitors might get banned) - Expects facilities toward InP capacity to come online in early 2027 (timeline FYI in terms of further ramp) - Total capacity is approaching 200,000/u per month, EOY 650,000/u per month of 800g/1.6t. EOY 2027, 930,000/u (this is the ramp i want to see) - \"increase our manufacturing capacity for our external light source or ELSFP. That's for co-packaged optics or CPO\". we anticipate ramping production later this year and into 2027, ultimately culminating in about 400,000 pieces per month in 2028 (need some time to model this into revenue) - \"As we have mentioned before, we've been manufacturing lasers internally for many years. This has allowed us to avoid some of the shortages that have affected others in the industry\" (vertical integration bull case during CW/EML laser shortages) - We believe that in the future, CPO will continue to drive increased demand for high-power lasers (thesis validation on CPO sector) - \"to our long-term objective of returning non-GAAP gross margins to around 40%\" - \"We ended the second quarter with $508.8 million in total cash equivalents\" I need to double check if the ATM finished or not - \"our ability to deliver revenue in general, and specifically when it comes to 800G products, is limited by our production capacity right now\" \"If we could produce more, we could ship more right now\" Demand > Supply validation. - \"Most of the increased capacity will be in U.S. Even so, let me say that, like I keep emphasizing, that is not good enough for the customer demand. The customer demand is 20%-40% higher.\" Unholy photonics demand validation across the whole sector, read through for $LITE, $SIVE / $JBL, and others is amazing. - \"Not in the next two, three years, especially the demand is so big. Okay? Even combined AI, $LITE, $COHR, $AVGO all together, it's still very tough to meet the customer demand in the next few years\" More optical sector demand validation. - CPO Timelines: \"If you're talking about really high volume manufacturer [for CPO market], I would say more like the late Q3 next year\" and \"We have been working very close with at least five customer\" If you care about current earnings (which I'm not really looking at closely) Revenue: $191M vs. $190m EPS: $.06 vs. $.02 TLDR: Extraordinary demand across the laser + optical sector read through. Kinda supporting Lumentum CEO statement that laser shortage is worse than memory shortages. 2027 capacity ramp on track. To map inflection period with timelines, would be around early next year, as stated in their previous earnings call. AAOI has the customers now. Limitation is making enough lasers and transceivers.",
-    "time": "Thu, 06 Aug 2026 22:54:46 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2085499853099208716",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says...",
-    "text": "I remain convinced nobody knows how to pronounce or talk about $AAOI in real life. It’s one letter too long to say $TSM or $AMD. And nobody ever says to a friend“Wow, I like applied optoelectronics!”",
-    "time": "Thu, 06 Aug 2026 09:56:42 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2085304045099696547",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "[Subscribers Only] Been awhile since I've posted random thoughts! Wi…",
-    "text": "[Subscribers Only] Been awhile since I've posted random thoughts! Wi…",
-    "time": "Thu, 06 Aug 2026 07:13:39 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2085263015910478251",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB ...",
-    "text": "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB laser supplier to Aeva (which is known for lidar). Today, Aeva reacted with +18.26% AH on news that they signed a JDA with an optical engine player for deployment at a major hyperscaler in H2 2027, production ramp 2028. \"Optical Connectivity will leverage that foundation along with Aeva’s EXISTING high-volume manufacturing and foundry supply chain\" for: - ELSFP (similar to O-Net/Enablence + $SIVE), with Sivers as the likely CW laser + potential amplifier supplier - On-chip integrated light source (likely $SIVE DFB + Aeva PIC on the architecture/integration side) TLDR: New TAM and a hyperscaler programs for Aeva for CPO/NPO, positive read through for upstream suppliers like $SIVE. Robert Fritzson: @aleabitoreddit Do we maybe also have $SIVE involved in this $AEVA projekt? Another hyperscaler for #SiversSemiconductors? https://investors.aeva.com/news-releases/news-release-details/aeva-launches-optical-connectivity-business-signs-first-customer",
-    "time": "Thu, 06 Aug 2026 04:12:45 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2085217487864643658",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is g...",
-    "text": "Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is going to be slower.' That's all nonsense. CPO and all that thing is moving forward\" They stated that Yes there's always issues, but the process is being improved and things are getting better. To follow up on that, the CEO stated: - Viavi has POs for CPO-testing activity - “We’re already getting [CPO revenue] this quarter, and probably in December it will start accelerating.” On a side note, they also stated, 1.6T is \"ramping very quickly\", should reach parity with 800g next year, and signaled longer tail for 800g demand. TLDR: Seeing CPO test revenues hit for $VIAV to $FORM around now. Nvidia also stated switch-side CPO for scale out and scale across has entered mass production earlier. As for scale up timelines, early production should be H2 2027 for some players, with other CPO players Ayar stating 2028 is the volume inflection period. Basically, all the timelines seem to be the same as before and revenue is starting to hit testing players first.",
-    "time": "Thu, 06 Aug 2026 01:23:49 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2085174977272360987",
-    "source": "x-rsshub"
-   },
-   {
-    "title": "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on their Medium Lift rocket, Neutron...",
-    "text": "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on their Medium Lift rocket, Neutron.",
-    "time": "Wed, 05 Aug 2026 00:16:18 GMT",
-    "link": "https://x.com/aleabitoreddit/status/2084795597417263442",
-    "source": "x-rsshub"
    }
   ],
   "themeScores": {
    "nasdaq": {
-    "score": 3,
+    "score": 2.75,
     "matches": [
-     "ai",
      "nvda",
-     "semiconductor",
-     "chip",
+     "ai",
+     "meta",
      "nvidia"
     ]
    },
@@ -116,7 +115,7 @@
     ]
    },
    "hongkong": {
-    "score": 0.25,
+    "score": 0.75,
     "matches": [
      "china"
     ]
@@ -130,36 +129,35 @@
     "matches": []
    },
    "bonds": {
-    "score": 0.5,
+    "score": -0.5,
     "matches": [
      "yield"
     ]
    },
    "globalTech": {
-    "score": 2.75,
+    "score": 1.75,
     "matches": [
-     "ai",
-     "semiconductor",
-     "chip"
+     "cloud",
+     "ai"
     ]
    }
   },
   "tickerOpinions": [
    {
-    "ticker": "SIVE",
-    "mentions": 16,
+    "ticker": "AAOI",
+    "mentions": 17,
     "snippets": [
-     "few I like talking about. $AAOI, $LITE, $SIVE, and the laser party has started to recover around the est. timing windows. eg. last month: \"Multiple short seller",
-     "ing $700m. Just as a recap from $POET / $SIVE Linkedin OSINT mapping I shared earlier, Lumilens was supplying a top 3 hyperscaler customer. So we got confirmati"
+     "ions. Given recent industry earnings: > $AAOI cited +20-... I think it’s a good time to revisit $SIVE ~$427m/yr midpoint capacity revenue modeled projections. G",
+     "ions. Given recent industry earnings: > $AAOI cited +20-40% demand imbalance for transceivers (with lasers as the bottleneck). > $MTSI saying many \"Customers ar"
     ],
     "sentiment": "bullish"
    },
    {
-    "ticker": "AAOI",
-    "mentions": 11,
+    "ticker": "SIVE",
+    "mentions": 12,
     "snippets": [
-     "re one of the few I like talking about. $AAOI, $LITE, $SIVE, and the laser party has started to recover around the est. timing windows. eg. last month: \"Multipl",
-     "missed that they believed $AMD would be $AAOI's first CPO customer... since AAOI said they would be missing from first-gen CPO (maybe future gen?) But lot of th"
+     "I think it’s a good time to revisit $SIVE ~$427m/yr midpoint capacity revenue modeled projections. Given recent industry earnings: > $AAOI cited +20-... I t",
+     "... I think it’s a good time to revisit $SIVE ~$427m/yr midpoint capacity revenue modeled projections. Given recent industry earnings: > $AAOI cited +20-40% dem"
     ],
     "sentiment": "bullish"
    },
@@ -167,8 +165,8 @@
     "ticker": "LITE",
     "mentions": 6,
     "snippets": [
-     "of the few I like talking about. $AAOI, $LITE, $SIVE, and the laser party has started to recover around the est. timing windows. eg. last month: \"Multiple short",
-     "further for Western players like $SIVE, $LITE, $AVGO, and $COHR. And independent CPO CW laser capacity became more valuable if $AAOI had to turn away more custo"
+     "h $ASTS, $RKLB reporting today (space), $LITE on Tuesday (photonics), $NBIS in the middle of the week (Neocloud), and more. - Unitree IPO subscriptions opened u",
+     "bottleneck. This week it looks $AXTI to $LITE in the photonics sector is the focus again. The thing is... the primary thing that changed are the stock prices, f"
     ],
     "sentiment": "bullish"
    },
@@ -176,10 +174,19 @@
     "ticker": "AMD",
     "mentions": 5,
     "snippets": [
-     "ey might have missed that they believed $AMD would be $AAOI's first CPO customer... since AAOI said they would be missing from first-gen CPO (maybe future gen?)",
-     "o remember Trendforce was talking about $AMD singing CW LTAs? $COHR / $LITE have capacity signed with $NVDA ... I thought it would be $AAOI, but they might be o"
+     "- OCP APAC tomorrow (Ayar, Lightmatter, $AMD, $NVDA) and your CPO players are giving announcements/updates. This should be... Just some near term events: - OCP",
+     "- OCP APAC tomorrow (Ayar, Lightmatter, $AMD, $NVDA) and your CPO players are giving announcements/updates. This should be a catalyst for certain optical player"
     ],
     "sentiment": "bullish"
+   },
+   {
+    "ticker": "NBIS",
+    "mentions": 4,
+    "snippets": [
+     "(space), $LITE on Tuesday (photonics), $NBIS in the middle of the week (Neocloud), and more. - Unitree IPO subscriptions opened up today and Listing is expecte",
+     "end guide on how to do DD when shorting $NBIS: First, you look at hyperscaler earnings for AI cloud read through: > $GOOGL: re... Today I'm writing a weekend gu"
+    ],
+    "sentiment": "neutral"
    },
    {
     "ticker": "POET",
@@ -191,11 +198,11 @@
     "sentiment": "neutral"
    },
    {
-    "ticker": "COHR",
+    "ticker": "NVDA",
     "mentions": 3,
     "snippets": [
-     "n players like $SIVE, $LITE, $AVGO, and $COHR. And independent CPO CW laser capacity became more valuable if $AAOI had to turn away more customers... Also remem",
-     "was talking about $AMD singing CW LTAs? $COHR / $LITE have capacity signed with $NVDA ... I thought it would be $AAOI, but they might be out of the equation. $M"
+     "APAC tomorrow (Ayar, Lightmatter, $AMD, $NVDA) and your CPO players are giving announcements/updates. This should be... Just some near term events: - OCP APAC t",
+     "APAC tomorrow (Ayar, Lightmatter, $AMD, $NVDA) and your CPO players are giving announcements/updates. This should be a catalyst for certain optical players. - E"
     ],
     "sentiment": "bullish"
    },
@@ -203,114 +210,197 @@
     "ticker": "MTSI",
     "mentions": 3,
     "snippets": [
-     "but they might be out of the equation. $MTSI also doesn't look meaningful with early CPO participation (eg. no mention in ER aside from NPO, and removal from A",
-     "$MTSI earnings transcript: \"Customers are coming to us with urgency due to the general supply shortage of indium phosphi"
+     "vers (with lasers as the bottleneck). > $MTSI saying many \"Customers are coming to us with urgency due to the general supply shortage of indium phosphide DFB la",
+     "ugh for names like $MXL, then $SMTC and $MTSI. - For revenue growth, they're expecting more than $500 million revenue Q4, which is absurd growth. For reference:"
     ],
-    "sentiment": "bearish"
+    "sentiment": "bullish"
    },
    {
-    "ticker": "AEVA",
+    "ticker": "MU",
     "mentions": 3,
     "snippets": [
-     "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB ... The un",
-     "The unexpected thing of the week... Was $AEVA becoming a CPO/NPO optical source player. For background: $SIVE is viewed as the high confidence CW DFB laser supp"
+     "Yes, I'm still bullish on memory like $MU / Samsung. As I said earlier, markets tend to rotate from bottleneck to bottleneck. This week it looks $AXTI... Yes,",
+     ". Yes, I'm still bullish on memory like $MU / Samsung. As I said earlier, markets tend to rotate from bottleneck to bottleneck. This week it looks $AXTI to $LIT"
     ],
     "sentiment": "bullish"
    },
    {
-    "ticker": "VIAV",
+    "ticker": "AXTI",
     "mentions": 3,
     "snippets": [
-     "Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is g...",
-     "g... Funniest callout of the year from $VIAV on CPO timelines: \"Well, there's been a lot of industry talk [about delays], like, 'Oh, because the yield is going"
+     "eneck to bottleneck. This week it looks $AXTI... Yes, I'm still bullish on memory like $MU / Samsung. As I said earlier, markets tend to rotate from bottleneck",
+     "eneck to bottleneck. This week it looks $AXTI to $LITE in the photonics sector is the focus again. The thing is... the primary thing that changed are the stock"
     ],
     "sentiment": "bullish"
    },
    {
-    "ticker": "AVGO",
-    "mentions": 2,
+    "ticker": "COHR",
+    "mentions": 3,
     "snippets": [
-     "for Western players like $SIVE, $LITE, $AVGO, and $COHR. And independent CPO CW laser capacity became more valuable if $AAOI had to turn away more customers...",
-     ". Okay? Even combined AI, $LITE, $COHR, $AVGO all together, it's still very tough to meet the customer demand in the next few years\" More optical sector demand"
+     "there. For photonics: > We already knew $COHR / $LITE lasers were completely sold out for the next 2 years during July's drop. > We knew about demand imbalance",
+     "n players like $SIVE, $LITE, $AVGO, and $COHR. And independent CPO CW laser capacity became more valuable if $AAOI had to turn away more customers... Also remem"
     ],
     "sentiment": "bullish"
-   },
-   {
-    "ticker": "TSM",
-    "mentions": 2,
-    "snippets": [
-     "l life. It’s one letter too long to say $TSM or $AMD. And nobody ever says... I remain convinced nobody knows how to pronounce or talk about $AAOI in real life.",
-     "l life. It’s one letter too long to say $TSM or $AMD. And nobody ever says to a friend“Wow, I like applied optoelectronics!”"
-    ],
-    "sentiment": "bullish"
-   },
-   {
-    "ticker": "RKLB",
-    "mentions": 2,
-    "snippets": [
-     "$RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on the",
-     "on their Medium Lift rocket, Neutron... $RKLB has been awarded a $397M contract by the US Space Force. To build out Flatellite satellites and launch them on the"
-    ],
-    "sentiment": "neutral"
    },
    {
     "ticker": "CCXI",
-    "mentions": 1,
+    "mentions": 2,
     "snippets": [
+     "robotics sector if it opens up well eg. $CCXI. Fun week ahead.",
      "$36.04B MC, roughly ~4X listing price. $CCXI / Agility Robotics, the first US publicly listed pure play humanoid leader, is also going public later in Q4, at a"
     ],
     "sentiment": "neutral"
    },
    {
-    "ticker": "NVDA",
-    "mentions": 1,
+    "ticker": "GOOGL",
+    "mentions": 2,
     "snippets": [
-     "$COHR / $LITE have capacity signed with $NVDA ... I thought it would be $AAOI, but they might be out of the equation. $MTSI also doesn't look meaningful with ea"
+     "r earnings for AI cloud read through: > $GOOGL: re... Today I'm writing a weekend guide on how to do DD when shorting $NBIS: First, you look at hyperscaler earn",
+     "r earnings for AI cloud read through: > $GOOGL: reports record AI cloud demand + backlog + margin increases from earnings > $AMZN: reports record AI Cloud deman"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "LULU",
+    "mentions": 2,
+    "snippets": [
+     "pped 75% over the past 5 years, went to $LULU to save that brand next? Lululemon seems good. Conclusion: Short Nebius and go long on $LULU",
+     "Conclusion: Short Nebius and go long on $LULU"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "WWR",
+    "mentions": 2,
+    "snippets": [
+     "ials. Amazing policy move, as a TLDR: - $WWR receives $25M (graphite... There we go, White House finally invests in more breath in critical minerals/materials.",
+     "ials. Amazing policy move, as a TLDR: - $WWR receives $25M (graphite) - $SRL (ASX) receives $400M (Scandium) - $FEAM receives $8M (Boron) - $HREE receives $4.8M"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "MXL",
+    "mentions": 2,
+    "snippets": [
+     "ve industry read through for names like $MXL, th... Some more TLDR takeaways from $AAOI ER: - They also flagged DSP and TIA bottlenecks, which is a positive ind",
+     "ve industry read through for names like $MXL, then $SMTC and $MTSI. - For revenue growth, they're expecting more than $500 million revenue Q4, which is absurd g"
     ],
     "sentiment": "bullish"
    },
    {
-    "ticker": "JBL",
+    "ticker": "ASTS",
     "mentions": 1,
     "snippets": [
-     "sector, read through for $LITE, $SIVE / $JBL, and others is amazing. - \"Not in the next two, three years, especially the demand is so big. Okay? Even combined A"
+     "optical players. - Earnings week: with $ASTS, $RKLB reporting today (space), $LITE on Tuesday (photonics), $NBIS in the middle of the week (Neocloud), and more"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "RKLB",
+    "mentions": 1,
+    "snippets": [
+     "l players. - Earnings week: with $ASTS, $RKLB reporting today (space), $LITE on Tuesday (photonics), $NBIS in the middle of the week (Neocloud), and more. - Uni"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "AMZN",
+    "mentions": 1,
+    "snippets": [
+     "klog + margin increases from earnings > $AMZN: reports record AI Cloud demand + backlog + margin increases from earnings > $META: reports higher than expected p"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "META",
+    "mentions": 1,
+    "snippets": [
+     "klog + margin increases from earnings > $META: reports higher than expected prices for available capacity from earnings. Now, time to look at Nebius: -> $NBIS:"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "NIKE",
+    "mentions": 1,
+    "snippets": [
+     "! But next, you need a hedge? -> Wow! A $NIKE brand executive, after the stock dropped 75% over the past 5 years, went to $LULU to save that brand next? Lululem"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "SPCX",
+    "mentions": 1,
+    "snippets": [
+     "tuation hasn't really changed much (eg. $SPCX Elon earnings call reiterating memory tightness). I can't tell others what to to do: But $AAOI at $140 and $AAOI a"
     ],
     "sentiment": "bullish"
    },
    {
-    "ticker": "FORM",
+    "ticker": "SRL",
     "mentions": 1,
     "snippets": [
-     "eing CPO test revenues hit for $VIAV to $FORM around now. Nvidia also stated switch-side CPO for scale out and scale across has entered mass production earlier."
+     "TLDR: - $WWR receives $25M (graphite) - $SRL (ASX) receives $400M (Scandium) - $FEAM receives $8M (Boron) - $HREE receives $4.8M (magnet rare earths) out of the"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "FEAM",
+    "mentions": 1,
+    "snippets": [
+     "$SRL (ASX) receives $400M (Scandium) - $FEAM receives $8M (Boron) - $HREE receives $4.8M (magnet rare earths) out of the public companies. With more private in"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "HREE",
+    "mentions": 1,
+    "snippets": [
+     "candium) - $FEAM receives $8M (Boron) - $HREE receives $4.8M (magnet rare earths) out of the public companies. With more private investments from $150 million i"
+    ],
+    "sentiment": "neutral"
+   },
+   {
+    "ticker": "SMTC",
+    "mentions": 1,
+    "snippets": [
+     "read through for names like $MXL, then $SMTC and $MTSI. - For revenue growth, they're expecting more than $500 million revenue Q4, which is absurd growth. For"
+    ],
+    "sentiment": "bullish"
+   },
+   {
+    "ticker": "AVGO",
+    "mentions": 1,
+    "snippets": [
+     "for Western players like $SIVE, $LITE, $AVGO, and $COHR. And independent CPO CW laser capacity became more valuable if $AAOI had to turn away more customers..."
     ],
     "sentiment": "bullish"
    }
   ],
   "opinionSummaries": [
    {
-    "time": "Fri, 07 Aug 2026 08:50:01 GMT",
-    "text": "I usually make fun of sellside, but Rosenblatt has pretty goated channel checks on optical names, and their reports are one of the few I like talking about. $AAOI, $LITE, $SIVE, and the laser party ha...",
-    "tickers": "$AAOI, $LITE, $SIVE"
+    "time": "Mon, 10 Aug 2026 02:03:29 GMT",
+    "text": "Just some near term events: - OCP APAC tomorrow (Ayar, Lightmatter, $AMD, $NVDA) and your CPO players are giving announcements/updates. This should be a catalyst for certain optical players. - Earning...",
+    "tickers": "$AMD, $NVDA"
    },
    {
-    "time": "Fri, 07 Aug 2026 08:27:45 GMT",
-    "text": "Unitree, China's humanoid leader, is set to IPO this month at a $9B valuation! (~$6.2B originally per March filing). Derivative markets are pricing open at an implied $36.04B MC, roughly ~4X listing p...",
+    "time": "Sun, 09 Aug 2026 04:11:14 GMT",
+    "text": "All right chat, it’s that time of the month again. What’s your #1 highest conviction stock and why? I actually learn a lot from reading these, so share some cool ideas.",
     "tickers": ""
    },
    {
-    "time": "Fri, 07 Aug 2026 07:26:37 GMT",
-    "text": "Earlier today, optical interconnect company Lumilens \"emerges from stealth\" at a $5.5B valuation, after raising $700m. Just as a recap from $POET / $SIVE Linkedin OSINT mapping I shared earlier, Lumil...",
-    "tickers": "$POET, $SIVE"
+    "time": "Sun, 09 Aug 2026 00:23:56 GMT",
+    "text": "I think it’s a good time to revisit $SIVE ~$427m/yr midpoint capacity revenue modeled projections. Given recent industry earnings: > $AAOI cited +20-40% demand imbalance for transceivers (with lasers ...",
+    "tickers": "$SIVE, $AAOI"
    },
    {
-    "time": "Fri, 07 Aug 2026 05:46:59 GMT",
-    "text": "Wow, there's gem after gem in $AAOI earnings for $SIVE + other laser player readthrough. 1. AAOI not meaningfully participating in CPO first-gen deployments. \"We just can’t make enough of them [CPO la...",
-    "tickers": "$AAOI, $SIVE"
+    "time": "Sat, 08 Aug 2026 18:27:18 GMT",
+    "text": "Today I'm writing a weekend guide on how to do DD when shorting $NBIS: First, you look at hyperscaler earnings for AI cloud read through: > $GOOGL: reports record AI cloud demand + backlog + margin in...",
+    "tickers": "$NBIS, $GOOGL"
    },
    {
-    "time": "Fri, 07 Aug 2026 04:05:01 GMT",
-    "text": "[Subscribers Only] I'll be honest I'm not familiar with polysilicon o…",
-    "tickers": ""
+    "time": "Sat, 08 Aug 2026 17:52:29 GMT",
+    "text": "Yes, I'm still bullish on memory like $MU / Samsung. As I said earlier, markets tend to rotate from bottleneck to bottleneck. This week it looks $AXTI to $LITE in the photonics sector is the focus aga...",
+    "tickers": "$MU, $AXTI, $LITE"
    }
   ],
   "attempts": [
@@ -320,5 +410,5 @@
    }
   ]
  },
- "cachedAt": 1786096778287
+ "cachedAt": 1786331661744
 }
