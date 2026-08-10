@@ -2,10 +2,24 @@
  * AI 智能问答模块测试
  */
 
-const { describe, it, beforeEach: _beforeEach, afterEach: _afterEach } = require("node:test");
+const { describe, it, after } = require("node:test");
 const assert = require("assert");
 const fs = require("fs");
+const os = require("os");
 const path = require("path");
+
+const originalPortfolioFile = process.env.PORTFOLIO_FILE;
+const fixtureDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "qdii-smart-qa-"));
+const fixturePortfolioFile = path.join(fixtureDirectory, "portfolio.json");
+fs.writeFileSync(fixturePortfolioFile, JSON.stringify({
+  holdings: [{
+    code: "017641",
+    name: "摩根标普500指数(QDII)A",
+    buys: [{ date: "2026-07-01", amount: 100, nav: 1, shares: 100 }]
+  }],
+  startDate: "2026-07-01"
+}));
+process.env.PORTFOLIO_FILE = fixturePortfolioFile;
 
 const {
   askQuestion,
@@ -13,6 +27,13 @@ const {
   validateBuyAnswer,
   validateMarketSentimentAnswer
 } = require("../../lib/smart-qa");
+
+after(function () {
+  if (originalPortfolioFile === undefined) delete process.env.PORTFOLIO_FILE;
+  else process.env.PORTFOLIO_FILE = originalPortfolioFile;
+  fs.unlinkSync(fixturePortfolioFile);
+  fs.rmdirSync(fixtureDirectory);
+});
 
 const PAUSE_PLAN = {
   asOf: "2026-07-17",
