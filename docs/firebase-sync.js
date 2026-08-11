@@ -20,6 +20,7 @@ let currentLedger = null;
 let currentDecisionState = null;
 let currentStrategyState = null;
 let currentUser = null;
+let publicLedgerSnapshot = null;
 
 function emit(name, detail) {
   window.dispatchEvent(new CustomEvent(name, { detail: detail }));
@@ -353,6 +354,42 @@ async function writeLedger(nextLedger, expected) {
   return currentLedger;
 }
 
+async function appendBuyTransactions(drafts) {
+  if (!currentUser) throw new Error("AUTH_REQUIRED");
+  if (!currentLedger) throw new Error("SYNC_REQUIRED");
+  const createdAt = new Date().toISOString();
+  const additions = [];
+  const fundNames = Object.assign({}, currentLedger.fundNames || {});
+  for (const draft of (drafts || [])) {
+    const code = String((draft && draft.code) || "").trim();
+    const tradeDate = String((draft && (draft.tradeDate || draft.date)) || "");
+    const amount = Number(draft && draft.amount);
+    const nav = Number(draft && draft.nav) || 0;
+    if (!code || !/^\d{4}-\d{2}-\d{2}$/.test(tradeDate) || !(amount > 0)) {
+      throw new Error("INVALID_BUY_TRANSACTION");
+    }
+    const shares = nav > 0 ? Math.round(amount / nav * 10000) / 10000 : 0;
+    const uniqueSeed = [code, tradeDate, amount, nav, createdAt, crypto.randomUUID()].join("|");
+    additions.push(canonicalTransaction({
+      id: "tx_" + (await sha256(uniqueSeed)).slice(0, 24),
+      type: "BUY", code: code, tradeDate: tradeDate,
+      amount: amount, nav: nav, shares: shares, createdAt: createdAt
+    }));
+    if (draft.name) fundNames[code] = String(draft.name).trim();
+  }
+  if (additions.length === 0) throw new Error("EMPTY_BUY_TRANSACTIONS");
+  const expected = { revision: currentLedger.revision, checksum: currentLedger.checksum };
+  const nextLedger = {
+    schemaVersion: 2,
+    revision: Number(currentLedger.revision) + 1,
+    updatedAt: createdAt,
+    transactions: currentLedger.transactions.concat(additions),
+    fundNames: fundNames
+  };
+  nextLedger.checksum = await checksumTransactions(nextLedger.transactions);
+  return writeLedger(nextLedger, expected);
+}
+
 async function writeDecisionState(nextState, expectedRevision) {
   if (!currentUser) throw new Error("AUTH_REQUIRED");
   if (!currentLedger) throw new Error("SYNC_REQUIRED");
@@ -444,26 +481,13 @@ async function overwriteWithLegacy(portfolio, preview) {
 
 async function signIn() {
   if (!configured) throw new Error("FIREBASE_WEB_CONFIG_MISSING");
+  if (!auth) throw new Error("FIREBASE_AUTH_NOT_READY");
   return signInWithPopup(auth, new GoogleAuthProvider());
 }
 
-async function bootstrap() {
-  if (window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true) {
-    const publicLedger = window.QDII_PUBLIC_PORTFOLIO_LEDGER;
-    emit("qdii-cloud-state", { status: "PUBLIC_SNAPSHOT", source: "公开账本快照" });
-    if (!publicLedger) return;
-    try {
-      currentLedger = await validateLedger(publicLedger);
-      currentDecisionState = loadPublicDecisionState();
-      currentStrategyState = null;
-      emitLedger("公开只读快照", true);
-    } catch (error) {
-      emit("qdii-cloud-state", { status: "ERROR", source: "公开账本快照无效", error: error.message });
-    }
-    return;
-  }
+async function initializeFirebase(preservePublicLedger) {
   if (!configured) {
-    emit("qdii-cloud-state", { status: "CONFIG_MISSING", source: "未配置" });
+    if (!preservePublicLedger) emit("qdii-cloud-state", { status: "CONFIG_MISSING", source: "未配置" });
     return;
   }
   const app = initializeApp(config);
@@ -473,6 +497,16 @@ async function bootstrap() {
   onAuthStateChanged(auth, async function (user) {
     currentUser = user;
     if (!user) {
+      if (preservePublicLedger) {
+        currentLedger = publicLedgerSnapshot;
+        currentDecisionState = loadPublicDecisionState();
+        currentStrategyState = null;
+        if (currentLedger) emitLedger("公开只读快照", true);
+        emit("qdii-cloud-state", {
+          status: "PUBLIC_SNAPSHOT", source: "公开账本快照", canSignIn: true
+        });
+        return;
+      }
       currentLedger = null;
       currentDecisionState = null;
       currentStrategyState = null;
@@ -485,9 +519,34 @@ async function bootstrap() {
   });
 }
 
+async function bootstrap() {
+  if (window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true) {
+    const publicLedger = window.QDII_PUBLIC_PORTFOLIO_LEDGER;
+    emit("qdii-cloud-state", { status: "PUBLIC_SNAPSHOT", source: "公开账本快照", canSignIn: configured });
+    if (!publicLedger) return;
+    try {
+      currentLedger = await validateLedger(publicLedger);
+      publicLedgerSnapshot = currentLedger;
+      currentDecisionState = loadPublicDecisionState();
+      currentStrategyState = null;
+      emitLedger("公开只读快照", true);
+    } catch (error) {
+      emit("qdii-cloud-state", { status: "ERROR", source: "公开账本快照无效", error: error.message });
+      return;
+    }
+    await initializeFirebase(true);
+    return;
+  }
+  await initializeFirebase(false);
+}
+
 window.QdiiCloudSync = {
-  bootstrap: bootstrap, signIn: signIn, signOut: function () { return signOut(auth); },
+  bootstrap: bootstrap, signIn: signIn, signOut: function () {
+    if (!auth) throw new Error("FIREBASE_AUTH_NOT_READY");
+    return signOut(auth);
+  },
   loadLedger: loadLedger, saveLegacyPortfolio: saveLegacyPortfolio,
+  appendBuyTransactions: appendBuyTransactions,
   previewLegacy: previewLegacy, overwriteWithLegacy: overwriteWithLegacy,
   initializeRiskAnchor: initializeRiskAnchor,
   initializePublicRiskAnchor: initializePublicRiskAnchor,

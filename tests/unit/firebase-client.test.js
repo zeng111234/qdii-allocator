@@ -56,3 +56,8 @@ test("isFirebaseAvailable requires a complete private-ledger configuration", fun
     else process.env.FIREBASE_UID = previous.uid;
   }
 });
+
+test("private ledger reconciliation exposes ETag guarded read and write helpers", function () {
+  assert.equal(typeof firebase.loadPortfolioLedgerWithEtag, "function");
+  assert.equal(typeof firebase.savePortfolioLedgerIfMatch, "function");
+});

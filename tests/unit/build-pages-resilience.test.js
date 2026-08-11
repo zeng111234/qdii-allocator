@@ -29,3 +29,15 @@ test("both Pages build paths receive the recommendation live switch", function (
   assert.equal((daily.match(liveSwitch) || []).length, 2, "daily workflow must pass the switch to allocation and page build");
   assert.equal((pages.match(liveSwitch) || []).length, 1, "scheduled Pages build must receive the switch");
 });
+
+test("daily and Pages workflows reconcile pending ledger buys after NAV refresh", function () {
+  const root = path.join(__dirname, "..", "..");
+  const daily = fs.readFileSync(path.join(root, ".github", "workflows", "daily-plan.yml"), "utf8");
+  const pages = fs.readFileSync(path.join(root, ".github", "workflows", "pages.yml"), "utf8");
+  [daily, pages].forEach(function (workflow) {
+    assert.match(workflow, /Reconcile pending ledger transactions/);
+    assert.match(workflow, /node scripts\/reconcile-private-ledger\.js/);
+    assert.ok(workflow.indexOf("Update NAV cache") < workflow.indexOf("Reconcile pending ledger transactions"));
+    assert.ok(workflow.indexOf("Reconcile pending ledger transactions") < workflow.indexOf("Fetch and validate private PortfolioLedgerV2"));
+  });
+});

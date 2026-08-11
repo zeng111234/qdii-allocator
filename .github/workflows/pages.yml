@@ -14,10 +14,12 @@ on:
       - 'lib/allocation-policy.js'
       - 'lib/external-signal-display.js'
       - 'lib/personalized-decision.js'
+      - 'lib/firebase-client.js'
       - 'lib/portfolio-ledger.js'
       - 'lib/recommendation-engine.js'
       - 'lib/walk-forward.js'
       - 'scripts/fetch-private-ledger.js'
+      - 'scripts/reconcile-private-ledger.js'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
   schedule:
@@ -46,6 +48,21 @@ jobs:
       - name: Configure private ledger temp path
         run: echo "PRIVATE_LEDGER_PATH=$RUNNER_TEMP/portfolio-ledger.json" >> "$GITHUB_ENV"
 
+      # Refresh market data before reconciling zero-share historical buys.
+      - name: Update NAV cache
+        continue-on-error: true
+        run: node scripts/update-nav-cache.js
+
+      - name: Reconcile pending ledger transactions
+        continue-on-error: true
+        run: node scripts/reconcile-private-ledger.js
+        env:
+          FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
+          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
+          FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+          PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
+          RECONCILE_WRITE: 1
+
       - name: Fetch and validate private PortfolioLedgerV2
         run: |
           set +e
@@ -62,11 +79,6 @@ jobs:
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
           PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
-
-      # [fix] nav-cache.json 从 git 移除了，需要先生成
-      - name: Update NAV cache
-        continue-on-error: true
-        run: node scripts/update-nav-cache.js
 
       # [fix] pass secrets as env vars instead of writing to .env file
       - name: Build

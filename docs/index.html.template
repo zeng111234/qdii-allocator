@@ -1497,7 +1497,6 @@
 
     async function addBuy() {
       if (!cloudWriteReady) { showToast('请先完成 Google 登录和云端账本校验', true); return; }
-      var beforeWrite = JSON.parse(JSON.stringify(portfolioData));
       var code = document.getElementById('fundSelect').value;
       var amount = parseFloat(document.getElementById('amount').value);
       var nav = document.getElementById('nav').value ? parseFloat(document.getElementById('nav').value) : null;
@@ -1505,18 +1504,17 @@
       if (!code) { showToast('请选择基金', true); return; }
       if (!amount || amount <= 0) { showToast('请输入金额', true); return; }
       var fund = fundsData.funds.find(function(f) { return f.code === code; });
-      var holding = portfolioData.holdings.find(function(h) { return h.code === code; });
-      if (!holding) { holding = { code: code, name: fund ? fund.name : code, buys: [] }; portfolioData.holdings.push(holding); }
-      holding.buys.push({ date: date, amount: amount, nav: nav, shares: nav ? Math.round(amount / nav * 10000) / 10000 : null, settleDate: null });
-      if (!portfolioData.startDate || date < portfolioData.startDate) portfolioData.startDate = date;
-      updateSummary(); updateHoldings();
-      try { await saveLocal(); }
-      catch (error) {
-        portfolioData = beforeWrite; updateSummary(); updateHoldings();
+      try {
+        await window.QdiiCloudSync.appendBuyTransactions([{
+          code: code, name: fund ? fund.name : code, tradeDate: date, amount: amount, nav: nav
+        }]);
+      } catch (error) {
+        showToast('买入记录保存失败：' + error.message, true);
         return;
       }
-      showToast('已记录买入 ' + holding.name + ' ' + amount + '元');
-      createHypothesisLocal(code, holding.name, '人工记录', '用户手动记录 ' + amount + '元；不代表策略推荐，不因限购、下跌或外部情绪提高预算');
+      var fundName = fund ? fund.name : code;
+      showToast('已记录买入 ' + fundName + ' ' + amount + '元');
+      createHypothesisLocal(code, fundName, '人工记录', '用户手动记录 ' + amount + '元；不代表策略推荐，不因限购、下跌或外部情绪提高预算');
       document.getElementById('buyResult').innerHTML = '<div style="background:var(--state-green-bg);border:1px solid var(--state-green-border);border-radius:8px;padding:10px;font-size:12px;color:var(--state-green-text)">✅ 已写入不可变云端账本</div>';
     }
 
@@ -1532,7 +1530,6 @@
     }
     async function submitBatch() {
       if (!cloudWriteReady) { showToast('请先完成 Google 登录和云端账本校验', true); return; }
-      var beforeWrite = JSON.parse(JSON.stringify(portfolioData));
       var date = document.getElementById('batchDate').value;
       var rows = document.querySelectorAll('.batch-row');
       var items = [];
@@ -1542,17 +1539,13 @@
         if (code && amount > 0) items.push({ code: code, amount: amount });
       });
       if (!items.length) { showToast('请添加记录', true); return; }
-      items.forEach(function(item) {
+      var transactions = items.map(function(item) {
         var fund = fundsData.funds.find(function(f) { return f.code === item.code; });
-        var holding = portfolioData.holdings.find(function(h) { return h.code === item.code; });
-        if (!holding) { holding = { code: item.code, name: fund ? fund.name : item.code, buys: [] }; portfolioData.holdings.push(holding); }
-        holding.buys.push({ date: date, amount: item.amount, nav: null, shares: null, settleDate: null });
-        if (!portfolioData.startDate || date < portfolioData.startDate) portfolioData.startDate = date;
+        return { code: item.code, name: fund ? fund.name : item.code, tradeDate: date, amount: item.amount, nav: null };
       });
-      updateSummary(); updateHoldings();
-      try { await saveLocal(); }
+      try { await window.QdiiCloudSync.appendBuyTransactions(transactions); }
       catch (error) {
-        portfolioData = beforeWrite; updateSummary(); updateHoldings();
+        showToast('批量记录保存失败：' + error.message, true);
         return;
       }
       showToast('批量添加 ' + items.length + ' 笔');
@@ -4464,9 +4457,11 @@
       if (detailEl) detailEl.style.display = status.status === 'ERROR' ? 'inline' : '';
       if (revisionDetailEl) revisionDetailEl.style.display = (signedOut || publicSnapshot || status.status === 'OFFLINE' || status.status === 'ERROR') ? 'none' : 'inline';
       if (signInEl) {
-        signInEl.textContent = status.status === 'OFFLINE' ? '登录并备份持仓' : '登录并同步持仓';
+        signInEl.textContent = status.status === 'PUBLIC_SNAPSHOT' ? '登录并编辑' :
+          (status.status === 'OFFLINE' ? '登录并备份持仓' : '登录并同步持仓');
         signInEl.style.display = (status.status === 'SIGNED_OUT' ||
-          (status.status === 'OFFLINE' && status.source === 'Chrome 本地只读')) ? 'inline' : 'none';
+          (status.status === 'OFFLINE' && status.source === 'Chrome 本地只读') ||
+          (status.status === 'PUBLIC_SNAPSHOT' && status.canSignIn === true)) ? 'inline' : 'none';
       }
       updateCloudActionAvailability(status);
       if (status.error) console.error('Cloud sync:', status.error);
@@ -4614,8 +4609,10 @@
     window.addEventListener('qdii-cloud-state', function(event) {
       var detail = event.detail || {};
       cloudWriteReady = false;
-      currentCloudDetail = null;
-      updateAnchorButton(null);
+      if (detail.status !== 'PUBLIC_SNAPSHOT') {
+        currentCloudDetail = null;
+        updateAnchorButton(null);
+      }
       renderCloudState(detail);
       if (detail.status === 'PUBLIC_SNAPSHOT') {
         cloudWriteReady = false;

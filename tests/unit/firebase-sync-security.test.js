@@ -137,3 +137,15 @@ test("public snapshots can calculate a read-only plan after an explicit local ri
   assert.match(client, /emitLedger\("公开只读快照", true\)/);
   assert.match(template, /detail\.status === 'PUBLIC_SNAPSHOT'[\s\S]*refreshPersonalizedPlan\(currentCloudDetail\)/);
 });
+
+test("public snapshot can switch to authenticated append-only editing", function () {
+  const client = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  assert.match(client, /async function initializeFirebase\(preservePublicLedger\)/);
+  assert.match(client, /await initializeFirebase\(true\)/);
+  assert.match(client, /async function appendBuyTransactions\(drafts\)/);
+  assert.match(client, /appendBuyTransactions:\s*appendBuyTransactions/);
+  assert.match(template, /status\.status === 'PUBLIC_SNAPSHOT' && status\.canSignIn === true/);
+  assert.match(template, /登录并编辑/);
+  assert.match(template, /QdiiCloudSync\.appendBuyTransactions/);
+  assert.doesNotMatch(template, /async function addBuy\(\)[\s\S]*?holding\.buys\.push[\s\S]*?saveLocal\(\)/);
+});
