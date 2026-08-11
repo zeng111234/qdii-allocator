@@ -158,6 +158,33 @@ test("pause banner explains supplied reasons, breaker metrics, thresholds and re
   assert.match(text, /RECENT_WIN_RATE_LOW/);
 });
 
+test("pause banner explains live acceptance failures with actual metrics", function () {
+  const ctx = loadHelpers(["formatMetric", "formatPauseReason", "buildPauseDetails"]);
+  const text = ctx.buildPauseDetails({
+    action: "PAUSE",
+    pauseReasons: ["ACCEPTANCE_GATE"],
+    signalHealth: { status: "HEALTHY", matured: {}, shadow: {} },
+    liveAcceptance: {
+      passed: false,
+      failures: ["MEDIAN_EXCESS_NOT_POSITIVE", "DRAWDOWN_WORSE_THAN_LIMIT", "INSUFFICIENT_SHADOW_WEEKS"],
+      metrics: {
+        rollingWindows: 22,
+        medianExcess12Week: -1.93,
+        drawdownGapPercentagePoints: 2.9,
+        shadowWeeks: 4
+      }
+    }
+  });
+  assert.match(text, /回测与影子观察尚未全部通过/);
+  assert.match(text, /12周中位超额收益不大于0/);
+  assert.match(text, /策略回撤比基准多2个百分点以上/);
+  assert.match(text, /影子观察不足8周/);
+  assert.match(text, /22个滚动窗口/);
+  assert.match(text, /中位超额-1\.93%/);
+  assert.match(text, /回撤差2\.9个百分点/);
+  assert.match(text, /影子观察4\/8周/);
+});
+
 test("hypothesis outcome rate excludes active and expired records", function () {
   const ctx = loadHelpers(["getHypothesisOutcomeStats"]);
   const result = ctx.getHypothesisOutcomeStats([

@@ -3611,6 +3611,9 @@
         RECENT_WIN_RATE_LOW: '近期5日正收益率低于门槛',
         RECENT_AVERAGE_RETURN_LOW: '近期5日平均收益低于门槛',
         LIVE_DISABLED: '真实买入总闸未开启',
+        ACCEPTANCE_GATE: '回测与影子观察尚未全部通过',
+        SIGNAL_WARMING_UP: '影子5日结果尚未达到健康样本量',
+        SIGNAL_BREAKER: '近期推荐表现触发信号熔断',
         DATA_STALE: '净值数据时效不合格',
         SYNC_REQUIRED: '云端账本尚未同步',
         EMPTY_PORTFOLIO: '云端账本没有可计算的持仓',
@@ -3640,6 +3643,39 @@
       var reasons = Array.isArray(safePlan.pauseReasons) ? safePlan.pauseReasons.map(formatPauseReason).filter(Boolean) : [];
       if (reasons.length > 0) details.push('暂停原因：' + reasons.join('、'));
       else if (health.breakerTriggered) details.push('暂停原因：近期5日推荐表现触发信号熔断');
+      var acceptance = safePlan.liveAcceptance || {};
+      if (acceptance.passed === false) {
+        var acceptanceLabels = {
+          INSUFFICIENT_ROLLING_WINDOWS: '滚动回测窗口不足12个',
+          INSUFFICIENT_NON_OVERLAPPING_WINDOWS: '非重叠回测窗口不足6个',
+          MEDIAN_EXCESS_NOT_POSITIVE: '12周中位超额收益不大于0',
+          DRAWDOWN_WORSE_THAN_LIMIT: '策略回撤比基准多2个百分点以上',
+          INSUFFICIENT_SHADOW_WEEKS: '影子观察不足8周',
+          HARD_RISK_VIOLATION: '存在硬风控违规',
+          FEES_NOT_INCLUDED: '回测未计入费率',
+          QDII_LAG_NOT_INCLUDED: '回测未计入QDII执行滞后',
+          MULTIPLE_TRIALS_NOT_REPORTED: '未报告多次参数试验'
+        };
+        var acceptanceFailures = (acceptance.failures || []).map(function(code) {
+          return acceptanceLabels[code] || code;
+        });
+        if (acceptanceFailures.length > 0) details.push('正式推荐验收：' + acceptanceFailures.join('、'));
+        var acceptanceMetrics = acceptance.metrics || {};
+        var metricParts = [];
+        if (Number.isFinite(Number(acceptanceMetrics.rollingWindows))) {
+          metricParts.push(Number(acceptanceMetrics.rollingWindows) + '个滚动窗口');
+        }
+        if (Number.isFinite(Number(acceptanceMetrics.medianExcess12Week))) {
+          metricParts.push('中位超额' + formatMetric(acceptanceMetrics.medianExcess12Week) + '%');
+        }
+        if (Number.isFinite(Number(acceptanceMetrics.drawdownGapPercentagePoints))) {
+          metricParts.push('回撤差' + formatMetric(acceptanceMetrics.drawdownGapPercentagePoints) + '个百分点');
+        }
+        if (Number.isFinite(Number(acceptanceMetrics.shadowWeeks))) {
+          metricParts.push('影子观察' + Number(acceptanceMetrics.shadowWeeks) + '/8周');
+        }
+        if (metricParts.length > 0) details.push('当前验收数据：' + metricParts.join('，'));
+      }
       if (Number(matured.count) > 0) {
         details.push('最近' + matured.count + '个成熟5日结果：胜率' + formatMetric(matured.winRate) + '%，平均收益' + formatMetric(matured.averageReturn) + '%');
       }

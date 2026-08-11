@@ -10,6 +10,7 @@ const https = require("https");
 const { normalizeExternalSignalsForPage } = require("./lib/external-signal-display");
 const { serializeForInlineScript } = require("./lib/inline-script-json");
 const ledgerTools = require("./lib/portfolio-ledger");
+const { backfillFollowUp: backfillHistoryFollowUp } = require("./lib/history-tracker");
 
 const TEMPLATE = path.join(__dirname, "docs", "index.html.template");
 const OUTPUT = path.join(__dirname, "docs", "index.html");
@@ -444,8 +445,24 @@ async function build() {
   try {
     const recommendationEngine = require("./lib/recommendation-engine");
     const historyPath = path.join(__dirname, "data", "history.json");
+    backfillHistoryFollowUp(navCache);
     const history = fs.existsSync(historyPath) ? JSON.parse(fs.readFileSync(historyPath, "utf-8")) : { records: [] };
     const recommendationHistory = recommendationEngine.partitionRecommendationHistory(history);
+    const liveEnabled = env.RECOMMENDATION_LIVE_ENABLED === "true";
+    let acceptanceMetrics = null;
+    if (liveEnabled) {
+      try {
+        const walkForward = require("./lib/walk-forward");
+        acceptanceMetrics = walkForward.buildLiveAcceptanceMetrics({
+          navCache: navCache,
+          funds: funds.funds,
+          config: funds.config || {},
+          shadowHistory: recommendationHistory.shadowHistory
+        });
+      } catch (error) {
+        console.log("[构建] 验收回测失败，保持 PAUSE: " + error.message);
+      }
+    }
     recommendationPlan = recommendationEngine.buildRecommendationPlan({
       funds: funds.funds,
       navCache: navCache,
@@ -455,7 +472,8 @@ async function build() {
       marketTemperature: marketTemperature,
       asOf: new Date().toISOString().slice(0, 10),
       budget: Math.min((funds.config && funds.config.defaultBudget) || 50, 50),
-      liveEnabled: process.env.RECOMMENDATION_LIVE_ENABLED === "true"
+      liveEnabled: liveEnabled,
+      acceptance: acceptanceMetrics
     });
     if (publicPortfolioSnapshot) {
       recommendationPlan.publicPortfolioSnapshot = portfolio;
