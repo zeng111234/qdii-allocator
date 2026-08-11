@@ -62,3 +62,40 @@ test('buildPrompt: 包含市场温度', () => {
   assert.ok(prompt.includes('65'));
   assert.ok(prompt.includes('偏热'));
 });
+
+test('buildPrompt: 持仓市值必须使用统一估值结果而不是最后买入净值', () => {
+  const result = {
+    ranked: [], marketSnapshot: [], marketNews: [],
+    portfolio: {
+      empty: false,
+      summary: { totalInvested: 100, totalValue: 80, totalPnl: -20 },
+      holdings: [
+        { name: '测试基金', totalAmount: 100, currentValue: 80, pnl: -20 }
+      ]
+    }
+  };
+  const rawPortfolio = {
+    holdings: [
+      { name: '测试基金', buys: [{ amount: 100, shares: 10, nav: 11.5 }] }
+    ]
+  };
+
+  const prompt = buildPrompt(result, rawPortfolio);
+
+  assert.ok(prompt.includes('总计: 投100元, 市值80元, 亏20元'));
+  assert.ok(!prompt.includes('市值115元'));
+  assert.ok(!prompt.includes('赚15元'));
+});
+
+test('buildPrompt: 没有统一估值时不使用买入净值伪造当前市值', () => {
+  const rawPortfolio = {
+    holdings: [
+      { name: '测试基金', buys: [{ amount: 100, shares: 10, nav: 11.5 }] }
+    ]
+  };
+
+  const prompt = buildPrompt({ ranked: [], marketSnapshot: [], marketNews: [] }, rawPortfolio);
+
+  assert.ok(!prompt.includes('我的持仓'));
+  assert.ok(!prompt.includes('市值115元'));
+});
