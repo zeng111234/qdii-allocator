@@ -90,6 +90,13 @@ test("database rules allow only the authenticated uid path", function () {
   assert.equal(rules.rules[".write"], false);
 });
 
+test("database rules accept the decision-state schema written by the browser", function () {
+  const rules = JSON.parse(fs.readFileSync(path.join(root, "firebase.database.rules.json"), "utf8"));
+  const validation = rules.rules.users.$uid.decisionState[".validate"];
+  assert.match(validation, /schemaVersion'\)\.val\(\) === 1/);
+  assert.match(validation, /schemaVersion'\)\.val\(\) === 2/);
+});
+
 test("Actions never commit the private portfolio and always removes its temp ledger", function () {
   assert.doesNotMatch(workflow, /git add[^\n]*data\/portfolio\.json/);
   assert.match(workflow, /PRIVATE_LEDGER_PATH/);
