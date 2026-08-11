@@ -723,13 +723,10 @@ async function main() {
   if (paidProvidersEnabled && llmApiKey && llmBaseUrl && llmModel) {
     try {
       const dailyBriefModule = require("./lib/daily-brief");
-      const portfolioModule = require("./lib/portfolio");
-      let portfolioData = null;
-      try { portfolioData = portfolioModule.loadPortfolio(); } catch(e) {}
       dailyBrief = await dailyBriefModule.generateDailyBrief(
         { apiKey: llmApiKey, baseUrl: llmBaseUrl, model: llmModel },
         result,
-        portfolioData
+        result.portfolio
       );
       if (dailyBrief && dailyBrief.content) {
         console.log("[早报] " + dailyBrief.content.substring(0, 100) + "...");
