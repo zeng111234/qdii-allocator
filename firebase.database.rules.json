@@ -12,7 +12,7 @@
         "decisionState": {
           ".read": "auth != null && auth.uid === $uid",
           ".write": "auth != null && auth.uid === $uid",
-          ".validate": "newData.hasChildren(['schemaVersion', 'revision', 'updatedAt', 'riskAnchorValue', 'riskAnchorLedgerRevision']) && newData.child('schemaVersion').val() === 1 && newData.child('revision').isNumber() && newData.child('revision').val() >= 1 && newData.child('riskAnchorValue').isNumber() && newData.child('riskAnchorValue').val() > 0"
+          ".validate": "newData.hasChildren(['schemaVersion', 'revision', 'updatedAt', 'riskAnchorValue', 'riskAnchorLedgerRevision']) && (newData.child('schemaVersion').val() === 1 || newData.child('schemaVersion').val() === 2) && newData.child('revision').isNumber() && newData.child('revision').val() >= 1 && newData.child('riskAnchorValue').isNumber() && newData.child('riskAnchorValue').val() > 0"
         },
         "strategyState": {
           ".read": "auth != null && auth.uid === $uid",
