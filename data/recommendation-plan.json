@@ -7,13 +7,13 @@
   "asOf": "2026-08-11",
   "action": "PAUSE",
   "pauseReasons": [
-    "LIVE_DISABLED"
+    "ACCEPTANCE_GATE"
   ],
   "dataFreshness": {
     "status": "FRESH",
     "latestNavDate": "2026-08-10",
     "maxTradingDayLag": 2,
-    "observationCount": 6
+    "observationCount": 4
   },
   "budget": 0,
   "candidates": [
@@ -21,11 +21,11 @@
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 73.84,
-      "suitabilityScore": 73.84,
+      "marketScore": 74.58,
+      "suitabilityScore": 74.58,
       "proposedAmount": 0,
       "reasons": [
-        "市场评分 73.84",
+        "市场评分 74.58",
         "影子候选，不执行真实买入"
       ],
       "blockedBy": []
@@ -34,19 +34,19 @@
       "code": "001092",
       "name": "广发纳斯达克生物科技A(QDII)",
       "indexGroup": "NASDAQ_BIO",
-      "marketScore": 66.25,
-      "suitabilityScore": 66.25,
+      "marketScore": 66.42,
+      "suitabilityScore": 66.42,
       "proposedAmount": 0,
       "reasons": [
-        "市场评分 66.25",
+        "市场评分 66.42",
         "影子候选，不执行真实买入"
       ],
       "blockedBy": []
     }
   ],
   "portfolioRisk": {
-    "holdingCount": 24,
-    "totalAmount": 1827,
+    "holdingCount": 25,
+    "totalAmount": 1887,
     "unknownHoldings": [],
     "maxFundWeight": 0.2,
     "maxIndexGroupWeight": 0.35
@@ -87,17 +87,17 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.09811231363069091,
-    "GROWTH_TECH": 0.7067674420136794,
-    "NON_US": 0.18099666798596561,
-    "DEFENSIVE": 0.014123576369664098,
+    "US_BROAD": 0.09579041884663238,
+    "GROWTH_TECH": 0.6860273034312508,
+    "NON_US": 0.2043929454151134,
+    "DEFENSIVE": 0.013789332307003273,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
     "US_BROAD": 0.2,
-    "GROWTH_TECH": -0.46,
-    "NON_US": 0.07,
+    "GROWTH_TECH": -0.44,
+    "NON_US": 0.05,
     "DEFENSIVE": 0.09,
     "CASH": 0.1
   },
@@ -109,12 +109,19 @@
     "failures": [
       "MEDIAN_EXCESS_NOT_POSITIVE",
       "DRAWDOWN_WORSE_THAN_LIMIT",
-      "HARD_RISK_VIOLATION",
-      "FEES_NOT_INCLUDED",
-      "QDII_LAG_NOT_INCLUDED",
-      "MULTIPLE_TRIALS_NOT_REPORTED"
+      "INSUFFICIENT_SHADOW_WEEKS"
     ],
-    "metrics": {}
+    "metrics": {
+      "rollingWindows": 22,
+      "nonOverlappingWindows": 22,
+      "medianExcess12Week": -1.93,
+      "drawdownGapPercentagePoints": 2.9,
+      "shadowWeeks": 4,
+      "hardRiskViolations": 0,
+      "feesIncluded": true,
+      "qdiiLagIncluded": true,
+      "optimizationTrialsReported": true
+    }
   },
   "riskAnchorDrawdown": null,
   "marketRanking": [
@@ -122,7 +129,7 @@
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 73.84,
+      "marketScore": 74.58,
       "blockedBy": [],
       "channelCount": 3,
       "routingAlternatives": [
@@ -134,7 +141,7 @@
       "code": "001092",
       "name": "广发纳斯达克生物科技A(QDII)",
       "indexGroup": "NASDAQ_BIO",
-      "marketScore": 66.25,
+      "marketScore": 66.42,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -143,7 +150,7 @@
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
-      "marketScore": 65.54,
+      "marketScore": 65.83,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -152,7 +159,7 @@
       "code": "040046",
       "name": "华安纳斯达克100A(QDII)",
       "indexGroup": "NDX100",
-      "marketScore": 60.72,
+      "marketScore": 60.5,
       "blockedBy": [
         "INDEX_GROUP_LIMIT"
       ],
@@ -166,10 +173,10 @@
       ]
     },
     {
-      "code": "017730",
-      "name": "嘉实全球产业升级股票(QDII)A",
-      "indexGroup": "GLOBAL_UPGRADE",
-      "marketScore": 59.29,
+      "code": "000369",
+      "name": "广发全球医疗保健指数人民币(QDII)A",
+      "indexGroup": "GLOBAL_MEDICAL",
+      "marketScore": 58.09,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -178,7 +185,7 @@
       "code": "501226",
       "name": "长城全球新能源车(QDII)A",
       "indexGroup": "EV",
-      "marketScore": 57.05,
+      "marketScore": 56.08,
       "blockedBy": [
         "PORTFOLIO_FULL"
       ],
@@ -191,7 +198,7 @@
       "code": "270023",
       "name": "广发全球精选QDII-A",
       "indexGroup": "GLOBAL",
-      "marketScore": 55,
+      "marketScore": 55.33,
       "blockedBy": [],
       "channelCount": 3,
       "routingAlternatives": [
@@ -200,10 +207,21 @@
       ]
     },
     {
+      "code": "017730",
+      "name": "嘉实全球产业升级股票(QDII)A",
+      "indexGroup": "GLOBAL_UPGRADE",
+      "marketScore": 54.92,
+      "blockedBy": [
+        "DRAWDOWN_OVER_20"
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
+    {
       "code": "320013",
       "name": "诺安全球黄金(QDII-FOF)A",
       "indexGroup": "GOLD",
-      "marketScore": 53.93,
+      "marketScore": 54.58,
       "blockedBy": [
         "PORTFOLIO_FULL"
       ],
@@ -214,7 +232,7 @@
       "code": "006373",
       "name": "国富全球科技互联混合(QDII)A",
       "indexGroup": "GLOBAL_TECH",
-      "marketScore": 53.66,
+      "marketScore": 54.25,
       "blockedBy": [],
       "channelCount": 3,
       "routingAlternatives": [
@@ -223,10 +241,19 @@
       ]
     },
     {
+      "code": "007280",
+      "name": "摩根日本精选股票(QDII)A",
+      "indexGroup": "JAPAN",
+      "marketScore": 54,
+      "blockedBy": [],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
+    {
       "code": "000988",
       "name": "华安标普全球石油QDII-A",
       "indexGroup": "OIL",
-      "marketScore": 49.47,
+      "marketScore": 50.08,
       "blockedBy": [
         "PORTFOLIO_FULL"
       ],
@@ -237,7 +264,7 @@
       "code": "016664",
       "name": "天弘全球高端制造QDII-A",
       "indexGroup": "GLOBAL_MFG",
-      "marketScore": 48.39,
+      "marketScore": 49.5,
       "blockedBy": [
         "DRAWDOWN_OVER_20"
       ],
@@ -248,7 +275,7 @@
       "code": "539002",
       "name": "建信新兴市场优选QDII-A",
       "indexGroup": "EMERGING",
-      "marketScore": 43.84,
+      "marketScore": 44.33,
       "blockedBy": [
         "DRAWDOWN_OVER_20"
       ],
@@ -259,7 +286,7 @@
       "code": "050015",
       "name": "博时亚太精选QDII-A",
       "indexGroup": "APAC",
-      "marketScore": 41.16,
+      "marketScore": 41.92,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -268,7 +295,7 @@
       "code": "000179",
       "name": "广发美国房地产A(QDII)",
       "indexGroup": "US_REIT",
-      "marketScore": 39.2,
+      "marketScore": 38.33,
       "blockedBy": [
         "TREND_DETERIORATING",
         "PORTFOLIO_FULL"
@@ -280,7 +307,7 @@
       "code": "008763",
       "name": "天弘越南市场股票(QDII)A",
       "indexGroup": "VIETNAM",
-      "marketScore": 35.98,
+      "marketScore": 35,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -289,7 +316,7 @@
       "code": "160216",
       "name": "国泰大宗商品(QDII-LOF)",
       "indexGroup": "COMMODITY",
-      "marketScore": 35.18,
+      "marketScore": 34.75,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "PORTFOLIO_FULL"
@@ -301,7 +328,7 @@
       "code": "040018",
       "name": "华安香港精选QDII-A",
       "indexGroup": "HK",
-      "marketScore": 29.38,
+      "marketScore": 28.58,
       "blockedBy": [
         "PORTFOLIO_FULL"
       ],
@@ -316,7 +343,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-08-07"
+      "latestNavDate": "2026-08-10"
     },
     {
       "code": "160213",
@@ -332,27 +359,11 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-08-07"
+      "latestNavDate": "2026-08-10"
     },
     {
       "code": "163208",
       "name": "诺安全球收益不动产QDII",
-      "blockedBy": [
-        "NOT_BUYABLE"
-      ],
-      "latestNavDate": "2026-08-07"
-    },
-    {
-      "code": "007280",
-      "name": "摩根日本精选股票(QDII)A",
-      "blockedBy": [
-        "NOT_BUYABLE"
-      ],
-      "latestNavDate": "2026-08-10"
-    },
-    {
-      "code": "000369",
-      "name": "广发全球医疗保健指数人民币(QDII)A",
       "blockedBy": [
         "NOT_BUYABLE"
       ],
@@ -392,21 +403,21 @@
             "type": "BUY"
           },
           {
-            "id": "tx_50e7f4ddfcc3f97daf078ce7",
-            "date": "2026-05-28",
-            "settleDate": "2026-06-01",
-            "amount": 10,
-            "nav": 4.646,
-            "shares": 2.1524,
-            "type": "BUY"
-          },
-          {
             "id": "tx_09535b33596c19040c19f7e5",
             "date": "2026-05-28",
             "settleDate": "2026-06-01",
             "amount": 16,
             "nav": 4.646,
             "shares": 3.4438,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_50e7f4ddfcc3f97daf078ce7",
+            "date": "2026-05-28",
+            "settleDate": "2026-06-01",
+            "amount": 10,
+            "nav": 4.646,
+            "shares": 2.1524,
             "type": "BUY"
           },
           {
@@ -428,19 +439,19 @@
         "code": "270023",
         "buys": [
           {
-            "id": "tx_da0f8c432e6922218948a041",
-            "date": "2026-06-09",
-            "amount": 10,
-            "nav": 6.5295,
-            "shares": 1.5315,
-            "type": "BUY"
-          },
-          {
             "id": "tx_11f080c266a87b659880e9c7",
             "date": "2026-06-09",
             "amount": 20,
             "nav": 6.5295,
             "shares": 3.063,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_da0f8c432e6922218948a041",
+            "date": "2026-06-09",
+            "amount": 10,
+            "nav": 6.5295,
+            "shares": 1.5315,
             "type": "BUY"
           },
           {
@@ -922,6 +933,24 @@
         "pendingAmount": 0
       },
       {
+        "code": "015204",
+        "buys": [
+          {
+            "id": "tx_0f26e2dc69eff153293c7e99",
+            "date": "2026-06-01",
+            "settleDate": "2026-06-03",
+            "amount": 20,
+            "nav": 1.6444,
+            "shares": 12.1625,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 20,
+        "totalShares": 12.1625,
+        "pendingBuys": [],
+        "pendingAmount": 0
+      },
+      {
         "code": "012920",
         "buys": [
           {
@@ -1101,42 +1130,6 @@
         "pendingAmount": 0
       },
       {
-        "code": "015204",
-        "buys": [
-          {
-            "id": "tx_0f26e2dc69eff153293c7e99",
-            "date": "2026-06-01",
-            "settleDate": "2026-06-03",
-            "amount": 20,
-            "nav": 1.6444,
-            "shares": 12.1625,
-            "type": "BUY"
-          }
-        ],
-        "totalAmount": 20,
-        "totalShares": 12.1625,
-        "pendingBuys": [],
-        "pendingAmount": 0
-      },
-      {
-        "code": "000614",
-        "buys": [
-          {
-            "id": "tx_bc3c26e22642c84c163b8a6b",
-            "date": "2026-06-02",
-            "settleDate": "2026-06-04",
-            "amount": 20,
-            "nav": 1.9673,
-            "shares": 10.1662,
-            "type": "BUY"
-          }
-        ],
-        "totalAmount": 20,
-        "totalShares": 10.1662,
-        "pendingBuys": [],
-        "pendingAmount": 0
-      },
-      {
         "code": "019524",
         "buys": [
           {
@@ -1244,6 +1237,24 @@
         "pendingAmount": 0
       },
       {
+        "code": "000614",
+        "buys": [
+          {
+            "id": "tx_bc3c26e22642c84c163b8a6b",
+            "date": "2026-06-02",
+            "settleDate": "2026-06-04",
+            "amount": 20,
+            "nav": 1.9673,
+            "shares": 10.1662,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 20,
+        "totalShares": 10.1662,
+        "pendingBuys": [],
+        "pendingAmount": 0
+      },
+      {
         "code": "019067",
         "buys": [
           {
@@ -1307,12 +1318,29 @@
             "nav": 2.807,
             "shares": 3.5625,
             "type": "BUY"
+          },
+          {
+            "id": "tx_de1abe75ce999e881983fe1d",
+            "date": "2026-08-11",
+            "amount": 10,
+            "nav": 0,
+            "shares": 0,
+            "type": "BUY"
           }
         ],
-        "totalAmount": 90,
+        "totalAmount": 100,
         "totalShares": 33.019,
-        "pendingBuys": [],
-        "pendingAmount": 0
+        "pendingBuys": [
+          {
+            "id": "tx_de1abe75ce999e881983fe1d",
+            "date": "2026-08-11",
+            "amount": 10,
+            "nav": 0,
+            "shares": 0,
+            "type": "BUY"
+          }
+        ],
+        "pendingAmount": 10
       },
       {
         "code": "015558",
@@ -1338,6 +1366,60 @@
         ],
         "totalAmount": 20,
         "totalShares": 13.3265,
+        "pendingBuys": [],
+        "pendingAmount": 0
+      },
+      {
+        "code": "017641",
+        "buys": [
+          {
+            "id": "tx_497755aede16780a2074f416",
+            "date": "2026-06-04",
+            "settleDate": "2026-06-08",
+            "amount": 10,
+            "nav": 1.6483,
+            "shares": 6.0669,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_c55a2538350b72917c9ea48f",
+            "date": "2026-06-05",
+            "settleDate": "2026-06-09",
+            "amount": 10,
+            "nav": 1.6483,
+            "shares": 6.0669,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_feeb4d09a976d062d96ae308",
+            "date": "2026-06-08",
+            "settleDate": "2026-06-10",
+            "amount": 10,
+            "nav": 1.645,
+            "shares": 6.079,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_e1e6346f439a695c0bc66f5d",
+            "date": "2026-07-07",
+            "settleDate": "2026-07-08",
+            "amount": 10,
+            "nav": 1.6696,
+            "shares": 5.9895,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_ff545a92e2a3f56b753800e8",
+            "date": "2026-07-08",
+            "settleDate": "2026-07-09",
+            "amount": 10,
+            "nav": 1.6816,
+            "shares": 5.9467,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 50,
+        "totalShares": 30.149,
         "pendingBuys": [],
         "pendingAmount": 0
       },
@@ -1418,60 +1500,6 @@
         ],
         "totalAmount": 144,
         "totalShares": 39.4619,
-        "pendingBuys": [],
-        "pendingAmount": 0
-      },
-      {
-        "code": "017641",
-        "buys": [
-          {
-            "id": "tx_497755aede16780a2074f416",
-            "date": "2026-06-04",
-            "settleDate": "2026-06-08",
-            "amount": 10,
-            "nav": 1.6483,
-            "shares": 6.0669,
-            "type": "BUY"
-          },
-          {
-            "id": "tx_c55a2538350b72917c9ea48f",
-            "date": "2026-06-05",
-            "settleDate": "2026-06-09",
-            "amount": 10,
-            "nav": 1.6483,
-            "shares": 6.0669,
-            "type": "BUY"
-          },
-          {
-            "id": "tx_feeb4d09a976d062d96ae308",
-            "date": "2026-06-08",
-            "settleDate": "2026-06-10",
-            "amount": 10,
-            "nav": 1.645,
-            "shares": 6.079,
-            "type": "BUY"
-          },
-          {
-            "id": "tx_e1e6346f439a695c0bc66f5d",
-            "date": "2026-07-07",
-            "settleDate": "2026-07-08",
-            "amount": 10,
-            "nav": 1.6696,
-            "shares": 5.9895,
-            "type": "BUY"
-          },
-          {
-            "id": "tx_ff545a92e2a3f56b753800e8",
-            "date": "2026-07-08",
-            "settleDate": "2026-07-09",
-            "amount": 10,
-            "nav": 1.6816,
-            "shares": 5.9467,
-            "type": "BUY"
-          }
-        ],
-        "totalAmount": 50,
-        "totalShares": 30.149,
         "pendingBuys": [],
         "pendingAmount": 0
       },
@@ -1568,21 +1596,21 @@
         "code": "008763",
         "buys": [
           {
-            "id": "tx_e7f47c751dbe9dbe221ee22e",
-            "date": "2026-07-02",
-            "settleDate": "2026-07-03",
-            "amount": 5,
-            "nav": 1.6493,
-            "shares": 3.0316,
-            "type": "BUY"
-          },
-          {
             "id": "tx_07b5c0dd24caf8de71abeb9d",
             "date": "2026-07-02",
             "settleDate": "2026-07-03",
             "amount": 50,
             "nav": 1.6493,
             "shares": 30.3159,
+            "type": "BUY"
+          },
+          {
+            "id": "tx_e7f47c751dbe9dbe221ee22e",
+            "date": "2026-07-02",
+            "settleDate": "2026-07-03",
+            "amount": 5,
+            "nav": 1.6493,
+            "shares": 3.0316,
             "type": "BUY"
           },
           {
@@ -1597,6 +1625,24 @@
         ],
         "totalAmount": 110,
         "totalShares": 66.878,
+        "pendingBuys": [],
+        "pendingAmount": 0
+      },
+      {
+        "code": "005698",
+        "buys": [
+          {
+            "id": "tx_e3c75ce10075236eee83b805",
+            "date": "2026-07-13",
+            "settleDate": "2026-07-14",
+            "amount": 23,
+            "nav": 3.2807,
+            "shares": 7.0107,
+            "type": "BUY"
+          }
+        ],
+        "totalAmount": 23,
+        "totalShares": 7.0107,
         "pendingBuys": [],
         "pendingAmount": 0
       },
@@ -1619,33 +1665,32 @@
         "pendingAmount": 0
       },
       {
-        "code": "005698",
+        "code": "008253",
         "buys": [
           {
-            "id": "tx_e3c75ce10075236eee83b805",
-            "date": "2026-07-13",
-            "settleDate": "2026-07-14",
-            "amount": 23,
-            "nav": 3.2807,
-            "shares": 7.0107,
+            "id": "tx_b1e270529cd1a4f833ad78fd",
+            "date": "2026-07-16",
+            "amount": 50,
+            "nav": 1.8139,
+            "shares": 27.5649,
             "type": "BUY"
           }
         ],
-        "totalAmount": 23,
-        "totalShares": 7.0107,
+        "totalAmount": 50,
+        "totalShares": 27.5649,
         "pendingBuys": [],
         "pendingAmount": 0
       }
     ],
     "pendingHoldings": [
       {
-        "code": "008253",
-        "totalAmount": 50,
+        "code": "096001",
+        "totalAmount": 10,
         "buys": [
           {
-            "id": "tx_b1e270529cd1a4f833ad78fd",
-            "date": "2026-07-16",
-            "amount": 50,
+            "id": "tx_de1abe75ce999e881983fe1d",
+            "date": "2026-08-11",
+            "amount": 10,
             "nav": 0,
             "shares": 0,
             "type": "BUY"
@@ -1653,12 +1698,12 @@
         ]
       }
     ],
-    "pendingInvested": 50,
-    "confirmedInvested": 1827,
-    "totalInvested": 1877,
-    "transactionCount": 120,
-    "revision": 2,
-    "checksum": "c917dbbde17f7b04505dfd783362bf09790b8abcf8980b53b56040c649f20bb9"
+    "pendingInvested": 10,
+    "confirmedInvested": 1877,
+    "totalInvested": 1887,
+    "transactionCount": 121,
+    "revision": 4,
+    "checksum": "152a7ebff595e0247a4b57a67a77c52edcbed07df64f592bd4dad05e7246dded"
   },
-  "publicPortfolioSnapshotUpdatedAt": "2026-08-11T03:10:57.417Z"
+  "publicPortfolioSnapshotUpdatedAt": "2026-08-11T10:02:42.974Z"
 }

@@ -14197,7 +14197,7 @@
         "status": "FRESH",
         "latestNavDate": "2026-08-10",
         "maxTradingDayLag": 2,
-        "observationCount": 6
+        "observationCount": 4
       },
       "signalHealth": {
         "status": "HEALTHY",
@@ -14220,8 +14220,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 73.39,
-          "suitabilityScore": 73.39,
+          "score": 74.25,
+          "suitabilityScore": 74.25,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -14231,8 +14231,8 @@
           "rank": 2,
           "code": "001092",
           "name": "广发纳斯达克生物科技A(QDII)",
-          "score": 67.95,
-          "suitabilityScore": 67.95,
+          "score": 68.17,
+          "suitabilityScore": 68.17,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
