@@ -16,6 +16,7 @@ on:
       - 'lib/personalized-decision.js'
       - 'lib/portfolio-ledger.js'
       - 'lib/recommendation-engine.js'
+      - 'lib/walk-forward.js'
       - 'scripts/fetch-private-ledger.js'
       - '.github/workflows/pages.yml'
   workflow_dispatch:
@@ -78,6 +79,7 @@ jobs:
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+          RECOMMENDATION_LIVE_ENABLED: ${{ secrets.RECOMMENDATION_LIVE_ENABLED }}
 
       - name: Remove private ledger temp file
         if: always()

@@ -64,3 +64,46 @@ test('buildAcceptanceMetrics: 回测不可用时返回 null', () => {
   assert.strictEqual(walkForward.buildAcceptanceMetrics(null, []), null);
   assert.strictEqual(walkForward.buildAcceptanceMetrics({ summary: null }, []), null);
 });
+
+test('buildLiveAcceptanceMetrics: 页面和邮件共用相同的回测参数与验收映射', () => {
+  let received = null;
+  const metrics = walkForward.buildLiveAcceptanceMetrics({
+    navCache: { A: [{ date: '2026-08-10', nav: 1 }] },
+    funds: [{ code: 'A' }],
+    config: {
+      buyFeeRate: 0.1,
+      sellFeeRate: 0.2,
+      executionLagDays: 2,
+      qdiiLagIncluded: true,
+      optimizationTrials: 3
+    },
+    shadowHistory: [{ date: '2026-08-10' }],
+    runBacktest: function(navCache, funds, options) {
+      received = { navCache: navCache, funds: funds, options: options };
+      return {
+        summary: {
+          windows: 12,
+          nonOverlappingWindows: 6,
+          medianExcessReturn: '0.5%',
+          strategyMaxDrawdown: '-5%',
+          benchmarkMaxDrawdown: '-6%',
+          assumptions: { feesIncluded: true, qdiiLagIncluded: true, optimizationTrials: 3 }
+        }
+      };
+    }
+  });
+
+  assert.deepStrictEqual(received.options, {
+    trainDays: 120,
+    testDays: 30,
+    topN: 2,
+    stepDays: 30,
+    buyFeeRate: 0.1,
+    sellFeeRate: 0.2,
+    executionLagDays: 2,
+    qdiiLagIncluded: true,
+    optimizationTrials: 3
+  });
+  assert.strictEqual(metrics.rollingWindows, 12);
+  assert.strictEqual(metrics.shadowWeeks, 1);
+});

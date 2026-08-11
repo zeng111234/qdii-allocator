@@ -223,6 +223,14 @@ test("live acceptance requires every sample, excess, drawdown, cost and shadow g
   assert.equal(passed.passed, true);
 });
 
+test("live acceptance treats missing numeric evidence as insufficient", function () {
+  const verdict = engine.evaluateLiveAcceptance({});
+  assert.equal(verdict.passed, false);
+  assert.ok(verdict.failures.includes("INSUFFICIENT_ROLLING_WINDOWS"));
+  assert.ok(verdict.failures.includes("INSUFFICIENT_NON_OVERLAPPING_WINDOWS"));
+  assert.ok(verdict.failures.includes("INSUFFICIENT_SHADOW_WEEKS"));
+});
+
 test("AI output validator rejects codes, amounts and actions outside the plan", function () {
   const plan = { action: "PAUSE", candidates: [{ code: "A", proposedAmount: 0 }] };
   assert.equal(engine.validateAIOutput(plan, { action: "BUY", candidates: [{ code: "X", proposedAmount: 50 }] }).valid, false);

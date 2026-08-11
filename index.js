@@ -631,13 +631,12 @@ async function main() {
   if (liveEnabled) {
     try {
       const walkForward = require("./lib/walk-forward");
-      const wfResult = walkForward.runWalkForwardBacktest(navCache, funds, {
-        trainDays: 120, testDays: 30, topN: 2, stepDays: 30,
-        buyFeeRate: config.buyFeeRate, sellFeeRate: config.sellFeeRate,
-        executionLagDays: config.executionLagDays, qdiiLagIncluded: config.qdiiLagIncluded,
-        optimizationTrials: config.optimizationTrials
+      acceptanceMetrics = walkForward.buildLiveAcceptanceMetrics({
+        navCache: navCache,
+        funds: funds,
+        config: config,
+        shadowHistory: recommendationHistory.shadowHistory
       });
-      acceptanceMetrics = walkForward.buildAcceptanceMetrics(wfResult, recommendationHistory.shadowHistory);
       if (acceptanceMetrics) {
         console.log("[验收] 回测窗口=" + acceptanceMetrics.rollingWindows + " 中位超额=" + acceptanceMetrics.medianExcess12Week +
           "% 回撤差=" + acceptanceMetrics.drawdownGapPercentagePoints + "pp 影子周=" + acceptanceMetrics.shadowWeeks +
