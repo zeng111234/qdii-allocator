@@ -42,6 +42,18 @@ jobs:
       - run: npm ci
       - name: Configure private ledger temp path
         run: echo "PRIVATE_LEDGER_PATH=$RUNNER_TEMP/portfolio-ledger.json" >> "$GITHUB_ENV"
+      - name: Update NAV cache
+        continue-on-error: true
+        run: node scripts/update-nav-cache.js
+      - name: Reconcile pending ledger transactions
+        continue-on-error: true
+        run: node scripts/reconcile-private-ledger.js
+        env:
+          FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
+          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
+          FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+          PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
+          RECONCILE_WRITE: 1
       - name: Fetch and validate private PortfolioLedgerV2
         run: |
           set +e
@@ -58,9 +70,6 @@ jobs:
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
           PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
-      - name: Update NAV cache
-        continue-on-error: true
-        run: node scripts/update-nav-cache.js
       - name: Update purchase limits
         continue-on-error: true
         run: node scripts/update-purchase-limits.js

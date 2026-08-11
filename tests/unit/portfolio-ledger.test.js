@@ -73,3 +73,38 @@ test("zero-share buys stay visible as pending reconciliation instead of becoming
   assert.equal(portfolio.confirmedInvested, 100);
   assert.equal(portfolio.totalInvested, 150);
 });
+
+test("pending buys reconcile from trade-date NAV without changing transaction identity", function () {
+  const source = ledger.createLedger([
+    { id: "settled", type: "BUY", code: "A", tradeDate: "2026-07-01", amount: 100, nav: 10, shares: 10 },
+    { id: "pending", type: "BUY", code: "008253", tradeDate: "2026-07-16", amount: 50, nav: 0, shares: 0 }
+  ], { revision: 2, updatedAt: "2026-07-17T00:00:00.000Z" });
+
+  const result = ledger.reconcilePendingTransactions(source, {
+    "008253": [
+      { date: "2026-07-15", nav: 1.8931 },
+      { date: "2026-07-16", nav: 1.8139 },
+      { date: "2026-07-17", nav: 1.782 }
+    ]
+  }, "2026-08-11T00:00:00.000Z");
+
+  assert.equal(result.reconciled.length, 1);
+  assert.deepEqual(result.reconciled[0], {
+    id: "pending", code: "008253", tradeDate: "2026-07-16", nav: 1.8139, shares: 27.5649
+  });
+  assert.equal(result.ledger.revision, 3);
+  assert.equal(result.ledger.transactions.find(function (tx) { return tx.id === "pending"; }).id, "pending");
+  assert.equal(ledger.validateLedger(result.ledger).valid, true);
+  assert.equal(ledger.derivePortfolio(result.ledger).pendingHoldings.length, 0);
+});
+
+test("pending reconciliation is idempotent when NAV is unavailable or already filled", function () {
+  const source = ledger.createLedger([
+    { id: "settled", type: "BUY", code: "A", tradeDate: "2026-07-01", amount: 100, nav: 10, shares: 10 },
+    { id: "pending", type: "BUY", code: "B", tradeDate: "2026-07-16", amount: 50, nav: 0, shares: 0 }
+  ], { revision: 2, updatedAt: "2026-07-17T00:00:00.000Z" });
+
+  const result = ledger.reconcilePendingTransactions(source, { B: [] }, "2026-08-11T00:00:00.000Z");
+  assert.equal(result.reconciled.length, 0);
+  assert.equal(result.ledger, source);
+});
