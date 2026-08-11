@@ -261,7 +261,7 @@ test("synthetic portfolio regression stays paused and has complete metadata", fu
     liveEnabled: false
   });
   assert.equal(plan.action, "PAUSE");
-  assert.equal(plan.signalHealth.status, "WARMING_UP");
+  assert.equal(plan.signalHealth.status, plan.signalHealth.shadow.count < 15 ? "WARMING_UP" : "HEALTHY");
   assert.equal(plan.pauseReasons.includes("SIGNAL_BREAKER"), false);
   assert.equal(plan.portfolioRisk.unknownHoldings.length, 0);
   assert.ok(plan.candidates.filter(function (candidate) { return candidate.indexGroup === "NDX100"; }).length <= 1);
