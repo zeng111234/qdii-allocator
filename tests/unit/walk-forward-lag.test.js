@@ -23,3 +23,105 @@ test("execution lag scenarios deduct buy and redemption fees", function () {
   assert.ok(withFees.netReturn < withoutFees.netReturn);
   assert.equal(withFees.feesIncluded, true);
 });
+
+test("window return aligns funds by date instead of array position", function () {
+  const rows = [
+    { date: "2025-12-30", nav: 50 },
+    { date: "2025-12-31", nav: 60 },
+    { date: "2026-01-01", nav: 1 },
+    { date: "2026-01-02", nav: 1.1 },
+    { date: "2026-01-03", nav: 1.21 },
+    { date: "2026-01-04", nav: 1.331 }
+  ];
+  const result = walkForward.calculateWindowReturn(rows, "2026-01-01", "2026-01-04", 1, {
+    buyFeeRate: 0,
+    sellFeeRate: 0
+  });
+  assert.equal(result.buyDate, "2026-01-02");
+  assert.equal(result.endDate, "2026-01-04");
+  assert.equal(result.netReturn, 21);
+});
+
+test("walk-forward compares strategy and benchmark with identical lag and fees", function () {
+  const start = new Date("2026-01-01T00:00:00Z");
+  function series(extraRows) {
+    const rows = (extraRows || []).slice();
+    for (let i = 0; i < 70; i++) {
+      const date = new Date(start);
+      date.setUTCDate(date.getUTCDate() + i);
+      rows.push({
+        date: date.toISOString().slice(0, 10),
+        nav: i < 50 ? 1 : Number((1 + (i - 49) * 0.01).toFixed(4))
+      });
+    }
+    return rows;
+  }
+  const groups = ["SPX500", "NDX100", "JAPAN", "EUROPE", "GOLD", "HEALTHCARE", "DOW30", "RUSSELL2000", "GLOBAL", "APAC"];
+  const funds = groups.map(function (indexGroup, index) {
+    return {
+      code: String.fromCharCode(65 + index), name: "Fund " + index, type: indexGroup,
+      indexGroup: indexGroup, status: "active", dailyLimit: 100, minPurchase: 10, feeRate: 0.5
+    };
+  });
+  const histories = {};
+  funds.forEach(function (fund, index) {
+    histories[fund.code] = index === 1
+      ? series([{ date: "2025-12-30", nav: 50 }, { date: "2025-12-31", nav: 60 }])
+      : series();
+  });
+
+  const result = walkForward.runWalkForwardBacktest(histories, funds, {
+    trainDays: 60,
+    testDays: 10,
+    stepDays: 10,
+    topN: 2,
+    minDataPoints: 60,
+    executionLagDays: 2,
+    buyFeeRate: 0.008,
+    sellFeeRate: 0.005,
+    qdiiLagIncluded: true,
+    optimizationTrials: 2
+  });
+
+  assert.equal(result.windows.length, 1);
+  assert.equal(result.windows[0].excessReturn, 0);
+  assert.equal(result.windows[0].avgReturn, result.windows[0].benchmarkReturn);
+});
+
+test("walk-forward uses the configured S&P baseline instead of the changing candidate average", function () {
+  const start = new Date("2026-01-01T00:00:00Z");
+  function series(step) {
+    return Array.from({ length: 70 }, function (_, index) {
+      const date = new Date(start);
+      date.setUTCDate(date.getUTCDate() + index);
+      return { date: date.toISOString().slice(0, 10), nav: index < 60 ? 1 : 1 + (index - 59) * step };
+    });
+  }
+  const groups = ["SPX500", "NDX100", "JAPAN", "EUROPE", "GOLD", "HEALTHCARE", "DOW30", "RUSSELL2000", "US_REIT", "GLOBAL_REIT"];
+  const funds = groups.map(function (indexGroup, index) {
+    return {
+      code: String.fromCharCode(65 + index), name: index === 0 ? "主动候选" : "候选" + index,
+      type: indexGroup, indexGroup: indexGroup, status: "active", dailyLimit: 100, minPurchase: 10, feeRate: 0.5
+    };
+  });
+  const histories = { BASE: series(0.005) };
+  funds.forEach(function (fund, index) { histories[fund.code] = series(index === 0 ? 0.02 : 0.001); });
+  const result = walkForward.runWalkForwardBacktest(histories, funds, {
+    trainDays: 60, testDays: 10, stepDays: 10, topN: 1, minDataPoints: 60,
+    executionLagDays: 0, buyFeeRate: 0, sellFeeRate: 0,
+    benchmarkCode: "BASE", qdiiLagIncluded: true, optimizationTrials: 2
+  });
+
+  assert.equal(result.summary.baselineCode, "BASE");
+  assert.equal(result.summary.outperformanceWinRate, "100%");
+  assert.ok(result.windows[0].avgReturn > result.windows[0].benchmarkReturn);
+  assert.equal(result.windows[0].benchmarkCodes[0], "BASE");
+});
+
+test("walk-forward seed portfolio excludes satellite themes", function () {
+  const holdings = walkForward.buildInitialHoldings([
+    { code: "THEME", name: "主题", indexGroup: "GLOBAL_MFG", status: "active", dailyLimit: 100 },
+    { code: "CORE", name: "标普", indexGroup: "SPX500", status: "active", dailyLimit: 100 }
+  ]);
+  assert.deepEqual(holdings.map(function (holding) { return holding.code; }), ["CORE"]);
+});

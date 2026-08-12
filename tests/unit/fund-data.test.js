@@ -4,6 +4,7 @@
 const test = require('node:test');
 const assert = require('node:assert');
 const fd = require('../../lib/fund-data');
+const fundCatalog = require('../../data/funds.json').funds;
 
 // ─── 数据不足返回错误 ───
 
@@ -104,4 +105,40 @@ test('loadNavCache: 返回对象', function () {
   const cache = fd.loadNavCache();
   assert.ok(typeof cache === 'object');
   assert.ok(!Array.isArray(cache));
+});
+
+test('critical fund identities keep domestic dividend, S&P market-cap and S&P equal-weight separate', function () {
+  const byCode = Object.fromEntries(fundCatalog.map(function (fund) { return [fund.code, fund]; }));
+  assert.match(byCode['015558'].name, /万家中证红利/);
+  assert.equal(byCode['015558'].indexGroup, 'CN_DIVIDEND');
+  assert.equal(byCode['015558'].status, 'tracking_only');
+  assert.match(byCode['096001'].name, /标普500等权重/);
+  assert.equal(byCode['096001'].indexGroup, 'SPX500_EQUAL_WEIGHT');
+  assert.equal(byCode['017641'].indexGroup, 'SPX500');
+  assert.match(byCode['000988'].name, /嘉实全球互联网/);
+  assert.equal(byCode['000988'].status, 'tracking_only');
+  assert.match(byCode['019067'].name, /博时安盈债券E/);
+  assert.equal(byCode['019067'].indexGroup, 'CN_SHORT_BOND');
+  assert.equal(byCode['019067'].status, 'tracking_only');
+  assert.match(byCode['163208'].name, /诺安油气能源/);
+  assert.equal(byCode['163208'].indexGroup, 'OIL');
+});
+
+test('material fund identity mismatch detects a wrong manager for the same code', function () {
+  assert.equal(fd.hasMaterialFundIdentityMismatch(
+    { code: '015558', name: '大成标普500ETF联接A(QDII)' },
+    { code: '015558', name: '万家中证红利ETF联接C', company: '万家基金' }
+  ), true);
+  assert.equal(fd.hasMaterialFundIdentityMismatch(
+    { code: '017641', name: '摩根标普500指数(QDII)A' },
+    { code: '017641', name: '摩根标普500人民币A', company: '摩根基金' }
+  ), false);
+  assert.equal(fd.hasMaterialFundIdentityMismatch(
+    { code: '163208', name: '诺安全球收益不动产QDII', indexGroup: 'GLOBAL_REIT' },
+    { code: '163208', name: '诺安油气能源', company: '诺安基金' }
+  ), true);
+  assert.equal(fd.hasMaterialFundIdentityMismatch(
+    { code: '006373', name: '国富全球科技互联混合(QDII)A', indexGroup: 'GLOBAL_TECH' },
+    { code: '006373', name: '国富全球科技互联混合(QDII)人民币A', company: '国海富兰克林基金' }
+  ), false);
 });

@@ -19,6 +19,18 @@ test("page build uses current shadow outcomes and the same live acceptance gate 
   assert.match(source, /backfillHistoryFollowUp\(navCache\)/);
   assert.match(source, /buildLiveAcceptanceMetrics\(/);
   assert.match(source, /acceptance:\s*acceptanceMetrics/);
+  assert.match(source, /monthlyDcaEvidenceFromReport\(alphaResearch\)/);
+});
+
+test("page and daily builds calculate readiness evidence even while live buying is disabled", function () {
+  const root = path.join(__dirname, "..", "..");
+  const pagesSource = fs.readFileSync(path.join(root, "build-pages.js"), "utf8");
+  const dailySource = fs.readFileSync(path.join(root, "index.js"), "utf8");
+  [pagesSource, dailySource].forEach(function (source) {
+    assert.match(source, /let acceptanceMetrics = null;\s*try \{\s*const walkForward/);
+    assert.doesNotMatch(source, /let acceptanceMetrics = null;\s*if \(liveEnabled\)/);
+    assert.match(source, /monthlyDcaEvidenceFromReport\(alphaResearch\)/);
+  });
 });
 
 test("both Pages build paths receive the recommendation live switch", function () {

@@ -1,19 +1,20 @@
 {
   "schemaVersion": "RecommendationPlanV2",
-  "strategyVersion": "allocation-v2.1-balanced",
+  "strategyVersion": "allocation-v2.4-monthly-alpha-gate",
   "allocationWeek": "2026-08-10",
   "syncRevision": 0,
   "riskAnchorValue": null,
   "asOf": "2026-08-12",
   "action": "PAUSE",
   "pauseReasons": [
-    "ACCEPTANCE_GATE"
+    "ACCEPTANCE_GATE",
+    "SIGNAL_WARMING_UP"
   ],
   "dataFreshness": {
     "status": "FRESH",
     "latestNavDate": "2026-08-11",
     "maxTradingDayLag": 2,
-    "observationCount": 4
+    "observationCount": 24
   },
   "budget": 0,
   "candidates": [
@@ -21,24 +22,24 @@
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 73.67,
-      "suitabilityScore": 73.67,
+      "marketScore": 74.75,
+      "suitabilityScore": 74.75,
       "proposedAmount": 0,
       "reasons": [
-        "市场评分 73.67",
+        "市场评分 74.75",
         "影子候选，不执行真实买入"
       ],
       "blockedBy": []
     },
     {
-      "code": "001092",
-      "name": "广发纳斯达克生物科技A(QDII)",
-      "indexGroup": "NASDAQ_BIO",
-      "marketScore": 67.25,
-      "suitabilityScore": 67.25,
+      "code": "000614",
+      "name": "华安德国DAX30A(QDII)",
+      "indexGroup": "EUROPE",
+      "marketScore": 61.75,
+      "suitabilityScore": 61.75,
       "proposedAmount": 0,
       "reasons": [
-        "市场评分 67.25",
+        "市场评分 61.75",
         "影子候选，不执行真实买入"
       ],
       "blockedBy": []
@@ -52,16 +53,16 @@
     "maxIndexGroupWeight": 0.35
   },
   "signalHealth": {
-    "status": "HEALTHY",
+    "status": "WARMING_UP",
     "matured": {
       "count": 0,
       "winRate": null,
       "averageReturn": null
     },
     "shadow": {
-      "count": 20,
-      "winRate": 60,
-      "averageReturn": 0
+      "count": 0,
+      "winRate": null,
+      "averageReturn": null
     },
     "evidenceSource": "SHADOW",
     "breakerTriggered": false,
@@ -87,18 +88,18 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.09595926797664502,
-    "GROWTH_TECH": 0.6855285981987029,
-    "NON_US": 0.20450394331460178,
-    "DEFENSIVE": 0.014008190510050304,
+    "US_BROAD": 0.08437440212001471,
+    "GROWTH_TECH": 0.6567613782190018,
+    "NON_US": 0.21608880917123208,
+    "DEFENSIVE": 0.042775410489751385,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
-    "US_BROAD": 0.2,
-    "GROWTH_TECH": -0.44,
-    "NON_US": 0.05,
-    "DEFENSIVE": 0.09,
+    "US_BROAD": 0.22,
+    "GROWTH_TECH": -0.41,
+    "NON_US": 0.03,
+    "DEFENSIVE": 0.06,
     "CASH": 0.1
   },
   "executionRoutes": [],
@@ -107,20 +108,43 @@
   "liveAcceptance": {
     "passed": false,
     "failures": [
+      "WIN_RATE_BELOW_55",
+      "PROFIT_WIN_RATE_NOT_ABOVE_BASELINE",
+      "OUTPERFORMANCE_WIN_RATE_BELOW_55",
+      "AVERAGE_EXCESS_NOT_POSITIVE",
       "MEDIAN_EXCESS_NOT_POSITIVE",
-      "DRAWDOWN_WORSE_THAN_LIMIT",
-      "INSUFFICIENT_SHADOW_WEEKS"
+      "INSUFFICIENT_SHADOW_WEEKS",
+      "INSUFFICIENT_MONTHLY_DCA_WINDOWS",
+      "MONTHLY_DCA_OUTPERFORMANCE_BELOW_55",
+      "MONTHLY_DCA_AVERAGE_EXCESS_NOT_POSITIVE",
+      "MONTHLY_DCA_TOTAL_EXCESS_NOT_POSITIVE",
+      "MONTHLY_DCA_HOLDOUT_FAILED"
     ],
     "metrics": {
-      "rollingWindows": 22,
-      "nonOverlappingWindows": 22,
-      "medianExcess12Week": -1.93,
-      "drawdownGapPercentagePoints": 2.9,
-      "shadowWeeks": 4,
+      "rollingWindows": 16,
+      "nonOverlappingWindows": 16,
+      "winRate": 50,
+      "benchmarkWinRate": 62.5,
+      "outperformanceWinRate": 25,
+      "averageExcessReturn": -4.25,
+      "avgWin": 9.09,
+      "avgLoss": -5.5,
+      "profitFactor": 1.65,
+      "baselineCode": "161125",
+      "holdingDays": 126,
+      "medianExcess12Week": -6.53,
+      "drawdownGapPercentagePoints": -0.27,
+      "shadowWeeks": 0,
       "hardRiskViolations": 0,
       "feesIncluded": true,
       "qdiiLagIncluded": true,
-      "optimizationTrialsReported": true
+      "optimizationTrialsReported": true,
+      "monthlyDcaWindows": 0,
+      "monthlyDcaOutperformanceRate": 0,
+      "monthlyDcaAverageExcessProfit": 0,
+      "monthlyDcaTotalExcessProfit": 0,
+      "monthlyDcaSameCashFlow": true,
+      "monthlyDcaHoldoutPassed": false
     }
   },
   "riskAnchorDrawdown": null,
@@ -129,19 +153,7 @@
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 73.67,
-      "blockedBy": [],
-      "channelCount": 3,
-      "routingAlternatives": [
-        "096001",
-        "015558"
-      ]
-    },
-    {
-      "code": "001092",
-      "name": "广发纳斯达克生物科技A(QDII)",
-      "indexGroup": "NASDAQ_BIO",
-      "marketScore": 67.25,
+      "marketScore": 74.75,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -150,7 +162,7 @@
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
-      "marketScore": 65.33,
+      "marketScore": 61.75,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -159,7 +171,7 @@
       "code": "000369",
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
-      "marketScore": 62.33,
+      "marketScore": 55.75,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -168,49 +180,21 @@
       "code": "040046",
       "name": "华安纳斯达克100A(QDII)",
       "indexGroup": "NDX100",
-      "marketScore": 59,
-      "blockedBy": [
-        "INDEX_GROUP_LIMIT"
-      ],
-      "channelCount": 6,
+      "marketScore": 52.25,
+      "blockedBy": [],
+      "channelCount": 5,
       "routingAlternatives": [
         "000834",
-        "270042",
         "019524",
-        "539001",
-        "019067"
+        "270042",
+        "539001"
       ]
-    },
-    {
-      "code": "501226",
-      "name": "长城全球新能源车(QDII)A",
-      "indexGroup": "EV",
-      "marketScore": 56.75,
-      "blockedBy": [
-        "TREND_DETERIORATING",
-        "PORTFOLIO_FULL"
-      ],
-      "channelCount": 2,
-      "routingAlternatives": [
-        "015204"
-      ]
-    },
-    {
-      "code": "017730",
-      "name": "嘉实全球产业升级股票(QDII)A",
-      "indexGroup": "GLOBAL_UPGRADE",
-      "marketScore": 56,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20"
-      ],
-      "channelCount": 1,
-      "routingAlternatives": []
     },
     {
       "code": "320013",
       "name": "诺安全球黄金(QDII-FOF)A",
       "indexGroup": "GOLD",
-      "marketScore": 54.92,
+      "marketScore": 49.25,
       "blockedBy": [
         "PORTFOLIO_FULL"
       ],
@@ -221,99 +205,8 @@
       "code": "007280",
       "name": "摩根日本精选股票(QDII)A",
       "indexGroup": "JAPAN",
-      "marketScore": 54.75,
+      "marketScore": 42,
       "blockedBy": [],
-      "channelCount": 1,
-      "routingAlternatives": []
-    },
-    {
-      "code": "270023",
-      "name": "广发全球精选QDII-A",
-      "indexGroup": "GLOBAL",
-      "marketScore": 53,
-      "blockedBy": [],
-      "channelCount": 3,
-      "routingAlternatives": [
-        "000041",
-        "008253"
-      ]
-    },
-    {
-      "code": "006373",
-      "name": "国富全球科技互联混合(QDII)A",
-      "indexGroup": "GLOBAL_TECH",
-      "marketScore": 51.67,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20"
-      ],
-      "channelCount": 3,
-      "routingAlternatives": [
-        "100055",
-        "005698"
-      ]
-    },
-    {
-      "code": "000988",
-      "name": "华安标普全球石油QDII-A",
-      "indexGroup": "OIL",
-      "marketScore": 46.92,
-      "blockedBy": [
-        "PORTFOLIO_FULL"
-      ],
-      "channelCount": 1,
-      "routingAlternatives": []
-    },
-    {
-      "code": "016664",
-      "name": "天弘全球高端制造QDII-A",
-      "indexGroup": "GLOBAL_MFG",
-      "marketScore": 43.92,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20"
-      ],
-      "channelCount": 1,
-      "routingAlternatives": []
-    },
-    {
-      "code": "539002",
-      "name": "建信新兴市场优选QDII-A",
-      "indexGroup": "EMERGING",
-      "marketScore": 43.83,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20"
-      ],
-      "channelCount": 1,
-      "routingAlternatives": []
-    },
-    {
-      "code": "008763",
-      "name": "天弘越南市场股票(QDII)A",
-      "indexGroup": "VIETNAM",
-      "marketScore": 41.5,
-      "blockedBy": [],
-      "channelCount": 1,
-      "routingAlternatives": []
-    },
-    {
-      "code": "050015",
-      "name": "博时亚太精选QDII-A",
-      "indexGroup": "APAC",
-      "marketScore": 40.08,
-      "blockedBy": [
-        "TREND_DETERIORATING"
-      ],
-      "channelCount": 1,
-      "routingAlternatives": []
-    },
-    {
-      "code": "160216",
-      "name": "国泰大宗商品(QDII-LOF)",
-      "indexGroup": "COMMODITY",
-      "marketScore": 39.08,
-      "blockedBy": [
-        "DRAWDOWN_OVER_20",
-        "PORTFOLIO_FULL"
-      ],
       "channelCount": 1,
       "routingAlternatives": []
     },
@@ -321,20 +214,9 @@
       "code": "000179",
       "name": "广发美国房地产A(QDII)",
       "indexGroup": "US_REIT",
-      "marketScore": 38.5,
+      "marketScore": 26,
       "blockedBy": [
         "TREND_DETERIORATING",
-        "PORTFOLIO_FULL"
-      ],
-      "channelCount": 1,
-      "routingAlternatives": []
-    },
-    {
-      "code": "040018",
-      "name": "华安香港精选QDII-A",
-      "indexGroup": "HK",
-      "marketScore": 30.42,
-      "blockedBy": [
         "PORTFOLIO_FULL"
       ],
       "channelCount": 1,
@@ -343,10 +225,86 @@
   ],
   "observationPool": [
     {
+      "code": "000988",
+      "name": "嘉实全球互联网股票人民币",
+      "blockedBy": [
+        "NOT_BUYABLE",
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-11"
+    },
+    {
+      "code": "001092",
+      "name": "广发纳斯达克生物科技A(QDII)",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
       "code": "012920",
       "name": "易方达全球成长精选QDII-A",
       "blockedBy": [
-        "NOT_BUYABLE"
+        "NOT_BUYABLE",
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "015204",
+      "name": "银华全球新能源车量化优选(QDII)A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-11"
+    },
+    {
+      "code": "015558",
+      "name": "万家中证红利ETF联接C",
+      "blockedBy": [
+        "NOT_BUYABLE",
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-11"
+    },
+    {
+      "code": "016664",
+      "name": "天弘全球高端制造QDII-A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "019067",
+      "name": "博时安盈债券E",
+      "blockedBy": [
+        "NOT_BUYABLE",
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-11"
+    },
+    {
+      "code": "040018",
+      "name": "华安香港精选QDII-A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "050015",
+      "name": "博时亚太精选QDII-A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-11"
+    },
+    {
+      "code": "096001",
+      "name": "大成标普500等权重指数(QDII)A人民币",
+      "blockedBy": [
+        "SATELLITE_ONLY"
       ],
       "latestNavDate": "2026-08-10"
     },
@@ -355,6 +313,14 @@
       "name": "国泰纳斯达克100(QDII)",
       "blockedBy": [
         "NOT_BUYABLE"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "160216",
+      "name": "国泰大宗商品(QDII-LOF)",
+      "blockedBy": [
+        "SATELLITE_ONLY"
       ],
       "latestNavDate": "2026-08-10"
     },
@@ -368,11 +334,92 @@
     },
     {
       "code": "163208",
-      "name": "诺安全球收益不动产QDII",
+      "name": "诺安油气能源",
       "blockedBy": [
-        "NOT_BUYABLE"
+        "NOT_BUYABLE",
+        "SATELLITE_ONLY"
       ],
       "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "270023",
+      "name": "广发全球精选QDII-A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "539002",
+      "name": "建信新兴市场优选QDII-A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "008763",
+      "name": "天弘越南市场股票(QDII)A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "017730",
+      "name": "嘉实全球产业升级股票(QDII)A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-11"
+    },
+    {
+      "code": "006373",
+      "name": "国富全球科技互联混合(QDII)A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "100055",
+      "name": "富国全球科技互联网股票(QDII)A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "005698",
+      "name": "华夏全球科技先锋混合(QDII)A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-10"
+    },
+    {
+      "code": "008253",
+      "name": "华宝致远混合(QDII)A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-11"
+    },
+    {
+      "code": "501226",
+      "name": "长城全球新能源车(QDII)A",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-11"
+    },
+    {
+      "code": "000041",
+      "name": "华夏全球股票(QDII)(人民币)",
+      "blockedBy": [
+        "SATELLITE_ONLY"
+      ],
+      "latestNavDate": "2026-08-11"
     }
   ],
   "publicPortfolioSnapshot": {
@@ -1710,5 +1757,5 @@
     "revision": 4,
     "checksum": "152a7ebff595e0247a4b57a67a77c52edcbed07df64f592bd4dad05e7246dded"
   },
-  "publicPortfolioSnapshotUpdatedAt": "2026-08-12T10:03:51.194Z"
+  "publicPortfolioSnapshotUpdatedAt": "2026-08-12T11:51:45.092Z"
 }

@@ -624,27 +624,27 @@ async function main() {
   const recommendationHistory = recommendationEngine.partitionRecommendationHistory(historyData);
   const portfolioSnapshot = portfolio.loadPortfolio();
   const navCache = fundData.loadNavCache();
-  // [fix] 原缺陷: acceptance(回测验收)从未传入, ACCEPTANCE_GATE 永远失败。
-  // 开关开启时用真实 walk-forward 回测结果判定, 阈值不变, 不放宽不缩紧。
-  let acceptanceMetrics = null;
+  // 无论真实买入开关是否开启，都计算策略资格，页面才能诚实展示距离门槛还有多远。
+  // liveEnabled 只控制是否允许 BUY，不控制是否生成只读验收证据。
   const liveEnabled = process.env.RECOMMENDATION_LIVE_ENABLED === "true";
-  if (liveEnabled) {
-    try {
-      const walkForward = require("./lib/walk-forward");
-      acceptanceMetrics = walkForward.buildLiveAcceptanceMetrics({
-        navCache: navCache,
-        funds: funds,
-        config: config,
-        shadowHistory: recommendationHistory.shadowHistory
-      });
-      if (acceptanceMetrics) {
-        console.log("[验收] 回测窗口=" + acceptanceMetrics.rollingWindows + " 中位超额=" + acceptanceMetrics.medianExcess12Week +
-          "% 回撤差=" + acceptanceMetrics.drawdownGapPercentagePoints + "pp 影子周=" + acceptanceMetrics.shadowWeeks +
-          " 费率=" + acceptanceMetrics.feesIncluded + " QDII滞后=" + acceptanceMetrics.qdiiLagIncluded);
-      }
-    } catch (e) {
-      console.warn("[验收] walk-forward 回测失败:", e.message);
+  let acceptanceMetrics = null;
+  try {
+    const walkForward = require("./lib/walk-forward");
+    const alphaResearch = require("./data/alpha-research.json");
+    acceptanceMetrics = walkForward.buildLiveAcceptanceMetrics({
+      navCache: navCache,
+      funds: funds,
+      config: config,
+      shadowHistory: recommendationHistory.shadowHistory,
+      monthlyDcaEvidence: walkForward.monthlyDcaEvidenceFromReport(alphaResearch)
+    });
+    if (acceptanceMetrics) {
+      console.log("[验收] 回测窗口=" + acceptanceMetrics.rollingWindows + " 中位超额=" + acceptanceMetrics.medianExcess12Week +
+        "% 回撤差=" + acceptanceMetrics.drawdownGapPercentagePoints + "pp 影子周=" + acceptanceMetrics.shadowWeeks +
+        " 费率=" + acceptanceMetrics.feesIncluded + " QDII滞后=" + acceptanceMetrics.qdiiLagIncluded);
     }
+  } catch (e) {
+    console.warn("[验收] walk-forward 回测失败:", e.message);
   }
   const recommendationPlan = recommendationEngine.buildRecommendationPlan({
     funds: funds,

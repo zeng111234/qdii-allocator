@@ -40,6 +40,14 @@ test("browser sync uses Firebase Web SDK Google auth and uid-scoped ledger", fun
   assert.doesNotMatch(template, /api\.github\.com\/gists|GIST_TOKEN_KEY|qdii-gist-token/);
 });
 
+test("public snapshot loads without fetching Firebase SDK until cloud login is configured", function () {
+  const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  assert.doesNotMatch(source, /^import\s/m);
+  assert.match(source, /if \(!configured\)[\s\S]*return;/);
+  assert.match(source, /await loadFirebaseModules\(\)/);
+  assert.match(source, /import\("https:\/\/www\.gstatic\.com\/firebasejs\/11\.10\.0\/firebase-app\.js"\)/);
+});
+
 test("Chrome migration uses an ETag conditional write and verifies the committed ledger", function () {
   const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
   assert.match(source, /getIdToken/);

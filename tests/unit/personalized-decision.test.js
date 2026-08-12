@@ -101,6 +101,8 @@ test("missing sync or risk anchor is a hard pause", function () {
 test("signal breaker becomes capped tactical core DCA using the cloud ledger exposure", function () {
   const plan = decision.personalizePlan(baseInput());
   assert.equal(plan.action, "TACTICAL_PAUSE");
+  assert.equal(plan.recommendationBasis, "SP500_BASELINE_FALLBACK");
+  assert.equal(plan.expectedEdge, "MATCH_BASELINE_NOT_ALPHA");
   assert.equal(plan.syncRevision, 3);
   assert.equal(plan.portfolioRisk.holdingCount, 4);
   assert.equal(plan.bucketExposure.GROWTH_TECH, 0.7);
@@ -110,6 +112,71 @@ test("signal breaker becomes capped tactical core DCA using the cloud ledger exp
   ]);
   assert.equal(plan.executionRoutes.some(function (route) { return route.bucket === "GROWTH_TECH"; }), false);
   assert.equal(plan.budgetPolicy.tacticalWeeklyBudget, 50);
+  assert.equal(decision.isCoreIndexGroup("SPX500"), true);
+  assert.equal(decision.isCoreIndexGroup("GLOBAL_MFG"), false);
+});
+
+test("unproven active selection falls back only to an existing S&P 500 channel", function () {
+  const sourceLedger = ledger([
+    buy("1", "SPX", "2026-07-01", 100, 100),
+    buy("2", "JP", "2026-07-01", 600, 600),
+    buy("3", "MED", "2026-07-01", 300, 300)
+  ]);
+  const plan = decision.personalizePlan(baseInput({
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger)
+  }));
+  assert.equal(plan.decisionMode, "BASELINE_DCA");
+  assert.deepEqual(plan.executionRoutes.map(function (route) { return route.indexGroup; }), ["SPX500"]);
+  assert.match(plan.executionRoutes[0].reason, /标普500基准/);
+});
+
+test("baseline fallback never treats S&P 500 equal weight as the market-cap benchmark", function () {
+  const mixedFunds = funds.concat([
+    { code: "SPX_EQ", name: "标普500等权通道", indexGroup: "SPX500_EQUAL_WEIGHT", status: "active", dailyLimit: 20, minPurchase: 10, feeRate: 0.1 }
+  ]);
+  const mixedNavCache = Object.assign({}, navCache, {
+    SPX_EQ: [{ date: "2026-07-17", nav: 1 }]
+  });
+  const sourceLedger = ledger([
+    buy("1", "SPX", "2026-07-01", 100, 100),
+    buy("2", "SPX_EQ", "2026-07-01", 100, 100),
+    buy("3", "JP", "2026-07-01", 500, 500),
+    buy("4", "MED", "2026-07-01", 300, 300)
+  ]);
+  const plan = decision.personalizePlan(baseInput({
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger),
+    funds: mixedFunds,
+    navCache: mixedNavCache
+  }));
+  assert.equal(decision.bucketForFund(mixedFunds[mixedFunds.length - 1]), "US_BROAD");
+  assert.equal(decision.isCoreIndexGroup("SPX500_EQUAL_WEIGHT"), false);
+  assert.deepEqual(plan.executionRoutes.map(function (route) { return route.code; }), ["SPX"]);
+});
+
+test("baseline fallback may open an eligible market-cap S&P channel when only equal-weight S&P is held", function () {
+  const mixedFunds = funds.concat([
+    { code: "SPX_EQ", name: "标普500等权通道", indexGroup: "SPX500_EQUAL_WEIGHT", status: "active", dailyLimit: 20, minPurchase: 10, feeRate: 0.1 }
+  ]);
+  const mixedNavCache = Object.assign({}, navCache, {
+    SPX_EQ: [{ date: "2026-07-17", nav: 1 }]
+  });
+  const sourceLedger = ledger([
+    buy("1", "SPX_EQ", "2026-07-01", 100, 100),
+    buy("2", "JP", "2026-07-01", 600, 600),
+    buy("3", "MED", "2026-07-01", 300, 300)
+  ]);
+  const plan = decision.personalizePlan(baseInput({
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger),
+    funds: mixedFunds,
+    navCache: mixedNavCache
+  }));
+  assert.equal(plan.decisionMode, "BASELINE_DCA");
+  assert.deepEqual(plan.executionRoutes.map(function (route) { return route.code; }), ["SPX"]);
+  assert.equal(plan.routeDiagnostics.eligibleHeldChannelCount, 0);
+  assert.equal(plan.routeDiagnostics.eligibleNewChannelCount, 1);
 });
 
 test("read-only snapshots can calculate a plan but cannot make cloud writes", function () {
@@ -176,8 +243,32 @@ test("tactical mode never adds to growth technology even when it is underweight"
   assert.equal(plan.action, "TACTICAL_PAUSE");
   assert.equal(plan.budget, 0);
   assert.equal(plan.executionRoutes.length, 0);
-  assert.equal(plan.decisionMode, "TACTICAL_DCA");
+  assert.equal(plan.decisionMode, "BASELINE_DCA");
   assert.ok(plan.routeDiagnostics.blockReasons.includes("NO_ELIGIBLE_CORE_ROUTE"));
+});
+
+test("baseline DCA keeps adding market-cap S&P at the target weight until concentration limits bind", function () {
+  const expandedFunds = funds.concat([
+    { code: "SPX2", name: "备用标普通道", indexGroup: "SPX500", status: "active", dailyLimit: 20, minPurchase: 10, feeRate: 0.7 }
+  ]);
+  const expandedNav = Object.assign({}, navCache, {
+    SPX2: [{ date: "2026-07-17", nav: 1 }]
+  });
+  const sourceLedger = ledger([
+    buy("1", "SPX", "2026-07-01", 300, 300),
+    buy("2", "NDX", "2026-07-01", 250, 250),
+    buy("3", "JP", "2026-07-01", 250, 250),
+    buy("4", "MED", "2026-07-01", 200, 200)
+  ]);
+  const plan = decision.personalizePlan(baseInput({
+    ledger: sourceLedger,
+    portfolio: decision.derivePortfolio(sourceLedger),
+    funds: expandedFunds,
+    navCache: expandedNav
+  }));
+  assert.equal(plan.bucketExposure.US_BROAD, 0.3);
+  assert.equal(plan.decisionMode, "BASELINE_DCA");
+  assert.deepEqual(plan.executionRoutes.map(function (route) { return [route.code, route.amount]; }), [["SPX2", 10]]);
 });
 
 test("risk anchor drawdown removes post-anchor cash flows before applying a hard stop", function () {

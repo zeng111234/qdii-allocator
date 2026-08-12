@@ -139,3 +139,28 @@ test("backfillFollowUp - fills 5d and 10d returns using index-based lookup", fun
     restoreHistory();
   }
 });
+
+test("saveRecommendationPlan persists pause and acceptance evidence", function () {
+  const ht = require("../../lib/history-tracker");
+  backupHistory();
+  try {
+    resetHistory({ records: [] });
+    ht.saveRecommendationPlan({
+      asOf: "2026-08-12",
+      strategyVersion: "allocation-v2.4-monthly-alpha-gate",
+      allocationWeek: "2026-08-10",
+      action: "PAUSE",
+      budget: 0,
+      pauseReasons: ["DATA_STALE"],
+      dataFreshness: { status: "UNAVAILABLE" },
+      signalHealth: { status: "WARMING_UP" },
+      liveAcceptance: { passed: false, failures: ["INSUFFICIENT_SHADOW_WEEKS"] },
+      candidates: []
+    });
+    const record = JSON.parse(fs.readFileSync(HISTORY_FILE, "utf-8")).records[0];
+    assert.deepEqual(record.pauseReasons, ["DATA_STALE"]);
+    assert.deepEqual(record.liveAcceptance.failures, ["INSUFFICIENT_SHADOW_WEEKS"]);
+  } finally {
+    restoreHistory();
+  }
+});
