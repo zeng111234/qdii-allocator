@@ -13793,7 +13793,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.78,
-          "followUp10dReturn": null
+          "followUp10dReturn": 2.1
         },
         {
           "rank": 2,
@@ -13804,7 +13804,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.91,
-          "followUp10dReturn": null
+          "followUp10dReturn": 2.64
         }
       ]
     },
@@ -13847,7 +13847,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 3.16,
-          "followUp10dReturn": null
+          "followUp10dReturn": 3.31
         },
         {
           "rank": 2,
@@ -13858,7 +13858,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 2.31,
-          "followUp10dReturn": null
+          "followUp10dReturn": 2.28
         }
       ]
     },
@@ -13954,7 +13954,7 @@
           "suitabilityScore": 74.42,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.15,
           "followUp10dReturn": null
         },
         {
@@ -13965,7 +13965,7 @@
           "suitabilityScore": 67.83,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.03,
           "followUp10dReturn": null
         }
       ]
@@ -14008,7 +14008,7 @@
           "suitabilityScore": 75.5,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.35,
           "followUp10dReturn": null
         },
         {
@@ -14019,7 +14019,7 @@
           "suitabilityScore": 66.75,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.18,
           "followUp10dReturn": null
         }
       ]
@@ -14062,7 +14062,7 @@
           "suitabilityScore": 75.25,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.49,
           "followUp10dReturn": null
         },
         {
@@ -14073,7 +14073,7 @@
           "suitabilityScore": 65.83,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.67,
           "followUp10dReturn": null
         }
       ]
@@ -14233,6 +14233,60 @@
           "name": "广发纳斯达克生物科技A(QDII)",
           "score": 68.17,
           "suitabilityScore": 68.17,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
+    },
+    {
+      "date": "2026-08-12",
+      "strategy": "RecommendationPlan",
+      "strategyVersion": "allocation-v2.1-balanced",
+      "allocationWeek": "2026-08-10",
+      "action": "PAUSE",
+      "budget": 0,
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-08-11",
+        "maxTradingDayLag": 2,
+        "observationCount": 4
+      },
+      "signalHealth": {
+        "status": "HEALTHY",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 20,
+          "winRate": 60,
+          "averageReturn": 0
+        },
+        "evidenceSource": "SHADOW",
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 73.33,
+          "suitabilityScore": 73.33,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "001092",
+          "name": "广发纳斯达克生物科技A(QDII)",
+          "score": 68.83,
+          "suitabilityScore": 68.83,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
