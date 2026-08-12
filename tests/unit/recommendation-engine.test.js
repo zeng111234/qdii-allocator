@@ -115,9 +115,14 @@ test("plan partitions BUY and PAUSE history into disjoint live and shadow sample
     budget: 50,
     liveEnabled: true,
     acceptance: {
-      rollingWindows: 12, nonOverlappingWindows: 6, medianExcess12Week: 0.01,
+      rollingWindows: 12, nonOverlappingWindows: 6, winRate: 58.33, benchmarkWinRate: 50,
+      outperformanceWinRate: 58.33, averageExcessReturn: 0.5, profitFactor: 1.3,
+      medianExcess12Week: 0.01,
       drawdownGapPercentagePoints: 1.5, shadowWeeks: 8, hardRiskViolations: 0,
-      feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true
+      feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true,
+      monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
+      monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
+      monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
     },
     limits: { maxFundWeight: 1, maxIndexGroupWeight: 1 }
   });
@@ -183,6 +188,28 @@ test("market ranking exposes one entry per index group while retaining routing a
   assert.equal(plan.marketRanking.find(function (row) { return row.indexGroup === "NDX100"; }).channelCount, 2);
 });
 
+test("satellite themes stay in observation only and cannot become buy candidates", function () {
+  const funds = [
+    { code: "CORE", name: "标普", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 100, feeRate: 0.6 },
+    { code: "THEME", name: "全球制造", type: "全球制造", indexGroup: "GLOBAL_MFG", status: "active", dailyLimit: 100, feeRate: 0.1 }
+  ];
+  const navCache = {
+    CORE: navSeries("2025-10-01", 288, 0.001),
+    THEME: navSeries("2025-10-01", 288, 0.01)
+  };
+  const plan = engine.buildRecommendationPlan({
+    funds: funds,
+    navCache: navCache,
+    portfolio: { holdings: [] },
+    asOf: "2026-07-15",
+    liveEnabled: false
+  });
+  assert.equal(plan.marketRanking.some(function (row) { return row.code === "THEME"; }), false);
+  assert.equal(plan.observationPool.some(function (row) {
+    return row.code === "THEME" && row.blockedBy.includes("SATELLITE_ONLY");
+  }), true);
+});
+
 test("RecommendationPlanV2 exposes allocation, sync, anchor, routes and benchmark acceptance", function () {
   const plan = engine.buildRecommendationPlan({
     funds: [{ code: "A", name: "A", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 50, minPurchase: 10, feeRate: 0.5 }],
@@ -209,18 +236,78 @@ test("RecommendationPlanV2 exposes allocation, sync, anchor, routes and benchmar
 
 test("live acceptance requires every sample, excess, drawdown, cost and shadow gate", function () {
   const failed = engine.evaluateLiveAcceptance({
-    rollingWindows: 21, nonOverlappingWindows: 7, medianExcess12Week: -1.17,
+    rollingWindows: 21, nonOverlappingWindows: 7, winRate: 58.33, benchmarkWinRate: 50,
+    outperformanceWinRate: 58.33, averageExcessReturn: 0.5, profitFactor: 1.3,
+    medianExcess12Week: -1.17,
     drawdownGapPercentagePoints: 0.86, shadowWeeks: 8, hardRiskViolations: 0,
     feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true
   });
   assert.equal(failed.passed, false);
   assert.ok(failed.failures.includes("MEDIAN_EXCESS_NOT_POSITIVE"));
   const passed = engine.evaluateLiveAcceptance({
-    rollingWindows: 12, nonOverlappingWindows: 6, medianExcess12Week: 0.01,
+    rollingWindows: 12, nonOverlappingWindows: 6, winRate: 55, benchmarkWinRate: 50,
+    outperformanceWinRate: 55, averageExcessReturn: 0.01, profitFactor: 1.2,
+    medianExcess12Week: 0.01,
     drawdownGapPercentagePoints: 2, shadowWeeks: 8, hardRiskViolations: 0,
-    feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true
+    feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true,
+    monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
+    monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
+    monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
   });
   assert.equal(passed.passed, true);
+});
+
+test("live acceptance rejects a sub-55% win rate or weak payoff quality", function () {
+  const base = {
+    rollingWindows: 22, nonOverlappingWindows: 22, medianExcess12Week: 0.65,
+    drawdownGapPercentagePoints: 0.84, shadowWeeks: 8, hardRiskViolations: 0,
+    feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true,
+    winRate: 55, benchmarkWinRate: 50, outperformanceWinRate: 55,
+    averageExcessReturn: 0.01, profitFactor: 1.2,
+    monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
+    monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
+    monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
+  };
+  assert.equal(engine.evaluateLiveAcceptance(base).passed, true);
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, winRate: 50 }).failures.includes("WIN_RATE_BELOW_55"));
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, profitFactor: 1.19 }).failures.includes("PROFIT_FACTOR_BELOW_1_2"));
+});
+
+test("live acceptance requires a measurable advantage over S&P 500 baseline", function () {
+  const base = {
+    rollingWindows: 22, nonOverlappingWindows: 8, medianExcess12Week: 0.65,
+    drawdownGapPercentagePoints: 0.84, shadowWeeks: 8, hardRiskViolations: 0,
+    feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true,
+    winRate: 60, benchmarkWinRate: 55, outperformanceWinRate: 60,
+    averageExcessReturn: 0.5, profitFactor: 1.3,
+    monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
+    monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
+    monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
+  };
+  assert.equal(engine.evaluateLiveAcceptance(base).passed, true);
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, winRate: 50 }).failures.includes("PROFIT_WIN_RATE_NOT_ABOVE_BASELINE"));
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, outperformanceWinRate: 50 }).failures.includes("OUTPERFORMANCE_WIN_RATE_BELOW_55"));
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, averageExcessReturn: 0 }).failures.includes("AVERAGE_EXCESS_NOT_POSITIVE"));
+});
+
+test("live acceptance requires real monthly DCA profit evidence under identical cash flows", function () {
+  const base = {
+    rollingWindows: 22, nonOverlappingWindows: 8, medianExcess12Week: 0.65,
+    drawdownGapPercentagePoints: 0.84, shadowWeeks: 8, hardRiskViolations: 0,
+    feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true,
+    winRate: 60, benchmarkWinRate: 55, outperformanceWinRate: 60,
+    averageExcessReturn: 0.5, profitFactor: 1.3,
+    monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
+    monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
+    monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
+  };
+  assert.equal(engine.evaluateLiveAcceptance(base).passed, true);
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaWindows: 0 }).failures.includes("INSUFFICIENT_MONTHLY_DCA_WINDOWS"));
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaOutperformanceRate: 50 }).failures.includes("MONTHLY_DCA_OUTPERFORMANCE_BELOW_55"));
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaAverageExcessProfit: 0 }).failures.includes("MONTHLY_DCA_AVERAGE_EXCESS_NOT_POSITIVE"));
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaTotalExcessProfit: 0 }).failures.includes("MONTHLY_DCA_TOTAL_EXCESS_NOT_POSITIVE"));
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaSameCashFlow: false }).failures.includes("MONTHLY_DCA_CASH_FLOW_MISMATCH"));
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaHoldoutPassed: false }).failures.includes("MONTHLY_DCA_HOLDOUT_FAILED"));
 });
 
 test("live acceptance treats missing numeric evidence as insufficient", function () {

@@ -1,12 +1,3 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js";
-import {
-  browserLocalPersistence, getAuth, GoogleAuthProvider, onAuthStateChanged,
-  getIdToken, setPersistence, signInWithPopup, signOut
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js";
-import {
-  get, getDatabase, ref, runTransaction
-} from "https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js";
-
 const config = window.QDII_FIREBASE_CONFIG || {};
 const configured = [config.apiKey, config.authDomain, config.databaseURL, config.projectId, config.appId]
   .every(function (value) { return value && !String(value).includes("PLACEHOLDER"); });
@@ -21,6 +12,36 @@ let currentDecisionState = null;
 let currentStrategyState = null;
 let currentUser = null;
 let publicLedgerSnapshot = null;
+let firebaseModulesPromise = null;
+let initializeApp, browserLocalPersistence, getAuth, GoogleAuthProvider, onAuthStateChanged;
+let getIdToken, setPersistence, signInWithPopup, signOut, get, getDatabase, ref, runTransaction;
+
+async function loadFirebaseModules() {
+  if (firebaseModulesPromise) return firebaseModulesPromise;
+  firebaseModulesPromise = Promise.all([
+    import("https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js"),
+    import("https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js"),
+    import("https://www.gstatic.com/firebasejs/11.10.0/firebase-database.js")
+  ]).then(function (modules) {
+    const appModule = modules[0];
+    const authModule = modules[1];
+    const databaseModule = modules[2];
+    initializeApp = appModule.initializeApp;
+    browserLocalPersistence = authModule.browserLocalPersistence;
+    getAuth = authModule.getAuth;
+    GoogleAuthProvider = authModule.GoogleAuthProvider;
+    onAuthStateChanged = authModule.onAuthStateChanged;
+    getIdToken = authModule.getIdToken;
+    setPersistence = authModule.setPersistence;
+    signInWithPopup = authModule.signInWithPopup;
+    signOut = authModule.signOut;
+    get = databaseModule.get;
+    getDatabase = databaseModule.getDatabase;
+    ref = databaseModule.ref;
+    runTransaction = databaseModule.runTransaction;
+  });
+  return firebaseModulesPromise;
+}
 
 function emit(name, detail) {
   window.dispatchEvent(new CustomEvent(name, { detail: detail }));
@@ -490,6 +511,7 @@ async function initializeFirebase(preservePublicLedger) {
     if (!preservePublicLedger) emit("qdii-cloud-state", { status: "CONFIG_MISSING", source: "未配置" });
     return;
   }
+  await loadFirebaseModules();
   const app = initializeApp(config);
   auth = getAuth(app);
   database = getDatabase(app);

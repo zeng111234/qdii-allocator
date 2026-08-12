@@ -166,9 +166,14 @@ test("pause banner explains live acceptance failures with actual metrics", funct
     signalHealth: { status: "HEALTHY", matured: {}, shadow: {} },
     liveAcceptance: {
       passed: false,
-      failures: ["MEDIAN_EXCESS_NOT_POSITIVE", "DRAWDOWN_WORSE_THAN_LIMIT", "INSUFFICIENT_SHADOW_WEEKS"],
+      failures: ["WIN_RATE_BELOW_55", "PROFIT_WIN_RATE_NOT_ABOVE_BASELINE", "OUTPERFORMANCE_WIN_RATE_BELOW_55", "AVERAGE_EXCESS_NOT_POSITIVE", "PROFIT_FACTOR_BELOW_1_2", "MEDIAN_EXCESS_NOT_POSITIVE", "DRAWDOWN_WORSE_THAN_LIMIT", "INSUFFICIENT_SHADOW_WEEKS"],
       metrics: {
         rollingWindows: 22,
+        winRate: 50,
+        benchmarkWinRate: 62.5,
+        outperformanceWinRate: 12.5,
+        averageExcessReturn: -5.69,
+        profitFactor: 1.1,
         medianExcess12Week: -1.93,
         drawdownGapPercentagePoints: 2.9,
         shadowWeeks: 4
@@ -176,10 +181,20 @@ test("pause banner explains live acceptance failures with actual metrics", funct
     }
   });
   assert.match(text, /回测与影子观察尚未全部通过/);
-  assert.match(text, /12周中位超额收益不大于0/);
+  assert.match(text, /中位超额收益不大于0/);
+  assert.match(text, /盈利概率未超过标普500基准/);
+  assert.match(text, /跑赢标普500的窗口不足55%/);
+  assert.match(text, /相对标普500的平均超额不大于0/);
   assert.match(text, /策略回撤比基准多2个百分点以上/);
   assert.match(text, /影子观察不足8周/);
+  assert.match(text, /历史滚动胜率不足55%/);
+  assert.match(text, /盈亏因子不足1\.2/);
   assert.match(text, /22个滚动窗口/);
+  assert.match(text, /滚动胜率50%/);
+  assert.match(text, /标普基准胜率62\.5%/);
+  assert.match(text, /跑赢标普比例12\.5%/);
+  assert.match(text, /平均超额-5\.69%/);
+  assert.match(text, /盈亏因子1\.1/);
   assert.match(text, /中位超额-1\.93%/);
   assert.match(text, /回撤差2\.9个百分点/);
   assert.match(text, /影子观察4\/8周/);
@@ -208,6 +223,19 @@ test("shadow observation copy says amount zero, tracking only and no real purcha
   assert.match(template, /影子观察[^\n]{0,120}金额\s*0/);
   assert.match(template, /只记录/);
   assert.match(template, /不实买/);
+});
+
+test("cloud write controls are fail-closed until Firebase ledger readiness is confirmed", function () {
+  ["cloud-migrate-btn", "cloud-refresh-btn", "portfolio-import-btn", "buy-submit-btn", "batch-submit-btn"].forEach(function (id) {
+    const pattern = new RegExp('<button[^>]*id="' + id + '"[^>]*disabled[^>]*>');
+    assert.match(template, pattern, id + " should be disabled in initial HTML");
+  });
+  assert.match(template, /var writeReady = cloudWriteReady && status\.status === 'READY'/);
+});
+
+test("tactical contribution is labeled as baseline allocation without an alpha claim", function () {
+  assert.match(template, /标普500基准定投/);
+  assert.match(template, /尚未证明跑赢标普/);
 });
 
 test("non-BUY buy question has a deterministic zero-budget answer", function () {
@@ -289,11 +317,11 @@ test("risk-anchor setup is explicit and zero-budget route failures are explained
     action: "TACTICAL_PAUSE",
     budget: 0,
     personalized: true,
-    decisionMode: "TACTICAL_DCA",
+    decisionMode: "BASELINE_DCA",
     routeDiagnostics: { requestedBudget: 10, allocatedBudget: 0, blockReasons: ["NO_ELIGIBLE_CORE_ROUTE"] },
     signalHealth: { status: "PAUSE", matured: {}, shadow: {} }
   });
-  assert.match(details, /没有可执行的低配核心桶通道/);
+  assert.match(details, /没有可执行的现有标普500通道/);
 });
 
 test("signal confirmation requires fresh news and external coverage before calling consensus bullish", function () {
@@ -317,10 +345,11 @@ test("stale external signals stay visible with a non-trading disclaimer", functi
   assert.match(template, /不参与加仓或预算计算/);
 });
 
-test("cloud ledger holdings fall back to the public fund name when names are not stored", function () {
+test("canonical catalog names override stale cloud ledger labels", function () {
   const ctx = loadHelpers(["getHoldingDisplayName"]);
   assert.equal(ctx.getHoldingDisplayName({ code: "017641" }, { name: "摩根标普500指数(QDII)A" }), "摩根标普500指数(QDII)A");
-  assert.equal(ctx.getHoldingDisplayName({ code: "017641", name: "已存名称" }, { name: "公共名称" }), "已存名称");
+  assert.equal(ctx.getHoldingDisplayName({ code: "015558", name: "大成标普500ETF联接A(QDII)" }, { name: "万家中证红利ETF联接C" }), "万家中证红利ETF联接C");
+  assert.equal(ctx.getHoldingDisplayName({ code: "017641", name: "已存名称" }, null), "已存名称");
   assert.equal(ctx.getHoldingDisplayName({ code: "017641" }, null), "017641");
   assert.match(extractFunction("updateHoldings"), /getHoldingDisplayName\(h, fund\)/);
 });

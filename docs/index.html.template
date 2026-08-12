@@ -706,10 +706,10 @@
           <span id="sync-status" style="font-size:12px;color:var(--text2)">☁️ Firebase 用户账本</span>
           <span style="flex:1"></span>
           <button id="decision-anchor-btn" class="btn" style="display:none;background:var(--state-yellow-bg);color:var(--state-yellow-text);border:1px solid var(--state-yellow-border);font-size:11px;padding:5px 10px" onclick="firebaseSetRiskAnchor()">⚓ 设置风险锚点</button>
-          <button id="cloud-migrate-btn" class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseMigrateChrome()">🧾 预览迁移</button>
-          <button id="cloud-refresh-btn" class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseDownload()">↻ 云端刷新</button>
+          <button id="cloud-migrate-btn" class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseMigrateChrome()" disabled aria-disabled="true">🧾 预览迁移</button>
+          <button id="cloud-refresh-btn" class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="firebaseDownload()" disabled aria-disabled="true">↻ 云端刷新</button>
           <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="exportData()">📤 导出</button>
-          <button id="portfolio-import-btn" class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="importData()">📥 导入</button>
+          <button id="portfolio-import-btn" class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:5px 10px" onclick="importData()" disabled aria-disabled="true">📥 导入</button>
         </div>
         <div id="holdings"></div>
       </div>
@@ -724,7 +724,7 @@
           <div class="form-group"><label>净值 (可选)</label><input type="number" id="nav" step="0.0001" placeholder="自动查询"></div>
         </div>
         <div class="form-group"><label>买入日期</label><input type="date" id="buyDate"></div>
-        <button id="buy-submit-btn" class="btn btn-primary" onclick="addBuy()">确认买入</button>
+        <button id="buy-submit-btn" class="btn btn-primary" onclick="addBuy()" disabled aria-disabled="true">确认买入</button>
         <div id="buyResult" style="margin-top:10px;font-size:12px"></div>
       </div>
 
@@ -739,7 +739,7 @@
         <div id="batchList"></div>
         <div style="display:flex;gap:8px;margin-top:8px">
           <button class="btn btn-ghost" style="flex:1" onclick="addBatchRow()">+ 添加</button>
-          <button id="batch-submit-btn" class="btn btn-primary" style="flex:1" onclick="submitBatch()">提交</button>
+          <button id="batch-submit-btn" class="btn btn-primary" style="flex:1" onclick="submitBatch()" disabled aria-disabled="true">提交</button>
         </div>
       </div>
 
@@ -1342,9 +1342,9 @@
     }
 
     function getHoldingDisplayName(holding, fund) {
+      if (fund && fund.name) return fund.name;
       var savedName = holding && holding.name ? String(holding.name).trim() : '';
       if (savedName) return savedName;
-      if (fund && fund.name) return fund.name;
       return holding && holding.code ? holding.code : '未知基金';
     }
 
@@ -3614,13 +3614,15 @@
         RISK_ANCHOR_MISSING: '尚未设置迁移市值风险锚点',
         RISK_ANCHOR_LEDGER_MISMATCH: '风险锚点来自更新的账本，需重新核对迁移',
         RISK_ANCHOR_DRAWDOWN_10: '相对风险锚点回撤达到-10%',
-        TACTICAL_CORE_ONLY: '择时信号暂停，仅允许低配核心桶小额定投',
-        NO_ELIGIBLE_CORE_ROUTE: '没有可执行的低配核心桶通道',
+        TACTICAL_CORE_ONLY: '择时策略未放行，仅允许按目标配置做核心基础定投',
+        SP500_BASELINE_ONLY: '主动策略未跑赢标普，仅允许标普500基准定投',
+        SATELLITE_ONLY: '主题或主动卫星基金仅观察，不再自动加仓',
+        NO_ELIGIBLE_CORE_ROUTE: '没有可执行的现有标普500通道',
         NO_UNDERWEIGHT_CORE_BUCKET: '现有核心桶均不低配',
         NO_ELIGIBLE_EXISTING_CHANNEL: '低配桶没有可用的现有基金通道',
         CONCENTRATION_OR_MIN_PURCHASE_BLOCK: '通道受到集中度上限或最小申购额限制',
         PARTIAL_ROUTE_CAPACITY: '部分预算受限购或集中度上限未分配',
-        WEEKLY_BUDGET_EXHAUSTED: '本周战术定投额度已用完',
+        WEEKLY_BUDGET_EXHAUSTED: '本周标普基准定投额度已用完',
         UNKNOWN_HOLDINGS: '存在无法识别的持仓',
         NO_ELIGIBLE_CANDIDATES: '没有通过硬风控的候选'
       };
@@ -3641,9 +3643,14 @@
         var acceptanceLabels = {
           INSUFFICIENT_ROLLING_WINDOWS: '滚动回测窗口不足12个',
           INSUFFICIENT_NON_OVERLAPPING_WINDOWS: '非重叠回测窗口不足6个',
-          MEDIAN_EXCESS_NOT_POSITIVE: '12周中位超额收益不大于0',
+          MEDIAN_EXCESS_NOT_POSITIVE: '中位超额收益不大于0',
           DRAWDOWN_WORSE_THAN_LIMIT: '策略回撤比基准多2个百分点以上',
           INSUFFICIENT_SHADOW_WEEKS: '影子观察不足8周',
+          WIN_RATE_BELOW_55: '历史滚动胜率不足55%',
+          PROFIT_WIN_RATE_NOT_ABOVE_BASELINE: '盈利概率未超过标普500基准',
+          OUTPERFORMANCE_WIN_RATE_BELOW_55: '跑赢标普500的窗口不足55%',
+          AVERAGE_EXCESS_NOT_POSITIVE: '相对标普500的平均超额不大于0',
+          PROFIT_FACTOR_BELOW_1_2: '盈亏因子不足1.2',
           HARD_RISK_VIOLATION: '存在硬风控违规',
           FEES_NOT_INCLUDED: '回测未计入费率',
           QDII_LAG_NOT_INCLUDED: '回测未计入QDII执行滞后',
@@ -3660,6 +3667,21 @@
         }
         if (Number.isFinite(Number(acceptanceMetrics.medianExcess12Week))) {
           metricParts.push('中位超额' + formatMetric(acceptanceMetrics.medianExcess12Week) + '%');
+        }
+        if (Number.isFinite(Number(acceptanceMetrics.winRate))) {
+          metricParts.push('滚动胜率' + formatMetric(acceptanceMetrics.winRate) + '%');
+        }
+        if (Number.isFinite(Number(acceptanceMetrics.benchmarkWinRate))) {
+          metricParts.push('标普基准胜率' + formatMetric(acceptanceMetrics.benchmarkWinRate) + '%');
+        }
+        if (Number.isFinite(Number(acceptanceMetrics.outperformanceWinRate))) {
+          metricParts.push('跑赢标普比例' + formatMetric(acceptanceMetrics.outperformanceWinRate) + '%');
+        }
+        if (Number.isFinite(Number(acceptanceMetrics.averageExcessReturn))) {
+          metricParts.push('平均超额' + formatMetric(acceptanceMetrics.averageExcessReturn) + '%');
+        }
+        if (Number.isFinite(Number(acceptanceMetrics.profitFactor))) {
+          metricParts.push('盈亏因子' + formatMetric(acceptanceMetrics.profitFactor));
         }
         if (Number.isFinite(Number(acceptanceMetrics.drawdownGapPercentagePoints))) {
           metricParts.push('回撤差' + formatMetric(acceptanceMetrics.drawdownGapPercentagePoints) + '个百分点');
@@ -3683,7 +3705,7 @@
       if (safePlan.personalized) {
         details.push('云端账本 revision：' + Number(safePlan.syncRevision || 0));
         if (safePlan.budgetPolicy) details.push('本周已买' + formatMetric(safePlan.budgetPolicy.weeklySpent) + '元，剩余额度' + formatMetric(safePlan.budgetPolicy.weeklyRemaining) + '元');
-        if (safePlan.budgetPolicy && safePlan.budgetPolicy.overheatReduced) details.push('市场温度偏热，战术单日上限降为' + formatMetric(safePlan.budgetPolicy.dailyLimit) + '元');
+        if (safePlan.budgetPolicy && safePlan.budgetPolicy.overheatReduced) details.push('市场温度偏热，基础定投单日上限降为' + formatMetric(safePlan.budgetPolicy.dailyLimit) + '元');
         if (safePlan.budgetPolicy && safePlan.budgetPolicy.signalConfirmation) details.push('新闻/外部确认：' + safePlan.budgetPolicy.signalConfirmation.reason);
         if (safePlan.riskAnchorValue) {
           var adjustedAnchor = Number(safePlan.adjustedRiskAnchorValue || safePlan.riskAnchorValue);
@@ -3747,9 +3769,9 @@
           : '当前条件未通过买入门槛';
       } else if (signal === 'CAUTION') {
         color = '#f97316'; bgColor = 'rgba(249,115,22,0.12)';
-        emoji = '🟡'; title = todayPicks.action === 'TACTICAL_PAUSE' ? '仅核心小额定投' : '谨慎操作';
+        emoji = '🟡'; title = todayPicks.action === 'TACTICAL_PAUSE' ? '标普500基准定投' : '谨慎操作';
         subtitle = todayPicks.action === 'TACTICAL_PAUSE'
-          ? 'TOP择时继续暂停，只向真实持仓中的低配核心桶投入' + Number(todayPicks.budget || 0) + '元'
+          ? '主动策略尚未证明跑赢标普；仅向真实持仓中的低费率标普500通道投入' + Number(todayPicks.budget || 0) + '元'
           : '建议减半投入，控制风险';
       } else {
         card.style.display = 'none';
@@ -3759,12 +3781,12 @@
       content.innerHTML = '<div style="padding:14px 16px;background:' + bgColor + ';border-radius:12px;border:1px solid ' + color + '30">'
         + '<div style="display:flex;align-items:center;gap:10px">'
         + '<span style="font-size:28px">' + emoji + '</span>'
-        + '<div style="flex:1">'
+        + '<div style="flex:1;min-width:0;overflow-wrap:anywhere">'
         + '<div style="font-size:16px;font-weight:700;color:' + color + '">' + title + '</div>'
         + '<div style="font-size:12px;color:var(--text2);margin-top:2px">' + subtitle + '</div>'
         + (reason ? '<div style="font-size:11px;color:var(--text3);margin-top:4px">' + reason + '</div>' : '')
         + '</div>'
-        + '<div style="text-align:right">'
+        + '<div style="text-align:right;flex:0 0 auto">'
         + '<div style="font-size:11px;color:var(--text3)">Top均分</div>'
         + '<div style="font-size:18px;font-weight:700;color:' + color + '">' + (avgScore !== null ? avgScore.toFixed(1) : '-') + '</div>'
         + '</div>'
@@ -5101,7 +5123,7 @@
         lines.push((index + 1) + '. ' + (route.name || route.code) + '(' + route.code + ')：' + Number(route.amount || 0) + '元，目标桶 ' + route.bucket + '。');
       });
       if (safePlan.action === 'TACTICAL_PAUSE') {
-        lines.push('TOP择时与成长科技新增仍暂停；这里只执行低配核心桶的小额定投，新闻和市场温度不能增加金额。');
+        lines.push('当前主动策略尚未证明跑赢标普500；这里只执行现有低费率标普500通道的基准定投，不属于择时推荐，其他指数、主题与主动基金不再自动加仓。');
       }
       lines.push('QDII通常按有效申请日净值成交，T+2主要是确认时间；以上仅为计划记录，不会自动下单。');
       return lines.join('\n');

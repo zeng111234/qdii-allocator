@@ -25,6 +25,17 @@ function next() {
         return f.code === code;
       });
       if (fund && info) {
+        if (fd.hasMaterialFundIdentityMismatch(fund, info)) {
+          console.error(code + ": catalog identity mismatch: " + fund.name + " != " + (info.name || "unknown"));
+          fund.status = "metadata_mismatch";
+          fund.metadataVerified = false;
+          fund.officialName = info.name || null;
+          fund.metadataMismatchDetectedAt = new Date().toISOString();
+          updated++;
+          done++;
+          next();
+          return;
+        }
         if (info.limit !== undefined && info.limit !== fund.dailyLimit) {
           console.log(code + ": " + fund.dailyLimit + " -> " + info.limit);
           fund.dailyLimit = info.limit;

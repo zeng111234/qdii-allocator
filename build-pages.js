@@ -450,18 +450,18 @@ async function build() {
     const recommendationHistory = recommendationEngine.partitionRecommendationHistory(history);
     const liveEnabled = env.RECOMMENDATION_LIVE_ENABLED === "true";
     let acceptanceMetrics = null;
-    if (liveEnabled) {
-      try {
-        const walkForward = require("./lib/walk-forward");
-        acceptanceMetrics = walkForward.buildLiveAcceptanceMetrics({
-          navCache: navCache,
-          funds: funds.funds,
-          config: funds.config || {},
-          shadowHistory: recommendationHistory.shadowHistory
-        });
-      } catch (error) {
-        console.log("[构建] 验收回测失败，保持 PAUSE: " + error.message);
-      }
+    try {
+      const walkForward = require("./lib/walk-forward");
+      const alphaResearch = require("./data/alpha-research.json");
+      acceptanceMetrics = walkForward.buildLiveAcceptanceMetrics({
+        navCache: navCache,
+        funds: funds.funds,
+        config: funds.config || {},
+        shadowHistory: recommendationHistory.shadowHistory,
+        monthlyDcaEvidence: walkForward.monthlyDcaEvidenceFromReport(alphaResearch)
+      });
+    } catch (error) {
+      console.log("[构建] 验收回测失败，保持 PAUSE: " + error.message);
     }
     recommendationPlan = recommendationEngine.buildRecommendationPlan({
       funds: funds.funds,

@@ -15,8 +15,9 @@
     "buyFeeRate": 0.008,
     "sellFeeRate": 0.005,
     "executionLagDays": 2,
+    "baselineBacktestCode": "161125",
     "qdiiLagIncluded": true,
-    "optimizationTrials": 2
+    "optimizationTrials": 4
   },
   "funds": [
     {
@@ -63,17 +64,18 @@
     },
     {
       "code": "000988",
-      "name": "华安标普全球石油QDII-A",
-      "type": "石油能源",
+      "name": "嘉实全球互联网股票人民币",
+      "type": "全球互联网",
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.25,
       "dailyLimit": 100,
       "minPurchase": 10,
-      "status": "active",
-      "note": "全球石油能源",
+      "status": "tracking_only",
+      "note": "代码身份已纠正；费用未复核前仅跟踪，不参与自动推荐",
       "settleDays": 2,
-      "indexGroup": "OIL"
+      "riskBucket": "GROWTH_TECH",
+      "indexGroup": "GLOBAL_TECH"
     },
     {
       "code": "001092",
@@ -119,17 +121,20 @@
     },
     {
       "code": "015558",
-      "name": "大成标普500ETF联接A(QDII)",
-      "type": "标普500",
-      "shareClass": "A",
-      "feeRate": 0.8,
-      "custodyFee": 0.15,
+      "name": "万家中证红利ETF联接C",
+      "type": "中证红利",
+      "shareClass": "C",
+      "feeRate": 0,
+      "custodyFee": 0.1,
+      "salesServiceFee": 0.1,
       "dailyLimit": 100000000000,
-      "status": "active",
-      "settleDays": 2,
+      "status": "tracking_only",
+      "settleDays": 1,
       "minPurchase": 10,
-      "note": "标普500 ETF联接",
-      "indexGroup": "SPX500"
+      "note": "非QDII；仅跟踪既有持仓，不参与QDII推荐",
+      "marketScope": "CN",
+      "riskBucket": "NON_US",
+      "indexGroup": "CN_DIVIDEND"
     },
     {
       "code": "016664",
@@ -161,17 +166,19 @@
     },
     {
       "code": "019067",
-      "name": "万家纳斯达克100指数(QDII)A",
-      "type": "纳指100",
-      "shareClass": "A",
-      "feeRate": 1,
-      "custodyFee": 0.2,
+      "name": "博时安盈债券E",
+      "type": "中短债",
+      "shareClass": "E",
+      "feeRate": 0,
+      "custodyFee": 0.1,
       "dailyLimit": 100000000000,
-      "status": "active",
-      "settleDays": 2,
+      "status": "tracking_only",
+      "settleDays": 1,
       "minPurchase": 10,
-      "note": "纳指100万家产品",
-      "indexGroup": "NDX100"
+      "note": "非QDII；仅跟踪既有持仓，不参与QDII推荐",
+      "marketScope": "CN",
+      "riskBucket": "DEFENSIVE",
+      "indexGroup": "CN_SHORT_BOND"
     },
     {
       "code": "019524",
@@ -231,17 +238,17 @@
     },
     {
       "code": "096001",
-      "name": "大成标普500A(QDII)",
-      "type": "标普500",
+      "name": "大成标普500等权重指数(QDII)A人民币",
+      "type": "标普500等权重",
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.15,
       "dailyLimit": 10,
       "minPurchase": 10,
       "status": "active",
-      "note": "标普500低费率",
+      "note": "标普500等权重指数，不等同于市值加权标普500基准",
       "settleDays": 2,
-      "indexGroup": "SPX500"
+      "indexGroup": "SPX500_EQUAL_WEIGHT"
     },
     {
       "code": "160213",
@@ -287,17 +294,17 @@
     },
     {
       "code": "163208",
-      "name": "诺安全球收益不动产QDII",
-      "type": "全球不动产",
+      "name": "诺安油气能源",
+      "type": "石油能源",
       "shareClass": "A",
       "feeRate": 1.4,
       "custodyFee": 0.3,
       "dailyLimit": 0,
       "minPurchase": 10,
       "status": "suspended",
-      "note": "全球不动产基金",
+      "note": "油气能源QDII；代码身份已纠正",
       "settleDays": 2,
-      "indexGroup": "GLOBAL_REIT"
+      "indexGroup": "OIL"
     },
     {
       "code": "270023",

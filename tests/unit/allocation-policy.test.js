@@ -16,6 +16,27 @@ test("AllocationPolicyV1 has fixed targets and deterministic budget limits", fun
   assert.equal(policy.maxDailyBudget, 50);
   assert.equal(policy.maxWeeklyBudget, 250);
   assert.equal(policy.allowAutomaticSell, false);
+  assert.equal(allocation.isCoreIndexGroup("SPX500"), true);
+  assert.equal(allocation.bucketForIndexGroup("SPX500_EQUAL_WEIGHT"), "US_BROAD");
+  assert.equal(allocation.isCoreIndexGroup("SPX500_EQUAL_WEIGHT"), false);
+  assert.equal(allocation.isCoreIndexGroup("GLOBAL_MFG"), false);
+});
+
+test("execution routes exclude satellite themes even when they are cheaper", function () {
+  const result = allocation.buildExecutionRoutes({
+    policy: allocation.createAllocationPolicy(),
+    funds: [
+      { code: "THEME", indexGroup: "GLOBAL_MFG", status: "active", dailyLimit: 50, minPurchase: 10, feeRate: 0.1 },
+      { code: "CORE", indexGroup: "SPX500", status: "active", dailyLimit: 50, minPurchase: 10, feeRate: 0.6 }
+    ],
+    holdings: [{ code: "THEME", totalAmount: 10 }, { code: "CORE", totalAmount: 10 }],
+    bucketExposure: { US_BROAD: 0.1, GROWTH_TECH: 0.1, NON_US: 0.3, DEFENSIVE: 0.1, CASH: 0.4 },
+    targetGap: { US_BROAD: 0.2, GROWTH_TECH: 0.3, NON_US: -0.05, DEFENSIVE: 0, CASH: -0.45 },
+    dailyBudget: 50,
+    freshnessByCode: { THEME: 0, CORE: 0 },
+    trackingStabilityByCode: { THEME: 0.01, CORE: 0.02 }
+  });
+  assert.deepEqual(result.map(function (route) { return route.code; }), ["CORE"]);
 });
 
 test("same-index wrappers are one exposure and route across purchase limits", function () {

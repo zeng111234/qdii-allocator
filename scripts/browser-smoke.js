@@ -204,6 +204,22 @@ async function runRiskAnchorProbe(page) {
   return { applicable: true, before: before, after: after, afterReload: afterReload };
 }
 
+async function runCloudWriteReadinessProbe(page) {
+  const result = await page.evaluate(function () {
+    cloudWriteReady = true;
+    renderCloudState({ status: "READY", source: "browser-smoke-ready", revision: 1 });
+    const ready = ["cloud-migrate-btn", "cloud-refresh-btn", "portfolio-import-btn", "buy-submit-btn", "batch-submit-btn"]
+      .every(function (id) { return document.getElementById(id).disabled === false; });
+    cloudWriteReady = false;
+    renderCloudState({ status: "PUBLIC_SNAPSHOT", source: "公开账本快照", canSignIn: false });
+    const restored = ["cloud-migrate-btn", "cloud-refresh-btn", "portfolio-import-btn", "buy-submit-btn", "batch-submit-btn"]
+      .every(function (id) { return document.getElementById(id).disabled === true; });
+    return { readyControlsEnabled: ready, publicSnapshotRestored: restored };
+  });
+  assert.deepStrictEqual(result, { readyControlsEnabled: true, publicSnapshotRestored: true });
+  return result;
+}
+
 async function main() {
   const executablePath = findBrowserExecutable();
   if (!executablePath) throw new Error("未找到本机 Edge 或 Chrome，无法执行真实浏览器验收");
@@ -275,6 +291,46 @@ async function main() {
     assert.equal(await tabs.nth(1).getAttribute("aria-selected"), "true");
 
     const xss = await runXssProbes(page);
+    const catalogIntegrity = await page.evaluate(function () {
+      const byCode = Object.fromEntries(fundsData.funds.map(function (fund) { return [fund.code, fund]; }));
+      return {
+        domesticDividend: {
+          name: byCode["015558"].name,
+          indexGroup: byCode["015558"].indexGroup,
+          status: byCode["015558"].status
+        },
+        sp500EqualWeight: {
+          name: byCode["096001"].name,
+          indexGroup: byCode["096001"].indexGroup
+        },
+        domesticBond: {
+          name: byCode["019067"].name,
+          indexGroup: byCode["019067"].indexGroup,
+          status: byCode["019067"].status
+        },
+        oilFund: {
+          name: byCode["163208"].name,
+          indexGroup: byCode["163208"].indexGroup
+        },
+        blockedRecommendationCodes: (todayPicks.ranked || []).filter(function (fund) {
+          return ["015558", "019067", "096001"].includes(fund.code);
+        }).map(function (fund) { return fund.code; })
+      };
+    });
+    assert.match(catalogIntegrity.domesticDividend.name, /万家中证红利/);
+    assert.deepStrictEqual(catalogIntegrity.domesticDividend, {
+      name: catalogIntegrity.domesticDividend.name,
+      indexGroup: "CN_DIVIDEND",
+      status: "tracking_only"
+    });
+    assert.match(catalogIntegrity.sp500EqualWeight.name, /标普500等权重/);
+    assert.equal(catalogIntegrity.sp500EqualWeight.indexGroup, "SPX500_EQUAL_WEIGHT");
+    assert.match(catalogIntegrity.domesticBond.name, /博时安盈债券E/);
+    assert.equal(catalogIntegrity.domesticBond.indexGroup, "CN_SHORT_BOND");
+    assert.equal(catalogIntegrity.domesticBond.status, "tracking_only");
+    assert.match(catalogIntegrity.oilFund.name, /诺安油气能源/);
+    assert.equal(catalogIntegrity.oilFund.indexGroup, "OIL");
+    assert.deepStrictEqual(catalogIntegrity.blockedRecommendationCodes, []);
     const pageState = await page.evaluate(function () {
       const publicSnapshot = window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true;
       return {
@@ -302,6 +358,7 @@ async function main() {
     }
 
     const riskAnchor = await runRiskAnchorProbe(page);
+    const cloudWriteReadiness = await runCloudWriteReadinessProbe(page);
 
     await page.setViewportSize({ width: 390, height: 844 });
     await page.waitForTimeout(150);
@@ -309,12 +366,25 @@ async function main() {
       return {
         viewportWidth: document.documentElement.clientWidth,
         scrollWidth: document.documentElement.scrollWidth,
+        overflowElements: Array.from(document.querySelectorAll("body *")).map(function (element) {
+          const box = element.getBoundingClientRect();
+          return {
+            tag: element.tagName, id: element.id, className: String(element.className || ""),
+            parentId: element.parentElement && element.parentElement.id,
+            parentClass: String(element.parentElement && element.parentElement.className || ""),
+            text: String(element.textContent || "").trim().slice(0, 40),
+            left: box.left, right: box.right, width: box.width
+          };
+        }).filter(function (element) {
+          return element.right > document.documentElement.clientWidth + 1 || element.left < -1;
+        }).slice(0, 20),
         minimumTabHeight: Math.min.apply(null, Array.from(document.querySelectorAll(".tab")).map(function (tab) {
           return tab.getBoundingClientRect().height;
         }))
       };
     });
-    assert.ok(mobileLayout.scrollWidth <= mobileLayout.viewportWidth, "390px 视口不应出现横向溢出");
+    assert.ok(mobileLayout.scrollWidth <= mobileLayout.viewportWidth,
+      "390px 视口不应出现横向溢出: " + JSON.stringify(mobileLayout.overflowElements));
     assert.ok(mobileLayout.minimumTabHeight >= 44, "页签触控高度应至少为 44px");
 
     await page.locator("#tab-control-portfolio").click();
@@ -326,7 +396,7 @@ async function main() {
       mobileScreenshot = screenshotPath;
     }
 
-    assert.deepStrictEqual(consoleErrors, [], "浏览器控制台不应出现错误");
+    assert.deepStrictEqual(consoleErrors, [], "浏览器控制台不应出现错误；失败请求=" + JSON.stringify(failedRequests));
     assert.deepStrictEqual(failedRequests, [], "浏览器不应出现失败请求");
     console.log(JSON.stringify({
       status: "ok",
@@ -338,7 +408,9 @@ async function main() {
       accessGate: accessGate,
       mobileLayout: mobileLayout,
       pageState: pageState,
+      catalogIntegrity: catalogIntegrity,
       riskAnchor: riskAnchor,
+      cloudWriteReadiness: cloudWriteReadiness,
       xss: xss,
       consoleErrors: 0,
       failedRequests: 0,
