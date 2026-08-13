@@ -14116,7 +14116,7 @@
           "suitabilityScore": 74.58,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.39,
           "followUp10dReturn": null
         },
         {
@@ -14127,7 +14127,7 @@
           "suitabilityScore": 65.17,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.23,
           "followUp10dReturn": null
         }
       ]
@@ -14287,6 +14287,106 @@
           "name": "广发纳斯达克生物科技A(QDII)",
           "score": 69,
           "suitabilityScore": 69,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
+    },
+    {
+      "date": "2026-08-13",
+      "strategy": "RecommendationPlan",
+      "strategyVersion": "allocation-v2.4-monthly-alpha-gate",
+      "allocationWeek": "2026-08-10",
+      "action": "PAUSE",
+      "budget": 0,
+      "pauseReasons": [
+        "ACCEPTANCE_GATE",
+        "SIGNAL_WARMING_UP"
+      ],
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-08-12",
+        "maxTradingDayLag": 2,
+        "observationCount": 24
+      },
+      "signalHealth": {
+        "status": "WARMING_UP",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "evidenceSource": "SHADOW",
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "liveAcceptance": {
+        "passed": false,
+        "failures": [
+          "WIN_RATE_BELOW_55",
+          "PROFIT_WIN_RATE_NOT_ABOVE_BASELINE",
+          "OUTPERFORMANCE_WIN_RATE_BELOW_55",
+          "AVERAGE_EXCESS_NOT_POSITIVE",
+          "MEDIAN_EXCESS_NOT_POSITIVE",
+          "INSUFFICIENT_SHADOW_WEEKS",
+          "INSUFFICIENT_MONTHLY_DCA_WINDOWS",
+          "MONTHLY_DCA_OUTPERFORMANCE_BELOW_55",
+          "MONTHLY_DCA_AVERAGE_EXCESS_NOT_POSITIVE",
+          "MONTHLY_DCA_TOTAL_EXCESS_NOT_POSITIVE",
+          "MONTHLY_DCA_HOLDOUT_FAILED"
+        ],
+        "metrics": {
+          "rollingWindows": 16,
+          "nonOverlappingWindows": 16,
+          "winRate": 50,
+          "benchmarkWinRate": 62.5,
+          "outperformanceWinRate": 25,
+          "averageExcessReturn": -4.25,
+          "avgWin": 9.09,
+          "avgLoss": -5.5,
+          "profitFactor": 1.65,
+          "baselineCode": "161125",
+          "holdingDays": 126,
+          "medianExcess12Week": -6.53,
+          "drawdownGapPercentagePoints": -0.27,
+          "shadowWeeks": 0,
+          "hardRiskViolations": 0,
+          "feesIncluded": true,
+          "qdiiLagIncluded": true,
+          "optimizationTrialsReported": true,
+          "monthlyDcaWindows": 0,
+          "monthlyDcaOutperformanceRate": 0,
+          "monthlyDcaAverageExcessProfit": 0,
+          "monthlyDcaTotalExcessProfit": 0,
+          "monthlyDcaSameCashFlow": true,
+          "monthlyDcaHoldoutPassed": false
+        }
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 73.75,
+          "suitabilityScore": 73.75,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "000614",
+          "name": "华安德国DAX30A(QDII)",
+          "score": 60.5,
+          "suitabilityScore": 60.5,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,

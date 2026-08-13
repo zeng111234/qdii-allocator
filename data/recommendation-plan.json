@@ -4,7 +4,7 @@
   "allocationWeek": "2026-08-10",
   "syncRevision": 0,
   "riskAnchorValue": null,
-  "asOf": "2026-08-12",
+  "asOf": "2026-08-13",
   "action": "PAUSE",
   "pauseReasons": [
     "ACCEPTANCE_GATE",
@@ -12,7 +12,7 @@
   ],
   "dataFreshness": {
     "status": "FRESH",
-    "latestNavDate": "2026-08-11",
+    "latestNavDate": "2026-08-12",
     "maxTradingDayLag": 2,
     "observationCount": 24
   },
@@ -22,11 +22,11 @@
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 74.75,
-      "suitabilityScore": 74.75,
+      "marketScore": 74,
+      "suitabilityScore": 74,
       "proposedAmount": 0,
       "reasons": [
-        "市场评分 74.75",
+        "市场评分 74",
         "影子候选，不执行真实买入"
       ],
       "blockedBy": []
@@ -88,16 +88,16 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.08437440212001471,
-    "GROWTH_TECH": 0.6567613782190018,
-    "NON_US": 0.21608880917123208,
-    "DEFENSIVE": 0.042775410489751385,
+    "US_BROAD": 0.0896098811728533,
+    "GROWTH_TECH": 0.6524359593034497,
+    "NON_US": 0.215486341475868,
+    "DEFENSIVE": 0.04246781804782896,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
-    "US_BROAD": 0.22,
-    "GROWTH_TECH": -0.41,
+    "US_BROAD": 0.21,
+    "GROWTH_TECH": -0.4,
     "NON_US": 0.03,
     "DEFENSIVE": 0.06,
     "CASH": 0.1
@@ -134,7 +134,7 @@
       "holdingDays": 126,
       "medianExcess12Week": -6.53,
       "drawdownGapPercentagePoints": -0.27,
-      "shadowWeeks": 0,
+      "shadowWeeks": 1,
       "hardRiskViolations": 0,
       "feesIncluded": true,
       "qdiiLagIncluded": true,
@@ -153,7 +153,7 @@
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 74.75,
+      "marketScore": 74,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -171,7 +171,7 @@
       "code": "000369",
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
-      "marketScore": 55.75,
+      "marketScore": 55.25,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -180,13 +180,13 @@
       "code": "040046",
       "name": "华安纳斯达克100A(QDII)",
       "indexGroup": "NDX100",
-      "marketScore": 52.25,
+      "marketScore": 52.5,
       "blockedBy": [],
       "channelCount": 5,
       "routingAlternatives": [
         "000834",
-        "019524",
         "270042",
+        "019524",
         "539001"
       ]
     },
@@ -194,7 +194,7 @@
       "code": "320013",
       "name": "诺安全球黄金(QDII-FOF)A",
       "indexGroup": "GOLD",
-      "marketScore": 49.25,
+      "marketScore": 48.25,
       "blockedBy": [
         "PORTFOLIO_FULL"
       ],
@@ -205,7 +205,7 @@
       "code": "007280",
       "name": "摩根日本精选股票(QDII)A",
       "indexGroup": "JAPAN",
-      "marketScore": 42,
+      "marketScore": 46,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -239,7 +239,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "012920",
@@ -248,7 +248,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "015204",
@@ -265,7 +265,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     },
     {
       "code": "016664",
@@ -273,7 +273,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "019067",
@@ -282,7 +282,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     },
     {
       "code": "040018",
@@ -290,7 +290,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "050015",
@@ -306,7 +306,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "160213",
@@ -314,7 +314,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "160216",
@@ -322,7 +322,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "161125",
@@ -339,7 +339,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "270023",
@@ -347,7 +347,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "539002",
@@ -355,7 +355,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "008763",
@@ -363,7 +363,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "017730",
@@ -379,7 +379,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "100055",
@@ -387,7 +387,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "005698",
@@ -395,7 +395,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-10"
+      "latestNavDate": "2026-08-11"
     },
     {
       "code": "008253",
@@ -1375,24 +1375,15 @@
             "id": "tx_de1abe75ce999e881983fe1d",
             "date": "2026-08-11",
             "amount": 10,
-            "nav": 0,
-            "shares": 0,
+            "nav": 2.8716,
+            "shares": 3.4824,
             "type": "BUY"
           }
         ],
         "totalAmount": 100,
-        "totalShares": 33.019,
-        "pendingBuys": [
-          {
-            "id": "tx_de1abe75ce999e881983fe1d",
-            "date": "2026-08-11",
-            "amount": 10,
-            "nav": 0,
-            "shares": 0,
-            "type": "BUY"
-          }
-        ],
-        "pendingAmount": 10
+        "totalShares": 36.5014,
+        "pendingBuys": [],
+        "pendingAmount": 0
       },
       {
         "code": "015558",
@@ -1734,28 +1725,13 @@
         "pendingAmount": 0
       }
     ],
-    "pendingHoldings": [
-      {
-        "code": "096001",
-        "totalAmount": 10,
-        "buys": [
-          {
-            "id": "tx_de1abe75ce999e881983fe1d",
-            "date": "2026-08-11",
-            "amount": 10,
-            "nav": 0,
-            "shares": 0,
-            "type": "BUY"
-          }
-        ]
-      }
-    ],
-    "pendingInvested": 10,
-    "confirmedInvested": 1877,
+    "pendingHoldings": [],
+    "pendingInvested": 0,
+    "confirmedInvested": 1887,
     "totalInvested": 1887,
     "transactionCount": 121,
-    "revision": 4,
-    "checksum": "152a7ebff595e0247a4b57a67a77c52edcbed07df64f592bd4dad05e7246dded"
+    "revision": 5,
+    "checksum": "bc92742476df7306091971b0c385a6e7b91d75822d8faf74d7569aa82cfdd906"
   },
-  "publicPortfolioSnapshotUpdatedAt": "2026-08-12T11:51:45.092Z"
+  "publicPortfolioSnapshotUpdatedAt": "2026-08-13T03:33:13.979Z"
 }
