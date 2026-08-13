@@ -88,17 +88,17 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.0896098811728533,
-    "GROWTH_TECH": 0.6524359593034497,
-    "NON_US": 0.215486341475868,
-    "DEFENSIVE": 0.04246781804782896,
+    "US_BROAD": 0.08916934159980419,
+    "GROWTH_TECH": 0.6535851922489191,
+    "NON_US": 0.2149864281418347,
+    "DEFENSIVE": 0.042259038009442015,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
     "US_BROAD": 0.21,
     "GROWTH_TECH": -0.4,
-    "NON_US": 0.03,
+    "NON_US": 0.04,
     "DEFENSIVE": 0.06,
     "CASH": 0.1
   },
@@ -231,7 +231,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     },
     {
       "code": "001092",
@@ -248,7 +248,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     },
     {
       "code": "015204",
@@ -256,7 +256,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     },
     {
       "code": "015558",
@@ -298,7 +298,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     },
     {
       "code": "096001",
@@ -330,7 +330,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     },
     {
       "code": "163208",
@@ -371,7 +371,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     },
     {
       "code": "006373",
@@ -403,7 +403,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     },
     {
       "code": "501226",
@@ -411,7 +411,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     },
     {
       "code": "000041",
@@ -419,7 +419,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-11"
+      "latestNavDate": "2026-08-12"
     }
   ],
   "publicPortfolioSnapshot": {
@@ -1733,5 +1733,5 @@
     "revision": 5,
     "checksum": "bc92742476df7306091971b0c385a6e7b91d75822d8faf74d7569aa82cfdd906"
   },
-  "publicPortfolioSnapshotUpdatedAt": "2026-08-13T03:33:13.979Z"
+  "publicPortfolioSnapshotUpdatedAt": "2026-08-13T10:05:43.497Z"
 }
