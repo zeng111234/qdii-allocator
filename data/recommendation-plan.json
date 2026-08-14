@@ -88,10 +88,10 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.08852793668650966,
-    "GROWTH_TECH": 0.6537731719417448,
-    "NON_US": 0.21582611336624266,
-    "DEFENSIVE": 0.04187277800550296,
+    "US_BROAD": 0.08843460618859147,
+    "GROWTH_TECH": 0.6539030683484067,
+    "NON_US": 0.21583369179618708,
+    "DEFENSIVE": 0.041828633666814594,
     "CASH": 0,
     "UNKNOWN": 0
   },
@@ -231,7 +231,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-12"
+      "latestNavDate": "2026-08-13"
     },
     {
       "code": "001092",
@@ -248,7 +248,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-12"
+      "latestNavDate": "2026-08-13"
     },
     {
       "code": "015204",
@@ -256,7 +256,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-12"
+      "latestNavDate": "2026-08-13"
     },
     {
       "code": "015558",
@@ -298,7 +298,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-12"
+      "latestNavDate": "2026-08-13"
     },
     {
       "code": "096001",
@@ -330,7 +330,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-08-12"
+      "latestNavDate": "2026-08-13"
     },
     {
       "code": "163208",
@@ -371,7 +371,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-12"
+      "latestNavDate": "2026-08-13"
     },
     {
       "code": "006373",
@@ -403,7 +403,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-12"
+      "latestNavDate": "2026-08-13"
     },
     {
       "code": "501226",
@@ -411,7 +411,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-12"
+      "latestNavDate": "2026-08-13"
     },
     {
       "code": "000041",
@@ -419,7 +419,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-08-12"
+      "latestNavDate": "2026-08-13"
     }
   ],
   "publicPortfolioSnapshot": {
@@ -1733,5 +1733,5 @@
     "revision": 5,
     "checksum": "bc92742476df7306091971b0c385a6e7b91d75822d8faf74d7569aa82cfdd906"
   },
-  "publicPortfolioSnapshotUpdatedAt": "2026-08-14T03:30:47.522Z"
+  "publicPortfolioSnapshotUpdatedAt": "2026-08-14T10:02:44.092Z"
 }
