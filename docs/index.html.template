@@ -368,6 +368,7 @@
       display: block; width: 100%; padding: 11px; border: none;
       border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer;
     }
+    #buy-submit-btn, #batch-submit-btn { min-height: 44px; }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-light); }
     button:disabled, .btn:disabled { opacity: 0.5; cursor: not-allowed; }
@@ -725,6 +726,7 @@
         </div>
         <div class="form-group"><label>买入日期</label><input type="date" id="buyDate"></div>
         <button id="buy-submit-btn" class="btn btn-primary" onclick="addBuy()" disabled aria-disabled="true">确认买入</button>
+        <div id="buy-write-hint" style="margin-top:8px;font-size:11px;line-height:1.6;color:var(--text3)">0315 仅用于进入网站；确认买入只会记录到个人云端账本，不会替你向基金平台下单，且必须先完成 Google 登录和云端账本校验。</div>
         <div id="buyResult" style="margin-top:10px;font-size:12px"></div>
       </div>
 
@@ -733,7 +735,7 @@
           <label style="font-size:12px;color:var(--text2);font-weight:500">买入日期</label>
           <div style="display:flex;gap:6px;align-items:center;margin-top:5px">
             <input type="date" id="batchDate" style="flex:1;padding:8px;border:1.5px solid var(--border);border-radius:8px;font-size:13px">
-            <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:8px;width:auto" onclick="document.getElementById('batchDate').value=new Date().toISOString().slice(0,10)">今天</button>
+            <button class="btn" style="background:var(--state-blue-bg);color:var(--primary);border:1px solid var(--state-blue-border);font-size:11px;padding:8px;width:auto" onclick="document.getElementById('batchDate').value=shanghaiDateString()">今天</button>
           </div>
         </div>
         <div id="batchList"></div>
@@ -748,6 +750,14 @@
       </div>
 
       <div id="tab-risk" class="tab-content" role="tabpanel" aria-labelledby="tab-control-risk">
+        <div style="padding:12px 14px;margin-bottom:12px;border:1px solid var(--state-blue-border);background:var(--state-blue-bg);border-radius:10px">
+          <label for="risk-profile-select" style="display:block;font-size:12px;font-weight:700;margin-bottom:6px">个人风险档位</label>
+          <select id="risk-profile-select" onchange="firebaseSetRiskProfile(this.value)" style="width:100%;padding:9px;border:1px solid var(--border);border-radius:8px;background:var(--card-bg);color:var(--text)">
+            <option value="AGGRESSIVE">进取型（标普50% / 纳指35% / 非美5% / 防御10%）</option>
+            <option value="BALANCED">均衡型（标普30% / 成长25% / 非美25% / 防御10% / 现金10%）</option>
+          </select>
+          <div id="risk-profile-help" style="font-size:11px;color:var(--text2);line-height:1.6;margin-top:6px">进取型提高权益与纳指暴露，只补低配；它承担更高市场风险，不代表择时模型已证明超额。</div>
+        </div>
         <div id="risk-content">
           <div style="text-align:center;padding:20px;color:var(--text3)">正在计算风险指标...</div>
         </div>
@@ -944,6 +954,8 @@
   <script>
     window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT = QDII_PUBLIC_PORTFOLIO_SNAPSHOT_PLACEHOLDER;
     window.QDII_PUBLIC_PORTFOLIO_LEDGER = PUBLIC_PORTFOLIO_LEDGER_PLACEHOLDER;
+    window.QDII_PUBLIC_DECISION_STATE = PUBLIC_DECISION_STATE_PLACEHOLDER;
+    window.QDII_PUBLIC_PLAN_CANONICAL = PUBLIC_PLAN_CANONICAL_PLACEHOLDER;
     window.QDII_FIREBASE_CONFIG = {
       apiKey: 'FIREBASE_WEB_API_KEY_PLACEHOLDER',
       authDomain: 'FIREBASE_AUTH_DOMAIN_PLACEHOLDER',
@@ -1050,7 +1062,7 @@
       if (tab === 'debate') renderDebate();
       if (tab === 'shadow') renderShadow();
       if (tab === 'batch' && !document.getElementById('batchDate').value) {
-        document.getElementById('batchDate').value = new Date().toISOString().slice(0, 10);
+        document.getElementById('batchDate').value = shanghaiDateString();
         if (!document.getElementById('batchList').children.length) addBatchRow();
       }
     }
@@ -1067,9 +1079,160 @@
       tabs[next].focus();
     });
 
+    function shanghaiDateString(value) {
+      var date = value === undefined ? new Date() : new Date(value);
+      if (!Number.isFinite(date.getTime())) return '';
+      var parts = new Intl.DateTimeFormat('en-CA', {
+        timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit', day: '2-digit'
+      }).formatToParts(date);
+      var byType = {};
+      parts.forEach(function(part) { byType[part.type] = part.value; });
+      return byType.year + '-' + byType.month + '-' + byType.day;
+    }
+
+    function isStrictIsoDate(value) {
+      var date = String(value || '');
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return false;
+      var parsed = new Date(date + 'T00:00:00Z');
+      return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date;
+    }
+
+    function isStrictUtcTimestamp(value) {
+      if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value)) return false;
+      var parsed = new Date(value);
+      return !Number.isNaN(parsed.getTime()) && parsed.toISOString() === value;
+    }
+
+    function valuationTradingDayLag(latestDate, asOf) {
+      if (!isStrictIsoDate(latestDate) || !isStrictIsoDate(asOf) || latestDate > asOf) return Infinity;
+      var cursor = new Date(latestDate + 'T00:00:00Z');
+      var end = new Date(asOf + 'T00:00:00Z');
+      var lag = 0;
+      while (cursor < end) {
+        cursor.setUTCDate(cursor.getUTCDate() + 1);
+        var date = cursor.toISOString().slice(0, 10);
+        var day = cursor.getUTCDay();
+        var holidays = typeof tradingHolidays !== 'undefined' && Array.isArray(tradingHolidays) ? tradingHolidays : [];
+        if (day !== 0 && day !== 6 && holidays.indexOf(date) < 0) lag++;
+      }
+      return lag;
+    }
+
+    function assessValuationNav(navInput, cutoffDate, options) {
+      var settings = options || {};
+      var asOf = isStrictIsoDate(settings.asOf)
+        ? settings.asOf
+        : (isStrictIsoDate(cutoffDate) ? cutoffDate : shanghaiDateString());
+      var configuredLag = Number(settings.maxFreshnessLag);
+      if (!Number.isFinite(configuredLag) || configuredLag < 0) {
+        var planLag = typeof todayPicks !== 'undefined' && todayPicks && todayPicks.allocationPolicy
+          ? Number(todayPicks.allocationPolicy.maxFreshnessLag)
+          : NaN;
+        configuredLag = Number.isFinite(planLag) && planLag >= 0 ? planLag : 2;
+      }
+      if (navInput === null || navInput === undefined) {
+        return { usable: false, reason: 'NAV_MISSING', nav: null, date: null, tradingDayLag: null };
+      }
+      var rawNav = navInput && typeof navInput === 'object' ? navInput.nav : navInput;
+      var navDate = navInput && typeof navInput === 'object' ? navInput.date : cutoffDate;
+      if (typeof rawNav !== 'number' || !Number.isFinite(rawNav) || rawNav <= 0 || !isStrictIsoDate(navDate)) {
+        return { usable: false, reason: 'NAV_INVALID', nav: null, date: isStrictIsoDate(navDate) ? navDate : null, tradingDayLag: null };
+      }
+      if (navDate > asOf) {
+        return { usable: false, reason: 'NAV_FUTURE', nav: rawNav, date: navDate, tradingDayLag: null };
+      }
+      var lag = valuationTradingDayLag(navDate, asOf);
+      if (!Number.isFinite(lag)) {
+        return { usable: false, reason: 'NAV_INVALID', nav: rawNav, date: navDate, tradingDayLag: null };
+      }
+      if (lag > configuredLag) {
+        return { usable: false, reason: 'NAV_STALE', nav: rawNav, date: navDate, tradingDayLag: lag };
+      }
+      return { usable: true, reason: null, nav: rawNav, date: navDate, tradingDayLag: lag };
+    }
+
+    function formatValuationIssue(reason) {
+      var labels = {
+        NAV_MISSING: '缺少净值', NAV_INVALID: '净值无效',
+        NAV_STALE: '净值陈旧', NAV_FUTURE: '净值日期在未来'
+      };
+      return (labels[reason] || '估值不可用') + '(' + (reason || 'NAV_MISSING') + ')';
+    }
+
+    function calcConfirmedHoldingValuation(holding, nav, cutoffDate, options) {
+      var invested = 0, shares = 0, pending = 0, confirmedRecords = 0;
+      ((holding && holding.buys) || []).forEach(function(buy) {
+        if (cutoffDate && buy.date && buy.date > cutoffDate) return;
+        var amount = Number(buy.amount) || 0;
+        var confirmedShares = Number(buy.shares) || 0;
+        if (Math.abs(confirmedShares) > 1e-8) {
+          invested += amount;
+          shares += confirmedShares;
+          confirmedRecords++;
+        } else if (amount > 0) {
+          pending += amount;
+        }
+      });
+      var hasPosition = Math.abs(shares) > 1e-8;
+      var assessment = assessValuationNav(nav, cutoffDate, options);
+      var currentNav = assessment.nav;
+      var complete = !hasPosition || assessment.usable;
+      var value = complete ? shares * (hasPosition ? currentNav : 0) : null;
+      return {
+        code: String((holding && holding.code) || ''),
+        invested: invested,
+        shares: shares,
+        pending: pending,
+        confirmedRecords: confirmedRecords,
+        hasPosition: hasPosition,
+        complete: complete,
+        latestNav: currentNav,
+        latestDate: assessment.date,
+        navTradingDayLag: assessment.tradingDayLag,
+        valuationIssue: hasPosition ? assessment.reason : null,
+        value: value,
+        pnl: complete ? value - invested : null
+      };
+    }
+
+    function calcConfirmedPortfolioValuation(holdings, navResolver, cutoffDate, options) {
+      var details = (holdings || []).map(function(holding) {
+        var resolved = typeof navResolver === 'function' ? navResolver(holding) : null;
+        return calcConfirmedHoldingValuation(holding, resolved, cutoffDate, options);
+      });
+      var invested = details.reduce(function(sum, detail) { return sum + detail.invested; }, 0);
+      var pending = details.reduce(function(sum, detail) { return sum + detail.pending; }, 0);
+      var complete = details.every(function(detail) { return detail.complete; });
+      var knownValue = details.reduce(function(sum, detail) {
+        return sum + (detail.value === null ? 0 : detail.value);
+      }, 0);
+      var missingNavCodes = details.filter(function(detail) {
+        return !detail.complete;
+      }).map(function(detail) { return detail.code; });
+      var valuationIssues = details.filter(function(detail) {
+        return !detail.complete;
+      }).map(function(detail) {
+        return {
+          code: detail.code,
+          reason: detail.valuationIssue || 'NAV_MISSING',
+          latestDate: detail.latestDate,
+          tradingDayLag: detail.navTradingDayLag
+        };
+      });
+      return {
+        details: details,
+        invested: invested,
+        pending: pending,
+        knownValue: knownValue,
+        value: complete ? knownValue : null,
+        pnl: complete ? knownValue - invested : null,
+        complete: complete,
+        missingNavCodes: missingNavCodes,
+        valuationIssues: valuationIssues
+      };
+    }
+
     function calcSummary() {
-      var totalInv = 0, totalVal = 0, pendingInv = 0;
-      var totalValPrev = 0;
       var latestDate = '', prevDate = '';
       // 找大多数基金共有的最新净值日期（而不是所有基金中最晚的）
       var dateCount = {};
@@ -1101,47 +1264,26 @@
           }
         }
       });
-      // 计算市值和日盈亏
-      portfolioData.holdings.forEach(function(h) {
-        var latest = getLatestNav(h.code);
-        var navNow = latest ? latest.nav : 0;
-        var navPrev = 0;
-        // 只有净值日期 == 基准日期的基金才算日盈亏
-        if (latest && latest.date === baseDate && prevDate) {
-          var arr = getNavArray(h.code);
-          if (arr) {
-            for (var i = 0; i < arr.length; i++) {
-              if (arr[i].date === prevDate) { navPrev = arr[i].nav; break; }
-            }
-          }
-        }
-        h.buys.forEach(function(b) {
-          totalInv += b.amount;
-          if (b.shares && b.shares > 0 && navNow > 0) {
-            totalVal += b.shares * navNow;
-            totalValPrev += navPrev > 0 ? b.shares * navPrev : b.shares * navNow;
-          } else if (b.nav && b.nav > 0 && navNow > 0) {
-            totalVal += b.amount * (navNow / b.nav);
-            totalValPrev += navPrev > 0 ? b.amount * (navPrev / b.nav) : b.amount * (navNow / b.nav);
-          } else {
-            totalVal += b.amount;
-            totalValPrev += b.amount;
-            pendingInv += b.amount;
-          }
-        });
+      var valuation = calcConfirmedPortfolioValuation(portfolioData.holdings, function(holding) {
+        return getLatestNav(holding.code);
       });
-      var pnl = Math.round((totalVal - totalInv) * 100) / 100;
-      var todayPnl = Math.round((totalVal - totalValPrev) * 100) / 100;
+      var previousValuation = calcConfirmedPortfolioValuation(portfolioData.holdings, function(holding) {
+        return getPrevNav(holding.code);
+      }, prevDate || null);
       var pendingHoldings = Array.isArray(portfolioData.pendingHoldings) ? portfolioData.pendingHoldings : [];
+      var closedPositions = Array.isArray(portfolioData.closedPositions) ? portfolioData.closedPositions : [];
+      var closedRealizedPnl = Number(portfolioData.closedRealizedPnl) || 0;
       var reconciliationPending = pendingHoldings.reduce(function(sum, holding) {
         return sum + (Number(holding.totalAmount) || 0);
       }, 0);
-      var hasPrevData = false;
-      portfolioData.holdings.forEach(function(h) { if (getPrevNav(h.code)) hasPrevData = true; });
+      var hasPrevData = valuation.complete && previousValuation.complete && valuation.details.some(function(detail) {
+        return detail.hasPosition;
+      });
+      var todayPnl = hasPrevData ? Math.round((valuation.value - previousValuation.value) * 100) / 100 : null;
       // 生成日期标签：最新净值日期 vs 前一交易日
       var pnlLabel = '日盈亏';
       if (latestDate && prevDate) {
-        var today = new Date().toISOString().slice(0,10);
+        var today = shanghaiDateString();
         var parts = latestDate.split('-');
         var shortDate = parseInt(parts[1]) + '/' + parseInt(parts[2]);
         if (latestDate === today) {
@@ -1151,37 +1293,48 @@
         }
       }
       return {
-        invested: Math.round(totalInv * 100) / 100,
-        pending: Math.round(Math.max(pendingInv, reconciliationPending) * 100) / 100,
+        invested: Math.round(valuation.invested * 100) / 100,
+        pending: Math.round(Math.max(valuation.pending, reconciliationPending) * 100) / 100,
         pendingCount: pendingHoldings.length,
-        value: Math.round(totalVal * 100) / 100,
-        pnl: pnl,
+        value: valuation.value === null ? null : Math.round(valuation.value * 100) / 100,
+        pnl: valuation.pnl === null ? null : Math.round((valuation.pnl + closedRealizedPnl) * 100) / 100,
+        realizedPnl: Math.round(closedRealizedPnl * 100) / 100,
+        closedCount: closedPositions.length,
         todayPnl: todayPnl,
         hasPrevData: hasPrevData,
+        valuationComplete: valuation.complete,
+        missingNavCodes: valuation.missingNavCodes,
+        valuationIssues: valuation.valuationIssues,
         pnlLabel: pnlLabel,
         latestDate: latestDate,
         count: portfolioData.holdings.length,
-        recordCount: portfolioData.holdings.length + pendingHoldings.length
+        recordCount: portfolioData.holdings.length + pendingHoldings.length + closedPositions.length
       };
     }
 
     function updateSummary() {
       var s = calcSummary();
-      var cls = s.pnl >= 0 ? 'positive' : 'negative';
-      var sign = s.pnl >= 0 ? '+' : '';
-      var todayCls = s.todayPnl >= 0 ? 'positive' : 'negative';
-      var todaySign = s.todayPnl >= 0 ? '+' : '';
+      var cls = s.pnl === null ? '' : (s.pnl >= 0 ? 'positive' : 'negative');
+      var sign = s.pnl !== null && s.pnl >= 0 ? '+' : '';
+      var todayCls = s.todayPnl === null ? '' : (s.todayPnl >= 0 ? 'positive' : 'negative');
+      var todaySign = s.todayPnl !== null && s.todayPnl >= 0 ? '+' : '';
       var todayStr = s.hasPrevData ? (todaySign + s.todayPnl) : '--';
       var pendingNotice = s.pending > 0
         ? '<div style="grid-column:1/-1;margin-top:8px;padding:8px 10px;background:var(--state-yellow-bg);border:1px solid var(--state-yellow-border);border-radius:8px;font-size:12px;color:var(--state-yellow-text)">⚠️ 另有 ' + s.pendingCount + ' 只/笔待核验交易，共 ' + s.pending + ' 元，未计入当前市值与盈亏；请用基金平台确认净值和份额。</div>'
         : '';
+      var issueText = (s.valuationIssues || []).map(function(issue) {
+        return issue.code + ':' + formatValuationIssue(issue.reason) + (issue.latestDate ? '@' + issue.latestDate : '');
+      }).join('；');
+      var incompleteNotice = !s.valuationComplete
+        ? '<div style="grid-column:1/-1;margin-top:8px;padding:8px 10px;background:var(--state-red-bg);border:1px solid var(--state-red-border);border-radius:8px;font-size:12px;color:var(--state-red-text)">⚠️ 估值不完整：' + escapeHtml(issueText || s.missingNavCodes.join('、')) + '。总市值、总盈亏及相关风险权重暂不计算。</div>'
+        : '';
       document.getElementById('summary').innerHTML =
         '<div class="summary-item"><div class="label">已确认投入</div><div class="value">' + s.invested + '</div></div>' +
-        '<div class="summary-item"><div class="label">当前市值</div><div class="value">' + s.value + '</div></div>' +
-        '<div class="summary-item"><div class="label">总盈亏</div><div class="value ' + cls + '">' + sign + s.pnl + '</div></div>' +
+        '<div class="summary-item"><div class="label">当前市值</div><div class="value">' + (s.value === null ? '--' : s.value) + '</div></div>' +
+        '<div class="summary-item"><div class="label">总盈亏</div><div class="value ' + cls + '">' + (s.pnl === null ? '--' : sign + s.pnl) + '</div></div>' +
         '<div class="summary-item"><div class="label">' + s.pnlLabel + '</div><div class="value ' + todayCls + '">' + todayStr + '</div></div>' +
-        '<div class="summary-item"><div class="label">持仓记录</div><div class="value">' + s.recordCount + '条</div><div style="font-size:11px;color:var(--text3);margin-top:4px">' + s.count + '已确认 · ' + s.pendingCount + '待核验</div></div>' +
-        '<div class="summary-item"><div class="label">净值日期</div><div class="value" style="font-size:12px">' + (s.latestDate || '--') + '</div></div>' + pendingNotice;
+        '<div class="summary-item"><div class="label">持仓记录</div><div class="value">' + s.recordCount + '条</div><div style="font-size:11px;color:var(--text3);margin-top:4px">' + s.count + '已确认 · ' + s.pendingCount + '待核验 · ' + s.closedCount + '已清仓</div></div>' +
+        '<div class="summary-item"><div class="label">净值日期</div><div class="value" style="font-size:12px">' + (s.latestDate || '--') + '</div></div>' + incompleteNotice + pendingNotice;
 
       // 渲染收益曲线图
       renderPortfolioChart();
@@ -1205,31 +1358,19 @@
       // 计算每天的组合总市值和累计投入
       var rawData = [];
       dates.forEach(function(date) {
-        var totalVal = 0, totalInv = 0, hasData = false;
-        holdings.forEach(function(h) {
+        var valuation = calcConfirmedPortfolioValuation(holdings, function(h) {
           var arr = navCacheData[h.code];
-          if (!arr || !Array.isArray(arr)) return;
+          if (!arr || !Array.isArray(arr)) return null;
           var navOnDate = null;
           for (var i = 0; i < arr.length; i++) {
             if (arr[i].date <= date) navOnDate = arr[i].nav;
             if (arr[i].date > date) break;
           }
-          if (!navOnDate) return;
-          hasData = true;
-          h.buys.forEach(function(b) {
-            if (b.date <= date) totalInv += b.amount;
-            if (b.date > date) return;
-            if (b.shares && b.shares > 0) {
-              totalVal += b.shares * navOnDate;
-            } else if (b.nav && b.nav > 0) {
-              totalVal += b.amount * (navOnDate / b.nav);
-            } else {
-              totalVal += b.amount;
-            }
-          });
-        });
-        if (hasData && totalVal > 0) {
-          rawData.push({ date: date, val: totalVal, inv: totalInv });
+          return navOnDate;
+        }, date);
+        var hasPosition = valuation.details.some(function(detail) { return detail.hasPosition; });
+        if (valuation.complete && hasPosition && valuation.value > 0) {
+          rawData.push({ date: date, val: valuation.value, inv: valuation.invested });
         }
       });
 
@@ -1350,12 +1491,20 @@
 
     function updateHoldings() {
       var c = document.getElementById('holdings');
+      var closedPositions = Array.isArray(portfolioData.closedPositions) ? portfolioData.closedPositions : [];
+      var closedRealizedPnl = Number(portfolioData.closedRealizedPnl) || 0;
+      var closedSign = closedRealizedPnl >= 0 ? '+' : '';
+      var closedNotice = closedPositions.length
+        ? '<div style="padding:10px 12px;margin-bottom:8px;background:var(--state-blue-bg);border:1px solid var(--state-blue-border);border-radius:10px;font-size:12px;color:var(--state-blue-text)">已清仓 ' + closedPositions.length + ' 只，累计已实现盈亏 ' + closedSign + Math.round(closedRealizedPnl * 100) / 100 + ' 元；已计入总盈亏，不计入当前市值和风险权重。</div>'
+        : '';
       if (!portfolioData.holdings.length) {
-        c.innerHTML = '<div class="empty">📭 暂无持仓</div>';
+        c.innerHTML = closedNotice + '<div class="empty">📭 暂无当前持仓</div>';
         return;
       }
-      var html = '';
-      var grandInv = 0, grandVal = 0;
+      var html = closedNotice;
+      var grandInv = 0, grandVal = 0, grandComplete = true;
+      var missingNavCodes = [];
+      var missingValuationIssues = [];
       var pendingHoldings = Array.isArray(portfolioData.pendingHoldings) ? portfolioData.pendingHoldings : [];
       if (pendingHoldings.length) {
         var pendingText = pendingHoldings.map(function(holding) {
@@ -1378,56 +1527,52 @@
       var corrMap = {'美股科技':'美股','美股宽基':'美股','全球':'美股','主题':'美股'};
       var catValues = {};
       portfolioData.holdings.forEach(function(h, i) {
-        var inv = h.buys.reduce(function(s, b) { return s + b.amount; }, 0);
-        var navNow = 0;
+        var navNow = null;
         if (navCacheData[h.code]) {
           var latest = getLatestNav(h.code);
-          navNow = latest ? latest.nav : 0;
+          navNow = latest;
         }
-        // 计算市值：和 calcSummary 一致
-        var val = 0;
-        h.buys.forEach(function(b) {
-          if (b.shares && b.shares > 0 && navNow > 0) {
-            val += b.shares * navNow;
-          } else if (b.nav && b.nav > 0 && navNow > 0) {
-            val += b.amount * (navNow / b.nav);
-          } else {
-            val += b.amount;
-          }
-        });
-        var pnl = val - inv;
-        var pnlPct = inv > 0 ? (pnl / inv * 100) : 0;
-        var cls = pnl >= 0 ? 'positive' : 'negative';
-        var sign = pnl >= 0 ? '+' : '';
+        var valuation = calcConfirmedHoldingValuation(h, navNow);
+        var inv = valuation.invested;
+        var val = valuation.value;
+        var pnl = valuation.pnl;
+        var pnlPct = pnl !== null && inv > 0 ? (pnl / inv * 100) : null;
+        var cls = pnl === null ? '' : (pnl >= 0 ? 'positive' : 'negative');
+        var sign = pnl !== null && pnl >= 0 ? '+' : '';
         var fund = fundsData.funds.find(function(f) { return f.code === h.code; });
         var limit = fund && fund.dailyLimit && fund.dailyLimit < 10000 ? '限' + fund.dailyLimit + '元' : '';
         grandInv += inv;
-        grandVal += val;
+        if (valuation.complete) grandVal += val;
+        else {
+          grandComplete = false;
+          missingNavCodes.push(h.code);
+          missingValuationIssues.push(h.code + ':' + formatValuationIssue(valuation.valuationIssue));
+        }
         // [fix] 按品类累加持仓市值
         var fundType = fund ? fund.type : '';
         var cat = categoryMap[fundType] || corrMap[fundType] || fundType || '其他';
-        catValues[cat] = (catValues[cat] || 0) + val;
+        if (valuation.complete) catValues[cat] = (catValues[cat] || 0) + val;
 
         html += '<div class="holding-row" onclick="toggleDetail(' + i + ')">';
         html += '<div class="holding-top">';
         html += '<div><span class="holding-name">' + escapeHtml(getHoldingDisplayName(h, fund)) + '</span><span class="holding-code">' + escapeHtml(h.code) + '</span></div>';
-        html += '<div class="holding-pnl"><div class="amount ' + cls + '">' + sign + pnl.toFixed(2) + '</div>';
-        html += '<div class="rate ' + cls + '">' + sign + pnlPct.toFixed(2) + '%</div></div>';
+        html += '<div class="holding-pnl"><div class="amount ' + cls + '">' + (pnl === null ? '估值待补齐' : sign + pnl.toFixed(2)) + '</div>';
+        html += '<div class="rate ' + cls + '">' + (pnlPct === null ? formatValuationIssue(valuation.valuationIssue) : sign + pnlPct.toFixed(2) + '%') + '</div></div>';
         html += '</div>';
-        html += '<div class="holding-meta"><span>投入 ' + inv + '元</span><span>' + h.buys.length + '笔</span>';
+        html += '<div class="holding-meta"><span>已确认投入 ' + inv + '元</span><span>' + valuation.confirmedRecords + '笔已确认' + (valuation.pending > 0 ? ' · ' + valuation.pending + '元待核验' : '') + '</span>';
         if (limit) html += '<span>' + limit + '</span>';
         html += '</div>';
         html += '<div class="detail" id="detail-' + i + '">';
         h.buys.forEach(function(b, bi) {
           html += '<div class="detail-row"><span>' + escapeHtml(b.date) + ' 买入' + escapeHtml(b.amount) + '元</span>';
-          html += '<span style="display:flex;align-items:center;gap:8px">' + (b.nav ? '净值' + escapeHtml(b.nav) : '待确认');
+          html += '<span style="display:flex;align-items:center;gap:8px">' + (Math.abs(Number(b.shares) || 0) > 1e-8 ? '已确认 · 净值' + escapeHtml(b.nav || '--') : '待确认份额');
           html += '<button onclick="deleteBuy(' + i + ',' + bi + ')" style="background:var(--danger);color:#fff;border:none;border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer">删除</button>';
           html += '</span></div>';
         });
         html += '</div></div>';
       });
       // [fix] 持仓集中度仪表盘
-      if (grandVal > 0) {
+      if (grandComplete && grandVal > 0) {
         var catEntries = Object.keys(catValues).map(function(k) { return { cat: k, val: catValues[k], pct: catValues[k] / grandVal * 100 }; });
         catEntries.sort(function(a, b) { return b.pct - a.pct; });
         var maxPct = catEntries.length > 0 ? catEntries[0].pct : 0;
@@ -1449,14 +1594,16 @@
           html += '</div>';
         });
         html += '</div>';
+      } else if (!grandComplete) {
+        html += '<div style="padding:10px 12px;margin-bottom:8px;background:var(--state-red-bg);border:1px solid var(--state-red-border);border-radius:10px;font-size:12px;color:var(--state-red-text)">⚠️ 估值不完整：' + escapeHtml(missingValuationIssues.join('；') || missingNavCodes.join('、')) + '。集中度与组合盈亏暂不计算。</div>';
       }
       // 底部汇总：和顶部 summary 交叉验证
-      var grandPnl = grandVal - grandInv;
-      var gpCls = grandPnl >= 0 ? 'positive' : 'negative';
-      var gpSign = grandPnl >= 0 ? '+' : '';
+      var grandPnl = grandComplete ? grandVal - grandInv : null;
+      var gpCls = grandPnl === null ? '' : (grandPnl >= 0 ? 'positive' : 'negative');
+      var gpSign = grandPnl !== null && grandPnl >= 0 ? '+' : '';
       html += '<div style="padding:12px 0 4px;border-top:2px solid var(--border);display:flex;justify-content:space-between;font-size:13px;font-weight:600">';
       html += '<span>合计 ' + portfolioData.holdings.length + '只</span>';
-      html += '<span>投入 ' + grandInv.toFixed(2) + ' · 市值 ' + grandVal.toFixed(2) + ' · <span class="' + gpCls + '">盈亏 ' + gpSign + grandPnl.toFixed(2) + '</span></span>';
+      html += '<span>确认投入 ' + grandInv.toFixed(2) + ' · 市值 ' + (grandComplete ? grandVal.toFixed(2) : '--') + ' · <span class="' + gpCls + '">盈亏 ' + (grandPnl === null ? '--' : gpSign + grandPnl.toFixed(2)) + '</span></span>';
       html += '</div>';
       c.innerHTML = html;
     }
@@ -1497,10 +1644,17 @@
 
     async function addBuy() {
       if (!cloudWriteReady) { showToast('请先完成 Google 登录和云端账本校验', true); return; }
+      if (canonicalPlanInputMismatch) { showToast('云端账本或风险设置已变化，请等待网站生成新计划后再确认买入', true); return; }
+      if (!refreshCanonicalPlanDateGuard() || canonicalPlanDateMismatch) {
+        updateCloudActionAvailability({ status: 'READY' });
+        showToast('计划不是上海时区今天的计划，请等待网站生成新计划后再确认买入', true);
+        return;
+      }
+      if (isMarketOnlyBuildPlan(publicTodayPicks)) { showToast('本次网站仅含行情，登录也不会恢复买入计划', true); return; }
       var code = document.getElementById('fundSelect').value;
       var amount = parseFloat(document.getElementById('amount').value);
       var nav = document.getElementById('nav').value ? parseFloat(document.getElementById('nav').value) : null;
-      var date = document.getElementById('buyDate').value || new Date().toISOString().slice(0, 10);
+      var date = document.getElementById('buyDate').value || shanghaiDateString();
       if (!code) { showToast('请选择基金', true); return; }
       if (!amount || amount <= 0) { showToast('请输入金额', true); return; }
       var fund = fundsData.funds.find(function(f) { return f.code === code; });
@@ -1530,6 +1684,13 @@
     }
     async function submitBatch() {
       if (!cloudWriteReady) { showToast('请先完成 Google 登录和云端账本校验', true); return; }
+      if (canonicalPlanInputMismatch) { showToast('云端账本或风险设置已变化，请等待网站生成新计划后再批量确认', true); return; }
+      if (!refreshCanonicalPlanDateGuard() || canonicalPlanDateMismatch) {
+        updateCloudActionAvailability({ status: 'READY' });
+        showToast('计划不是上海时区今天的计划，请等待网站生成新计划后再批量确认', true);
+        return;
+      }
+      if (isMarketOnlyBuildPlan(publicTodayPicks)) { showToast('本次网站仅含行情，登录也不会恢复买入计划', true); return; }
       var date = document.getElementById('batchDate').value;
       var rows = document.querySelectorAll('.batch-row');
       var items = [];
@@ -1560,25 +1721,33 @@
 
       // Health
       html += '<div class="card-title" style="margin-top:4px">组合健康度</div>';
-      var typeW = {}, totalInv = 0;
-      portfolioData.holdings.forEach(function(h) {
-        var fund = fundsData.funds.find(function(f) { return f.code === h.code; });
-        var type = fund ? fund.type : '其他';
-        var inv = h.buys.reduce(function(s, b) { return s + b.amount; }, 0);
-        typeW[type] = (typeW[type] || 0) + inv;
-        totalInv += inv;
+      var healthValuation = calcConfirmedPortfolioValuation(portfolioData.holdings, function(holding) {
+        return getLatestNav(holding.code);
       });
-      Object.keys(typeW).sort(function(a, b) { return typeW[b] - typeW[a]; }).forEach(function(t) {
-        var pct = totalInv > 0 ? Math.round(typeW[t] / totalInv * 100) : 0;
-        var color = pct > 50 ? 'var(--danger)' : (pct > 30 ? 'var(--warn)' : 'var(--success)');
-        html += '<div class="type-bar"><div class="label-row"><span>' + t + '</span><span style="font-weight:600">' + pct + '%</span></div>';
-        html += '<div class="bar-bg"><div class="bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div></div>';
-      });
-      var maxPct = totalInv > 0 ? Math.round(Math.max.apply(null, Object.values(typeW)) / totalInv * 100) : 0;
-      var health = maxPct > 70 ? 50 : (maxPct > 50 ? 70 : 85);
-      var hColor = health >= 80 ? 'var(--state-green-bg)' : 'var(--state-yellow-bg)';
-      var hText = health >= 80 ? '🟢 分散良好' : '🟡 建议增加非美股配置';
-      html += '<div style="padding:10px;background:' + hColor + ';border-radius:8px;font-size:13px;margin-top:4px">健康度 <strong>' + health + '/100</strong> · ' + hText + '</div>';
+      if (!healthValuation.complete) {
+        var healthIssues = (healthValuation.valuationIssues || []).map(function(issue) {
+          return issue.code + ':' + formatValuationIssue(issue.reason);
+        }).join('；');
+        html += '<div style="padding:10px;background:var(--state-red-bg);border:1px solid var(--state-red-border);border-radius:8px;font-size:13px">⚠️ 估值不完整：' + escapeHtml(healthIssues || healthValuation.missingNavCodes.join('、')) + '。健康度与集中度暂不评分。</div>';
+      } else {
+        var typeW = {}, totalValue = healthValuation.value || 0;
+        healthValuation.details.forEach(function(detail) {
+          var fund = fundsData.funds.find(function(f) { return f.code === detail.code; });
+          var type = fund ? fund.type : '其他';
+          typeW[type] = (typeW[type] || 0) + (detail.value || 0);
+        });
+        Object.keys(typeW).sort(function(a, b) { return typeW[b] - typeW[a]; }).forEach(function(t) {
+          var pct = totalValue > 0 ? Math.round(typeW[t] / totalValue * 100) : 0;
+          var color = pct > 50 ? 'var(--danger)' : (pct > 30 ? 'var(--warn)' : 'var(--success)');
+          html += '<div class="type-bar"><div class="label-row"><span>' + t + '</span><span style="font-weight:600">' + pct + '%</span></div>';
+          html += '<div class="bar-bg"><div class="bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div></div>';
+        });
+        var maxPct = totalValue > 0 ? Math.round(Math.max.apply(null, Object.values(typeW)) / totalValue * 100) : 0;
+        var health = maxPct > 70 ? 50 : (maxPct > 50 ? 70 : 85);
+        var hColor = health >= 80 ? 'var(--state-green-bg)' : 'var(--state-yellow-bg)';
+        var hText = health >= 80 ? '🟢 分散良好' : '🟡 建议增加非美股配置';
+        html += '<div style="padding:10px;background:' + hColor + ';border-radius:8px;font-size:13px;margin-top:4px">健康度 <strong>' + health + '/100</strong> · ' + hText + '</div>';
+      }
 
       // Backtest (dynamic from nav-cache data)
       html += '<div class="card-title" style="margin-top:18px">📈 走步回测验证</div>';
@@ -1788,7 +1957,7 @@
       // Single entry (latest from build-pages.js) — fall through to buys
       // Reconstruct from buy records
       if (!holding.buys || holding.buys.length === 0) return [];
-      var sortedBuys = holding.buys.filter(function(b) { return b.nav && b.nav > 0; })
+      var sortedBuys = holding.buys.filter(function(b) { return Math.abs(Number(b.shares) || 0) > 1e-8 && b.nav && b.nav > 0; })
         .sort(function(a, b) { return a.date < b.date ? -1 : (a.date > b.date ? 1 : 0); });
       if (sortedBuys.length === 0) return [];
       if (sortedBuys.length === 1) return [sortedBuys[0].nav];
@@ -1796,8 +1965,8 @@
       var series = [];
       var cumShares = 0;
       sortedBuys.forEach(function(b) {
-        cumShares += (b.shares || b.amount / b.nav);
-        series.push(cumShares > 0 ? b.amount / (b.shares || b.amount / b.nav) : b.nav);
+        cumShares += Number(b.shares);
+        series.push(cumShares > 0 ? b.amount / Number(b.shares) : b.nav);
       });
       // Fix: use cumulative approach properly
       series = [];
@@ -1805,7 +1974,7 @@
       var totalShares = 0;
       sortedBuys.forEach(function(b) {
         totalAmount += b.amount;
-        totalShares += (b.shares || Math.round(b.amount / b.nav * 10000) / 10000);
+        totalShares += Number(b.shares);
         series.push(totalShares > 0 ? totalAmount / totalShares : b.nav);
       });
       return series;
@@ -3131,6 +3300,10 @@
 
     var STORAGE_KEY = 'qdii-portfolio';
     var cloudWriteReady = false;
+    // Build-time plans are valid only for the exact ledger and decision-state
+    // revisions that produced them. Input changes invalidate execution.
+    var canonicalPlanInputMismatch = false;
+    var canonicalPlanDateMismatch = false;
     function saveLocal() {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(portfolioData));
@@ -3353,9 +3526,95 @@
       }
     }
 
-    function actionAllowsPurchase(plan) {
+    function planDateStatus(plan, nowValue) {
       var safePlan = plan || {};
-      return (safePlan.action === 'BUY' || safePlan.action === 'TACTICAL_PAUSE') && Number(safePlan.budget) > 0;
+      var asOf = safePlan.asOf;
+      var date = safePlan.date;
+      if (!asOf && !date) return { current: false, reason: 'PLAN_DATE_MISSING', date: null };
+      if (asOf && date && asOf !== date) return { current: false, reason: 'PLAN_DATE_CONFLICT', date: null };
+      var planDate = asOf || date;
+      if (!isStrictIsoDate(planDate)) return { current: false, reason: 'PLAN_DATE_INVALID', date: null };
+      var today = shanghaiDateString(nowValue);
+      if (!today) return { current: false, reason: 'PLAN_DATE_INVALID', date: planDate };
+      if (planDate < today) return { current: false, reason: 'PLAN_DATE_STALE', date: planDate };
+      if (planDate > today) return { current: false, reason: 'PLAN_DATE_FUTURE', date: planDate };
+      return { current: true, reason: null, date: planDate };
+    }
+
+    function planExecutionWindowStatus(plan, nowValue) {
+      var safePlan = plan || {};
+      var actionable = safePlan.action === 'BUY' || safePlan.action === 'TACTICAL_PAUSE' || safePlan.action === 'STRATEGIC_DCA';
+      if (!actionable) return { valid: true, current: true, reason: null };
+      var planDate = safePlan.asOf || safePlan.date;
+      if (!isStrictIsoDate(planDate) || !isStrictUtcTimestamp(safePlan.generatedAt) ||
+          !isStrictUtcTimestamp(safePlan.validFrom) || !isStrictUtcTimestamp(safePlan.validUntil)) {
+        return { valid: false, current: false, reason: 'PLAN_EXECUTION_WINDOW_INVALID' };
+      }
+      var generatedAt = new Date(safePlan.generatedAt);
+      var validFrom = new Date(safePlan.validFrom);
+      var validUntil = new Date(safePlan.validUntil);
+      var now = nowValue === undefined ? new Date() : new Date(nowValue);
+      var morningOpen = new Date(planDate + 'T09:00:00+08:00');
+      var afternoonRefresh = new Date(planDate + 'T14:00:00+08:00');
+      var purchaseCutoff = new Date(planDate + 'T15:00:00+08:00');
+      var expectedFrom = generatedAt >= afternoonRefresh ? afternoonRefresh : morningOpen;
+      var expectedUntil = generatedAt >= afternoonRefresh ? purchaseCutoff : afternoonRefresh;
+      if (!Number.isFinite(now.getTime()) || shanghaiDateString(generatedAt) !== planDate ||
+          shanghaiDateString(validFrom) !== planDate || shanghaiDateString(validUntil) !== planDate ||
+          safePlan.validFrom !== expectedFrom.toISOString() || safePlan.validUntil !== expectedUntil.toISOString() ||
+          validFrom >= validUntil || generatedAt < validFrom || generatedAt > now) {
+        return { valid: false, current: false, reason: 'PLAN_EXECUTION_WINDOW_INVALID' };
+      }
+      if (now < validFrom) return { valid: true, current: false, reason: 'PLAN_WINDOW_NOT_OPEN' };
+      if (now >= validUntil || now.getTime() - generatedAt.getTime() > 5 * 60 * 60 * 1000) {
+        return { valid: true, current: false, reason: 'PLAN_WINDOW_EXPIRED' };
+      }
+      return { valid: true, current: true, reason: null };
+    }
+
+    function buildPlanDateMismatchPlan(plan, reason) {
+      var source = plan || {};
+      var code = reason || 'PLAN_DATE_INVALID';
+      var pauseReasons = Array.isArray(source.pauseReasons) ? source.pauseReasons.slice() : [];
+      if (pauseReasons.indexOf(code) < 0) pauseReasons.push(code);
+      return Object.assign({}, source, {
+        action: 'HARD_PAUSE', budget: 0, candidates: [], ranked: [], executionRoutes: [],
+        decisionMode: 'DATA_BLOCKED', blockedStage: code, pauseReasons: pauseReasons, confidence: 'LOW'
+      });
+    }
+
+    function enforceActionablePlanDate(plan, nowValue) {
+      var safePlan = plan || {};
+      var actionable = safePlan.action === 'BUY' || safePlan.action === 'TACTICAL_PAUSE' || safePlan.action === 'STRATEGIC_DCA';
+      if (!actionable) return safePlan;
+      var dateStatus = planDateStatus(safePlan, nowValue);
+      if (!dateStatus.current) return buildPlanDateMismatchPlan(safePlan, dateStatus.reason);
+      var windowStatus = planExecutionWindowStatus(safePlan, nowValue);
+      return windowStatus.current ? safePlan : buildPlanDateMismatchPlan(safePlan, windowStatus.reason);
+    }
+
+    function refreshCanonicalPlanDateGuard(nowValue) {
+      if (!hasCanonicalBuildPlan()) return true;
+      var dateStatus = planDateStatus(publicTodayPicks, nowValue);
+      var actionable = publicTodayPicks && (publicTodayPicks.action === 'BUY' ||
+        publicTodayPicks.action === 'TACTICAL_PAUSE' || publicTodayPicks.action === 'STRATEGIC_DCA');
+      var windowStatus = dateStatus.current && actionable
+        ? planExecutionWindowStatus(publicTodayPicks, nowValue)
+        : { current: false, reason: dateStatus.reason };
+      if (dateStatus.current && !actionable) windowStatus = { current: true, reason: null };
+      canonicalPlanDateMismatch = !windowStatus.current;
+      if (!windowStatus.current) todayPicks = buildPlanDateMismatchPlan(publicTodayPicks, windowStatus.reason);
+      return windowStatus.current;
+    }
+
+    function actionAllowsPurchase(plan, nowValue) {
+      var safePlan = plan || {};
+      var inputMismatch = typeof canonicalPlanInputMismatch !== 'undefined' && canonicalPlanInputMismatch;
+      var dateMismatch = typeof canonicalPlanDateMismatch !== 'undefined' && canonicalPlanDateMismatch;
+      return !inputMismatch && !dateMismatch && planDateStatus(safePlan, nowValue).current &&
+        planExecutionWindowStatus(safePlan, nowValue).current &&
+        (safePlan.action === 'BUY' || safePlan.action === 'TACTICAL_PAUSE' || safePlan.action === 'STRATEGIC_DCA') &&
+        Number(safePlan.budget) > 0;
     }
 
     function updateAnchorButton(detail) {
@@ -3364,7 +3623,8 @@
       var hasLedger = !!(detail && detail.ledger && Number(detail.ledger.revision) > 0);
       var hasAnchor = !!(detail && detail.decisionState && Number(detail.decisionState.riskAnchorValue) > 0);
       var publicSnapshot = window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true;
-      if (button) button.style.display = hasLedger && !hasAnchor && (detail.readOnly !== true || publicSnapshot) ? 'inline-block' : 'none';
+      var canonicalPublicSnapshot = isCanonicalPublicSnapshot(detail);
+      if (button) button.style.display = hasLedger && !hasAnchor && (detail.readOnly !== true || publicSnapshot) && !canonicalPublicSnapshot ? 'inline-block' : 'none';
       if (!status) return;
       if (!hasLedger) {
         status.textContent = '· ⚓ 风险锚点：待账本校验';
@@ -3373,6 +3633,18 @@
       } else {
         status.textContent = '· ⚓ 风险锚点：未设置';
       }
+      var profileSelect = document.getElementById('risk-profile-select');
+      if (profileSelect) {
+        profileSelect.value = detail && detail.decisionState && detail.decisionState.riskProfile === 'BALANCED' ? 'BALANCED' : 'AGGRESSIVE';
+        profileSelect.disabled = !hasAnchor || (detail.readOnly === true && (!publicSnapshot || canonicalPublicSnapshot));
+        profileSelect.title = canonicalPublicSnapshot
+          ? '公开计划使用云端风险设置，请登录后修改'
+          : (profileSelect.disabled ? '请先设置风险锚点或登录云端账本' : '');
+        var profileHelp = document.getElementById('risk-profile-help');
+        if (profileHelp) profileHelp.textContent = profileSelect.value === 'AGGRESSIVE'
+          ? '进取型提高权益与纳指暴露，只补低配；它承担更高市场风险，不代表择时模型已证明超额。'
+          : '均衡型降低单一市场集中度并保留现金目标；主动策略未通过验收时仍只执行标普500基准定投。';
+      }
     }
 
     function renderAnchorSetupCard(detail, plan) {
@@ -3380,7 +3652,8 @@
       if (!card) return;
       var needsAnchor = !!(plan && plan.decisionMode === 'ACTION_REQUIRED' && plan.blockedStage === 'RISK_ANCHOR_SETUP');
       var publicSnapshot = window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true;
-      var canInitialize = !!(detail && detail.ledger && Number(detail.ledger.revision) > 0 && (detail.readOnly !== true || publicSnapshot));
+      var canInitialize = !!(detail && detail.ledger && Number(detail.ledger.revision) > 0 &&
+        (detail.readOnly !== true || publicSnapshot) && !isCanonicalPublicSnapshot(detail));
       if (!needsAnchor || !canInitialize) { card.style.display = 'none'; return; }
       var value = Number(plan.portfolioRisk && plan.portfolioRisk.currentValue) || 0;
       card.innerHTML = '<div style="font-weight:700;margin-bottom:4px">⚓ 需要完成一次风险锚点初始化</div>'
@@ -3417,10 +3690,146 @@
       };
     }
 
-    function refreshPersonalizedPlan(detail) {
+    function isCanonicalPublicSnapshot(detail) {
+      var embedded = window.QDII_PUBLIC_DECISION_STATE;
+      if (window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT !== true || window.QDII_PUBLIC_PLAN_CANONICAL !== true ||
+          !detail || detail.readOnly !== true) return false;
+      if (!embedded) return !detail.decisionState;
+      return !!detail.decisionState && Number(detail.decisionState.revision) === Number(embedded.revision) &&
+        Number(detail.decisionState.riskAnchorValue) === Number(embedded.riskAnchorValue);
+    }
+
+    function hasCanonicalBuildPlan() {
+      return window.QDII_PUBLIC_PLAN_CANONICAL === true;
+    }
+
+    function isMarketOnlyBuildPlan(plan) {
+      var safePlan = plan || {};
+      return !!(safePlan.dataFreshness && safePlan.dataFreshness.status === 'MARKET_ONLY') ||
+        safePlan.blockedStage === 'PRIVATE_STATE_VALIDATION' ||
+        (Array.isArray(safePlan.pauseReasons) && safePlan.pauseReasons.indexOf('PRIVATE_RECOMMENDATION_STATE_UNAVAILABLE') >= 0);
+    }
+
+    function buildMarketOnlyLockedPlan(plan) {
+      var source = plan || {};
+      var pauseReasons = Array.isArray(source.pauseReasons) ? source.pauseReasons.slice() : [];
+      if (pauseReasons.indexOf('MARKET_ONLY_BUILD_LOCKED') < 0) pauseReasons.push('MARKET_ONLY_BUILD_LOCKED');
+      return Object.assign({}, source, {
+        action: 'HARD_PAUSE', budget: 0, candidates: [], ranked: [], executionRoutes: [],
+        decisionMode: 'DATA_BLOCKED', blockedStage: 'PRIVATE_STATE_VALIDATION',
+        pauseReasons: pauseReasons, personalized: false, confidence: 'LOW'
+      });
+    }
+
+    function canonicalDecisionFingerprint(state) {
+      if (!state) return '';
+      return JSON.stringify({
+        schemaVersion: state.schemaVersion,
+        revision: state.revision,
+        updatedAt: state.updatedAt,
+        riskProfile: state.riskProfile,
+        cashBalance: state.cashBalance,
+        riskAnchorValue: state.riskAnchorValue,
+        riskAnchorAt: state.riskAnchorAt,
+        riskAnchorLedgerRevision: state.riskAnchorLedgerRevision,
+        riskAnchorTransactionIds: Array.isArray(state.riskAnchorTransactionIds)
+          ? state.riskAnchorTransactionIds.slice().sort()
+          : []
+      });
+    }
+
+    function canonicalPlanInputsMatch(plan, detail) {
+      if (!plan || !detail || !detail.ledger || !detail.decisionState) return false;
+      var planLedgerRevision = plan.syncRevision;
+      var planDecisionRevision = plan.decisionRevision;
+      var ledgerRevision = detail.ledger.revision;
+      var decisionRevision = detail.decisionState.revision;
+      var planLedgerChecksum = typeof plan.ledgerChecksum === 'string' ? plan.ledgerChecksum : '';
+      var ledgerChecksum = typeof detail.ledger.checksum === 'string' ? detail.ledger.checksum : '';
+      var planDecisionFingerprint = typeof plan.decisionFingerprint === 'string' ? plan.decisionFingerprint : '';
+      var decisionFingerprint = canonicalDecisionFingerprint(detail.decisionState);
+      return Number.isInteger(planLedgerRevision) && planLedgerRevision >= 1 &&
+        Number.isInteger(planDecisionRevision) && planDecisionRevision >= 1 &&
+        Number.isInteger(ledgerRevision) && ledgerRevision >= 1 &&
+        Number.isInteger(decisionRevision) && decisionRevision >= 1 &&
+        planLedgerRevision === ledgerRevision && planDecisionRevision === decisionRevision &&
+        planLedgerChecksum.length > 0 && planLedgerChecksum === ledgerChecksum &&
+        planDecisionFingerprint.length > 0 && planDecisionFingerprint === decisionFingerprint;
+    }
+
+    function buildCanonicalRevisionMismatchPlan(plan) {
+      var source = plan || {};
+      var pauseReasons = Array.isArray(source.pauseReasons) ? source.pauseReasons.slice() : [];
+      if (pauseReasons.indexOf('PLAN_INPUT_REVISION_MISMATCH') < 0) {
+        pauseReasons.push('PLAN_INPUT_REVISION_MISMATCH');
+      }
+      return Object.assign({}, source, {
+        action: 'HARD_PAUSE',
+        budget: 0,
+        candidates: [],
+        ranked: [],
+        executionRoutes: [],
+        decisionMode: 'DATA_BLOCKED',
+        blockedStage: 'PLAN_INPUT_REVISION_MISMATCH',
+        pauseReasons: pauseReasons,
+        confidence: 'LOW'
+      });
+    }
+
+    function refreshPersonalizedPlan(detail, nowValue) {
       currentCloudDetail = detail || currentCloudDetail;
       updateAnchorButton(currentCloudDetail);
-      if (!currentCloudDetail || !window.QdiiPersonalizedDecision) return;
+      if (isMarketOnlyBuildPlan(publicTodayPicks)) {
+        canonicalPlanInputMismatch = false;
+        canonicalPlanDateMismatch = false;
+        todayPicks = buildMarketOnlyLockedPlan(publicTodayPicks);
+        updateCloudActionAvailability({
+          status: currentCloudDetail && currentCloudDetail.readOnly !== true ? 'READY' : 'OFFLINE'
+        });
+        renderAnchorSetupCard(currentCloudDetail, todayPicks);
+        renderTradeBanner();
+        renderTemperature();
+        renderBuySignal();
+        renderPicks();
+        if (typeof syncChatPlanScope === 'function') syncChatPlanScope(todayPicks);
+        return;
+      }
+      if (!currentCloudDetail) return;
+      if (hasCanonicalBuildPlan()) {
+        canonicalPlanInputMismatch = !canonicalPlanInputsMatch(publicTodayPicks, currentCloudDetail);
+        var revisionGuardedPlan = canonicalPlanInputMismatch
+          ? buildCanonicalRevisionMismatchPlan(publicTodayPicks) : publicTodayPicks;
+        todayPicks = revisionGuardedPlan;
+        canonicalPlanDateMismatch = false;
+        if (!canonicalPlanInputMismatch) refreshCanonicalPlanDateGuard(nowValue);
+        updateCloudActionAvailability({
+          status: currentCloudDetail.readOnly === true
+            ? (window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true ? 'PUBLIC_SNAPSHOT' : 'OFFLINE')
+            : 'READY'
+        });
+        renderAnchorSetupCard(currentCloudDetail, todayPicks);
+        renderTradeBanner();
+        renderTemperature();
+        renderBuySignal();
+        renderPicks();
+        if (typeof syncChatPlanScope === 'function') syncChatPlanScope(todayPicks);
+        return;
+      }
+      if (!window.QdiiPersonalizedDecision) {
+        canonicalPlanInputMismatch = false;
+        canonicalPlanDateMismatch = false;
+        todayPicks = buildPlanDateMismatchPlan(publicTodayPicks, 'PERSONALIZED_DECISION_ENGINE_UNAVAILABLE');
+        updateCloudActionAvailability({ status: 'OFFLINE' });
+        renderAnchorSetupCard(currentCloudDetail, todayPicks);
+        renderTradeBanner();
+        renderTemperature();
+        renderBuySignal();
+        renderPicks();
+        if (typeof syncChatPlanScope === 'function') syncChatPlanScope(todayPicks);
+        return;
+      }
+      canonicalPlanInputMismatch = false;
+      canonicalPlanDateMismatch = false;
       var backendState = currentCloudDetail.strategyState;
       var backendPlan = backendState && backendState.latestPlan;
       var basePlan = backendPlan && backendPlan.dataFreshness && backendPlan.dataFreshness.status === 'FRESH'
@@ -3432,17 +3841,23 @@
           strategyState: backendState
         })
         : publicTodayPicks;
-      todayPicks = window.QdiiPersonalizedDecision.personalizePlan({
+      var personalizedPlan = window.QdiiPersonalizedDecision.personalizePlan({
         basePlan: basePlan,
         ledger: currentCloudDetail.ledger,
         decisionState: currentCloudDetail.decisionState,
+        defaultRiskProfile: 'AGGRESSIVE',
         portfolio: portfolioData,
         funds: fundsData.funds || [],
         navCache: navCacheData,
         marketTemperature: marketTemperature,
         signalConfirmation: buildSignalConfirmation(newsData, externalSignalsData),
-        asOf: basePlan.date || new Date().toISOString().slice(0, 10),
+        asOf: basePlan.date || basePlan.asOf || shanghaiDateString(nowValue),
         readOnly: currentCloudDetail.readOnly === true
+      });
+      todayPicks = enforceActionablePlanDate(personalizedPlan, nowValue);
+      canonicalPlanDateMismatch = todayPicks !== personalizedPlan;
+      updateCloudActionAvailability({
+        status: currentCloudDetail.readOnly === true ? 'OFFLINE' : 'READY'
       });
       renderAnchorSetupCard(currentCloudDetail, todayPicks);
       renderTradeBanner();
@@ -3456,8 +3871,8 @@
     function renderTradeBanner() {
       var banner = document.getElementById('trade-banner');
       if (!banner) return;
-      var today = new Date().toISOString().slice(0, 10);
-      var day = new Date().getDay();
+      var today = shanghaiDateString();
+      var day = new Date(today + 'T00:00:00Z').getUTCDay();
       var isHoliday = tradingHolidays.indexOf(today) >= 0;
       var isWeekend = day === 0 || day === 6;
       var isTradeDay = !isHoliday && !isWeekend;
@@ -3492,7 +3907,7 @@
         banner.style.color = 'var(--state-yellow-text)';
         banner.style.border = '1px solid var(--state-yellow-border)';
         var reason = isHoliday ? '法定节假日' : (day === 0 ? '周日' : '周六');
-        banner.innerHTML = '🟡 今天非交易日（' + reason + '）· 可以买入，下一个交易日确认份额';
+        banner.innerHTML = '🟡 今天非交易日（' + reason + '）· 不可按今日计划买入；下一个交易日重新生成确定性计划后再决定';
       }
     }
 
@@ -3614,16 +4029,30 @@
         RISK_ANCHOR_MISSING: '尚未设置迁移市值风险锚点',
         RISK_ANCHOR_LEDGER_MISMATCH: '风险锚点来自更新的账本，需重新核对迁移',
         RISK_ANCHOR_DRAWDOWN_10: '相对风险锚点回撤达到-10%',
+        RISK_ANCHOR_DRAWDOWN_15: '进取型档位相对风险锚点回撤达到-15%',
         TACTICAL_CORE_ONLY: '择时策略未放行，仅允许按目标配置做核心基础定投',
         SP500_BASELINE_ONLY: '主动策略未跑赢标普，仅允许标普500基准定投',
+        ALPHA_GATE_NOT_PASSED: '主动择时尚未通过三阶段样本外验收',
+        AGGRESSIVE_BETA_NOT_ALPHA: '进取档仅提高核心指数风险暴露，不等同于已证明超额',
         SATELLITE_ONLY: '主题或主动卫星基金仅观察，不再自动加仓',
-        NO_ELIGIBLE_CORE_ROUTE: '没有可执行的现有标普500通道',
+        NO_ELIGIBLE_CORE_ROUTE: '没有可执行的核心指数通道',
         NO_UNDERWEIGHT_CORE_BUCKET: '现有核心桶均不低配',
         NO_ELIGIBLE_EXISTING_CHANNEL: '低配桶没有可用的现有基金通道',
         CONCENTRATION_OR_MIN_PURCHASE_BLOCK: '通道受到集中度上限或最小申购额限制',
         PARTIAL_ROUTE_CAPACITY: '部分预算受限购或集中度上限未分配',
-        WEEKLY_BUDGET_EXHAUSTED: '本周标普基准定投额度已用完',
+        WEEKLY_BUDGET_EXHAUSTED: '本周对应风险档位的定投额度已用完',
         UNKNOWN_HOLDINGS: '存在无法识别的持仓',
+        PLAN_INPUT_REVISION_MISMATCH: '账本或风险设置已变化，旧计划已失效，等待生成新计划',
+        PLAN_DATE_MISSING: '计划缺少日期，禁止执行',
+        PLAN_DATE_INVALID: '计划日期格式无效，禁止执行',
+        PLAN_DATE_CONFLICT: '计划的 date 与 asOf 不一致，禁止执行',
+        PLAN_DATE_STALE: '计划不是上海时区今天的计划，禁止执行',
+        PLAN_DATE_FUTURE: '计划日期位于未来，禁止执行',
+        PLAN_EXECUTION_WINDOW_INVALID: '计划缺少有效的当日执行时段，禁止执行',
+        PLAN_WINDOW_NOT_OPEN: '今日计划尚未进入可执行时段',
+        PLAN_WINDOW_EXPIRED: '今日计划的执行时段已结束，等待下一次完整生成与发布',
+        PRIVATE_RECOMMENDATION_STATE_UNAVAILABLE: '构建时没有可验证的私有账本与风险状态',
+        MARKET_ONLY_BUILD_LOCKED: '本次构建永久保持行情只读模式，登录不会恢复买入计划',
         NO_ELIGIBLE_CANDIDATES: '没有通过硬风控的候选'
       };
       return labels[raw] ? labels[raw] + '（' + raw + '）' : raw;
@@ -3703,6 +4132,7 @@
         details.push('数据时效：' + (safePlan.dataFreshness.status || '未知') + (safePlan.dataFreshness.latestNavDate ? '，最新净值' + safePlan.dataFreshness.latestNavDate : ''));
       }
       if (safePlan.personalized) {
+        details.push('风险档位：' + (safePlan.riskProfile === 'AGGRESSIVE' ? '进取型' : '均衡型'));
         details.push('云端账本 revision：' + Number(safePlan.syncRevision || 0));
         if (safePlan.budgetPolicy) details.push('本周已买' + formatMetric(safePlan.budgetPolicy.weeklySpent) + '元，剩余额度' + formatMetric(safePlan.budgetPolicy.weeklyRemaining) + '元');
         if (safePlan.budgetPolicy && safePlan.budgetPolicy.overheatReduced) details.push('市场温度偏热，基础定投单日上限降为' + formatMetric(safePlan.budgetPolicy.dailyLimit) + '元');
@@ -3733,7 +4163,7 @@
       if (todayPicks && (todayPicks.action === 'HARD_PAUSE' || todayPicks.action === 'PAUSE' || todayPicks.action === 'HOLD')) {
         signal = 'STOP';
         reason = buildPauseDetails(todayPicks);
-      } else if (todayPicks && todayPicks.action === 'TACTICAL_PAUSE') {
+      } else if (todayPicks && (todayPicks.action === 'TACTICAL_PAUSE' || todayPicks.action === 'STRATEGIC_DCA')) {
         signal = 'CAUTION';
         reason = buildPauseDetails(todayPicks);
       } else if (bi && bi.buySignal) {
@@ -3769,10 +4199,13 @@
           : '当前条件未通过买入门槛';
       } else if (signal === 'CAUTION') {
         color = '#f97316'; bgColor = 'rgba(249,115,22,0.12)';
-        emoji = '🟡'; title = todayPicks.action === 'TACTICAL_PAUSE' ? '标普500基准定投' : '谨慎操作';
+        emoji = '🟡'; title = todayPicks.action === 'TACTICAL_PAUSE' ? '标普500基准定投' :
+          (todayPicks.action === 'STRATEGIC_DCA' ? '进取型核心定投' : '谨慎操作');
         subtitle = todayPicks.action === 'TACTICAL_PAUSE'
           ? '主动策略尚未证明跑赢标普；仅向真实持仓中的低费率标普500通道投入' + Number(todayPicks.budget || 0) + '元'
-          : '建议减半投入，控制风险';
+          : (todayPicks.action === 'STRATEGIC_DCA'
+            ? '按长期目标只补低配核心指数' + Number(todayPicks.budget || 0) + '元；提高风险暴露但不宣称择时超额'
+            : '建议减半投入，控制风险');
       } else {
         card.style.display = 'none';
         return;
@@ -3892,6 +4325,12 @@
     }
 
     try {
+      var initialPlanDateStatus = planDateStatus(publicTodayPicks);
+      var initialDateGuardedPlan = hasCanonicalBuildPlan() && !initialPlanDateStatus.current
+        ? buildPlanDateMismatchPlan(publicTodayPicks, initialPlanDateStatus.reason)
+        : enforceActionablePlanDate(publicTodayPicks);
+      canonicalPlanDateMismatch = hasCanonicalBuildPlan() && !initialPlanDateStatus.current;
+      todayPicks = initialDateGuardedPlan;
       document.getElementById('summary').innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--text3);padding:20px">⏳ 正在同步并校验云端账本，金额暂不展示</div>';
       loadFundOptions();
       renderTradeBanner();
@@ -3902,6 +4341,19 @@
       console.error('Init error:', e.message, e.stack);
       document.getElementById('summary').innerHTML = '<div style="color:red;padding:20px">加载错误: ' + e.message + '</div>';
     }
+    setInterval(function() {
+      if (!hasCanonicalBuildPlan()) return;
+      var wasCurrent = !canonicalPlanDateMismatch;
+      var isCurrent = refreshCanonicalPlanDateGuard();
+      updateCloudActionAvailability({
+        status: cloudWriteReady ? 'READY' : (window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true ? 'PUBLIC_SNAPSHOT' : 'OFFLINE')
+      });
+      if (wasCurrent !== isCurrent) {
+        renderTradeBanner();
+        renderBuySignal();
+        renderPicks();
+      }
+    }, 60000);
     // Firebase module performs remote-first bootstrap after Google auth state is known.
     /* ── Hypothesis & Goal Tracker (from Vibe-Trading hypotheses/ + goal/) ── */
     var HYP_KEY = 'qdii-hypotheses';
@@ -4047,7 +4499,7 @@
       var name = fund ? fund.name : code;
       var navInfo = getShadowNav(code);
       var nav = navInfo ? navInfo.nav : null;
-      var date = new Date().toISOString().slice(0, 10);
+      var date = shanghaiDateString();
       var shares = nav ? Math.round(amount / nav * 10000) / 10000 : null;
 
       var shadowData = loadShadowData();
@@ -4235,13 +4687,12 @@
       
       // 用真实数据计算 Bull/Bear 观点
       var holdings = portfolioData.holdings || [];
-      var totalInvested = 0;
-      holdings.forEach(function(h) {
-        // 从 buys 数组计算总投入
-        var inv = (h.buys || []).reduce(function(s, b) { return s + (b.amount || 0); }, 0);
-        h._invested = inv;
-        totalInvested += inv;
+      var portfolioValuation = calcConfirmedPortfolioValuation(holdings, function(holding) {
+        return getLatestNav(holding.code);
       });
+      var valuationByCode = {};
+      portfolioValuation.details.forEach(function(detail) { valuationByCode[detail.code] = detail; });
+      var totalValue = portfolioValuation.complete ? portfolioValuation.value : null;
       
       // 从评分数据中获取真实指标
       var rankedFunds = [];
@@ -4262,7 +4713,10 @@
           if (ind.maxDrawdown > -15) reasons.push('最大回撤仅 ' + ind.maxDrawdown + '%，风险可控');
         }
         var hold = holdings.find(function(h) { return h.code === fund.code; });
-        if (hold && hold._invested > 0) reasons.push('已持仓 ' + hold._invested + '元，成本已建立');
+        var holdValuation = hold ? valuationByCode[hold.code] : null;
+        if (holdValuation && holdValuation.invested > 0) {
+          reasons.push('已确认投入 ' + holdValuation.invested + '元' + (holdValuation.complete ? '，当前市值' + holdValuation.value.toFixed(2) + '元' : '，' + formatValuationIssue(holdValuation.valuationIssue)));
+        }
         if (reasons.length === 0) reasons.push('综合评分 ' + (score || 'N/A') + '，基本面尚可');
         return { fundCode: fund.code, fundName: fund.name, bullScore: bullScore, reasons: reasons.slice(0, 3), catalyst: null };
       });
@@ -4281,9 +4735,12 @@
           if (ind.sharpeRatio < 0.5) risks.push('夏普比率仅 ' + ind.sharpeRatio + '，风险收益比差');
         }
         var hold = holdings.find(function(h) { return h.code === fund.code; });
-        if (hold && hold._invested > 0 && totalInvested > 0) {
-          var weight = hold._invested / totalInvested * 100;
+        var holdValuation = hold ? valuationByCode[hold.code] : null;
+        if (holdValuation && holdValuation.complete && totalValue > 0) {
+          var weight = holdValuation.value / totalValue * 100;
           if (weight > 15) risks.push('持仓占比 ' + weight.toFixed(1) + '%，过度集中');
+        } else if (holdValuation && !holdValuation.complete) {
+          risks.push(formatValuationIssue(holdValuation.valuationIssue) + '，不能可靠计算该持仓占比与盈亏');
         }
         if (risks.length === 0) risks.push('QDII额度限制，流动性风险');
         return { fundCode: fund.code, fundName: fund.name, riskScore: riskScore, risks: risks.slice(0, 3), warningSignal: null };
@@ -4292,16 +4749,19 @@
       
       // 风险评估：基于真实持仓集中度
       var typeWeights = {};
-      holdings.forEach(function(h) {
-        var fund = fundsData.funds.find(function(f) { return f.code === h.code; });
-        var type = fund ? (fund.type || '未知') : '未知';
-        typeWeights[type] = (typeWeights[type] || 0) + (h._invested || 0);
-      });
+      if (portfolioValuation.complete) {
+        portfolioValuation.details.forEach(function(detail) {
+          var fund = fundsData.funds.find(function(f) { return f.code === detail.code; });
+          var type = fund ? (fund.type || '未知') : '未知';
+          typeWeights[type] = (typeWeights[type] || 0) + (detail.value || 0);
+        });
+      }
       var maxType = Object.keys(typeWeights).sort(function(a, b) { return typeWeights[b] - typeWeights[a]; })[0];
-      var maxWeight = totalInvested > 0 ? (typeWeights[maxType] || 0) / totalInvested * 100 : 0;
-      var riskLevel = maxWeight > 60 ? '高' : (maxWeight > 40 ? '中' : '低');
+      var maxWeight = totalValue > 0 ? (typeWeights[maxType] || 0) / totalValue * 100 : 0;
+      var riskLevel = portfolioValuation.complete ? (maxWeight > 60 ? '高' : (maxWeight > 40 ? '中' : '低')) : '未知';
       var mainRisks = [];
-      if (maxWeight > 50) mainRisks.push(maxType + ' 占比 ' + maxWeight.toFixed(1) + '%，集中度过高');
+      if (!portfolioValuation.complete) mainRisks.push('估值不完整：' + (portfolioValuation.valuationIssues || []).map(function(issue) { return issue.code + ':' + formatValuationIssue(issue.reason); }).join('；') + '，不能判断组合集中度');
+      else if (maxWeight > 50) mainRisks.push(maxType + ' 占比 ' + maxWeight.toFixed(1) + '%，集中度过高');
       mainRisks.push('QDII 基金存在每日限购，流动性受限');
       if (holdings.length < 5) mainRisks.push('持仓基金数仅 ' + holdings.length + ' 只，分散度不足');
       debateState.riskAssessment = { overallRiskLevel: riskLevel, mainRisks: mainRisks, recommendations: [] };
@@ -4312,13 +4772,13 @@
       
       // 共识点：Bull 和 Bear 都认同的
       var consensus = [];
-      if (riskLevel === '低') consensus.push('组合整体风险可控');
+      if (riskLevel === '低') consensus.push('按当前完整估值，组合集中度风险较低');
       if (holdings.length >= 5) consensus.push('持仓数量合理，基本分散');
       consensus.push('QDII 基金存在限购约束');
       
       // 分歧点：Bull 和 Bear 有争议的
       var disputes = [];
-      if (maxWeight > 40) disputes.push(maxType + ' 集中度：Bull 认为是优势（聚焦优质赛道），Bear 认为是风险（过度集中）');
+      if (portfolioValuation.complete && maxWeight > 40) disputes.push(maxType + ' 集中度：Bull 认为是优势（聚焦优质赛道），Bear 认为是风险（过度集中）');
       disputes.push('当前市场估值：Bull 看好长期增长，Bear 担忧短期回调');
       
       // 激进/保守/中立 三方评估
@@ -4340,7 +4800,9 @@
       decision += '🔵 保守派：' + conservativeView + '\n';
       decision += '⚪ 中立派：' + neutralView + '\n';
       decision += '\n━━━ 💡 最终建议 ━━━\n';
-      if (riskLevel === '高') {
+      if (!portfolioValuation.complete) {
+        decision += '估值不完整：' + (portfolioValuation.valuationIssues || []).map(function(issue) { return issue.code + ':' + formatValuationIssue(issue.reason); }).join('；') + '；当前不输出组合集中度或盈亏结论。';
+      } else if (riskLevel === '高') {
         decision += '组合集中度过高，建议减少 ' + maxType + ' 配置，增加其他类型基金分散风险。';
       } else {
         decision += '组合结构合理，保持定投节奏。重点关注评分高、回撤小、估值合理的基金。';
@@ -4414,8 +4876,16 @@
 
       // 实际 vs 模拟对比
       var realS = calcSummary();
-      var realRate = realS.invested > 0 ? Math.round(((realS.value - realS.invested) / realS.invested) * 10000) / 100 : 0;
+      var realRate = realS.valuationComplete && realS.value !== null && realS.invested > 0
+        ? Math.round(((realS.value - realS.invested) / realS.invested) * 10000) / 100
+        : null;
       var shadowRate = pnlRate;
+      var rateDifference = realRate === null ? null : Math.round((shadowRate - realRate) * 100) / 100;
+      var realRateText = realRate === null ? '--' : (realRate >= 0 ? '+' : '') + realRate + '%';
+      var differenceText = rateDifference === null ? '--' : (rateDifference > 0 ? '+' : '') + rateDifference + '%';
+      var comparisonText = realRate === null
+        ? '⚠️ 实际组合估值不完整，暂不比较收益率'
+        : (shadowRate > realRate ? '🔥 模拟组合跑赢实际组合' : shadowRate < realRate ? '✅ 实际组合表现更好' : '⚖️ 两者持平');
 
       compareEl.innerHTML =
         '<div class="card" style="padding:14px;margin-top:8px">' +
@@ -4423,7 +4893,7 @@
         '<div style="display:flex;gap:12px">' +
         '<div style="flex:1;text-align:center;padding:10px;background:var(--bg);border-radius:8px">' +
         '<div style="font-size:11px;color:var(--text3)">实际收益率</div>' +
-        '<div style="font-size:18px;font-weight:700;color:var(--' + (realRate >= 0 ? 'danger' : 'success') + ')">' + (realRate >= 0 ? '+' : '') + realRate + '%</div>' +
+        '<div style="font-size:18px;font-weight:700;color:' + (realRate === null ? 'var(--text3)' : 'var(--' + (realRate >= 0 ? 'danger' : 'success') + ')') + '">' + realRateText + '</div>' +
         '</div>' +
         '<div style="flex:1;text-align:center;padding:10px;background:var(--bg);border-radius:8px">' +
         '<div style="font-size:11px;color:var(--text3)">模拟收益率</div>' +
@@ -4431,12 +4901,11 @@
         '</div>' +
         '<div style="flex:1;text-align:center;padding:10px;background:var(--bg);border-radius:8px">' +
         '<div style="font-size:11px;color:var(--text3)">差异</div>' +
-        '<div style="font-size:18px;font-weight:700;color:' + (shadowRate > realRate ? 'var(--danger)' : 'var(--success)') + '">' +
-        (shadowRate > realRate ? '+' : '') + Math.round((shadowRate - realRate) * 100) / 100 + '%</div>' +
+        '<div style="font-size:18px;font-weight:700;color:' + (realRate === null ? 'var(--text3)' : (shadowRate > realRate ? 'var(--danger)' : 'var(--success)')) + '">' + differenceText + '</div>' +
         '</div>' +
         '</div>' +
         '<div style="font-size:11px;color:var(--text3);margin-top:8px;text-align:center">' +
-        (shadowRate > realRate ? '🔥 模拟组合跑赢实际组合' : shadowRate < realRate ? '✅ 实际组合表现更好' : '⚖️ 两者持平') +
+        comparisonText +
         '</div></div>';
     }
 
@@ -4501,13 +4970,34 @@
       status = status || {};
       var publicSnapshot = status.status === 'PUBLIC_SNAPSHOT';
       var writeReady = cloudWriteReady && status.status === 'READY';
-      var writeReason = publicSnapshot
-        ? '公开只读快照不能写入或刷新云端账本'
-        : '请先登录并完成云端账本校验';
+      var marketOnlyLocked = isMarketOnlyBuildPlan(publicTodayPicks);
+      var planDateCurrent = refreshCanonicalPlanDateGuard();
+      var planWriteReady = writeReady && !canonicalPlanInputMismatch && planDateCurrent && !canonicalPlanDateMismatch && !marketOnlyLocked;
+      var writeReason = canonicalPlanInputMismatch
+        ? '云端账本或风险设置已变化，旧计划已暂停，请等待网站生成新计划'
+        : (canonicalPlanDateMismatch
+          ? '计划不是上海时区今天的计划，已暂停确认，请等待网站生成新计划'
+        : (marketOnlyLocked
+          ? '本次网站构建没有可验证的私有状态，登录也不会恢复买入计划，请等待重新生成网站'
+        : (publicSnapshot
+          ? '公开只读快照不能写入或刷新云端账本'
+          : '请先登录并完成云端账本校验')));
       setCloudActionEnabled('cloud-migrate-btn', writeReady, writeReason);
       setCloudActionEnabled('cloud-refresh-btn', writeReady, writeReason);
-      setCloudActionEnabled('buy-submit-btn', writeReady, writeReason);
-      setCloudActionEnabled('batch-submit-btn', writeReady, writeReason);
+      setCloudActionEnabled('buy-submit-btn', planWriteReady, writeReason);
+      setCloudActionEnabled('batch-submit-btn', planWriteReady, writeReason);
+      var buyHint = document.getElementById('buy-write-hint');
+      if (buyHint) {
+        buyHint.textContent = canonicalPlanInputMismatch
+          ? '账本或风险设置已在计划生成后变化；为防止重复买入，确认按钮已暂停，等待网站生成新计划。'
+          : (canonicalPlanDateMismatch
+            ? '当前计划不是上海时区今天的计划；昨日、未来或缺少日期的计划均不可确认买入。'
+          : (marketOnlyLocked
+            ? '本次网站仅含行情数据，没有可验证的私有账本与风险状态；登录不会恢复买入计划。'
+          : (writeReady
+            ? 'Google 登录与云端账本已校验；确认买入只记录账本，不会向基金平台自动下单。'
+            : '0315 仅用于进入网站；确认买入只会记录到个人云端账本，不会替你向基金平台下单，且必须先完成 Google 登录和云端账本校验。')));
+      }
       setCloudActionEnabled(
         'portfolio-import-btn',
         !publicSnapshot,
@@ -4539,25 +5029,63 @@
         showToast('请先完成云端账本同步', true);
         return;
       }
+      if (isCanonicalPublicSnapshot(currentCloudDetail)) {
+        showToast('公开计划使用云端风险设置，请登录后修改', true);
+        return;
+      }
       var summary = calcSummary();
+      var profileSelect = document.getElementById('risk-profile-select');
+      var riskProfile = profileSelect && profileSelect.value === 'BALANCED' ? 'BALANCED' : 'AGGRESSIVE';
       if (!(Number(summary.value) > 0)) {
         showToast('当前市值无效，不能设置风险锚点', true);
         return;
       }
-      var message = '将当前市值 ' + summary.value + ' 元设为风险锚点。\n' +
-        '之后回撤达到-7.5%将停止成长科技新增，达到-10%将停止全部新增。\n' +
+      var message = '将当前市值 ' + summary.value + ' 元设为风险锚点，并使用' + (riskProfile === 'AGGRESSIVE' ? '进取型' : '均衡型') + '档位。\n' +
+        (riskProfile === 'AGGRESSIVE' ? '之后回撤达到-12%将停止成长科技新增，达到-15%将停止全部新增。\n' : '之后回撤达到-7.5%将停止成长科技新增，达到-10%将停止全部新增。\n') +
         '该操作不会买卖基金，是否继续？';
       if (!confirm(message)) return;
       try {
         if (currentCloudDetail.readOnly === true && window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true) {
-          await window.QdiiCloudSync.initializePublicRiskAnchor(summary.value, currentCloudDetail.ledger.revision);
+          await window.QdiiCloudSync.initializePublicRiskAnchor(summary.value, currentCloudDetail.ledger.revision, riskProfile);
           showToast('风险锚点已保存在此浏览器；无需登录');
         } else {
-          await window.QdiiCloudSync.initializeRiskAnchor(summary.value, currentCloudDetail.ledger.revision);
+          await window.QdiiCloudSync.initializeRiskAnchor(summary.value, currentCloudDetail.ledger.revision, riskProfile);
           showToast('风险锚点已保存到Firebase');
         }
       } catch (error) {
         showToast('风险锚点设置失败：' + error.message, true);
+      }
+    }
+
+    async function firebaseSetRiskProfile(riskProfile) {
+      if (!window.QdiiCloudSync || !currentCloudDetail || !currentCloudDetail.decisionState) {
+        showToast('请先设置风险锚点', true);
+        updateAnchorButton(currentCloudDetail);
+        return;
+      }
+      if (isCanonicalPublicSnapshot(currentCloudDetail)) {
+        showToast('公开计划使用云端风险设置，请登录后修改', true);
+        updateAnchorButton(currentCloudDetail);
+        return;
+      }
+      var normalized = riskProfile === 'BALANCED' ? 'BALANCED' : 'AGGRESSIVE';
+      var previous = currentCloudDetail.decisionState.riskProfile === 'BALANCED' ? 'BALANCED' : 'AGGRESSIVE';
+      if (normalized === previous && currentCloudDetail.decisionState.riskProfile) return;
+      var warning = normalized === 'AGGRESSIVE'
+        ? '进取型会把目标提高为标普50%、纳指35%，允许更大回撤后才停止新增。它不保证跑赢标普。是否保存？'
+        : '均衡型会降低美股成长集中度并保留10%现金目标。是否保存？';
+      if (!confirm(warning)) { updateAnchorButton(currentCloudDetail); return; }
+      try {
+        if (currentCloudDetail.readOnly === true && window.QDII_PUBLIC_PORTFOLIO_SNAPSHOT === true) {
+          await window.QdiiCloudSync.updatePublicRiskProfile(normalized);
+          showToast('风险档位已保存在此浏览器');
+        } else {
+          await window.QdiiCloudSync.updateRiskProfile(normalized);
+          showToast('风险档位已保存到Firebase');
+        }
+      } catch (error) {
+        updateAnchorButton(currentCloudDetail);
+        showToast('风险档位设置失败：' + error.message, true);
       }
     }
 
@@ -4798,6 +5326,7 @@
         if (!fullNav) {
           el.innerHTML = '<div style="color:var(--text3);font-size:12px">无法加载净值历史数据</div>';
           if (attrEl) attrEl.innerHTML = '<div style="color:var(--text3);font-size:12px">无法加载净值历史数据</div>';
+          runAttribution({}, portfolioData.holdings.map(function(h) { return h.code; }), []);
           return;
         }
 
@@ -4806,6 +5335,7 @@
         var codes = portfolioData.holdings.map(function(h) { return h.code; });
         if (codes.length === 0) {
           el.innerHTML = '<div style="color:var(--text3);font-size:12px">暂无持仓，无法回测</div>';
+          runAttribution({}, [], []);
           return;
         }
 
@@ -4817,12 +5347,6 @@
           }
         });
         var dates = Object.keys(allDates).sort();
-        if (dates.length < 60) {
-          el.innerHTML = '<div style="color:var(--text3);font-size:12px">净值数据不足60天（当前' + dates.length + '天），暂无法回测</div>';
-          return;
-        }
-
-        // Build NAV matrix
         var navMatrix = {};
         codes.forEach(function(code) {
           navMatrix[code] = {};
@@ -4830,6 +5354,13 @@
             fullNav[code].forEach(function(n) { navMatrix[code][n.date] = n.nav; });
           }
         });
+
+        runAttribution(navMatrix, codes, dates);
+
+        if (dates.length < 60) {
+          el.innerHTML = '<div style="color:var(--text3);font-size:12px">净值数据不足60天（当前' + dates.length + '天），暂无法回测</div>';
+          return;
+        }
 
         // Walk-forward: train 120 days, test 30 days, slide forward
         // 数据不足时降级：最少需要60天（训练45天+测试15天）
@@ -4945,8 +5476,6 @@
 
         el.innerHTML = html2;
 
-        // Performance Attribution
-        runAttribution(navMatrix, codes, dates);
       });
     }
 
@@ -4958,30 +5487,22 @@
       codes.forEach(function(code) {
         var fund = fundsData.funds.find(function(f) { return f.code === code; });
         var holding = portfolioData.holdings.find(function(h) { return h.code === code; });
-        var inv = holding ? holding.buys.reduce(function(s, b) { return s + b.amount; }, 0) : 0;
+        var series = navMatrix[code] || {};
 
         // 30日收益：用基金自己有数据的最近30天
-        var fundDates = dates.filter(function(d) { return navMatrix[code][d]; });
+        var fundDates = dates.filter(function(d) { return series[d]; });
         var recent30 = fundDates.slice(-30);
-        var startNav = recent30.length > 0 ? navMatrix[code][recent30[0]] : null;
-        var endNav = recent30.length > 0 ? navMatrix[code][recent30[recent30.length - 1]] : null;
+        var startNav = recent30.length > 0 ? series[recent30[0]] : null;
+        var endNav = recent30.length > 0 ? series[recent30[recent30.length - 1]] : null;
         var fundReturn = (startNav && endNav && startNav > 0) ? Math.round((endNav - startNav) / startNav * 10000) / 100 : 0;
 
         // 总盈亏：买入至今
-        var latestNav = endNav || (fundDates.length > 0 ? navMatrix[code][fundDates[fundDates.length-1]] : 0);
-        var totalVal = 0;
-        if (holding) {
-          holding.buys.forEach(function(b) {
-            if (b.shares && b.shares > 0 && latestNav > 0) {
-              totalVal += b.shares * latestNav;
-            } else if (b.nav && b.nav > 0 && latestNav > 0) {
-              totalVal += b.amount * (latestNav / b.nav);
-            } else {
-              totalVal += b.amount;
-            }
-          });
-        }
-        var totalPnl = totalVal - inv;
+        var latestNav = endNav || (fundDates.length > 0 ? series[fundDates[fundDates.length-1]] : 0);
+        var valuation = calcConfirmedHoldingValuation(holding, {
+          nav: latestNav,
+          date: fundDates.length > 0 ? fundDates[fundDates.length - 1] : null
+        });
+        var inv = valuation.invested;
 
         attributions.push({
           code: code,
@@ -4990,34 +5511,63 @@
           invested: inv,
           return30d: fundReturn,
           contribution: inv * fundReturn / 100,
-          totalPnl: Math.round(totalPnl * 100) / 100
+          value: valuation.value === null ? null : Math.round(valuation.value * 100) / 100,
+          totalPnl: valuation.pnl === null ? null : Math.round(valuation.pnl * 100) / 100,
+          complete: valuation.complete
         });
       });
 
-      attributions.sort(function(a, b) { return a.totalPnl - b.totalPnl; });
+      (Array.isArray(portfolioData.closedPositions) ? portfolioData.closedPositions : []).forEach(function(position) {
+        var realizedPnl = Number(position && position.realizedPnl);
+        var investedAmount = Number(position && position.investedAmount);
+        attributions.push({
+          code: String(position && position.code || ''),
+          name: String(position && position.name || position && position.code || '已清仓基金'),
+          type: '已清仓',
+          invested: 0,
+          historicalCost: Number.isFinite(investedAmount) ? investedAmount : 0,
+          return30d: null,
+          contribution: 0,
+          value: 0,
+          totalPnl: Number.isFinite(realizedPnl) ? Math.round(realizedPnl * 100) / 100 : 0,
+          complete: true,
+          closed: true
+        });
+      });
+
+      attributions.sort(function(a, b) {
+        if (a.totalPnl === null) return 1;
+        if (b.totalPnl === null) return -1;
+        return a.totalPnl - b.totalPnl;
+      });
 
       var html2 = '<div style="font-size:12px">';
       html2 += '<div style="display:flex;justify-content:space-between;padding:4px 0;border-bottom:2px solid var(--border);font-weight:600;font-size:11px">';
       html2 += '<span style="flex:2">基金</span><span style="width:60px;text-align:right">投入</span><span style="width:60px;text-align:right">现值</span><span style="width:60px;text-align:right">盈亏</span></div>';
 
-      var totalPnlSum = attributions.reduce(function(s, a) { return s + a.totalPnl; }, 0);
+      var attributionComplete = attributions.every(function(a) { return a.complete; });
+      var totalPnlSum = attributionComplete ? attributions.reduce(function(s, a) { return s + a.totalPnl; }, 0) : null;
       var totalInvSum = attributions.reduce(function(s, a) { return s + a.invested; }, 0);
-      var totalValSum = attributions.reduce(function(s, a) { return s + (a.invested + a.totalPnl); }, 0);
+      var totalValSum = attributionComplete ? attributions.reduce(function(s, a) { return s + a.value; }, 0) : null;
       attributions.forEach(function(a) {
-        var curVal = a.invested + a.totalPnl;
-        var clsPnl = a.totalPnl >= 0 ? 'var(--danger)' : 'var(--success)';
+        var clsPnl = a.totalPnl === null ? 'var(--text3)' : (a.totalPnl >= 0 ? 'var(--danger)' : 'var(--success)');
+        var safeName = escapeHtml(a.name);
+        var rowLabel = safeName + (a.closed ? ' · 已清仓' : '');
         html2 += '<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);align-items:center">';
-        html2 += '<span style="flex:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + a.name + '">' + a.name + '</span>';
-        html2 += '<span style="width:60px;text-align:right;color:var(--text3);font-size:11px">' + a.invested + '</span>';
-        html2 += '<span style="width:60px;text-align:right;font-size:11px">' + Math.round(curVal * 100) / 100 + '</span>';
-        html2 += '<span style="width:60px;text-align:right;color:' + clsPnl + ';font-weight:600;font-size:11px">' + (a.totalPnl >= 0 ? '+' : '') + a.totalPnl + '</span>';
+        html2 += '<span style="flex:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + safeName + '">' + rowLabel + '</span>';
+        html2 += '<span style="width:60px;text-align:right;color:var(--text3);font-size:11px">' + (a.closed ? '--' : a.invested) + '</span>';
+        html2 += '<span style="width:60px;text-align:right;font-size:11px">' + (a.closed || a.value === null ? '--' : a.value) + '</span>';
+        html2 += '<span style="width:60px;text-align:right;color:' + clsPnl + ';font-weight:600;font-size:11px">' + (a.totalPnl === null ? '--' : (a.totalPnl >= 0 ? '+' : '') + a.totalPnl) + '</span>';
         html2 += '</div>';
       });
+      if (!attributionComplete) {
+        html2 += '<div style="padding:7px;color:var(--state-red-text);background:var(--state-red-bg);font-size:11px">⚠️ 估值不完整，缺净值的持仓不按成本价伪造现值；合计市值与盈亏暂不显示。</div>';
+      }
       html2 += '<div style="display:flex;justify-content:space-between;padding:6px 0;font-weight:600;border-top:2px solid var(--border)">';
       html2 += '<span>合计</span>';
       html2 += '<span style="width:60px;text-align:right">' + totalInvSum + '</span>';
-      html2 += '<span style="width:60px;text-align:right">' + Math.round(totalValSum * 100) / 100 + '</span>';
-      html2 += '<span style="width:60px;text-align:right;color:' + (totalPnlSum >= 0 ? 'var(--danger)' : 'var(--success)') + '">' + (totalPnlSum >= 0 ? '+' : '') + Math.round(totalPnlSum * 100) / 100 + '</span>';
+      html2 += '<span style="width:60px;text-align:right">' + (totalValSum === null ? '--' : Math.round(totalValSum * 100) / 100) + '</span>';
+      html2 += '<span style="width:60px;text-align:right;color:' + (totalPnlSum === null ? 'var(--text3)' : (totalPnlSum >= 0 ? 'var(--danger)' : 'var(--success)')) + '">' + (totalPnlSum === null ? '--' : (totalPnlSum >= 0 ? '+' : '') + Math.round(totalPnlSum * 100) / 100) + '</span>';
       html2 += '</div>';
       html2 += '</div>';
 
@@ -5124,6 +5674,9 @@
       });
       if (safePlan.action === 'TACTICAL_PAUSE') {
         lines.push('当前主动策略尚未证明跑赢标普500；这里只执行现有低费率标普500通道的基准定投，不属于择时推荐，其他指数、主题与主动基金不再自动加仓。');
+      }
+      if (safePlan.action === 'STRATEGIC_DCA') {
+        lines.push('这是进取型战略配置，只按长期目标补核心指数低配；承担更高市场风险，不代表择时模型已证明超额。');
       }
       lines.push('QDII通常按有效申请日净值成交，T+2主要是确认时间；以上仅为计划记录，不会自动下单。');
       return lines.join('\n');
@@ -5354,7 +5907,7 @@
       lines.push('预算: ' + (Number(plan.budget) || 0) + '元');
       var freshness = plan.dataFreshness || {};
       lines.push('数据时效: ' + (freshness.status || '未知') + (freshness.latestNavDate ? '，最新净值' + freshness.latestNavDate : ''));
-      if (plan.action === 'PAUSE' || plan.action === 'HOLD') lines.push(buildPauseDetails(plan));
+      if (plan.action === 'HARD_PAUSE' || plan.action === 'PAUSE' || plan.action === 'HOLD') lines.push(buildPauseDetails(plan));
       var planCandidates = Array.isArray(plan.ranked) ? plan.ranked : [];
       if (planCandidates.length === 0) {
         lines.push('候选: 无');
@@ -5368,7 +5921,7 @@
         });
       }
       lines.push('硬规则：只能解释以上 RecommendationPlan，不得新增基金、重算排名、改变 action、预算或建议金额。');
-      lines.push('PAUSE/HOLD 必须明确回答今天不买、预算0元；市场情绪不得覆盖或弱化 PAUSE。');
+      lines.push('HARD_PAUSE/PAUSE/HOLD 必须明确回答今天不买、预算0元；市场情绪不得覆盖或弱化确定性暂停。');
       lines.push('');
 
       // “今天买什么”只能解释确定性计划，不注入任何浏览器自算数据。
@@ -5408,25 +5961,25 @@
       // 持仓数据（带盈亏）
       lines.push('=== 用户当前持仓（含盈亏） ===');
       var holdings = portfolioData.holdings || [];
-      var totalInv = 0, totalVal = 0;
-      holdings.forEach(function(h) {
-        var inv = (h.buys || []).reduce(function(s, b) { return s + (b.amount || 0); }, 0);
-        totalInv += inv;
-        // 获取最新净值
-        var cached = navCacheData[h.code];
-        var latestNav = cached && cached.length > 0 ? cached[cached.length - 1].nav : null;
-        var val = 0;
-        (h.buys || []).forEach(function(b) {
-          if (b.shares > 0 && latestNav) val += b.shares * latestNav;
-          else val += b.amount; // 未结算按投入算
-        });
-        totalVal += val;
-        var pnl = val - inv;
-        var pnlStr = pnl >= 0 ? '+' + pnl.toFixed(2) : pnl.toFixed(2);
-        var settled = (h.buys || []).filter(function(b){return b.shares>0;}).length;
-        lines.push('- ' + h.name + ' (' + h.code + '): 投入' + inv + '元, 市值' + val.toFixed(0) + '元, 盈亏' + pnlStr + '元, ' + settled + '笔已结算');
+      var promptValuation = calcConfirmedPortfolioValuation(holdings, function(holding) {
+        return getLatestNav(holding.code);
       });
-      lines.push('总投入: ' + totalInv + '元, 总市值: ' + totalVal.toFixed(0) + '元, 总盈亏: ' + (totalVal - totalInv).toFixed(2) + '元, ' + holdings.length + '只基金');
+      var promptSummary = calcSummary();
+      var promptByCode = {};
+      promptValuation.details.forEach(function(detail) { promptByCode[detail.code] = detail; });
+      holdings.forEach(function(h) {
+        var valuation = promptByCode[h.code];
+        var pnlStr = valuation.pnl === null ? '估值待补齐' : (valuation.pnl >= 0 ? '+' : '') + valuation.pnl.toFixed(2) + '元';
+        lines.push('- ' + getHoldingDisplayName(h, fundsData.funds.find(function(f) { return f.code === h.code; })) + ' (' + h.code + '): 已确认投入' + valuation.invested + '元, 市值' + (valuation.value === null ? '--' : valuation.value.toFixed(2) + '元') + ', 盈亏' + pnlStr + ', ' + valuation.confirmedRecords + '笔已确认' + (valuation.pending > 0 ? ', ' + valuation.pending + '元待核验且不计入估值' : ''));
+      });
+      if (promptValuation.complete) {
+        lines.push('总确认投入: ' + promptValuation.invested + '元, 总市值: ' + promptValuation.value.toFixed(2) + '元, 总盈亏: ' + promptSummary.pnl.toFixed(2) + '元, ' + holdings.length + '只确认持仓');
+      } else {
+        lines.push('总确认投入: ' + promptValuation.invested + '元, 总市值: --, 总盈亏: 估值不完整；净值问题: ' + (promptValuation.valuationIssues || []).map(function(issue) { return issue.code + ':' + formatValuationIssue(issue.reason); }).join('；') + '。不得按成本价补齐或推断盈亏。');
+      }
+      if (promptSummary.closedCount > 0) {
+        lines.push('已清仓头寸: ' + promptSummary.closedCount + '只, 累计已实现盈亏: ' + (promptSummary.realizedPnl >= 0 ? '+' : '') + promptSummary.realizedPnl.toFixed(2) + '元（已计入总盈亏，不计入当前市值与风险权重）');
+      }
       lines.push('');
 
       // 新闻（带情绪评分）

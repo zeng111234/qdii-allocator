@@ -1,0 +1,67 @@
+name: Validate & Deploy Firebase Rules
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_project:
+        description: Type the exact Firebase project id to confirm this rules-only deployment
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: firebase-rules-deployment
+  cancel-in-progress: false
+
+jobs:
+  validate-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+
+      - name: Validate explicit project confirmation
+        env:
+          CONFIRMED_PROJECT: ${{ inputs.confirm_project }}
+          FIREBASE_RULES_PROJECT_ID: ${{ secrets.FIREBASE_RULES_PROJECT_ID }}
+        run: |
+          if [ -z "$FIREBASE_RULES_PROJECT_ID" ]; then
+            echo "::error::FIREBASE_RULES_PROJECT_ID is not configured."
+            exit 1
+          fi
+          if [ "$CONFIRMED_PROJECT" != "$FIREBASE_RULES_PROJECT_ID" ]; then
+            echo "::error::Project confirmation does not match the dedicated rules project secret."
+            exit 1
+          fi
+
+      - name: Validate Realtime Database Rules source
+        run: |
+          node -e '
+            const fs = require("node:fs");
+            const config = JSON.parse(fs.readFileSync("firebase.json", "utf8"));
+            if (!config.database || config.database.rules !== "firebase.database.rules.json") {
+              throw new Error("firebase.json must point database.rules at firebase.database.rules.json");
+            }
+            const rules = JSON.parse(fs.readFileSync(config.database.rules, "utf8"));
+            if (!rules.rules || rules.rules[".read"] !== false || rules.rules[".write"] !== false) {
+              throw new Error("Realtime Database Rules must remain default-deny at the root");
+            }
+          '
+
+      - name: Authenticate dedicated Firebase Rules deployer
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: ${{ secrets.FIREBASE_RULES_SERVICE_ACCOUNT }}
+          create_credentials_file: true
+          export_environment_variables: true
+
+      - name: Deploy Realtime Database Rules only
+        env:
+          FIREBASE_RULES_PROJECT_ID: ${{ secrets.FIREBASE_RULES_PROJECT_ID }}
+        run: npx --yes firebase-tools@14.12.1 deploy --only database --project "$FIREBASE_RULES_PROJECT_ID" --non-interactive

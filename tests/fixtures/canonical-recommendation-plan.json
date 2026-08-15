@@ -1,0 +1,25 @@
+{
+  "schemaVersion": "PersonalizedRecommendationPlanV2",
+  "strategyVersion": "allocation-v2.4-monthly-alpha-gate",
+  "asOf": "2026-08-13",
+  "action": "HARD_PAUSE",
+  "decisionMode": "DATA_BLOCKED",
+  "blockedStage": "DATA_VALIDATION",
+  "pauseReasons": [
+    "EMPTY_PORTFOLIO"
+  ],
+  "budget": 0,
+  "syncRevision": 1,
+  "decisionRevision": 1,
+  "candidates": [],
+  "ranked": [],
+  "executionRoutes": [],
+  "marketRanking": [],
+  "dataFreshness": {
+    "status": "FRESH"
+  },
+  "signalHealth": {
+    "status": "PAUSE"
+  },
+  "personalized": true
+}

@@ -5,6 +5,14 @@ const factorEngine = require("../../lib/factor-engine");
 const engine = require("../../lib/recommendation-engine");
 const aiAnalyst = require("../../lib/ai-analyst");
 
+function executableEvidence() {
+  return {
+    strategyId: engine.CURRENT_STRATEGY_VERSION,
+    strategyIdReported: true,
+    historicalPurchaseAvailabilityProven: true
+  };
+}
+
 function navSeries(start, count, step) {
   const rows = [];
   const startDate = new Date(start + "T00:00:00Z");
@@ -86,6 +94,71 @@ test("plan exposes every deterministic pause reason without weakening the live g
   assert.deepEqual(plan.pauseReasons, ["LIVE_DISABLED", "SIGNAL_BREAKER"]);
 });
 
+test("base recommendation exposure excludes pending buys without confirmed shares", function () {
+  const plan = engine.buildRecommendationPlan({
+    funds: [{ code: "A", name: "A", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 100, feeRate: 0.5 }],
+    navCache: { A: navSeries("2025-10-01", 288, 0.001) },
+    portfolio: { holdings: [{ code: "A", totalAmount: 50, buys: [{ amount: 50, nav: 0, shares: 0 }] }] },
+    history: { records: [] },
+    asOf: "2026-07-15",
+    budget: 50,
+    liveEnabled: false
+  });
+  assert.equal(plan.portfolioRisk.totalAmount, 0);
+  assert.equal(plan.bucketExposure.US_BROAD, 0);
+  assert.equal(plan.portfolioRisk.valuationComplete, true);
+});
+
+test("base recommendation pauses with zero budget when a confirmed holding has no current NAV", function () {
+  const plan = engine.buildRecommendationPlan({
+    funds: [
+      { code: "A", name: "A", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 100, feeRate: 0.5 },
+      { code: "H", name: "H", type: "纳指100", indexGroup: "NDX100", status: "suspended", dailyLimit: 0, feeRate: 0.5 }
+    ],
+    navCache: { A: navSeries("2025-10-01", 288, 0.001) },
+    portfolio: { holdings: [{ code: "H", totalShares: 10, confirmedAmount: 100, currentValue: 100 }] },
+    history: { records: [] },
+    asOf: "2026-07-15",
+    budget: 50,
+    liveEnabled: false,
+    riskAnchorValue: 1000,
+    currentValue: 950
+  });
+
+  assert.equal(plan.action, "PAUSE");
+  assert.equal(plan.budget, 0);
+  assert.ok(plan.pauseReasons.includes("PORTFOLIO_VALUATION_INCOMPLETE"));
+  assert.equal(plan.portfolioRisk.valuationComplete, false);
+  assert.deepEqual(plan.portfolioRisk.missingValuationCodes, ["H"]);
+  assert.equal(plan.portfolioRisk.totalAmount, null);
+  assert.deepEqual(plan.bucketExposure, {});
+  assert.equal(plan.riskAnchorDrawdown, null);
+});
+
+test("base recommendation also rejects stale NAV for a confirmed holding", function () {
+  const plan = engine.buildRecommendationPlan({
+    funds: [
+      { code: "A", name: "A", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 100, feeRate: 0.5 },
+      { code: "H", name: "H", type: "纳指100", indexGroup: "NDX100", status: "suspended", dailyLimit: 0, feeRate: 0.5 }
+    ],
+    navCache: {
+      A: navSeries("2025-10-01", 288, 0.001),
+      H: [{ date: "2026-07-01", nav: 1.2 }]
+    },
+    portfolio: { holdings: [{ code: "H", totalShares: 10, confirmedAmount: 100 }] },
+    asOf: "2026-07-15",
+    liveEnabled: false
+  });
+
+  assert.equal(plan.action, "PAUSE");
+  assert.equal(plan.budget, 0);
+  assert.ok(plan.pauseReasons.includes("PORTFOLIO_VALUATION_INCOMPLETE"));
+  assert.equal(plan.portfolioRisk.valuationComplete, false);
+  assert.deepEqual(plan.portfolioRisk.missingValuationCodes, []);
+  assert.deepEqual(plan.portfolioRisk.staleValuationCodes, ["H"]);
+  assert.deepEqual(plan.bucketExposure, {});
+});
+
 test("plan partitions BUY and PAUSE history into disjoint live and shadow samples", function () {
   const liveRecords = Array.from({ length: 15 }, function (_, i) {
     return {
@@ -120,6 +193,8 @@ test("plan partitions BUY and PAUSE history into disjoint live and shadow sample
       medianExcess12Week: 0.01,
       drawdownGapPercentagePoints: 1.5, shadowWeeks: 8, hardRiskViolations: 0,
       feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true,
+      strategyId: engine.CURRENT_STRATEGY_VERSION, strategyIdReported: true,
+      historicalPurchaseAvailabilityProven: true,
       monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
       monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
       monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
@@ -132,6 +207,19 @@ test("plan partitions BUY and PAUSE history into disjoint live and shadow sample
   assert.equal(plan.signalHealth.recovered, true);
   assert.equal(plan.action, "BUY");
   assert.deepEqual(plan.pauseReasons, []);
+});
+
+test("personalized plans can never enter live or shadow alpha evidence", function () {
+  const version = engine.CURRENT_STRATEGY_VERSION;
+  const partitioned = engine.partitionRecommendationHistory({ records: [
+    { date: "2026-08-10", strategy: "RecommendationPlan", planKind: "BASE_RESEARCH", strategyVersion: version, action: "PAUSE" },
+    { date: "2026-08-10", strategy: "PersonalizedPlan", planKind: "FINAL_PERSONALIZED", strategyVersion: version, action: "STRATEGIC_DCA" },
+    { date: "2026-08-11", strategy: "RecommendationPlan", strategyVersion: version, action: "BUY" }
+  ] });
+  assert.equal(partitioned.shadowHistory.length, 1);
+  assert.equal(partitioned.liveHistory.length, 1);
+  assert.equal(partitioned.legacyHistory.length, 1);
+  assert.equal(partitioned.legacyHistory[0].planKind, "FINAL_PERSONALIZED");
 });
 
 test("legacy recommendation history is preserved but isolated from the v2.1 signal breaker", function () {
@@ -166,7 +254,10 @@ test("plan treats same-index funds as routing wrappers rather than fake diversif
   ];
   const navCache = { A: navSeries("2025-10-01", 288, 0.002), B: navSeries("2025-10-01", 288, 0.0015), C: navSeries("2025-10-01", 288, 0.001) };
   const plan = engine.buildRecommendationPlan({
-    funds, navCache, portfolio: { holdings: [{ code: "A", buys: [{ amount: 30 }] }, { code: "B", buys: [{ amount: 30 }] }] },
+    funds, navCache, portfolio: { holdings: [
+      { code: "A", buys: [{ amount: 30, nav: 1, shares: 30 }] },
+      { code: "B", buys: [{ amount: 30, nav: 1, shares: 30 }] }
+    ] },
     asOf: "2026-07-15", budget: 50, liveEnabled: false
   });
   assert.equal(plan.action, "PAUSE");
@@ -214,7 +305,7 @@ test("RecommendationPlanV2 exposes allocation, sync, anchor, routes and benchmar
   const plan = engine.buildRecommendationPlan({
     funds: [{ code: "A", name: "A", type: "标普500", indexGroup: "SPX500", status: "active", dailyLimit: 50, minPurchase: 10, feeRate: 0.5 }],
     navCache: { A: navSeries("2025-10-01", 288, 0.001) },
-    portfolio: { holdings: [{ code: "A", totalAmount: 100 }] },
+    portfolio: { holdings: [{ code: "A", totalAmount: 100, totalShares: 100 }] },
     history: { records: [] },
     asOf: "2026-07-17",
     syncRevision: 7,
@@ -244,7 +335,7 @@ test("live acceptance requires every sample, excess, drawdown, cost and shadow g
   });
   assert.equal(failed.passed, false);
   assert.ok(failed.failures.includes("MEDIAN_EXCESS_NOT_POSITIVE"));
-  const passed = engine.evaluateLiveAcceptance({
+  const passed = engine.evaluateLiveAcceptance(Object.assign({
     rollingWindows: 12, nonOverlappingWindows: 6, winRate: 55, benchmarkWinRate: 50,
     outperformanceWinRate: 55, averageExcessReturn: 0.01, profitFactor: 1.2,
     medianExcess12Week: 0.01,
@@ -253,12 +344,12 @@ test("live acceptance requires every sample, excess, drawdown, cost and shadow g
     monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
     monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
     monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
-  });
+  }, executableEvidence()));
   assert.equal(passed.passed, true);
 });
 
 test("live acceptance rejects a sub-55% win rate or weak payoff quality", function () {
-  const base = {
+  const base = Object.assign({
     rollingWindows: 22, nonOverlappingWindows: 22, medianExcess12Week: 0.65,
     drawdownGapPercentagePoints: 0.84, shadowWeeks: 8, hardRiskViolations: 0,
     feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true,
@@ -267,14 +358,14 @@ test("live acceptance rejects a sub-55% win rate or weak payoff quality", functi
     monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
     monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
     monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
-  };
+  }, executableEvidence());
   assert.equal(engine.evaluateLiveAcceptance(base).passed, true);
   assert.ok(engine.evaluateLiveAcceptance({ ...base, winRate: 50 }).failures.includes("WIN_RATE_BELOW_55"));
   assert.ok(engine.evaluateLiveAcceptance({ ...base, profitFactor: 1.19 }).failures.includes("PROFIT_FACTOR_BELOW_1_2"));
 });
 
 test("live acceptance requires a measurable advantage over S&P 500 baseline", function () {
-  const base = {
+  const base = Object.assign({
     rollingWindows: 22, nonOverlappingWindows: 8, medianExcess12Week: 0.65,
     drawdownGapPercentagePoints: 0.84, shadowWeeks: 8, hardRiskViolations: 0,
     feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true,
@@ -283,7 +374,7 @@ test("live acceptance requires a measurable advantage over S&P 500 baseline", fu
     monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
     monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
     monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
-  };
+  }, executableEvidence());
   assert.equal(engine.evaluateLiveAcceptance(base).passed, true);
   assert.ok(engine.evaluateLiveAcceptance({ ...base, winRate: 50 }).failures.includes("PROFIT_WIN_RATE_NOT_ABOVE_BASELINE"));
   assert.ok(engine.evaluateLiveAcceptance({ ...base, outperformanceWinRate: 50 }).failures.includes("OUTPERFORMANCE_WIN_RATE_BELOW_55"));
@@ -291,7 +382,7 @@ test("live acceptance requires a measurable advantage over S&P 500 baseline", fu
 });
 
 test("live acceptance requires real monthly DCA profit evidence under identical cash flows", function () {
-  const base = {
+  const base = Object.assign({
     rollingWindows: 22, nonOverlappingWindows: 8, medianExcess12Week: 0.65,
     drawdownGapPercentagePoints: 0.84, shadowWeeks: 8, hardRiskViolations: 0,
     feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true,
@@ -300,7 +391,7 @@ test("live acceptance requires real monthly DCA profit evidence under identical 
     monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
     monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
     monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
-  };
+  }, executableEvidence());
   assert.equal(engine.evaluateLiveAcceptance(base).passed, true);
   assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaWindows: 0 }).failures.includes("INSUFFICIENT_MONTHLY_DCA_WINDOWS"));
   assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaOutperformanceRate: 50 }).failures.includes("MONTHLY_DCA_OUTPERFORMANCE_BELOW_55"));
@@ -308,6 +399,27 @@ test("live acceptance requires real monthly DCA profit evidence under identical 
   assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaTotalExcessProfit: 0 }).failures.includes("MONTHLY_DCA_TOTAL_EXCESS_NOT_POSITIVE"));
   assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaSameCashFlow: false }).failures.includes("MONTHLY_DCA_CASH_FLOW_MISMATCH"));
   assert.ok(engine.evaluateLiveAcceptance({ ...base, monthlyDcaHoldoutPassed: false }).failures.includes("MONTHLY_DCA_HOLDOUT_FAILED"));
+});
+
+test("live acceptance is bound to the tested strategy and executable purchase history", function () {
+  const base = Object.assign({
+    rollingWindows: 22, nonOverlappingWindows: 8, medianExcess12Week: 0.65,
+    drawdownGapPercentagePoints: 0.84, shadowWeeks: 8, hardRiskViolations: 0,
+    feesIncluded: true, qdiiLagIncluded: true, optimizationTrialsReported: true,
+    winRate: 60, benchmarkWinRate: 55, outperformanceWinRate: 60,
+    averageExcessReturn: 0.5, profitFactor: 1.3,
+    monthlyDcaWindows: 7, monthlyDcaOutperformanceRate: 57.14,
+    monthlyDcaAverageExcessProfit: 1, monthlyDcaTotalExcessProfit: 10,
+    monthlyDcaSameCashFlow: true, monthlyDcaHoldoutPassed: true
+  }, executableEvidence());
+
+  assert.equal(engine.evaluateLiveAcceptance(base).passed, true);
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, strategyId: "different-strategy" })
+    .failures.includes("STRATEGY_EVIDENCE_MISMATCH"));
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, strategyIdReported: false })
+    .failures.includes("STRATEGY_EVIDENCE_MISMATCH"));
+  assert.ok(engine.evaluateLiveAcceptance({ ...base, historicalPurchaseAvailabilityProven: false })
+    .failures.includes("HISTORICAL_PURCHASE_AVAILABILITY_UNPROVEN"));
 });
 
 test("live acceptance treats missing numeric evidence as insufficient", function () {
@@ -338,9 +450,9 @@ test("synthetic portfolio regression stays paused and has complete metadata", fu
     funds: funds,
     navCache: require("../../data/nav-cache.json"),
     portfolio: { holdings: [
-      { code: "270042", totalAmount: 70 },
-      { code: "040046", totalAmount: 30 },
-      { code: "096001", totalAmount: 20 }
+      { code: "270042", totalAmount: 70, totalShares: 70 },
+      { code: "040046", totalAmount: 30, totalShares: 30 },
+      { code: "096001", totalAmount: 20, totalShares: 20 }
     ] },
     history: require("../../data/history.json"),
     asOf: "2026-07-16",
@@ -351,5 +463,6 @@ test("synthetic portfolio regression stays paused and has complete metadata", fu
   assert.equal(plan.signalHealth.status, plan.signalHealth.shadow.count < 15 ? "WARMING_UP" : "HEALTHY");
   assert.equal(plan.pauseReasons.includes("SIGNAL_BREAKER"), false);
   assert.equal(plan.portfolioRisk.unknownHoldings.length, 0);
+  assert.equal(plan.portfolioRisk.valuationComplete, true);
   assert.ok(plan.candidates.filter(function (candidate) { return candidate.indexGroup === "NDX100"; }).length <= 1);
 });

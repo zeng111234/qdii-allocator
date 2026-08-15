@@ -13,7 +13,7 @@
     "sync": "node sync.js",
     "test:browser": "node scripts/browser-smoke.js",
     "research:alpha": "node scripts/research-alpha.js --write",
-    "lint": "eslint lib/ index.js sync.js build-pages.js scripts/research-alpha.js",
+    "lint": "eslint lib/ index.js sync.js build-pages.js scripts/research-alpha.js scripts/update-nav-cache.js",
     "lint:fix": "eslint --fix lib/ index.js sync.js build-pages.js",
     "format": "prettier --write \"lib/**/*.js\" \"*.js\""
   },

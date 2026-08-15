@@ -22,6 +22,23 @@ test("AllocationPolicyV1 has fixed targets and deterministic budget limits", fun
   assert.equal(allocation.isCoreIndexGroup("GLOBAL_MFG"), false);
 });
 
+test("aggressive profile raises core equity exposure without claiming automatic alpha", function () {
+  const policy = allocation.createAllocationPolicy({ riskProfile: "AGGRESSIVE" });
+  assert.equal(policy.riskProfile, "AGGRESSIVE");
+  assert.deepEqual(policy.targetBuckets, {
+    US_BROAD: 0.50,
+    GROWTH_TECH: 0.35,
+    NON_US: 0.05,
+    DEFENSIVE: 0.10,
+    CASH: 0
+  });
+  assert.equal(Object.values(policy.targetBuckets).reduce(function (sum, value) { return sum + value; }, 0), 1);
+  assert.equal(policy.maxFundWeight, 0.30);
+  assert.equal(policy.growthStopDrawdown, -0.12);
+  assert.equal(policy.allStopDrawdown, -0.15);
+  assert.equal(policy.expectedEdge, "HIGHER_EXPECTED_BETA_NOT_PROVEN_ALPHA");
+});
+
 test("execution routes exclude satellite themes even when they are cheaper", function () {
   const result = allocation.buildExecutionRoutes({
     policy: allocation.createAllocationPolicy(),
@@ -72,6 +89,67 @@ test("bucket exposure uses latest market value when shares and NAV are available
   );
   assert.equal(result.values.US_BROAD, 80);
   assert.equal(result.totalValue, 80);
+});
+
+test("bucket exposure excludes a pending buy with no confirmed shares", function () {
+  const result = allocation.calculateBucketExposure(
+    [{ code: "SPX", totalAmount: 50, buys: [{ amount: 50, nav: 1, shares: 0 }] }],
+    [{ code: "SPX", indexGroup: "SPX500" }],
+    0,
+    { SPX: [{ date: "2026-07-01", nav: 1.2 }] }
+  );
+  assert.equal(result.values.US_BROAD, 0);
+  assert.equal(result.totalValue, 0);
+  assert.equal(result.valuationComplete, true);
+});
+
+test("bucket exposure values signed sells at the current NAV", function () {
+  const result = allocation.calculateBucketExposure(
+    [{ code: "SPX", buys: [
+      { type: "BUY", amount: 100, nav: 1, shares: 100 },
+      { type: "SELL", amount: 60, nav: 1.2, shares: 50 }
+    ] }],
+    [{ code: "SPX", indexGroup: "SPX500" }],
+    0,
+    { SPX: [{ date: "2026-07-01", nav: 2 }] }
+  );
+  assert.equal(result.values.US_BROAD, 100);
+  assert.equal(result.totalValue, 100);
+  assert.equal(result.valuationComplete, true);
+});
+
+test("bucket exposure fails closed instead of treating cost as market value", function () {
+  const result = allocation.calculateBucketExposure(
+    [{ code: "SPX", totalShares: 10, confirmedAmount: 100, currentValue: 999 }],
+    [{ code: "SPX", indexGroup: "SPX500" }],
+    0,
+    {}
+  );
+  assert.equal(result.valuationComplete, false);
+  assert.deepEqual(result.missingValuationCodes, ["SPX"]);
+  assert.equal(result.totalValue, null);
+  assert.deepEqual(result.exposure, {});
+});
+
+test("execution routes cannot spend beyond the remaining bucket gap", function () {
+  const result = allocation.buildExecutionRoutes({
+    policy: allocation.createAllocationPolicy(),
+    funds: [
+      { code: "A", indexGroup: "SPX500", status: "active", dailyLimit: 10, minPurchase: 10, feeRate: 0.5 },
+      { code: "B", indexGroup: "SPX500", status: "active", dailyLimit: 50, minPurchase: 10, feeRate: 0.6 }
+    ],
+    holdings: [{ code: "A", totalShares: 10 }],
+    bucketExposure: { US_BROAD: 0.10, GROWTH_TECH: 0.25, NON_US: 0.25, DEFENSIVE: 0.10, CASH: 0.30 },
+    targetGap: { US_BROAD: 0.20, GROWTH_TECH: 0, NON_US: 0, DEFENSIVE: 0, CASH: -0.20 },
+    dailyBudget: 50,
+    currentValue: 100,
+    freshnessByCode: { A: 0, B: 0 },
+    trackingStabilityByCode: { A: 0.01, B: 0.02 }
+  });
+  assert.deepEqual(result.map(function (route) { return [route.code, route.amount]; }), [
+    ["A", 10],
+    ["B", 18.57]
+  ]);
 });
 
 test("PAUSE, stale data, growth overweight and risk anchor stop deterministic spending", function () {

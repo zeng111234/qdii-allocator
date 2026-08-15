@@ -1,27 +1,157 @@
 {
-  "schemaVersion": "AlphaResearchV1",
+  "schemaVersion": "AlphaResearchV2",
+  "strategyId": "monthly-relative-momentum-dca-v1",
   "strategyVersion": "allocation-v2.4-monthly-alpha-gate",
-  "asOf": "2026-08-07",
-  "generatedAt": "2026-08-12T11:28:16.616Z",
-  "objective": "在相同月度现金流、申购费和QDII执行延迟下，提高相对161125定投的净利润",
+  "asOf": "2026-08-11",
+  "generatedAt": "2026-08-15T07:40:44.564Z",
+  "objective": "在相同月度现金流、申购和赎回成本及QDII执行延迟下，提高相对161125定投的净利润",
   "assumptions": {
     "baselineCode": "161125",
     "monthlyContribution": 100,
     "buyFeeRate": 0.008,
+    "sellFeeRate": 0.005,
     "executionLagDays": 2,
     "sameCashFlow": true,
-    "totalReturnBasis": "累计净值，现金分红再投资",
+    "totalReturnBasis": "reinvested-total-return-index-v1",
+    "totalReturnFormula": "index_t=index_(t-1)*(1+(accNav_t-accNav_(t-1))/nav_(t-1))",
+    "totalReturnDescription": "以单位净值和累计净值增量构造现金分红再投资指数；缺失任一净值的观测不回退",
     "developmentPeriod": "2017-01-01/2021-12-31",
     "validationPeriod": "2022-01-01/2023-12-31",
-    "auditPeriod": "2024-01-01/2026-08-07"
+    "auditPeriod": "2024-01-01/2026-08-11",
+    "strategyStartDates": {}
   },
-  "testedConfigurations": 53,
-  "developmentPassCount": 0,
+  "dataAudit": {
+    "baselineCode": "161125",
+    "candidateCodes": [
+      "160213",
+      "000369",
+      "160216",
+      "040018",
+      "000179",
+      "320013"
+    ],
+    "totalReturnBasis": "reinvested-total-return-index-v1",
+    "coverage": {
+      "160213": {
+        "rawStartDate": "2010-04-29",
+        "strategyStartDate": null,
+        "effectiveStartDate": "2010-04-29",
+        "latestDate": "2026-08-11",
+        "rawRows": 3884,
+        "usableRows": 3882,
+        "excludedPreStrategyRows": 0,
+        "missingAccNavRows": 2,
+        "totalReturnBasis": "reinvested-total-return-index-v1",
+        "totalReturnFormula": "index_t=index_(t-1)*(1+(accNav_t-accNav_(t-1))/nav_(t-1))"
+      },
+      "160216": {
+        "rawStartDate": "2012-05-03",
+        "strategyStartDate": null,
+        "effectiveStartDate": "2012-05-03",
+        "latestDate": "2026-08-10",
+        "rawRows": 3398,
+        "usableRows": 3396,
+        "excludedPreStrategyRows": 0,
+        "missingAccNavRows": 2,
+        "totalReturnBasis": "reinvested-total-return-index-v1",
+        "totalReturnFormula": "index_t=index_(t-1)*(1+(accNav_t-accNav_(t-1))/nav_(t-1))"
+      },
+      "161125": {
+        "rawStartDate": "2016-12-02",
+        "strategyStartDate": null,
+        "effectiveStartDate": "2016-12-02",
+        "latestDate": "2026-08-11",
+        "rawRows": 2338,
+        "usableRows": 2336,
+        "excludedPreStrategyRows": 0,
+        "missingAccNavRows": 2,
+        "totalReturnBasis": "reinvested-total-return-index-v1",
+        "totalReturnFormula": "index_t=index_(t-1)*(1+(accNav_t-accNav_(t-1))/nav_(t-1))"
+      },
+      "320013": {
+        "rawStartDate": "2011-01-13",
+        "strategyStartDate": null,
+        "effectiveStartDate": "2011-01-13",
+        "latestDate": "2026-08-11",
+        "rawRows": 3711,
+        "usableRows": 3711,
+        "excludedPreStrategyRows": 0,
+        "missingAccNavRows": 0,
+        "totalReturnBasis": "reinvested-total-return-index-v1",
+        "totalReturnFormula": "index_t=index_(t-1)*(1+(accNav_t-accNav_(t-1))/nav_(t-1))"
+      },
+      "000369": {
+        "rawStartDate": "2013-12-10",
+        "strategyStartDate": null,
+        "effectiveStartDate": "2013-12-10",
+        "latestDate": "2026-08-10",
+        "rawRows": 3036,
+        "usableRows": 3036,
+        "excludedPreStrategyRows": 0,
+        "missingAccNavRows": 0,
+        "totalReturnBasis": "reinvested-total-return-index-v1",
+        "totalReturnFormula": "index_t=index_(t-1)*(1+(accNav_t-accNav_(t-1))/nav_(t-1))"
+      },
+      "040018": {
+        "rawStartDate": "2010-09-19",
+        "strategyStartDate": null,
+        "effectiveStartDate": "2010-09-19",
+        "latestDate": "2026-08-10",
+        "rawRows": 3859,
+        "usableRows": 3859,
+        "excludedPreStrategyRows": 0,
+        "missingAccNavRows": 0,
+        "totalReturnBasis": "reinvested-total-return-index-v1",
+        "totalReturnFormula": "index_t=index_(t-1)*(1+(accNav_t-accNav_(t-1))/nav_(t-1))"
+      },
+      "000179": {
+        "rawStartDate": "2013-08-09",
+        "strategyStartDate": null,
+        "effectiveStartDate": "2013-08-09",
+        "latestDate": "2026-08-10",
+        "rawRows": 3141,
+        "usableRows": 3141,
+        "excludedPreStrategyRows": 0,
+        "missingAccNavRows": 0,
+        "totalReturnBasis": "reinvested-total-return-index-v1",
+        "totalReturnFormula": "index_t=index_(t-1)*(1+(accNav_t-accNav_(t-1))/nav_(t-1))"
+      }
+    },
+    "executionAvailability": {
+      "researchOnly": true,
+      "requiredCodes": [
+        "161125",
+        "160213",
+        "000369",
+        "160216",
+        "040018",
+        "000179",
+        "320013"
+      ],
+      "historicalAvailabilityProven": false,
+      "historicalUnprovenCodes": [
+        "161125",
+        "160213",
+        "000369",
+        "160216",
+        "040018",
+        "000179",
+        "320013"
+      ],
+      "currentUnavailableCodes": [
+        "161125",
+        "160213"
+      ],
+      "executableEvidence": false
+    }
+  },
+  "testedConfigurations": 54,
+  "developmentPassCount": 1,
   "topDevelopment": [
     {
       "config": {
         "candidateCodes": [
-          "040018"
+          "160213"
         ],
         "lookbackDays": 126,
         "skipDays": 0,
@@ -30,118 +160,184 @@
         "requirePositiveTrend": true
       },
       "development": {
-        "excessProfit": -69.44,
-        "excessReturn": -1.16,
-        "strategyProfit": 2780.3,
-        "baselineProfit": 2849.74,
+        "excessProfit": 298.57,
+        "excessReturn": 4.97,
+        "strategyProfit": 3104.06,
+        "baselineProfit": 2805.49,
+        "rolling": {
+          "windows": 7,
+          "outperformanceRate": 100,
+          "averageExcessProfit": 36.7,
+          "medianExcessReturn": 1.11,
+          "worstExcessProfit": 0.18
+        }
+      }
+    },
+    {
+      "config": {
+        "lookbackDays": 63,
+        "skipDays": 21,
+        "sleeveWeight": 0.1,
+        "topN": 1,
+        "requirePositiveTrend": true
+      },
+      "development": {
+        "excessProfit": -111.84,
+        "excessReturn": -1.87,
+        "strategyProfit": 2693.65,
+        "baselineProfit": 2805.49,
         "rolling": {
           "windows": 7,
           "outperformanceRate": 42.86,
-          "averageExcessProfit": -11.99,
-          "medianExcessReturn": -1.57,
-          "worstExcessProfit": -61.46
+          "averageExcessProfit": -9.35,
+          "medianExcessReturn": -0.38,
+          "worstExcessProfit": -28.11
         }
       }
     },
     {
       "config": {
-        "candidateCodes": [
-          "000369"
-        ],
-        "lookbackDays": 126,
-        "skipDays": 0,
+        "lookbackDays": 63,
+        "skipDays": 21,
         "sleeveWeight": 0.2,
         "topN": 1,
         "requirePositiveTrend": true
       },
       "development": {
-        "excessProfit": -83.65,
-        "excessReturn": -1.4,
-        "strategyProfit": 2766.09,
-        "baselineProfit": 2849.74,
+        "excessProfit": -223.68,
+        "excessReturn": -3.73,
+        "strategyProfit": 2581.81,
+        "baselineProfit": 2805.49,
         "rolling": {
           "windows": 7,
-          "outperformanceRate": 28.57,
-          "averageExcessProfit": -10.05,
-          "medianExcessReturn": -0.55,
-          "worstExcessProfit": -22.58
+          "outperformanceRate": 42.86,
+          "averageExcessProfit": -18.69,
+          "medianExcessReturn": -0.75,
+          "worstExcessProfit": -56.22
         }
       }
     },
     {
       "config": {
-        "candidateCodes": [
-          "000179"
-        ],
         "lookbackDays": 126,
-        "skipDays": 0,
-        "sleeveWeight": 0.2,
-        "topN": 1,
-        "requirePositiveTrend": true
-      },
-      "development": {
-        "excessProfit": -80.8,
-        "excessReturn": -1.35,
-        "strategyProfit": 2768.94,
-        "baselineProfit": 2849.74,
-        "rolling": {
-          "windows": 7,
-          "outperformanceRate": 28.57,
-          "averageExcessProfit": -18.55,
-          "medianExcessReturn": -0.72,
-          "worstExcessProfit": -45.66
-        }
-      }
-    },
-    {
-      "config": {
-        "lookbackDays": 189,
         "skipDays": 0,
         "sleeveWeight": 0.1,
         "topN": 1,
         "requirePositiveTrend": true
       },
       "development": {
-        "excessProfit": -132.91,
-        "excessReturn": -2.22,
-        "strategyProfit": 2716.83,
-        "baselineProfit": 2849.74,
+        "excessProfit": -126.44,
+        "excessReturn": -2.11,
+        "strategyProfit": 2679.05,
+        "baselineProfit": 2805.49,
         "rolling": {
           "windows": 7,
-          "outperformanceRate": 28.57,
-          "averageExcessProfit": -18.7,
-          "medianExcessReturn": -1,
-          "worstExcessProfit": -36.88
+          "outperformanceRate": 42.86,
+          "averageExcessProfit": -12.42,
+          "medianExcessReturn": -1.05,
+          "worstExcessProfit": -32.76
         }
       }
     },
     {
       "config": {
-        "lookbackDays": 189,
-        "skipDays": 0,
-        "sleeveWeight": 0.2,
+        "lookbackDays": 63,
+        "skipDays": 21,
+        "sleeveWeight": 0.3,
         "topN": 1,
         "requirePositiveTrend": true
       },
       "development": {
-        "excessProfit": -265.82,
-        "excessReturn": -4.43,
-        "strategyProfit": 2583.92,
-        "baselineProfit": 2849.74,
+        "excessProfit": -335.52,
+        "excessReturn": -5.59,
+        "strategyProfit": 2469.97,
+        "baselineProfit": 2805.49,
         "rolling": {
           "windows": 7,
-          "outperformanceRate": 28.57,
-          "averageExcessProfit": -37.39,
-          "medianExcessReturn": -1.99,
-          "worstExcessProfit": -73.77
+          "outperformanceRate": 42.86,
+          "averageExcessProfit": -28.03,
+          "medianExcessReturn": -1.13,
+          "worstExcessProfit": -84.33
         }
       }
     }
   ],
-  "selected": null,
-  "development": null,
-  "validation": null,
-  "audit": null,
+  "selected": {
+    "candidateCodes": [
+      "160213"
+    ],
+    "lookbackDays": 126,
+    "skipDays": 0,
+    "sleeveWeight": 0.2,
+    "topN": 1,
+    "requirePositiveTrend": true
+  },
+  "development": {
+    "excessProfit": 298.57,
+    "excessReturn": 4.97,
+    "strategyProfit": 3104.06,
+    "baselineProfit": 2805.49,
+    "rolling": {
+      "windows": 7,
+      "outperformanceRate": 100,
+      "averageExcessProfit": 36.7,
+      "medianExcessReturn": 1.11,
+      "worstExcessProfit": 0.18
+    }
+  },
+  "validation": {
+    "excessProfit": 9.66,
+    "excessReturn": 0.4,
+    "strategyProfit": 391.29,
+    "baselineProfit": 381.63,
+    "rolling": {
+      "windows": 1,
+      "outperformanceRate": 100,
+      "averageExcessProfit": 9.66,
+      "medianExcessReturn": 0.4,
+      "worstExcessProfit": 9.66
+    }
+  },
+  "audit": {
+    "excessProfit": 30.76,
+    "excessReturn": 0.96,
+    "strategyProfit": 676.8,
+    "baselineProfit": 646.04,
+    "rolling": {
+      "windows": 4,
+      "outperformanceRate": 100,
+      "averageExcessProfit": 6.35,
+      "medianExcessReturn": 0.31,
+      "worstExcessProfit": 1.34
+    }
+  },
+  "holdoutEvidence": {
+    "validationWindows": 1,
+    "auditWindows": 4,
+    "totalWindows": 5,
+    "independentWindows": 3,
+    "minimumIndependentWindows": 6,
+    "independentWindowPeriods": [
+      {
+        "startDate": "2022-01-01",
+        "endDate": "2023-12-31"
+      },
+      {
+        "startDate": "2024-01-01",
+        "endDate": "2024-12-31"
+      },
+      {
+        "startDate": "2025-01-01",
+        "endDate": "2025-12-31"
+      }
+    ],
+    "outperformanceRate": 100,
+    "averageExcessProfit": 5.15,
+    "medianExcessReturn": 0.38,
+    "totalExcessProfit": 15.46,
+    "passed": false
+  },
+  "performanceAccepted": true,
   "accepted": false,
-  "decision": "未通过三阶段门槛，不接入真实推荐，继续以161125为基准"
+  "decision": "独立样本或历史可申购性证据不足，不接入真实推荐；研究结果仅作只读观察"
 }

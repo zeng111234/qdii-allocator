@@ -141,6 +141,22 @@ test('calcPortfolioRisk - zero value returns null', function () {
   assert.strictEqual(result, null);
 });
 
+test('calcPortfolioRisk excludes pending-only transactions from value and concentration', function () {
+  const navs = [];
+  for (let i = 0; i < 65; i++) {
+    navs.push({ date: '2026-03-' + String(i + 1).padStart(2, '0'), nav: 1 + i / 1000 });
+  }
+  const holdings = [
+    { code: 'A', name: 'Confirmed', currentValue: 100, confirmedAmount: 100, totalAmount: 100, indexGroup: 'SPX500', riskBucket: 'US_BROAD' },
+    { code: 'P', name: 'Pending', currentValue: null, confirmedAmount: 0, pendingAmount: 50, totalAmount: 50, indexGroup: 'NDX100', riskBucket: 'GROWTH_TECH' }
+  ];
+  const result = risk.calcPortfolioRisk(holdings, { A: navs });
+  assert.equal(result.totalValue, 100);
+  const concentration = risk.calculateClusterConcentration(holdings);
+  assert.equal(concentration.indexGroups.SPX500, 100);
+  assert.equal(concentration.indexGroups.NDX100, 0);
+});
+
 test('calcPortfolioRisk - single holding with basic data', function () {
   const navs = [];
   for (let i = 0; i < 65; i++) {

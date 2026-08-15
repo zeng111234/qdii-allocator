@@ -158,8 +158,29 @@ test("saveRecommendationPlan persists pause and acceptance evidence", function (
       candidates: []
     });
     const record = JSON.parse(fs.readFileSync(HISTORY_FILE, "utf-8")).records[0];
+    assert.equal(record.planKind, "BASE_RESEARCH");
     assert.deepEqual(record.pauseReasons, ["DATA_STALE"]);
     assert.deepEqual(record.liveAcceptance.failures, ["INSUFFICIENT_SHADOW_WEEKS"]);
+  } finally {
+    restoreHistory();
+  }
+});
+
+test("saveRecommendationPlan replaces only the same research record kind", function () {
+  const ht = require("../../lib/history-tracker");
+  backupHistory();
+  try {
+    resetHistory({ records: [{
+      date: "2026-08-12", strategy: "PersonalizedPlan", planKind: "FINAL_PERSONALIZED",
+      strategyVersion: "allocation-v2.4-monthly-alpha-gate", action: "STRATEGIC_DCA", ranked: []
+    }] });
+    ht.saveRecommendationPlan({
+      asOf: "2026-08-12", strategyVersion: "allocation-v2.4-monthly-alpha-gate",
+      action: "PAUSE", budget: 0, candidates: []
+    });
+    const records = JSON.parse(fs.readFileSync(HISTORY_FILE, "utf-8")).records;
+    assert.equal(records.length, 2);
+    assert.deepEqual(records.map(function (record) { return record.planKind; }).sort(), ["BASE_RESEARCH", "FINAL_PERSONALIZED"]);
   } finally {
     restoreHistory();
   }

@@ -28,16 +28,96 @@ const { validateConfig } = require("./lib/config");
 const { runMultiAgentDebate, formatDebateReport } = require("./lib/multi-agent-debate");
 const riskAlert = require("./lib/risk-alert");
 const recommendationEngine = require("./lib/recommendation-engine");
+const personalizedPlanTools = require("./lib/personalized-plan");
+const decisionStateTools = require("./lib/decision-state");
+const tradingCalendar = require("./lib/trading-calendar");
 const historyTracker = require("./lib/history-tracker");
 const runPolicy = require("./lib/run-policy");
+const { formatDateInTimeZone } = require("./scripts/update-nav-cache");
 
 const FUNDS_FILE = path.join(__dirname, "data", "funds.json");
+const RECOMMENDATION_PLAN_FILE = path.join(__dirname, "data", "recommendation-plan.json");
 const STRATEGY_MAP = {
   "equal": alloc.Strategy.EQUAL,
   "low_fee": alloc.Strategy.LOW_FEE,
   "scarce": alloc.Strategy.SCARCE_FIRST,
   "dynamic": "dynamic"
 };
+
+function decisionFingerprint(state) {
+  const normalized = decisionStateTools.normalizeDecisionState(state);
+  return JSON.stringify({
+    schemaVersion: normalized.schemaVersion,
+    revision: normalized.revision,
+    updatedAt: normalized.updatedAt,
+    riskProfile: normalized.riskProfile,
+    cashBalance: normalized.cashBalance,
+    riskAnchorValue: normalized.riskAnchorValue,
+    riskAnchorAt: normalized.riskAnchorAt,
+    riskAnchorLedgerRevision: normalized.riskAnchorLedgerRevision,
+    riskAnchorTransactionIds: normalized.riskAnchorTransactionIds.slice().sort()
+  });
+}
+
+function bindCanonicalInputs(plan, ledger, decisionState) {
+  if (!ledger || typeof ledger.checksum !== "string" || !/^[a-f0-9]{64}$/.test(ledger.checksum)) {
+    throw new Error("CANONICAL_LEDGER_CHECKSUM_REQUIRED");
+  }
+  return Object.assign({}, plan, {
+    ledgerChecksum: ledger.checksum,
+    decisionFingerprint: decisionFingerprint(decisionState)
+  });
+}
+
+function hardPauseForRelease(plan, reason) {
+  const value = plan || {};
+  return Object.assign({}, value, {
+    action: "HARD_PAUSE",
+    decisionMode: "DATA_BLOCKED",
+    blockedStage: reason,
+    pauseReasons: Array.from(new Set((value.pauseReasons || []).concat(reason))),
+    budget: 0,
+    candidates: [],
+    ranked: [],
+    executionRoutes: [],
+    confidence: "LOW"
+  });
+}
+
+function enforceReleaseSafety(plan, conditions) {
+  const settings = conditions || {};
+  if (settings.navRefreshFailed === true) return hardPauseForRelease(plan, "NAV_REFRESH_FAILED");
+  if (settings.reconciliationFailed === true) return hardPauseForRelease(plan, "LEDGER_RECONCILE_FAILED");
+  if (settings.tradingDay === false) return hardPauseForRelease(plan, "NON_TRADING_DAY");
+  const executableActions = new Set(["BUY", "STRATEGIC_DCA", "TACTICAL_PAUSE"]);
+  const routes = Array.isArray(plan && plan.executionRoutes) ? plan.executionRoutes : [];
+  const budget = plan && plan.budget;
+  if (executableActions.has(plan && plan.action) &&
+      (typeof budget !== "number" || !Number.isFinite(budget) || budget <= 0 || routes.length === 0)) {
+    return Object.assign({}, plan, {
+      action: "HOLD",
+      pauseReasons: Array.from(new Set(((plan && plan.pauseReasons) || []).concat("NO_EXECUTABLE_BUDGET"))),
+      budget: 0,
+      candidates: [],
+      ranked: [],
+      executionRoutes: [],
+      confidence: "LOW"
+    });
+  }
+  if (!executableActions.has(plan && plan.action) && (budget !== 0 || routes.length > 0)) {
+    return hardPauseForRelease(plan, "ACTION_BUDGET_INCONSISTENT");
+  }
+  return plan;
+}
+
+function enforcePlanExecutionWindow(plan, asOf, nowValue) {
+  const timedPlan = personalizedPlanTools.bindExecutionWindow(plan, asOf, nowValue);
+  const status = personalizedPlanTools.executionWindowStatus(timedPlan, asOf, nowValue);
+  if (personalizedPlanTools.isExecutableAction(timedPlan && timedPlan.action) && !status.current) {
+    return hardPauseForRelease(timedPlan, status.reason);
+  }
+  return timedPlan;
+}
 
 function loadFunds() {
   if (!fs.existsSync(FUNDS_FILE)) { console.error("[error] funds.json not found"); process.exit(1); }
@@ -48,9 +128,10 @@ function loadFunds() {
 
 function parseArgs() {
   const args = process.argv.slice(2);
-  const opts = { dryRun: false, strategy: null, budget: null, backtest: false, backtestDays: 60, walkForward: false, walkForwardTrain: 120, walkForwardTest: 30, hypothesisReport: false, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000, multiAgent: false };
+  const opts = { dryRun: false, sendCanonicalEmail: false, strategy: null, budget: null, backtest: false, backtestDays: 60, walkForward: false, walkForwardTrain: 120, walkForwardTest: 30, hypothesisReport: false, portfolio: false, buy: null, optimizeWeights: false, quickAdd: null, importFile: null, today: false, web: false, webPort: 3000, multiAgent: false };
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--dry-run") opts.dryRun = true;
+    else if (args[i] === "--send-canonical-email") opts.sendCanonicalEmail = true;
     else if (args[i] === "--strategy") opts.strategy = args[++i];
     else if (args[i] === "--budget") opts.budget = parseFloat(args[++i]);
     else if (args[i] === "--backtest") opts.backtest = true;
@@ -103,6 +184,7 @@ function parseArgs() {
     else if (args[i] === "--help") {
       console.log("QDII Fund Allocator");
       console.log("  --dry-run              dry run mode");
+      console.log("  --send-canonical-email send the already-built canonical artifact only");
       console.log("  --strategy <s>         equal|low_fee|scarce|dynamic");
       console.log("  --budget <n>           daily budget");
       console.log("  --backtest             run backtest mode");
@@ -461,7 +543,7 @@ async function sendReport(result, textContent, aiCommentary, topN, dailyBrief) {
   const smtpPass = process.env.SMTP_PASS;
   const mailTo = process.env.MAIL_TO;
   if (!smtpHost || !smtpUser || !smtpPass || !mailTo) {
-    console.log("[5/5] email skipped (SMTP not configured)");
+    throw new Error("SMTP_CONFIGURATION_REQUIRED");
   } else {
     console.log("[5/5] Sending email...");
 
@@ -470,16 +552,61 @@ async function sendReport(result, textContent, aiCommentary, topN, dailyBrief) {
     const smtpConfig = { host: smtpHost, port: smtpPort, user: smtpUser, pass: smtpPass };
     const success = await mail.sendEmail({ to: mailTo, subject: "QDII Top" + topN + " " + result.date, textContent: textContent, aiCommentary: aiCommentary, result: result, dailyBrief: dailyBrief }, smtpConfig);
     if (!success) {
-      console.warn("[warn] email failed, continuing...");
-      // GitHub Actions annotation - 在Actions页面的Summary中显示警告
-      if (process.env.GITHUB_ACTIONS) {
-        console.log("::warning::Email sending failed. Check SMTP configuration.");
-      }
+      throw new Error("EMAIL_SEND_FAILED");
     }
   }
 }
 
+async function sendCanonicalArtifactEmail() {
+  const planPath = process.env.CANONICAL_RECOMMENDATION_PLAN_PATH || RECOMMENDATION_PLAN_FILE;
+  const ledgerPath = process.env.PORTFOLIO_FILE || process.env.PRIVATE_LEDGER_PATH;
+  const decisionStatePath = process.env.PRIVATE_DECISION_STATE_PATH;
+  const fundsPath = process.env.FUNDS_FILE || FUNDS_FILE;
+  if (!fs.existsSync(planPath)) throw new Error("CANONICAL_RECOMMENDATION_PLAN_REQUIRED");
+  if (!ledgerPath || !fs.existsSync(ledgerPath)) throw new Error("CANONICAL_EMAIL_PRIVATE_LEDGER_REQUIRED");
+  if (!decisionStatePath || !fs.existsSync(decisionStatePath)) {
+    throw new Error("CANONICAL_EMAIL_DECISION_STATE_REQUIRED");
+  }
+  if (!fs.existsSync(fundsPath)) throw new Error("CANONICAL_EMAIL_FUNDS_REQUIRED");
+  const plan = JSON.parse(fs.readFileSync(planPath, "utf8"));
+  const ledger = JSON.parse(fs.readFileSync(ledgerPath, "utf8"));
+  const ledgerTools = require("./lib/portfolio-ledger");
+  const ledgerValidation = ledgerTools.validateLedger(ledger);
+  if (!ledgerValidation.valid) {
+    throw new Error("CANONICAL_EMAIL_PRIVATE_LEDGER_INVALID:" + ledgerValidation.errors.join(","));
+  }
+  const decisionState = decisionStateTools.normalizeDecisionState(
+    JSON.parse(fs.readFileSync(decisionStatePath, "utf8"))
+  );
+  const funds = JSON.parse(fs.readFileSync(fundsPath, "utf8"));
+  const asOf = formatDateInTimeZone(new Date(), "Asia/Shanghai");
+  require("./build-pages").validateCanonicalRecommendationPlan(
+    plan,
+    ledger,
+    decisionState,
+    funds,
+    asOf,
+    new Date()
+  );
+  const result = {
+    date: plan.asOf,
+    budget: plan.budget,
+    recommendationPlan: plan,
+    ranked: plan.candidates,
+    allRanked: plan.marketRanking || [],
+    portfolio: { empty: true }
+  };
+  const textContent = personalizedPlanTools.formatPersonalizedPlan(plan);
+  await sendReport(result, textContent, "", Math.max(1, plan.candidates.length), null);
+}
+
 async function main() {
+  const opts = parseArgs();
+  if (opts.sendCanonicalEmail) {
+    await sendCanonicalArtifactEmail();
+    console.log("Canonical recommendation email sent.");
+    return;
+  }
   console.log("========================================");
   console.log("  QDII Fund Daily Allocator");
   console.log("========================================");
@@ -490,7 +617,6 @@ async function main() {
   await fundData.initNavDb();
   console.log("");
 
-  const opts = parseArgs();
   const paidProvidersEnabled = runPolicy.allowPaidProviders(opts);
 
   if (opts.dryRun && process.env.PORTFOLIO_READ_ONLY === "1") {
@@ -560,7 +686,7 @@ async function main() {
     }
   } catch(err) {
     console.error("[策略执行失败]", err.message);
-    result = { budget: budget, strategy: strategy, date: new Date().toISOString().slice(0,10), ranked: [], error: err.message };
+    result = { budget: budget, strategy: strategy, date: formatDateInTimeZone(new Date(), "Asia/Shanghai"), ranked: [], error: err.message };
     textContent = "策略执行失败: " + err.message + "\n\n请检查网络连接或减少基金数量。";
   }
   console.log(textContent);
@@ -580,8 +706,10 @@ async function main() {
   result.marketSnapshot = marketSnapshot;
   result.marketNews = marketNews;
   const currentSignalStamp = externalSignals && (externalSignals.fetchedAt || externalSignals.cachedAt);
-  const currentSignalDate = currentSignalStamp ? new Date(currentSignalStamp).toISOString().slice(0, 10) : null;
-  result.externalSignals = currentSignalDate === new Date().toISOString().slice(0, 10) ? externalSignals : null;
+  const currentSignalDate = currentSignalStamp
+    ? formatDateInTimeZone(new Date(currentSignalStamp), "Asia/Shanghai")
+    : null;
+  result.externalSignals = currentSignalDate === formatDateInTimeZone(new Date(), "Asia/Shanghai") ? externalSignals : null;
 
   // [修复] 原问题：风险预警检查（现在 llmApiKey 已正确声明在上方）
   if (paidProvidersEnabled && marketSnapshot.length > 0 && llmApiKey && llmBaseUrl && llmModel) {
@@ -597,9 +725,14 @@ async function main() {
   // 计算持仓盈亏
   const portfolioResult = portfolio.calcPortfolioSummary();
   result.portfolio = portfolioResult;
-  if (!portfolioResult.empty) {
-    console.log("[持仓] " + portfolioResult.summary.holdingCount + "只基金, 总投入" + portfolioResult.summary.totalInvested + "元, 盈亏" + (portfolioResult.summary.totalPnl >= 0 ? "+" : "") + portfolioResult.summary.totalPnl + "元");
-    try {
+  if (!portfolioResult.empty && portfolioResult.summary) {
+    const valuationText = portfolioResult.summary.valuationComplete === false
+      ? "估值不完整（缺少 " + portfolioResult.summary.missingValuationCodes.join(",") + " 净值）"
+      : "盈亏" + (portfolioResult.summary.totalPnl >= 0 ? "+" : "") + portfolioResult.summary.totalPnl + "元";
+    console.log("[持仓] " + portfolioResult.summary.holdingCount + "只基金, 总投入" + portfolioResult.summary.totalInvested + "元, " + valuationText);
+    if (portfolioResult.summary.valuationComplete === false) {
+      console.warn("[风控] 组合估值不完整，跳过数值型风险指标并由推荐层硬暂停");
+    } else try {
       const riskResult = risk.calcPortfolioRisk(portfolioResult.holdings);
       const corrResult = risk.calcCorrelationMatrix(portfolioResult.holdings, 60);
       result.risk = riskResult;
@@ -614,7 +747,7 @@ async function main() {
   }
 
   // 在所有展示和 AI 之前执行确定性硬风控。
-  const planAsOf = new Date().toISOString().slice(0, 10);
+  const planAsOf = formatDateInTimeZone(new Date(), "Asia/Shanghai");
   let historyData = { records: [] };
   try {
     if (fs.existsSync(historyTracker.HISTORY_FILE)) historyData = JSON.parse(fs.readFileSync(historyTracker.HISTORY_FILE, "utf-8"));
@@ -630,7 +763,12 @@ async function main() {
   let acceptanceMetrics = null;
   try {
     const walkForward = require("./lib/walk-forward");
-    const alphaResearch = require("./data/alpha-research.json");
+    const alphaResearchTools = require("./lib/alpha-research-report");
+    const alphaResearch = alphaResearchTools.buildAlphaResearchReport({
+      navCache: navCache,
+      fundsConfig: { config: config, funds: funds }
+    });
+    alphaResearchTools.writeAlphaResearchReport(alphaResearch);
     acceptanceMetrics = walkForward.buildLiveAcceptanceMetrics({
       navCache: navCache,
       funds: funds,
@@ -646,7 +784,7 @@ async function main() {
   } catch (e) {
     console.warn("[验收] walk-forward 回测失败:", e.message);
   }
-  const recommendationPlan = recommendationEngine.buildRecommendationPlan({
+  const baseRecommendationPlan = recommendationEngine.buildRecommendationPlan({
     funds: funds,
     navCache: navCache,
     portfolio: portfolioSnapshot,
@@ -658,6 +796,36 @@ async function main() {
     liveEnabled: liveEnabled,
     acceptance: acceptanceMetrics
   });
+  historyTracker.saveRecommendationPlan(baseRecommendationPlan);
+  let rawLedger = null;
+  let rawDecisionState = null;
+  try {
+    const ledgerPath = process.env.PORTFOLIO_FILE || process.env.PRIVATE_LEDGER_PATH;
+    const decisionStatePath = process.env.PRIVATE_DECISION_STATE_PATH;
+    if (ledgerPath && fs.existsSync(ledgerPath)) rawLedger = JSON.parse(fs.readFileSync(ledgerPath, "utf-8"));
+    if (decisionStatePath && fs.existsSync(decisionStatePath)) {
+      rawDecisionState = JSON.parse(fs.readFileSync(decisionStatePath, "utf-8"));
+    }
+  } catch (error) {
+    console.warn("[推荐计划] 私有决策状态读取失败，强制暂停:", error.message);
+  }
+  let recommendationPlan = personalizedPlanTools.buildPersonalizedPlan({
+    basePlan: baseRecommendationPlan,
+    ledger: rawLedger,
+    decisionState: rawDecisionState,
+    funds: funds,
+    navCache: navCache,
+    marketTemperature: result.marketTemperature,
+    asOf: planAsOf,
+    readOnly: process.env.PORTFOLIO_READ_ONLY === "1"
+  });
+  recommendationPlan = enforceReleaseSafety(recommendationPlan, {
+    navRefreshFailed: process.env.NAV_REFRESH_FAILED === "1",
+    reconciliationFailed: process.env.LEDGER_RECONCILE_FAILED === "1",
+    tradingDay: tradingCalendar.isTradingDay(planAsOf)
+  });
+  recommendationPlan = enforcePlanExecutionWindow(recommendationPlan, planAsOf, new Date());
+  recommendationPlan = bindCanonicalInputs(recommendationPlan, rawLedger, rawDecisionState);
   result.recommendationPlan = recommendationPlan;
   // [fix] 候选补全指标: candidates 只含排名/金额, 邮件卡片需要 indicators/type/dailyLimit
   result.ranked = recommendationPlan.candidates.map(function (candidate, index) {
@@ -680,9 +848,8 @@ async function main() {
   if (process.env.PORTFOLIO_READ_ONLY === "1") {
     recommendationPlan.publicPortfolioSnapshot = portfolioSnapshot;
   }
-  textContent = recommendationEngine.formatRecommendationPlan(recommendationPlan);
-  historyTracker.saveRecommendationPlan(recommendationPlan);
-  fs.writeFileSync(path.join(__dirname, "data", "recommendation-plan.json"), JSON.stringify(recommendationPlan, null, 2), "utf-8");
+  textContent = personalizedPlanTools.formatPersonalizedPlan(recommendationPlan);
+  fs.writeFileSync(RECOMMENDATION_PLAN_FILE, JSON.stringify(recommendationPlan, null, 2), "utf-8");
   console.log("[推荐计划] " + recommendationPlan.action + "，真实建议金额 " + recommendationPlan.budget + "元");
 
   // [fix] 定投建议（基于市场温度）
@@ -759,4 +926,17 @@ async function main() {
   console.log("Done!");
 }
 
-main().catch(function(err) { console.error("[fatal]", err); process.exit(1); });
+if (require.main === module) {
+  main().catch(function(err) { console.error("[fatal]", err); process.exit(1); });
+}
+
+module.exports = {
+  formatDateInTimeZone: formatDateInTimeZone,
+  decisionFingerprint: decisionFingerprint,
+  bindCanonicalInputs: bindCanonicalInputs,
+  enforceReleaseSafety: enforceReleaseSafety,
+  enforcePlanExecutionWindow: enforcePlanExecutionWindow,
+  sendReport: sendReport,
+  sendCanonicalArtifactEmail: sendCanonicalArtifactEmail,
+  main: main
+};

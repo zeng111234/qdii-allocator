@@ -1,51 +1,67 @@
 name: QDII
+
 on:
+  # Actionable releases are schedule-only so an unplanned failed run cannot leave
+  # an older same-window plan looking current on the static site.
   schedule:
-    - cron: '0 1 * * 1-5'   # UTC 1:00 = 北京 9:00 — 生成推荐+早报+发邮件
-    - cron: '0 9 * * 1-5'   # UTC 9:00 = 北京 17:00 — 更新净值+外部信号+重建页面
-  workflow_dispatch:
-    inputs:
-      dry_run:
-        description: dry-run
-        required: false
-        default: false
-        type: boolean
-      # [fix] removed unused 'budget' input
-      strategy:
-        description: strategy
-        required: false
-        default: dynamic
-        type: choice
-        options:
-          - dynamic
-          - scarce
-          - low_fee
-          - equal
+    - cron: '0 1 * * 1-5'   # UTC 1:00 = 北京 9:00
+    - cron: '0 9 * * 1-5'   # UTC 9:00 = 北京 17:00
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   generate-plan:
+    if: github.run_attempt == 1
     runs-on: ubuntu-latest
     timeout-minutes: 25
-    permissions:
-      contents: write
+    outputs:
+      published_sha: ${{ steps.published.outputs.sha }}
+      should_send_email: ${{ steps.email_policy.outputs.should_send }}
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: main
       - uses: actions/setup-node@v7
         with:
           node-version: '22'
-      # [fix] add dependency caching
       - name: Cache node_modules
         uses: actions/cache@v6
         with:
           path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
       - run: npm ci
-      - name: Configure private ledger temp path
-        run: echo "PRIVATE_LEDGER_PATH=$RUNNER_TEMP/portfolio-ledger.json" >> "$GITHUB_ENV"
+
+      - name: Configure private recommendation state temp paths
+        run: |
+          echo "PRIVATE_LEDGER_PATH=$RUNNER_TEMP/portfolio-ledger.json" >> "$GITHUB_ENV"
+          echo "PRIVATE_DECISION_STATE_PATH=$RUNNER_TEMP/decision-state.json" >> "$GITHUB_ENV"
+          echo "CANONICAL_RECOMMENDATION_PLAN_PATH=$GITHUB_WORKSPACE/data/recommendation-plan.json" >> "$GITHUB_ENV"
+
       - name: Update NAV cache
+        id: nav_refresh
         continue-on-error: true
         run: node scripts/update-nav-cache.js
+
+      - name: Mark NAV refresh safety state
+        if: always()
+        run: |
+          if [ "${{ steps.nav_refresh.outcome }}" = "success" ]; then
+            echo "NAV_REFRESH_FAILED=0" >> "$GITHUB_ENV"
+          else
+            echo "NAV_REFRESH_FAILED=1" >> "$GITHUB_ENV"
+            echo "::warning::NAV refresh failed; preserving the old cache and forcing a zero-budget plan."
+          fi
+
       - name: Reconcile pending ledger transactions
+        id: ledger_reconcile
+        if: steps.nav_refresh.outcome == 'success'
         continue-on-error: true
         run: node scripts/reconcile-private-ledger.js
         env:
@@ -54,107 +70,167 @@ jobs:
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
           PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
           RECONCILE_WRITE: 1
-      - name: Fetch and validate private PortfolioLedgerV2
+
+      - name: Mark ledger reconciliation safety state
+        if: always()
+        run: |
+          if [ "${{ steps.nav_refresh.outcome }}" != "success" ]; then
+            echo "LEDGER_RECONCILE_FAILED=0" >> "$GITHUB_ENV"
+          elif [ "${{ steps.ledger_reconcile.outcome }}" = "success" ]; then
+            echo "LEDGER_RECONCILE_FAILED=0" >> "$GITHUB_ENV"
+          else
+            echo "LEDGER_RECONCILE_FAILED=1" >> "$GITHUB_ENV"
+            echo "::warning::Pending-ledger reconciliation failed; forcing a zero-budget canonical plan."
+          fi
+
+      - name: Fetch and validate private recommendation state
         run: |
           set +e
-          node scripts/fetch-private-ledger.js
+          node scripts/fetch-private-decision-state.js
           status=$?
           if [ "$status" -eq 0 ]; then
-            echo "PRIVATE_LEDGER_AVAILABLE=1" >> "$GITHUB_ENV"
+            echo "PRIVATE_RECOMMENDATION_STATE_AVAILABLE=1" >> "$GITHUB_ENV"
           else
-            echo "PRIVATE_LEDGER_AVAILABLE=0" >> "$GITHUB_ENV"
-            echo "::warning::Private PortfolioLedgerV2 unavailable; public market data and Pages will still update, personalized email/action is skipped."
+            echo "PRIVATE_RECOMMENDATION_STATE_AVAILABLE=0" >> "$GITHUB_ENV"
+            echo "::warning::Private state unavailable; public market data and Pages will still update as a market-only HARD_PAUSE page."
           fi
         env:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
           PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
+          PRIVATE_DECISION_STATE_PATH: ${{ runner.temp }}/decision-state.json
+
       - name: Update purchase limits
-        continue-on-error: true
         run: node scripts/update-purchase-limits.js
+
       - name: Update external signals
         continue-on-error: true
         run: node scripts/update-external-signals.js
-      - name: Generate AI Daily Brief
-        continue-on-error: true
-        run: |
-          node -e "
-            var db = require('./lib/daily-brief');
-            db.generateDailyBrief({
-              apiKey: process.env.LLM_API_KEY,
-              baseUrl: process.env.LLM_BASE_URL,
-              model: process.env.LLM_MODEL
-            }).then(function() {
-              console.log('Daily brief generated');
-            }).catch(function(e) {
-              console.warn('Daily brief failed:', e.message);
-            });
-          "
-        env:
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
-          LLM_MODEL: ${{ secrets.LLM_MODEL }}
-      # [fix] replaced eval injection with safe direct command
-      - name: Run allocation strategy & send email
-        if: env.PRIVATE_LEDGER_AVAILABLE == '1'
-        run: |
-          STRATEGY="${{ inputs.strategy }}"
-          if [ -z "$STRATEGY" ]; then STRATEGY="dynamic"; fi
 
-          ARGS="--strategy $STRATEGY"
-          if [ "${{ inputs.dry_run }}" = "true" ]; then
-            ARGS="$ARGS --dry-run"
-          fi
-
-          echo "Running: node index.js $ARGS"
-          node index.js $ARGS
+      - name: Generate canonical recommendation plan without email
+        if: env.PRIVATE_RECOMMENDATION_STATE_AVAILABLE == '1'
+        run: node index.js --strategy dynamic --dry-run
         env:
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
-          LLM_BASE_URL: ${{ secrets.LLM_BASE_URL }}
-          LLM_MODEL: ${{ secrets.LLM_MODEL }}
-          SMTP_HOST: ${{ secrets.SMTP_HOST }}
-          SMTP_PORT: ${{ secrets.SMTP_PORT }}
-          SMTP_USER: ${{ secrets.SMTP_USER }}
-          SMTP_PASS: ${{ secrets.SMTP_PASS }}
-          MAIL_TO: ${{ secrets.MAIL_TO }}
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
           RECOMMENDATION_LIVE_ENABLED: ${{ secrets.RECOMMENDATION_LIVE_ENABLED }}
+          LEDGER_RECONCILE_FAILED: ${{ env.LEDGER_RECONCILE_FAILED }}
           PORTFOLIO_FILE: ${{ env.PRIVATE_LEDGER_PATH }}
-          PORTFOLIO_READ_ONLY: 1
-      - name: Skip personalized allocation when private ledger is unavailable
-        if: env.PRIVATE_LEDGER_AVAILABLE != '1'
-        run: echo "Private ledger unavailable; skipping personalized allocation and email."
+          PRIVATE_DECISION_STATE_PATH: ${{ env.PRIVATE_DECISION_STATE_PATH }}
+
+      - name: Skip personalized allocation when private state is unavailable
+        if: env.PRIVATE_RECOMMENDATION_STATE_AVAILABLE != '1'
+        run: echo "Private state unavailable; canonical executable allocation and email are disabled."
+
       - name: Build GitHub Pages
         run: node build-pages.js
         env:
           PRIVATE_LEDGER_PATH: ${{ env.PRIVATE_LEDGER_PATH }}
-          PUBLIC_PORTFOLIO_SNAPSHOT: ${{ env.PRIVATE_LEDGER_AVAILABLE == '1' && '1' || '0' }}
+          PRIVATE_DECISION_STATE_PATH: ${{ env.PRIVATE_DECISION_STATE_PATH }}
+          CANONICAL_RECOMMENDATION_PLAN_PATH: ${{ env.CANONICAL_RECOMMENDATION_PLAN_PATH }}
+          PUBLIC_PORTFOLIO_SNAPSHOT: ${{ env.PRIVATE_RECOMMENDATION_STATE_AVAILABLE == '1' && '1' || '0' }}
+          NAV_REFRESH_FAILED: ${{ env.NAV_REFRESH_FAILED }}
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-          RECOMMENDATION_LIVE_ENABLED: ${{ secrets.RECOMMENDATION_LIVE_ENABLED }}
-      - name: Remove private ledger temp file
+
+      - name: Verify Pages artifact
+        run: node -e "require('./build-pages').validatePageArtifact()"
+
+      - name: Remove private recommendation state temp files
         if: always()
-        run: rm -f "$PRIVATE_LEDGER_PATH"
-      - name: Commit updated data and pages
+        run: rm -f "$PRIVATE_LEDGER_PATH" "$PRIVATE_DECISION_STATE_PATH"
+
+      - name: Commit canonical data
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          # [fix] only add tracked files, skip gitignored caches
-          git add data/history.json data/nav-cache.json data/recommendation-plan.json
-          # 复制外部信号到 docs/data/ (因为 data/external-signals-cache.json 被 gitignore)
+          git add data/funds.json data/history.json data/nav-cache.json data/recommendation-plan.json
           cp -f data/external-signals-cache.json docs/data/external-signals-cache.json 2>/dev/null || true
           git add -f docs/data/nav-cache.json docs/data/news.json docs/data/external-signals-cache.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
           else
             git commit -m "chore: update data & pages $(date +%Y/%m/%d)"
-            # [fix] use --autostash to handle unstaged changes
-            git pull --rebase --autostash origin main || { git rebase --abort; echo "Rebase conflict, skipping push"; exit 0; }
-            git push origin main || echo "Push failed, skipping"
+            git push origin main
           fi
+
+      - name: Record published revision
+        id: published
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Decide email policy
+        id: email_policy
+        env:
+          PRIVATE_AVAILABLE: ${{ env.PRIVATE_RECOMMENDATION_STATE_AVAILABLE }}
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+        run: |
+          should_send=false
+          if [ "$PRIVATE_AVAILABLE" = "1" ] && [ "$EVENT_SCHEDULE" = "0 1 * * 1-5" ]; then
+            should_send=true
+          fi
+          echo "should_send=$should_send" >> "$GITHUB_OUTPUT"
+
+      - name: Upload verified Pages artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: docs
+
+  deploy:
+    if: github.run_attempt == 1
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: generate-plan
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+
+  send-email:
+    name: Send email from deployed canonical artifact
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: [generate-plan, deploy]
+    if: github.run_attempt == 1 && needs.generate-plan.outputs.should_send_email == 'true'
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.generate-plan.outputs.published_sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - run: npm ci
+      - name: Configure canonical email validation temp paths
+        run: |
+          echo "PRIVATE_LEDGER_PATH=$RUNNER_TEMP/portfolio-ledger.json" >> "$GITHUB_ENV"
+          echo "PRIVATE_DECISION_STATE_PATH=$RUNNER_TEMP/decision-state.json" >> "$GITHUB_ENV"
+          echo "CANONICAL_RECOMMENDATION_PLAN_PATH=$GITHUB_WORKSPACE/data/recommendation-plan.json" >> "$GITHUB_ENV"
+      - name: Fetch and validate private recommendation state for canonical email
+        run: node scripts/fetch-private-decision-state.js
+        env:
+          FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
+          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
+          FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+          PRIVATE_LEDGER_PATH: ${{ env.PRIVATE_LEDGER_PATH }}
+          PRIVATE_DECISION_STATE_PATH: ${{ env.PRIVATE_DECISION_STATE_PATH }}
+      - name: Send email from deployed canonical artifact
+        run: node index.js --send-canonical-email
+        env:
+          PRIVATE_LEDGER_PATH: ${{ env.PRIVATE_LEDGER_PATH }}
+          PRIVATE_DECISION_STATE_PATH: ${{ env.PRIVATE_DECISION_STATE_PATH }}
+          CANONICAL_RECOMMENDATION_PLAN_PATH: ${{ env.CANONICAL_RECOMMENDATION_PLAN_PATH }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ secrets.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
+      - name: Remove canonical email validation temp files
+        if: always()
+        run: rm -f "$PRIVATE_LEDGER_PATH" "$PRIVATE_DECISION_STATE_PATH"
