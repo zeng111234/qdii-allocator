@@ -108,7 +108,14 @@ jobs:
           PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
           PRIVATE_DECISION_STATE_PATH: ${{ runner.temp }}/decision-state.json
 
+      - name: Force manual deployment market-only state
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "PRIVATE_RECOMMENDATION_STATE_AVAILABLE=0" >> "$GITHUB_ENV"
+          echo "::notice::Manual Pages deployment excludes private state and executable routes."
+
       - name: Update purchase limits
+        if: github.event_name == 'schedule'
         run: node scripts/update-purchase-limits.js
 
       - name: Generate canonical recommendation plan without email
