@@ -4,14 +4,8 @@ name: Build & Deploy Pages
 # It does not deploy Firebase Realtime Database Rules; Rules require a separate explicit admin deployment.
 
 on:
-  # Temporary manual entry is hard-pause only and is removed after this deployment.
-  workflow_dispatch:
-    inputs:
-      deploy_hard_pause:
-        description: Confirm a zero-budget HARD_PAUSE deployment
-        required: true
-        default: false
-        type: boolean
+  # Deployment is schedule-only. Arbitrary push/manual attempts cannot create an
+  # unknowable same-window failure while an older actionable static page remains live.
   schedule:
     - cron: '0 */6 * * *'  # 每6小时自动构建一次（0,6,12,18点UTC）
 
@@ -26,7 +20,7 @@ concurrency:
 
 jobs:
   build:
-    if: github.run_attempt == 1 && (github.event_name == 'schedule' || inputs.deploy_hard_pause == true)
+    if: github.run_attempt == 1
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -60,12 +54,6 @@ jobs:
             echo "::warning::NAV refresh failed; preserving the old cache and forcing a zero-budget plan."
           fi
 
-      - name: Force manual deployment safety pause
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          echo "NAV_REFRESH_FAILED=1" >> "$GITHUB_ENV"
-          echo "::notice::Manual Pages deployment is forced to zero-budget HARD_PAUSE."
-
       - name: Reconcile pending ledger transactions
         id: ledger_reconcile
         if: steps.nav_refresh.outcome == 'success'
@@ -76,7 +64,7 @@ jobs:
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
           PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
-          RECONCILE_WRITE: ${{ github.event_name == 'schedule' && '1' || '0' }}
+          RECONCILE_WRITE: 1
 
       - name: Mark ledger reconciliation safety state
         if: always()
@@ -108,14 +96,7 @@ jobs:
           PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
           PRIVATE_DECISION_STATE_PATH: ${{ runner.temp }}/decision-state.json
 
-      - name: Force manual deployment market-only state
-        if: github.event_name == 'workflow_dispatch'
-        run: |
-          echo "PRIVATE_RECOMMENDATION_STATE_AVAILABLE=0" >> "$GITHUB_ENV"
-          echo "::notice::Manual Pages deployment excludes private state and executable routes."
-
       - name: Update purchase limits
-        if: github.event_name == 'schedule'
         run: node scripts/update-purchase-limits.js
 
       - name: Generate canonical recommendation plan without email
