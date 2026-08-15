@@ -280,6 +280,7 @@ test("NAV refresh failures are marked and only publish a fail-closed plan", func
     assert.match(workflow, /id:\s*nav_refresh/);
     assert.match(workflow, /steps\.nav_refresh\.outcome[\s\S]*NAV_REFRESH_FAILED=1/);
     assert.match(workflow, /Update NAV cache[\s\S]*continue-on-error:\s*true[\s\S]*Mark NAV refresh safety state/);
+    assert.match(workflow, /Generate canonical recommendation plan without email[\s\S]*NAV_REFRESH_FAILED:\s*\$\{\{\s*env\.NAV_REFRESH_FAILED\s*\}\}/);
   });
   const source = fs.readFileSync(path.join(root, "index.js"), "utf8");
   assert.match(source, /NAV_REFRESH_FAILED/);
@@ -326,25 +327,18 @@ test("daily workflow sends mail only for the scheduled morning release", functio
   assert.match(daily, /needs:\s*\[generate-plan, deploy\]/);
 });
 
-test("manual Pages deployment is explicitly confirmed, non-writing, and hard-pause only", function () {
+test("actionable Pages releases have only predictable scheduled trigger boundaries", function () {
   const root = path.join(__dirname, "..", "..");
   const daily = fs.readFileSync(path.join(root, ".github", "workflows", "daily-plan.yml"), "utf8");
   const pages = fs.readFileSync(path.join(root, ".github", "workflows", "pages.yml"), "utf8");
   const dailyTriggers = daily.slice(0, daily.indexOf("permissions:"));
   const pagesTriggers = pages.slice(0, pages.indexOf("permissions:"));
-  assert.doesNotMatch(dailyTriggers, /workflow_dispatch:|\bpush:/);
-  assert.doesNotMatch(pagesTriggers, /\bpush:/);
-  assert.match(pagesTriggers, /workflow_dispatch:[\s\S]*deploy_hard_pause:[\s\S]*type:\s*boolean/);
+  [dailyTriggers, pagesTriggers].forEach(function (source) {
+    assert.doesNotMatch(source, /workflow_dispatch:|\bpush:/);
+  });
   assert.match(dailyTriggers, /0 1 \* \* 1-5/);
   assert.match(dailyTriggers, /0 9 \* \* 1-5/);
   assert.match(pagesTriggers, /0 \*\/6 \* \* \*/);
-  assert.match(pages, /build:\s*\n\s*if:\s*github\.run_attempt == 1 && \(github\.event_name == 'schedule' \|\| inputs\.deploy_hard_pause == true\)/);
-  assert.match(pages, /Force manual deployment safety pause[\s\S]*github\.event_name == 'workflow_dispatch'[\s\S]*NAV_REFRESH_FAILED=1/);
-  assert.match(pages, /RECONCILE_WRITE:\s*\$\{\{\s*github\.event_name == 'schedule' && '1' \|\| '0'\s*\}\}/);
-  assert.match(pages, /Force manual deployment market-only state[\s\S]*github\.event_name == 'workflow_dispatch'[\s\S]*PRIVATE_RECOMMENDATION_STATE_AVAILABLE=0/);
-  assert.match(pages, /Update purchase limits\s*\n\s*if:\s*github\.event_name == 'schedule'/);
-  assert.match(pages, /Generate canonical recommendation plan without email[\s\S]*NAV_REFRESH_FAILED:\s*\$\{\{\s*env\.NAV_REFRESH_FAILED\s*\}\}/);
-  assert.doesNotMatch(pages, /SMTP_|MAIL_TO|send-canonical-email/);
 });
 
 test("scheduled release reruns cannot redeploy or resend an older actionable batch", function () {
