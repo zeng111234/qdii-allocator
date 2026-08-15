@@ -24,12 +24,14 @@ async function main() {
   const result = ledgerTools.reconcilePendingTransactions(snapshot.data, navCache);
   if (result.reconciled.length === 0) {
     writePrivateSnapshot(snapshot.data);
-    console.log("Pending ledger reconciliation: no changes");
+    console.log("Pending ledger reconciliation: count=0, revision=" + snapshot.data.revision);
     return;
   }
-  console.log("Pending ledger reconciliation prepared:", JSON.stringify(result.reconciled));
+  console.log("Pending ledger reconciliation prepared: count=" + result.reconciled.length +
+    ", revision=" + result.ledger.revision);
   if (process.env.RECONCILE_WRITE !== "1") {
-    console.log("Pending ledger reconciliation: dry run, cloud ledger unchanged");
+    console.log("Pending ledger reconciliation dry run: count=" + result.reconciled.length +
+      ", revision=" + result.ledger.revision);
     return;
   }
   const write = await firebase.savePortfolioLedgerIfMatch(result.ledger, snapshot.etag);
@@ -40,8 +42,8 @@ async function main() {
     throw new Error("LEDGER_READBACK_MISMATCH");
   }
   writePrivateSnapshot(verified);
-  console.log("Pending ledger reconciliation committed: revision=" + verified.revision +
-    ", count=" + result.reconciled.length);
+  console.log("Pending ledger reconciliation committed: count=" + result.reconciled.length +
+    ", revision=" + verified.revision);
 }
 
 main().catch(function (error) {

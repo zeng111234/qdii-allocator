@@ -61,3 +61,27 @@ test("private ledger reconciliation exposes ETag guarded read and write helpers"
   assert.equal(typeof firebase.loadPortfolioLedgerWithEtag, "function");
   assert.equal(typeof firebase.savePortfolioLedgerIfMatch, "function");
 });
+
+test("private recommendation state batches the two uid-scoped Firebase children", function () {
+  const previous = {
+    url: process.env.FIREBASE_URL,
+    key: process.env.FIREBASE_KEY,
+    uid: process.env.FIREBASE_UID
+  };
+  try {
+    process.env.FIREBASE_URL = "https://example.firebaseio.com";
+    process.env.FIREBASE_KEY = "test-key";
+    process.env.FIREBASE_UID = "valid_uid";
+    assert.equal(firebase.privateLedgerPath(), "/users/valid_uid/portfolioLedger.json");
+    assert.equal(firebase.privateDecisionStatePath(), "/users/valid_uid/decisionState.json");
+    assert.equal(typeof firebase.loadPrivateRecommendationStateFromFirebase, "function");
+    assert.match(String(firebase.loadPrivateRecommendationStateFromFirebase), /Promise\.all/);
+  } finally {
+    if (previous.url === undefined) delete process.env.FIREBASE_URL;
+    else process.env.FIREBASE_URL = previous.url;
+    if (previous.key === undefined) delete process.env.FIREBASE_KEY;
+    else process.env.FIREBASE_KEY = previous.key;
+    if (previous.uid === undefined) delete process.env.FIREBASE_UID;
+    else process.env.FIREBASE_UID = previous.uid;
+  }
+});

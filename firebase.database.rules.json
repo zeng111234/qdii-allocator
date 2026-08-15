@@ -7,12 +7,22 @@
         "portfolioLedger": {
           ".read": "auth != null && auth.uid === $uid",
           ".write": "auth != null && auth.uid === $uid",
-          ".validate": "newData.hasChildren(['schemaVersion', 'revision', 'updatedAt', 'checksum', 'transactions']) && newData.child('schemaVersion').val() === 2 && newData.child('revision').isNumber() && newData.child('revision').val() >= 1"
+          ".validate": "newData.hasChildren(['schemaVersion', 'revision', 'updatedAt', 'checksum', 'transactions']) && newData.child('schemaVersion').val() === 2 && newData.child('revision').isNumber() && newData.child('revision').val() >= 1 && newData.child('updatedAt').isString() && newData.child('checksum').isString()",
+          "transactions": {
+            "$transaction": {
+              ".validate": "newData.hasChildren(['id', 'type', 'code', 'tradeDate', 'amount', 'nav', 'shares']) && newData.child('id').isString() && newData.child('code').isString() && newData.child('tradeDate').isString() && (newData.child('type').val() === 'BUY' || newData.child('type').val() === 'SELL') && newData.child('amount').isNumber() && newData.child('amount').val() >= 0 && newData.child('nav').isNumber() && newData.child('nav').val() >= 0 && newData.child('shares').isNumber() && newData.child('shares').val() >= 0 && (newData.child('type').val() === 'BUY' || (newData.child('amount').val() > 0 && newData.child('nav').val() > 0 && newData.child('shares').val() > 0))"
+            }
+          }
         },
         "decisionState": {
           ".read": "auth != null && auth.uid === $uid",
           ".write": "auth != null && auth.uid === $uid",
-          ".validate": "newData.hasChildren(['schemaVersion', 'revision', 'updatedAt', 'riskAnchorValue', 'riskAnchorLedgerRevision']) && (newData.child('schemaVersion').val() === 1 || newData.child('schemaVersion').val() === 2) && newData.child('revision').isNumber() && newData.child('revision').val() >= 1 && newData.child('riskAnchorValue').isNumber() && newData.child('riskAnchorValue').val() > 0"
+          ".validate": "newData.hasChildren(['schemaVersion', 'revision', 'updatedAt', 'riskAnchorValue', 'riskAnchorAt', 'riskAnchorLedgerRevision']) && (newData.child('schemaVersion').val() === 1 || newData.child('schemaVersion').val() === 2) && newData.child('revision').isNumber() && newData.child('revision').val() >= 1 && newData.child('updatedAt').isString() && newData.child('riskAnchorValue').isNumber() && newData.child('riskAnchorValue').val() > 0 && newData.child('riskAnchorAt').isString() && newData.child('riskAnchorLedgerRevision').isNumber() && newData.child('riskAnchorLedgerRevision').val() >= 1 && (!newData.child('riskProfile').exists() || newData.child('riskProfile').val() === 'BALANCED' || newData.child('riskProfile').val() === 'AGGRESSIVE') && (!newData.child('cashBalance').exists() || (newData.child('cashBalance').isNumber() && newData.child('cashBalance').val() >= 0))",
+          "riskAnchorTransactionIds": {
+            "$index": {
+              ".validate": "newData.isString() && newData.val().length > 0"
+            }
+          }
         },
         "strategyState": {
           ".read": "auth != null && auth.uid === $uid",

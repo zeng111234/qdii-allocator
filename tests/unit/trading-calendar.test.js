@@ -28,7 +28,15 @@ test('isHoliday - New Year 2026 is holiday', function() {
 });
 
 test('isHoliday - Spring Festival 2026 is holiday', function() {
-  assert.strictEqual(tradingCal.isHoliday('2026-02-17'), true);
+  ['2026-02-15', '2026-02-16', '2026-02-17', '2026-02-23'].forEach(function(date) {
+    assert.strictEqual(tradingCal.isHoliday(date), true);
+  });
+  assert.strictEqual(tradingCal.isTradingDay('2026-02-24'), true);
+});
+
+test('isHoliday - Mid-Autumn Festival 2026 follows the exchange closure', function() {
+  assert.strictEqual(tradingCal.isHoliday('2026-09-25'), true);
+  assert.strictEqual(tradingCal.isTradingDay('2026-09-28'), true);
 });
 
 test('isHoliday - regular day is not holiday', function() {
@@ -73,7 +81,7 @@ test('addTradingDays - 0 days returns same date', function() {
 
 test('addTradingDays - across Spring Festival', function() {
   const result = tradingCal.addTradingDays('2026-02-13', 2);
-  assert.strictEqual(result.date, '2026-02-24');
+  assert.strictEqual(result.date, '2026-02-25');
   assert.ok(result.skipped > 7);
 });
 

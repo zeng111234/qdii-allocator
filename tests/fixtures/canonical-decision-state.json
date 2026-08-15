@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 2,
+  "revision": 1,
+  "updatedAt": "2026-08-13T00:00:00.000Z",
+  "riskAnchorValue": 1609.3,
+  "riskAnchorAt": "2026-08-13T00:00:00.000Z",
+  "riskAnchorLedgerRevision": 1,
+  "riskAnchorTransactionIds": [],
+  "riskProfile": "AGGRESSIVE",
+  "cashBalance": 0
+}

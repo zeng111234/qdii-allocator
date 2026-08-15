@@ -53,6 +53,20 @@ function extractBetweenFunctions(name, nextName) {
   return template.slice(start, end);
 }
 
+function decisionFingerprint(state) {
+  return JSON.stringify({
+    schemaVersion: state.schemaVersion,
+    revision: state.revision,
+    updatedAt: state.updatedAt,
+    riskProfile: state.riskProfile,
+    cashBalance: state.cashBalance,
+    riskAnchorValue: state.riskAnchorValue,
+    riskAnchorAt: state.riskAnchorAt,
+    riskAnchorLedgerRevision: state.riskAnchorLedgerRevision,
+    riskAnchorTransactionIds: (state.riskAnchorTransactionIds || []).slice().sort()
+  });
+}
+
 test("dynamic website values are HTML-escaped at critical render boundaries", function () {
   const ctx = loadHelpers(["escapeHtml"]);
   assert.equal(
@@ -102,6 +116,7 @@ test("mobile viewport stays zoomable and tabs are keyboard-accessible controls",
   assert.match(template, /<div class="tabs" role="tablist"/);
   assert.equal((template.match(/<button type="button" id="tab-control-/g) || []).length, 9);
   assert.match(template, /\.tab \{[\s\S]*min-height:\s*44px/);
+  assert.match(template, /#buy-submit-btn\s*,\s*#batch-submit-btn\s*\{[^}]*min-height:\s*44px/);
   assert.match(extractFunction("switchTab"), /aria-selected/);
 });
 
@@ -132,6 +147,114 @@ test("summary distinguishes confirmed holdings from pending record groups", func
   assert.match(template, /recordCount:\s*portfolioData\.holdings\.length \+ pendingHoldings\.length/);
   assert.match(template, /持仓记录/);
   assert.match(template, /已确认.*待核验/);
+});
+
+test("closed positions remain visible in website totals after every share is sold", function () {
+  assert.match(template, /var closedPositions = Array\.isArray\(portfolioData\.closedPositions\)/);
+  assert.match(template, /var closedRealizedPnl = Number\(portfolioData\.closedRealizedPnl\) \|\| 0/);
+  assert.match(template, /valuation\.pnl \+ closedRealizedPnl/);
+  assert.match(template, /recordCount: portfolioData\.holdings\.length \+ pendingHoldings\.length \+ closedPositions\.length/);
+  assert.match(template, /已清仓/);
+  assert.match(template, /累计已实现盈亏/);
+});
+
+test("one confirmed-only valuation helper excludes pending buys and fails closed on missing NAV", function () {
+  const ctx = loadHelpers([
+    "shanghaiDateString", "isStrictIsoDate", "valuationTradingDayLag", "assessValuationNav",
+    "calcConfirmedHoldingValuation", "calcConfirmedPortfolioValuation"
+  ], { tradingHolidays: [] });
+  const holding = {
+    code: "A",
+    buys: [
+      { date: "2026-08-01", amount: 100, shares: 10, nav: 10 },
+      { date: "2026-08-12", amount: 50, shares: 0, nav: 0 }
+    ]
+  };
+  const valued = ctx.calcConfirmedHoldingValuation(
+    holding,
+    { date: "2026-08-14", nav: 11 },
+    null,
+    { asOf: "2026-08-17", maxFreshnessLag: 2 }
+  );
+  assert.equal(valued.invested, 100);
+  assert.equal(valued.pending, 50);
+  assert.equal(valued.value, 110);
+  assert.equal(valued.pnl, 10);
+  assert.equal(valued.complete, true);
+
+  const incomplete = ctx.calcConfirmedPortfolioValuation([
+    holding,
+    { code: "B", buys: [{ date: "2026-08-01", amount: 200, shares: 20, nav: 10 }] }
+  ], function (item) {
+    return item.code === "A" ? { date: "2026-08-14", nav: 11 } : null;
+  }, null, { asOf: "2026-08-17", maxFreshnessLag: 2 });
+  assert.equal(incomplete.invested, 300);
+  assert.equal(incomplete.value, null);
+  assert.equal(incomplete.pnl, null);
+  assert.equal(incomplete.complete, false);
+  assert.deepEqual(Array.from(incomplete.missingNavCodes), ["B"]);
+});
+
+test("browser valuation accepts normal QDII lag but rejects stale and future NAV dates", function () {
+  const ctx = loadHelpers([
+    "shanghaiDateString", "isStrictIsoDate", "valuationTradingDayLag", "assessValuationNav",
+    "calcConfirmedHoldingValuation"
+  ], { tradingHolidays: [] });
+  const holding = {
+    code: "QDII",
+    buys: [{ date: "2026-08-01", amount: 100, shares: 10, nav: 10 }]
+  };
+
+  const normalLag = ctx.calcConfirmedHoldingValuation(
+    holding, { date: "2026-08-13", nav: 11 }, null,
+    { asOf: "2026-08-17", maxFreshnessLag: 2 }
+  );
+  assert.equal(normalLag.complete, true);
+  assert.equal(normalLag.value, 110);
+  assert.equal(normalLag.navTradingDayLag, 2);
+
+  const stale = ctx.calcConfirmedHoldingValuation(
+    holding, { date: "2026-08-12", nav: 11 }, null,
+    { asOf: "2026-08-17", maxFreshnessLag: 2 }
+  );
+  assert.equal(stale.complete, false);
+  assert.equal(stale.value, null);
+  assert.equal(stale.pnl, null);
+  assert.equal(stale.valuationIssue, "NAV_STALE");
+
+  const future = ctx.calcConfirmedHoldingValuation(
+    holding, { date: "2026-08-18", nav: 11 }, null,
+    { asOf: "2026-08-17", maxFreshnessLag: 2 }
+  );
+  assert.equal(future.complete, false);
+  assert.equal(future.value, null);
+  assert.equal(future.pnl, null);
+  assert.equal(future.valuationIssue, "NAV_FUTURE");
+});
+
+test("all portfolio consumers use confirmed-only valuation and disclose incomplete valuation", function () {
+  ["calcSummary", "renderPortfolioChart", "updateHoldings", "renderInsights", "simulateDebate", "runAttribution", "buildSystemPrompt"]
+    .forEach(function (name) {
+      assert.match(extractFunction(name), /calcConfirmed(?:Holding|Portfolio)Valuation/, name + " must use confirmed valuation");
+    });
+  assert.match(extractFunction("updateSummary"), /估值不完整/);
+  assert.match(extractFunction("updateHoldings"), /估值待补齐/);
+  assert.match(extractFunction("buildSystemPrompt"), /总盈亏: 估值不完整/);
+  assert.match(extractFunction("getNavSeries"), /Math\.abs\(Number\(b\.shares\)/);
+  assert.doesNotMatch(extractFunction("getNavSeries"), /b\.amount\s*\/\s*b\.nav/);
+});
+
+test("non-trading-day banner never says a paused plan can be bought", function () {
+  const source = extractFunction("renderTradeBanner");
+  assert.doesNotMatch(source, /非交易日[^']*可以买入/);
+  assert.match(source, /不可按今日计划买入/);
+});
+
+test("site passcode is only the visual gate and confirmed buys still require Google", function () {
+  assert.match(template, /id="buy-write-hint"/);
+  assert.match(template, /0315 仅用于进入网站/);
+  assert.match(template, /Google 登录和云端账本校验/);
+  assert.match(extractFunction("updateCloudActionAvailability"), /buy-write-hint/);
 });
 
 test("pause banner explains supplied reasons, breaker metrics, thresholds and recovery", function () {
@@ -321,7 +444,21 @@ test("risk-anchor setup is explicit and zero-budget route failures are explained
     routeDiagnostics: { requestedBudget: 10, allocatedBudget: 0, blockReasons: ["NO_ELIGIBLE_CORE_ROUTE"] },
     signalHealth: { status: "PAUSE", matured: {}, shadow: {} }
   });
-  assert.match(details, /没有可执行的现有标普500通道/);
+  assert.match(details, /没有可执行的核心指数通道/);
+});
+
+test("aggressive strategic DCA is presented as higher beta rather than proven alpha", function () {
+  assert.match(template, /AGGRESSIVE_BETA_NOT_ALPHA/);
+  assert.match(template, /RISK_ANCHOR_DRAWDOWN_15/);
+  const ctx = loadHelpers(["buildDeterministicBuyAnswer"]);
+  const answer = ctx.buildDeterministicBuyAnswer({
+    action: "STRATEGIC_DCA",
+    budget: 20,
+    syncRevision: 3,
+    executionRoutes: [{ code: "NDX", name: "纳指通道", amount: 20, bucket: "GROWTH_TECH" }]
+  });
+  assert.match(answer, /进取型战略配置/);
+  assert.match(answer, /不代表择时模型已证明超额/);
 });
 
 test("signal confirmation requires fresh news and external coverage before calling consensus bullish", function () {
@@ -338,6 +475,317 @@ test("signal confirmation requires fresh news and external coverage before calli
   );
   assert.equal(stale.status, "INSUFFICIENT");
   assert.match(template, /if \(currentCloudDetail\) refreshPersonalizedPlan\(currentCloudDetail\)/);
+});
+
+test("canonical public snapshots never recalculate the build-time plan in the browser", function () {
+  let personalizeCalls = 0;
+  const decisionState = {
+    schemaVersion: 2, revision: 3, updatedAt: "2026-08-15T00:00:00.000Z",
+    riskProfile: "AGGRESSIVE", cashBalance: 0, riskAnchorValue: 1000,
+    riskAnchorAt: "2026-08-15T00:00:00.000Z", riskAnchorLedgerRevision: 5,
+    riskAnchorTransactionIds: ["b", "a"]
+  };
+  const canonicalPlan = {
+    asOf: "2026-08-15", action: "STRATEGIC_DCA", budget: 20,
+    generatedAt: "2026-08-15T01:30:00.000Z",
+    validFrom: "2026-08-15T01:00:00.000Z", validUntil: "2026-08-15T06:00:00.000Z",
+    syncRevision: 5, decisionRevision: 3, ledgerChecksum: "ledger-5",
+    decisionFingerprint: decisionFingerprint(decisionState),
+    candidates: [{ code: "096001", amount: 10 }]
+  };
+  const ctx = loadHelpers([
+    "isCanonicalPublicSnapshot", "hasCanonicalBuildPlan", "isMarketOnlyBuildPlan", "buildMarketOnlyLockedPlan",
+    "shanghaiDateString", "isStrictIsoDate", "isStrictUtcTimestamp", "planDateStatus", "planExecutionWindowStatus",
+    "buildPlanDateMismatchPlan", "enforceActionablePlanDate",
+    "refreshCanonicalPlanDateGuard",
+    "canonicalDecisionFingerprint", "canonicalPlanInputsMatch", "buildCanonicalRevisionMismatchPlan", "refreshPersonalizedPlan"
+  ], {
+    window: {
+      QDII_PUBLIC_PORTFOLIO_SNAPSHOT: true,
+      QDII_PUBLIC_PLAN_CANONICAL: true,
+      QDII_PUBLIC_DECISION_STATE: decisionState,
+      QdiiPersonalizedDecision: { personalizePlan: function () { personalizeCalls++; return { action: "WRONG" }; } }
+    },
+    currentCloudDetail: null,
+    canonicalPlanInputMismatch: false,
+    publicTodayPicks: canonicalPlan,
+    todayPicks: null,
+    updateAnchorButton: function () {},
+    renderAnchorSetupCard: function () {},
+    renderTradeBanner: function () {},
+    renderTemperature: function () {},
+    renderBuySignal: function () {},
+    renderPicks: function () {}
+    ,updateCloudActionAvailability: function () {}
+  });
+  ctx.refreshPersonalizedPlan({
+    readOnly: true,
+    ledger: { revision: 5, checksum: "ledger-5", transactions: [] },
+    decisionState: decisionState
+  }, "2026-08-15T02:00:00.000Z");
+  assert.equal(personalizeCalls, 0);
+  assert.deepEqual(ctx.todayPicks, canonicalPlan);
+  assert.equal(ctx.canonicalPlanInputMismatch, false);
+});
+
+test("canonical input validation does not depend on the personalized browser module loading", function () {
+  const state = {
+    schemaVersion: 2, revision: 3, updatedAt: "2026-08-15T00:00:00.000Z",
+    riskProfile: "AGGRESSIVE", cashBalance: 0, riskAnchorValue: 1000,
+    riskAnchorAt: "2026-08-15T00:00:00.000Z", riskAnchorLedgerRevision: 5,
+    riskAnchorTransactionIds: []
+  };
+  const canonicalPlan = {
+    asOf: "2026-08-15", action: "HARD_PAUSE", budget: 0,
+    syncRevision: 5, decisionRevision: 3, ledgerChecksum: "ledger-5",
+    decisionFingerprint: decisionFingerprint(state), candidates: [], ranked: [], executionRoutes: []
+  };
+  const ctx = loadHelpers([
+    "hasCanonicalBuildPlan", "isMarketOnlyBuildPlan", "buildMarketOnlyLockedPlan",
+    "shanghaiDateString", "isStrictIsoDate", "planDateStatus", "buildPlanDateMismatchPlan", "enforceActionablePlanDate",
+    "canonicalDecisionFingerprint", "canonicalPlanInputsMatch", "buildCanonicalRevisionMismatchPlan", "refreshPersonalizedPlan"
+  ], {
+    window: { QDII_PUBLIC_PLAN_CANONICAL: true, QDII_PUBLIC_PORTFOLIO_SNAPSHOT: true },
+    currentCloudDetail: null, canonicalPlanInputMismatch: false, canonicalPlanDateMismatch: false,
+    publicTodayPicks: canonicalPlan, todayPicks: null,
+    updateAnchorButton: function () {}, renderAnchorSetupCard: function () {},
+    renderTradeBanner: function () {}, renderTemperature: function () {}, renderBuySignal: function () {},
+    renderPicks: function () {}, updateCloudActionAvailability: function () {}
+  });
+  ctx.refreshPersonalizedPlan({
+    readOnly: true,
+    ledger: { revision: 6, checksum: "ledger-6", transactions: [] },
+    decisionState: Object.assign({}, state, { revision: 4 })
+  }, "2026-08-15T02:00:00.000Z");
+  assert.equal(ctx.todayPicks.action, "HARD_PAUSE");
+  assert.ok(Array.from(ctx.todayPicks.pauseReasons).includes("PLAN_INPUT_REVISION_MISMATCH"));
+  assert.equal(ctx.canonicalPlanInputMismatch, true);
+  const source = extractFunction("refreshPersonalizedPlan");
+  assert.ok(source.indexOf("if (hasCanonicalBuildPlan())") < source.indexOf("!window.QdiiPersonalizedDecision"));
+});
+
+test("new cloud input revisions hard-pause the canonical plan instead of using strategyState", function () {
+  let personalizeCalls = 0;
+  const builtDecisionState = {
+    schemaVersion: 2, revision: 3, updatedAt: "2026-08-13T00:00:00.000Z",
+    riskProfile: "AGGRESSIVE", cashBalance: 0, riskAnchorValue: 1000,
+    riskAnchorAt: "2026-08-13T00:00:00.000Z", riskAnchorLedgerRevision: 5,
+    riskAnchorTransactionIds: []
+  };
+  const canonicalPlan = {
+    asOf: "2026-08-13", action: "STRATEGIC_DCA", budget: 20,
+    syncRevision: 5, decisionRevision: 3, ledgerChecksum: "ledger-5",
+    decisionFingerprint: decisionFingerprint(builtDecisionState),
+    candidates: [{ code: "096001", proposedAmount: 20 }],
+    ranked: [{ code: "096001", proposedAmount: 20 }],
+    executionRoutes: [{ code: "096001", amount: 20 }]
+  };
+  let availabilityCalls = 0;
+  const ctx = loadHelpers([
+    "hasCanonicalBuildPlan", "isMarketOnlyBuildPlan", "buildMarketOnlyLockedPlan",
+    "shanghaiDateString", "isStrictIsoDate", "planDateStatus", "buildPlanDateMismatchPlan", "enforceActionablePlanDate",
+    "canonicalDecisionFingerprint", "canonicalPlanInputsMatch", "buildCanonicalRevisionMismatchPlan", "refreshPersonalizedPlan"
+  ], {
+    window: {
+      QDII_PUBLIC_PLAN_CANONICAL: true,
+      QdiiPersonalizedDecision: { personalizePlan: function () { personalizeCalls++; return { action: "WRONG" }; } }
+    },
+    currentCloudDetail: null,
+    canonicalPlanInputMismatch: false,
+    publicTodayPicks: canonicalPlan,
+    todayPicks: null,
+    updateAnchorButton: function () {},
+    renderAnchorSetupCard: function () {},
+    renderTradeBanner: function () {},
+    renderTemperature: function () {},
+    renderBuySignal: function () {},
+    renderPicks: function () {},
+    updateCloudActionAvailability: function () { availabilityCalls++; }
+  });
+  ctx.refreshPersonalizedPlan({
+    readOnly: false,
+    ledger: { revision: 9, checksum: "ledger-9", transactions: [] },
+    decisionState: Object.assign({}, builtDecisionState, { revision: 8, riskAnchorValue: 999 }),
+    strategyState: { latestPlan: { asOf: "2026-08-14", action: "BUY", budget: 999 } }
+  });
+  assert.equal(personalizeCalls, 0);
+  assert.equal(ctx.todayPicks.action, "HARD_PAUSE");
+  assert.equal(ctx.todayPicks.budget, 0);
+  assert.deepEqual(Array.from(ctx.todayPicks.candidates), []);
+  assert.deepEqual(Array.from(ctx.todayPicks.ranked), []);
+  assert.deepEqual(Array.from(ctx.todayPicks.executionRoutes), []);
+  assert.ok(Array.from(ctx.todayPicks.pauseReasons).includes("PLAN_INPUT_REVISION_MISMATCH"));
+  assert.equal(ctx.canonicalPlanInputMismatch, true);
+  assert.ok(availabilityCalls > 0);
+  assert.match(extractFunction("addBuy"), /canonicalPlanInputMismatch/);
+  assert.match(extractFunction("submitBatch"), /canonicalPlanInputMismatch/);
+  assert.match(extractFunction("updateCloudActionAvailability"), /!canonicalPlanInputMismatch/);
+});
+
+test("actionable plans are executable only for the current Asia/Shanghai date", function () {
+  const ctx = loadHelpers([
+    "shanghaiDateString", "isStrictIsoDate", "isStrictUtcTimestamp", "planDateStatus", "planExecutionWindowStatus", "buildPlanDateMismatchPlan",
+    "enforceActionablePlanDate", "actionAllowsPurchase"
+  ], { canonicalPlanInputMismatch: false, canonicalPlanDateMismatch: false });
+  const now = "2026-08-15T02:00:00.000Z"; // 2026-08-15 10:00 in Asia/Shanghai
+  const base = {
+    action: "STRATEGIC_DCA", budget: 20,
+    generatedAt: "2026-08-15T01:30:00.000Z",
+    validFrom: "2026-08-15T01:00:00.000Z",
+    validUntil: "2026-08-15T06:00:00.000Z",
+    candidates: [{ code: "096001" }], ranked: [{ code: "096001" }],
+    executionRoutes: [{ code: "096001", amount: 20 }]
+  };
+  const current = Object.assign({}, base, { asOf: "2026-08-15", date: "2026-08-15" });
+  assert.equal(ctx.actionAllowsPurchase(current, now), true);
+
+  [
+    { plan: Object.assign({}, base), reason: "PLAN_DATE_MISSING" },
+    { plan: Object.assign({}, base, { asOf: "2026-08-14" }), reason: "PLAN_DATE_STALE" },
+    { plan: Object.assign({}, base, { asOf: "2026-08-16" }), reason: "PLAN_DATE_FUTURE" }
+  ].forEach(function (item) {
+    const guarded = ctx.enforceActionablePlanDate(item.plan, now);
+    assert.equal(guarded.action, "HARD_PAUSE");
+    assert.equal(guarded.budget, 0);
+    assert.deepEqual(Array.from(guarded.candidates), []);
+    assert.deepEqual(Array.from(guarded.ranked), []);
+    assert.deepEqual(Array.from(guarded.executionRoutes), []);
+    assert.ok(Array.from(guarded.pauseReasons).includes(item.reason));
+    assert.equal(ctx.actionAllowsPurchase(item.plan, now), false);
+  });
+  assert.equal(ctx.planExecutionWindowStatus(current, "2026-08-15T06:30:00.000Z").reason, "PLAN_WINDOW_EXPIRED");
+  assert.equal(ctx.actionAllowsPurchase(current, "2026-08-15T06:30:00.000Z"), false);
+  assert.equal(ctx.planExecutionWindowStatus(
+    Object.assign({}, current, { validUntil: "2026-08-15T07:00:00.000Z" }), now
+  ).reason, "PLAN_EXECUTION_WINDOW_INVALID");
+  const missingWindow = Object.assign({}, current);
+  delete missingWindow.validUntil;
+  assert.equal(ctx.actionAllowsPurchase(missingWindow, now), false);
+});
+
+test("performance attribution includes fully closed realized profit in its total", function () {
+  const element = { innerHTML: "" };
+  const ctx = loadHelpers(["escapeHtml", "runAttribution"], {
+    document: { getElementById: function () { return element; } },
+    fundsData: { funds: [{ code: "A", name: "Active A", type: "宽基" }] },
+    portfolioData: {
+      holdings: [{ code: "A", buys: [{ amount: 100, shares: 10 }] }],
+      closedPositions: [{ code: "B", name: "Closed B", investedAmount: 100, realizedPnl: 20 }],
+      closedRealizedPnl: 20
+    },
+    calcConfirmedHoldingValuation: function () {
+      return { invested: 100, value: 110, pnl: 10, complete: true };
+    }
+  });
+  ctx.runAttribution({ A: { "2026-08-01": 10, "2026-08-15": 11 } }, ["A"], ["2026-08-01", "2026-08-15"]);
+  assert.match(element.innerHTML, /Closed B.*已清仓/s);
+  assert.match(element.innerHTML, /Closed B[\s\S]*\+20/);
+  assert.match(element.innerHTML, /合计[\s\S]*\+30/);
+});
+
+test("performance attribution still runs when backtest history is unavailable or too short", function () {
+  const source = extractBetweenFunctions("runBacktest", "runAttribution");
+  assert.match(source, /if \(!fullNav\) \{[\s\S]*?runAttribution\(\{\},[\s\S]*?return;/);
+  assert.ok(source.indexOf("runAttribution(navMatrix, codes, dates)") < source.indexOf("if (dates.length < 60)"));
+  assert.equal((source.match(/runAttribution\(navMatrix, codes, dates\)/g) || []).length, 1);
+});
+
+test("canonical write controls re-check the execution window while the page remains open", function () {
+  const plan = {
+    asOf: "2026-08-15", date: "2026-08-15", action: "STRATEGIC_DCA", budget: 10,
+    generatedAt: "2026-08-15T01:30:00.000Z",
+    validFrom: "2026-08-15T01:00:00.000Z", validUntil: "2026-08-15T06:00:00.000Z",
+    candidates: [{ code: "A" }], ranked: [{ code: "A" }], executionRoutes: [{ code: "A", amount: 10 }]
+  };
+  const ctx = loadHelpers([
+    "hasCanonicalBuildPlan", "shanghaiDateString", "isStrictIsoDate", "isStrictUtcTimestamp", "planDateStatus",
+    "planExecutionWindowStatus",
+    "buildPlanDateMismatchPlan", "refreshCanonicalPlanDateGuard"
+  ], {
+    window: { QDII_PUBLIC_PLAN_CANONICAL: true },
+    publicTodayPicks: plan, todayPicks: plan, canonicalPlanDateMismatch: false
+  });
+  assert.equal(ctx.refreshCanonicalPlanDateGuard("2026-08-15T05:59:00.000Z"), true);
+  assert.equal(ctx.refreshCanonicalPlanDateGuard("2026-08-15T06:01:00.000Z"), false);
+  assert.equal(ctx.canonicalPlanDateMismatch, true);
+  assert.equal(ctx.todayPicks.action, "HARD_PAUSE");
+  assert.ok(Array.from(ctx.todayPicks.pauseReasons).includes("PLAN_WINDOW_EXPIRED"));
+  assert.match(extractFunction("addBuy"), /refreshCanonicalPlanDateGuard/);
+  assert.match(extractFunction("submitBatch"), /refreshCanonicalPlanDateGuard/);
+  assert.match(extractFunction("updateCloudActionAvailability"), /refreshCanonicalPlanDateGuard/);
+  assert.match(template, /setInterval\([\s\S]*refreshCanonicalPlanDateGuard/);
+});
+
+test("canonical input matching binds checksums and the exact decision fingerprint", function () {
+  const state = {
+    schemaVersion: 2, revision: 7, updatedAt: "2026-08-15T00:00:00.000Z",
+    riskProfile: "AGGRESSIVE", cashBalance: 10, riskAnchorValue: 1000,
+    riskAnchorAt: "2026-08-15T00:00:00.000Z", riskAnchorLedgerRevision: 4,
+    riskAnchorTransactionIds: ["b", "a"]
+  };
+  const ctx = loadHelpers(["canonicalDecisionFingerprint", "canonicalPlanInputsMatch"]);
+  const plan = {
+    syncRevision: 4, decisionRevision: 7, ledgerChecksum: "checksum-4",
+    decisionFingerprint: decisionFingerprint(state)
+  };
+  const detail = { ledger: { revision: 4, checksum: "checksum-4" }, decisionState: state };
+  assert.equal(ctx.canonicalPlanInputsMatch(plan, detail), true);
+  assert.equal(ctx.canonicalPlanInputsMatch(Object.assign({}, plan, { syncRevision: "4" }), detail), false);
+  assert.equal(ctx.canonicalPlanInputsMatch(Object.assign({}, plan, { ledgerChecksum: undefined }), detail), false);
+  assert.equal(ctx.canonicalPlanInputsMatch(plan, Object.assign({}, detail, {
+    decisionState: Object.assign({}, state, { cashBalance: 11 })
+  })), false);
+});
+
+test("market-only build remains hard-paused after login and ignores strategyState", function () {
+  let personalizeCalls = 0;
+  const marketOnlyPlan = {
+    asOf: "2026-08-15", action: "HARD_PAUSE", budget: 0,
+    blockedStage: "PRIVATE_STATE_VALIDATION",
+    pauseReasons: ["PRIVATE_RECOMMENDATION_STATE_UNAVAILABLE"],
+    candidates: [], ranked: [], executionRoutes: [],
+    dataFreshness: { status: "MARKET_ONLY" }
+  };
+  const ctx = loadHelpers([
+    "isMarketOnlyBuildPlan", "buildMarketOnlyLockedPlan", "hasCanonicalBuildPlan",
+    "shanghaiDateString", "isStrictIsoDate", "planDateStatus", "buildPlanDateMismatchPlan",
+    "enforceActionablePlanDate", "refreshPersonalizedPlan"
+  ], {
+    window: {
+      QDII_PUBLIC_PLAN_CANONICAL: false,
+      QdiiPersonalizedDecision: { personalizePlan: function () { personalizeCalls++; return { action: "BUY", budget: 999 }; } }
+    },
+    currentCloudDetail: null,
+    canonicalPlanInputMismatch: false,
+    canonicalPlanDateMismatch: false,
+    publicTodayPicks: marketOnlyPlan,
+    todayPicks: null,
+    updateAnchorButton: function () {}, renderAnchorSetupCard: function () {},
+    renderTradeBanner: function () {}, renderTemperature: function () {},
+    renderBuySignal: function () {}, renderPicks: function () {},
+    updateCloudActionAvailability: function () {}
+  });
+  ctx.refreshPersonalizedPlan({
+    readOnly: false,
+    ledger: { revision: 99, checksum: "new" },
+    decisionState: { revision: 99, riskAnchorValue: 999 },
+    strategyState: { latestPlan: { asOf: "2026-08-15", action: "BUY", budget: 999 } }
+  }, "2026-08-14T16:30:00.000Z");
+  assert.equal(personalizeCalls, 0);
+  assert.equal(ctx.todayPicks.action, "HARD_PAUSE");
+  assert.equal(ctx.todayPicks.budget, 0);
+  assert.ok(Array.from(ctx.todayPicks.pauseReasons).includes("PRIVATE_RECOMMENDATION_STATE_UNAVAILABLE"));
+  assert.ok(Array.from(ctx.todayPicks.pauseReasons).includes("MARKET_ONLY_BUILD_LOCKED"));
+  assert.match(extractFunction("updateCloudActionAvailability"), /isMarketOnlyBuildPlan\(publicTodayPicks\)/);
+  assert.match(extractFunction("addBuy"), /isMarketOnlyBuildPlan\(publicTodayPicks\)/);
+  assert.match(extractFunction("submitBatch"), /isMarketOnlyBuildPlan\(publicTodayPicks\)/);
+});
+
+test("shadow comparison never turns incomplete real valuation into a fake minus 100 percent", function () {
+  const source = extractFunction("renderShadow");
+  assert.match(source, /realS\.valuationComplete/);
+  assert.match(source, /realRate === null/);
+  assert.doesNotMatch(source, /realS\.invested > 0 \? Math\.round\(\(\(realS\.value - realS\.invested\)/);
 });
 
 test("stale external signals stay visible with a non-trading disclaimer", function () {
@@ -409,9 +857,21 @@ test("chat history is scoped to the complete decision, not merely date and actio
 test("anchor status makes an existing public anchor visible without offering setup again", function () {
   const button = { style: {} };
   const status = { textContent: "" };
-  const ctx = loadHelpers(["updateAnchorButton"], {
-    window: { QDII_PUBLIC_PORTFOLIO_SNAPSHOT: true },
-    document: { getElementById: function (id) { return id === "decision-anchor-btn" ? button : status; } }
+  const profileSelect = { value: "", disabled: false, title: "" };
+  const profileHelp = { textContent: "" };
+  const ctx = loadHelpers(["isCanonicalPublicSnapshot", "updateAnchorButton"], {
+    window: {
+      QDII_PUBLIC_PORTFOLIO_SNAPSHOT: true,
+      QDII_PUBLIC_PLAN_CANONICAL: true,
+      QDII_PUBLIC_DECISION_STATE: { schemaVersion: 2, revision: 1, riskAnchorValue: 1627.35 }
+    },
+    document: { getElementById: function (id) {
+      if (id === "decision-anchor-btn") return button;
+      if (id === "decision-anchor-status") return status;
+      if (id === "risk-profile-select") return profileSelect;
+      if (id === "risk-profile-help") return profileHelp;
+      return null;
+    } }
   });
   ctx.updateAnchorButton({
     ledger: { revision: 2 }, decisionState: { revision: 1, riskAnchorValue: 1627.35 }, readOnly: true
@@ -419,4 +879,8 @@ test("anchor status makes an existing public anchor visible without offering set
   assert.equal(button.style.display, "none");
   assert.match(status.textContent, /已设置/);
   assert.match(status.textContent, /账本 r2/);
+  assert.equal(profileSelect.value, "AGGRESSIVE");
+  assert.equal(profileSelect.disabled, true);
+  assert.match(profileSelect.title, /登录/);
+  assert.match(profileHelp.textContent, /不代表择时模型已证明超额/);
 });

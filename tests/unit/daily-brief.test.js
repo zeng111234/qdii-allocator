@@ -3,7 +3,7 @@
  */
 const test = require('node:test');
 const assert = require('node:assert');
-const { buildPrompt, cleanLLMOutput } = require('../../lib/daily-brief');
+const { buildPrompt, cleanLLMOutput, generateFallbackBrief } = require('../../lib/daily-brief');
 
 // ─── cleanLLMOutput: 基础清理 ───
 
@@ -98,4 +98,71 @@ test('buildPrompt: 没有统一估值时不使用买入净值伪造当前市值'
 
   assert.ok(!prompt.includes('我的持仓'));
   assert.ok(!prompt.includes('市值115元'));
+});
+
+test('fallback: HARD_PAUSE 严格使用唯一计划的零预算且不出现买入建议', () => {
+  const text = generateFallbackBrief({
+    recommendationPlan: {
+      asOf: '2026-08-15',
+      action: 'HARD_PAUSE',
+      budget: 0,
+      executionRoutes: [],
+      candidates: []
+    },
+    marketTemperature: { temperature: 65, level: '偏热' },
+    budgetInfo: { adjustedBudget: 50 },
+    budget: 50,
+    ranked: [{ name: '不应出现的基金', score: 99 }]
+  }, null);
+
+  assert.ok(text.includes('2026-08-15'));
+  assert.ok(text.includes('HARD_PAUSE'));
+  assert.ok(text.includes('预算0元'));
+  assert.ok(!text.includes('不应出现的基金'));
+  assert.doesNotMatch(text, /建议投入|建议买入|定投/);
+});
+
+test('fallback: 可执行内容只来自 recommendationPlan 的路线和金额', () => {
+  const text = generateFallbackBrief({
+    recommendationPlan: {
+      asOf: '2026-08-14',
+      action: 'STRATEGIC_DCA',
+      budget: 10,
+      executionRoutes: [{ code: '096001', name: '计划基金', amount: 10 }],
+      candidates: []
+    },
+    budgetInfo: { adjustedBudget: 50 },
+    ranked: [{ name: '旧排行榜基金', score: 99 }]
+  }, null);
+
+  assert.ok(text.includes('预算10元'));
+  assert.ok(text.includes('计划基金(096001)：10元'));
+  assert.ok(!text.includes('50元'));
+  assert.ok(!text.includes('旧排行榜基金'));
+});
+
+test('buildPrompt: 有唯一暂停计划时不再向模型暴露旧排行榜推荐', () => {
+  const prompt = buildPrompt({
+    recommendationPlan: { action: 'HARD_PAUSE', budget: 0, candidates: [], asOf: '2026-08-15' },
+    ranked: [{ name: '旧排行榜基金', score: 99 }],
+    marketSnapshot: [],
+    marketNews: []
+  }, null);
+
+  assert.ok(prompt.includes('action=HARD_PAUSE，budget=0元'));
+  assert.ok(!prompt.includes('旧排行榜基金'));
+  assert.ok(!prompt.includes('今日推荐 Top5'));
+});
+
+test('fallback: 缺少 recommendationPlan 时安全暂停而不是沿用旧预算', () => {
+  const text = generateFallbackBrief({
+    budgetInfo: { adjustedBudget: 50 },
+    budget: 50,
+    ranked: [{ name: '旧排行榜基金', score: 99 }]
+  }, null);
+
+  assert.ok(text.includes('HARD_PAUSE'));
+  assert.ok(text.includes('预算0元'));
+  assert.ok(!text.includes('旧排行榜基金'));
+  assert.ok(!text.includes('50元'));
 });

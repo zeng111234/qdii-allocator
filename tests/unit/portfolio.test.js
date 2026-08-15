@@ -233,14 +233,14 @@ test("calcHoldingDetail - calculates settled buys correctly", function () {
     ]
   };
   const navCache = { 270042: [{ date: "2026-06-02", nav: 11.5 }] };
-  const detail = portfolio.calcHoldingDetail(holding, navCache);
+  const detail = portfolio.calcHoldingDetail(holding, navCache, { asOf: "2026-06-02", maxFreshnessLag: 2 });
   assert.strictEqual(detail.totalAmount, 300);
   assert.strictEqual(detail.totalShares, 20);
   assert.ok(detail.currentValue > 0);
   assert.ok(detail.pnl !== null);
 });
 
-test("calcHoldingDetail - unsettled buy excluded from totals", function () {
+test("calcHoldingDetail - unsettled buy is excluded from valuation and profit", function () {
   const portfolio = require("../../lib/portfolio");
   const holding = {
     code: "270042",
@@ -250,9 +250,141 @@ test("calcHoldingDetail - unsettled buy excluded from totals", function () {
       { date: "2026-06-05", settleDate: "2026-06-09", amount: 50, nav: null, shares: null }
     ]
   };
-  const detail = portfolio.calcHoldingDetail(holding, {});
+  const detail = portfolio.calcHoldingDetail(holding, {
+    270042: [{ date: "2026-06-10", nav: 11 }]
+  }, { asOf: "2026-06-10", maxFreshnessLag: 2 });
   assert.strictEqual(detail.totalAmount, 150); // 100(已结算) + 50(待结算) = 150
   assert.strictEqual(detail.totalShares, 10); // 待结算的没有shares
+  assert.strictEqual(detail.confirmedAmount, 100);
+  assert.strictEqual(detail.pendingAmount, 50);
+  assert.strictEqual(detail.currentValue, 110);
+  assert.strictEqual(detail.pnl, 10);
+  assert.strictEqual(detail.pnlRate, 10);
+});
+
+test("calcHoldingDetail - signed sells reduce remaining cost and shares", function () {
+  const portfolio = require("../../lib/portfolio");
+  const detail = portfolio.calcHoldingDetail({
+    code: "A",
+    name: "Test Fund",
+    buys: [
+      { date: "2026-07-01", type: "BUY", amount: 100, nav: 1, shares: 100 },
+      { date: "2026-07-10", type: "SELL", amount: -50, nav: 1.25, shares: -40 }
+    ]
+  }, { A: [{ date: "2026-07-11", nav: 1 }] }, { asOf: "2026-07-11", maxFreshnessLag: 2 });
+  assert.strictEqual(detail.confirmedAmount, 50);
+  assert.strictEqual(detail.totalShares, 60);
+  assert.strictEqual(detail.currentValue, 60);
+  assert.strictEqual(detail.pnl, 10);
+  assert.strictEqual(detail.buyDetails[1].type, "SELL");
+});
+
+test("calcHoldingDetail - invalid latest NAV makes valuation incomplete", function () {
+  const portfolio = require("../../lib/portfolio");
+  [0, -1, NaN, "11"].forEach(function (invalidNav) {
+    const detail = portfolio.calcHoldingDetail({
+      code: "A",
+      name: "Test Fund",
+      buys: [{ date: "2026-07-01", type: "BUY", amount: 100, nav: 10, shares: 10 }]
+    }, { A: [{ date: "2026-07-11", nav: invalidNav }] });
+    assert.strictEqual(detail.latestNav, null);
+    assert.strictEqual(detail.currentValue, null);
+    assert.strictEqual(detail.pnl, null);
+  });
+});
+
+test("calcHoldingDetail - accepts normal QDII reporting lag but rejects stale and future NAV", function () {
+  const portfolio = require("../../lib/portfolio");
+  const holding = {
+    code: "QDII",
+    name: "Test QDII",
+    buys: [{ date: "2026-08-01", type: "BUY", amount: 100, nav: 10, shares: 10 }]
+  };
+
+  const normalLag = portfolio.calcHoldingDetail(holding, {
+    QDII: [{ date: "2026-08-13", nav: 11 }]
+  }, { asOf: "2026-08-17", maxFreshnessLag: 2 });
+  assert.strictEqual(normalLag.currentValue, 110);
+  assert.strictEqual(normalLag.pnl, 10);
+  assert.strictEqual(normalLag.navTradingDayLag, 2);
+  assert.strictEqual(normalLag.valuationIssue, null);
+
+  const stale = portfolio.calcHoldingDetail(holding, {
+    QDII: [{ date: "2026-08-12", nav: 11 }]
+  }, { asOf: "2026-08-17", maxFreshnessLag: 2 });
+  assert.strictEqual(stale.currentValue, null);
+  assert.strictEqual(stale.pnl, null);
+  assert.strictEqual(stale.pnlRate, null);
+  assert.strictEqual(stale.valuationIssue, "NAV_STALE");
+
+  const future = portfolio.calcHoldingDetail(holding, {
+    QDII: [{ date: "2026-08-18", nav: 11 }]
+  }, { asOf: "2026-08-17", maxFreshnessLag: 2 });
+  assert.strictEqual(future.currentValue, null);
+  assert.strictEqual(future.pnl, null);
+  assert.strictEqual(future.pnlRate, null);
+  assert.strictEqual(future.valuationIssue, "NAV_FUTURE");
+});
+
+test("calcPortfolioSummary - missing NAV never turns confirmed cost into a fake loss", function () {
+  const portfolio = require("../../lib/portfolio");
+  const ledgerTools = require("../../lib/portfolio-ledger");
+  backupPortfolio();
+  try {
+    const source = ledgerTools.createLedger([
+      { id: "missing-nav", type: "BUY", code: "NO_NAV", tradeDate: "2026-07-01", amount: 100, nav: 1, shares: 100 }
+    ], { revision: 1, updatedAt: "2026-07-01T00:00:00.000Z" });
+    fs.writeFileSync(PORTFOLIO_FILE, JSON.stringify(source), "utf8");
+    const result = portfolio.calcPortfolioSummary();
+    assert.strictEqual(result.summary.valuationComplete, false);
+    assert.deepEqual(result.summary.missingValuationCodes, ["NO_NAV"]);
+    assert.strictEqual(result.summary.totalValue, null);
+    assert.strictEqual(result.summary.totalPnl, null);
+    assert.strictEqual(result.summary.totalPnlRate, null);
+  } finally {
+    restorePortfolio();
+  }
+});
+
+test("calcPortfolioSummary - pending-only ledger remains visible without fake valuation", function () {
+  const portfolio = require("../../lib/portfolio");
+  const ledgerTools = require("../../lib/portfolio-ledger");
+  backupPortfolio();
+  try {
+    const source = ledgerTools.createLedger([
+      { id: "pending-only", type: "BUY", code: "PENDING_ONLY", tradeDate: "2026-07-01", amount: 50, nav: 0, shares: 0 }
+    ], { revision: 1, updatedAt: "2026-07-01T00:00:00.000Z" });
+    fs.writeFileSync(PORTFOLIO_FILE, JSON.stringify(source), "utf8");
+    const result = portfolio.calcPortfolioSummary();
+    assert.strictEqual(result.empty, false);
+    assert.strictEqual(result.summary.pendingInvested, 50);
+    assert.strictEqual(result.summary.totalInvested, 0);
+    assert.strictEqual(result.summary.totalPnl, 0);
+  } finally {
+    restorePortfolio();
+  }
+});
+
+test("calcPortfolioSummary - fully sold ledger retains realized profit", function () {
+  const portfolio = require("../../lib/portfolio");
+  const portfolioLedger = require("../../lib/portfolio-ledger");
+  backupPortfolio();
+  try {
+    const closedLedger = portfolioLedger.createLedger([
+      { id: "buy", type: "BUY", code: "A", tradeDate: "2026-01-01", amount: 100, nav: 10, shares: 10 },
+      { id: "sell", type: "SELL", code: "A", tradeDate: "2026-02-01", amount: 120, nav: 12, shares: 10 }
+    ], { revision: 1, updatedAt: "2026-02-01T00:00:00.000Z" });
+    fs.writeFileSync(PORTFOLIO_FILE, JSON.stringify(closedLedger), "utf-8");
+
+    const result = portfolio.calcPortfolioSummary({ asOf: "2026-02-02" });
+    assert.equal(result.empty, false);
+    assert.deepEqual(result.holdings, []);
+    assert.equal(result.summary.totalRealizedPnl, 20);
+    assert.equal(result.summary.totalPnl, 20);
+    assert.equal(result.summary.closedPositionCount, 1);
+  } finally {
+    restorePortfolio();
+  }
 });
 
 test("calcHoldingDetail - preserves risk classification metadata", function () {
@@ -330,4 +462,25 @@ test("formatPortfolioReport - with holdings shows report", function () {
   assert.ok(report.includes("持仓"));
   assert.ok(report.includes("广发纳斯达克100"));
   assert.ok(report.includes("组合汇总"));
+});
+
+test("formatPortfolioReport - labels signed ledger redemptions as sells", function () {
+  const portfolio = require("../../lib/portfolio");
+  const detail = portfolio.calcHoldingDetail({
+    code: "A",
+    name: "Test Fund",
+    buys: [
+      { date: "2026-07-01", type: "BUY", amount: 100, nav: 1, shares: 100 },
+      { date: "2026-07-10", type: "SELL", amount: -50, nav: 1.25, shares: -40 }
+    ]
+  }, { A: [{ date: "2026-07-11", nav: 1 }] });
+  const report = portfolio.formatPortfolioReport({
+    empty: false,
+    holdings: [detail],
+    summary: {
+      totalInvested: 50, pendingInvested: 0, totalValue: 60, totalPnl: 10, totalPnlRate: 20,
+      valuationComplete: true, totalRealizedPnl: 0, holdingCount: 1, daysSinceStart: 10, startDate: "2026-07-01"
+    }
+  });
+  assert.match(report, /2026-07-10 卖出50元/);
 });

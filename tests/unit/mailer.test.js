@@ -61,6 +61,79 @@ test('buildEmailHtml: 包含早报内容', () => {
   assert.ok(html.includes('今天市场表现不错'));
 });
 
+test('buildEmailHtml: 待确认金额不伪装成市值或持仓收益', () => {
+  const result = makeResult({
+    portfolio: {
+      empty: false,
+      summary: {
+        totalInvested: 100,
+        grossInvested: 150,
+        pendingInvested: 50,
+        totalValue: 110,
+        totalPnl: 10,
+        totalPnlRate: 10
+      },
+      holdings: [{
+        code: 'A', name: '测试基金', totalAmount: 150, confirmedAmount: 100,
+        pendingAmount: 50, pnl: 10, pnlRate: 10
+      }]
+    }
+  });
+  const html = buildEmailHtml('', '', result, {});
+  assert.ok(html.includes('已确认投入'));
+  assert.ok(html.includes('待确认 50元未计入市值和盈亏'));
+  assert.ok(html.includes('测试基金 100元'));
+  assert.ok(!html.includes('测试基金 150元'));
+});
+
+test('buildEmailHtml: 缺净值时明确估值不完整且不生成虚假盈亏', () => {
+  const result = makeResult({
+    portfolio: {
+      empty: false,
+      summary: {
+        totalInvested: 100,
+        pendingInvested: 0,
+        totalValue: null,
+        totalPnl: null,
+        totalPnlRate: null,
+        valuationComplete: false,
+        missingValuationCodes: ['NO_NAV']
+      },
+      holdings: [{ code: 'NO_NAV', name: '无净值基金', confirmedAmount: 100, currentValue: null, pnl: null, pnlRate: null }]
+    }
+  });
+  const html = buildEmailHtml('', '', result, {});
+  assert.ok(html.includes('估值不完整'));
+  assert.ok(html.includes('NO_NAV'));
+  assert.ok(!html.includes('盈亏</div><div style="font-size:16px;font-weight:bold;color:#e74c3c">-'));
+});
+
+test('buildEmailHtml: 陈旧或未来净值显示原因代码而不是伪造盈亏', () => {
+  const result = makeResult({
+    portfolio: {
+      empty: false,
+      summary: {
+        totalInvested: 200, pendingInvested: 0, totalValue: null,
+        totalPnl: null, totalPnlRate: null, valuationComplete: false,
+        missingValuationCodes: ['STALE', 'FUTURE'],
+        valuationIssues: [
+          { code: 'STALE', reason: 'NAV_STALE', latestDate: '2026-08-10', tradingDayLag: 4 },
+          { code: 'FUTURE', reason: 'NAV_FUTURE', latestDate: '2026-08-18', tradingDayLag: null }
+        ]
+      },
+      holdings: [
+        { code: 'STALE', name: '陈旧基金', confirmedAmount: 100, currentValue: null, pnl: null, pnlRate: null, valuationIssue: 'NAV_STALE' },
+        { code: 'FUTURE', name: '未来基金', confirmedAmount: 100, currentValue: null, pnl: null, pnlRate: null, valuationIssue: 'NAV_FUTURE' }
+      ]
+    }
+  });
+  const html = buildEmailHtml('', '', result, {});
+  assert.ok(html.includes('NAV_STALE'));
+  assert.ok(html.includes('NAV_FUTURE'));
+  assert.ok(html.includes('陈旧基金'));
+  assert.ok(!html.includes('陈旧基金 100元 <span style="color:#e74c3c">-100'));
+});
+
 // ─── [fix] AI 提示不再被丢弃 ───
 
 test('buildEmailHtml: [AI 开头的提示(解读被拒/不可用)不再被丢弃', () => {
@@ -94,6 +167,37 @@ test('buildEmailHtml: BUY 时不显示暂停原因区块', () => {
   const plan = { action: 'BUY', pauseReasons: [], signalHealth: { status: 'HEALTHY' } };
   const html = buildEmailHtml('', '', makeResult({ recommendationPlan: plan }), {});
   assert.ok(!html.includes('今日暂停买入'), 'BUY 时不应显示暂停区块');
+});
+
+test('buildEmailHtml: 战略定投只输出最终路线和精确金额', () => {
+  const plan = {
+    action: 'STRATEGIC_DCA', budget: 30, pauseReasons: ['ALPHA_GATE_NOT_PASSED'],
+    executionRoutes: [
+      { code: '096001', name: '标普通道', amount: 10 },
+      { code: '270042', name: '纳指通道', amount: 20 }
+    ]
+  };
+  const html = buildEmailHtml('', '', makeResult({
+    recommendationPlan: plan,
+    budget: 30,
+    ranked: [
+      { rank: 1, code: '096001', name: '标普通道', proposedAmount: 10, indicators: {} },
+      { rank: 2, code: '270042', name: '纳指通道', proposedAmount: 20, indicators: {} }
+    ]
+  }), {});
+  assert.ok(html.includes('进取型核心定投'));
+  assert.ok(html.includes('096001 10元'));
+  assert.ok(html.includes('270042 20元'));
+  assert.ok(html.includes('096001 10, 270042 20'));
+  assert.ok(!html.includes('金额自行确定'));
+});
+
+test('buildEmailHtml: HARD_PAUSE 不生成任何购买命令', () => {
+  const plan = { action: 'HARD_PAUSE', budget: 0, pauseReasons: ['DECISION_STATE_MISSING'], executionRoutes: [] };
+  const html = buildEmailHtml('', '', makeResult({ recommendationPlan: plan, budget: 0, ranked: [] }), {});
+  assert.ok(html.includes('今日硬暂停'));
+  assert.ok(!html.includes('--quick-add'));
+  assert.ok(!html.includes('今日买入指南'));
 });
 
 // ─── [fix] 卡片指标渲染 ───

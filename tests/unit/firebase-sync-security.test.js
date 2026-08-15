@@ -77,6 +77,100 @@ test("personalized decision state is uid-scoped and never initialized silently",
   assert.match(template, /refreshPersonalizedPlan/);
 });
 
+test("browser ledger validation rejects impossible calendar dates like the server", function () {
+  const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  assert.match(source, /function isIsoCalendarDate\(value\)/);
+  assert.match(source, /!isIsoCalendarDate\(tx\.tradeDate\)/);
+  assert.match(source, /getUTCFullYear\(\) === year/);
+  assert.match(source, /typeof ledger\.schemaVersion !== "number"/);
+  assert.match(source, /typeof ledger\.revision !== "number"/);
+  assert.match(source, /const rawType = transaction && transaction\.type/);
+  assert.match(source, /rawType !== "BUY" && rawType !== "SELL"/);
+  assert.match(source, /typeof rawAmount !== "number"/);
+  assert.match(source, /typeof rawNav !== "number"/);
+  assert.match(source, /typeof rawShares !== "number"/);
+  assert.match(source, /rawType === "SELL"/);
+  assert.match(source, /rawAmount <= 0/);
+  assert.match(source, /rawNav <= 0/);
+  assert.match(source, /rawShares <= 0/);
+});
+
+test("browser portfolio derivation preserves realized PnL after a complete exit", function () {
+  const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  const canonicalStart = source.indexOf("function canonicalTransaction(transaction)");
+  const canonicalEnd = source.indexOf("\nfunction isIsoCalendarDate", canonicalStart);
+  const deriveStart = source.indexOf("function derivePortfolio(ledger)");
+  const deriveEnd = source.indexOf("\nfunction ledgerPath", deriveStart);
+  assert.ok(canonicalStart >= 0 && canonicalEnd > canonicalStart, "应能提取浏览器交易归一化函数");
+  assert.ok(deriveStart >= 0 && deriveEnd > deriveStart, "应能提取浏览器账本派生函数");
+  const browserDerivePortfolio = new Function(
+    source.slice(canonicalStart, canonicalEnd) + "\n" +
+    source.slice(deriveStart, deriveEnd) + "\nreturn derivePortfolio;"
+  )();
+
+  const portfolio = browserDerivePortfolio({
+    schemaVersion: 2,
+    revision: 2,
+    checksum: "test-checksum",
+    fundNames: { "096001": "大成标普500A" },
+    transactions: [
+      { id: "buy", type: "BUY", code: "096001", tradeDate: "2026-08-01", amount: 100, nav: 1, shares: 100 },
+      { id: "sell", type: "SELL", code: "096001", tradeDate: "2026-08-10", amount: 120, nav: 1.2, shares: 100 }
+    ]
+  });
+
+  assert.deepEqual(portfolio.holdings, []);
+  assert.equal(portfolio.closedPositions.length, 1);
+  assert.equal(portfolio.closedPositions[0].code, "096001");
+  assert.equal(portfolio.closedPositions[0].realizedPnl, 20);
+  assert.equal(portfolio.closedRealizedPnl, 20);
+});
+
+test("risk profile is explicit, persisted, and the public snapshot prefers the embedded cloud state", function () {
+  const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  assert.match(source, /riskProfile/);
+  assert.match(source, /state\.riskProfile \|\| "AGGRESSIVE"/);
+  assert.match(source, /updateRiskProfile/);
+  assert.match(source, /updatePublicRiskProfile/);
+  assert.match(source, /window\.QDII_PUBLIC_DECISION_STATE/);
+  assert.match(template, /id="risk-profile-select"/);
+  assert.match(template, /firebaseSetRiskProfile/);
+  assert.match(template, /defaultRiskProfile/);
+  assert.match(template, /STRATEGIC_DCA/);
+  assert.match(template, /window\.QDII_PUBLIC_DECISION_STATE = PUBLIC_DECISION_STATE_PLACEHOLDER/);
+  assert.match(template, /window\.QDII_PUBLIC_PLAN_CANONICAL = PUBLIC_PLAN_CANONICAL_PLACEHOLDER/);
+});
+
+test("browser decision-state validation fails closed exactly like the server", function () {
+  const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  const match = source.match(/function normalizeDecisionState\(state\) \{([\s\S]*?)\r?\n\}\r?\n\r?\nfunction normalizeStrategyState/);
+  assert.ok(match, "应能提取浏览器 decisionState 归一化函数");
+  const isoMatch = source.match(/function isCanonicalUtcIsoTimestamp\(value\) \{([\s\S]*?)\r?\n\}/);
+  assert.ok(isoMatch, "应能提取严格 UTC ISO 时间校验函数");
+  const normalizeDecisionState = new Function("state", "isCanonicalUtcIsoTimestamp", match[1]);
+  const isCanonicalUtcIsoTimestamp = new Function("value", isoMatch[1]);
+  const valid = {
+    schemaVersion: 2,
+    revision: 1,
+    updatedAt: "2026-08-13T00:00:00.000Z",
+    riskAnchorValue: 1000,
+    riskAnchorAt: "2026-08-13T00:00:00.000Z",
+    riskAnchorLedgerRevision: 1,
+    riskAnchorTransactionIds: [],
+    riskProfile: "AGGRESSIVE",
+    cashBalance: 0
+  };
+  function normalize(state) { return normalizeDecisionState(state, isCanonicalUtcIsoTimestamp); }
+  assert.equal(normalize(valid).riskAnchorLedgerRevision, 1);
+  assert.throws(function () { normalize(Object.assign({}, valid, { riskAnchorLedgerRevision: 0 })); });
+  assert.throws(function () { normalize(Object.assign({}, valid, { riskAnchorAt: "" })); }, /INVALID_RISK_ANCHOR_AT/);
+  assert.throws(function () { normalize(Object.assign({}, valid, { updatedAt: "" })); }, /INVALID_UPDATED_AT/);
+  assert.throws(function () { normalize(Object.assign({}, valid, { riskAnchorAt: "2026-02-30T00:00:00.000Z" })); }, /INVALID_RISK_ANCHOR_AT/);
+  assert.throws(function () { normalize(Object.assign({}, valid, { updatedAt: "2026-08-13T00:00:00Z" })); }, /INVALID_UPDATED_AT/);
+  assert.throws(function () { normalize(Object.assign({}, valid, { riskAnchorTransactionIds: "bad" })); });
+  assert.throws(function () { normalize(Object.assign({}, valid, { cashBalance: -1 })); });
+});
+
 test("browser accepts only server-written strategy state and uses it as a fresh plan source", function () {
   const source = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
   assert.match(source, /normalizeStrategyState/);
@@ -110,7 +204,7 @@ test("Actions never commit the private portfolio and always removes its temp led
   assert.match(workflow, /PRIVATE_LEDGER_PATH/);
   assert.match(workflow, /rm -f "\$PRIVATE_LEDGER_PATH"/);
   assert.doesNotMatch(workflow, /continue-on-error:\s*true\s*\n\s*run:[^\n]*portfolio/i);
-  assert.match(workflow, /PRIVATE_LEDGER_AVAILABLE=0/);
+  assert.match(workflow, /PRIVATE_RECOMMENDATION_STATE_AVAILABLE=0/);
   assert.match(workflow, /public market data and Pages will still update/);
 });
 
@@ -124,8 +218,8 @@ test("public Pages snapshot is explicit, derived from the private ledger, and re
   assert.match(client, /status: "PUBLIC_SNAPSHOT"/);
   assert.match(template, /window\.QDII_PUBLIC_PORTFOLIO_SNAPSHOT/);
   assert.match(template, /status === 'PUBLIC_SNAPSHOT'/);
-  assert.match(builder, /plan\.publicPortfolioSnapshot/);
-  assert.match(builder, /recommendationPlan\.publicPortfolioSnapshot = portfolio/);
+  assert.match(builder, /const publicPortfolioSnapshot = Boolean\(publicLedger\)/);
+  assert.match(builder, /const canonicalPublicPlan = Boolean\(publicLedger && publicDecisionState && canonicalRecommendationPlan\)/);
   assert.match(indexSource, /process\.env\.PORTFOLIO_READ_ONLY === "1"/);
   assert.match(indexSource, /recommendationPlan\.publicPortfolioSnapshot = portfolioSnapshot/);
   assert.match(indexSource, /function persistPublicPortfolioSnapshot\(\)/);
@@ -133,13 +227,14 @@ test("public Pages snapshot is explicit, derived from the private ledger, and re
   assert.match(indexSource, /跳过策略、AI 和邮件/);
 });
 
-test("Pages deployment fetches a validated temporary ledger before producing an explicit public snapshot", function () {
-  assert.match(pagesWorkflow, /Configure private ledger temp path/);
-  assert.match(pagesWorkflow, /Fetch and validate private PortfolioLedgerV2/);
-  assert.match(pagesWorkflow, /PRIVATE_LEDGER_AVAILABLE=1/);
-  assert.match(pagesWorkflow, /PUBLIC_PORTFOLIO_SNAPSHOT: \$\{\{ env\.PRIVATE_LEDGER_AVAILABLE == '1' && '1' \|\| '0' \}\}/);
-  assert.match(pagesWorkflow, /Remove private ledger temp file/);
+test("Pages deployment fetches a validated temporary ledger and decision state before publishing", function () {
+  assert.match(pagesWorkflow, /Configure private recommendation state temp paths/);
+  assert.match(pagesWorkflow, /Fetch and validate private recommendation state/);
+  assert.match(pagesWorkflow, /PRIVATE_RECOMMENDATION_STATE_AVAILABLE=1/);
+  assert.match(pagesWorkflow, /PUBLIC_PORTFOLIO_SNAPSHOT: \$\{\{ env\.PRIVATE_RECOMMENDATION_STATE_AVAILABLE == '1' && '1' \|\| '0' \}\}/);
+  assert.match(pagesWorkflow, /Remove private recommendation state temp files/);
   assert.match(pagesWorkflow, /rm -f "\$PRIVATE_LEDGER_PATH"/);
+  assert.match(pagesWorkflow, /"\$PRIVATE_DECISION_STATE_PATH"/);
   assert.doesNotMatch(pagesWorkflow, /echo .*FIREBASE_KEY/i);
 });
 
@@ -151,6 +246,22 @@ test("public snapshots can calculate a read-only plan after an explicit local ri
   assert.match(client, /initializePublicRiskAnchor/);
   assert.match(client, /emitLedger\("公开只读快照", true\)/);
   assert.match(template, /detail\.status === 'PUBLIC_SNAPSHOT'[\s\S]*refreshPersonalizedPlan\(currentCloudDetail\)/);
+});
+
+test("deployed public snapshots keep the build-time canonical plan and decision state", function () {
+  const builder = fs.readFileSync(path.join(root, "build-pages.js"), "utf8");
+  const client = fs.readFileSync(path.join(root, "docs", "firebase-sync.js"), "utf8");
+  assert.match(builder, /PUBLIC_DECISION_STATE_PLACEHOLDER/);
+  assert.match(builder, /PRIVATE_DECISION_STATE_PATH/);
+  assert.match(client, /const embedded = window\.QDII_PUBLIC_DECISION_STATE/);
+  assert.match(client, /window\.QDII_PUBLIC_PLAN_CANONICAL === true/);
+  assert.match(template, /function isCanonicalPublicSnapshot\(detail\)/);
+  assert.match(template, /hasCanonicalBuildPlan\(\)[\s\S]*canonicalPlanInputsMatch\(publicTodayPicks, currentCloudDetail\)/);
+  assert.match(template, /buildCanonicalRevisionMismatchPlan\(publicTodayPicks\)/);
+  assert.match(template, /function firebaseSetRiskAnchor\(\)[\s\S]*isCanonicalPublicSnapshot\(currentCloudDetail\)/);
+  assert.match(template, /function firebaseSetRiskProfile\(riskProfile\)[\s\S]*isCanonicalPublicSnapshot\(currentCloudDetail\)/);
+  assert.match(client, /window\.QDII_PUBLIC_PLAN_CANONICAL === true\s*\?\s*null\s*:/);
+  assert.match(client, /if \(window\.QDII_PUBLIC_PLAN_CANONICAL !== true\) \{\s*saveStrategySnapshot/);
 });
 
 test("public snapshot can switch to authenticated append-only editing", function () {

@@ -16,6 +16,7 @@ const {
   WEIGHTS,
   allocateDynamic,
   backfillFollowUp,
+  applyPortfolioAwareness,
 } = require('../../lib/dynamic-strategy');
 
 // ── Module exports ────────────────────────────────────────
@@ -26,6 +27,7 @@ test('module exports all expected public functions', () => {
   assert.equal(typeof scoreFund, 'function');
   assert.equal(typeof rankTopN, 'function');
   assert.equal(typeof backfillFollowUp, 'function');
+  assert.equal(typeof applyPortfolioAwareness, 'function');
   assert.ok(WEIGHTS !== undefined);
   assert.equal(typeof WEIGHTS, 'object');
 });
@@ -225,4 +227,28 @@ test('formatDynamicResult: shows pool stats line', () => {
   assert.ok(text.includes('数据池'));
   assert.ok(text.includes('15'));
   assert.ok(text.includes('3'));
+});
+
+test('portfolio awareness skips every concentration penalty when a confirmed holding lacks current NAV', () => {
+  const result = {
+    ranked: [
+      { rank: 1, code: 'A', name: 'A', type: '纳指100', score: 15, reason: '' },
+      { rank: 2, code: 'B', name: 'B', type: '标普500', score: 14, reason: '' },
+    ],
+  };
+  const valuation = applyPortfolioAwareness(result, {
+    holdings: [
+      { code: 'A', totalShares: 80, avgCost: 1 },
+      { code: 'B', totalShares: 20, avgCost: 1 },
+    ],
+  }, {
+    A: [{ date: '2026-07-01', nav: 1 }],
+  });
+
+  assert.equal(valuation.valuationComplete, false);
+  assert.deepEqual(valuation.missingValuationCodes, ['B']);
+  assert.equal(result.ranked[0].score, 15);
+  assert.equal(result.ranked[1].score, 14);
+  assert.equal(result.ranked[0].portfolioPenalty, undefined);
+  assert.equal(result.ranked[1].portfolioPenalty, undefined);
 });

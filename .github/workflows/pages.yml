@@ -1,27 +1,11 @@
 name: Build & Deploy Pages
 
+# Deployment boundary: this workflow uploads only docs/ to GitHub Pages.
+# It does not deploy Firebase Realtime Database Rules; Rules require a separate explicit admin deployment.
+
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'docs/index.html.template'
-      - 'docs/firebase-sync.js'
-      - 'firebase.database.rules.json'
-      - 'data/funds.json'
-      - 'data/history.json'
-      - 'data/nav-cache.json'
-      - 'build-pages.js'
-      - 'lib/allocation-policy.js'
-      - 'lib/external-signal-display.js'
-      - 'lib/personalized-decision.js'
-      - 'lib/firebase-client.js'
-      - 'lib/portfolio-ledger.js'
-      - 'lib/recommendation-engine.js'
-      - 'lib/walk-forward.js'
-      - 'scripts/fetch-private-ledger.js'
-      - 'scripts/reconcile-private-ledger.js'
-      - '.github/workflows/pages.yml'
-  workflow_dispatch:
+  # Deployment is schedule-only. Arbitrary push/manual attempts cannot create an
+  # unknowable same-window failure while an older actionable static page remains live.
   schedule:
     - cron: '0 */6 * * *'  # 每6小时自动构建一次（0,6,12,18点UTC）
 
@@ -36,8 +20,9 @@ concurrency:
 
 jobs:
   build:
+    if: github.run_attempt == 1
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
 
@@ -45,15 +30,33 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Configure private ledger temp path
-        run: echo "PRIVATE_LEDGER_PATH=$RUNNER_TEMP/portfolio-ledger.json" >> "$GITHUB_ENV"
+      - run: npm ci
+
+      - name: Configure private recommendation state temp paths
+        run: |
+          echo "PRIVATE_LEDGER_PATH=$RUNNER_TEMP/portfolio-ledger.json" >> "$GITHUB_ENV"
+          echo "PRIVATE_DECISION_STATE_PATH=$RUNNER_TEMP/decision-state.json" >> "$GITHUB_ENV"
+          echo "CANONICAL_RECOMMENDATION_PLAN_PATH=$GITHUB_WORKSPACE/data/recommendation-plan.json" >> "$GITHUB_ENV"
 
       # Refresh market data before reconciling zero-share historical buys.
       - name: Update NAV cache
+        id: nav_refresh
         continue-on-error: true
         run: node scripts/update-nav-cache.js
 
+      - name: Mark NAV refresh safety state
+        if: always()
+        run: |
+          if [ "${{ steps.nav_refresh.outcome }}" = "success" ]; then
+            echo "NAV_REFRESH_FAILED=0" >> "$GITHUB_ENV"
+          else
+            echo "NAV_REFRESH_FAILED=1" >> "$GITHUB_ENV"
+            echo "::warning::NAV refresh failed; preserving the old cache and forcing a zero-budget plan."
+          fi
+
       - name: Reconcile pending ledger transactions
+        id: ledger_reconcile
+        if: steps.nav_refresh.outcome == 'success'
         continue-on-error: true
         run: node scripts/reconcile-private-ledger.js
         env:
@@ -63,39 +66,72 @@ jobs:
           PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
           RECONCILE_WRITE: 1
 
-      - name: Fetch and validate private PortfolioLedgerV2
+      - name: Mark ledger reconciliation safety state
+        if: always()
+        run: |
+          if [ "${{ steps.nav_refresh.outcome }}" != "success" ]; then
+            echo "LEDGER_RECONCILE_FAILED=0" >> "$GITHUB_ENV"
+          elif [ "${{ steps.ledger_reconcile.outcome }}" = "success" ]; then
+            echo "LEDGER_RECONCILE_FAILED=0" >> "$GITHUB_ENV"
+          else
+            echo "LEDGER_RECONCILE_FAILED=1" >> "$GITHUB_ENV"
+            echo "::warning::Pending-ledger reconciliation failed; forcing a zero-budget canonical plan."
+          fi
+
+      - name: Fetch and validate private recommendation state
         run: |
           set +e
-          node scripts/fetch-private-ledger.js
+          node scripts/fetch-private-decision-state.js
           status=$?
           if [ "$status" -eq 0 ]; then
-            echo "PRIVATE_LEDGER_AVAILABLE=1" >> "$GITHUB_ENV"
+            echo "PRIVATE_RECOMMENDATION_STATE_AVAILABLE=1" >> "$GITHUB_ENV"
           else
-            echo "PRIVATE_LEDGER_AVAILABLE=0" >> "$GITHUB_ENV"
-            echo "::warning::Private PortfolioLedgerV2 unavailable; publishing market-only page."
+            echo "PRIVATE_RECOMMENDATION_STATE_AVAILABLE=0" >> "$GITHUB_ENV"
+            echo "::warning::Private ledger or decisionState unavailable; publishing a fail-closed market-only page."
           fi
         env:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
           PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
+          PRIVATE_DECISION_STATE_PATH: ${{ runner.temp }}/decision-state.json
+
+      - name: Update purchase limits
+        run: node scripts/update-purchase-limits.js
+
+      - name: Generate canonical recommendation plan without email
+        if: env.PRIVATE_RECOMMENDATION_STATE_AVAILABLE == '1'
+        run: node index.js --strategy dynamic --dry-run
+        env:
+          FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
+          FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
+          FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
+          RECOMMENDATION_LIVE_ENABLED: ${{ secrets.RECOMMENDATION_LIVE_ENABLED }}
+          LEDGER_RECONCILE_FAILED: ${{ env.LEDGER_RECONCILE_FAILED }}
+          PORTFOLIO_FILE: ${{ env.PRIVATE_LEDGER_PATH }}
+          PRIVATE_DECISION_STATE_PATH: ${{ env.PRIVATE_DECISION_STATE_PATH }}
 
       # [fix] pass secrets as env vars instead of writing to .env file
       - name: Build
         run: node build-pages.js
         env:
           PRIVATE_LEDGER_PATH: ${{ env.PRIVATE_LEDGER_PATH }}
-          PUBLIC_PORTFOLIO_SNAPSHOT: ${{ env.PRIVATE_LEDGER_AVAILABLE == '1' && '1' || '0' }}
+          PRIVATE_DECISION_STATE_PATH: ${{ env.PRIVATE_DECISION_STATE_PATH }}
+          CANONICAL_RECOMMENDATION_PLAN_PATH: ${{ env.CANONICAL_RECOMMENDATION_PLAN_PATH }}
+          PUBLIC_PORTFOLIO_SNAPSHOT: ${{ env.PRIVATE_RECOMMENDATION_STATE_AVAILABLE == '1' && '1' || '0' }}
+          NAV_REFRESH_FAILED: ${{ env.NAV_REFRESH_FAILED }}
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
           FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
           FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-          RECOMMENDATION_LIVE_ENABLED: ${{ secrets.RECOMMENDATION_LIVE_ENABLED }}
 
-      - name: Remove private ledger temp file
+      - name: Verify Pages artifact
+        run: node -e "require('./build-pages').validatePageArtifact()"
+
+      - name: Remove private recommendation state temp files
         if: always()
-        run: rm -f "$PRIVATE_LEDGER_PATH"
+        run: rm -f "$PRIVATE_LEDGER_PATH" "$PRIVATE_DECISION_STATE_PATH"
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5
@@ -103,6 +139,7 @@ jobs:
           path: docs
 
   deploy:
+    if: github.run_attempt == 1
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

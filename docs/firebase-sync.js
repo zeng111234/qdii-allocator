@@ -58,6 +58,24 @@ function canonicalTransaction(transaction) {
   };
 }
 
+function isIsoCalendarDate(value) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(value || ""));
+  if (!match) return false;
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
+}
+
+function isCanonicalUtcIsoTimestamp(value) {
+  if (typeof value !== "string") return false;
+  const text = value;
+  if (!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(text)) return false;
+  const timestamp = Date.parse(text);
+  return Number.isFinite(timestamp) && new Date(timestamp).toISOString() === text;
+}
+
 async function sha256(value) {
   const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(value));
   return Array.from(new Uint8Array(digest)).map(function (byte) { return byte.toString(16).padStart(2, "0"); }).join("");
@@ -103,12 +121,30 @@ async function migrateLegacyPortfolio(portfolio, revision) {
 }
 
 async function validateLedger(ledger) {
-  if (!ledger || Number(ledger.schemaVersion) !== 2 || !Array.isArray(ledger.transactions)) throw new Error("INVALID_LEDGER");
+  if (!ledger || typeof ledger.schemaVersion !== "number" || ledger.schemaVersion !== 2 ||
+      typeof ledger.revision !== "number" || !Number.isInteger(ledger.revision) || ledger.revision < 1 ||
+      !Array.isArray(ledger.transactions)) throw new Error("INVALID_LEDGER");
   const ids = new Set();
+  const sharesByCode = {};
   ledger.transactions.forEach(function (transaction) {
-    if (!transaction.id || !transaction.code || !transaction.tradeDate) throw new Error("INVALID_TRANSACTION");
-    if (ids.has(transaction.id)) throw new Error("DUPLICATE_TRANSACTION");
-    ids.add(transaction.id);
+    const tx = canonicalTransaction(transaction);
+    const rawType = transaction && transaction.type;
+    const rawAmount = transaction && transaction.amount;
+    const rawNav = transaction && transaction.nav;
+    const rawShares = transaction && transaction.shares;
+    if (!tx.id || !tx.code || !isIsoCalendarDate(tx.tradeDate) ||
+        (rawType !== "BUY" && rawType !== "SELL") ||
+        typeof rawAmount !== "number" || !Number.isFinite(rawAmount) || rawAmount < 0 ||
+        typeof rawNav !== "number" || !Number.isFinite(rawNav) || rawNav < 0 ||
+        typeof rawShares !== "number" || !Number.isFinite(rawShares) || rawShares < 0 ||
+        (rawType === "SELL" && (rawAmount <= 0 || rawNav <= 0 || rawShares <= 0))) {
+      throw new Error("INVALID_TRANSACTION");
+    }
+    if (ids.has(tx.id)) throw new Error("DUPLICATE_TRANSACTION");
+    ids.add(tx.id);
+    const sign = tx.type === "SELL" ? -1 : 1;
+    sharesByCode[tx.code] = (sharesByCode[tx.code] || 0) + sign * tx.shares;
+    if (sharesByCode[tx.code] < -1e-8) throw new Error("NEGATIVE_HOLDING");
   });
   if (ledger.checksum !== await checksumTransactions(ledger.transactions)) throw new Error("CHECKSUM_MISMATCH");
   return ledger;
@@ -117,15 +153,32 @@ async function validateLedger(ledger) {
 function derivePortfolio(ledger) {
   const holdings = {};
   const fundNames = (ledger && ledger.fundNames) || {};
+  const roundValue = function (value) { return Math.round((Number(value) || 0) * 1e8) / 1e8; };
+  let totalInvested = 0;
   ledger.transactions.forEach(function (transaction) {
     const tx = canonicalTransaction(transaction);
     const sign = tx.type === "SELL" ? -1 : 1;
     if (!holdings[tx.code]) holdings[tx.code] = {
-      code: tx.code, name: fundNames[tx.code] || "", buys: [], totalAmount: 0, totalShares: 0, pendingBuys: [], pendingAmount: 0
+      code: tx.code, name: fundNames[tx.code] || "", buys: [], totalAmount: 0, totalShares: 0,
+      pendingBuys: [], pendingAmount: 0, remainingCostBasis: 0, realizedPnl: 0,
+      confirmedBuyAmount: 0, hasSell: false
     };
     const holding = holdings[tx.code];
-    holding.totalAmount += sign * tx.amount;
-    holding.totalShares += sign * tx.shares;
+    if (tx.type === "BUY" && tx.shares > 0) {
+      holding.remainingCostBasis = roundValue(holding.remainingCostBasis + tx.amount);
+      holding.confirmedBuyAmount = roundValue(holding.confirmedBuyAmount + tx.amount);
+    } else if (tx.type === "SELL") {
+      const sharesBeforeSell = holding.totalShares;
+      const soldCostBasis = sharesBeforeSell > 0
+        ? holding.remainingCostBasis * Math.min(1, tx.shares / sharesBeforeSell)
+        : 0;
+      holding.remainingCostBasis = roundValue(Math.max(0, holding.remainingCostBasis - soldCostBasis));
+      holding.realizedPnl = roundValue(holding.realizedPnl + tx.amount - soldCostBasis);
+      holding.hasSell = true;
+    }
+    holding.totalAmount = roundValue(holding.totalAmount + sign * tx.amount);
+    holding.totalShares = roundValue(holding.totalShares + sign * tx.shares);
+    totalInvested = roundValue(totalInvested + sign * tx.amount);
     const buy = {
       id: tx.id, date: tx.tradeDate, settleDate: tx.settleDate,
       type: tx.type, amount: sign * tx.amount, nav: tx.nav, shares: sign * tx.shares
@@ -133,17 +186,40 @@ function derivePortfolio(ledger) {
     holding.buys.push(buy);
     if (tx.type === "BUY" && tx.amount > 0 && tx.shares === 0) {
       holding.pendingBuys.push(buy);
-      holding.pendingAmount += tx.amount;
+      holding.pendingAmount = roundValue(holding.pendingAmount + tx.amount);
     }
   });
   const allHoldings = Object.values(holdings);
   const pendingHoldings = allHoldings.filter(function (holding) { return holding.pendingAmount > 0; }).map(function (holding) {
     return { code: holding.code, name: holding.name, totalAmount: holding.pendingAmount, buys: holding.pendingBuys };
   });
+  const pendingInvested = roundValue(pendingHoldings.reduce(function (sum, holding) {
+    return sum + holding.totalAmount;
+  }, 0));
+  const closedPositions = allHoldings.filter(function (holding) {
+    return holding.hasSell && holding.totalShares === 0;
+  }).map(function (holding) {
+    return {
+      code: holding.code,
+      name: holding.name,
+      investedAmount: holding.confirmedBuyAmount,
+      realizedPnl: holding.realizedPnl
+    };
+  });
+  const closedRealizedPnl = roundValue(closedPositions.reduce(function (sum, position) {
+    return sum + position.realizedPnl;
+  }, 0));
   return {
     holdings: allHoldings.filter(function (holding) { return holding.totalShares > 0; }),
     pendingHoldings: pendingHoldings,
-    pendingInvested: pendingHoldings.reduce(function (sum, holding) { return sum + holding.totalAmount; }, 0)
+    pendingInvested: pendingInvested,
+    closedPositions: closedPositions,
+    closedRealizedPnl: closedRealizedPnl,
+    confirmedInvested: roundValue(totalInvested - pendingInvested),
+    totalInvested: totalInvested,
+    transactionCount: ledger.transactions.length,
+    revision: ledger.revision,
+    checksum: ledger.checksum
   };
 }
 
@@ -161,24 +237,50 @@ function strategyStatePath(uid) {
 
 function normalizeDecisionState(state) {
   if (!state) return null;
-  const schemaVersion = Number(state.schemaVersion);
-  if ((schemaVersion !== 1 && schemaVersion !== 2) || !Number.isInteger(Number(state.revision)) || Number(state.revision) < 1) {
+  const schemaVersion = state.schemaVersion;
+  if ((schemaVersion !== 1 && schemaVersion !== 2) ||
+      typeof state.revision !== "number" || !Number.isInteger(state.revision) || state.revision < 1) {
     throw new Error("INVALID_DECISION_STATE");
   }
-  const riskAnchorValue = Number(state.riskAnchorValue);
-  if (!(riskAnchorValue > 0)) throw new Error("INVALID_RISK_ANCHOR");
+  const riskAnchorValue = state.riskAnchorValue;
+  if (typeof riskAnchorValue !== "number" || !Number.isFinite(riskAnchorValue) || !(riskAnchorValue > 0)) {
+    throw new Error("INVALID_RISK_ANCHOR");
+  }
+  const riskAnchorLedgerRevision = state.riskAnchorLedgerRevision;
+  if (typeof riskAnchorLedgerRevision !== "number" || !Number.isInteger(riskAnchorLedgerRevision) || riskAnchorLedgerRevision < 1) {
+    throw new Error("INVALID_RISK_ANCHOR_LEDGER_REVISION");
+  }
+  const updatedAt = state.updatedAt;
+  if (!isCanonicalUtcIsoTimestamp(updatedAt)) throw new Error("INVALID_UPDATED_AT");
+  const riskAnchorAt = state.riskAnchorAt;
+  if (!isCanonicalUtcIsoTimestamp(riskAnchorAt)) throw new Error("INVALID_RISK_ANCHOR_AT");
+  if (state.riskAnchorTransactionIds !== undefined && !Array.isArray(state.riskAnchorTransactionIds)) {
+    throw new Error("INVALID_RISK_ANCHOR_TRANSACTION_IDS");
+  }
+  if (Array.isArray(state.riskAnchorTransactionIds) && state.riskAnchorTransactionIds.some(function (id) {
+    return typeof id !== "string" || !id;
+  })) throw new Error("INVALID_RISK_ANCHOR_TRANSACTION_IDS");
   const riskAnchorTransactionIds = Array.isArray(state.riskAnchorTransactionIds)
     ? Array.from(new Set(state.riskAnchorTransactionIds.map(function (id) { return String(id || ""); }).filter(Boolean))).sort()
     : [];
+  const rawRiskProfile = String(state.riskProfile || "AGGRESSIVE").toUpperCase();
+  if (rawRiskProfile !== "BALANCED" && rawRiskProfile !== "AGGRESSIVE") {
+    throw new Error("INVALID_RISK_PROFILE");
+  }
+  const cashBalance = state.cashBalance === undefined ? 0 : state.cashBalance;
+  if (typeof cashBalance !== "number" || !Number.isFinite(cashBalance) || cashBalance < 0) {
+    throw new Error("INVALID_CASH_BALANCE");
+  }
   return {
     schemaVersion: schemaVersion,
-    revision: Number(state.revision),
-    updatedAt: String(state.updatedAt || ""),
+    revision: state.revision,
+    updatedAt: updatedAt,
     riskAnchorValue: riskAnchorValue,
-    riskAnchorAt: String(state.riskAnchorAt || state.updatedAt || ""),
-    riskAnchorLedgerRevision: Number(state.riskAnchorLedgerRevision || 0),
+    riskAnchorAt: riskAnchorAt,
+    riskAnchorLedgerRevision: riskAnchorLedgerRevision,
     riskAnchorTransactionIds: riskAnchorTransactionIds,
-    cashBalance: Math.max(0, Number(state.cashBalance) || 0)
+    riskProfile: rawRiskProfile,
+    cashBalance: cashBalance
   };
 }
 
@@ -205,11 +307,19 @@ function saveStrategySnapshot(uid, state) {
 }
 
 function loadPublicDecisionState() {
+  const embedded = window.QDII_PUBLIC_DECISION_STATE;
+  if (embedded) return normalizeDecisionState(embedded);
+  if (window.QDII_PUBLIC_PLAN_CANONICAL === true) return null;
   const saved = localStorage.getItem(publicDecisionStateKey);
   return saved ? normalizeDecisionState(JSON.parse(saved)) : null;
 }
 
-function initializePublicRiskAnchor(value, ledgerRevision) {
+function assertPublicDecisionStateEditable() {
+  if (window.QDII_PUBLIC_PLAN_CANONICAL === true) throw new Error("PUBLIC_DECISION_STATE_READ_ONLY");
+}
+
+function initializePublicRiskAnchor(value, ledgerRevision, riskProfile) {
+  assertPublicDecisionStateEditable();
   if (currentDecisionState && Number(currentDecisionState.riskAnchorValue) > 0) throw new Error("RISK_ANCHOR_ALREADY_SET");
   if (!currentLedger || Number(currentLedger.revision) !== Number(ledgerRevision)) throw new Error("LEDGER_REVISION_CONFLICT");
   const riskAnchorValue = Number(value);
@@ -223,6 +333,7 @@ function initializePublicRiskAnchor(value, ledgerRevision) {
     riskAnchorAt: now,
     riskAnchorLedgerRevision: Number(currentLedger.revision),
     riskAnchorTransactionIds: currentLedger.transactions.map(function (transaction) { return String(transaction.id); }).filter(Boolean).sort(),
+    riskProfile: riskProfile || "AGGRESSIVE",
     cashBalance: 0
   });
   localStorage.setItem(publicDecisionStateKey, JSON.stringify(currentDecisionState));
@@ -250,7 +361,9 @@ async function loadLedger() {
     const decisionSnapshot = localStorage.getItem(decisionSnapshotPrefix + currentUser.uid);
     currentDecisionState = decisionSnapshot ? normalizeDecisionState(JSON.parse(decisionSnapshot)) : null;
     const strategySnapshot = localStorage.getItem(strategySnapshotPrefix + currentUser.uid);
-    currentStrategyState = strategySnapshot ? normalizeStrategyState(JSON.parse(strategySnapshot)) : null;
+    currentStrategyState = window.QDII_PUBLIC_PLAN_CANONICAL === true
+      ? null
+      : (strategySnapshot ? normalizeStrategyState(JSON.parse(strategySnapshot)) : null);
     emitLedger("本地只读快照", true);
     return currentLedger;
   }
@@ -271,10 +384,14 @@ async function loadLedger() {
   }
   currentLedger = ledgerResult;
   currentDecisionState = decisionResult.exists() ? normalizeDecisionState(decisionResult.val()) : null;
-  currentStrategyState = strategyResult.exists() ? normalizeStrategyState(strategyResult.val()) : null;
+  currentStrategyState = window.QDII_PUBLIC_PLAN_CANONICAL === true
+    ? null
+    : (strategyResult.exists() ? normalizeStrategyState(strategyResult.val()) : null);
   saveSnapshot(currentUser.uid, currentLedger);
   saveDecisionSnapshot(currentUser.uid, currentDecisionState);
-  saveStrategySnapshot(currentUser.uid, currentStrategyState);
+  if (window.QDII_PUBLIC_PLAN_CANONICAL !== true) {
+    saveStrategySnapshot(currentUser.uid, currentStrategyState);
+  }
   emitLedger("Firebase 云端", false);
   return currentLedger;
 }
@@ -429,7 +546,7 @@ async function writeDecisionState(nextState, expectedRevision) {
   return currentDecisionState;
 }
 
-async function initializeRiskAnchor(value, ledgerRevision) {
+async function initializeRiskAnchor(value, ledgerRevision, riskProfile) {
   if (currentDecisionState && Number(currentDecisionState.riskAnchorValue) > 0) throw new Error("RISK_ANCHOR_ALREADY_SET");
   if (!currentLedger || Number(currentLedger.revision) !== Number(ledgerRevision)) throw new Error("LEDGER_REVISION_CONFLICT");
   const riskAnchorValue = Number(value);
@@ -443,8 +560,38 @@ async function initializeRiskAnchor(value, ledgerRevision) {
     riskAnchorAt: now,
     riskAnchorLedgerRevision: Number(currentLedger.revision),
     riskAnchorTransactionIds: currentLedger.transactions.map(function (transaction) { return String(transaction.id); }).filter(Boolean).sort(),
+    riskProfile: riskProfile || "AGGRESSIVE",
     cashBalance: 0
   }, 0);
+}
+
+async function updateRiskProfile(riskProfile) {
+  if (!currentDecisionState) throw new Error("RISK_ANCHOR_MISSING");
+  const normalizedProfile = String(riskProfile || "").toUpperCase();
+  if (normalizedProfile !== "BALANCED" && normalizedProfile !== "AGGRESSIVE") throw new Error("INVALID_RISK_PROFILE");
+  const now = new Date().toISOString();
+  return writeDecisionState(Object.assign({}, currentDecisionState, {
+    schemaVersion: 2,
+    revision: Number(currentDecisionState.revision) + 1,
+    updatedAt: now,
+    riskProfile: normalizedProfile
+  }), Number(currentDecisionState.revision));
+}
+
+function updatePublicRiskProfile(riskProfile) {
+  assertPublicDecisionStateEditable();
+  if (!currentDecisionState) throw new Error("RISK_ANCHOR_MISSING");
+  const normalizedProfile = String(riskProfile || "").toUpperCase();
+  if (normalizedProfile !== "BALANCED" && normalizedProfile !== "AGGRESSIVE") throw new Error("INVALID_RISK_PROFILE");
+  currentDecisionState = normalizeDecisionState(Object.assign({}, currentDecisionState, {
+    schemaVersion: 2,
+    revision: Number(currentDecisionState.revision) + 1,
+    updatedAt: new Date().toISOString(),
+    riskProfile: normalizedProfile
+  }));
+  localStorage.setItem(publicDecisionStateKey, JSON.stringify(currentDecisionState));
+  emitLedger("公开只读快照", true);
+  return currentDecisionState;
 }
 
 async function saveLegacyPortfolio(portfolio) {
@@ -572,6 +719,8 @@ window.QdiiCloudSync = {
   previewLegacy: previewLegacy, overwriteWithLegacy: overwriteWithLegacy,
   initializeRiskAnchor: initializeRiskAnchor,
   initializePublicRiskAnchor: initializePublicRiskAnchor,
+  updateRiskProfile: updateRiskProfile,
+  updatePublicRiskProfile: updatePublicRiskProfile,
   getCurrentLedger: function () { return currentLedger; },
   getCurrentDecisionState: function () { return currentDecisionState; }
 };
