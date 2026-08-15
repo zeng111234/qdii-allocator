@@ -32,7 +32,7 @@
     "firebase-functions": "^7.3.2",
     "iconv-lite": "^0.7.2",
     "nodemailer": "^9.0.3",
-    "p-limit": "^3.1.0",
+    "p-limit": "^7.3.1",
     "sql.js": "^1.14.1"
   },
   "devDependencies": {

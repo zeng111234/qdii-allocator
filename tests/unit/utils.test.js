@@ -103,3 +103,19 @@ test('httpGetWithRetry - defaults to one retry after the initial failure', async
     await new Promise(function(resolve) { server.close(resolve); });
   }
 });
+
+test('batchFetch - supports the installed p-limit module and preserves order', async function() {
+  let active = 0;
+  let maxActive = 0;
+
+  const results = await utils.batchFetch([3, 1, 2], async function(item) {
+    active++;
+    maxActive = Math.max(maxActive, active);
+    await new Promise(function(resolve) { setTimeout(resolve, item); });
+    active--;
+    return item * 2;
+  }, { concurrency: 2 });
+
+  assert.deepStrictEqual(results, [6, 2, 4]);
+  assert.ok(maxActive <= 2, '并发数不得超过配置值');
+});
