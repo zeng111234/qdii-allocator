@@ -341,6 +341,8 @@ test("manual Pages deployment is explicitly confirmed, non-writing, and hard-pau
   assert.match(pages, /build:\s*\n\s*if:\s*github\.run_attempt == 1 && \(github\.event_name == 'schedule' \|\| inputs\.deploy_hard_pause == true\)/);
   assert.match(pages, /Force manual deployment safety pause[\s\S]*github\.event_name == 'workflow_dispatch'[\s\S]*NAV_REFRESH_FAILED=1/);
   assert.match(pages, /RECONCILE_WRITE:\s*\$\{\{\s*github\.event_name == 'schedule' && '1' \|\| '0'\s*\}\}/);
+  assert.match(pages, /Force manual deployment market-only state[\s\S]*github\.event_name == 'workflow_dispatch'[\s\S]*PRIVATE_RECOMMENDATION_STATE_AVAILABLE=0/);
+  assert.match(pages, /Update purchase limits\s*\n\s*if:\s*github\.event_name == 'schedule'/);
   assert.match(pages, /Generate canonical recommendation plan without email[\s\S]*NAV_REFRESH_FAILED:\s*\$\{\{\s*env\.NAV_REFRESH_FAILED\s*\}\}/);
   assert.doesNotMatch(pages, /SMTP_|MAIL_TO|send-canonical-email/);
 });
