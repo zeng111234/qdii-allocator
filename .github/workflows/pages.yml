@@ -4,8 +4,14 @@ name: Build & Deploy Pages
 # It does not deploy Firebase Realtime Database Rules; Rules require a separate explicit admin deployment.
 
 on:
-  # Deployment is schedule-only. Arbitrary push/manual attempts cannot create an
-  # unknowable same-window failure while an older actionable static page remains live.
+  # Temporary manual entry is hard-pause only and is removed after this deployment.
+  workflow_dispatch:
+    inputs:
+      deploy_hard_pause:
+        description: Confirm a zero-budget HARD_PAUSE deployment
+        required: true
+        default: false
+        type: boolean
   schedule:
     - cron: '0 */6 * * *'  # 每6小时自动构建一次（0,6,12,18点UTC）
 
@@ -20,7 +26,7 @@ concurrency:
 
 jobs:
   build:
-    if: github.run_attempt == 1
+    if: github.run_attempt == 1 && (github.event_name == 'schedule' || inputs.deploy_hard_pause == true)
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
@@ -54,6 +60,12 @@ jobs:
             echo "::warning::NAV refresh failed; preserving the old cache and forcing a zero-budget plan."
           fi
 
+      - name: Force manual deployment safety pause
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          echo "NAV_REFRESH_FAILED=1" >> "$GITHUB_ENV"
+          echo "::notice::Manual Pages deployment is forced to zero-budget HARD_PAUSE."
+
       - name: Reconcile pending ledger transactions
         id: ledger_reconcile
         if: steps.nav_refresh.outcome == 'success'
@@ -64,7 +76,7 @@ jobs:
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
           PRIVATE_LEDGER_PATH: ${{ runner.temp }}/portfolio-ledger.json
-          RECONCILE_WRITE: 1
+          RECONCILE_WRITE: ${{ github.event_name == 'schedule' && '1' || '0' }}
 
       - name: Mark ledger reconciliation safety state
         if: always()
@@ -107,6 +119,7 @@ jobs:
           FIREBASE_KEY: ${{ secrets.FIREBASE_KEY }}
           FIREBASE_UID: ${{ secrets.FIREBASE_UID }}
           RECOMMENDATION_LIVE_ENABLED: ${{ secrets.RECOMMENDATION_LIVE_ENABLED }}
+          NAV_REFRESH_FAILED: ${{ env.NAV_REFRESH_FAILED }}
           LEDGER_RECONCILE_FAILED: ${{ env.LEDGER_RECONCILE_FAILED }}
           PORTFOLIO_FILE: ${{ env.PRIVATE_LEDGER_PATH }}
           PRIVATE_DECISION_STATE_PATH: ${{ env.PRIVATE_DECISION_STATE_PATH }}
