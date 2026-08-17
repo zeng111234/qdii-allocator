@@ -364,7 +364,7 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 5000,
+      "dailyLimit": 500,
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
@@ -510,5 +510,5 @@
   ],
   "_lastUpdated": "2026-08-17",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-08-17T02:21:09.397Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-08-17T09:37:00.801Z"
 }
