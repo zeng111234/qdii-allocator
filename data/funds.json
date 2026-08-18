@@ -136,7 +136,7 @@
       "feeRate": 0,
       "custodyFee": 0.1,
       "salesServiceFee": 0.1,
-      "dailyLimit": 1000000,
+      "dailyLimit": 100000000000,
       "status": "tracking_only",
       "settleDays": 1,
       "minPurchase": 10,
@@ -508,7 +508,7 @@
       "indexGroup": "GLOBAL"
     }
   ],
-  "_lastUpdated": "2026-08-17",
+  "_lastUpdated": "2026-08-18",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-08-17T09:37:00.801Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-08-18T02:17:08.188Z"
 }
