@@ -266,9 +266,9 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 50,
       "minPurchase": 10,
-      "status": "suspended",
+      "status": "active",
       "note": "LOF品种",
       "settleDays": 2,
       "indexGroup": "NDX100"
@@ -508,7 +508,7 @@
       "indexGroup": "GLOBAL"
     }
   ],
-  "_lastUpdated": "2026-08-18",
+  "_lastUpdated": "2026-08-19",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-08-18T09:28:23.883Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-08-19T02:19:36.335Z"
 }
