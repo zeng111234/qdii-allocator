@@ -415,7 +415,7 @@
       "name": "国富全球科技互联混合(QDII)A",
       "type": "全球科技",
       "feeRate": 1.2,
-      "dailyLimit": 200,
+      "dailyLimit": 100,
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
@@ -508,7 +508,7 @@
       "indexGroup": "GLOBAL"
     }
   ],
-  "_lastUpdated": "2026-08-20",
+  "_lastUpdated": "2026-08-21",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-08-20T02:18:19.452Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-08-21T02:24:51.045Z"
 }
