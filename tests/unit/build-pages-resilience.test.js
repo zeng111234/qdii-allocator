@@ -334,10 +334,7 @@ test("actionable Pages releases have only predictable scheduled trigger boundari
   const dailyTriggers = daily.slice(0, daily.indexOf("permissions:"));
   const pagesTriggers = pages.slice(0, pages.indexOf("permissions:"));
   [dailyTriggers, pagesTriggers].forEach(function (source) {
-    // TEMPORARY one-time allowance: PR #57 adds workflow_dispatch to pages.yml
-    // to validate PR #56's purchase-limits fix on a real production run. The
-    // dispatch trigger is removed in the follow-up revert PR. Push remains banned.
-    assert.doesNotMatch(source, /\bpush:/);
+    assert.doesNotMatch(source, /workflow_dispatch:|\bpush:/);
   });
   assert.match(dailyTriggers, /0 1 \* \* 1-5/);
   assert.match(dailyTriggers, /0 9 \* \* 1-5/);
