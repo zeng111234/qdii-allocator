@@ -8,6 +8,7 @@ on:
   # unknowable same-window failure while an older actionable static page remains live.
   schedule:
     - cron: '0 */6 * * *'  # 每6小时自动构建一次（0,6,12,18点UTC）
+  workflow_dispatch:  # TEMPORARY one-time allowance for PR #57 production validation of PR #56; removed by follow-up revert PR
 
 permissions:
   contents: read
