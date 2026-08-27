@@ -97,7 +97,19 @@ jobs:
           PRIVATE_DECISION_STATE_PATH: ${{ runner.temp }}/decision-state.json
 
       - name: Update purchase limits
+        id: purchase_refresh
+        continue-on-error: true
         run: node scripts/update-purchase-limits.js
+
+      - name: Mark purchase refresh safety state
+        if: always()
+        run: |
+          if [ "${{ steps.purchase_refresh.outcome }}" = "success" ]; then
+            echo "PURCHASE_REFRESH_FAILED=0" >> "$GITHUB_ENV"
+          else
+            echo "PURCHASE_REFRESH_FAILED=1" >> "$GITHUB_ENV"
+            echo "::warning::Purchase limits refresh failed; preserving the old purchase availability and forcing a market-only plan."
+          fi
 
       - name: Generate canonical recommendation plan without email
         if: env.PRIVATE_RECOMMENDATION_STATE_AVAILABLE == '1'
