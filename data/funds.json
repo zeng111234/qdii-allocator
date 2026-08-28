@@ -393,7 +393,7 @@
       "feeRate": 1.2,
       "custodyFee": 0.25,
       "dailyLimit": 100,
-      "status": "active",
+      "status": "suspended",
       "settleDays": 2,
       "minPurchase": 10,
       "note": "越南市场，前沿高增长",
@@ -474,7 +474,7 @@
       "custodyFee": 0.2,
       "dailyLimit": 100000000000,
       "minPurchase": 10,
-      "status": "active",
+      "status": "suspended",
       "note": "黄金避险，不走QDII额度，3年+83%",
       "settleDays": 2,
       "indexGroup": "GOLD"
@@ -488,7 +488,7 @@
       "custodyFee": 0.2,
       "dailyLimit": 100,
       "minPurchase": 10,
-      "status": "active",
+      "status": "suspended",
       "note": "防御性行业，老龄化长期趋势，限购100",
       "settleDays": 2,
       "indexGroup": "GLOBAL_MEDICAL"
@@ -510,5 +510,5 @@
   ],
   "_lastUpdated": "2026-08-28",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-08-27T19:24:41.674Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-08-28T12:35:57.083Z"
 }
