@@ -266,7 +266,7 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 50,
+      "dailyLimit": 100,
       "minPurchase": 10,
       "status": "active",
       "note": "LOF品种",
@@ -322,7 +322,7 @@
       "shareClass": "A",
       "feeRate": 1.6,
       "custodyFee": 0.3,
-      "dailyLimit": 2000,
+      "dailyLimit": 10000,
       "minPurchase": 10,
       "status": "active",
       "note": "广发全球精选",
@@ -459,7 +459,7 @@
       "name": "长城全球新能源车(QDII)A",
       "type": "新能源车",
       "feeRate": 1.2,
-      "dailyLimit": 5000,
+      "dailyLimit": 500000,
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
@@ -474,7 +474,7 @@
       "custodyFee": 0.2,
       "dailyLimit": 100000000000,
       "minPurchase": 10,
-      "status": "suspended",
+      "status": "active",
       "note": "黄金避险，不走QDII额度，3年+83%",
       "settleDays": 2,
       "indexGroup": "GOLD"
@@ -488,7 +488,7 @@
       "custodyFee": 0.2,
       "dailyLimit": 100,
       "minPurchase": 10,
-      "status": "suspended",
+      "status": "active",
       "note": "防御性行业，老龄化长期趋势，限购100",
       "settleDays": 2,
       "indexGroup": "GLOBAL_MEDICAL"
@@ -508,7 +508,7 @@
       "indexGroup": "GLOBAL"
     }
   ],
-  "_lastUpdated": "2026-08-31",
+  "_lastUpdated": "2026-09-01",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-08-31T06:49:25.826Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-08-31T16:40:23.364Z"
 }
