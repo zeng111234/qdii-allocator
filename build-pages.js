@@ -114,7 +114,15 @@ function validateCanonicalRecommendationPlan(plan, publicLedger, publicDecisionS
     throw new Error("CANONICAL_PLAN_DECISION_FINGERPRINT_MISMATCH");
   }
   if (String(fundsConfig._lastUpdated || "").slice(0, 10) !== asOf) {
-    throw new Error("PURCHASE_AVAILABILITY_STALE");
+    if (process.env.PURCHASE_REFRESH_FAILED !== "1") {
+      throw new Error("PURCHASE_AVAILABILITY_STALE");
+    }
+    // PURCHASE_REFRESH_FAILED=1: update-purchase-limits.js failed for at least one fund
+    // and intentionally did not rewrite funds.json (all-or-nothing invariant). The fund
+    // details (dailyLimit, status) are still the last successful values, so we can keep
+    // building instead of hard-failing the whole workflow. Behaviour mirrors the NAV
+    // safety-state pattern (continue with last-known data, surface a warning).
+    console.log("[构建] 限购刷新失败，保留旧限购数据继续构建");
   }
 
   const fundMap = new Map((fundsConfig.funds || []).map(function (fund) {

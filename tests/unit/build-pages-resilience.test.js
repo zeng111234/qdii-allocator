@@ -157,6 +157,21 @@ test("canonical plan validation binds date, private revisions, routes, and the f
     pageBuilder.validateCanonicalRecommendationPlan(plan, ledger, state,
       Object.assign({}, funds, { _lastUpdated: "2026-08-12" }), "2026-08-13");
   }, /PURCHASE_AVAILABILITY_STALE/);
+  // PURCHASE_REFRESH_FAILED=1: stale _lastUpdated must be tolerated because
+  // update-purchase-limits.js did not rewrite funds.json on partial fail and
+  // fund details are still valid from the last successful run.
+  const previousPurchaseFlag = process.env.PURCHASE_REFRESH_FAILED;
+  process.env.PURCHASE_REFRESH_FAILED = "1";
+  try {
+    assert.equal(
+      pageBuilder.validateCanonicalRecommendationPlan(plan, ledger, state,
+        Object.assign({}, funds, { _lastUpdated: "2026-08-12" }), "2026-08-13"),
+      plan
+    );
+  } finally {
+    if (previousPurchaseFlag === undefined) delete process.env.PURCHASE_REFRESH_FAILED;
+    else process.env.PURCHASE_REFRESH_FAILED = previousPurchaseFlag;
+  }
   assert.throws(function () {
     pageBuilder.validateCanonicalRecommendationPlan(plan, ledger, state, {
       _lastUpdated: "2026-08-13",
