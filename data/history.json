@@ -13530,7 +13530,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.18,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.61
         },
         {
           "rank": 2,
@@ -13541,7 +13541,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.49,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.41
         }
       ]
     },
@@ -13643,7 +13643,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.08,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.19
         },
         {
           "rank": 2,
@@ -13654,7 +13654,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.3,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.54
         }
       ]
     },
@@ -13868,7 +13868,7 @@
           "suitabilityScore": 70.45,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -2.83,
           "followUp10dReturn": null
         },
         {
@@ -13879,7 +13879,7 @@
           "suitabilityScore": 67.73,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.11,
           "followUp10dReturn": null
         }
       ]
@@ -13981,7 +13981,7 @@
           "suitabilityScore": 69.55,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.18,
           "followUp10dReturn": null
         },
         {
@@ -13992,7 +13992,7 @@
           "suitabilityScore": 69.54,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.92,
           "followUp10dReturn": null
         }
       ]
@@ -14094,7 +14094,7 @@
           "suitabilityScore": 68.18,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.55,
           "followUp10dReturn": null
         },
         {
@@ -14105,7 +14105,7 @@
           "suitabilityScore": 67.27,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.91,
           "followUp10dReturn": null
         }
       ]
@@ -14462,8 +14462,8 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-08-31",
-        "maxTradingDayLag": 2,
+        "latestNavDate": "2026-09-01",
+        "maxTradingDayLag": 1,
         "observationCount": 23
       },
       "signalHealth": {
@@ -14474,9 +14474,9 @@
           "averageReturn": null
         },
         "shadow": {
-          "count": 16,
-          "winRate": 50,
-          "averageReturn": -0.19
+          "count": 20,
+          "winRate": 45,
+          "averageReturn": -0.44
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -14539,10 +14539,10 @@
       "ranked": [
         {
           "rank": 1,
-          "code": "000614",
-          "name": "华安德国DAX30A(QDII)",
-          "score": 69.09,
-          "suitabilityScore": 69.09,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 63.86,
+          "suitabilityScore": 63.86,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -14550,10 +14550,10 @@
         },
         {
           "rank": 2,
-          "code": "017641",
-          "name": "摩根标普500指数(QDII)A",
-          "score": 64.09,
-          "suitabilityScore": 64.09,
+          "code": "000614",
+          "name": "华安德国DAX30A(QDII)",
+          "score": 63.18,
+          "suitabilityScore": 63.18,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
