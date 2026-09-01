@@ -102,7 +102,19 @@ jobs:
           PRIVATE_DECISION_STATE_PATH: ${{ runner.temp }}/decision-state.json
 
       - name: Update purchase limits
+        id: purchase_refresh
+        continue-on-error: true
         run: node scripts/update-purchase-limits.js
+
+      - name: Mark purchase refresh safety state
+        if: always()
+        run: |
+          if [ "${{ steps.purchase_refresh.outcome }}" = "success" ]; then
+            echo "PURCHASE_REFRESH_FAILED=0" >> "$GITHUB_ENV"
+          else
+            echo "PURCHASE_REFRESH_FAILED=1" >> "$GITHUB_ENV"
+            echo "::warning::Purchase limits refresh failed; preserving the old purchase availability and forcing a market-only plan."
+          fi
 
       - name: Update external signals
         continue-on-error: true
@@ -132,6 +144,7 @@ jobs:
           CANONICAL_RECOMMENDATION_PLAN_PATH: ${{ env.CANONICAL_RECOMMENDATION_PLAN_PATH }}
           PUBLIC_PORTFOLIO_SNAPSHOT: ${{ env.PRIVATE_RECOMMENDATION_STATE_AVAILABLE == '1' && '1' || '0' }}
           NAV_REFRESH_FAILED: ${{ env.NAV_REFRESH_FAILED }}
+          PURCHASE_REFRESH_FAILED: ${{ env.PURCHASE_REFRESH_FAILED }}
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
           FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
           FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
