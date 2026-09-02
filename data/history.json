@@ -13688,7 +13688,7 @@
           "suitabilityScore": 65.28,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -2.46,
           "followUp10dReturn": null
         },
         {
@@ -13699,7 +13699,7 @@
           "suitabilityScore": 61.39,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.94,
           "followUp10dReturn": null
         }
       ]
@@ -14055,8 +14055,8 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-09-01",
-        "maxTradingDayLag": 2,
+        "latestNavDate": "2026-09-02",
+        "maxTradingDayLag": 1,
         "observationCount": 23
       },
       "signalHealth": {
@@ -14069,7 +14069,7 @@
         "shadow": {
           "count": 20,
           "winRate": 45,
-          "averageReturn": -0.44
+          "averageReturn": -0.52
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -14134,8 +14134,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 63.86,
-          "suitabilityScore": 63.86,
+          "score": 72.04,
+          "suitabilityScore": 72.04,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -14145,8 +14145,8 @@
           "rank": 2,
           "code": "000614",
           "name": "华安德国DAX30A(QDII)",
-          "score": 63.18,
-          "suitabilityScore": 63.18,
+          "score": 65.23,
+          "suitabilityScore": 65.23,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
