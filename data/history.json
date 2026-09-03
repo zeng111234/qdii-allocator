@@ -12718,7 +12718,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -1.91,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.31
         },
         {
           "rank": 2,
@@ -12729,7 +12729,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.7,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.22
         }
       ]
     },
@@ -13648,8 +13648,8 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-09-02",
-        "maxTradingDayLag": 2,
+        "latestNavDate": "2026-09-03",
+        "maxTradingDayLag": 1,
         "observationCount": 23
       },
       "signalHealth": {
@@ -13727,8 +13727,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 72.04,
-          "suitabilityScore": 72.04,
+          "score": 75,
+          "suitabilityScore": 75,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -13736,10 +13736,10 @@
         },
         {
           "rank": 2,
-          "code": "000614",
-          "name": "华安德国DAX30A(QDII)",
-          "score": 65.23,
-          "suitabilityScore": 65.23,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 55.91,
+          "suitabilityScore": 55.91,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
