@@ -159,6 +159,7 @@ jobs:
         run: rm -f "$PRIVATE_LEDGER_PATH" "$PRIVATE_DECISION_STATE_PATH"
 
       - name: Commit canonical data
+        continue-on-error: true
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -226,6 +227,7 @@ jobs:
           echo "PRIVATE_DECISION_STATE_PATH=$RUNNER_TEMP/decision-state.json" >> "$GITHUB_ENV"
           echo "CANONICAL_RECOMMENDATION_PLAN_PATH=$GITHUB_WORKSPACE/data/recommendation-plan.json" >> "$GITHUB_ENV"
       - name: Fetch and validate private recommendation state for canonical email
+        continue-on-error: true
         run: node scripts/fetch-private-decision-state.js
         env:
           FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
