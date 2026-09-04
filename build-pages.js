@@ -24,6 +24,7 @@ const DAILY_BRIEF = path.join(__dirname, "data", "daily-brief.json");
 const RECOMMENDATION_PLAN = path.join(__dirname, "data", "recommendation-plan.json");
 const PERSONALIZED_DECISION = path.join(__dirname, "lib", "personalized-decision.js");
 const CANONICAL_PLAN_SCHEMA_VERSION = "PersonalizedRecommendationPlanV2";
+const PURCHASE_AVAILABILITY_MAX_AGE_MS = 4 * 60 * 60 * 1000;
 
 function decisionFingerprint(state) {
   const normalized = decisionStateTools.normalizeDecisionState(state);
@@ -90,6 +91,20 @@ function loadPrivateDecisionState(env) {
   }
 }
 
+function isFreshPurchaseAvailability(fundsConfig, nowValue) {
+  const updatedAt = Date.parse(fundsConfig && fundsConfig._purchaseAvailabilityUpdatedAt);
+  const now = nowValue instanceof Date ? nowValue.getTime() : new Date(nowValue || Date.now()).getTime();
+  if (!Number.isFinite(updatedAt) || !Number.isFinite(now)) return false;
+  const age = now - updatedAt;
+  return age >= 0 && age <= PURCHASE_AVAILABILITY_MAX_AGE_MS;
+}
+
+function isSafePausePlan(plan) {
+  return plan && plan.action === "HARD_PAUSE" && plan.budget === 0 &&
+    Array.isArray(plan.executionRoutes) && plan.executionRoutes.length === 0 &&
+    Array.isArray(plan.candidates) && plan.candidates.length === 0;
+}
+
 function validateCanonicalRecommendationPlan(plan, publicLedger, publicDecisionState, fundsConfig, asOf, nowValue) {
   if (!plan || typeof plan !== "object") throw new Error("CANONICAL_PLAN_INVALID");
   if (plan.schemaVersion !== CANONICAL_PLAN_SCHEMA_VERSION) {
@@ -113,16 +128,13 @@ function validateCanonicalRecommendationPlan(plan, publicLedger, publicDecisionS
       plan.decisionFingerprint !== decisionFingerprint(publicDecisionState)) {
     throw new Error("CANONICAL_PLAN_DECISION_FINGERPRINT_MISMATCH");
   }
-  if (String(fundsConfig._lastUpdated || "").slice(0, 10) !== asOf) {
-    if (process.env.PURCHASE_REFRESH_FAILED !== "1") {
-      throw new Error("PURCHASE_AVAILABILITY_STALE");
-    }
-    // PURCHASE_REFRESH_FAILED=1: update-purchase-limits.js failed for at least one fund
-    // and intentionally did not rewrite funds.json (all-or-nothing invariant). The fund
-    // details (dailyLimit, status) are still the last successful values, so we can keep
-    // building instead of hard-failing the whole workflow. Behaviour mirrors the NAV
-    // safety-state pattern (continue with last-known data, surface a warning).
-    console.log("[构建] 限购刷新失败，保留旧限购数据继续构建");
+  const purchaseAvailabilityFresh = String(fundsConfig._lastUpdated || "").slice(0, 10) === asOf ||
+    isFreshPurchaseAvailability(fundsConfig, nowValue);
+  if (!purchaseAvailabilityFresh && !isSafePausePlan(plan)) {
+    throw new Error("PURCHASE_AVAILABILITY_STALE");
+  }
+  if (!purchaseAvailabilityFresh) {
+    console.log("[构建] 限购数据已过期，当前计划为 HARD_PAUSE；继续发布零预算页面");
   }
 
   const fundMap = new Map((fundsConfig.funds || []).map(function (fund) {
@@ -189,7 +201,15 @@ function loadCanonicalRecommendationPlan(env, publicLedger, publicDecisionState,
   const planPath = env.CANONICAL_RECOMMENDATION_PLAN_PATH || RECOMMENDATION_PLAN;
   if (!fs.existsSync(planPath)) throw new Error("CANONICAL_RECOMMENDATION_PLAN_REQUIRED");
   const plan = JSON.parse(fs.readFileSync(planPath, "utf-8"));
-  return validateCanonicalRecommendationPlan(plan, publicLedger, publicDecisionState, fundsConfig, asOf, new Date());
+  try {
+    return validateCanonicalRecommendationPlan(plan, publicLedger, publicDecisionState, fundsConfig, asOf, new Date());
+  } catch (error) {
+    if (error && error.message === "PURCHASE_AVAILABILITY_STALE") {
+      console.log("[构建] 限购快照过期，放弃旧可执行计划并发布 HARD_PAUSE");
+      return null;
+    }
+    throw error;
+  }
 }
 
 function marketOnlyPlan(asOf, reason) {

@@ -157,27 +157,58 @@ test("canonical plan validation binds date, private revisions, routes, and the f
     pageBuilder.validateCanonicalRecommendationPlan(plan, ledger, state,
       Object.assign({}, funds, { _lastUpdated: "2026-08-12" }), "2026-08-13");
   }, /PURCHASE_AVAILABILITY_STALE/);
-  // PURCHASE_REFRESH_FAILED=1: stale _lastUpdated must be tolerated because
-  // update-purchase-limits.js did not rewrite funds.json on partial fail and
-  // fund details are still valid from the last successful run.
-  const previousPurchaseFlag = process.env.PURCHASE_REFRESH_FAILED;
-  process.env.PURCHASE_REFRESH_FAILED = "1";
-  try {
-    assert.equal(
-      pageBuilder.validateCanonicalRecommendationPlan(plan, ledger, state,
-        Object.assign({}, funds, { _lastUpdated: "2026-08-12" }), "2026-08-13"),
-      plan
-    );
-  } finally {
-    if (previousPurchaseFlag === undefined) delete process.env.PURCHASE_REFRESH_FAILED;
-    else process.env.PURCHASE_REFRESH_FAILED = previousPurchaseFlag;
-  }
+  const safePause = Object.assign({}, plan, {
+    action: "HARD_PAUSE",
+    budget: 0,
+    executionRoutes: [],
+    candidates: []
+  });
+  assert.equal(
+    pageBuilder.validateCanonicalRecommendationPlan(safePause, ledger, state,
+      Object.assign({}, funds, { _lastUpdated: "2026-08-12" }), "2026-08-13"),
+    safePause
+  );
+  const midnightPlan = Object.assign({}, plan, {
+    asOf: "2026-08-14",
+    generatedAt: "2026-08-14T01:00:00.000Z",
+    validFrom: "2026-08-14T01:00:00.000Z",
+    validUntil: "2026-08-14T06:00:00.000Z"
+  });
+  assert.equal(
+    pageBuilder.validateCanonicalRecommendationPlan(midnightPlan, ledger, state,
+      Object.assign({}, funds, {
+        _lastUpdated: "2026-08-13",
+        _purchaseAvailabilityUpdatedAt: "2026-08-13T23:58:00.000Z"
+      }), "2026-08-14", new Date("2026-08-14T02:00:00.000Z")),
+    midnightPlan
+  );
   assert.throws(function () {
     pageBuilder.validateCanonicalRecommendationPlan(plan, ledger, state, {
       _lastUpdated: "2026-08-13",
       funds: [{ code: "A", status: "suspended", dailyLimit: 0, minPurchase: 10 }]
     }, "2026-08-13");
   }, /CANONICAL_PLAN_LIMIT_MISMATCH/);
+});
+
+test("stale executable artifacts degrade to a published HARD_PAUSE instead of failing the Pages build", function () {
+  const fixture = canonicalFixture();
+  const tempDir = fs.mkdtempSync(path.join(require("node:os").tmpdir(), "qdii-stale-plan-"));
+  const planPath = path.join(tempDir, "recommendation-plan.json");
+  fs.writeFileSync(planPath, JSON.stringify(fixture.plan), "utf8");
+  try {
+    assert.equal(
+      pageBuilder.loadCanonicalRecommendationPlan(
+        { CANONICAL_RECOMMENDATION_PLAN_PATH: planPath },
+        fixture.ledger,
+        fixture.state,
+        Object.assign({}, fixture.funds, { _lastUpdated: "2026-08-12" }),
+        "2026-08-13"
+      ),
+      null
+    );
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true });
+  }
 });
 
 test("canonical plan validation rejects schema drift and unbound private content", function () {
@@ -375,6 +406,7 @@ test("both publish paths refresh limits and build Pages from one validated canon
   [daily, pages].forEach(function (workflow) {
     assert.ok(workflow.indexOf("Update purchase limits") < workflow.indexOf("Generate canonical recommendation plan"));
     assert.match(workflow, /CANONICAL_RECOMMENDATION_PLAN_PATH/);
+    assert.match(workflow, /PURCHASE_REFRESH_FAILED:\s*\$\{\{\s*env\.PURCHASE_REFRESH_FAILED\s*\}\}/);
     assert.ok(workflow.indexOf("Generate canonical recommendation plan") < workflow.indexOf("node build-pages.js"));
   });
   assert.match(daily, /git add data\/funds\.json/);
