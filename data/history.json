@@ -11725,7 +11725,7 @@
           "suitabilityScore": 77.95,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.53,
           "followUp10dReturn": null
         },
         {
@@ -11736,7 +11736,7 @@
           "suitabilityScore": 53.63,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -2.52,
           "followUp10dReturn": null
         }
       ]
@@ -11974,14 +11974,13 @@
       "action": "PAUSE",
       "budget": 0,
       "pauseReasons": [
-        "ACCEPTANCE_GATE",
-        "PORTFOLIO_VALUATION_INCOMPLETE"
+        "ACCEPTANCE_GATE"
       ],
       "dataFreshness": {
-        "status": "PORTFOLIO_INCOMPLETE",
-        "latestNavDate": "2026-09-08",
-        "maxTradingDayLag": 2,
-        "observationCount": 24
+        "status": "FRESH",
+        "latestNavDate": "2026-09-09",
+        "maxTradingDayLag": 1,
+        "observationCount": 23
       },
       "signalHealth": {
         "status": "HEALTHY",
@@ -11992,8 +11991,8 @@
         },
         "shadow": {
           "count": 20,
-          "winRate": 50,
-          "averageReturn": -0.48
+          "winRate": 40,
+          "averageReturn": -0.65
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -12058,27 +12057,21 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 80.25,
-          "suitabilityScore": 50.25,
+          "score": 70.45,
+          "suitabilityScore": 70.45,
           "proposedAmount": 0,
-          "blockedBy": [
-            "FUND_WEIGHT_LIMIT",
-            "INDEX_GROUP_LIMIT"
-          ],
+          "blockedBy": [],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         },
         {
           "rank": 2,
-          "code": "019524",
-          "name": "华泰柏瑞纳斯达克100指数(QDII)A",
-          "score": 61.5,
-          "suitabilityScore": 31.5,
+          "code": "007280",
+          "name": "摩根日本精选股票(QDII)A",
+          "score": 53.18,
+          "suitabilityScore": 53.18,
           "proposedAmount": 0,
-          "blockedBy": [
-            "FUND_WEIGHT_LIMIT",
-            "INDEX_GROUP_LIMIT"
-          ],
+          "blockedBy": [],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         }
