@@ -9909,7 +9909,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.63,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.19
         },
         {
           "rank": 2,
@@ -9920,7 +9920,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.67,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.91
         }
       ]
     },
@@ -10244,7 +10244,7 @@
           "suitabilityScore": 75.45,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.82,
           "followUp10dReturn": null
         },
         {
@@ -10479,7 +10479,7 @@
           "suitabilityScore": 53.18,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.59,
           "followUp10dReturn": null
         }
       ]
@@ -10591,7 +10591,7 @@
           "suitabilityScore": 60.91,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.41,
           "followUp10dReturn": null
         }
       ]
@@ -10721,8 +10721,8 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-09-11",
-        "maxTradingDayLag": 2,
+        "latestNavDate": "2026-09-14",
+        "maxTradingDayLag": 1,
         "observationCount": 23
       },
       "signalHealth": {
@@ -10735,7 +10735,7 @@
         "shadow": {
           "count": 20,
           "winRate": 40,
-          "averageReturn": -0.65
+          "averageReturn": -0.54
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -10768,7 +10768,7 @@
           "holdingDays": 126,
           "medianExcess12Week": -5.62,
           "drawdownGapPercentagePoints": -32.93,
-          "shadowWeeks": 5,
+          "shadowWeeks": 6,
           "hardRiskViolations": 0,
           "feesIncluded": true,
           "qdiiLagIncluded": true,
@@ -10800,8 +10800,8 @@
           "rank": 1,
           "code": "019524",
           "name": "华泰柏瑞纳斯达克100指数(QDII)A",
-          "score": 65.46,
-          "suitabilityScore": 65.46,
+          "score": 65.91,
+          "suitabilityScore": 65.91,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -10811,8 +10811,8 @@
           "rank": 2,
           "code": "007280",
           "name": "摩根日本精选股票(QDII)A",
-          "score": 56.36,
-          "suitabilityScore": 56.36,
+          "score": 60.45,
+          "suitabilityScore": 60.45,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
