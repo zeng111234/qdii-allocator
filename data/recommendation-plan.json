@@ -14,17 +14,17 @@
   ],
   "dataFreshness": {
     "status": "FRESH",
-    "latestNavDate": "2026-09-14",
-    "maxTradingDayLag": 2,
+    "latestNavDate": "2026-09-15",
+    "maxTradingDayLag": 1,
     "observationCount": 23
   },
   "budget": 0,
   "candidates": [],
   "portfolioRisk": {
     "holdingCount": 25,
-    "currentValue": 1739.26,
-    "valuedSubtotal": 1739.26,
-    "totalWithCash": 1739.26,
+    "currentValue": 1708.19,
+    "valuedSubtotal": 1708.19,
+    "totalWithCash": 1708.19,
     "unknownHoldings": [],
     "unvaluedHoldings": [],
     "navIssues": [],
@@ -41,8 +41,8 @@
     },
     "shadow": {
       "count": 20,
-      "winRate": 40,
-      "averageReturn": -0.54
+      "winRate": 50,
+      "averageReturn": -0.26
     },
     "evidenceSource": "SHADOW",
     "breakerTriggered": false,
@@ -70,18 +70,18 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.0881,
-    "GROWTH_TECH": 0.6504,
-    "NON_US": 0.2192,
-    "DEFENSIVE": 0.0423,
+    "US_BROAD": 0.0896,
+    "GROWTH_TECH": 0.6488,
+    "NON_US": 0.2184,
+    "DEFENSIVE": 0.0432,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
-    "US_BROAD": 0.4119,
-    "GROWTH_TECH": -0.3004,
-    "NON_US": -0.1692,
-    "DEFENSIVE": 0.0577,
+    "US_BROAD": 0.4104,
+    "GROWTH_TECH": -0.2988,
+    "NON_US": -0.1684,
+    "DEFENSIVE": 0.0568,
     "CASH": 0
   },
   "executionRoutes": [],
@@ -141,28 +141,13 @@
       "strategyEvidenceMatches": false
     }
   },
-  "riskAnchorDrawdown": -0.0109,
+  "riskAnchorDrawdown": -0.0286,
   "marketRanking": [
-    {
-      "code": "019524",
-      "name": "华泰柏瑞纳斯达克100指数(QDII)A",
-      "indexGroup": "NDX100",
-      "marketScore": 65.91,
-      "blockedBy": [],
-      "channelCount": 6,
-      "routingAlternatives": [
-        "270042",
-        "000834",
-        "040046",
-        "539001",
-        "160213"
-      ]
-    },
     {
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 65.45,
+      "marketScore": 72.27,
       "blockedBy": [
         "TREND_DETERIORATING"
       ],
@@ -170,10 +155,28 @@
       "routingAlternatives": []
     },
     {
+      "code": "019524",
+      "name": "华泰柏瑞纳斯达克100指数(QDII)A",
+      "indexGroup": "NDX100",
+      "marketScore": 62.96,
+      "blockedBy": [
+        "TREND_DETERIORATING",
+        "INDEX_GROUP_LIMIT"
+      ],
+      "channelCount": 6,
+      "routingAlternatives": [
+        "000834",
+        "539001",
+        "040046",
+        "270042",
+        "160213"
+      ]
+    },
+    {
       "code": "007280",
       "name": "摩根日本精选股票(QDII)A",
       "indexGroup": "JAPAN",
-      "marketScore": 60.45,
+      "marketScore": 61.82,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -182,7 +185,7 @@
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
-      "marketScore": 47.73,
+      "marketScore": 48.18,
       "blockedBy": [
         "TREND_DETERIORATING"
       ],
@@ -193,7 +196,7 @@
       "code": "000369",
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
-      "marketScore": 27.73,
+      "marketScore": 41.82,
       "blockedBy": [
         "TREND_DETERIORATING"
       ],
@@ -204,7 +207,7 @@
       "code": "000179",
       "name": "广发美国房地产A(QDII)",
       "indexGroup": "US_REIT",
-      "marketScore": 27.05,
+      "marketScore": 27.73,
       "blockedBy": [
         "TREND_DETERIORATING",
         "PORTFOLIO_FULL"
@@ -216,8 +219,9 @@
       "code": "320013",
       "name": "诺安全球黄金(QDII-FOF)A",
       "indexGroup": "GOLD",
-      "marketScore": 15.23,
+      "marketScore": 16.36,
       "blockedBy": [
+        "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING",
         "PORTFOLIO_FULL"
       ],
@@ -233,7 +237,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "001092",
@@ -241,7 +245,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "012920",
@@ -250,7 +254,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "015204",
@@ -258,7 +262,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "015558",
@@ -267,7 +271,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-14"
+      "latestNavDate": "2026-09-15"
     },
     {
       "code": "016664",
@@ -275,7 +279,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "019067",
@@ -284,7 +288,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-14"
+      "latestNavDate": "2026-09-15"
     },
     {
       "code": "040018",
@@ -292,7 +296,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "050015",
@@ -300,7 +304,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "096001",
@@ -308,7 +312,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "160216",
@@ -316,7 +320,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "161125",
@@ -324,7 +328,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "163208",
@@ -333,7 +337,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "270023",
@@ -349,7 +353,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "008763",
@@ -357,7 +361,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "017730",
@@ -365,7 +369,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "006373",
@@ -373,7 +377,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "100055",
@@ -381,7 +385,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "005698",
@@ -389,7 +393,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "008253",
@@ -397,7 +401,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "501226",
@@ -405,7 +409,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     },
     {
       "code": "000041",
@@ -413,7 +417,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-11"
+      "latestNavDate": "2026-09-14"
     }
   ],
   "date": "2026-09-15",
