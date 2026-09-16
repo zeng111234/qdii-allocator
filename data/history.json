@@ -9194,7 +9194,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -1.94,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.97
         }
       ]
     },
@@ -9630,7 +9630,7 @@
           "suitabilityScore": 65.46,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.49,
           "followUp10dReturn": null
         },
         {
@@ -9885,8 +9885,8 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-09-15",
-        "maxTradingDayLag": 2,
+        "latestNavDate": "2026-09-16",
+        "maxTradingDayLag": 1,
         "observationCount": 23
       },
       "signalHealth": {
@@ -9899,7 +9899,7 @@
         "shadow": {
           "count": 20,
           "winRate": 50,
-          "averageReturn": -0.26
+          "averageReturn": -0.29
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -9964,8 +9964,8 @@
           "rank": 1,
           "code": "007280",
           "name": "摩根日本精选股票(QDII)A",
-          "score": 61.82,
-          "suitabilityScore": 61.82,
+          "score": 60.91,
+          "suitabilityScore": 60.91,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -9975,8 +9975,8 @@
           "rank": 2,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 72.27,
-          "suitabilityScore": 57.27,
+          "score": 74.09,
+          "suitabilityScore": 59.09,
           "proposedAmount": 0,
           "blockedBy": [
             "TREND_DETERIORATING"
