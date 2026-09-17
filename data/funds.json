@@ -50,7 +50,7 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 1000,
       "minPurchase": 10,
       "status": "active",
       "note": "欧洲制造业龙头",
@@ -93,7 +93,7 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 100,
+      "dailyLimit": 10,
       "minPurchase": 10,
       "status": "active",
       "note": "生物科技赛道",
@@ -107,7 +107,7 @@
       "shareClass": "A",
       "feeRate": 1.05,
       "custodyFee": 0.2,
-      "dailyLimit": 0,
+      "dailyLimit": 10,
       "status": "suspended",
       "settleDays": 2,
       "minPurchase": 10,
@@ -294,7 +294,7 @@
       "shareClass": "A",
       "feeRate": 0.6,
       "custodyFee": 0.25,
-      "dailyLimit": 0,
+      "dailyLimit": 10,
       "minPurchase": 10,
       "status": "suspended",
       "note": "标普500，费率较低",
@@ -308,7 +308,7 @@
       "shareClass": "A",
       "feeRate": 1.4,
       "custodyFee": 0.3,
-      "dailyLimit": 0,
+      "dailyLimit": 500,
       "minPurchase": 10,
       "status": "suspended",
       "note": "油气能源QDII；代码身份已纠正",
@@ -508,7 +508,7 @@
       "indexGroup": "GLOBAL"
     }
   ],
-  "_lastUpdated": "2026-09-16",
+  "_lastUpdated": "2026-09-17",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-09-16T14:00:33.513Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-09-17T14:04:50.129Z"
 }
