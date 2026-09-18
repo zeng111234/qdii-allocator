@@ -8233,7 +8233,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.79,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.71
         },
         {
           "rank": 2,
@@ -8244,7 +8244,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.08,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.43
         }
       ]
     },
@@ -8356,7 +8356,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.59,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.15
         }
       ]
     },
@@ -8691,7 +8691,7 @@
           "suitabilityScore": 60.45,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.44,
           "followUp10dReturn": null
         }
       ]
@@ -9049,8 +9049,8 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-09-17",
-        "maxTradingDayLag": 2,
+        "latestNavDate": "2026-09-18",
+        "maxTradingDayLag": 1,
         "observationCount": 23
       },
       "signalHealth": {
@@ -9063,7 +9063,7 @@
         "shadow": {
           "count": 20,
           "winRate": 50,
-          "averageReturn": -0.29
+          "averageReturn": -0.27
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -9126,10 +9126,10 @@
       "ranked": [
         {
           "rank": 1,
-          "code": "007280",
-          "name": "摩根日本精选股票(QDII)A",
-          "score": 61.82,
-          "suitabilityScore": 61.82,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 69.54,
+          "suitabilityScore": 69.54,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -9137,10 +9137,10 @@
         },
         {
           "rank": 2,
-          "code": "000369",
-          "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 44.09,
-          "suitabilityScore": 44.09,
+          "code": "007280",
+          "name": "摩根日本精选股票(QDII)A",
+          "score": 56.36,
+          "suitabilityScore": 56.36,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
