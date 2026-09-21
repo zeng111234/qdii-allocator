@@ -7814,7 +7814,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.29,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.14
         },
         {
           "rank": 2,
@@ -7937,7 +7937,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.41,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.65
         }
       ]
     },
@@ -8049,7 +8049,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.71,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.6
         }
       ]
     },
@@ -8149,7 +8149,7 @@
           "suitabilityScore": 65.91,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 1.42,
           "followUp10dReturn": null
         },
         {
@@ -8261,7 +8261,7 @@
           "suitabilityScore": 61.82,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.12,
           "followUp10dReturn": null
         },
         {
@@ -8375,7 +8375,7 @@
           "suitabilityScore": 60.91,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.39,
           "followUp10dReturn": null
         },
         {
@@ -8489,7 +8489,7 @@
           "suitabilityScore": 61.82,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.86,
           "followUp10dReturn": null
         },
         {
@@ -8626,16 +8626,17 @@
       "action": "PAUSE",
       "budget": 0,
       "pauseReasons": [
-        "ACCEPTANCE_GATE"
+        "ACCEPTANCE_GATE",
+        "SIGNAL_BREAKER"
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-09-17",
-        "maxTradingDayLag": 2,
+        "latestNavDate": "2026-09-18",
+        "maxTradingDayLag": 1,
         "observationCount": 26
       },
       "signalHealth": {
-        "status": "HEALTHY",
+        "status": "PAUSE",
         "matured": {
           "count": 0,
           "winRate": null,
@@ -8643,11 +8644,11 @@
         },
         "shadow": {
           "count": 20,
-          "winRate": 50,
-          "averageReturn": -0.27
+          "winRate": 35,
+          "averageReturn": -0.38
         },
         "evidenceSource": "SHADOW",
-        "breakerTriggered": false,
+        "breakerTriggered": true,
         "recovered": false
       },
       "liveAcceptance": {
@@ -8677,7 +8678,7 @@
           "holdingDays": 126,
           "medianExcess12Week": -5.62,
           "drawdownGapPercentagePoints": -32.93,
-          "shadowWeeks": 6,
+          "shadowWeeks": 7,
           "hardRiskViolations": 0,
           "feesIncluded": true,
           "qdiiLagIncluded": true,
@@ -8707,10 +8708,10 @@
       "ranked": [
         {
           "rank": 1,
-          "code": "017641",
-          "name": "摩根标普500指数(QDII)A",
-          "score": 68.75,
-          "suitabilityScore": 68.75,
+          "code": "019524",
+          "name": "华泰柏瑞纳斯达克100指数(QDII)A",
+          "score": 66.25,
+          "suitabilityScore": 66.25,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -8718,13 +8719,13 @@
         },
         {
           "rank": 2,
-          "code": "019524",
-          "name": "华泰柏瑞纳斯达克100指数(QDII)A",
-          "score": 65,
-          "suitabilityScore": 50,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 70,
+          "suitabilityScore": 55,
           "proposedAmount": 0,
           "blockedBy": [
-            "INDEX_GROUP_LIMIT"
+            "TREND_DETERIORATING"
           ],
           "followUp5dReturn": null,
           "followUp10dReturn": null
