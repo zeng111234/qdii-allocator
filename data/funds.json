@@ -224,7 +224,7 @@
       "shareClass": "A",
       "feeRate": 0.8,
       "custodyFee": 0.2,
-      "dailyLimit": 10,
+      "dailyLimit": 5,
       "minPurchase": 10,
       "status": "active",
       "note": "纳指老牌产品",
@@ -379,7 +379,7 @@
       "feeRate": 1,
       "custodyFee": 0.2,
       "dailyLimit": 2000,
-      "status": "suspended",
+      "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
       "note": "日本市场，填补地域空白",
@@ -488,7 +488,7 @@
       "custodyFee": 0.2,
       "dailyLimit": 100,
       "minPurchase": 10,
-      "status": "suspended",
+      "status": "active",
       "note": "防御性行业，老龄化长期趋势，限购100",
       "settleDays": 2,
       "indexGroup": "GLOBAL_MEDICAL"
@@ -510,5 +510,5 @@
   ],
   "_lastUpdated": "2026-09-23",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-09-23T05:40:45.429Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-09-23T14:03:18.301Z"
 }

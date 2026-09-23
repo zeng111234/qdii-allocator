@@ -7733,7 +7733,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.44,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.37
         }
       ]
     },
@@ -8173,7 +8173,7 @@
           "suitabilityScore": 69.54,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 1.34,
           "followUp10dReturn": null
         },
         {
@@ -8432,9 +8432,9 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-09-21",
-        "maxTradingDayLag": 2,
-        "observationCount": 26
+        "latestNavDate": "2026-09-23",
+        "maxTradingDayLag": 1,
+        "observationCount": 24
       },
       "signalHealth": {
         "status": "HEALTHY",
@@ -8445,8 +8445,8 @@
         },
         "shadow": {
           "count": 20,
-          "winRate": 45,
-          "averageReturn": -0.12
+          "winRate": 50,
+          "averageReturn": 0.07
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -8511,8 +8511,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 68.13,
-          "suitabilityScore": 68.13,
+          "score": 68.75,
+          "suitabilityScore": 68.75,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -8520,15 +8520,12 @@
         },
         {
           "rank": 2,
-          "code": "539001",
-          "name": "建信纳斯达克100A(QDII)",
-          "score": 65.63,
-          "suitabilityScore": 35.63,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 45,
+          "suitabilityScore": 45,
           "proposedAmount": 0,
-          "blockedBy": [
-            "PORTFOLIO_FULL",
-            "INDEX_GROUP_LIMIT"
-          ],
+          "blockedBy": [],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         }
