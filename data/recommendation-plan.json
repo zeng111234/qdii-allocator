@@ -5,54 +5,26 @@
   "syncRevision": 5,
   "riskAnchorValue": 1758.5,
   "asOf": "2026-09-24",
-  "action": "STRATEGIC_DCA",
+  "action": "HARD_PAUSE",
   "pauseReasons": [
     "ACCEPTANCE_GATE",
     "ALPHA_GATE_NOT_PASSED",
-    "AGGRESSIVE_BETA_NOT_ALPHA"
+    "AGGRESSIVE_BETA_NOT_ALPHA",
+    "PLAN_WINDOW_EXPIRED"
   ],
   "dataFreshness": {
     "status": "FRESH",
-    "latestNavDate": "2026-09-23",
-    "maxTradingDayLag": 2,
-    "observationCount": 24
+    "latestNavDate": "2026-09-24",
+    "maxTradingDayLag": 1,
+    "observationCount": 25
   },
-  "budget": 20,
-  "candidates": [
-    {
-      "code": "017641",
-      "name": "摩根标普500指数(QDII)A",
-      "indexGroup": "SPX500",
-      "bucket": "US_BROAD",
-      "marketScore": null,
-      "suitabilityScore": null,
-      "proposedAmount": 10,
-      "reasons": [
-        "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
-      ],
-      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额",
-      "blockedBy": []
-    },
-    {
-      "code": "000369",
-      "name": "广发全球医疗保健指数人民币(QDII)A",
-      "indexGroup": "GLOBAL_MEDICAL",
-      "bucket": "DEFENSIVE",
-      "marketScore": null,
-      "suitabilityScore": null,
-      "proposedAmount": 10,
-      "reasons": [
-        "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
-      ],
-      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额",
-      "blockedBy": []
-    }
-  ],
+  "budget": 0,
+  "candidates": [],
   "portfolioRisk": {
     "holdingCount": 25,
-    "currentValue": 1794.33,
-    "valuedSubtotal": 1794.33,
-    "totalWithCash": 1794.33,
+    "currentValue": 1781.83,
+    "valuedSubtotal": 1781.83,
+    "totalWithCash": 1781.83,
     "unknownHoldings": [],
     "unvaluedHoldings": [],
     "navIssues": [],
@@ -99,39 +71,20 @@
   },
   "bucketExposure": {
     "US_BROAD": 0.0852,
-    "GROWTH_TECH": 0.6558,
-    "NON_US": 0.2178,
-    "DEFENSIVE": 0.0413,
+    "GROWTH_TECH": 0.6555,
+    "NON_US": 0.2177,
+    "DEFENSIVE": 0.0415,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
     "US_BROAD": 0.4148,
-    "GROWTH_TECH": -0.3058,
-    "NON_US": -0.1678,
-    "DEFENSIVE": 0.0587,
+    "GROWTH_TECH": -0.3055,
+    "NON_US": -0.1677,
+    "DEFENSIVE": 0.0585,
     "CASH": 0
   },
-  "executionRoutes": [
-    {
-      "bucket": "US_BROAD",
-      "indexGroup": "SPX500",
-      "exposureKey": "US_BROAD:SPX500",
-      "code": "017641",
-      "name": "摩根标普500指数(QDII)A",
-      "amount": 10,
-      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
-    },
-    {
-      "bucket": "DEFENSIVE",
-      "indexGroup": "GLOBAL_MEDICAL",
-      "exposureKey": "DEFENSIVE:GLOBAL_MEDICAL",
-      "code": "000369",
-      "name": "广发全球医疗保健指数人民币(QDII)A",
-      "amount": 10,
-      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
-    }
-  ],
+  "executionRoutes": [],
   "confidence": "LOW",
   "benchmarkComparison": {},
   "liveAcceptance": {
@@ -188,29 +141,29 @@
       "strategyEvidenceMatches": false
     }
   },
-  "riskAnchorDrawdown": 0.0204,
+  "riskAnchorDrawdown": 0.0133,
   "marketRanking": [
     {
-      "code": "019524",
-      "name": "华泰柏瑞纳斯达克100指数(QDII)A",
+      "code": "539001",
+      "name": "建信纳斯达克100A(QDII)",
       "indexGroup": "NDX100",
-      "marketScore": 70,
+      "marketScore": 71.39,
       "blockedBy": [
+        "PORTFOLIO_FULL",
         "INDEX_GROUP_LIMIT"
       ],
-      "channelCount": 5,
+      "channelCount": 4,
       "routingAlternatives": [
         "040046",
-        "539001",
-        "000834",
-        "160213"
+        "019524",
+        "000834"
       ]
     },
     {
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 68.75,
+      "marketScore": 71.11,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -219,7 +172,7 @@
       "code": "000369",
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
-      "marketScore": 45,
+      "marketScore": 43.89,
       "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
@@ -228,7 +181,7 @@
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
-      "marketScore": 40,
+      "marketScore": 37.78,
       "blockedBy": [
         "TREND_DETERIORATING"
       ],
@@ -239,7 +192,7 @@
       "code": "007280",
       "name": "摩根日本精选股票(QDII)A",
       "indexGroup": "JAPAN",
-      "marketScore": 37.75,
+      "marketScore": 36.11,
       "blockedBy": [
         "TREND_DETERIORATING"
       ],
@@ -250,7 +203,7 @@
       "code": "000179",
       "name": "广发美国房地产A(QDII)",
       "indexGroup": "US_REIT",
-      "marketScore": 27.5,
+      "marketScore": 25,
       "blockedBy": [
         "TREND_DETERIORATING",
         "PORTFOLIO_FULL"
@@ -262,7 +215,7 @@
       "code": "320013",
       "name": "诺安全球黄金(QDII-FOF)A",
       "indexGroup": "GOLD",
-      "marketScore": 14.25,
+      "marketScore": 13.33,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "PORTFOLIO_FULL"
@@ -279,7 +232,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "001092",
@@ -287,7 +240,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "012920",
@@ -296,7 +249,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "015204",
@@ -304,7 +257,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "015558",
@@ -313,7 +266,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-23"
+      "latestNavDate": "2026-09-24"
     },
     {
       "code": "016664",
@@ -321,7 +274,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "019067",
@@ -330,7 +283,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-23"
+      "latestNavDate": "2026-09-24"
     },
     {
       "code": "040018",
@@ -338,7 +291,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "050015",
@@ -346,7 +299,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "096001",
@@ -354,7 +307,15 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
+    },
+    {
+      "code": "160213",
+      "name": "国泰纳斯达克100(QDII)",
+      "blockedBy": [
+        "NOT_BUYABLE"
+      ],
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "160216",
@@ -362,7 +323,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "161125",
@@ -370,7 +331,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "163208",
@@ -379,7 +340,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "270023",
@@ -387,7 +348,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "270042",
@@ -395,7 +356,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "539002",
@@ -403,7 +364,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "008763",
@@ -411,7 +372,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "017730",
@@ -419,7 +380,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "006373",
@@ -427,7 +388,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "100055",
@@ -435,7 +396,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "005698",
@@ -443,7 +404,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "008253",
@@ -451,7 +412,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "501226",
@@ -459,7 +420,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     },
     {
       "code": "000041",
@@ -467,7 +428,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-09-22"
+      "latestNavDate": "2026-09-23"
     }
   ],
   "date": "2026-09-24",
@@ -516,10 +477,10 @@
     "requestedBudget": 20,
     "signalConfirmed": false
   },
-  "decisionMode": "AGGRESSIVE_BETA_DCA",
+  "decisionMode": "DATA_BLOCKED",
   "recommendationBasis": "AGGRESSIVE_TARGET_ALLOCATION",
   "expectedEdge": "HIGHER_EXPECTED_BETA_NOT_PROVEN_ALPHA",
-  "blockedStage": null,
+  "blockedStage": "PLAN_WINDOW_EXPIRED",
   "routeDiagnostics": {
     "requestedBudget": 20,
     "allocatedBudget": 20,
@@ -532,38 +493,9 @@
     "blockReasons": [],
     "remainingBudget": 0
   },
-  "ranked": [
-    {
-      "code": "017641",
-      "name": "摩根标普500指数(QDII)A",
-      "indexGroup": "SPX500",
-      "bucket": "US_BROAD",
-      "marketScore": null,
-      "suitabilityScore": null,
-      "proposedAmount": 10,
-      "reasons": [
-        "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
-      ],
-      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额",
-      "blockedBy": []
-    },
-    {
-      "code": "000369",
-      "name": "广发全球医疗保健指数人民币(QDII)A",
-      "indexGroup": "GLOBAL_MEDICAL",
-      "bucket": "DEFENSIVE",
-      "marketScore": null,
-      "suitabilityScore": null,
-      "proposedAmount": 10,
-      "reasons": [
-        "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
-      ],
-      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额",
-      "blockedBy": []
-    }
-  ],
+  "ranked": [],
   "personalized": true,
-  "generatedAt": "2026-09-24T06:02:22.422Z",
+  "generatedAt": "2026-09-24T14:06:02.774Z",
   "validFrom": "2026-09-24T06:00:00.000Z",
   "validUntil": "2026-09-24T07:00:00.000Z",
   "ledgerChecksum": "bc92742476df7306091971b0c385a6e7b91d75822d8faf74d7569aa82cfdd906",

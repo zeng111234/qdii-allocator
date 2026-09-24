@@ -268,7 +268,7 @@
       "custodyFee": 0.2,
       "dailyLimit": 100,
       "minPurchase": 10,
-      "status": "active",
+      "status": "suspended",
       "note": "LOF品种",
       "settleDays": 2,
       "indexGroup": "NDX100"
@@ -426,7 +426,7 @@
       "name": "富国全球科技互联网股票(QDII)A",
       "type": "全球科技",
       "feeRate": 1.2,
-      "dailyLimit": 1000,
+      "dailyLimit": 10000,
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
@@ -510,5 +510,5 @@
   ],
   "_lastUpdated": "2026-09-24",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-09-24T05:57:11.476Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-09-24T14:00:18.924Z"
 }
