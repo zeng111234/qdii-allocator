@@ -88,6 +88,7 @@ function enforceReleaseSafety(plan, conditions) {
   const settings = conditions || {};
   if (settings.navRefreshFailed === true) return hardPauseForRelease(plan, "NAV_REFRESH_FAILED");
   if (settings.reconciliationFailed === true) return hardPauseForRelease(plan, "LEDGER_RECONCILE_FAILED");
+  if (settings.purchaseRefreshFailed === true) return hardPauseForRelease(plan, "PURCHASE_AVAILABILITY_STALE");
   if (settings.tradingDay === false) return hardPauseForRelease(plan, "NON_TRADING_DAY");
   const executableActions = new Set(["BUY", "STRATEGIC_DCA", "TACTICAL_PAUSE"]);
   const routes = Array.isArray(plan && plan.executionRoutes) ? plan.executionRoutes : [];
@@ -822,6 +823,7 @@ async function main() {
   recommendationPlan = enforceReleaseSafety(recommendationPlan, {
     navRefreshFailed: process.env.NAV_REFRESH_FAILED === "1",
     reconciliationFailed: process.env.LEDGER_RECONCILE_FAILED === "1",
+    purchaseRefreshFailed: process.env.PURCHASE_REFRESH_FAILED === "1",
     tradingDay: tradingCalendar.isTradingDay(planAsOf)
   });
   recommendationPlan = enforcePlanExecutionWindow(recommendationPlan, planAsOf, new Date());

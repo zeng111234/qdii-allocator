@@ -45,6 +45,20 @@ test("release safety converts a pending-ledger reconciliation failure into a zer
   assert.ok(plan.pauseReasons.includes("LEDGER_RECONCILE_FAILED"));
 });
 
+test("release safety converts stale purchase availability into a zero-budget hard pause", function () {
+  const plan = allocatorCli.enforceReleaseSafety(executablePlan(), {
+    navRefreshFailed: false,
+    reconciliationFailed: false,
+    purchaseRefreshFailed: true,
+    tradingDay: true
+  });
+  assert.equal(plan.action, "HARD_PAUSE");
+  assert.equal(plan.budget, 0);
+  assert.deepEqual(plan.executionRoutes, []);
+  assert.deepEqual(plan.candidates, []);
+  assert.ok(plan.pauseReasons.includes("PURCHASE_AVAILABILITY_STALE"));
+});
+
 test("release safety makes weekends and holidays non-executable", function () {
   const plan = allocatorCli.enforceReleaseSafety(executablePlan(), {
     navRefreshFailed: false,
