@@ -39,7 +39,7 @@
     "@eslint/js": "^10.0.1",
     "eslint": "^10.11.0",
     "eslint-config-prettier": "^10.1.8",
-    "playwright-core": "^1.62.1",
+    "playwright-core": "^1.63.0",
     "prettier": "^3.9.6"
   }
 }
