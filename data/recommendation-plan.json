@@ -1,21 +1,21 @@
 {
   "schemaVersion": "PersonalizedRecommendationPlanV2",
   "strategyVersion": "personalized-target-allocation-v2.1",
-  "allocationWeek": "2026-09-21",
+  "allocationWeek": "2026-09-28",
   "syncRevision": 5,
   "riskAnchorValue": 1758.5,
-  "asOf": "2026-09-25",
+  "asOf": "2026-09-28",
   "action": "HARD_PAUSE",
   "pauseReasons": [
     "ACCEPTANCE_GATE",
     "ALPHA_GATE_NOT_PASSED",
     "AGGRESSIVE_BETA_NOT_ALPHA",
-    "NON_TRADING_DAY"
+    "PURCHASE_AVAILABILITY_STALE"
   ],
   "dataFreshness": {
     "status": "FRESH",
     "latestNavDate": "2026-09-24",
-    "maxTradingDayLag": 1,
+    "maxTradingDayLag": 2,
     "observationCount": 25
   },
   "budget": 0,
@@ -431,7 +431,7 @@
       "latestNavDate": "2026-09-23"
     }
   ],
-  "date": "2026-09-25",
+  "date": "2026-09-28",
   "decisionRevision": 1,
   "riskProfile": "AGGRESSIVE",
   "targetBuckets": {
@@ -480,7 +480,7 @@
   "decisionMode": "DATA_BLOCKED",
   "recommendationBasis": "AGGRESSIVE_TARGET_ALLOCATION",
   "expectedEdge": "HIGHER_EXPECTED_BETA_NOT_PROVEN_ALPHA",
-  "blockedStage": "NON_TRADING_DAY",
+  "blockedStage": "PURCHASE_AVAILABILITY_STALE",
   "routeDiagnostics": {
     "requestedBudget": 20,
     "allocatedBudget": 20,
