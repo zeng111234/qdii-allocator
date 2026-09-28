@@ -110,7 +110,7 @@ function fetchPage(code, startDate, pageSize, pageIndex, options) {
 function readJsonFile(file, fsImpl) {
   const io = fsImpl || fs;
   try { return JSON.parse(io.readFileSync(file, "utf8")); }
-  catch (error) { throw new Error("NAV_LOCAL_JSON_INVALID:" + path.basename(file) + ":" + error.message); }
+  catch (error) { throw new Error("NAV_LOCAL_JSON_INVALID:" + path.basename(file) + ":" + error.message, { cause: error }); }
 }
 
 function atomicWriteJson(file, value, fsImpl) {

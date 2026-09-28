@@ -40,6 +40,7 @@ module.exports = [
     rules: {
       "no-var": "error",
       "prefer-const": "warn",
+      "no-useless-assignment": "warn",
       eqeqeq: ["error", "always"],
       "no-unused-vars": ["warn", { argsIgnorePattern: "^_", varsIgnorePattern: "^_" }],
       "no-console": "off",
