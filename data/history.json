@@ -7651,7 +7651,7 @@
             "TREND_DETERIORATING"
           ],
           "followUp5dReturn": 2.45,
-          "followUp10dReturn": null
+          "followUp10dReturn": 1.35
         }
       ]
     },
@@ -7763,7 +7763,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.23,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.78
         }
       ]
     },
@@ -7864,7 +7864,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 1.34,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.27
         },
         {
           "rank": 2,
@@ -8090,7 +8090,7 @@
           "suitabilityScore": 70,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.06,
           "followUp10dReturn": null
         },
         {
@@ -8104,7 +8104,7 @@
             "PORTFOLIO_FULL",
             "INDEX_GROUP_LIMIT"
           ],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.37,
           "followUp10dReturn": null
         }
       ]
@@ -8205,7 +8205,7 @@
           "suitabilityScore": 68.75,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.36,
           "followUp10dReturn": null
         },
         {
@@ -8216,7 +8216,7 @@
           "suitabilityScore": 45,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.78,
           "followUp10dReturn": null
         }
       ]
@@ -8317,7 +8317,7 @@
           "suitabilityScore": 71.11,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.37,
           "followUp10dReturn": null
         },
         {
@@ -8328,7 +8328,7 @@
           "suitabilityScore": 43.89,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.51,
           "followUp10dReturn": null
         }
       ]
@@ -8570,7 +8570,7 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-09-28",
+        "latestNavDate": "2026-09-29",
         "maxTradingDayLag": 2,
         "observationCount": 25
       },
@@ -8584,7 +8584,7 @@
         "shadow": {
           "count": 20,
           "winRate": 50,
-          "averageReturn": 0.07
+          "averageReturn": 0.14
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -8648,8 +8648,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 71.11,
-          "suitabilityScore": 71.11,
+          "score": 70,
+          "suitabilityScore": 70,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -8659,8 +8659,8 @@
           "rank": 2,
           "code": "000369",
           "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 46.11,
-          "suitabilityScore": 46.11,
+          "score": 49.44,
+          "suitabilityScore": 49.44,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
