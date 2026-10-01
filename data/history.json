@@ -1,297 +1,6 @@
 {
   "records": [
     {
-      "date": "2026-07-07",
-      "budget": 50,
-      "strategy": "智能动态策略(Top10 排名)",
-      "totalRanked": 10,
-      "allAvailable": 31,
-      "ranked": [
-        {
-          "code": "005698",
-          "name": "华夏全球科技先锋混合(QDII)A",
-          "score": 42.26,
-          "reason": "1年涨87.67%加5.3分，夏普1.11加2.8分，最大回撤-31.14%扣4.7分，长期牛市+3分，低于MA10加24.8分，波动4.19%扣2.1分，费率1.2%扣1分",
-          "status": "active"
-        },
-        {
-          "code": "008253",
-          "name": "华宝致远混合(QDII)A",
-          "score": 30.68,
-          "reason": "1年涨80.19%加4.8分，夏普1.08加2.7分，最大回撤-28.17%扣4.2分，长期牛市+3分，回撤14.42%加0.8分，低于MA10加14.1分，60日涨31.6%过热-1分，波动4.56%扣2.3分，费率1.2%扣1分，限购20元加0分",
-          "status": "active"
-        },
-        {
-          "code": "016664",
-          "name": "天弘全球高端制造QDII-A",
-          "score": 28.92,
-          "reason": "1年涨166.34%加10分，夏普1.53加3.8分，最大回撤-30.39%扣4.6分，长期牛市+3分，回撤14.2%加0.9分，低于MA10加18.8分，60日涨44.9%过热-9分，90日涨52%过热-4.8分，波动4.17%扣2.1分，费率1.2%扣1分，限购100元加0分",
-          "status": "active"
-        },
-        {
-          "code": "040018",
-          "name": "华安香港精选QDII-A",
-          "score": 26.98,
-          "reason": "1年涨46.13%加2.8分，夏普1.26加3.2分，最大回撤-19.24%扣2.9分，长期牛市+3分，回撤8.65%加1.7分，低于MA10加11.2分，近高点-8.6%-1.5分，波动2.78%扣1.4分，费率1.5%扣1.2分",
-          "status": "active"
-        },
-        {
-          "code": "501226",
-          "name": "长城全球新能源车(QDII)A",
-          "score": 25.69,
-          "reason": "1年涨77.34%加4.6分，夏普1.28加3.2分，最大回撤-23.85%扣3.6分，长期牛市+3分，回撤9.43%加1.6分，低于MA10加9分，60日涨31.3%过热-0.8分，近高点-9.4%-1.5分，波动3.4%扣1.7分，费率1.2%扣1分",
-          "status": "active"
-        },
-        {
-          "code": "050015",
-          "name": "博时亚太精选QDII-A",
-          "score": 18.95,
-          "reason": "1年涨55.7%加3.3分，夏普0.99加2.5分，最大回撤-24.68%扣3.7分，长期牛市+3分，回撤5.21%加2.2分，低于MA10加4.3分，近高点-5.2%-1.5分，波动2.05%扣1分，费率1.5%扣1.2分",
-          "status": "active"
-        },
-        {
-          "code": "539002",
-          "name": "建信新兴市场优选QDII-A",
-          "score": 14.43,
-          "reason": "1年涨143.28%加8.6分，夏普1.53加3.8分，最大回撤-35.85%扣5.4分，长期牛市+3分，回撤12.74%加1.1分，低于MA10加16.5分，60日涨57.5%过热-16.5分，90日涨53%过热-5.2分，波动5.11%扣2.6分，费率0.8%扣0.6分，限购30元加0分",
-          "status": "active"
-        },
-        {
-          "code": "007280",
-          "name": "摩根日本精选股票(QDII)A",
-          "score": 11.72,
-          "reason": "1年涨23.5%加1.4分，夏普0.76加1.9分，最大回撤-17.88%扣2.7分，长期牛市+3分，回撤3.04%加2.5分，近高点-3%-3分，波动1.61%扣0.8分，费率1%扣0.8分",
-          "status": "active"
-        },
-        {
-          "code": "539001",
-          "name": "建信纳斯达克100A(QDII)",
-          "score": 11.7,
-          "reason": "1年涨25.27%加1.5分，夏普0.94加2.3分，最大回撤-21.97%扣3.3分，长期牛市+3分，回撤2.63%加2.6分，近高点-3.1%-3分，波动1.99%扣1分，费率0.8%扣0.6分，限购100元加0分",
-          "status": "active"
-        },
-        {
-          "code": "160216",
-          "name": "国泰大宗商品(QDII-LOF)",
-          "score": 9.1,
-          "reason": "1年涨16.09%加1分，夏普0.68加1.7分，最大回撤-23.26%扣3.5分，回撤9.93%加1.5分，高于MA10扣1分，波动1.21%扣0.6分，费率0.8%扣0.6分，稳定收益+1分",
-          "status": "active"
-        }
-      ],
-      "allScores": [
-        {
-          "code": "000179",
-          "name": "广发美国房地产A(QDII)",
-          "score": 15.32,
-          "status": "active"
-        },
-        {
-          "code": "000614",
-          "name": "华安德国DAX30A(QDII)",
-          "score": 6.71,
-          "status": "active"
-        },
-        {
-          "code": "000834",
-          "name": "大成纳斯达克100(QDII)",
-          "score": 25.39,
-          "status": "active"
-        },
-        {
-          "code": "000988",
-          "name": "华安标普全球石油QDII-A",
-          "score": 8.04,
-          "status": "active"
-        },
-        {
-          "code": "001092",
-          "name": "广发纳斯达克生物科技A(QDII)",
-          "score": 13.67,
-          "status": "active"
-        },
-        {
-          "code": "012920",
-          "name": "易方达全球成长精选QDII-A",
-          "score": -999,
-          "status": "suspended"
-        },
-        {
-          "code": "015204",
-          "name": "银华全球新能源车量化优选(QDII)A",
-          "score": 28.02,
-          "status": "active"
-        },
-        {
-          "code": "015558",
-          "name": "大成标普500ETF联接A(QDII)",
-          "score": 4.64,
-          "status": "active"
-        },
-        {
-          "code": "016664",
-          "name": "天弘全球高端制造QDII-A",
-          "score": 84.2,
-          "status": "active"
-        },
-        {
-          "code": "017641",
-          "name": "摩根标普500指数(QDII)A",
-          "score": 15.99,
-          "status": "active"
-        },
-        {
-          "code": "019067",
-          "name": "万家纳斯达克100指数(QDII)A",
-          "score": 8.26,
-          "status": "active"
-        },
-        {
-          "code": "019524",
-          "name": "华泰柏瑞纳斯达克100指数(QDII)A",
-          "score": 21.25,
-          "status": "active"
-        },
-        {
-          "code": "040018",
-          "name": "华安香港精选QDII-A",
-          "score": 52.44,
-          "status": "active"
-        },
-        {
-          "code": "040046",
-          "name": "华安纳斯达克100A(QDII)",
-          "score": 25.98,
-          "status": "active"
-        },
-        {
-          "code": "050015",
-          "name": "博时亚太精选QDII-A",
-          "score": 37.02,
-          "status": "active"
-        },
-        {
-          "code": "096001",
-          "name": "大成标普500A(QDII)",
-          "score": 13.57,
-          "status": "active"
-        },
-        {
-          "code": "160213",
-          "name": "国泰纳斯达克100(QDII)",
-          "score": -999,
-          "status": "suspended"
-        },
-        {
-          "code": "160216",
-          "name": "国泰大宗商品(QDII-LOF)",
-          "score": 35.39,
-          "status": "active"
-        },
-        {
-          "code": "161125",
-          "name": "易方达标普500A(QDII-LOF)",
-          "score": -999,
-          "status": "suspended"
-        },
-        {
-          "code": "163208",
-          "name": "诺安全球收益不动产QDII",
-          "score": -999,
-          "status": "suspended"
-        },
-        {
-          "code": "270023",
-          "name": "广发全球精选QDII-A",
-          "score": 63.47,
-          "status": "active"
-        },
-        {
-          "code": "270042",
-          "name": "广发纳斯达克100A(QDII)",
-          "score": 25.66,
-          "status": "active"
-        },
-        {
-          "code": "539001",
-          "name": "建信纳斯达克100A(QDII)",
-          "score": 26.14,
-          "status": "active"
-        },
-        {
-          "code": "539002",
-          "name": "建信新兴市场优选QDII-A",
-          "score": 66.99,
-          "status": "active"
-        },
-        {
-          "code": "007280",
-          "name": "摩根日本精选股票(QDII)A",
-          "score": 25.77,
-          "status": "active"
-        },
-        {
-          "code": "008763",
-          "name": "天弘越南市场股票(QDII)A",
-          "score": 11.84,
-          "status": "active"
-        },
-        {
-          "code": "017730",
-          "name": "嘉实全球产业升级股票(QDII)A",
-          "score": 64.81,
-          "status": "active"
-        },
-        {
-          "code": "006373",
-          "name": "国富全球科技互联混合(QDII)A",
-          "score": 71.58,
-          "status": "active"
-        },
-        {
-          "code": "100055",
-          "name": "富国全球科技互联网股票(QDII)A",
-          "score": 66.91,
-          "status": "active"
-        },
-        {
-          "code": "005698",
-          "name": "华夏全球科技先锋混合(QDII)A",
-          "score": 95.31,
-          "status": "active"
-        },
-        {
-          "code": "008253",
-          "name": "华宝致远混合(QDII)A",
-          "score": 74.55,
-          "status": "active"
-        },
-        {
-          "code": "501226",
-          "name": "长城全球新能源车(QDII)A",
-          "score": 58.08,
-          "status": "active"
-        },
-        {
-          "code": "320013",
-          "name": "诺安全球黄金(QDII-FOF)A",
-          "score": 20.72,
-          "status": "active"
-        },
-        {
-          "code": "000369",
-          "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 14.19,
-          "status": "active"
-        },
-        {
-          "code": "000041",
-          "name": "华夏全球股票(QDII)(人民币)",
-          "score": 34.25,
-          "status": "active"
-        }
-      ]
-    },
-    {
       "date": "2026-07-08",
       "budget": 50,
       "strategy": "智能动态策略(Top10 排名)",
@@ -8229,6 +7938,117 @@
     },
     {
       "date": "2026-09-30",
+      "strategy": "RecommendationPlan",
+      "planKind": "BASE_RESEARCH",
+      "strategyVersion": "allocation-v2.4-monthly-alpha-gate",
+      "allocationWeek": "2026-09-28",
+      "action": "PAUSE",
+      "budget": 0,
+      "pauseReasons": [
+        "ACCEPTANCE_GATE"
+      ],
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-09-30",
+        "maxTradingDayLag": 1,
+        "observationCount": 25
+      },
+      "signalHealth": {
+        "status": "HEALTHY",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 20,
+          "winRate": 40,
+          "averageReturn": 0.02
+        },
+        "evidenceSource": "SHADOW",
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "liveAcceptance": {
+        "passed": false,
+        "failures": [
+          "WIN_RATE_BELOW_55",
+          "PROFIT_WIN_RATE_NOT_ABOVE_BASELINE",
+          "OUTPERFORMANCE_WIN_RATE_BELOW_55",
+          "AVERAGE_EXCESS_NOT_POSITIVE",
+          "PROFIT_FACTOR_BELOW_1_2",
+          "MEDIAN_EXCESS_NOT_POSITIVE",
+          "HISTORICAL_PURCHASE_AVAILABILITY_UNPROVEN",
+          "MONTHLY_DCA_HOLDOUT_FAILED"
+        ],
+        "metrics": {
+          "rollingWindows": 16,
+          "nonOverlappingWindows": 16,
+          "winRate": 0,
+          "benchmarkWinRate": 75,
+          "outperformanceWinRate": 25,
+          "averageExcessReturn": -5.8,
+          "avgWin": 0,
+          "avgLoss": 0,
+          "profitFactor": 0,
+          "baselineCode": "161125",
+          "holdingDays": 126,
+          "medianExcess12Week": -5.62,
+          "drawdownGapPercentagePoints": -32.93,
+          "shadowWeeks": 8,
+          "hardRiskViolations": 0,
+          "feesIncluded": true,
+          "qdiiLagIncluded": true,
+          "optimizationTrialsReported": true,
+          "historicalPurchaseAvailabilityProven": false,
+          "strategyId": "allocation-v2.4-monthly-alpha-gate",
+          "strategyIdReported": true,
+          "monthlyDcaWindows": 7,
+          "monthlyDcaOutperformanceRate": 100,
+          "monthlyDcaAverageExcessProfit": 36.7,
+          "monthlyDcaTotalExcessProfit": 298.57,
+          "monthlyDcaSameCashFlow": true,
+          "monthlyDcaIndependentHoldoutWindows": 3,
+          "monthlyDcaMinimumIndependentHoldoutWindows": 6,
+          "monthlyDcaHoldoutOutperformanceRate": 100,
+          "monthlyDcaHoldoutAverageExcessProfit": 5.15,
+          "monthlyDcaHoldoutMedianExcessReturn": 0.38,
+          "monthlyDcaExecutionAvailabilityProven": false,
+          "monthlyDcaTotalReturnBasisVerified": true,
+          "monthlyDcaCostsMatch": true,
+          "monthlyDcaLagMatches": true,
+          "monthlyDcaHoldoutPassed": false,
+          "monthlyDcaStrategyId": "monthly-relative-momentum-dca-v1",
+          "strategyEvidenceMatches": false
+        }
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 67.22,
+          "suitabilityScore": 67.22,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 45.55,
+          "suitabilityScore": 45.55,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
+    },
+    {
+      "date": "2026-10-01",
       "strategy": "RecommendationPlan",
       "planKind": "BASE_RESEARCH",
       "strategyVersion": "allocation-v2.4-monthly-alpha-gate",
