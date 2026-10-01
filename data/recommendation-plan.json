@@ -4,7 +4,7 @@
   "allocationWeek": "2026-09-28",
   "syncRevision": 5,
   "riskAnchorValue": 1758.5,
-  "asOf": "2026-10-01",
+  "asOf": "2026-10-02",
   "action": "HARD_PAUSE",
   "pauseReasons": [
     "ACCEPTANCE_GATE",
@@ -429,7 +429,7 @@
       "latestNavDate": "2026-09-29"
     }
   ],
-  "date": "2026-10-01",
+  "date": "2026-10-02",
   "decisionRevision": 1,
   "riskProfile": "AGGRESSIVE",
   "targetBuckets": {
