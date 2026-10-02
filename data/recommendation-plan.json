@@ -10,7 +10,7 @@
     "ACCEPTANCE_GATE",
     "ALPHA_GATE_NOT_PASSED",
     "AGGRESSIVE_BETA_NOT_ALPHA",
-    "NON_TRADING_DAY"
+    "PURCHASE_AVAILABILITY_STALE"
   ],
   "dataFreshness": {
     "status": "FRESH",
@@ -478,7 +478,7 @@
   "decisionMode": "DATA_BLOCKED",
   "recommendationBasis": "AGGRESSIVE_TARGET_ALLOCATION",
   "expectedEdge": "HIGHER_EXPECTED_BETA_NOT_PROVEN_ALPHA",
-  "blockedStage": "NON_TRADING_DAY",
+  "blockedStage": "PURCHASE_AVAILABILITY_STALE",
   "routeDiagnostics": {
     "requestedBudget": 20,
     "allocatedBudget": 20,
