@@ -1,10 +1,10 @@
 {
   "schemaVersion": "PersonalizedRecommendationPlanV2",
   "strategyVersion": "personalized-target-allocation-v2.1",
-  "allocationWeek": "2026-09-28",
+  "allocationWeek": "2026-10-05",
   "syncRevision": 5,
   "riskAnchorValue": 1758.5,
-  "asOf": "2026-10-02",
+  "asOf": "2026-10-05",
   "action": "HARD_PAUSE",
   "pauseReasons": [
     "ACCEPTANCE_GATE",
@@ -429,7 +429,7 @@
       "latestNavDate": "2026-09-29"
     }
   ],
-  "date": "2026-10-02",
+  "date": "2026-10-05",
   "decisionRevision": 1,
   "riskProfile": "AGGRESSIVE",
   "targetBuckets": {
