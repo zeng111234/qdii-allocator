@@ -4,13 +4,13 @@
   "allocationWeek": "2026-10-05",
   "syncRevision": 5,
   "riskAnchorValue": 1758.5,
-  "asOf": "2026-10-06",
+  "asOf": "2026-10-07",
   "action": "HARD_PAUSE",
   "pauseReasons": [
     "ACCEPTANCE_GATE",
     "ALPHA_GATE_NOT_PASSED",
     "AGGRESSIVE_BETA_NOT_ALPHA",
-    "NAV_REFRESH_FAILED"
+    "NON_TRADING_DAY"
   ],
   "dataFreshness": {
     "status": "FRESH",
@@ -429,7 +429,7 @@
       "latestNavDate": "2026-09-29"
     }
   ],
-  "date": "2026-10-06",
+  "date": "2026-10-07",
   "decisionRevision": 1,
   "riskProfile": "AGGRESSIVE",
   "targetBuckets": {
@@ -478,7 +478,7 @@
   "decisionMode": "DATA_BLOCKED",
   "recommendationBasis": "AGGRESSIVE_TARGET_ALLOCATION",
   "expectedEdge": "HIGHER_EXPECTED_BETA_NOT_PROVEN_ALPHA",
-  "blockedStage": "NAV_REFRESH_FAILED",
+  "blockedStage": "NON_TRADING_DAY",
   "routeDiagnostics": {
     "requestedBudget": 20,
     "allocatedBudget": 20,
