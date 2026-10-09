@@ -5107,7 +5107,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.99
         },
         {
           "rank": 2,
@@ -5118,7 +5118,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.21
         }
       ]
     },
@@ -5218,7 +5218,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp10dReturn": 1.13
         },
         {
           "rank": 2,
@@ -5229,7 +5229,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.75
         }
       ]
     },
@@ -6023,7 +6023,7 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-09-30",
+        "latestNavDate": "2026-10-08",
         "maxTradingDayLag": 2,
         "observationCount": 27
       },
@@ -6099,27 +6099,24 @@
       "ranked": [
         {
           "rank": 1,
-          "code": "539001",
-          "name": "建信纳斯达克100A(QDII)",
-          "score": 72.86,
-          "suitabilityScore": 42.86,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 66.79,
+          "suitabilityScore": 66.79,
           "proposedAmount": 0,
-          "blockedBy": [
-            "PORTFOLIO_FULL",
-            "INDEX_GROUP_LIMIT"
-          ],
+          "blockedBy": [],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         },
         {
           "rank": 2,
-          "code": "017641",
-          "name": "摩根标普500指数(QDII)A",
-          "score": 63.21,
-          "suitabilityScore": 48.21,
+          "code": "040046",
+          "name": "华安纳斯达克100A(QDII)",
+          "score": 70.35,
+          "suitabilityScore": 55.35,
           "proposedAmount": 0,
           "blockedBy": [
-            "TREND_DETERIORATING"
+            "INDEX_GROUP_LIMIT"
           ],
           "followUp5dReturn": null,
           "followUp10dReturn": null
