@@ -6023,9 +6023,9 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-10-08",
+        "latestNavDate": "2026-09-30",
         "maxTradingDayLag": 2,
-        "observationCount": 25
+        "observationCount": 27
       },
       "signalHealth": {
         "status": "HEALTHY",
@@ -6099,23 +6099,28 @@
       "ranked": [
         {
           "rank": 1,
-          "code": "000369",
-          "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 45.55,
-          "suitabilityScore": 45.55,
+          "code": "539001",
+          "name": "建信纳斯达克100A(QDII)",
+          "score": 72.86,
+          "suitabilityScore": 42.86,
           "proposedAmount": 0,
-          "blockedBy": [],
+          "blockedBy": [
+            "PORTFOLIO_FULL",
+            "INDEX_GROUP_LIMIT"
+          ],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         },
         {
           "rank": 2,
-          "code": "007280",
-          "name": "摩根日本精选股票(QDII)A",
-          "score": 42.22,
-          "suitabilityScore": 42.22,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 63.21,
+          "suitabilityScore": 48.21,
           "proposedAmount": 0,
-          "blockedBy": [],
+          "blockedBy": [
+            "TREND_DETERIORATING"
+          ],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         }

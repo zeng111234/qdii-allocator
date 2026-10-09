@@ -379,7 +379,7 @@
       "feeRate": 1,
       "custodyFee": 0.2,
       "dailyLimit": 2000,
-      "status": "active",
+      "status": "suspended",
       "settleDays": 2,
       "minPurchase": 10,
       "note": "日本市场，填补地域空白",
@@ -488,7 +488,7 @@
       "custodyFee": 0.2,
       "dailyLimit": 100,
       "minPurchase": 10,
-      "status": "active",
+      "status": "suspended",
       "note": "防御性行业，老龄化长期趋势，限购100",
       "settleDays": 2,
       "indexGroup": "GLOBAL_MEDICAL"
@@ -510,5 +510,5 @@
   ],
   "_lastUpdated": "2026-10-09",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-10-08T16:06:16.094Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-10-09T07:14:17.547Z"
 }
