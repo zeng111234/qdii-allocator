@@ -1,59 +1,6 @@
 {
   "records": [
     {
-      "date": "2026-07-23",
-      "strategy": "RecommendationPlan",
-      "strategyVersion": "allocation-v2.1-balanced",
-      "allocationWeek": "2026-07-20",
-      "action": "PAUSE",
-      "budget": 0,
-      "dataFreshness": {
-        "status": "FRESH",
-        "latestNavDate": "2026-07-22",
-        "maxTradingDayLag": 2,
-        "observationCount": 4
-      },
-      "signalHealth": {
-        "status": "WARMING_UP",
-        "matured": {
-          "count": 0,
-          "winRate": null,
-          "averageReturn": null
-        },
-        "shadow": {
-          "count": 0,
-          "winRate": null,
-          "averageReturn": null
-        },
-        "breakerTriggered": false,
-        "recovered": false
-      },
-      "ranked": [
-        {
-          "rank": 1,
-          "code": "017641",
-          "name": "摩根标普500指数(QDII)A",
-          "score": 73.42,
-          "suitabilityScore": 73.42,
-          "proposedAmount": 0,
-          "blockedBy": [],
-          "followUp5dReturn": 0.01,
-          "followUp10dReturn": 2.44
-        },
-        {
-          "rank": 2,
-          "code": "000614",
-          "name": "华安德国DAX30A(QDII)",
-          "score": 48.75,
-          "suitabilityScore": 48.75,
-          "proposedAmount": 0,
-          "blockedBy": [],
-          "followUp5dReturn": 2.15,
-          "followUp10dReturn": 5.54
-        }
-      ]
-    },
-    {
       "date": "2026-07-24",
       "strategy": "RecommendationPlan",
       "strategyVersion": "allocation-v2.1-balanced",
@@ -4595,7 +4542,7 @@
           "suitabilityScore": 71.11,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 1.41,
           "followUp10dReturn": 0.99
         },
         {
@@ -4606,7 +4553,7 @@
           "suitabilityScore": 43.89,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.5,
           "followUp10dReturn": -2.21
         }
       ]
@@ -5483,7 +5430,7 @@
           "suitabilityScore": 67.22,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.42,
           "followUp10dReturn": null
         },
         {
@@ -5494,7 +5441,7 @@
           "suitabilityScore": 45.55,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 1.74,
           "followUp10dReturn": null
         }
       ]
@@ -5827,6 +5774,117 @@
           "name": "摩根日本精选股票(QDII)A",
           "score": 46.75,
           "suitabilityScore": 46.75,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
+    },
+    {
+      "date": "2026-10-14",
+      "strategy": "RecommendationPlan",
+      "planKind": "BASE_RESEARCH",
+      "strategyVersion": "allocation-v2.4-monthly-alpha-gate",
+      "allocationWeek": "2026-10-12",
+      "action": "PAUSE",
+      "budget": 0,
+      "pauseReasons": [
+        "ACCEPTANCE_GATE"
+      ],
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-10-13",
+        "maxTradingDayLag": 2,
+        "observationCount": 24
+      },
+      "signalHealth": {
+        "status": "HEALTHY",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 20,
+          "winRate": 45,
+          "averageReturn": 0.16
+        },
+        "evidenceSource": "SHADOW",
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "liveAcceptance": {
+        "passed": false,
+        "failures": [
+          "WIN_RATE_BELOW_55",
+          "PROFIT_WIN_RATE_NOT_ABOVE_BASELINE",
+          "OUTPERFORMANCE_WIN_RATE_BELOW_55",
+          "AVERAGE_EXCESS_NOT_POSITIVE",
+          "PROFIT_FACTOR_BELOW_1_2",
+          "MEDIAN_EXCESS_NOT_POSITIVE",
+          "HISTORICAL_PURCHASE_AVAILABILITY_UNPROVEN",
+          "MONTHLY_DCA_HOLDOUT_FAILED"
+        ],
+        "metrics": {
+          "rollingWindows": 16,
+          "nonOverlappingWindows": 16,
+          "winRate": 0,
+          "benchmarkWinRate": 75,
+          "outperformanceWinRate": 25,
+          "averageExcessReturn": -5.8,
+          "avgWin": 0,
+          "avgLoss": 0,
+          "profitFactor": 0,
+          "baselineCode": "161125",
+          "holdingDays": 126,
+          "medianExcess12Week": -5.62,
+          "drawdownGapPercentagePoints": -32.93,
+          "shadowWeeks": 10,
+          "hardRiskViolations": 0,
+          "feesIncluded": true,
+          "qdiiLagIncluded": true,
+          "optimizationTrialsReported": true,
+          "historicalPurchaseAvailabilityProven": false,
+          "strategyId": "allocation-v2.4-monthly-alpha-gate",
+          "strategyIdReported": true,
+          "monthlyDcaWindows": 7,
+          "monthlyDcaOutperformanceRate": 100,
+          "monthlyDcaAverageExcessProfit": 36.7,
+          "monthlyDcaTotalExcessProfit": 298.57,
+          "monthlyDcaSameCashFlow": true,
+          "monthlyDcaIndependentHoldoutWindows": 3,
+          "monthlyDcaMinimumIndependentHoldoutWindows": 6,
+          "monthlyDcaHoldoutOutperformanceRate": 100,
+          "monthlyDcaHoldoutAverageExcessProfit": 5.15,
+          "monthlyDcaHoldoutMedianExcessReturn": 0.38,
+          "monthlyDcaExecutionAvailabilityProven": false,
+          "monthlyDcaTotalReturnBasisVerified": true,
+          "monthlyDcaCostsMatch": true,
+          "monthlyDcaLagMatches": true,
+          "monthlyDcaHoldoutPassed": false,
+          "monthlyDcaStrategyId": "monthly-relative-momentum-dca-v1",
+          "strategyEvidenceMatches": false
+        }
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 72.25,
+          "suitabilityScore": 72.25,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "007280",
+          "name": "摩根日本精选股票(QDII)A",
+          "score": 50.75,
+          "suitabilityScore": 50.75,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
