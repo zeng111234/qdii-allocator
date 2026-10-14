@@ -854,6 +854,27 @@ async function main() {
   fs.writeFileSync(RECOMMENDATION_PLAN_FILE, JSON.stringify(recommendationPlan, null, 2), "utf-8");
   console.log("[推荐计划] " + recommendationPlan.action + "，真实建议金额 " + recommendationPlan.budget + "元");
 
+  // [fix] 长期停摆告警。
+  // 背景：验收门是 fail-closed 的，本意是保护实盘。但它无法区分「证据不足，
+  // 无法验证」和「验证过了但没通过」——两者都只报 ACCEPTANCE_GATE。于是系统可以
+  // 连续数周每天认真跑、认真暂停、认真记日志，却不发出任何信号（实测 2026-07-17
+  // 起停摆 9 周无人察觉）。这里只做检测与播报，不改变任何决策语义。
+  {
+    const stallAlertTools = require("./lib/stall-detector");
+    const recordsForStall = (historyData && Array.isArray(historyData.records)) ? historyData.records : [];
+    // 把本次结果也算进序列，避免只依赖上一次运行落盘的内容
+    const withCurrent = recordsForStall.concat([{
+      date: recommendationPlan.asOf || planAsOf,
+      action: recommendationPlan.action,
+      pauseReasons: recommendationPlan.pauseReasons || []
+    }]);
+    const stallAlert = stallAlertTools.buildStallAlert(withCurrent);
+    if (stallAlert) {
+      console.warn(stallAlert);
+      result.stallAlert = stallAlert;
+    }
+  }
+
   // [fix] 定投建议（基于市场温度）
   if (result.marketTemperature && result.budget) {
     const mt = result.marketTemperature;
