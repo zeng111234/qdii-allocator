@@ -4653,7 +4653,7 @@
           "suitabilityScore": 70,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 1.53,
           "followUp10dReturn": 1.13
         },
         {
@@ -4664,7 +4664,7 @@
           "suitabilityScore": 49.44,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.13,
           "followUp10dReturn": -1.75
         }
       ]
@@ -5541,7 +5541,7 @@
           "suitabilityScore": 66.79,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.1,
           "followUp10dReturn": null
         },
         {
@@ -5554,7 +5554,7 @@
           "blockedBy": [
             "INDEX_GROUP_LIMIT"
           ],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.05,
           "followUp10dReturn": null
         }
       ]
@@ -5794,9 +5794,9 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-10-13",
-        "maxTradingDayLag": 2,
-        "observationCount": 24
+        "latestNavDate": "2026-10-14",
+        "maxTradingDayLag": 1,
+        "observationCount": 25
       },
       "signalHealth": {
         "status": "HEALTHY",
@@ -5807,8 +5807,8 @@
         },
         "shadow": {
           "count": 20,
-          "winRate": 45,
-          "averageReturn": 0.16
+          "winRate": 40,
+          "averageReturn": -0.07
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -5872,8 +5872,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 72.25,
-          "suitabilityScore": 72.25,
+          "score": 75,
+          "suitabilityScore": 75,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -5883,8 +5883,8 @@
           "rank": 2,
           "code": "007280",
           "name": "摩根日本精选股票(QDII)A",
-          "score": 50.75,
-          "suitabilityScore": 50.75,
+          "score": 51.67,
+          "suitabilityScore": 51.67,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,

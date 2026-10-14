@@ -338,7 +338,7 @@
       "custodyFee": 0.2,
       "dailyLimit": 10,
       "minPurchase": 10,
-      "status": "active",
+      "status": "suspended",
       "note": "纳指核心仓位",
       "settleDays": 2,
       "indexGroup": "NDX100"
@@ -510,5 +510,5 @@
   ],
   "_lastUpdated": "2026-10-14",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-10-14T05:56:33.295Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-10-14T14:18:39.925Z"
 }
