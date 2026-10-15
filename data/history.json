@@ -4039,7 +4039,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -1.06,
-          "followUp10dReturn": null
+          "followUp10dReturn": -0.83
         },
         {
           "rank": 2,
@@ -4053,7 +4053,7 @@
             "INDEX_GROUP_LIMIT"
           ],
           "followUp5dReturn": -1.37,
-          "followUp10dReturn": null
+          "followUp10dReturn": -2.62
         }
       ]
     },
@@ -4711,7 +4711,7 @@
           "suitabilityScore": 67.22,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.67,
           "followUp10dReturn": 1.94
         },
         {
@@ -4722,7 +4722,7 @@
           "suitabilityScore": 45.55,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 2.04,
           "followUp10dReturn": 0.51
         }
       ]
@@ -5852,8 +5852,8 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-10-14",
-        "maxTradingDayLag": 2,
+        "latestNavDate": "2026-10-15",
+        "maxTradingDayLag": 1,
         "observationCount": 25
       },
       "signalHealth": {
@@ -5865,8 +5865,8 @@
         },
         "shadow": {
           "count": 20,
-          "winRate": 40,
-          "averageReturn": -0.07
+          "winRate": 45,
+          "averageReturn": 0.09
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -5930,8 +5930,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 75,
-          "suitabilityScore": 75,
+          "score": 78.89,
+          "suitabilityScore": 78.89,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -5939,10 +5939,10 @@
         },
         {
           "rank": 2,
-          "code": "007280",
-          "name": "摩根日本精选股票(QDII)A",
-          "score": 51.67,
-          "suitabilityScore": 51.67,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 53.33,
+          "suitabilityScore": 53.33,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
