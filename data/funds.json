@@ -122,7 +122,7 @@
       "feeRate": 1.2,
       "custodyFee": 0.25,
       "dailyLimit": 100000000000,
-      "status": "active",
+      "status": "suspended",
       "settleDays": 2,
       "minPurchase": 10,
       "note": "新能源车主题QDII",
@@ -212,7 +212,7 @@
       "custodyFee": 0.25,
       "dailyLimit": 10000000000,
       "minPurchase": 10,
-      "status": "active",
+      "status": "suspended",
       "note": "港股市场精选",
       "settleDays": 2,
       "indexGroup": "HK"
@@ -240,7 +240,7 @@
       "custodyFee": 0.25,
       "dailyLimit": 1000000,
       "minPurchase": 10,
-      "status": "active",
+      "status": "suspended",
       "note": "亚太市场精选",
       "settleDays": 2,
       "indexGroup": "APAC"
@@ -365,7 +365,7 @@
       "feeRate": 0.8,
       "custodyFee": 0.2,
       "dailyLimit": 100,
-      "status": "active",
+      "status": "suspended",
       "settleDays": 2,
       "minPurchase": 10,
       "note": "新兴市场优选",
@@ -405,7 +405,7 @@
       "type": "全球产业升级",
       "feeRate": 1.2,
       "dailyLimit": 1000,
-      "status": "active",
+      "status": "suspended",
       "settleDays": 2,
       "minPurchase": 10,
       "indexGroup": "GLOBAL_UPGRADE"
@@ -427,7 +427,7 @@
       "type": "全球科技",
       "feeRate": 1.2,
       "dailyLimit": 10000,
-      "status": "active",
+      "status": "suspended",
       "settleDays": 2,
       "minPurchase": 10,
       "indexGroup": "GLOBAL_TECH"
@@ -438,7 +438,7 @@
       "type": "全球科技",
       "feeRate": 1.2,
       "dailyLimit": 5000,
-      "status": "active",
+      "status": "suspended",
       "settleDays": 2,
       "minPurchase": 10,
       "indexGroup": "GLOBAL_TECH"
@@ -502,7 +502,7 @@
       "custodyFee": 0.3,
       "dailyLimit": 10000,
       "minPurchase": 10,
-      "status": "active",
+      "status": "suspended",
       "note": "真正的全球分散，不重仓单一市场",
       "settleDays": 2,
       "indexGroup": "GLOBAL"
@@ -510,5 +510,5 @@
   ],
   "_lastUpdated": "2026-10-16",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-10-16T05:37:41.750Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-10-16T13:43:18.997Z"
 }

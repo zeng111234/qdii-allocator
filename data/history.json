@@ -4112,7 +4112,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.78,
-          "followUp10dReturn": null
+          "followUp10dReturn": 3.16
         }
       ]
     },
@@ -5559,7 +5559,7 @@
           "suitabilityScore": 48.89,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.5,
           "followUp10dReturn": null
         }
       ]
@@ -5910,7 +5910,7 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-10-15",
+        "latestNavDate": "2026-10-16",
         "maxTradingDayLag": 2,
         "observationCount": 25
       },
@@ -5923,8 +5923,8 @@
         },
         "shadow": {
           "count": 20,
-          "winRate": 45,
-          "averageReturn": 0.09
+          "winRate": 40,
+          "averageReturn": 0
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -5988,8 +5988,8 @@
           "rank": 1,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 78.89,
-          "suitabilityScore": 78.89,
+          "score": 75.28,
+          "suitabilityScore": 75.28,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -5999,8 +5999,8 @@
           "rank": 2,
           "code": "000369",
           "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 53.33,
-          "suitabilityScore": 53.33,
+          "score": 74.44,
+          "suitabilityScore": 74.44,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
