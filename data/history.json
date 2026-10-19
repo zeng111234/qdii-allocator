@@ -1,59 +1,6 @@
 {
   "records": [
     {
-      "date": "2026-07-28",
-      "strategy": "RecommendationPlan",
-      "strategyVersion": "allocation-v2.1-balanced",
-      "allocationWeek": "2026-07-27",
-      "action": "PAUSE",
-      "budget": 0,
-      "dataFreshness": {
-        "status": "FRESH",
-        "latestNavDate": "2026-07-28",
-        "maxTradingDayLag": 2,
-        "observationCount": 4
-      },
-      "signalHealth": {
-        "status": "WARMING_UP",
-        "matured": {
-          "count": 0,
-          "winRate": null,
-          "averageReturn": null
-        },
-        "shadow": {
-          "count": 2,
-          "winRate": 100,
-          "averageReturn": 1.08
-        },
-        "breakerTriggered": false,
-        "recovered": false
-      },
-      "ranked": [
-        {
-          "rank": 1,
-          "code": "096001",
-          "name": "大成标普500A(QDII)",
-          "score": 66.25,
-          "suitabilityScore": 66.25,
-          "proposedAmount": 0,
-          "blockedBy": [],
-          "followUp5dReturn": -0.26,
-          "followUp10dReturn": 0.38
-        },
-        {
-          "rank": 2,
-          "code": "000369",
-          "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 60.92,
-          "suitabilityScore": 60.92,
-          "proposedAmount": 0,
-          "blockedBy": [],
-          "followUp5dReturn": -2.74,
-          "followUp10dReturn": -1.39
-        }
-      ]
-    },
-    {
       "date": "2026-07-29",
       "strategy": "RecommendationPlan",
       "strategyVersion": "allocation-v2.1-balanced",
@@ -4101,7 +4048,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.36,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.17
         },
         {
           "rank": 2,
@@ -6001,6 +5948,117 @@
           "name": "广发全球医疗保健指数人民币(QDII)A",
           "score": 74.44,
           "suitabilityScore": 74.44,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
+    },
+    {
+      "date": "2026-10-19",
+      "strategy": "RecommendationPlan",
+      "planKind": "BASE_RESEARCH",
+      "strategyVersion": "allocation-v2.4-monthly-alpha-gate",
+      "allocationWeek": "2026-10-19",
+      "action": "PAUSE",
+      "budget": 0,
+      "pauseReasons": [
+        "ACCEPTANCE_GATE"
+      ],
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-10-16",
+        "maxTradingDayLag": 2,
+        "observationCount": 25
+      },
+      "signalHealth": {
+        "status": "HEALTHY",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 20,
+          "winRate": 40,
+          "averageReturn": 0
+        },
+        "evidenceSource": "SHADOW",
+        "breakerTriggered": false,
+        "recovered": false
+      },
+      "liveAcceptance": {
+        "passed": false,
+        "failures": [
+          "WIN_RATE_BELOW_55",
+          "PROFIT_WIN_RATE_NOT_ABOVE_BASELINE",
+          "OUTPERFORMANCE_WIN_RATE_BELOW_55",
+          "AVERAGE_EXCESS_NOT_POSITIVE",
+          "PROFIT_FACTOR_BELOW_1_2",
+          "MEDIAN_EXCESS_NOT_POSITIVE",
+          "HISTORICAL_PURCHASE_AVAILABILITY_UNPROVEN",
+          "MONTHLY_DCA_HOLDOUT_FAILED"
+        ],
+        "metrics": {
+          "rollingWindows": 16,
+          "nonOverlappingWindows": 16,
+          "winRate": 0,
+          "benchmarkWinRate": 75,
+          "outperformanceWinRate": 25,
+          "averageExcessReturn": -5.8,
+          "avgWin": 0,
+          "avgLoss": 0,
+          "profitFactor": 0,
+          "baselineCode": "161125",
+          "holdingDays": 126,
+          "medianExcess12Week": -5.62,
+          "drawdownGapPercentagePoints": -32.93,
+          "shadowWeeks": 10,
+          "hardRiskViolations": 0,
+          "feesIncluded": true,
+          "qdiiLagIncluded": true,
+          "optimizationTrialsReported": true,
+          "historicalPurchaseAvailabilityProven": false,
+          "strategyId": "allocation-v2.4-monthly-alpha-gate",
+          "strategyIdReported": true,
+          "monthlyDcaWindows": 7,
+          "monthlyDcaOutperformanceRate": 100,
+          "monthlyDcaAverageExcessProfit": 36.7,
+          "monthlyDcaTotalExcessProfit": 298.57,
+          "monthlyDcaSameCashFlow": true,
+          "monthlyDcaIndependentHoldoutWindows": 3,
+          "monthlyDcaMinimumIndependentHoldoutWindows": 6,
+          "monthlyDcaHoldoutOutperformanceRate": 100,
+          "monthlyDcaHoldoutAverageExcessProfit": 5.15,
+          "monthlyDcaHoldoutMedianExcessReturn": 0.38,
+          "monthlyDcaExecutionAvailabilityProven": false,
+          "monthlyDcaTotalReturnBasisVerified": true,
+          "monthlyDcaCostsMatch": true,
+          "monthlyDcaLagMatches": true,
+          "monthlyDcaHoldoutPassed": false,
+          "monthlyDcaStrategyId": "monthly-relative-momentum-dca-v1",
+          "strategyEvidenceMatches": false
+        }
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 77.22,
+          "suitabilityScore": 77.22,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 72.78,
+          "suitabilityScore": 72.78,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
