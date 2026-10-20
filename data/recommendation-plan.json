@@ -5,12 +5,11 @@
   "syncRevision": 5,
   "riskAnchorValue": 1758.5,
   "asOf": "2026-10-20",
-  "action": "HARD_PAUSE",
+  "action": "STRATEGIC_DCA",
   "pauseReasons": [
     "ACCEPTANCE_GATE",
     "ALPHA_GATE_NOT_PASSED",
-    "AGGRESSIVE_BETA_NOT_ALPHA",
-    "PLAN_EXECUTION_WINDOW_INVALID"
+    "AGGRESSIVE_BETA_NOT_ALPHA"
   ],
   "dataFreshness": {
     "status": "FRESH",
@@ -18,8 +17,37 @@
     "maxTradingDayLag": 2,
     "observationCount": 25
   },
-  "budget": 0,
-  "candidates": [],
+  "budget": 20,
+  "candidates": [
+    {
+      "code": "017641",
+      "name": "摩根标普500指数(QDII)A",
+      "indexGroup": "SPX500",
+      "bucket": "US_BROAD",
+      "marketScore": null,
+      "suitabilityScore": null,
+      "proposedAmount": 10,
+      "reasons": [
+        "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
+      ],
+      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额",
+      "blockedBy": []
+    },
+    {
+      "code": "000369",
+      "name": "广发全球医疗保健指数人民币(QDII)A",
+      "indexGroup": "GLOBAL_MEDICAL",
+      "bucket": "DEFENSIVE",
+      "marketScore": null,
+      "suitabilityScore": null,
+      "proposedAmount": 10,
+      "reasons": [
+        "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
+      ],
+      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额",
+      "blockedBy": []
+    }
+  ],
   "portfolioRisk": {
     "holdingCount": 25,
     "currentValue": 1641.21,
@@ -84,7 +112,26 @@
     "DEFENSIVE": 0.0545,
     "CASH": 0
   },
-  "executionRoutes": [],
+  "executionRoutes": [
+    {
+      "bucket": "US_BROAD",
+      "indexGroup": "SPX500",
+      "exposureKey": "US_BROAD:SPX500",
+      "code": "017641",
+      "name": "摩根标普500指数(QDII)A",
+      "amount": 10,
+      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
+    },
+    {
+      "bucket": "DEFENSIVE",
+      "indexGroup": "GLOBAL_MEDICAL",
+      "exposureKey": "DEFENSIVE:GLOBAL_MEDICAL",
+      "code": "000369",
+      "name": "广发全球医疗保健指数人民币(QDII)A",
+      "amount": 10,
+      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
+    }
+  ],
   "confidence": "LOW",
   "benchmarkComparison": {},
   "liveAcceptance": {
@@ -471,10 +518,10 @@
     "requestedBudget": 20,
     "signalConfirmed": false
   },
-  "decisionMode": "DATA_BLOCKED",
+  "decisionMode": "AGGRESSIVE_BETA_DCA",
   "recommendationBasis": "AGGRESSIVE_TARGET_ALLOCATION",
   "expectedEdge": "HIGHER_EXPECTED_BETA_NOT_PROVEN_ALPHA",
-  "blockedStage": "PLAN_EXECUTION_WINDOW_INVALID",
+  "blockedStage": null,
   "routeDiagnostics": {
     "requestedBudget": 20,
     "allocatedBudget": 20,
@@ -487,9 +534,38 @@
     "blockReasons": [],
     "remainingBudget": 0
   },
-  "ranked": [],
+  "ranked": [
+    {
+      "code": "017641",
+      "name": "摩根标普500指数(QDII)A",
+      "indexGroup": "SPX500",
+      "bucket": "US_BROAD",
+      "marketScore": null,
+      "suitabilityScore": null,
+      "proposedAmount": 10,
+      "reasons": [
+        "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
+      ],
+      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额",
+      "blockedBy": []
+    },
+    {
+      "code": "000369",
+      "name": "广发全球医疗保健指数人民币(QDII)A",
+      "indexGroup": "GLOBAL_MEDICAL",
+      "bucket": "DEFENSIVE",
+      "marketScore": null,
+      "suitabilityScore": null,
+      "proposedAmount": 10,
+      "reasons": [
+        "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额"
+      ],
+      "reason": "进取型战略配置：只补核心指数低配；承担更高市场风险，不是择时超额",
+      "blockedBy": []
+    }
+  ],
   "personalized": true,
-  "generatedAt": "2026-10-19T16:14:26.877Z",
+  "generatedAt": "2026-10-20T05:49:49.787Z",
   "validFrom": "2026-10-20T01:00:00.000Z",
   "validUntil": "2026-10-20T06:00:00.000Z",
   "ledgerChecksum": "bc92742476df7306091971b0c385a6e7b91d75822d8faf74d7569aa82cfdd906",
