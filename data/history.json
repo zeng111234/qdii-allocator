@@ -5400,7 +5400,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.5,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.15
         }
       ]
     },
@@ -5832,7 +5832,7 @@
           "suitabilityScore": 75.28,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.63,
           "followUp10dReturn": null
         },
         {
@@ -5843,7 +5843,7 @@
           "suitabilityScore": 74.44,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 1.4,
           "followUp10dReturn": null
         }
       ]
@@ -6080,18 +6080,16 @@
       "action": "PAUSE",
       "budget": 0,
       "pauseReasons": [
-        "ACCEPTANCE_GATE",
-        "SIGNAL_BREAKER",
-        "PORTFOLIO_VALUATION_INCOMPLETE"
+        "ACCEPTANCE_GATE"
       ],
       "dataFreshness": {
-        "status": "PORTFOLIO_INCOMPLETE",
-        "latestNavDate": "2026-10-20",
-        "maxTradingDayLag": 2,
+        "status": "FRESH",
+        "latestNavDate": "2026-10-21",
+        "maxTradingDayLag": 1,
         "observationCount": 26
       },
       "signalHealth": {
-        "status": "PAUSE",
+        "status": "HEALTHY",
         "matured": {
           "count": 0,
           "winRate": null,
@@ -6099,11 +6097,11 @@
         },
         "shadow": {
           "count": 20,
-          "winRate": 35,
-          "averageReturn": -0.06
+          "winRate": 40,
+          "averageReturn": 0.03
         },
         "evidenceSource": "SHADOW",
-        "breakerTriggered": true,
+        "breakerTriggered": false,
         "recovered": false
       },
       "liveAcceptance": {
@@ -6164,13 +6162,10 @@
           "rank": 1,
           "code": "000369",
           "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 78.75,
-          "suitabilityScore": 48.75,
+          "score": 78.13,
+          "suitabilityScore": 78.13,
           "proposedAmount": 0,
-          "blockedBy": [
-            "FUND_WEIGHT_LIMIT",
-            "INDEX_GROUP_LIMIT"
-          ],
+          "blockedBy": [],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         },
@@ -6178,13 +6173,10 @@
           "rank": 2,
           "code": "017641",
           "name": "摩根标普500指数(QDII)A",
-          "score": 71.56,
-          "suitabilityScore": 41.56,
+          "score": 73.75,
+          "suitabilityScore": 73.75,
           "proposedAmount": 0,
-          "blockedBy": [
-            "FUND_WEIGHT_LIMIT",
-            "INDEX_GROUP_LIMIT"
-          ],
+          "blockedBy": [],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         }
