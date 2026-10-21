@@ -180,7 +180,7 @@
       "shareClass": "E",
       "feeRate": 0,
       "custodyFee": 0.1,
-      "dailyLimit": 100000000000,
+      "dailyLimit": 5000000,
       "status": "tracking_only",
       "settleDays": 1,
       "minPurchase": 10,
@@ -459,7 +459,7 @@
       "name": "长城全球新能源车(QDII)A",
       "type": "新能源车",
       "feeRate": 1.2,
-      "dailyLimit": 2000,
+      "dailyLimit": 500000,
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
@@ -508,7 +508,7 @@
       "indexGroup": "GLOBAL"
     }
   ],
-  "_lastUpdated": "2026-10-20",
+  "_lastUpdated": "2026-10-21",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-10-20T14:04:25.968Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-10-21T05:49:30.631Z"
 }
