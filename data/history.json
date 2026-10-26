@@ -5449,7 +5449,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.43,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.33
         },
         {
           "rank": 2,
@@ -5781,7 +5781,7 @@
           "suitabilityScore": 77.22,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.9,
           "followUp10dReturn": null
         },
         {
@@ -5792,7 +5792,7 @@
           "suitabilityScore": 72.78,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 2.55,
           "followUp10dReturn": null
         }
       ]
@@ -6255,8 +6255,8 @@
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-10-23",
-        "maxTradingDayLag": 2,
+        "latestNavDate": "2026-10-26",
+        "maxTradingDayLag": 1,
         "observationCount": 26
       },
       "signalHealth": {
@@ -6269,7 +6269,7 @@
         "shadow": {
           "count": 20,
           "winRate": 40,
-          "averageReturn": 0.03
+          "averageReturn": 0.07
         },
         "evidenceSource": "SHADOW",
         "breakerTriggered": false,
@@ -6301,7 +6301,7 @@
           "holdingDays": 126,
           "medianExcess12Week": -5.62,
           "drawdownGapPercentagePoints": -32.93,
-          "shadowWeeks": 11,
+          "shadowWeeks": 12,
           "hardRiskViolations": 0,
           "feesIncluded": true,
           "qdiiLagIncluded": true,
@@ -6331,10 +6331,10 @@
       "ranked": [
         {
           "rank": 1,
-          "code": "017641",
-          "name": "摩根标普500指数(QDII)A",
-          "score": 77.19,
-          "suitabilityScore": 77.19,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 75,
+          "suitabilityScore": 75,
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": null,
@@ -6342,12 +6342,14 @@
         },
         {
           "rank": 2,
-          "code": "000369",
-          "name": "广发全球医疗保健指数人民币(QDII)A",
-          "score": 76.25,
-          "suitabilityScore": 76.25,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 74.06,
+          "suitabilityScore": 59.06,
           "proposedAmount": 0,
-          "blockedBy": [],
+          "blockedBy": [
+            "TREND_DETERIORATING"
+          ],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         }
