@@ -5506,7 +5506,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.73,
-          "followUp10dReturn": null
+          "followUp10dReturn": -1.02
         },
         {
           "rank": 2,
@@ -5517,7 +5517,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -0.57,
-          "followUp10dReturn": null
+          "followUp10dReturn": 1.97
         }
       ]
     },
@@ -5617,7 +5617,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.63,
-          "followUp10dReturn": null
+          "followUp10dReturn": 0.09
         },
         {
           "rank": 2,
@@ -5628,7 +5628,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 1.4,
-          "followUp10dReturn": null
+          "followUp10dReturn": 1.97
         }
       ]
     },
@@ -5839,7 +5839,7 @@
           "suitabilityScore": 78.75,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.56,
           "followUp10dReturn": null
         },
         {
@@ -5850,7 +5850,7 @@
           "suitabilityScore": 71.56,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.53,
           "followUp10dReturn": null
         }
       ]
@@ -5950,7 +5950,7 @@
           "suitabilityScore": 78.13,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.75,
           "followUp10dReturn": null
         },
         {
@@ -5961,7 +5961,7 @@
           "suitabilityScore": 73.75,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.06,
           "followUp10dReturn": null
         }
       ]
@@ -6061,7 +6061,7 @@
           "suitabilityScore": 77.5,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.77,
           "followUp10dReturn": null
         },
         {
@@ -6072,7 +6072,7 @@
           "suitabilityScore": 76.56,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.11,
           "followUp10dReturn": null
         }
       ]
@@ -6310,16 +6310,17 @@
       "action": "PAUSE",
       "budget": 0,
       "pauseReasons": [
-        "ACCEPTANCE_GATE"
+        "ACCEPTANCE_GATE",
+        "SIGNAL_BREAKER"
       ],
       "dataFreshness": {
         "status": "FRESH",
-        "latestNavDate": "2026-10-26",
-        "maxTradingDayLag": 2,
+        "latestNavDate": "2026-10-27",
+        "maxTradingDayLag": 1,
         "observationCount": 26
       },
       "signalHealth": {
-        "status": "HEALTHY",
+        "status": "PAUSE",
         "matured": {
           "count": 0,
           "winRate": null,
@@ -6327,11 +6328,11 @@
         },
         "shadow": {
           "count": 20,
-          "winRate": 40,
-          "averageReturn": 0.07
+          "winRate": 30,
+          "averageReturn": -0.24
         },
         "evidenceSource": "SHADOW",
-        "breakerTriggered": false,
+        "breakerTriggered": true,
         "recovered": false
       },
       "liveAcceptance": {
@@ -6401,14 +6402,12 @@
         },
         {
           "rank": 2,
-          "code": "017641",
-          "name": "摩根标普500指数(QDII)A",
-          "score": 74.06,
-          "suitabilityScore": 59.06,
+          "code": "007280",
+          "name": "摩根日本精选股票(QDII)A",
+          "score": 58.75,
+          "suitabilityScore": 58.75,
           "proposedAmount": 0,
-          "blockedBy": [
-            "TREND_DETERIORATING"
-          ],
+          "blockedBy": [],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         }
