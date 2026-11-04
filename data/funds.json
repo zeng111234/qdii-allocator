@@ -426,7 +426,7 @@
       "name": "富国全球科技互联网股票(QDII)A",
       "type": "全球科技",
       "feeRate": 1.2,
-      "dailyLimit": 10000,
+      "dailyLimit": 100000,
       "status": "active",
       "settleDays": 2,
       "minPurchase": 10,
@@ -510,5 +510,5 @@
   ],
   "_lastUpdated": "2026-11-04",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-11-03T16:48:23.080Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-11-04T07:21:39.679Z"
 }
