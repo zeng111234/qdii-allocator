@@ -7,12 +7,13 @@
   "asOf": "2026-11-11",
   "action": "HARD_PAUSE",
   "pauseReasons": [
-    "HOLDING_NAV_STALE:040046",
-    "DATA_STALE",
+    "ACCEPTANCE_GATE",
+    "ALPHA_GATE_NOT_PASSED",
+    "AGGRESSIVE_BETA_NOT_ALPHA",
     "NAV_REFRESH_FAILED"
   ],
   "dataFreshness": {
-    "status": "PORTFOLIO_INCOMPLETE",
+    "status": "FRESH",
     "latestNavDate": "2026-11-10",
     "maxTradingDayLag": 2,
     "observationCount": 26
@@ -21,18 +22,12 @@
   "candidates": [],
   "portfolioRisk": {
     "holdingCount": 25,
-    "currentValue": 1558.38,
-    "valuedSubtotal": 1558.38,
-    "totalWithCash": 1558.38,
+    "currentValue": 1562.62,
+    "valuedSubtotal": 1562.62,
+    "totalWithCash": 1562.62,
     "unknownHoldings": [],
     "unvaluedHoldings": [],
-    "navIssues": [
-      {
-        "code": "040046",
-        "reason": "STALE",
-        "lag": 3
-      }
-    ],
+    "navIssues": [],
     "pendingInvested": 0,
     "overduePendingCodes": [],
     "valuationComplete": true
@@ -75,18 +70,18 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.0991,
-    "GROWTH_TECH": 0.6377,
-    "NON_US": 0.2143,
-    "DEFENSIVE": 0.049,
+    "US_BROAD": 0.0988,
+    "GROWTH_TECH": 0.6387,
+    "NON_US": 0.2137,
+    "DEFENSIVE": 0.0489,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
-    "US_BROAD": 0.4009,
-    "GROWTH_TECH": -0.2877,
-    "NON_US": -0.1643,
-    "DEFENSIVE": 0.051,
+    "US_BROAD": 0.4012,
+    "GROWTH_TECH": -0.2887,
+    "NON_US": -0.1637,
+    "DEFENSIVE": 0.0511,
     "CASH": 0
   },
   "executionRoutes": [],
@@ -118,7 +113,7 @@
       "holdingDays": 126,
       "medianExcess12Week": -5.1,
       "drawdownGapPercentagePoints": -32.93,
-      "shadowWeeks": 13,
+      "shadowWeeks": 12,
       "hardRiskViolations": 0,
       "feesIncluded": true,
       "qdiiLagIncluded": true,
@@ -145,17 +140,14 @@
       "strategyEvidenceMatches": false
     }
   },
-  "riskAnchorDrawdown": -0.1138,
+  "riskAnchorDrawdown": -0.1114,
   "marketRanking": [
     {
       "code": "000369",
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
       "marketScore": 80,
-      "blockedBy": [
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
+      "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
     },
@@ -164,10 +156,7 @@
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
       "marketScore": 69.38,
-      "blockedBy": [
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
+      "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
     },
@@ -176,10 +165,7 @@
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
       "marketScore": 65.94,
-      "blockedBy": [
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
-      ],
+      "blockedBy": [],
       "channelCount": 1,
       "routingAlternatives": []
     },
@@ -189,9 +175,7 @@
       "indexGroup": "US_REIT",
       "marketScore": 50,
       "blockedBy": [
-        "PORTFOLIO_FULL",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
       ],
       "channelCount": 1,
       "routingAlternatives": []
@@ -202,9 +186,7 @@
       "indexGroup": "JAPAN",
       "marketScore": 49.06,
       "blockedBy": [
-        "TREND_DETERIORATING",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "TREND_DETERIORATING"
       ],
       "channelCount": 1,
       "routingAlternatives": []
@@ -217,7 +199,6 @@
       "blockedBy": [
         "TREND_DETERIORATING",
         "PORTFOLIO_FULL",
-        "FUND_WEIGHT_LIMIT",
         "INDEX_GROUP_LIMIT"
       ],
       "channelCount": 3,
@@ -233,9 +214,7 @@
       "marketScore": 27.19,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
-        "PORTFOLIO_FULL",
-        "FUND_WEIGHT_LIMIT",
-        "INDEX_GROUP_LIMIT"
+        "PORTFOLIO_FULL"
       ],
       "channelCount": 1,
       "routingAlternatives": []
@@ -313,10 +292,9 @@
       "code": "040046",
       "name": "华安纳斯达克100A(QDII)",
       "blockedBy": [
-        "NOT_BUYABLE",
-        "STALE_DATA"
+        "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-11-06"
+      "latestNavDate": "2026-11-09"
     },
     {
       "code": "050015",
@@ -494,20 +472,29 @@
     "dailySpent": 0,
     "weeklyManualBuysIncluded": true,
     "marketTemperature": 50,
-    "overheatReduced": false
+    "overheatReduced": false,
+    "dailyLimit": 20,
+    "dailyRemaining": 20,
+    "weeklyLimit": 100,
+    "weeklyRemaining": 100,
+    "requestedBudget": 20,
+    "signalConfirmed": false
   },
   "decisionMode": "DATA_BLOCKED",
+  "recommendationBasis": "AGGRESSIVE_TARGET_ALLOCATION",
+  "expectedEdge": "HIGHER_EXPECTED_BETA_NOT_PROVEN_ALPHA",
   "blockedStage": "NAV_REFRESH_FAILED",
   "routeDiagnostics": {
-    "requestedBudget": 0,
-    "allocatedBudget": 0,
-    "eligibleBuckets": [],
-    "eligibleHeldChannelCount": 0,
+    "requestedBudget": 20,
+    "allocatedBudget": 20,
+    "eligibleBuckets": [
+      "US_BROAD",
+      "DEFENSIVE"
+    ],
+    "eligibleHeldChannelCount": 2,
     "eligibleNewChannelCount": 0,
-    "blockReasons": [
-      "HOLDING_NAV_STALE:040046",
-      "DATA_STALE"
-    ]
+    "blockReasons": [],
+    "remainingBudget": 0
   },
   "ranked": [],
   "personalized": true,

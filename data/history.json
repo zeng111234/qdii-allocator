@@ -6614,11 +6614,10 @@
       "action": "PAUSE",
       "budget": 0,
       "pauseReasons": [
-        "ACCEPTANCE_GATE",
-        "PORTFOLIO_VALUATION_INCOMPLETE"
+        "ACCEPTANCE_GATE"
       ],
       "dataFreshness": {
-        "status": "PORTFOLIO_INCOMPLETE",
+        "status": "FRESH",
         "latestNavDate": "2026-11-10",
         "maxTradingDayLag": 2,
         "observationCount": 26
@@ -6665,7 +6664,7 @@
           "holdingDays": 126,
           "medianExcess12Week": -5.1,
           "drawdownGapPercentagePoints": -32.93,
-          "shadowWeeks": 13,
+          "shadowWeeks": 12,
           "hardRiskViolations": 0,
           "feesIncluded": true,
           "qdiiLagIncluded": true,
@@ -6698,12 +6697,9 @@
           "code": "000369",
           "name": "广发全球医疗保健指数人民币(QDII)A",
           "score": 80,
-          "suitabilityScore": 50,
+          "suitabilityScore": 80,
           "proposedAmount": 0,
-          "blockedBy": [
-            "FUND_WEIGHT_LIMIT",
-            "INDEX_GROUP_LIMIT"
-          ],
+          "blockedBy": [],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         },
@@ -6712,12 +6708,9 @@
           "code": "000614",
           "name": "华安德国DAX30A(QDII)",
           "score": 69.38,
-          "suitabilityScore": 39.38,
+          "suitabilityScore": 69.38,
           "proposedAmount": 0,
-          "blockedBy": [
-            "FUND_WEIGHT_LIMIT",
-            "INDEX_GROUP_LIMIT"
-          ],
+          "blockedBy": [],
           "followUp5dReturn": null,
           "followUp10dReturn": null
         }
