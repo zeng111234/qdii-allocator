@@ -6652,7 +6652,7 @@
           "holdingDays": 126,
           "medianExcess12Week": -5.1,
           "drawdownGapPercentagePoints": -32.93,
-          "shadowWeeks": 13,
+          "shadowWeeks": 12,
           "hardRiskViolations": 0,
           "feesIncluded": true,
           "qdiiLagIncluded": true,
