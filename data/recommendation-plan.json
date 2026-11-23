@@ -1,10 +1,10 @@
 {
   "schemaVersion": "PersonalizedRecommendationPlanV2",
   "strategyVersion": "personalized-target-allocation-v2.1",
-  "allocationWeek": "2026-11-16",
+  "allocationWeek": "2026-11-23",
   "syncRevision": 5,
   "riskAnchorValue": 1758.5,
-  "asOf": "2026-11-21",
+  "asOf": "2026-11-23",
   "action": "HARD_PAUSE",
   "pauseReasons": [
     "RISK_ANCHOR_DRAWDOWN_15",
@@ -12,17 +12,17 @@
   ],
   "dataFreshness": {
     "status": "FRESH",
-    "latestNavDate": "2026-11-19",
-    "maxTradingDayLag": 1,
-    "observationCount": 28
+    "latestNavDate": "2026-11-20",
+    "maxTradingDayLag": 2,
+    "observationCount": 26
   },
   "budget": 0,
   "candidates": [],
   "portfolioRisk": {
     "holdingCount": 25,
-    "currentValue": 1493.17,
-    "valuedSubtotal": 1493.17,
-    "totalWithCash": 1493.17,
+    "currentValue": 1490.18,
+    "valuedSubtotal": 1490.18,
+    "totalWithCash": 1490.18,
     "unknownHoldings": [],
     "unvaluedHoldings": [],
     "navIssues": [],
@@ -68,18 +68,18 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.0992,
-    "GROWTH_TECH": 0.6368,
-    "NON_US": 0.2137,
-    "DEFENSIVE": 0.0503,
+    "US_BROAD": 0.0994,
+    "GROWTH_TECH": 0.6372,
+    "NON_US": 0.213,
+    "DEFENSIVE": 0.0504,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
-    "US_BROAD": 0.4008,
-    "GROWTH_TECH": -0.2868,
-    "NON_US": -0.1637,
-    "DEFENSIVE": 0.0497,
+    "US_BROAD": 0.4006,
+    "GROWTH_TECH": -0.2872,
+    "NON_US": -0.163,
+    "DEFENSIVE": 0.0496,
     "CASH": 0
   },
   "executionRoutes": [],
@@ -138,13 +138,22 @@
       "strategyEvidenceMatches": false
     }
   },
-  "riskAnchorDrawdown": -0.1509,
+  "riskAnchorDrawdown": -0.1526,
   "marketRanking": [
+    {
+      "code": "000369",
+      "name": "广发全球医疗保健指数人民币(QDII)A",
+      "indexGroup": "GLOBAL_MEDICAL",
+      "marketScore": 79.38,
+      "blockedBy": [],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
     {
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 75,
+      "marketScore": 70.31,
       "blockedBy": [
         "TREND_DETERIORATING"
       ],
@@ -155,7 +164,7 @@
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
-      "marketScore": 67.91,
+      "marketScore": 67.5,
       "blockedBy": [
         "TREND_DETERIORATING"
       ],
@@ -166,7 +175,7 @@
       "code": "000179",
       "name": "广发美国房地产A(QDII)",
       "indexGroup": "US_REIT",
-      "marketScore": 64.58,
+      "marketScore": 61.25,
       "blockedBy": [
         "PORTFOLIO_FULL"
       ],
@@ -177,22 +186,33 @@
       "code": "019524",
       "name": "华泰柏瑞纳斯达克100指数(QDII)A",
       "indexGroup": "NDX100",
-      "marketScore": 43.33,
+      "marketScore": 42.19,
       "blockedBy": [
         "TREND_DETERIORATING",
         "INDEX_GROUP_LIMIT"
       ],
       "channelCount": 3,
       "routingAlternatives": [
-        "539001",
-        "000834"
+        "000834",
+        "539001"
       ]
+    },
+    {
+      "code": "007280",
+      "name": "摩根日本精选股票(QDII)A",
+      "indexGroup": "JAPAN",
+      "marketScore": 38.44,
+      "blockedBy": [
+        "TREND_DETERIORATING"
+      ],
+      "channelCount": 1,
+      "routingAlternatives": []
     },
     {
       "code": "320013",
       "name": "诺安全球黄金(QDII-FOF)A",
       "indexGroup": "GOLD",
-      "marketScore": 20.83,
+      "marketScore": 18.44,
       "blockedBy": [
         "DRAWDOWN_OVER_20",
         "TREND_DETERIORATING",
@@ -210,7 +230,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-19"
+      "latestNavDate": "2026-11-20"
     },
     {
       "code": "001092",
@@ -234,7 +254,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-19"
+      "latestNavDate": "2026-11-20"
     },
     {
       "code": "015558",
@@ -352,17 +372,10 @@
       "latestNavDate": "2026-11-19"
     },
     {
-      "code": "007280",
-      "name": "摩根日本精选股票(QDII)A",
-      "blockedBy": [
-        "NOT_BUYABLE"
-      ],
-      "latestNavDate": "2026-11-20"
-    },
-    {
       "code": "008763",
       "name": "天弘越南市场股票(QDII)A",
       "blockedBy": [
+        "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
       "latestNavDate": "2026-11-19"
@@ -373,7 +386,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-19"
+      "latestNavDate": "2026-11-20"
     },
     {
       "code": "006373",
@@ -405,21 +418,13 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-19"
+      "latestNavDate": "2026-11-20"
     },
     {
       "code": "501226",
       "name": "长城全球新能源车(QDII)A",
       "blockedBy": [
         "SATELLITE_ONLY"
-      ],
-      "latestNavDate": "2026-11-19"
-    },
-    {
-      "code": "000369",
-      "name": "广发全球医疗保健指数人民币(QDII)A",
-      "blockedBy": [
-        "NOT_BUYABLE"
       ],
       "latestNavDate": "2026-11-19"
     },
@@ -432,7 +437,7 @@
       "latestNavDate": "2026-11-19"
     }
   ],
-  "date": "2026-11-21",
+  "date": "2026-11-23",
   "decisionRevision": 1,
   "riskProfile": "AGGRESSIVE",
   "targetBuckets": {
