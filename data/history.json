@@ -1,118 +1,6 @@
 {
   "records": [
     {
-      "date": "2026-09-07",
-      "strategy": "RecommendationPlan",
-      "planKind": "BASE_RESEARCH",
-      "strategyVersion": "allocation-v2.4-monthly-alpha-gate",
-      "allocationWeek": "2026-09-07",
-      "action": "PAUSE",
-      "budget": 0,
-      "pauseReasons": [
-        "ACCEPTANCE_GATE"
-      ],
-      "dataFreshness": {
-        "status": "FRESH",
-        "latestNavDate": "2026-09-07",
-        "maxTradingDayLag": 1,
-        "observationCount": 23
-      },
-      "signalHealth": {
-        "status": "HEALTHY",
-        "matured": {
-          "count": 0,
-          "winRate": null,
-          "averageReturn": null
-        },
-        "shadow": {
-          "count": 20,
-          "winRate": 50,
-          "averageReturn": -0.49
-        },
-        "evidenceSource": "SHADOW",
-        "breakerTriggered": false,
-        "recovered": false
-      },
-      "liveAcceptance": {
-        "passed": false,
-        "failures": [
-          "WIN_RATE_BELOW_55",
-          "PROFIT_WIN_RATE_NOT_ABOVE_BASELINE",
-          "OUTPERFORMANCE_WIN_RATE_BELOW_55",
-          "AVERAGE_EXCESS_NOT_POSITIVE",
-          "PROFIT_FACTOR_BELOW_1_2",
-          "MEDIAN_EXCESS_NOT_POSITIVE",
-          "INSUFFICIENT_SHADOW_WEEKS",
-          "HISTORICAL_PURCHASE_AVAILABILITY_UNPROVEN",
-          "MONTHLY_DCA_HOLDOUT_FAILED"
-        ],
-        "metrics": {
-          "rollingWindows": 16,
-          "nonOverlappingWindows": 16,
-          "winRate": 0,
-          "benchmarkWinRate": 75,
-          "outperformanceWinRate": 25,
-          "averageExcessReturn": -5.8,
-          "avgWin": 0,
-          "avgLoss": 0,
-          "profitFactor": 0,
-          "baselineCode": "161125",
-          "holdingDays": 126,
-          "medianExcess12Week": -5.62,
-          "drawdownGapPercentagePoints": -32.93,
-          "shadowWeeks": 5,
-          "hardRiskViolations": 0,
-          "feesIncluded": true,
-          "qdiiLagIncluded": true,
-          "optimizationTrialsReported": true,
-          "historicalPurchaseAvailabilityProven": false,
-          "strategyId": "allocation-v2.4-monthly-alpha-gate",
-          "strategyIdReported": true,
-          "monthlyDcaWindows": 7,
-          "monthlyDcaOutperformanceRate": 100,
-          "monthlyDcaAverageExcessProfit": 36.7,
-          "monthlyDcaTotalExcessProfit": 298.57,
-          "monthlyDcaSameCashFlow": true,
-          "monthlyDcaIndependentHoldoutWindows": 3,
-          "monthlyDcaMinimumIndependentHoldoutWindows": 6,
-          "monthlyDcaHoldoutOutperformanceRate": 100,
-          "monthlyDcaHoldoutAverageExcessProfit": 5.15,
-          "monthlyDcaHoldoutMedianExcessReturn": 0.38,
-          "monthlyDcaExecutionAvailabilityProven": false,
-          "monthlyDcaTotalReturnBasisVerified": true,
-          "monthlyDcaCostsMatch": true,
-          "monthlyDcaLagMatches": true,
-          "monthlyDcaHoldoutPassed": false,
-          "monthlyDcaStrategyId": "monthly-relative-momentum-dca-v1",
-          "strategyEvidenceMatches": false
-        }
-      },
-      "ranked": [
-        {
-          "rank": 1,
-          "code": "017641",
-          "name": "摩根标普500指数(QDII)A",
-          "score": 75.45,
-          "suitabilityScore": 75.45,
-          "proposedAmount": 0,
-          "blockedBy": [],
-          "followUp5dReturn": -0.82,
-          "followUp10dReturn": -2.23
-        },
-        {
-          "rank": 2,
-          "code": "007280",
-          "name": "摩根日本精选股票(QDII)A",
-          "score": 53.64,
-          "suitabilityScore": 53.64,
-          "proposedAmount": 0,
-          "blockedBy": [],
-          "followUp5dReturn": -1.94,
-          "followUp10dReturn": -0.97
-        }
-      ]
-    },
-    {
       "date": "2026-09-08",
       "strategy": "RecommendationPlan",
       "planKind": "BASE_RESEARCH",
@@ -5573,7 +5461,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": 0.07,
-          "followUp10dReturn": null
+          "followUp10dReturn": -3.84
         },
         {
           "rank": 2,
@@ -5584,7 +5472,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -1.24,
-          "followUp10dReturn": null
+          "followUp10dReturn": -5.93
         }
       ]
     },
@@ -5684,7 +5572,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -1.52,
-          "followUp10dReturn": null
+          "followUp10dReturn": -4.14
         },
         {
           "rank": 2,
@@ -5695,7 +5583,7 @@
           "proposedAmount": 0,
           "blockedBy": [],
           "followUp5dReturn": -2.93,
-          "followUp10dReturn": null
+          "followUp10dReturn": -5.48
         }
       ]
     },
@@ -6016,7 +5904,7 @@
           "suitabilityScore": 81.88,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -2.66,
           "followUp10dReturn": null
         },
         {
@@ -6027,7 +5915,7 @@
           "suitabilityScore": 71.25,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -2.63,
           "followUp10dReturn": null
         }
       ]
@@ -6127,7 +6015,7 @@
           "suitabilityScore": 81.88,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.99,
           "followUp10dReturn": null
         },
         {
@@ -6138,7 +6026,7 @@
           "suitabilityScore": 70.63,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -1.45,
           "followUp10dReturn": null
         }
       ]
@@ -6238,7 +6126,7 @@
           "suitabilityScore": 79.38,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": 0.78,
           "followUp10dReturn": null
         },
         {
@@ -6249,7 +6137,7 @@
           "suitabilityScore": 69.38,
           "proposedAmount": 0,
           "blockedBy": [],
-          "followUp5dReturn": null,
+          "followUp5dReturn": -0.39,
           "followUp10dReturn": null
         }
       ]
@@ -6700,6 +6588,120 @@
           "name": "摩根标普500指数(QDII)A",
           "score": 65.31,
           "suitabilityScore": 50.31,
+          "proposedAmount": 0,
+          "blockedBy": [
+            "TREND_DETERIORATING"
+          ],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        }
+      ]
+    },
+    {
+      "date": "2026-11-25",
+      "strategy": "RecommendationPlan",
+      "planKind": "BASE_RESEARCH",
+      "strategyVersion": "allocation-v2.4-monthly-alpha-gate",
+      "allocationWeek": "2026-11-23",
+      "action": "PAUSE",
+      "budget": 0,
+      "pauseReasons": [
+        "ACCEPTANCE_GATE",
+        "SIGNAL_BREAKER"
+      ],
+      "dataFreshness": {
+        "status": "FRESH",
+        "latestNavDate": "2026-11-24",
+        "maxTradingDayLag": 2,
+        "observationCount": 26
+      },
+      "signalHealth": {
+        "status": "PAUSE",
+        "matured": {
+          "count": 0,
+          "winRate": null,
+          "averageReturn": null
+        },
+        "shadow": {
+          "count": 20,
+          "winRate": 30,
+          "averageReturn": -1.13
+        },
+        "evidenceSource": "SHADOW",
+        "breakerTriggered": true,
+        "recovered": false
+      },
+      "liveAcceptance": {
+        "passed": false,
+        "failures": [
+          "WIN_RATE_BELOW_55",
+          "PROFIT_WIN_RATE_NOT_ABOVE_BASELINE",
+          "OUTPERFORMANCE_WIN_RATE_BELOW_55",
+          "AVERAGE_EXCESS_NOT_POSITIVE",
+          "PROFIT_FACTOR_BELOW_1_2",
+          "MEDIAN_EXCESS_NOT_POSITIVE",
+          "HISTORICAL_PURCHASE_AVAILABILITY_UNPROVEN",
+          "MONTHLY_DCA_HOLDOUT_FAILED"
+        ],
+        "metrics": {
+          "rollingWindows": 17,
+          "nonOverlappingWindows": 17,
+          "winRate": 0,
+          "benchmarkWinRate": 70.59,
+          "outperformanceWinRate": 29.41,
+          "averageExcessReturn": -5.38,
+          "avgWin": 0,
+          "avgLoss": 0,
+          "profitFactor": 0,
+          "baselineCode": "161125",
+          "holdingDays": 126,
+          "medianExcess12Week": -5.1,
+          "drawdownGapPercentagePoints": -32.93,
+          "shadowWeeks": 12,
+          "hardRiskViolations": 0,
+          "feesIncluded": true,
+          "qdiiLagIncluded": true,
+          "optimizationTrialsReported": true,
+          "historicalPurchaseAvailabilityProven": false,
+          "strategyId": "allocation-v2.4-monthly-alpha-gate",
+          "strategyIdReported": true,
+          "monthlyDcaWindows": 7,
+          "monthlyDcaOutperformanceRate": 100,
+          "monthlyDcaAverageExcessProfit": 36.7,
+          "monthlyDcaTotalExcessProfit": 298.57,
+          "monthlyDcaSameCashFlow": true,
+          "monthlyDcaIndependentHoldoutWindows": 3,
+          "monthlyDcaMinimumIndependentHoldoutWindows": 6,
+          "monthlyDcaHoldoutOutperformanceRate": 100,
+          "monthlyDcaHoldoutAverageExcessProfit": 5.15,
+          "monthlyDcaHoldoutMedianExcessReturn": 0.38,
+          "monthlyDcaExecutionAvailabilityProven": false,
+          "monthlyDcaTotalReturnBasisVerified": true,
+          "monthlyDcaCostsMatch": true,
+          "monthlyDcaLagMatches": true,
+          "monthlyDcaHoldoutPassed": false,
+          "monthlyDcaStrategyId": "monthly-relative-momentum-dca-v1",
+          "strategyEvidenceMatches": false
+        }
+      },
+      "ranked": [
+        {
+          "rank": 1,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 78.75,
+          "suitabilityScore": 78.75,
+          "proposedAmount": 0,
+          "blockedBy": [],
+          "followUp5dReturn": null,
+          "followUp10dReturn": null
+        },
+        {
+          "rank": 2,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 68.44,
+          "suitabilityScore": 53.44,
           "proposedAmount": 0,
           "blockedBy": [
             "TREND_DETERIORATING"
