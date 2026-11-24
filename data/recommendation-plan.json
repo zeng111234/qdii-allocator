@@ -7,8 +7,7 @@
   "asOf": "2026-11-24",
   "action": "HARD_PAUSE",
   "pauseReasons": [
-    "RISK_ANCHOR_DRAWDOWN_15",
-    "PURCHASE_AVAILABILITY_STALE"
+    "RISK_ANCHOR_DRAWDOWN_15"
   ],
   "dataFreshness": {
     "status": "FRESH",
@@ -20,9 +19,9 @@
   "candidates": [],
   "portfolioRisk": {
     "holdingCount": 25,
-    "currentValue": 1432.94,
-    "valuedSubtotal": 1432.94,
-    "totalWithCash": 1432.94,
+    "currentValue": 1448.28,
+    "valuedSubtotal": 1448.28,
+    "totalWithCash": 1448.28,
     "unknownHoldings": [],
     "unvaluedHoldings": [],
     "navIssues": [],
@@ -68,18 +67,18 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.1009,
-    "GROWTH_TECH": 0.6324,
-    "NON_US": 0.2143,
-    "DEFENSIVE": 0.0524,
+    "US_BROAD": 0.0999,
+    "GROWTH_TECH": 0.6349,
+    "NON_US": 0.2134,
+    "DEFENSIVE": 0.0518,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
-    "US_BROAD": 0.3991,
-    "GROWTH_TECH": -0.2824,
-    "NON_US": -0.1643,
-    "DEFENSIVE": 0.0476,
+    "US_BROAD": 0.4001,
+    "GROWTH_TECH": -0.2849,
+    "NON_US": -0.1634,
+    "DEFENSIVE": 0.0482,
     "CASH": 0
   },
   "executionRoutes": [],
@@ -111,7 +110,7 @@
       "holdingDays": 126,
       "medianExcess12Week": -5.1,
       "drawdownGapPercentagePoints": -32.93,
-      "shadowWeeks": 13,
+      "shadowWeeks": 12,
       "hardRiskViolations": 0,
       "feesIncluded": true,
       "qdiiLagIncluded": true,
@@ -138,7 +137,7 @@
       "strategyEvidenceMatches": false
     }
   },
-  "riskAnchorDrawdown": -0.1851,
+  "riskAnchorDrawdown": -0.1764,
   "marketRanking": [
     {
       "code": "000369",
@@ -232,7 +231,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "001092",
@@ -248,7 +247,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "015204",
@@ -256,7 +255,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "015558",
@@ -290,7 +289,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "040046",
@@ -298,7 +297,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "050015",
@@ -306,7 +305,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "096001",
@@ -338,7 +337,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "163208",
@@ -377,7 +376,6 @@
       "code": "008763",
       "name": "天弘越南市场股票(QDII)A",
       "blockedBy": [
-        "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
       "latestNavDate": "2026-11-20"
@@ -388,7 +386,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "006373",
@@ -404,7 +402,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "005698",
@@ -412,7 +410,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "008253",
@@ -420,7 +418,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "501226",
@@ -428,7 +426,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     },
     {
       "code": "000041",
@@ -436,7 +434,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-20"
+      "latestNavDate": "2026-11-23"
     }
   ],
   "date": "2026-11-24",
@@ -479,8 +477,8 @@
     "marketTemperature": 50,
     "overheatReduced": false
   },
-  "decisionMode": "DATA_BLOCKED",
-  "blockedStage": "PURCHASE_AVAILABILITY_STALE",
+  "decisionMode": "RISK_STOP",
+  "blockedStage": "RISK_DRAWDOWN_STOP",
   "routeDiagnostics": {
     "requestedBudget": 0,
     "allocatedBudget": 0,
