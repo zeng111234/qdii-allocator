@@ -6617,7 +6617,7 @@
         "status": "FRESH",
         "latestNavDate": "2026-11-25",
         "maxTradingDayLag": 2,
-        "observationCount": 33
+        "observationCount": 26
       },
       "signalHealth": {
         "status": "PAUSE",
@@ -6691,10 +6691,10 @@
       "ranked": [
         {
           "rank": 1,
-          "code": "000614",
-          "name": "华安德国DAX30A(QDII)",
-          "score": 57.5,
-          "suitabilityScore": 42.5,
+          "code": "000369",
+          "name": "广发全球医疗保健指数人民币(QDII)A",
+          "score": 83.13,
+          "suitabilityScore": 68.13,
           "proposedAmount": 0,
           "blockedBy": [
             "TREND_DETERIORATING"
@@ -6704,10 +6704,10 @@
         },
         {
           "rank": 2,
-          "code": "007280",
-          "name": "摩根日本精选股票(QDII)A",
-          "score": 42.5,
-          "suitabilityScore": 27.5,
+          "code": "017641",
+          "name": "摩根标普500指数(QDII)A",
+          "score": 68.13,
+          "suitabilityScore": 53.13,
           "proposedAmount": 0,
           "blockedBy": [
             "TREND_DETERIORATING"
