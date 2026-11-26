@@ -310,7 +310,7 @@
       "custodyFee": 0.3,
       "dailyLimit": 500,
       "minPurchase": 10,
-      "status": "suspended",
+      "status": "active",
       "note": "油气能源QDII；代码身份已纠正",
       "settleDays": 2,
       "indexGroup": "OIL"
@@ -508,7 +508,7 @@
       "indexGroup": "GLOBAL"
     }
   ],
-  "_lastUpdated": "2026-11-26",
+  "_lastUpdated": "2026-11-27",
   "_updateNote": "Added indexGroup for dedup + contrarian scoring",
-  "_purchaseAvailabilityUpdatedAt": "2026-11-26T09:16:00.191Z"
+  "_purchaseAvailabilityUpdatedAt": "2026-11-26T18:48:19.392Z"
 }

@@ -4,14 +4,14 @@
   "allocationWeek": "2026-11-23",
   "syncRevision": 5,
   "riskAnchorValue": 1758.5,
-  "asOf": "2026-11-26",
+  "asOf": "2026-11-27",
   "action": "HARD_PAUSE",
   "pauseReasons": [
     "RISK_ANCHOR_DRAWDOWN_15"
   ],
   "dataFreshness": {
     "status": "FRESH",
-    "latestNavDate": "2026-11-25",
+    "latestNavDate": "2026-11-26",
     "maxTradingDayLag": 2,
     "observationCount": 26
   },
@@ -19,9 +19,9 @@
   "candidates": [],
   "portfolioRisk": {
     "holdingCount": 25,
-    "currentValue": 1477.1,
-    "valuedSubtotal": 1477.1,
-    "totalWithCash": 1477.1,
+    "currentValue": 1464.92,
+    "valuedSubtotal": 1464.92,
+    "totalWithCash": 1464.92,
     "unknownHoldings": [],
     "unvaluedHoldings": [],
     "navIssues": [],
@@ -67,18 +67,18 @@
     "allowAutomaticSell": false
   },
   "bucketExposure": {
-    "US_BROAD": 0.101,
-    "GROWTH_TECH": 0.6357,
-    "NON_US": 0.212,
-    "DEFENSIVE": 0.0514,
+    "US_BROAD": 0.1022,
+    "GROWTH_TECH": 0.6353,
+    "NON_US": 0.2107,
+    "DEFENSIVE": 0.0518,
     "CASH": 0,
     "UNKNOWN": 0
   },
   "targetGap": {
-    "US_BROAD": 0.399,
-    "GROWTH_TECH": -0.2857,
-    "NON_US": -0.162,
-    "DEFENSIVE": 0.0486,
+    "US_BROAD": 0.3978,
+    "GROWTH_TECH": -0.2853,
+    "NON_US": -0.1607,
+    "DEFENSIVE": 0.0482,
     "CASH": 0
   },
   "executionRoutes": [],
@@ -137,15 +137,24 @@
       "strategyEvidenceMatches": false
     }
   },
-  "riskAnchorDrawdown": -0.16,
+  "riskAnchorDrawdown": -0.1669,
   "marketRanking": [
     {
       "code": "000369",
       "name": "广发全球医疗保健指数人民币(QDII)A",
       "indexGroup": "GLOBAL_MEDICAL",
-      "marketScore": 83.13,
+      "marketScore": 82.5,
+      "blockedBy": [],
+      "channelCount": 1,
+      "routingAlternatives": []
+    },
+    {
+      "code": "000179",
+      "name": "广发美国房地产A(QDII)",
+      "indexGroup": "US_REIT",
+      "marketScore": 68.13,
       "blockedBy": [
-        "TREND_DETERIORATING"
+        "PORTFOLIO_FULL"
       ],
       "channelCount": 1,
       "routingAlternatives": []
@@ -154,20 +163,9 @@
       "code": "017641",
       "name": "摩根标普500指数(QDII)A",
       "indexGroup": "SPX500",
-      "marketScore": 68.13,
+      "marketScore": 67.81,
       "blockedBy": [
         "TREND_DETERIORATING"
-      ],
-      "channelCount": 1,
-      "routingAlternatives": []
-    },
-    {
-      "code": "000179",
-      "name": "广发美国房地产A(QDII)",
-      "indexGroup": "US_REIT",
-      "marketScore": 65.63,
-      "blockedBy": [
-        "PORTFOLIO_FULL"
       ],
       "channelCount": 1,
       "routingAlternatives": []
@@ -176,7 +174,7 @@
       "code": "007280",
       "name": "摩根日本精选股票(QDII)A",
       "indexGroup": "JAPAN",
-      "marketScore": 53.13,
+      "marketScore": 59.06,
       "blockedBy": [
         "TREND_DETERIORATING"
       ],
@@ -187,7 +185,7 @@
       "code": "000614",
       "name": "华安德国DAX30A(QDII)",
       "indexGroup": "EUROPE",
-      "marketScore": 50.63,
+      "marketScore": 43.75,
       "blockedBy": [
         "TREND_DETERIORATING"
       ],
@@ -198,7 +196,7 @@
       "code": "019524",
       "name": "华泰柏瑞纳斯达克100指数(QDII)A",
       "indexGroup": "NDX100",
-      "marketScore": 40.31,
+      "marketScore": 39.69,
       "blockedBy": [
         "TREND_DETERIORATING",
         "INDEX_GROUP_LIMIT"
@@ -239,7 +237,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "012920",
@@ -264,7 +262,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-25"
+      "latestNavDate": "2026-11-26"
     },
     {
       "code": "016664",
@@ -272,7 +270,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "019067",
@@ -281,7 +279,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-25"
+      "latestNavDate": "2026-11-26"
     },
     {
       "code": "040018",
@@ -289,7 +287,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "040046",
@@ -297,7 +295,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "050015",
@@ -313,7 +311,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "160213",
@@ -321,7 +319,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "160216",
@@ -329,7 +327,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "161125",
@@ -343,10 +341,9 @@
       "code": "163208",
       "name": "诺安油气能源",
       "blockedBy": [
-        "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "270023",
@@ -354,7 +351,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "270042",
@@ -362,7 +359,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "539002",
@@ -370,7 +367,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "008763",
@@ -378,7 +375,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "017730",
@@ -394,7 +391,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "100055",
@@ -402,7 +399,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "005698",
@@ -410,7 +407,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "008253",
@@ -426,7 +423,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     },
     {
       "code": "000041",
@@ -434,10 +431,10 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-24"
+      "latestNavDate": "2026-11-25"
     }
   ],
-  "date": "2026-11-26",
+  "date": "2026-11-27",
   "decisionRevision": 1,
   "riskProfile": "AGGRESSIVE",
   "targetBuckets": {
