@@ -19,9 +19,9 @@
   "candidates": [],
   "portfolioRisk": {
     "holdingCount": 25,
-    "currentValue": 1464.92,
-    "valuedSubtotal": 1464.92,
-    "totalWithCash": 1464.92,
+    "currentValue": 1465.52,
+    "valuedSubtotal": 1465.52,
+    "totalWithCash": 1465.52,
     "unknownHoldings": [],
     "unvaluedHoldings": [],
     "navIssues": [],
@@ -137,7 +137,7 @@
       "strategyEvidenceMatches": false
     }
   },
-  "riskAnchorDrawdown": -0.1669,
+  "riskAnchorDrawdown": -0.1666,
   "marketRanking": [
     {
       "code": "000369",
@@ -229,7 +229,7 @@
         "NOT_BUYABLE",
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-25"
+      "latestNavDate": "2026-11-26"
     },
     {
       "code": "001092",
@@ -245,7 +245,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-25"
+      "latestNavDate": "2026-11-26"
     },
     {
       "code": "015204",
@@ -303,7 +303,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-25"
+      "latestNavDate": "2026-11-26"
     },
     {
       "code": "096001",
@@ -335,7 +335,7 @@
       "blockedBy": [
         "NOT_BUYABLE"
       ],
-      "latestNavDate": "2026-11-25"
+      "latestNavDate": "2026-11-26"
     },
     {
       "code": "163208",
@@ -383,7 +383,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-25"
+      "latestNavDate": "2026-11-26"
     },
     {
       "code": "006373",
@@ -407,7 +407,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-25"
+      "latestNavDate": "2026-11-26"
     },
     {
       "code": "008253",
@@ -415,7 +415,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-25"
+      "latestNavDate": "2026-11-26"
     },
     {
       "code": "501226",
@@ -431,7 +431,7 @@
       "blockedBy": [
         "SATELLITE_ONLY"
       ],
-      "latestNavDate": "2026-11-25"
+      "latestNavDate": "2026-11-26"
     }
   ],
   "date": "2026-11-27",
